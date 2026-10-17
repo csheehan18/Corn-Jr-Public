@@ -1,0 +1,145 @@
+__pycache__/
+*.py[cod]
+.venv/
+venv/
+
+# Corpora and tokenized streams -- regenerate with scripts/prepare_*.py
+data/*
+# ...except the two pools that are *written* rather than generated. The rule
+# above says "regenerate", and these two cannot be: `docs/VOICE.md`'s pool
+# rule is that his speech is real or hand-written and never assembled, so the
+# self family's 205 lines (arm 9) and the open family's 144 (arm 11) are
+# source in the way a generator is source. Losing them to a fresh clone would
+# make both arms unreproducible and both payloads unrewritable. They carry no
+# corpus, no personal data and no name -- the shipped name is a `{name}` tag
+# and `scripts/check_social.py` asserts it. Spelt as a re-descent (`data/*`,
+# then `data/raw/*`) because git does not look inside an ignored *directory*,
+# so a bare `data/` above would make the two negations below dead lines.
+!data/raw/
+data/raw/*
+!data/raw/self_replies.txt
+!data/raw/open_replies.txt
+# A3b's two hand-written pools (configs/mix_v3_a3b.py): the wider user side
+# and the replies for share, farewell, consolation and open's residual --
+# source in the same sense, no corpus, no name, no personal data.
+!data/raw/move_carriers.txt
+!data/raw/move_replies.txt
+
+# Paraphrase arms of the frozen eval set -- regenerate with
+# scripts/paraphrase_evals.py. Unlike `evals/`, these are not frozen but
+# *derived*: a pure deterministic function of committed inputs (`evals/`, the
+# pools in the script, a module-constant seed), verified byte-identical across
+# a rebuild. The sha256 of every file is embedded in each scorecard under
+# `manifest.files`, so a rebuild that drifted would fail against any result
+# already written -- which is the guarantee committing them would have bought,
+# without 10MB of text duplicated out of `evals/`.
+evals_para/
+evals_retemplate/
+evals_heldout/
+evals_wideonly/
+
+# Payload arms -- same argument, same guarantee, `scripts/payload_evals.py`.
+# These rewrite the observation rather than the utterance.
+evals_payload_reorder/
+evals_payload_extra_key/
+evals_payload_renamed/
+evals_payload_nested/
+evals_payload_phrasing/
+evals_payload_phrasing2/
+# The seventh moves `say` rather than `clarify`, so it is the only one that
+# rewrites `say.jsonl` and `namecollide.jsonl` -- and the only one whose
+# untouched files are a genuine invariance control.
+evals_payload_say_phrasing/
+
+# Tool-name arms -- same argument again, `scripts/newtool_evals.py`. These move
+# the name inside `<|call|>` and nothing else, so `prompt_call` is untouched and
+# the four routing rows are their invariance control.
+evals_newtool_newtool/
+evals_newtool_swapname/
+
+# Checkpoints
+checkpoints/
+*.pt
+
+# The guard sweep's per-guard timings, appended by every unfiltered
+# `scripts/check_all.py` run and read back to name a guard that doubled. They
+# are this machine's numbers under whatever else was on the card, so a copy on
+# another machine would compare against a stranger's hardware.
+guard_times.jsonl
+
+# The runtime's day log. `corn/agent.py` appends one line per `save_note` and
+# `recall_day` reads it back, so it is per-machine state written by running the
+# agent -- not an artefact of the project. Committed once by accident during the
+# note-payload session and removed in the same commit.
+notes.jsonl
+# The escalation queue. `corn/agent.py:_ask_agent` appends one line per
+# `ask_agent` call and the request text is whatever the person said, so this is
+# per-machine state on exactly the terms notes.jsonl and contacts.json are.
+# It first appeared during P3-B2's searchgrid runs, when both fine-tuned arms
+# reached `ask_agent` on a handful of turns.
+escalations.jsonl
+# The schedule store. `harness/backends/schedule.py` holds actions that fire
+# later -- reminders, texts waiting on their time -- and both the message text
+# and the recipients are the person's own. Same terms as the three above.
+schedule.jsonl
+# The agent ledger. `harness/backends/relay.py` records every escalation the
+# transport actually sent and everything that came back -- the user's own
+# requests and a frontier model's replies to them. VISION §6 declares it
+# memory, which is exactly why it stays on this machine.
+agent_ledger.jsonl
+# Which day he last mentioned an occasion on. `corn/persona.py:Marker` writes
+# one line so a server restarted at lunchtime on his birthday does not wish
+# himself many happy returns a second time. Per-machine state written by
+# running the agent, on exactly the terms the four files above are.
+persona_state.json
+# Data packs. `harness/backends/packs.py` answers out of whatever CSVs and
+# text the owner drops in here -- their game stats, their recipes, their
+# reading list. The shipped artefact stays user-neutral because this folder
+# is where an instance gets to be somebody's.
+packs/
+# The runtime contact book -- real people, and VISION §4's rule is the reason:
+# the shipped artefact is user-neutral and a running instance is one person's
+# permanently. A contact book is the second kind of thing and must never reach
+# a commit. See harness/backends/contacts.py.
+contacts.json
+
+# Transcripts of actual conversations, written by `/saved` in `harness/client.py`
+# (and until now by copy-pasting the terminal). Same rule as contacts.json and
+# notes.jsonl: what a running instance accumulates belongs to the person running
+# it, not to the artefact everyone else clones.
+Saved Sessions/
+
+# `scripts/score_pipeline.py` writes one stdout log per stage per queue into a
+# timestamped directory here. They are a transcript of a run rather than a
+# result -- every number worth keeping is in the scorecard the same run wrote
+# to `evals/results/` -- and they accumulate a dozen files per queue. Ignored
+# rather than deleted, so a failure is still readable in the working tree while
+# the pipeline's live path is new enough to be worth watching.
+harness/results/logs/
+
+# Where the overlay window was last dragged to -- this machine, not the repo.
+overlay.json
+
+# The voice client's tuning -- harness/voice/config.py says it belongs here
+# beside overlay.json, and until the studio session it was only said.
+voice.json
+
+# The server's configuration -- harness/serverconfig.py. Which checkpoint,
+# whose packs, which tools may run: per-machine state on overlay.json's terms,
+# written by hand or by the studio's Config tab.
+server.json
+
+# Declaration-file tools -- harness/backends/toolsd.py. Each file names a
+# command on *this* machine and what the owner lets it do, which is contacts.json's
+# rule: a running instance is one person's, and their wiring never reaches a commit.
+tools.d/
+
+# Stray probe and boot logs written beside the repo root by a session that
+# redirected a server's stdout there. Nothing reads them and nothing should:
+# a card's `source.dirty` is how a scorecard says which side of a commit it
+# was taken on (harness/results/README.md), and an untracked scratch file at
+# the root makes every card on this machine read dirty for no reason.
+/*.log
+
+# The release box scripts/export_release.py writes. Rebuilt from the tree; never committed.
+dist/

@@ -1,0 +1,28 @@
+# The eval set is hashed byte-for-byte in evals/manifest.json and checked before
+# every scoring run. Line-ending conversion would rewrite those bytes on checkout
+# and every hash would fail on a fresh clone, so git must leave them alone.
+evals/** -text
+
+# A shell script goes to a Linux droplet and runs there. `core.autocrlf=true` on
+# this machine checks one out CRLF, and a CRLF script fails at the shebang --
+# `/bin/bash^M: bad interpreter` -- which for `trunk_watch.sh` presents as
+# nothing happening and the wsd trunk being unrecoverable after iter 183,106.
+# The blobs are already LF; this stops the checkout from undoing that.
+*.sh -text
+
+# The v4 run artefacts are hashed in their own RUN-NOTES; a CRLF checkout
+# would silently break every recorded sha256, same class as the trunk_watch.sh
+# footgun fixed 2026-08-29.
+/260M?Run?Data?v4/* -text
+
+# Theme art. Git detects PNG as binary on its own, so this is belt-and-braces
+# against a future `*.json`-adjacent rule or an autocrlf setting reaching it --
+# same class as the three above, and a sprite sheet mangled on checkout would
+# present as a face that renders as nothing.
+*.png binary
+
+# The studio page's vendored libraries are held to the sha256 recorded in
+# harness/studio/web/vendor/README.md by scripts/check_studio.py. A CRLF
+# checkout would rewrite those bytes on every fresh Windows clone and fail
+# the sweep there -- the eval-set and run-artefact class again.
+harness/studio/web/vendor/*.js -text
