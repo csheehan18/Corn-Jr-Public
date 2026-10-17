@@ -1,0 +1,38 @@
+Corn-Jr
+Copyright 2026 Conner Sheehan
+
+Licensed under the Apache License, Version 2.0. See LICENSE.
+
+The weights were pretrained on a purpose-built mix whose real-text sources
+are attributed here as their licences ask (docs/RELEASE.md carries the
+verification dates and docs/MODEL-CARD.md the same block for readers of the
+model card):
+
+  * FineWeb-Edu (HuggingFaceFW/fineweb-edu), Open Data Commons Attribution
+    License (ODC-By) v1.0. Use of Common Crawl-derived data is additionally
+    subject to Common Crawl's terms of use.
+  * SODA (allenai/soda), Creative Commons Attribution 4.0 International
+    (CC BY 4.0).
+  * Natural Questions (google-research-datasets/natural_questions), Creative
+    Commons Attribution-ShareAlike 3.0 Unported (CC BY-SA 3.0). The weights
+    are licensed under the common position that model weights are not an
+    adaptation of training text; attribution is given regardless.
+
+Every generated slice of the corpus was produced by this repository's own
+generators. Nothing in the shipped artefact carries a person's data: the
+contact book, notes, packs, schedule and transcripts are per-instance files
+that never leave the machine they are written on.
+
+The studio page (harness/studio/web/) vendors four libraries, unmodified
+but for a removed source-map comment; their licence texts are in
+harness/studio/web/vendor/LICENSES.txt:
+
+  * Preact 10.29.8 and its hooks -- MIT License, Copyright (c) 2015-present
+    Jason Miller.
+  * htm 3.1.1 -- Apache License 2.0, Copyright 2018 Google Inc.
+  * @preact/signals 2.11.2 and @preact/signals-core 1.14.4 -- MIT License,
+    Copyright (c) 2022-present Preact Team.
+
+Its icons are paths transcribed from Lucide (lucide.dev), ISC License, whose
+text is in the same file: portions copyright Cole Bemis 2013-2022 as part of
+Feather (MIT), all other copyright Lucide Contributors 2022.

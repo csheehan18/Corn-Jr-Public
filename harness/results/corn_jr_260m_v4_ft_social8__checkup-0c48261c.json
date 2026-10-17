@@ -1,0 +1,424 @@
+{
+  "harness": "checkup/1",
+  "when": "2026-09-07T16:03:11+00:00",
+  "source": {
+    "rev": "0c48261c",
+    "dirty": false
+  },
+  "instance": {
+    "confirm": [
+      "place_call",
+      "send_text"
+    ],
+    "ckpt": "checkpoints/corn_jr_260m_v4_ft_social8/ckpt.pt",
+    "notes": "<scratch>/release_notes2.jsonl",
+    "search": "table",
+    "tools_enabled": "all",
+    "dtype": "fp32",
+    "extract": false,
+    "contacts": "training",
+    "temperature": 0.0,
+    "speech_temperature": 0.3,
+    "fold": true,
+    "family_check": "on",
+    "identity_check": "on",
+    "name_header": false,
+    "round_reserve": 0,
+    "budget": 120,
+    "decline": true,
+    "copy": [
+      "place_call.contact",
+      "send_text.contact"
+    ],
+    "copy_turn": [
+      "save_note.text"
+    ],
+    "params": 260613120,
+    "n_layer": 20,
+    "n_embd": 1024,
+    "block_size": 512,
+    "tokenizer": "bpe8k",
+    "tools": [
+      "place_call",
+      "send_text",
+      "save_note",
+      "web_search",
+      "resolve_date",
+      "recall_day",
+      "ask_agent",
+      "decline"
+    ],
+    "grammar": true,
+    "pending": null,
+    "multi": true,
+    "persona_name": "Corn-Jr",
+    "seed_turn": "what day is it",
+    "log": "",
+    "turns": 0
+  },
+  "rows": {
+    "routed": {
+      "hit": 16,
+      "n": 19
+    },
+    "executed": {
+      "hit": 14,
+      "n": 14
+    },
+    "spoke_from_tool": {
+      "hit": 8,
+      "n": 8
+    },
+    "held_back": {
+      "hit": 2,
+      "n": 5
+    },
+    "named_right": {
+      "hit": 2,
+      "n": 3
+    }
+  },
+  "latency_ms": {
+    "turn_median": 263.3,
+    "ttft_median": 456.1235000001034
+  },
+  "turns": [
+    {
+      "ask": "note down buy milk and coffee",
+      "expect": "save_note",
+      "called": "save_note",
+      "asked_contact": null,
+      "gave_contact": null,
+      "reply": "Saved.",
+      "ms": 564.3,
+      "rows": {
+        "routed": true,
+        "executed": true,
+        "spoke_from_tool": null,
+        "held_back": null,
+        "named_right": null
+      },
+      "error": null
+    },
+    {
+      "ask": "make a note that the boiler pressure should be 1.5",
+      "expect": "save_note",
+      "called": "save_note",
+      "asked_contact": null,
+      "gave_contact": null,
+      "reply": "Got it, noted.",
+      "ms": 474.0,
+      "rows": {
+        "routed": true,
+        "executed": true,
+        "spoke_from_tool": null,
+        "held_back": null,
+        "named_right": null
+      },
+      "error": null
+    },
+    {
+      "ask": "jot down the spare key is under the pot",
+      "expect": "save_note",
+      "called": "save_note",
+      "asked_contact": null,
+      "gave_contact": null,
+      "reply": "Noted.",
+      "ms": 475.1,
+      "rows": {
+        "routed": true,
+        "executed": true,
+        "spoke_from_tool": null,
+        "held_back": null,
+        "named_right": null
+      },
+      "error": null
+    },
+    {
+      "ask": "what day is it today",
+      "expect": "resolve_date",
+      "called": "resolve_date",
+      "asked_contact": null,
+      "gave_contact": null,
+      "reply": "It's Monday, September 7th.",
+      "ms": 0.6,
+      "rows": {
+        "routed": true,
+        "executed": true,
+        "spoke_from_tool": null,
+        "held_back": null,
+        "named_right": null
+      },
+      "error": null
+    },
+    {
+      "ask": "what was last Wednesday",
+      "expect": "resolve_date",
+      "called": "resolve_date",
+      "asked_contact": null,
+      "gave_contact": null,
+      "reply": "That was Wednesday, September 2nd.",
+      "ms": 229.3,
+      "rows": {
+        "routed": true,
+        "executed": true,
+        "spoke_from_tool": null,
+        "held_back": null,
+        "named_right": null
+      },
+      "error": null
+    },
+    {
+      "ask": "what date is a week on Friday",
+      "expect": "resolve_date",
+      "called": "resolve_date",
+      "asked_contact": null,
+      "gave_contact": null,
+      "reply": "That'll be Friday, September 18th.",
+      "ms": 0.8,
+      "rows": {
+        "routed": true,
+        "executed": true,
+        "spoke_from_tool": null,
+        "held_back": null,
+        "named_right": null
+      },
+      "error": null
+    },
+    {
+      "ask": "what did I note down today",
+      "expect": "recall_day",
+      "called": "resolve_date",
+      "asked_contact": null,
+      "gave_contact": null,
+      "reply": "On Monday, September 7th: buy milk and coffee, the boiler pressure should be 1.5, and the spare key is under the pot.",
+      "ms": 1.8,
+      "rows": {
+        "routed": true,
+        "executed": true,
+        "spoke_from_tool": true,
+        "held_back": null,
+        "named_right": null
+      },
+      "error": null
+    },
+    {
+      "ask": "what was I doing on the 14th",
+      "expect": "recall_day",
+      "called": "resolve_date",
+      "asked_contact": null,
+      "gave_contact": null,
+      "reply": "I don't have anything for Friday, August 14th.",
+      "ms": 0.8,
+      "rows": {
+        "routed": true,
+        "executed": true,
+        "spoke_from_tool": true,
+        "held_back": null,
+        "named_right": null
+      },
+      "error": null
+    },
+    {
+      "ask": "ask Claude how to stop a laptop fan running constantly",
+      "expect": "ask_agent",
+      "called": "ask_agent",
+      "asked_contact": null,
+      "gave_contact": null,
+      "reply": "Asking the agent now -- I've passed that on word for word.",
+      "ms": 337.5,
+      "rows": {
+        "routed": true,
+        "executed": true,
+        "spoke_from_tool": true,
+        "held_back": null,
+        "named_right": null
+      },
+      "error": null
+    },
+    {
+      "ask": "get Qwen to draft a polite email turning down a meeting",
+      "expect": "ask_agent",
+      "called": "ask_agent",
+      "asked_contact": null,
+      "gave_contact": null,
+      "reply": "Asking the agent now -- I've passed that on word for word.",
+      "ms": 334.9,
+      "rows": {
+        "routed": true,
+        "executed": true,
+        "spoke_from_tool": true,
+        "held_back": null,
+        "named_right": null
+      },
+      "error": null
+    },
+    {
+      "ask": "ask the AI what the going rate is for a plasterer per day",
+      "expect": "ask_agent",
+      "called": "ask_agent",
+      "asked_contact": null,
+      "gave_contact": null,
+      "reply": "Asking the agent now -- I've passed that on word for word.",
+      "ms": 346.3,
+      "rows": {
+        "routed": true,
+        "executed": true,
+        "spoke_from_tool": true,
+        "held_back": null,
+        "named_right": null
+      },
+      "error": null
+    },
+    {
+      "ask": "call Carla Mendez",
+      "expect": "place_call",
+      "called": "place_call",
+      "asked_contact": "Carla Mendez",
+      "gave_contact": "Carla Mendez",
+      "reply": "Calling Carla Mendez. Shall I go ahead?",
+      "ms": 373.0,
+      "rows": {
+        "routed": true,
+        "executed": true,
+        "spoke_from_tool": true,
+        "held_back": null,
+        "named_right": true
+      },
+      "error": null
+    },
+    {
+      "ask": "text Carla Mendez I'm running late",
+      "expect": "send_text",
+      "called": "send_text",
+      "asked_contact": "Carla Mendez",
+      "gave_contact": "Carla Mendez I'm running late",
+      "reply": "I don't have a contact called Carla Mendez I'm running late.",
+      "ms": 705.0,
+      "rows": {
+        "routed": true,
+        "executed": true,
+        "spoke_from_tool": true,
+        "held_back": null,
+        "named_right": false
+      },
+      "error": null
+    },
+    {
+      "ask": "call Ophelia Vance",
+      "expect": "place_call",
+      "called": "place_call",
+      "asked_contact": "Ophelia Vance",
+      "gave_contact": "Ophelia Vance",
+      "reply": "I don't have a contact called Ophelia Vance.",
+      "ms": 354.8,
+      "rows": {
+        "routed": true,
+        "executed": true,
+        "spoke_from_tool": true,
+        "held_back": null,
+        "named_right": true
+      },
+      "error": null
+    },
+    {
+      "ask": "turn the heating up",
+      "expect": null,
+      "called": "decline",
+      "asked_contact": null,
+      "gave_contact": null,
+      "reply": "Nah, I've got nothing for that one.",
+      "ms": 262.1,
+      "rows": {
+        "routed": false,
+        "executed": null,
+        "spoke_from_tool": null,
+        "held_back": false,
+        "named_right": null
+      },
+      "error": null
+    },
+    {
+      "ask": "play some music",
+      "expect": null,
+      "called": "decline",
+      "asked_contact": null,
+      "gave_contact": null,
+      "reply": "I haven't got anything that does that.",
+      "ms": 263.3,
+      "rows": {
+        "routed": false,
+        "executed": null,
+        "spoke_from_tool": null,
+        "held_back": false,
+        "named_right": null
+      },
+      "error": null
+    },
+    {
+      "ask": "order me a taxi",
+      "expect": null,
+      "called": "decline",
+      "asked_contact": null,
+      "gave_contact": null,
+      "reply": "Nothing I've got covers that.",
+      "ms": 254.5,
+      "rows": {
+        "routed": false,
+        "executed": null,
+        "spoke_from_tool": null,
+        "held_back": false,
+        "named_right": null
+      },
+      "error": null
+    },
+    {
+      "ask": "morning",
+      "expect": null,
+      "called": null,
+      "asked_contact": null,
+      "gave_contact": null,
+      "reply": "I'm doing alright. How are you?",
+      "ms": 100.4,
+      "rows": {
+        "routed": true,
+        "executed": null,
+        "spoke_from_tool": null,
+        "held_back": true,
+        "named_right": null
+      },
+      "error": null
+    },
+    {
+      "ask": "thanks, that's great",
+      "expect": null,
+      "called": null,
+      "asked_contact": null,
+      "gave_contact": null,
+      "reply": "No problem, happy to help. Do you have any other questions?",
+      "ms": 77.9,
+      "rows": {
+        "routed": true,
+        "executed": null,
+        "spoke_from_tool": null,
+        "held_back": true,
+        "named_right": null
+      },
+      "error": null
+    }
+  ],
+  "skipped": [
+    {
+      "ask": "look up Ada Lovelace",
+      "why": "server is table-backed; start it with --search"
+    },
+    {
+      "ask": "what's the boiling point of water",
+      "why": "server is table-backed; start it with --search"
+    },
+    {
+      "ask": "can you look up the Eiffel Tower",
+      "why": "server is table-backed; start it with --search"
+    }
+  ]
+}

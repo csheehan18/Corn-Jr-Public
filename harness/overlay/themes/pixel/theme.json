@@ -1,0 +1,109 @@
+{
+  "name": "pixel",
+
+  "window": {"size": [300, 240], "transparent": "#010203", "topmost": true},
+  "face": {"x": 0.5, "y": 0.70},
+  "bubble": {"font": ["Segoe UI", 10], "color": "#f0f0f0",
+             "background": "#14141a", "border": "#39394a",
+             "width": 260, "lines": 6, "pad": 9, "radius": 10},
+  "note": {"font": ["Consolas", 8], "color": "#7d7d8c", "show": true},
+
+  "animations": {
+    "idle": {
+      "sheet": "strip.png", "cell": [16, 20], "zoom": 5,
+      "ms": 2600,
+      "frames": [0, {"cell": 1, "ms": 150}]
+    },
+
+    "listening": {
+      "sheet": "strip.png", "cell": [16, 20], "zoom": 5,
+      "ms": 450,
+      "frames": [0, {"cell": 5, "dy": -3}]
+    },
+
+    "think": {
+      "sheet": "strip.png", "cell": [16, 20], "zoom": 5,
+      "ms": 420,
+      "frames": [3, {"cell": 3, "dx": 2}, 0, {"cell": 3, "dx": -2}]
+    },
+
+    "queued": {
+      "sheet": "strip.png", "cell": [16, 20], "zoom": 5,
+      "ms": 800,
+      "frames": [1, {"cell": 1, "dy": 1}]
+    },
+
+    "work": {
+      "sheet": "strip.png", "cell": [16, 20], "zoom": 5,
+      "fps": 8,
+      "frames": [0, {"cell": 3, "dy": -2}, 0, {"cell": 3, "dy": 2}]
+    },
+
+    "talk": {
+      "sheet": "strip.png", "cell": [16, 20], "zoom": 5,
+      "ms": 150,
+      "frames": [0, 2]
+    },
+
+    "covered": {
+      "sheet": "strip.png", "cell": [16, 20], "zoom": 5,
+      "ms": 240,
+      "frames": [3, 1, 3, {"cell": 0, "ms": 900}]
+    },
+
+    "refused": {
+      "sheet": "strip.png", "cell": [16, 20], "zoom": 5,
+      "ms": 110,
+      "frames": [
+        {"cell": 4, "dx": -5},
+        {"cell": 4, "dx": 5},
+        {"cell": 4, "dx": -3},
+        {"cell": 0, "ms": 700}
+      ]
+    },
+
+    "error": {
+      "sheet": "strip.png", "cell": [16, 20], "zoom": 5,
+      "ms": 220,
+      "frames": [4, {"cell": 4, "dy": 4}, {"cell": 0, "ms": 1100}]
+    },
+
+    "yes": {
+      "sheet": "strip.png", "cell": [16, 20], "zoom": 5,
+      "ms": 140,
+      "frames": [
+        {"cell": 5, "dy": -6},
+        {"cell": 5, "dy": -2},
+        {"cell": 5},
+        {"cell": 0, "ms": 800}
+      ]
+    },
+
+    "no": {
+      "sheet": "strip.png", "cell": [16, 20], "zoom": 5,
+      "ms": 200,
+      "frames": [1, {"cell": 1, "dx": -3}, {"cell": 0, "ms": 800}]
+    },
+
+    "offline": {
+      "sheet": "strip.png", "cell": [16, 20], "zoom": 4,
+      "ms": 1400,
+      "frames": [1, {"cell": 1, "dy": 2}]
+    }
+  },
+
+  "states": {
+    "idle": "idle",
+    "offline": "offline",
+    "listening": "listening",
+    "thinking": "think",
+    "queued": "queued",
+    "tool": "work",
+    "speaking": "talk",
+    "refused": "refused",
+    "covered": "covered",
+    "error": "error",
+    "confirmed": "yes",
+    "cancelled": "no"
+  }
+}

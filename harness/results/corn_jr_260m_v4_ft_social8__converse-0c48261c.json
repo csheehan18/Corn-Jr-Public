@@ -1,0 +1,557 @@
+{
+  "harness": "converse/1",
+  "when": "2026-09-07T16:03:13+00:00",
+  "source": {
+    "rev": "0c48261c",
+    "dirty": true
+  },
+  "instance": {
+    "confirm": [
+      "place_call",
+      "send_text"
+    ],
+    "ckpt": "checkpoints/corn_jr_260m_v4_ft_social8/ckpt.pt",
+    "notes": "<scratch>/release_notes2.jsonl",
+    "search": "table",
+    "tools_enabled": "all",
+    "dtype": "fp32",
+    "extract": false,
+    "contacts": "training",
+    "temperature": 0.0,
+    "speech_temperature": 0.3,
+    "fold": true,
+    "family_check": "on",
+    "identity_check": "on",
+    "name_header": false,
+    "round_reserve": 0,
+    "budget": 120,
+    "decline": true,
+    "copy": [
+      "place_call.contact",
+      "send_text.contact"
+    ],
+    "copy_turn": [
+      "save_note.text"
+    ],
+    "params": 260613120,
+    "n_layer": 20,
+    "n_embd": 1024,
+    "block_size": 512,
+    "tokenizer": "bpe8k",
+    "tools": [
+      "place_call",
+      "send_text",
+      "save_note",
+      "web_search",
+      "resolve_date",
+      "recall_day",
+      "ask_agent",
+      "decline"
+    ],
+    "grammar": true,
+    "pending": null,
+    "multi": true,
+    "persona_name": "Corn-Jr",
+    "seed_turn": "what day is it",
+    "log": "",
+    "turns": 19
+  },
+  "pooled": {
+    "in_kind": {
+      "hit": 14,
+      "n": 16
+    },
+    "said_something": {
+      "hit": 16,
+      "n": 16
+    },
+    "fresh": {
+      "hit": 10,
+      "n": 10
+    },
+    "carried_over": {
+      "hit": 2,
+      "n": 3
+    }
+  },
+  "by_position": {
+    "1": {
+      "in_kind": {
+        "hit": 6,
+        "n": 6
+      },
+      "said_something": {
+        "hit": 6,
+        "n": 6
+      },
+      "fresh": {
+        "hit": 0,
+        "n": 0
+      },
+      "carried_over": {
+        "hit": 0,
+        "n": 0
+      }
+    },
+    "2": {
+      "in_kind": {
+        "hit": 5,
+        "n": 6
+      },
+      "said_something": {
+        "hit": 6,
+        "n": 6
+      },
+      "fresh": {
+        "hit": 6,
+        "n": 6
+      },
+      "carried_over": {
+        "hit": 2,
+        "n": 3
+      }
+    },
+    "3": {
+      "in_kind": {
+        "hit": 2,
+        "n": 3
+      },
+      "said_something": {
+        "hit": 3,
+        "n": 3
+      },
+      "fresh": {
+        "hit": 3,
+        "n": 3
+      },
+      "carried_over": {
+        "hit": 0,
+        "n": 0
+      }
+    },
+    "4": {
+      "in_kind": {
+        "hit": 1,
+        "n": 1
+      },
+      "said_something": {
+        "hit": 1,
+        "n": 1
+      },
+      "fresh": {
+        "hit": 1,
+        "n": 1
+      },
+      "carried_over": {
+        "hit": 0,
+        "n": 0
+      }
+    }
+  },
+  "by_script": {
+    "daycross": {
+      "trained": true,
+      "in_kind": {
+        "hit": 2,
+        "n": 2
+      },
+      "said_something": {
+        "hit": 2,
+        "n": 2
+      },
+      "fresh": {
+        "hit": 1,
+        "n": 1
+      },
+      "carried_over": {
+        "hit": 1,
+        "n": 1
+      }
+    },
+    "talk": {
+      "trained": false,
+      "in_kind": {
+        "hit": 3,
+        "n": 4
+      },
+      "said_something": {
+        "hit": 4,
+        "n": 4
+      },
+      "fresh": {
+        "hit": 3,
+        "n": 3
+      },
+      "carried_over": {
+        "hit": 0,
+        "n": 0
+      }
+    },
+    "tool_then_talk": {
+      "trained": false,
+      "in_kind": {
+        "hit": 3,
+        "n": 3
+      },
+      "said_something": {
+        "hit": 3,
+        "n": 3
+      },
+      "fresh": {
+        "hit": 2,
+        "n": 2
+      },
+      "carried_over": {
+        "hit": 0,
+        "n": 0
+      }
+    },
+    "talk_then_tool": {
+      "trained": false,
+      "in_kind": {
+        "hit": 3,
+        "n": 3
+      },
+      "said_something": {
+        "hit": 3,
+        "n": 3
+      },
+      "fresh": {
+        "hit": 2,
+        "n": 2
+      },
+      "carried_over": {
+        "hit": 0,
+        "n": 0
+      }
+    },
+    "correction": {
+      "trained": false,
+      "in_kind": {
+        "hit": 1,
+        "n": 2
+      },
+      "said_something": {
+        "hit": 2,
+        "n": 2
+      },
+      "fresh": {
+        "hit": 1,
+        "n": 1
+      },
+      "carried_over": {
+        "hit": 0,
+        "n": 1
+      }
+    },
+    "ellipsis": {
+      "trained": false,
+      "in_kind": {
+        "hit": 2,
+        "n": 2
+      },
+      "said_something": {
+        "hit": 2,
+        "n": 2
+      },
+      "fresh": {
+        "hit": 1,
+        "n": 1
+      },
+      "carried_over": {
+        "hit": 1,
+        "n": 1
+      }
+    }
+  },
+  "turns": [
+    {
+      "script": "daycross",
+      "position": 1,
+      "say": "what did I get up to at the weekend",
+      "mode": "call",
+      "expect": "resolve_date",
+      "called": "resolve_date",
+      "reply": "Saturday or Sunday?",
+      "ms": 0.6,
+      "gated": false,
+      "rows": {
+        "in_kind": true,
+        "said_something": true,
+        "fresh": null,
+        "carried_over": null
+      },
+      "error": null
+    },
+    {
+      "script": "daycross",
+      "position": 2,
+      "say": "Saturday",
+      "mode": "call",
+      "expect": "resolve_date",
+      "called": "resolve_date",
+      "reply": "I don't have anything for Saturday, September 5th.",
+      "ms": 1.1,
+      "gated": false,
+      "rows": {
+        "in_kind": true,
+        "said_something": true,
+        "fresh": true,
+        "carried_over": true
+      },
+      "error": null
+    },
+    {
+      "script": "talk",
+      "position": 1,
+      "say": "morning",
+      "mode": "talk",
+      "expect": null,
+      "called": null,
+      "reply": "Hi there. I'm around whenever you need me.",
+      "ms": 73.0,
+      "gated": false,
+      "rows": {
+        "in_kind": true,
+        "said_something": true,
+        "fresh": null,
+        "carried_over": null
+      },
+      "error": null
+    },
+    {
+      "script": "talk",
+      "position": 2,
+      "say": "not much, just got up. you?",
+      "mode": "talk",
+      "expect": null,
+      "called": null,
+      "reply": "Not much, just woke up. You?",
+      "ms": 62.5,
+      "gated": false,
+      "rows": {
+        "in_kind": true,
+        "said_something": true,
+        "fresh": true,
+        "carried_over": null
+      },
+      "error": null
+    },
+    {
+      "script": "talk",
+      "position": 3,
+      "say": "same here, bit of a slow start",
+      "mode": "talk",
+      "expect": null,
+      "called": "decline",
+      "reply": "That's outside what I can reach from here.",
+      "ms": 261.5,
+      "gated": false,
+      "rows": {
+        "in_kind": false,
+        "said_something": true,
+        "fresh": true,
+        "carried_over": null
+      },
+      "error": null
+    },
+    {
+      "script": "talk",
+      "position": 4,
+      "say": "anyway, good to catch up",
+      "mode": "talk",
+      "expect": null,
+      "called": null,
+      "reply": "That's fine.",
+      "ms": 48.9,
+      "gated": false,
+      "rows": {
+        "in_kind": true,
+        "said_something": true,
+        "fresh": true,
+        "carried_over": null
+      },
+      "error": null
+    },
+    {
+      "script": "tool_then_talk",
+      "position": 1,
+      "say": "note down buy milk and coffee",
+      "mode": "call",
+      "expect": "save_note",
+      "called": "save_note",
+      "reply": "Saved.",
+      "ms": 175.7,
+      "gated": false,
+      "rows": {
+        "in_kind": true,
+        "said_something": true,
+        "fresh": null,
+        "carried_over": null
+      },
+      "error": null
+    },
+    {
+      "script": "tool_then_talk",
+      "position": 2,
+      "say": "thanks",
+      "mode": "talk",
+      "expect": null,
+      "called": null,
+      "reply": "No problem at all.",
+      "ms": 62.1,
+      "gated": false,
+      "rows": {
+        "in_kind": true,
+        "said_something": true,
+        "fresh": true,
+        "carried_over": null
+      },
+      "error": null
+    },
+    {
+      "script": "tool_then_talk",
+      "position": 3,
+      "say": "that's all I needed",
+      "mode": "talk",
+      "expect": null,
+      "called": null,
+      "reply": "That's helpful to know.",
+      "ms": 55.5,
+      "gated": false,
+      "rows": {
+        "in_kind": true,
+        "said_something": true,
+        "fresh": true,
+        "carried_over": null
+      },
+      "error": null
+    },
+    {
+      "script": "talk_then_tool",
+      "position": 1,
+      "say": "morning, how are you",
+      "mode": "talk",
+      "expect": null,
+      "called": null,
+      "reply": "I'm doing alright. How are you?",
+      "ms": 70.9,
+      "gated": false,
+      "rows": {
+        "in_kind": true,
+        "said_something": true,
+        "fresh": null,
+        "carried_over": null
+      },
+      "error": null
+    },
+    {
+      "script": "talk_then_tool",
+      "position": 2,
+      "say": "note down the bins go out tonight",
+      "mode": "call",
+      "expect": "save_note",
+      "called": "save_note",
+      "reply": "Noted.",
+      "ms": 406.3,
+      "gated": false,
+      "rows": {
+        "in_kind": true,
+        "said_something": true,
+        "fresh": true,
+        "carried_over": null
+      },
+      "error": null
+    },
+    {
+      "script": "talk_then_tool",
+      "position": 3,
+      "say": "great, thanks",
+      "mode": "talk",
+      "expect": null,
+      "called": null,
+      "reply": "That's helpful to know.",
+      "ms": 48.1,
+      "gated": false,
+      "rows": {
+        "in_kind": true,
+        "said_something": true,
+        "fresh": true,
+        "carried_over": null
+      },
+      "error": null
+    },
+    {
+      "script": "correction",
+      "position": 1,
+      "say": "note down the spare key is under the pot",
+      "mode": "call",
+      "expect": "save_note",
+      "called": "save_note",
+      "reply": "Got it, noted.",
+      "ms": 489.7,
+      "gated": false,
+      "rows": {
+        "in_kind": true,
+        "said_something": true,
+        "fresh": null,
+        "carried_over": null
+      },
+      "error": null
+    },
+    {
+      "script": "correction",
+      "position": 2,
+      "say": "actually make that under the mat",
+      "mode": "call",
+      "expect": "save_note",
+      "called": "decline",
+      "reply": "There's no tool on this one, sorry.",
+      "ms": 256.6,
+      "gated": false,
+      "rows": {
+        "in_kind": false,
+        "said_something": true,
+        "fresh": true,
+        "carried_over": false
+      },
+      "error": null
+    },
+    {
+      "script": "ellipsis",
+      "position": 1,
+      "say": "what day is it today",
+      "mode": "call",
+      "expect": "resolve_date",
+      "called": "resolve_date",
+      "reply": "It's Monday, September 7th.",
+      "ms": 0.6,
+      "gated": false,
+      "rows": {
+        "in_kind": true,
+        "said_something": true,
+        "fresh": null,
+        "carried_over": null
+      },
+      "error": null
+    },
+    {
+      "script": "ellipsis",
+      "position": 2,
+      "say": "and what about tomorrow",
+      "mode": "call",
+      "expect": "resolve_date",
+      "called": "resolve_date",
+      "reply": "That's today -- Tuesday, September 8th.",
+      "ms": 261.2,
+      "gated": false,
+      "rows": {
+        "in_kind": true,
+        "said_something": true,
+        "fresh": true,
+        "carried_over": true
+      },
+      "error": null
+    }
+  ]
+}

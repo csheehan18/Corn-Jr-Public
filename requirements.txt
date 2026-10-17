@@ -1,0 +1,55 @@
+# Install torch with the CUDA build for your GPU, e.g. for an RTX 3080:
+#   pip install torch --index-url https://download.pytorch.org/whl/cu124
+torch>=2.4
+numpy>=1.26
+requests>=2.31
+# Parsing the results page in harness/backends/search.py. Only the --search
+# path imports it, but the import is at module scope, so a host without it
+# loses the whole backend rather than one provider.
+beautifulsoup4>=4.12
+# Reading FineWeb-Edu's parquet shards in batches -- scripts/prepare_fineweb.py.
+pyarrow>=15.0
+
+# The voice client -- harness/voice/. Optional: nothing else imports either of
+# these, `scripts/check_voice.py` runs the whole guard without them, and the
+# server, the CLI client and every grid are unaffected. Install them when you
+# want to talk to him rather than type at him.
+#
+# Both are *local* and that is the point rather than a coincidence: no audio
+# and no transcript leaves the machine, which is the same rule contacts.json
+# and notes.jsonl are gitignored for. faster-whisper pulls ctranslate2 and
+# onnxruntime and downloads its model on first use (~460MB for small.en, to
+# the huggingface cache). sounddevice bundles PortAudio and does capture and
+# playback both.
+#
+# Speech *out* needs nothing installed at all on Windows: the default adapter
+# drives System.Speech through a resident PowerShell. `piper-tts` is the
+# better voice and wants a .onnx model on disk; `pyttsx3` is a third path.
+# Neither is listed here because neither is required to speak.
+# Listed rather than required, because they are ~200MB of ctranslate2 and
+# onnxruntime that a training-only checkout has no use for:
+#
+#   pip install "faster-whisper>=1.0" "sounddevice>=0.4"
+#
+# Installed here 2026-08-30: faster-whisper 1.2.1, sounddevice 0.5.6.
+
+# The studio -- harness/studio/. Optional on the voice client's exact terms:
+# nothing else imports it, `scripts/check_studio.py` runs the whole guard
+# without it, and the server, the CLI client, the overlay and every grid are
+# unaffected. It is the point-and-click face: chat in an app window, a form
+# for server.json, tools.d declarations, the packs folder. Starlette and
+# uvicorn are the whole web layer (the page itself is static files with its
+# libraries vendored -- no npm, no build); websockets carries the chat;
+# httpx is only for scripts/check_studio_pages.py. The page binds 127.0.0.1
+# by default and moving it is a decision (see harness/studio/__main__.py).
+#
+#   pip install "starlette>=0.37" "uvicorn>=0.29" websockets
+#
+# Installed here 2026-10-08: starlette 0.52.4, uvicorn 0.41, websockets 16.0,
+# httpx 0.28.1 -- they arrived with NiceGUI, which the studio no longer uses.
+
+# Windows only, optional: enables torch.compile -- 1.16x at nano and 1.07x at
+# 260M (b0d39c0). The gain shrinks with size: the big kernels are already
+# compute-bound, so there is less launch overhead left to recover.
+# The official org fork -- github.com/triton-lang/triton-windows
+triton-windows; sys_platform == "win32"
