@@ -1,4 +1,6 @@
-# Hundred-and-fifth finding — the extent rule is at its optimum: neither a wider tolerance nor a wider reach buys the fuller answer the owner asked for on either column, and dropping "the" before a proper noun costs ten right answers a seed
+# The answer-length rule is already at its best setting
+
+**Full result:** The extent rule is at its optimum: neither a wider tolerance nor a wider reach buys the fuller answer the owner asked for on either column, and dropping "the" before a proper noun costs ten right answers a seed
 
 `scripts/probe_extent_sweep.py` and `harvest_popa_pairs.py --radius 8`,
 2026-09-04. Replay off the pairs harvests plus three 19-second GPU passes to

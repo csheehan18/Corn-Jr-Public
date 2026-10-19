@@ -1,4 +1,6 @@
-# Hundred-and-fourteenth finding — the extent rule's reach and tolerance on the whole-passage adapter move `right` by one to four passages inside noise on both seeds, and the CLIPPED they remove turns into wrong answers and silences rather than right ones, so the grid is not the lever for the clip
+# Tuning answer length on the new reader changes nothing
+
+**Full result:** The extent rule's reach and tolerance on the whole-passage adapter move `right` by one to four passages inside noise on both seeds, and the CLIPPED they remove turns into wrong answers and silences rather than right ones, so the grid is not the lever for the clip
 
 Replay, 2026-09-05, both seeds, no training. Population A re-harvested from
 the two selected checkpoints of finding 112 with the extent grid stored to

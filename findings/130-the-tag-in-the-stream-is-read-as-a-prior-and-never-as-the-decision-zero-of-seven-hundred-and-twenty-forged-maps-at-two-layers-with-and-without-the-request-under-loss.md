@@ -1,4 +1,6 @@
-# One hundred and thirtieth finding — the tag in the stream is read as a prior and never as the decision: zero of seven hundred and twenty forged maps at the embedding and at block 2, with and without the request under loss, while the pass schedule costs a fifth of the parse rows and the map gives none of it back
+# A label in the text is a hint, never the decision
+
+**Full result:** The tag in the stream is read as a prior and never as the decision: zero of seven hundred and twenty forged maps at the embedding and at block 2, with and without the request under loss, while the pass schedule costs a fifth of the parse rows and the map gives none of it back
 
 **Cost:** 0 s of new scoring on record; it reads 1 card scored for an earlier finding (`nano20m_v3`). Backfilled 2026-09-26 from the cards' `seconds`; training and probe time were never recorded, so this is a floor.
 

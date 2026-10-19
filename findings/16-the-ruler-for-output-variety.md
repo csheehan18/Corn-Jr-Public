@@ -1,4 +1,6 @@
-# Sixteenth finding — the ruler for output variety, and the corpus change that did not move it
+# A new output-variety metric, and a data change that didn't move it
+
+**Full result:** The ruler for output variety, and the corpus change that did not move it
 
 **Cost:** 3.5 min of scoring on the 1 card first cited here (`nano20m_narrative10`); it also reads 1 card scored for an earlier finding (`nano20m_balanced`). Backfilled 2026-09-26 from the cards' `seconds`; training and probe time were never recorded, so this is a floor.
 

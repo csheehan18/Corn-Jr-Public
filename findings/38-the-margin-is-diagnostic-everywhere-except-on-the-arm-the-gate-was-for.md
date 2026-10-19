@@ -1,4 +1,6 @@
-# Thirty-eighth finding — the margin is diagnostic on every checkpoint except the one the gate was written for
+# A confidence margin spots wrong calls, except where it was needed
+
+**Full result:** The margin is diagnostic on every checkpoint except the one the gate was written for
 
 **Cost:** 0 s of new scoring on record; it reads 5 cards scored for an earlier finding (`nano100m_v1`, `nano20m_v1`, `nano20m_v1_chat` and 2 more). Backfilled 2026-09-26 from the cards' `seconds`; training and probe time were never recorded, so this is a floor.
 

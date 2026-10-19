@@ -1,4 +1,6 @@
-# One hundred and thirty-third finding — on a world where the phrasing is useless for the label he cuts phrasings he never saw at every seed, repairs a wrong label after its bound call fails, parses a world he never trained on, holds the right label for a fourth level ninety-six of ninety-six times when the cut is given, and still writes no cut one level deeper than he was shown
+# On a synthetic world he generalises labels but not one level deeper
+
+**Full result:** On a world where the phrasing is useless for the label he cuts phrasings he never saw at every seed, repairs a wrong label after its bound call fails, parses a world he never trained on, holds the right label for a fourth level ninety-six of ninety-six times when the cut is given, and still writes no cut one level deeper than he was shown
 
 **Cost:** 8.4 min of scoring on the 1 card first cited here (`nano100m_v3_funcworld_rope`); it also reads 1 card scored for an earlier finding (`nano100m_v1`). Backfilled 2026-09-26 from the cards' `seconds`; training and probe time were never recorded, so this is a floor.
 

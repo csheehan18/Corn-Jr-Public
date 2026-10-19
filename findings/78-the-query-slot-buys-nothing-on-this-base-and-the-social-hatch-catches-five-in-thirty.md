@@ -1,4 +1,6 @@
-# Seventy-eighth finding — the query slot buys nothing on this base and costs three chain follow-ups in four, and the social hatch catches five utterances in thirty
+# Forcing copied search queries breaks follow-ups; keyword shortcuts catch few chats
+
+**Full result:** The query slot buys nothing on this base and costs three chain follow-ups in four, and the social hatch catches five utterances in thirty
 
 **Cost:** 0 s of new scoring on record; it reads 2 cards scored for an earlier finding (`corn_jr_260m`, `corn_jr_260m_v4`). Backfilled 2026-09-26 from the cards' `seconds`; training and probe time were never recorded, so this is a floor.
 

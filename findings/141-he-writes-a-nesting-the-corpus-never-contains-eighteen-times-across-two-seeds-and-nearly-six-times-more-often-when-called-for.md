@@ -1,4 +1,6 @@
-# One hundred and forty-first finding — with the parse written as one nested line he writes a three-member group inside a group, a structure the corpus never contains, eighteen times across two seeds and 5.8 times more often where the gold calls for one than where it does not, on the leg that had never given anything
+# Written as one nested line, he builds a structure never trained
+
+**Full result:** With the parse written as one nested line he writes a three-member group inside a group, a structure the corpus never contains, eighteen times across two seeds and 5.8 times more often where the gold calls for one than where it does not, on the leg that had never given anything
 
 **Cost:** 14.7 min of scoring on the 2 cards first cited here (`nano20m_v3_fw_armf`, `nano20m_v3_fw_armf_lines`). Backfilled 2026-09-26 from the cards' `seconds`; training and probe time were never recorded, so this is a floor.
 

@@ -1,4 +1,6 @@
-# Forty-sixth finding — a slice on disk was 4% short of its generator, and the row that finally moved did it by reciting
+# A dataset was missing a class; one test passed by reciting
+
+**Full result:** A slice on disk was 4% short of its generator, and the row that finally moved did it by reciting
 
 `configs/mix_v3.py` ×2 — `mix_v2`'s shares to the token with three files swapped for
 higher-cardinality twins, aimed at an exposure regime that only exists at 5B. The run was

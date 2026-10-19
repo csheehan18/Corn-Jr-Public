@@ -1,4 +1,6 @@
-# Seventy-ninth finding — a quarter of what clears the coverage bar clears it on a first letter, and the path that runs first has no bar at all
+# A quarter of search results pass the relevance check on one letter
+
+**Full result:** A quarter of what clears the coverage bar clears it on a first letter, and the path that runs first has no bar at all
 
 A reduction-path audit rather than a training run, and it started from one
 question a user asked and Corn-Jr could not answer: **"who won the 2026 super

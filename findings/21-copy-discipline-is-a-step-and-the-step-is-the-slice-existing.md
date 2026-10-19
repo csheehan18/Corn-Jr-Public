@@ -1,4 +1,6 @@
-# Twenty-first finding — copy discipline is a step, and the step is the slice existing
+# Copying is a step: it appears once any tool data exists
+
+**Full result:** Copy discipline is a step, and the step is the slice existing
 
 **Cost:** 4.0 min of scoring on the 1 card first cited here (`nano20m_notools`); it also reads 1 card scored for an earlier finding (`nano20m_web_bpe`). Backfilled 2026-09-26 from the cards' `seconds`; training and probe time were never recorded, so this is a floor.
 

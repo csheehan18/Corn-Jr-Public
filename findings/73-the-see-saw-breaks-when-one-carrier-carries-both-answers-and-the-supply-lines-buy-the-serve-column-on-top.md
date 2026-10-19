@@ -1,4 +1,6 @@
-# Seventy-third finding — the see-saw breaks when one carrier carries both answers, and the supply lines buy the serve column on top
+# Training both answers on one phrasing breaks the serve/decline trade-off
+
+**Full result:** The see-saw breaks when one carrier carries both answers, and the supply lines buy the serve column on top
 
 **Cost:** 0 s of new scoring on record; it reads 1 card scored for an earlier finding (`corn_jr_260m`). Backfilled 2026-09-26 from the cards' `seconds`; training and probe time were never recorded, so this is a floor.
 

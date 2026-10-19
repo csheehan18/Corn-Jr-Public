@@ -1,4 +1,6 @@
-# 84. The fallback reduce buys thirty-five right answers at the same conditional accuracy, and the refusal still owns half of what is left
+# A fallback rule buys 35 answers, but refusals still dominate
+
+**Full result:** The fallback reduce buys thirty-five right answers at the same conditional accuracy, and the refusal still owns half of what is left
 
 **`docs/PLAN-EXTRACTION-READER.md` §2.2's second reduce, specified and run
 2026-09-02 on the null-headed reader's recorded Population A harvests. Replay

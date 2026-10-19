@@ -1,4 +1,6 @@
-# 85. The verifier label has to be cross-fitted, and cross-fitted with the span head's confidence it passes the verifier bar; the extent rule buys eight for nothing and the reduce family is closed
+# The checker needs cross-fitted labels; fallback rules are exhausted
+
+**Full result:** The verifier label has to be cross-fitted, and cross-fitted with the span head's confidence it passes the verifier bar; the extent rule buys eight for nothing and the reduce family is closed
 
 **`docs/PLAN-READER-RESIDUE.md`'s four arms, run or retired 2026-09-02, plus
 the reads that file's species table made possible once the span head's own

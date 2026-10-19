@@ -1,4 +1,6 @@
-# Eighty-first finding — the isolated score is a willingness meter and not a confidence meter, ranking windows is the one thing it buys, and every read-time route to the span is now closed
+# The answer score measures willingness to answer, not confidence
+
+**Full result:** The isolated score is a willingness meter and not a confidence meter, ranking windows is the one thing it buys, and every read-time route to the span is now closed
 
 **Cost:** 0 s of new scoring on record; it reads 1 card scored for an earlier finding (`corn_jr_260m_v4`). Backfilled 2026-09-26 from the cards' `seconds`; training and probe time were never recorded, so this is a floor.
 

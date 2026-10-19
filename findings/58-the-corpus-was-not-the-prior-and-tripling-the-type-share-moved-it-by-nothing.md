@@ -1,4 +1,6 @@
-# Fifty-eighth finding — the corpus was not the prior, and tripling the type share moved it by nothing
+# Tripling a fact type in training left his declines unchanged
+
+**Full result:** The corpus was not the prior, and tripling the type share moved it by nothing
 
 **Cost:** 7.0 min of scoring on the 2 cards first cited here (`nano20m_v3_extract_narrowtype`, `nano20m_v3_extract_widetype`); it also reads 1 card scored for an earlier finding (`nano20m_v3_extract`). Backfilled 2026-09-26 from the cards' `seconds`; training and probe time were never recorded, so this is a floor.
 

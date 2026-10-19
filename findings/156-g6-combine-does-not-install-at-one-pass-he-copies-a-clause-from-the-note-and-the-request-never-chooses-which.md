@@ -1,4 +1,6 @@
-# One hundred and fifty-sixth finding — G6's first rung, combine: at one pass he does not build the goal from two observations; both twins right on 5 and 0 of 288 held-out rows and 1 and 1 of 144 trained ones, against controls that never saw a note at 4-6 and 2-3; the request does not choose the clause even on the traces he trained on or when the note repeats the request's own words, and what forms instead is a fixed ranking of the note's phrasings, a different one at each seed
+# He can't build a goal from two observations at one pass
+
+**Full result:** G6's first rung, combine: at one pass he does not build the goal from two observations; both twins right on 5 and 0 of 288 held-out rows and 1 and 1 of 144 trained ones, against controls that never saw a note at 4-6 and 2-3; the request does not choose the clause even on the traces he trained on or when the note repeats the request's own words, and what forms instead is a fixed ranking of the note's phrasings, a different one at each seed
 
 **Cost:** two nano runs, 1,154 s and 1,263 s, contended (the card at 35-39%
 before every job, so the times are bounds); probes about 2 min a checkpoint;

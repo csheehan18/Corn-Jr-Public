@@ -1,4 +1,6 @@
-# Ninety-seventh finding — the reduce family stays closed at the operating point that ships even though its target doubled there, the two seeds only agree when each is read at its own threshold, and the hard negatives the next arm was to add are already more than half the verifier's training nulls
+# Fallback answer rules still don't help at the shipped setting
+
+**Full result:** The reduce family stays closed at the operating point that ships even though its target doubled there, the two seeds only agree when each is read at its own threshold, and the hard negatives the next arm was to add are already more than half the verifier's training nulls
 
 `scripts/probe_reduce_shipped.py` and a count over the two state caches,
 2026-09-03. **Replay only for §1 to §3** — no GPU, no decode, no weight read —

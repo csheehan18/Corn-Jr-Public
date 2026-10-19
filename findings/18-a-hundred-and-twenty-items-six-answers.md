@@ -1,4 +1,6 @@
-# Eighteenth finding — a hundred and twenty items, six answers, and the rule was already written
+# That 18-item swing was one fact; the test held only six answers
+
+**Full result:** A hundred and twenty items, six answers, and the rule was already written
 
 The seventeenth finding said `tool.copy` moves 18 items on the seed alone and called it noise.
 Regenerating the row on both checkpoints and diffing item by item says otherwise. **The row

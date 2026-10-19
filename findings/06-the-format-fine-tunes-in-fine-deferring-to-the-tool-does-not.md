@@ -1,4 +1,6 @@
-# Sixth finding — the format fine-tunes in fine; deferring to the tool does not
+# Fine-tuning installs the tool format but not using the tool's answer
+
+**Full result:** The format fine-tunes in fine; deferring to the tool does not
 
 **Cost:** 2.4 min of scoring on the 2 cards first cited here (`nano20m_ft`, `nano20m_ft_replay`); it also reads 2 cards scored for an earlier finding (`nano20m`, `nano20m_pilot`). Backfilled 2026-09-26 from the cards' `seconds`; training and probe time were never recorded, so this is a floor.
 

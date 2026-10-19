@@ -1,4 +1,6 @@
-# Ninth finding — the compression converts, and about a fifth of it is context
+# BPE's compression becomes a better model; a fifth comes from context
+
+**Full result:** The compression converts, and about a fifth of it is context
 
 **Cost:** 4.0 min of scoring on the 1 card first cited here (`nano20m_web_bpe`); it also reads 2 cards scored for an earlier finding (`nano20m`, `nano20m_web`). Backfilled 2026-09-26 from the cards' `seconds`; training and probe time were never recorded, so this is a floor.
 

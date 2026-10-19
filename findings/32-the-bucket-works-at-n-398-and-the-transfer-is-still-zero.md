@@ -1,4 +1,6 @@
-# Thirty-second finding — the bucket works at n=398, and the transfer is still zero
+# A bigger phrasing test; its no-transfer reading was later withdrawn
+
+**Full result:** The bucket works at n=398, and the transfer is still zero
 
 **Cost:** 4.4 min of scoring on the 1 card first cited here (`nano100m_v1`). Backfilled 2026-09-26 from the cards' `seconds`; training and probe time were never recorded, so this is a floor.
 

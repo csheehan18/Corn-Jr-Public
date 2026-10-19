@@ -1,4 +1,6 @@
-# Ninety-third finding — a perfect locator is worth fifteen to thirty-eight passages because two thirds of what it could reach is already in the right sentence, and a perfect choice among the head's own ten caps the whole family at fifty-eight per cent
+# A perfect sentence finder would be worth only 15-38 passages
+
+**Full result:** A perfect locator is worth fifteen to thirty-eight passages because two thirds of what it could reach is already in the right sentence, and a perfect choice among the head's own ten caps the whole family at fifty-eight per cent
 
 `scripts/probe_frame_ceiling.py`, 2026-09-03. **Replay only** — no GPU, no
 decode, no weight read, no tokenizer — over `nullpr_s{1,2}_popa.json` and

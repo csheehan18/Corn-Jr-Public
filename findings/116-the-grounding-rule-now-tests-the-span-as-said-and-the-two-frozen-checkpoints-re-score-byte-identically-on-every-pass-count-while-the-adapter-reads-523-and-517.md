@@ -1,4 +1,6 @@
-# Hundred-and-sixteenth finding — `grounded` now tests the span as said, first novel word to last with the frame words inside it kept, as one verbatim run of the window; the two frozen checkpoints re-score byte-identically on every pass count, one refused reply a checkpoint moving between failure buckets, and the whole-passage adapter reads 523 and 517 with AGGREGATION at 2 and 1
+# A fix to the copy check lifts the whole-passage reader to 523
+
+**Full result:** `grounded` now tests the span as said, first novel word to last with the frame words inside it kept, as one verbatim run of the window; the two frozen checkpoints re-score byte-identically on every pass count, one refused reply a checkpoint moving between failure buckets, and the whole-passage adapter reads 523 and 517 with AGGREGATION at 2 and 1
 
 **Cost:** 62 s of scoring on the 2 cards first cited here (`corn_jr_260m_v4__grounded115`, `corn_jr_260m_v4_ft4g__grounded115`); it also reads 3 cards scored for an earlier finding (`corn_jr_260m_v4`, `corn_jr_260m_v4_ft4g`, `nano20m_v3`). Backfilled 2026-09-26 from the cards' `seconds`; training and probe time were never recorded, so this is a floor.
 

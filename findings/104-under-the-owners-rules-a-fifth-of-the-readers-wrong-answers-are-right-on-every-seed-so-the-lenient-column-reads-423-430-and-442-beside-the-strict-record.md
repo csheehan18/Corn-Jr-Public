@@ -1,4 +1,6 @@
-# Hundred-and-fourth finding — under the owner's three rules about a fifth of the reader's wrong answers are right on every seed, so the lenient column reads 423, 430 and 442 beside the strict 389, 388 and 400, and a quarter of every refused-wrong gold is not the unique correct span
+# Under the owner's rules, a fifth of 'wrong' answers are right
+
+**Full result:** Under the owner's three rules about a fifth of the reader's wrong answers are right on every seed, so the lenient column reads 423, 430 and 442 beside the strict 389, 388 and 400, and a quarter of every refused-wrong gold is not the unique correct span
 
 `scripts/lenient_column.py`, 2026-09-04. No head was trained and no reader was
 run: the three shipped harvests (`nullpr_s{1,2,3}_popa.json`) read at the bar

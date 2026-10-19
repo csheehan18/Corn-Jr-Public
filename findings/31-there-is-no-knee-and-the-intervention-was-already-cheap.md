@@ -1,4 +1,6 @@
-# Thirty-first finding — there is no knee, and the intervention was already cheap
+# The gain has no sharp threshold, and the fix was already cheap
+
+**Full result:** There is no knee, and the intervention was already cheap
 
 **Cost:** 0 s of new scoring on record; it reads 1 card scored for an earlier finding (`nano20m_v1`). Backfilled 2026-09-26 from the cards' `seconds`; training and probe time were never recorded, so this is a floor.
 

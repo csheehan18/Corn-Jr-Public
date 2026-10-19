@@ -1,4 +1,6 @@
-# 117. The whole-passage adapter reader ships, and the runtime reads 526 of 721 at 199 correct silences in 23 ms a passage -- three right answers over the replay's 523, every one of them the harvest's bf16 trunk against the runtime's fp32 one
+# The whole-passage reader ships: 526 of 721 at runtime
+
+**Full result:** The whole-passage adapter reader ships, and the runtime reads 526 of 721 at 199 correct silences in 23 ms a passage -- three right answers over the replay's 523, every one of them the harvest's bf16 trunk against the runtime's fp32 one
 
 **Cost:** 0 s of new scoring on record; it reads 1 card scored for an earlier finding (`corn_jr_260m_v4_ft4g`). Backfilled 2026-09-26 from the cards' `seconds`; training and probe time were never recorded, so this is a floor.
 

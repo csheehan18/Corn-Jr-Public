@@ -1,4 +1,6 @@
-# Hundred-and-tenth finding — the four free replays the audit ranked first: agreement between the two readouts and gate willingness add nothing at the silence floor that the margin does not already carry, per-bucket thresholds fit the folds and give it all back, and one vote per occurrence is the only one positive on both seeds, +10 / +6 at pooled p = 0.03 and under its per-seed bar on one
+# Of four cheap rescoring ideas, only one vote per mention helps
+
+**Full result:** The four free replays the audit ranked first: agreement between the two readouts and gate willingness add nothing at the silence floor that the margin does not already carry, per-bucket thresholds fit the folds and give it all back, and one vote per occurrence is the only one positive on both seeds, +10 / +6 at pooled p = 0.03 and under its per-seed bar on one
 
 2026-09-04. **Replay only** — no GPU, no decode, no weight read, no
 checkpoint opened. `scripts/probe_free_replays.py` (new) over

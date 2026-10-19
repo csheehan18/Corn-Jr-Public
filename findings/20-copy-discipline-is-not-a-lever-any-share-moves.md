@@ -1,4 +1,6 @@
-# Twentieth finding — copy discipline is not a lever any share moves
+# No data share moves copying above noise
+
+**Full result:** Copy discipline is not a lever any share moves
 
 Six checkpoints re-scored on `tool.copy_wide`, spanning every share change the project has
 measured. No training: the checkpoints already existed, and the frozen rows came back

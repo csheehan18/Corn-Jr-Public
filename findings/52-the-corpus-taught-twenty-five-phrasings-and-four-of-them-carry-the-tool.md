@@ -1,4 +1,6 @@
-# Fifty-second finding — the corpus taught twenty-five phrasings and four of them carry the tool
+# Of 25 search phrasings taught, he kept about four
+
+**Full result:** The corpus taught twenty-five phrasings and four of them carry the tool
 
 **Cost:** 0 s of new scoring on record; it reads 1 card scored for an earlier finding (`corn_jr_260m`). Backfilled 2026-09-26 from the cards' `seconds`; training and probe time were never recorded, so this is a floor.
 

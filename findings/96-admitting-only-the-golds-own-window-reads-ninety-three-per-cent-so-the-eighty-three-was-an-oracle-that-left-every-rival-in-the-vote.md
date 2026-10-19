@@ -1,4 +1,6 @@
-# Ninety-sixth finding — admitting only the gold's own window reads ninety-three per cent whatever the threshold, so the ninety-fifth finding's eighty-three was an oracle that left every rival in the vote, and the residue is two coupled levers of similar size
+# Given only the right window, the reader reaches 93%
+
+**Full result:** Admitting only the gold's own window reads ninety-three per cent whatever the threshold, so the ninety-fifth finding's eighty-three was an oracle that left every rival in the vote, and the residue is two coupled levers of similar size
 
 `scripts/probe_reader_rank.py` read (g), 2026-09-03. **Replay only** — no GPU,
 no decode, no weight read, no tokenizer, **and no new harvest** — over

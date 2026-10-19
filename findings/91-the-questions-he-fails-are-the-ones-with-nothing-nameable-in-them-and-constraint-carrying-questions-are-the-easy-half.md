@@ -1,4 +1,6 @@
-# Ninety-first finding — the first input-side cut of the residue reverses the sign of its own hypothesis: constraint-carrying questions are the easy half, the residue lives in the questions with nothing nameable in them, and the only total failure is thirteen passages wide
+# The hard questions are those with nothing nameable in them
+
+**Full result:** The first input-side cut of the residue reverses the sign of its own hypothesis: constraint-carrying questions are the easy half, the residue lives in the questions with nothing nameable in them, and the only total failure is thirteen passages wide
 
 `scripts/probe_question_shape.py`, 2026-09-03. **Replay only** — no GPU, no
 decode, no weight read — over `evals/results/nullpr_s{1,2}_popa.json`, the

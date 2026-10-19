@@ -1,4 +1,6 @@
-# 88. The social class installs on top of ft4g, the family repair moves the failure rather than removing it, and the vague tail closes by a line
+# Social replies install by fine-tune; the fix moves failures elsewhere
+
+**Full result:** The social class installs on top of ft4g, the family repair moves the failure rather than removing it, and the vague tail closes by a line
 
 **Cost:** 0 s of new scoring on record; it reads 2 cards scored for an earlier finding (`corn_jr_260m_v4`, `corn_jr_260m_v4_ft4g`). Backfilled 2026-09-26 from the cards' `seconds`; training and probe time were never recorded, so this is a floor.
 

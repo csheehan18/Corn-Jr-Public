@@ -1,4 +1,6 @@
-# Sixtieth finding — the fine-tune spends nothing and delivers three fifths, so the mix wins on efficiency and not on safety
+# Fine-tuning costs nothing but delivers three fifths of pretraining's gain
+
+**Full result:** The fine-tune spends nothing and delivers three fifths, so the mix wins on efficiency and not on safety
 
 **Cost:** 11.0 min of scoring on the 3 cards first cited here (`nano20m_v3_p3a`, `nano20m_v3_p3a_ft`, `nano20m_v3_seed2`); it also reads 2 cards scored for an earlier finding (`corn_jr_260m`, `nano20m_v3`). Backfilled 2026-09-26 from the cards' `seconds`; training and probe time were never recorded, so this is a floor.
 

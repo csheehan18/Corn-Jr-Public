@@ -1,4 +1,6 @@
-# Forty-second finding — he declines 118 times, and the routing underneath is untouched
+# He now declines 118 times, with routing untouched
+
+**Full result:** He declines 118 times, and the routing underneath is untouched
 
 `configs/mix_v1_toolspace_decline.py` ×2 against `mix_v1_toolspace` ×2. The `absent` class stops
 being a silence and becomes a route: `decline` on every declaration line and always last, he calls

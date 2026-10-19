@@ -1,4 +1,6 @@
-# Hundred-and-eighteenth finding — the shipped reading adapter survives the trunk moving under it: fitted to ft4g, it reads 521 of 721 at 196 correct silences on arm 3 (ft4g fine-tuned once) and 524 at 199 on arm 2 (a sibling trunk from the base), against 526 at 199 on its own trunk, with 27 and 9 passages moving and nothing paired significant
+# The reader survives the base model being fine-tuned underneath it
+
+**Full result:** The shipped reading adapter survives the trunk moving under it: fitted to ft4g, it reads 521 of 721 at 196 correct silences on arm 3 (ft4g fine-tuned once) and 524 at 199 on arm 2 (a sibling trunk from the base), against 526 at 199 on its own trunk, with 27 and 9 passages moving and nothing paired significant
 
 **Cost:** 16.0 min of scoring on the 2 cards first cited here (`corn_jr_260m_v4_ft_social2`, `corn_jr_260m_v4_ft_social3`); it also reads 1 card scored for an earlier finding (`corn_jr_260m_v4_ft4g`). Backfilled 2026-09-26 from the cards' `seconds`; training and probe time were never recorded, so this is a floor.
 

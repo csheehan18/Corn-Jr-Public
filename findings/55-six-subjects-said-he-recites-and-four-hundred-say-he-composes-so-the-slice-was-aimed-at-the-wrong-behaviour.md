@@ -1,4 +1,6 @@
-# Fifty-fifth finding — six subjects said he recites, four hundred say he composes, and the slice was aimed at the wrong behaviour
+# Four hundred passages show he writes his own answer instead of copying
+
+**Full result:** Six subjects said he recites, four hundred say he composes, and the slice was aimed at the wrong behaviour
 
 **Cost:** 0 s of new scoring on record; it reads 1 card scored for an earlier finding (`corn_jr_260m`). Backfilled 2026-09-26 from the cards' `seconds`; training and probe time were never recorded, so this is a floor.
 

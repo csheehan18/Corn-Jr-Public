@@ -1,4 +1,6 @@
-# Sixty-sixth finding — the extractor takes the first value of the right type, and flipping the clause flips which question it answers
+# The extractor takes the first value of the right type
+
+**Full result:** The extractor takes the first value of the right type, and flipping the clause flips which question it answers
 
 **Cost:** 11.4 min of scoring on the 1 card first cited here (`corn_jr_260m_ftextract`). Backfilled 2026-09-26 from the cards' `seconds`; training and probe time were never recorded, so this is a floor.
 

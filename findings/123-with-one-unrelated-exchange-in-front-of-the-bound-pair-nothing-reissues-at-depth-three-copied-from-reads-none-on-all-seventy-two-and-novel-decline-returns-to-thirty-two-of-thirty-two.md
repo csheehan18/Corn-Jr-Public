@@ -1,4 +1,6 @@
-# Hundred-and-twenty-third finding — with one unrelated exchange in front of the bound pair on half the two-turn pairs, nothing reissues at depth 3, `copied_from` reads `none` on all 72, the social probe rises, the turn-2 rows hold, and novel decline returns to 32 of 32
+# One unrelated exchange in history stops repeated calls
+
+**Full result:** With one unrelated exchange in front of the bound pair on half the two-turn pairs, nothing reissues at depth 3, `copied_from` reads `none` on all 72, the social probe rises, the turn-2 rows hold, and novel decline returns to 32 of 32
 
 **Cost:** 9.7 min of scoring on the 3 cards first cited here (`corn_jr_260m_v4_ft_social8`, `corn_jr_260m_v4_ft_social8__historygrid-0905ctl`, `corn_jr_260m_v4_ft_social8__toolgrid`). Backfilled 2026-09-26 from the cards' `seconds`; training and probe time were never recorded, so this is a floor.
 

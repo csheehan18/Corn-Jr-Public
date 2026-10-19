@@ -1,4 +1,6 @@
-# One hundred and thirty-second finding — RoPE against learned positions on the dummy world: above on the trained parse at both seeds, three per cent better on three of four language rows, two below on the bound tree, and the held-out rows zero as on every arm before it, so rung 2 trains both trunks at nano and its mid size takes the one the parse prefers
+# Rotary position embeddings beat learned positions on most tests
+
+**Full result:** RoPE against learned positions on the dummy world: above on the trained parse at both seeds, three per cent better on three of four language rows, two below on the bound tree, and the held-out rows zero as on every arm before it, so rung 2 trains both trunks at nano and its mid size takes the one the parse prefers
 
 **Cost:** 3.1 min of scoring on the 1 card first cited here (`nano20m_v3_decomp_b_rope`). Backfilled 2026-09-26 from the cards' `seconds`; training and probe time were never recorded, so this is a floor.
 

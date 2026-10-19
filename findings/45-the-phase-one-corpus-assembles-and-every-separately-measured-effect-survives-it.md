@@ -1,4 +1,6 @@
-# Forty-fifth finding — the Phase 1 corpus assembles, and every separately measured effect survives it
+# The first full data mix keeps every separately measured effect
+
+**Full result:** The Phase 1 corpus assembles, and every separately measured effect survives it
 
 `configs/mix_v2.py` ×2. Eight sources, six shares each priced by an earlier run, two behavioural
 repairs that had never been in the same corpus as each other, and web moved from shard 000 to the

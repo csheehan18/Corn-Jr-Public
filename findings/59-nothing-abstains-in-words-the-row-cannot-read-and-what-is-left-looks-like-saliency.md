@@ -1,4 +1,6 @@
-# Fifty-ninth finding — nothing abstains in words the row cannot read, and what is left looks like saliency
+# No declines hide in unscored wording; the rest looks like salience
+
+**Full result:** Nothing abstains in words the row cannot read, and what is left looks like saliency
 
 **Cost:** 0 s of new scoring on record; it reads 1 card scored for an earlier finding (`corn_jr_260m`). Backfilled 2026-09-26 from the cards' `seconds`; training and probe time were never recorded, so this is a floor.
 

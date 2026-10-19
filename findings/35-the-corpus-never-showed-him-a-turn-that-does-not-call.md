@@ -1,4 +1,6 @@
-# Thirty-fifth finding — the corpus never showed him a turn that does not call, and one per cent was the whole of it
+# One percent of non-tool turns teaches him when not to call
+
+**Full result:** The corpus never showed him a turn that does not call, and one per cent was the whole of it
 
 **Cost:** 4.0 min of scoring on the 1 card first cited here (`nano20m_v1_chat`); it also reads 2 cards scored for an earlier finding (`nano100m_v1`, `nano20m_v1`). Backfilled 2026-09-26 from the cards' `seconds`; training and probe time were never recorded, so this is a floor.
 

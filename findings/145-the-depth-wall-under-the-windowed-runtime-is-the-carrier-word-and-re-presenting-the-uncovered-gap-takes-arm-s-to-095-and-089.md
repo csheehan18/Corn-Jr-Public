@@ -1,4 +1,6 @@
-# One hundred and forty-fifth finding — the depth wall under the windowed runtime is the carrier word, not the depth: a chain built on a carrier he reads as a group reaches depth ten at 52-54 of 54 on arm S, one built on a carrier he does not stops at level one, and a runtime that re-presents the text he left uncovered takes arm S from 0.29 and 0.30 to 0.95 and 0.89 -- where arm F, never trained on views, stays at 0.19 and 0.37
+# The depth limit is the linking word; re-showing uncovered text fixes it
+
+**Full result:** The depth wall under the windowed runtime is the carrier word, not the depth: a chain built on a carrier he reads as a group reaches depth ten at 52-54 of 54 on arm S, one built on a carrier he does not stops at level one, and a runtime that re-presents the text he left uncovered takes arm S from 0.29 and 0.30 to 0.95 and 0.89 -- where arm F, never trained on views, stays at 0.19 and 0.37
 
 A deep read of every failure behind finding 144, 2026-09-26, on the four
 checkpoints it compared (arm F and arm S, seeds 1337 and 2337). No weight was

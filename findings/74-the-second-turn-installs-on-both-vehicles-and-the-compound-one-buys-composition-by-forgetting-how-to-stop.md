@@ -1,4 +1,6 @@
-# Seventy-fourth finding — the second turn installs on both vehicles, and the compound one buys composition by forgetting how to stop
+# Second-turn behaviour installs; compound requests forget how to stop
+
+**Full result:** The second turn installs on both vehicles, and the compound one buys composition by forgetting how to stop
 
 **Cost:** 2.1 min of scoring on the 1 card first cited here (`nano20m_v3_compound_seed3`); it also reads 1 card scored for an earlier finding (`nano20m_v3`). Backfilled 2026-09-26 from the cards' `seconds`; training and probe time were never recorded, so this is a floor.
 

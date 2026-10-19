@@ -1,4 +1,6 @@
-# Thirty-ninth finding — narrowing buys the routing completely, and buys the refusal not at all
+# Restricting names to declared tools fixes routing, not refusal
+
+**Full result:** Narrowing buys the routing completely, and buys the refusal not at all
 
 WS-E stage 1's free pre-reading. **No training.** Two checkpoints already on disk, three cells
 over the same items, `n=200` per level and per cell.

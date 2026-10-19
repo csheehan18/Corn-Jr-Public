@@ -1,4 +1,6 @@
-# One hundred and fortieth finding — the depth-4 zero is a position and nothing else: the identical cut that reads 3 to 19 of 96 at line 3 and 9 to 45 at line 2 reads 71 to 89 of 95 at line 1 on six W seeds and 88 at 100M, survives padding back to length, and sits where trained depth-3 shapes sit, so the content is not the block and a position-free expansion format is the arm on depth
+# Depth-4 failure is position alone; moved to line one it works
+
+**Full result:** The depth-4 zero is a position and nothing else: the identical cut that reads 3 to 19 of 96 at line 3 and 9 to 45 at line 2 reads 71 to 89 of 95 at line 1 on six W seeds and 88 at 100M, survives padding back to length, and sits where trained depth-3 shapes sit, so the content is not the block and a position-free expansion format is the arm on depth
 
 **Cost:** 0 s of new scoring on record; it reads 8 cards scored for an earlier finding (`nano100m_v3_funcworld_rope`, `nano20m_v3`, `nano20m_v3_funcworld` and 5 more). Backfilled 2026-09-26 from the cards' `seconds`; training and probe time were never recorded, so this is a floor.
 

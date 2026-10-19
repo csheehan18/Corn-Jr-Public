@@ -1,4 +1,6 @@
-# Thirty-sixth finding — the length confound is real, it is small, and turn 1 was the control sitting in the file the whole time
+# Reply length inflates the measured style gain, but the gain survives
+
+**Full result:** The length confound is real, it is small, and turn 1 was the control sitting in the file the whole time
 
 **Cost:** 8.0 min of scoring on the 2 cards first cited here (`nano20m_v1_chat_seed2`, `nano20m_v1_seed2`); it also reads 2 cards scored for an earlier finding (`nano20m_v1`, `nano20m_v1_chat`). Backfilled 2026-09-26 from the cards' `seconds`; training and probe time were never recorded, so this is a floor.
 

@@ -1,4 +1,6 @@
-# One hundred and fifty-third finding — the state line's second seed: he writes the line again, 106 of 120, and the repeat does not fall under it -- at seed 2 a line present raises it, 59 to 74 hand-inserted and 66 under his own record, and averaged over four draws seed 1's fall shrinks from 21 to 8; the pre-registered read fails at both seeds, so the record is written and not read
+# He writes a summary of the conversation state but doesn't use it
+
+**Full result:** The state line's second seed: he writes the line again, 106 of 120, and the repeat does not fall under it -- at seed 2 a line present raises it, 59 to 74 hand-inserted and 66 under his own record, and averaged over four draws seed 1's fall shrinks from 21 to 8; the pre-registered read fails at both seeds, so the record is written and not read
 
 **Cost:** 31.2 min of training two nano runs (934 s and 938 s); 6.3 min of
 scoring two full cards (192 s and 188 s), with the `state` and `--state-history`

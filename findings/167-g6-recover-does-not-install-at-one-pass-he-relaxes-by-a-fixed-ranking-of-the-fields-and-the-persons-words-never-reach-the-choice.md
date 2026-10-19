@@ -1,4 +1,6 @@
-# One hundred and sixty-seventh finding — G6's recover rung does not install at one pass: when nothing fits he relaxes a limit by a fixed ranking of the field names, a different ranking at each seed, and the limit the person said they would bend on never reaches the choice -- paired 3 and 0 of 288 held-out, 0 and 0 of 144 trained, and his state at the pick carries the clause no better than an untrained net's
+# He can't learn which limit a person will relax
+
+**Full result:** G6's recover rung does not install at one pass: when nothing fits he relaxes a limit by a fixed ranking of the field names, a different ranking at each seed, and the limit the person said they would bend on never reaches the choice -- paired 3 and 0 of 288 held-out, 0 and 0 of 144 trained, and his state at the pick carries the clause no better than an untrained net's
 
 **Cost:** 41.5 min of training two nano runs (1,244 s and 1,249 s, contended -- the card at 36-41%, a bound; registered ~40 min), 52 s of probing, four `tool_copy_wide` cards in 34 s, the three control reads 117 s and the three hand reads 52 s on the card; the build -- generator, guard, probe, rows, configs -- about 15 min of CPU (12:47-13:02 on 2026-10-13), the read 13:45-13:55; registered ~50 min of card, actual ~46.
 

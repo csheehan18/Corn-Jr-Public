@@ -1,4 +1,6 @@
-# One hundred and seventy-fourth finding — a space after the menu's bracket, so the option is written in the request's own tokens, moves his default from a taste in place phrases to the first option listed (79% of picks) and leaves the binding exactly as unformed (209 of 400 on his own training traces); the phrase ranking was the spelling cost of a choice he had not learned
+# A space after the bracket shifts his default to the first option
+
+**Full result:** A space after the menu's bracket, so the option is written in the request's own tokens, moves his default from a taste in place phrases to the first option listed (79% of picks) and leaves the binding exactly as unformed (209 of 400 on his own training traces); the phrase ranking was the spelling cost of a choice he had not learned
 
 **Cost:** 19.3 min of training one nano run (1,157 s, contended -- the card at 30-40%, a bound), two reads at 15-18 s, one copy card 8 s, the control read 15 s, the free-decode hand read 7 s and the own-trace read ~7 s on the card; the build 14:02-14:07 on 2026-10-14, the chain 14:07-14:27, the read 14:27-14:28.
 

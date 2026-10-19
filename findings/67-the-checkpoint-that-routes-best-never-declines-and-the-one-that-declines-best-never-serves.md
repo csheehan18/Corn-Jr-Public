@@ -1,4 +1,6 @@
-# Sixty-seventh finding — the checkpoint that routes best never declines, and the one that declines best never serves
+# The best tool-router never declines; the best decliner never serves
+
+**Full result:** The checkpoint that routes best never declines, and the one that declines best never serves
 
 **Cost:** 0 s of new scoring on record; it reads 2 cards scored for an earlier finding (`corn_jr_260m`, `corn_jr_260m_ftextract`). Backfilled 2026-09-26 from the cards' `seconds`; training and probe time were never recorded, so this is a floor.
 

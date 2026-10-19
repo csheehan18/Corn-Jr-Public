@@ -1,4 +1,6 @@
-# Hundred-and-twenty-first finding — with the mood-prefixed calls cut, the routing pair returns to arm 4's band and the consolation row holds at 7 of 28, novel decline reads 31 of 32, and the class was the whole cost
+# Cutting mood-prefixed search calls removes the whole cost
+
+**Full result:** With the mood-prefixed calls cut, the routing pair returns to arm 4's band and the consolation row holds at 7 of 28, novel decline reads 31 of 32, and the class was the whole cost
 
 **Cost:** 9.7 min of scoring on the 3 cards first cited here (`corn_jr_260m_v4_ft_social5b`, `corn_jr_260m_v4_ft_social5b__historygrid-0905ctl`, `corn_jr_260m_v4_ft_social5b__toolgrid`). Backfilled 2026-09-26 from the cards' `seconds`; training and probe time were never recorded, so this is a floor.
 

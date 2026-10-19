@@ -1,4 +1,6 @@
-# One hundred and seventy-fifth finding — the binding line he writes beside the request installs: he names the continuation the condition selects on 92-99% of held-out prompts, flip words and all, and the pick reads that line (95% on a met condition) -- but crossing the line with the result does not form: on an unmet condition he still takes the line's continuation 60% of the time, so the gate passes on one held-out side of three cells
+# He names the chosen branch, but can't combine it with the result
+
+**Full result:** The binding line he writes beside the request installs: he names the continuation the condition selects on 92-99% of held-out prompts, flip words and all, and the pick reads that line (95% on a met condition) -- but crossing the line with the result does not form: on an unmet condition he still takes the line's continuation 60% of the time, so the gate passes on one held-out side of three cells
 
 **Cost:** 20.8 min of training one nano run (1,245 s, contended -- the card at 38%, a bound), the three-way read 93 s, one gold-line read 16 s, one copy card 9 s, the control read 145 s and the own-trace read ~7 s on the card; the build 15:37-15:44 on 2026-10-14, the chain 15:44-16:05, the read 16:05-16:08.
 

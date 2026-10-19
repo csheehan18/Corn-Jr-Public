@@ -1,4 +1,6 @@
-# 86. The verifier that reads the span it verifies clears the verifier bar, and the re-ranker cannot choose better than the span head
+# A checker that reads the candidate answer works; re-ranking does not
+
+**Full result:** The verifier that reads the span it verifies clears the verifier bar, and the re-ranker cannot choose better than the span head
 
 **Cost:** 0 s of new scoring on record; it reads 1 card scored for an earlier finding (`corn_jr_260m_v4_ft4g`). Backfilled 2026-09-26 from the cards' `seconds`; training and probe time were never recorded, so this is a floor.
 

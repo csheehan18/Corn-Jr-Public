@@ -1,4 +1,6 @@
-# Hundred-and-nineteenth finding — arm 2's payload from the ft4g init lands inside arm 2's band on every social row with every frozen row unmoved, the square says arm 3's family drop was the hello anchoring and the extract lean is the init, and the init's cost is two novel declines of 32 and seven social moves of 36 after a tool turn
+# Fine-tuning from the shipped base: frozen scores hold, small social costs
+
+**Full result:** Arm 2's payload from the ft4g init lands inside arm 2's band on every social row with every frozen row unmoved, the square says arm 3's family drop was the hello anchoring and the extract lean is the init, and the init's cost is two novel declines of 32 and seven social moves of 36 after a tool turn
 
 **Cost:** 9.6 min of scoring on the 3 cards first cited here (`corn_jr_260m_v4_ft_social4`, `corn_jr_260m_v4_ft_social4__historygrid-0905ctl`, `corn_jr_260m_v4_ft_social4__toolgrid`). Backfilled 2026-09-26 from the cards' `seconds`; training and probe time were never recorded, so this is a floor.
 

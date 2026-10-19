@@ -1,4 +1,6 @@
-# Thirty-seventh finding — the turn-2 no-call class moved turn-2 abstention by exactly nothing, and took 17 items of tool choice with it
+# Training second-turn declines changed nothing and cost tool choice
+
+**Full result:** The turn-2 no-call class moved turn-2 abstention by exactly nothing, and took 17 items of tool choice with it
 
 **Cost:** 0 s of new scoring on record; it reads 1 card scored for an earlier finding (`nano20m_v1_chat`). Backfilled 2026-09-26 from the cards' `seconds`; training and probe time were never recorded, so this is a floor.
 

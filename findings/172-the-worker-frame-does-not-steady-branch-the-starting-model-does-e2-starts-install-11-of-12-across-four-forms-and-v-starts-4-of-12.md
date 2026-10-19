@@ -1,4 +1,6 @@
-# One hundred and seventy-second finding — the worker frame does not make branch reliable, and neither does what follows the pick; the starting model does: by fine-tune, arm E2's three starts install the binding on 11 of 12 runs across four trace forms and arm V's three on 4 of 12, while the forms read 3 to 5 of 6 each, inside their own noise
+# The starting model, not the trace format, makes branching reliable
+
+**Full result:** The worker frame does not make branch reliable, and neither does what follows the pick; the starting model does: by fine-tune, arm E2's three starts install the binding on 11 of 12 runs across four trace forms and arm V's three on 4 of 12, while the forms read 3 to 5 of 6 each, inside their own noise
 
 **Cost:** 24 fine-tunes of 650 iterations at 20M (143-144 s each, contended -- the card at 38-40%, a bound), the 12 start reads and 30 run reads at ~18 s, 24 `tool_copy_wide` cards at ~10 s, and a terminator re-score of the six worker runs (147 s): two chains, 11:35-12:12 and 12:20-13:00 on 2026-10-14, with ~35 min of CPU build beside them (11:31-11:35, 12:12-12:20).
 

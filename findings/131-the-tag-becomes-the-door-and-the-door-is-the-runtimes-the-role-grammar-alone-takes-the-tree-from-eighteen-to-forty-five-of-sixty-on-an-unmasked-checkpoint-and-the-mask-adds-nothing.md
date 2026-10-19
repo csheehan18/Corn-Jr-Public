@@ -1,4 +1,6 @@
-# One hundred and thirty-first finding — the tag becomes the door, and the door is the runtime's: the role grammar alone takes the whole tree from eighteen and twenty-four to forty-five and fifty-one of sixty on an unmasked checkpoint, the structural mask costs nothing and adds nothing measurable, a forged tag is obeyed thirty-six of thirty-six once the copy is bound, and a follow-up composes what no copy slot can source
+# Once the runtime enforces the label, a forged one is obeyed 36/36
+
+**Full result:** The tag becomes the door, and the door is the runtime's: the role grammar alone takes the whole tree from eighteen and twenty-four to forty-five and fifty-one of sixty on an unmasked checkpoint, the structural mask costs nothing and adds nothing measurable, a forged tag is obeyed thirty-six of thirty-six once the copy is bound, and a follow-up composes what no copy slot can source
 
 PLAN-TAG-SPINE rung 1 and the tail of rung 0, read 2026-09-12. Two nano
 arms, `S` at two seeds, trained on arm B's file byte for byte under the

@@ -1,4 +1,6 @@
-# Forty-third finding — the two extra seeds were already on disk, and the floor they measure retires three readings
+# Two extra seeds already on disk retire three earlier readings
+
+**Full result:** The two extra seeds were already on disk, and the floor they measure retires three readings
 
 **Cost:** 4.5 min of scoring on the 1 card first cited here (`nano20m_v1_seed4`); it also reads 5 cards scored for an earlier finding (`nano100m_v1`, `nano20m_v1`, `nano20m_v1_chat` and 2 more). Backfilled 2026-09-26 from the cards' `seconds`; training and probe time were never recorded, so this is a floor.
 

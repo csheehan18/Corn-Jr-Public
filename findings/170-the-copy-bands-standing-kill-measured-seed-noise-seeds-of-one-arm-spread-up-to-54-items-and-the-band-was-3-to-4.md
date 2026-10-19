@@ -1,4 +1,6 @@
-# One hundred and seventieth finding — the copy band's standing kill measured seed noise: seeds of one arm on identical data spread 0 to 54 items of 300 on `tool.copy_wide` (median 8, 90th percentile 20), the kill's band was a binomial 3 to 4, and the two kills it reported on the ladder (findings 168 and 169) are not readable
+# The copy test's failure threshold was measuring seed noise
+
+**Full result:** The copy band's standing kill measured seed noise: seeds of one arm on identical data spread 0 to 54 items of 300 on `tool.copy_wide` (median 8, 90th percentile 20), the kill's band was a binomial 3 to 4, and the two kills it reported on the ladder (findings 168 and 169) are not readable
 
 **Cost:** 2.3 min of `tool_copy_wide` cards on the 16 family checkpoints that had none (8-9 s each, contended -- the card at 38%, a bound), on 2026-10-14 between 09:23 and 09:27; the tabulation, the guard and the filing on CPU, to 09:29.
 

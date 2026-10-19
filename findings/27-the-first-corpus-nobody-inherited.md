@@ -1,4 +1,6 @@
-# Twenty-seventh finding — the first corpus nobody inherited, and a row that prices the mix rather than its slice
+# The first data mix with every share measured, not guessed
+
+**Full result:** The first corpus nobody inherited, and a row that prices the mix rather than its slice
 
 **Cost:** 0 s of new scoring on record; it reads 2 cards scored for an earlier finding (`nano20m_narrative10`, `nano20m_struct`). Backfilled 2026-09-26 from the cards' `seconds`; training and probe time were never recorded, so this is a floor.
 

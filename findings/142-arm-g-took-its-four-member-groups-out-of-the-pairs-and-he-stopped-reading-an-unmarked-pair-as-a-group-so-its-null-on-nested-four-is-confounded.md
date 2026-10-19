@@ -1,4 +1,6 @@
-# One hundred and forty-second finding — arm G took its four-member groups out of the pairs, and he stopped reading an unmarked pair as a group: he writes a lookup-and-deliver with an invented consumer instead, so the trained nesting falls and the pre-registered null on nested four is confounded rather than read
+# Removing four-member groups from training broke nesting another way
+
+**Full result:** Arm G took its four-member groups out of the pairs, and he stopped reading an unmarked pair as a group: he writes a lookup-and-deliver with an invented consumer instead, so the trained nesting falls and the pre-registered null on nested four is confounded rather than read
 
 **Cost:** 6.9 min of scoring on the 1 card first cited here (`nano20m_v3_fw_ladder`). Backfilled 2026-09-26 from the cards' `seconds`; training and probe time were never recorded, so this is a floor.
 

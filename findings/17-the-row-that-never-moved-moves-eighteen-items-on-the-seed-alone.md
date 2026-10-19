@@ -1,4 +1,6 @@
-# Seventeenth finding — the row that never moved moves eighteen items on the seed alone
+# One test moved 18 items on the random seed alone
+
+**Full result:** The row that never moved moves eighteen items on the seed alone
 
 **Cost:** 7.1 min of scoring on the 2 cards first cited here (`nano20m_balanced_seed2`, `nano20m_narr10_temp11`); it also reads 1 card scored for an earlier finding (`nano20m_balanced`). Backfilled 2026-09-26 from the cards' `seconds`; training and probe time were never recorded, so this is a floor.
 

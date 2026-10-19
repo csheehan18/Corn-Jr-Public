@@ -1,4 +1,6 @@
-# Eightieth finding — the class installs every time, and what buys back the class it contradicts is that class's own slice
+# Contradicting a trained behaviour needs that behaviour's data replayed
+
+**Full result:** The class installs every time, and what buys back the class it contradicts is that class's own slice
 
 **Cost:** 0 s of new scoring on record; it reads 1 card scored for an earlier finding (`corn_jr_260m_v4`). Backfilled 2026-09-26 from the cards' `seconds`; training and probe time were never recorded, so this is a floor.
 

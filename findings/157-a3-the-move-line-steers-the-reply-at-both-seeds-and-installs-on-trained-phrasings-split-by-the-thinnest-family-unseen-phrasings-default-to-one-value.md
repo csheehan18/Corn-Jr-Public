@@ -1,4 +1,6 @@
-# One hundred and fifty-seventh finding — A3, the move line: written before the say, it steers the reply at both seeds (a forced move that is not the item's own is followed 509 and 552 of 580 times against 133 and 182 off), it beats the regex it would replace, and it costs no routing row at both seeds; the install gate splits, 84% and 64% of trained phrasings, carried by the thinnest family; unseen phrasings default to one value, and the reply follows the wrong label as faithfully as the right one
+# Writing his move first steers the reply and beats the old regex
+
+**Full result:** A3, the move line: written before the say, it steers the reply at both seeds (a forced move that is not the item's own is followed 509 and 552 of 580 times against 133 and 182 off), it beats the regex it would replace, and it costs no routing row at both seeds; the install gate splits, 84% and 64% of trained phrasings, carried by the thinnest family; unseen phrasings default to one value, and the reply follows the wrong label as faithfully as the right one
 
 **Cost:** 60.0 min of training four nano runs (14.9-15.1 min each, `card_cost.py`; registered at ~16 min) and 13.5 min of scoring four standard cards; `probe_move.py` about 1 min a checkpoint, its post hoc pass about 26 s, the repeat probe 12-15 s; two mix builds about 10 min on the CPU; the build and the rulers' floors about 45 min (17:01-18:55 on 2026-10-09 end to end, against a registered ~1.5 h of card time -- the card time came in at ~1.4 h).
 

@@ -1,4 +1,6 @@
-# One hundred and thirty-ninth finding — arm A at one seed: blocks aligned to transcript starts move the level-1 cursor from 558 to 639 of 772 and cut invented spans by a fifth, short of the pre-registered third, lift unseen entities by nine and trained shapes by one, cost held-out carriers four and the deep cells ten, and put the copy band under its kill line on one of six answers, where a copied person's name comes back as an invented entity
+# Aligning training blocks to transcript starts helps parsing, short of target
+
+**Full result:** Arm A at one seed: blocks aligned to transcript starts move the level-1 cursor from 558 to 639 of 772 and cut invented spans by a fifth, short of the pre-registered third, lift unseen entities by nine and trained shapes by one, cost held-out carriers four and the deep cells ten, and put the copy band under its kill line on one of six answers, where a copied person's name comes back as an invented entity
 
 **Cost:** 15.1 min of scoring on the 2 cards first cited here (`nano20m_v3_fw_b1024_alignA`, `nano20m_v3_fw_b1024_alignA_seed2`); it also reads 1 card scored for an earlier finding (`nano20m_v3_fw_b1024`). Backfilled 2026-09-26 from the cards' `seconds`; training and probe time were never recorded, so this is a floor.
 

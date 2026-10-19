@@ -1,4 +1,6 @@
-# Sixty-third finding — the phrasings were never the problem, and the arm without them fixed all twenty-five
+# Fresh tool training, not new phrasings, fixed search routing
+
+**Full result:** The phrasings were never the problem, and the arm without them fixed all twenty-five
 
 **Cost:** 12.5 min of scoring on the 1 card first cited here (`corn_jr_260m_ftwide_seed2`); it also reads 1 card scored for an earlier finding (`corn_jr_260m`). Backfilled 2026-09-26 from the cards' `seconds`; training and probe time were never recorded, so this is a floor.
 

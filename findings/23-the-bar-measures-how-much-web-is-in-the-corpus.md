@@ -1,4 +1,6 @@
-# Twenty-third finding — the bar measures how much web is in the corpus
+# The vocabulary test really measures how much web text is mixed in
+
+**Full result:** The bar measures how much web is in the corpus
 
 §5.0 measured five slices in isolation, rejected narrative at 6,863 distinct words, and has
 gated the conversational search ever since. **What it never measured is the blend** — and no

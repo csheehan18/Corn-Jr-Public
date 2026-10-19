@@ -1,4 +1,6 @@
-# Ninety-ninth finding — the listwise verifier makes cross-window outranking worse on both seeds, so B2 fails the bar it was written for, and the metric it was pre-registered to be selected on ranks the three arms in exactly the reverse of how Population A ranks them, twice
+# Ranking candidates together makes the checker worse on both seeds
+
+**Full result:** The listwise verifier makes cross-window outranking worse on both seeds, so B2 fails the bar it was written for, and the metric it was pre-registered to be selected on ranks the three arms in exactly the reverse of how Population A ranks them, twice
 
 **Cost:** 0 s of new scoring on record; it reads 1 card scored for an earlier finding (`corn_jr_260m_v4_ft4g`). Backfilled 2026-09-26 from the cards' `seconds`; training and probe time were never recorded, so this is a floor.
 

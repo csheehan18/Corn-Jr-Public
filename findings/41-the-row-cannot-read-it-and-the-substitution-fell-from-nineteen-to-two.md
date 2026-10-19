@@ -1,4 +1,6 @@
-# Forty-first finding — the row cannot read this arm, and underneath it the substitution fell from 19 to 2
+# Too noisy to read; underneath, wrong contact names fell 19 to 2
+
+**Full result:** The row cannot read this arm, and underneath it the substitution fell from 19 to 2
 
 **Cost:** 4.4 min of scoring on the 1 card first cited here (`nano20m_v1_seed3`). Backfilled 2026-09-26 from the cards' `seconds`; training and probe time were never recorded, so this is a floor.
 

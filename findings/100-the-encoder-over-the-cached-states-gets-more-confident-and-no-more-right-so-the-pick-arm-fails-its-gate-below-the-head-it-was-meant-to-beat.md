@@ -1,4 +1,6 @@
-# Hundredth finding — two bidirectional encoder layers over the cached window states buy the pick nothing: the arm peaks below the head it was meant to beat, misses its pre-registered gate by nine points, and spends every later epoch getting more confident and no more right
+# Two bidirectional layers over the reader add nothing
+
+**Full result:** Two bidirectional encoder layers over the cached window states buy the pick nothing: the arm peaks below the head it was meant to beat, misses its pre-registered gate by nine points, and spends every later epoch getting more confident and no more right
 
 **Cost:** 0 s of new scoring on record; it reads 1 card scored for an earlier finding (`corn_jr_260m_v4_ft4g`). Backfilled 2026-09-26 from the cards' `seconds`; training and probe time were never recorded, so this is a floor.
 

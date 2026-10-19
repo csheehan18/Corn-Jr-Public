@@ -1,4 +1,6 @@
-# Ninety-eighth finding — the generated frame names a relation the question never carried on three quarters of the frames that carry an anchor, and inverts 29.3% there against the hand-written lexicon's 17.4%, so the frame moved the confabulation upstream; it also fires on no window at all three times as often as the lexicon, makes a call on 10.7% of the population against the lexicon's 18.8%, and misses both pre-registered bars
+# A generated question frame invents relations more than a hand-written one
+
+**Full result:** The generated frame names a relation the question never carried on three quarters of the frames that carry an anchor, and inverts 29.3% there against the hand-written lexicon's 17.4%, so the frame moved the confabulation upstream; it also fires on no window at all three times as often as the lexicon, makes a call on 10.7% of the population against the lexicon's 18.8%, and misses both pre-registered bars
 
 **The frame moved the confabulation upstream.** 75.7% of the frames that carry
 an anchor at all name a relation the question never used, and on the subset of

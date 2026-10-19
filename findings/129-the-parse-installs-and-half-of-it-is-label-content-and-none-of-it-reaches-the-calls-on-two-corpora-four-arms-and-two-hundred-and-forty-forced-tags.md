@@ -1,4 +1,6 @@
-# One hundred and twenty-ninth finding — he learns to write the parse, half of it is label and not position, and not one of two hundred and forty forced tags moves a call
+# He learns to label his own request; forcing labels doesn't change calls
+
+**Full result:** He learns to write the parse, half of it is label and not position, and not one of two hundred and forty forced tags moves a call
 
 **Cost:** 2.8 min of scoring on the 1 card first cited here (`nano20m_v3_compiled`); it also reads 1 card scored for an earlier finding (`nano20m_v3`). Backfilled 2026-09-26 from the cards' `seconds`; training and probe time were never recorded, so this is a floor.
 

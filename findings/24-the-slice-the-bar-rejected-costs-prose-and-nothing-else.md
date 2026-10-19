@@ -1,4 +1,6 @@
-# Twenty-fourth finding — the slice the bar rejected costs prose and nothing else
+# The rejected dialogue data costs prose quality and nothing else
+
+**Full result:** The slice the bar rejected costs prose and nothing else
 
 **Cost:** 4.5 min of scoring on the 1 card first cited here (`nano20m_conv20`); it also reads 1 card scored for an earlier finding (`nano20m_narrative10`). Backfilled 2026-09-26 from the cards' `seconds`; training and probe time were never recorded, so this is a floor.
 

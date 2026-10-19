@@ -1,4 +1,6 @@
-# Hundred-and-twenty-second finding — the second social turn installs and lifts the first: declared abstention reads 111 of 112, the consolation row 11 of 28, nothing reissues under a social history, the turn-2 rows do not move, and the one cost is that the router now speaks on questions about his life and half of what it says is SODA's
+# The second social turn installs and lifts the first
+
+**Full result:** The second social turn installs and lifts the first: declared abstention reads 111 of 112, the consolation row 11 of 28, nothing reissues under a social history, the turn-2 rows do not move, and the one cost is that the router now speaks on questions about his life and half of what it says is SODA's
 
 **Cost:** 9.7 min of scoring on the 3 cards first cited here (`corn_jr_260m_v4_ft_social7`, `corn_jr_260m_v4_ft_social7__historygrid-0905ctl`, `corn_jr_260m_v4_ft_social7__toolgrid`). Backfilled 2026-09-26 from the cards' `seconds`; training and probe time were never recorded, so this is a floor.
 

@@ -1,4 +1,6 @@
-# Twenty-eighth finding — routing was template matching, deference was not, and the difference is one token
+# Tool routing was template matching; deferring to the tool was not
+
+**Full result:** Routing was template matching, deference was not, and the difference is one token
 
 **Cost:** 9.2 min of scoring on the 2 cards first cited here (`nano20m_v1`, `nano20m_v1_wide`); it also reads 1 card scored for an earlier finding (`nano20m_conv20`). Backfilled 2026-09-26 from the cards' `seconds`; training and probe time were never recorded, so this is a floor.
 

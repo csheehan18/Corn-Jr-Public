@@ -1,4 +1,6 @@
-# Twelfth finding — the copy discipline does not generalise, and the corpus is why
+# Copying fails to generalise because the training facts were memorisable
+
+**Full result:** The copy discipline does not generalise, and the corpus is why
 
 > **Superseded by the thirteenth finding, which acted on this one's diagnosis and reversed its
 > headline.** Everything below stands as measured; what it could not know is that the cause it

@@ -1,4 +1,6 @@
-# 87. The reader head ships, and the runtime reads what the replay said it would to the passage
+# The passage reader ships: 389 of 721 right, up 107
+
+**Full result:** The reader head ships, and the runtime reads what the replay said it would to the passage
 
 **Cost:** 0 s of new scoring on record; it reads 1 card scored for an earlier finding (`corn_jr_260m_v4_ft4g`). Backfilled 2026-09-26 from the cards' `seconds`; training and probe time were never recorded, so this is a floor.
 

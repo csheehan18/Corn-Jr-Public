@@ -1,4 +1,6 @@
-# Seventy-second finding — "capital of Mongolia" means capital punishment until the sort stops helping, and a surname counts toward its whole name
+# Search returned 'capital punishment' for 'capital of Mongolia'; fixed
+
+**Full result:** "capital of Mongolia" means capital punishment until the sort stops helping, and a surname counts toward its whole name
 
 **Cost:** 0 s of new scoring on record; it reads 1 card scored for an earlier finding (`corn_jr_260m_ftextract`). Backfilled 2026-09-26 from the cards' `seconds`; training and probe time were never recorded, so this is a floor.
 

@@ -1,4 +1,6 @@
-# Seventy-first finding — finishing the chain converts silence into recitation, and the hard zero that held at every size goes to 26 of 26
+# Giving memory-lookup calls real results turns silence into recitation
+
+**Full result:** Finishing the chain converts silence into recitation, and the hard zero that held at every size goes to 26 of 26
 
 **Cost:** 8.5 min of scoring on the 2 cards first cited here (`nano20m_v1_daylog`, `nano20m_v1_daylog_seed2`); it also reads 1 card scored for an earlier finding (`nano20m_v1`). Backfilled 2026-09-26 from the cards' `seconds`; training and probe time were never recorded, so this is a floor.
 

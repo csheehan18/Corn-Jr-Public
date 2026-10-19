@@ -1,4 +1,6 @@
-# One hundred and thirty-fourth finding — he learns to write the state line at nano, sixty-seven and a hundred and one of a hundred and twenty from a floor of one, a value comes from whichever slice carries it, a line merely present moves the repeat on the cells trained on it and not on the others, the line he writes reads as a hand-inserted one on the cell that writes it whole, and the first scoring read zero because the prompt ended on a space token the corpus never wrote
+# He learns to write a summary line of conversation state
+
+**Full result:** He learns to write the state line at nano, sixty-seven and a hundred and one of a hundred and twenty from a floor of one, a value comes from whichever slice carries it, a line merely present moves the repeat on the cells trained on it and not on the others, the line he writes reads as a hand-inserted one on the cell that writes it whole, and the first scoring read zero because the prompt ended on a space token the corpus never wrote
 
 **Cost:** 0 s of new scoring on record; it reads 1 card scored for an earlier finding (`nano20m_v3_turn2`). Backfilled 2026-09-26 from the cards' `seconds`; training and probe time were never recorded, so this is a floor.
 

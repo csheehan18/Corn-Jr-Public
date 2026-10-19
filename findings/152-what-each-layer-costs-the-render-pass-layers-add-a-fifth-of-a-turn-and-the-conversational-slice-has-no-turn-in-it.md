@@ -1,4 +1,6 @@
-# One hundred and fifty-second finding — what each layer of the language costs: on v0.5's own corpus the four render-pass layers add 21 tokens to a 96-token turn and 4.6% to the mix, the parse line is 5.5 of his 30.7 decode steps, and the conversational slice the spec counts as turn-shaped has no turn in it
+# What each layer of the tag language costs in tokens
+
+**Full result:** What each layer of the language costs: on v0.5's own corpus the four render-pass layers add 21 tokens to a 96-token turn and 4.6% to the mix, the parse line is 5.5 of his 30.7 decode steps, and the conversational slice the spec counts as turn-shaped has no turn in it
 
 **Cost:** CPU only. `scripts/price_layers.py` runs in ~22 s; building it, the
 survey's `--nested` mode, two hand-read rounds and this write-up took about

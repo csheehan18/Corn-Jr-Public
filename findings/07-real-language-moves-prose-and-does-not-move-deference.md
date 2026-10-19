@@ -1,4 +1,6 @@
-# Seventh finding — real language moves prose, and does not move deference
+# Real web text improves prose but not using the tool's answer
+
+**Full result:** Real language moves prose, and does not move deference
 
 **Cost:** 70 s of scoring on the 1 card first cited here (`nano20m_web`); it also reads 2 cards scored for an earlier finding (`nano20m`, `nano20m_pilot`). Backfilled 2026-09-26 from the cards' `seconds`; training and probe time were never recorded, so this is a floor.
 

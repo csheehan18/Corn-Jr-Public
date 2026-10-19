@@ -1,4 +1,6 @@
-# Seventieth finding — the paired-property row exists, and the first-taker rule survives being put on a frozen file
+# The first-value rule holds on a new fixed test set
+
+**Full result:** The paired-property row exists, and the first-taker rule survives being put on a frozen file
 
 **Cost:** 0 s of new scoring on record; it reads 1 card scored for an earlier finding (`corn_jr_260m`). Backfilled 2026-09-26 from the cards' `seconds`; training and probe time were never recorded, so this is a floor.
 

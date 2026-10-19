@@ -1,4 +1,6 @@
-# Sixty-fifth finding — extraction installs by fine-tune at 260M, and the sixth finding's boundary does not hold here
+# Fine-tuning installs extraction at 260M from zero
+
+**Full result:** Extraction installs by fine-tune at 260M, and the sixth finding's boundary does not hold here
 
 **Cost:** 12.5 min of scoring on the 1 card first cited here (`corn_jr_260m_ftnarrow`); it also reads 1 card scored for an earlier finding (`corn_jr_260m`). Backfilled 2026-09-26 from the cards' `seconds`; training and probe time were never recorded, so this is a floor.
 

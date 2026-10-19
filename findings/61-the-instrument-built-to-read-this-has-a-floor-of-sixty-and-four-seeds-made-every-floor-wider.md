@@ -1,4 +1,6 @@
-# Sixty-first finding — the instrument built to read this has a floor of sixty, and four seeds made every floor wider
+# The phrasing test itself has noise of sixty items
+
+**Full result:** The instrument built to read this has a floor of sixty, and four seeds made every floor wider
 
 P3-B1, run 2026-08-26. Four arm seeds against four control seeds, 1,112s each,
 paired seed for seed (1337–1340). `configs/mix_v3_p3b1.py` carries the

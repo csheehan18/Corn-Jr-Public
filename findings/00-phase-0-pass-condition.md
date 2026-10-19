@@ -1,4 +1,6 @@
-# Phase 0 pass condition — met
+# The small training pipeline runs end to end with no code changes
+
+**Full result:** Phase 0 pass condition — met
 
 **Cost:** 2.3 min of scoring on the 1 card first cited here (`nano20m`). Backfilled 2026-09-26 from the cards' `seconds`; training and probe time were never recorded, so this is a floor.
 

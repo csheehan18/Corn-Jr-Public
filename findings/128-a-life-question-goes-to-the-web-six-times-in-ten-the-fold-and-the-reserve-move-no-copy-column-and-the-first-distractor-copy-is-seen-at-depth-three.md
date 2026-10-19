@@ -1,4 +1,6 @@
-# Hundred-and-twenty-eighth finding — the family check and the life hatch land with the card reading them: a question about his life goes to the web on six to eight turns in ten, the fold and the reserve move no copy column on the checkpoint that copies, the first distractor copy is seen at depth three, and a lookup history costs the next social move a third of its answers
+# Questions about his life go to the web six times in ten
+
+**Full result:** The family check and the life hatch land with the card reading them: a question about his life goes to the web on six to eight turns in ten, the fold and the reserve move no copy column on the checkpoint that copies, the first distractor copy is seen at depth three, and a lookup history costs the next social move a third of its answers
 
 **Cost:** 3.1 min of scoring on the 2 cards first cited here (`corn_jr_260m_v4_ft4g__historygrid-0905ctl`, `corn_jr_260m_v4_ft_social3__historygrid-0905ctl`); it also reads 3 cards scored for an earlier finding (`corn_jr_260m_v4_ft4g`, `corn_jr_260m_v4_ft_social2`, `corn_jr_260m_v4_ft_social3`). Backfilled 2026-09-26 from the cards' `seconds`; training and probe time were never recorded, so this is a floor.
 

@@ -1,4 +1,6 @@
-# Hundred-and-eleventh finding — the second view of an occurrence is right on a quarter of the first view's misses and averaging the two loses ten passages a seed, rivals are mentioned as rarely as golds, self-agreement across the overlap adds nothing to the margin, and a gold within three tokens of a cut edge is picked ten points less often on both seeds
+# Overlapping windows add nothing; answers near a cut edge are missed
+
+**Full result:** The second view of an occurrence is right on a quarter of the first view's misses and averaging the two loses ten passages a seed, rivals are mentioned as rarely as golds, self-agreement across the overlap adds nothing to the margin, and a gold within three tokens of a cut edge is picked ten points less often on both seeds
 
 2026-09-04. **Replay only** — no GPU, no decode, no weight read.
 `scripts/probe_two_views.py` (new) over `nullpr_s{1,2}_popa.json`,

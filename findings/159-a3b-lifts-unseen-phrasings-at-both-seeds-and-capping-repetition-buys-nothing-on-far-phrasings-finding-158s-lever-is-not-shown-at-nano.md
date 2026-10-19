@@ -1,4 +1,6 @@
-# One hundred and fifty-ninth finding — A3b and finding 158's pair: more ways of saying each move holds unseen phrasings at 40 and 38 of 100 at both seeds (A3: 32 and 20) and installs at both, a direction by A3b's table; capping how often any wording is seen buys nothing on far phrasings -- level at one seed, unreadable at the other, both arms running on the seed's default label -- so finding 158's lever is not shown at nano, no guard is built, and its family contrast fails
+# More ways to phrase each move helps unseen phrasings modestly
+
+**Full result:** A3b and finding 158's pair: more ways of saying each move holds unseen phrasings at 40 and 38 of 100 at both seeds (A3: 32 and 20) and installs at both, a direction by A3b's table; capping how often any wording is seen buys nothing on far phrasings -- level at one seed, unreadable at the other, both arms running on the seed's default label -- so finding 158's lever is not shown at nano, no guard is built, and its family contrast fails
 
 **Cost:** 93.9 min of training six nano runs (15.1-16.5 min each, contended -- the card sat at 35% before the chain, so a bound); 7.4 min of scoring two standard cards; `probe_move.py` 6.4 min, the tag scorings 1 min and the repeat probe 0.5 min over the six; the chain 11:27-13:17 on 2026-10-10 end to end, against a registered ~45 + ~65 min of card.
 

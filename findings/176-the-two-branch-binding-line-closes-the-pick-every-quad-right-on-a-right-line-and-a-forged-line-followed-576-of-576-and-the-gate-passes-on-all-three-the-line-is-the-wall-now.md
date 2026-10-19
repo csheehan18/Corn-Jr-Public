@@ -1,4 +1,6 @@
-# One hundred and seventy-sixth finding — the binding line naming both branches closes the pick: on a right line every quad of all three cells is right and a forged line is followed on 1,727 of 1,728 prompts, and with his own line the gate passes on all three cells for the first time (82, 49 and 49 quads against 14) -- what is left is writing the line, whose first slot fell from 0.94 to 0.70 with the second slot beside it, all of the fall in the negated families (0.97 to 0.45)
+# Naming both branches fixes the pick but blurs 'not'
+
+**Full result:** The binding line naming both branches closes the pick: on a right line every quad of all three cells is right and a forged line is followed on 1,727 of 1,728 prompts, and with his own line the gate passes on all three cells for the first time (82, 49 and 49 quads against 14) -- what is left is writing the line, whose first slot fell from 0.94 to 0.70 with the second slot beside it, all of the fall in the negated families (0.97 to 0.45)
 
 **Cost:** 20.8 min of training one nano run (1,246 s, contended -- the card at 36-39%, a bound), the three-way read 129 s, one gold-line read 16 s, one copy card 9 s, the control read 147 s, the own-trace read ~7 s and the runtime-else read 109 s on the card; the build 16:18-16:23 on 2026-10-14, the chain 16:23-16:45, the reads 16:45-16:50 and (the runtime-else read) 2026-10-17.
 

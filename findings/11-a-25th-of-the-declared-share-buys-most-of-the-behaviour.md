@@ -1,4 +1,6 @@
-# Eleventh finding — a 25th of the declared share buys most of the behaviour
+# A twenty-fifth of the planned tool data buys most of the behaviour
+
+**Full result:** A 25th of the declared share buys most of the behaviour
 
 **Cost:** 7.6 min of scoring on the 2 cards first cited here (`nano20m_tools15`, `nano20m_tools_1pass`); it also reads 1 card scored for an earlier finding (`nano20m_web_bpe`). Backfilled 2026-09-26 from the cards' `seconds`; training and probe time were never recorded, so this is a floor.
 

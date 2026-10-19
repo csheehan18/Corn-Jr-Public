@@ -1,4 +1,6 @@
-# Hundred-and-twentieth finding — the consolation family moves 1 to 6 of 28 and pays six items on each half of the routing pair, every loss `called_web_search` rising through its own mood-prefixed balancing class; and the in-session rater keeps 1,873 of 17,459 lines for a pool 1.44x wider at 1.18x the words, so arm 6 does not run by its own bar
+# Consolation replies barely move and cost tool routing
+
+**Full result:** The consolation family moves 1 to 6 of 28 and pays six items on each half of the routing pair, every loss `called_web_search` rising through its own mood-prefixed balancing class; and the in-session rater keeps 1,873 of 17,459 lines for a pool 1.44x wider at 1.18x the words, so arm 6 does not run by its own bar
 
 **Cost:** 9.7 min of scoring on the 3 cards first cited here (`corn_jr_260m_v4_ft_social5`, `corn_jr_260m_v4_ft_social5__historygrid-0905ctl`, `corn_jr_260m_v4_ft_social5__toolgrid`). Backfilled 2026-09-26 from the cards' `seconds`; training and probe time were never recorded, so this is a floor.
 

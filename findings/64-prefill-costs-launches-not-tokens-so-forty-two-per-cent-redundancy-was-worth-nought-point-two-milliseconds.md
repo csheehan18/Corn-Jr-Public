@@ -1,4 +1,6 @@
-# Sixty-fourth finding — prefill costs launches, not tokens, so 42% redundancy was worth 0.22 ms
+# Re-reading the prompt each round costs launches, not tokens: 0.22 ms
+
+**Full result:** Prefill costs launches, not tokens, so 42% redundancy was worth 0.22 ms
 
 **Cost:** 0 s of new scoring on record; it reads 1 card scored for an earlier finding (`corn_jr_260m`). Backfilled 2026-09-26 from the cards' `seconds`; training and probe time were never recorded, so this is a floor.
 

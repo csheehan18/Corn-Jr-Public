@@ -1,4 +1,6 @@
-# Fourteenth finding — the same bug, a third time, and the rule it settles into
+# The JSON data taught the format but not copying field names
+
+**Full result:** The same bug, a third time, and the rule it settles into
 
 DATA.md §4's structured-formats slice is 10% of the budget, for "schema-constrained decoding
 (§6) needs priors". `corn/structured.py` generates it: a form declares some fields and types,

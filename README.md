@@ -7,14 +7,20 @@ for it: the tokenizer, the training corpus, the model, and the runtime around
 it. It all runs on a single RTX 3080.
 
 The project is also a research log. Every experiment gets a numbered write-up
-called a **finding**, and there are 178 of them here. They record what I
+called a **finding**, and there are 181 of them here. They record what I
 expected, what happened, and what I got wrong, including the experiments that
 failed. This repo holds those findings and the runtime code. The training code
 and weights are not included yet.
 
+Each finding opens with a one-line headline in plain English, and the
+[findings index](findings/README.md) lists all 181 that way. Under the
+headline, a finding is a working record written in the project's own
+vocabulary; [GLOSSARY.md](GLOSSARY.md) explains every in-house word in one
+sentence.
+
 ## Start here
 
-You don't need to read 178 findings. These are the ones I'd point anyone to
+You don't need to read 181 findings. These are the ones I'd point anyone to
 first, grouped by what they taught me.
 
 ### Models take the cheapest route the data allows
@@ -71,6 +77,16 @@ first, grouped by what they taught me.
   right one works for the first time. Writing the longer plan got harder,
   though, especially for negated conditions. 177 tested one explanation for
   that and ruled it out.
+- **[Findings 178](findings/178-a-second-slot-in-the-binding-line-blinds-him-to-not-structural-at-both-seeds-from-the-slot-itself-with-or-without-the-pick-while-unless-survives.md),
+  [179](findings/179-by-fine-tune-the-one-slot-line-reads-every-flip-word-with-the-pick-out-of-his-loss-the-complement-never-forms-and-real-sentences-in-new-structures-fail.md)
+  and [180](findings/180-with-the-runtime-writing-the-menu-in-his-lines-order-branch-is-his-pick-and-both-halves-excel-the-other-one-864-of-864-and-own-quads-141-to-144-at-three-starts.md),
+  the rest of that story.** 178 found the cause: naming the second branch in
+  the plan is what made the model blind to "not". 179 went back to the
+  one-branch plan and, by fine-tune, it read every condition word, "not" and
+  "unless" included, at 0.98 to 1.00. 180 kept the choice with the model and
+  had the runtime list the options in the order the plan names them. Picking
+  "the other one" when the condition fails was right on 864 of 864 prompts on
+  all three starting models.
 
 ## How the research is run
 
@@ -94,7 +110,8 @@ a claim about the model.
 
 | Folder | What it is |
 |---|---|
-| [`findings/`](findings/) | All 178 findings. [`findings/README.md`](findings/README.md) is the full index. |
+| [`findings/`](findings/) | All 181 findings. [`findings/README.md`](findings/README.md) is the full index, one plain headline each. |
+| [`GLOSSARY.md`](GLOSSARY.md) | Every in-house word the findings use, one sentence each. |
 | [`harness/`](harness/) | The runtime: the server, tool backends, the local web app ("the studio"), the voice client, and the evaluation suites. |
 | [`corn/`](corn/) | The parts of the model code the runtime needs: the model, decoding, tools, and the answer reader. |
 | [`tokenizers/`](tokenizers/) | The tokenizer the model was trained with. |

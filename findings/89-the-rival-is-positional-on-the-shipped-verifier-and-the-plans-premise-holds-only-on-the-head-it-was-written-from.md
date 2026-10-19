@@ -1,4 +1,6 @@
-# Eighty-ninth finding — the rival is positional on the shipped verifier, §6.3's premise fails there and holds only on the head it was written from, and the position prior is earned
+# Wrong rival answers are mostly about position on the shipped checker
+
+**Full result:** The rival is positional on the shipped verifier, §6.3's premise fails there and holds only on the head it was written from, and the position prior is earned
 
 `scripts/probe_reader_position.py` and `scripts/probe_verifier_position.py`,
 2026-09-03. **Replay only** -- no GPU, no decode, no weight read, no tokenizer

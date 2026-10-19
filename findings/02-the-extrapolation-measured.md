@@ -1,4 +1,6 @@
-# Second finding — the extrapolation, measured
+# Decode speed is launch overhead per layer; CUDA graphs remove most
+
+**Full result:** The extrapolation, measured
 
 The above was a projection from two small models. Decode speed doesn't depend on the weights
 being any good, so it didn't have to stay one: `bench.py --config` now builds an untrained

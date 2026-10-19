@@ -1,4 +1,6 @@
-# Hundred-and-third finding — the three seed heads averaged rank the gold first on four more passages than the best of them, while any one of them being right would be sixty-one more, so the pick's seed variance is real and averaging does not harvest it
+# Averaging three seeds' readers barely helps
+
+**Full result:** The three seed heads averaged rank the gold first on four more passages than the best of them, while any one of them being right would be sixty-one more, so the pick's seed variance is real and averaging does not harvest it
 
 `scripts/harvest_popa_pairs.py --span-head s1 s2 s3`, 2026-09-04. No head
 was trained: the three shipped built heads (`reader_built_s{1,2,3}.pt`) read

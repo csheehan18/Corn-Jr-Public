@@ -1,4 +1,6 @@
-# Hundred-and-second finding — twelve epochs of the built span head land two tenths of a point under the six-epoch head on its own metric, with training loss a third of it and logit spread forty per cent wider, so the budget sentence was not hiding a gain and the epochs lever closes at the gate
+# Twice the training epochs doesn't improve the answer finder
+
+**Full result:** Twelve epochs of the built span head land two tenths of a point under the six-epoch head on its own metric, with training loss a third of it and logit spread forty per cent wider, so the budget sentence was not hiding a gain and the epochs lever closes at the gate
 
 **Cost:** 0 s of new scoring on record; it reads 1 card scored for an earlier finding (`corn_jr_260m_v4_ft4g`). Backfilled 2026-09-26 from the cards' `seconds`; training and probe time were never recorded, so this is a floor.
 

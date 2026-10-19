@@ -1,4 +1,6 @@
-# One hundred and fifty-fifth finding — the `4j` recipe at its second seed: it holds the frozen chain family where `ft4` loses it, at both seeds (`chain_ellipsis` 50 and 49 of 50 against 7 and 13), lifts `turn2.reask` to 73 and 75 of 96 against 49 and 41, and costs `compound.pipe` 5-7 of 48; live, both seeds compose `and {e}?` 3 of 4 at depths 2 and 3 and `what about {e}?` 0 of 4, exactly as seed 1 did
+# A new fine-tune recipe keeps follow-ups but 'what about X?' still fails
+
+**Full result:** The `4j` recipe at its second seed: it holds the frozen chain family where `ft4` loses it, at both seeds (`chain_ellipsis` 50 and 49 of 50 against 7 and 13), lifts `turn2.reask` to 73 and 75 of 96 against 49 and 41, and costs `compound.pipe` 5-7 of 48; live, both seeds compose `and {e}?` 3 of 4 at depths 2 and 3 and `what about {e}?` 0 of 4, exactly as seed 1 did
 
 **Cost:** one 260M fine-tune, 1,019 s at 786 iterations, contended (the card
 sat at 35% before the job; seed 1 took 909 s uncontended); one full scorecard,

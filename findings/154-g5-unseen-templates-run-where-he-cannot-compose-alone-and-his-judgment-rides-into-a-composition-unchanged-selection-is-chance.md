@@ -1,4 +1,6 @@
-# One hundred and fifty-fourth finding — G5, three templates nobody on the world's side wrote: with no template he completes 0 of 1,440 runs, inside one the runtime makes every task executable, and his one-place judgment rides into a two-place composition unchanged (45-47% a soft part against 28% for the rule filler, at the one seed that reads the wish); both registered gates fail as written, the kill does not fire, and choosing among unseen templates is chance
+# With no template he completes nothing; inside one, every task runs
+
+**Full result:** G5, three templates nobody on the world's side wrote: with no template he completes 0 of 1,440 runs, inside one the runtime makes every task executable, and his one-place judgment rides into a two-place composition unchanged (45-47% a soft part against 28% for the rule filler, at the one seed that reads the wish); both registered gates fail as written, the kill does not fire, and choosing among unseen templates is chance
 
 **Cost:** zero training. GPU: 20 min for the five execution reads
 (215-261 s a checkpoint), 2.2 min for the four selection reads (31-38 s),

@@ -1,4 +1,6 @@
-# Thirtieth finding — a floor is a property of the arm, not of the row
+# Noise levels belong to a training setup, not to a test
+
+**Full result:** A floor is a property of the arm, not of the row
 
 **Cost:** 0 s of new scoring on record; it reads 3 cards scored for an earlier finding (`nano20m_balanced`, `nano20m_v1`, `nano20m_v1_wide`). Backfilled 2026-09-26 from the cards' `seconds`; training and probe time were never recorded, so this is a floor.
 

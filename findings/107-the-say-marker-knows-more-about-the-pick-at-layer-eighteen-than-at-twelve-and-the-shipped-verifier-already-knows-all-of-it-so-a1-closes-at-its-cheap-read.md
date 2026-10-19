@@ -1,4 +1,6 @@
-# Hundred-and-seventh finding — the say marker knows more about the pick at layers 14–19 than at 12, by two points of AUC, and the shipped verifier already knows all of it: stacked over its margin no layer adds a thousandth, so A1 closes at its cheap read
+# Later layers know slightly more; the shipped checker already has it
+
+**Full result:** The say marker knows more about the pick at layers 14–19 than at 12, by two points of AUC, and the shipped verifier already knows all of it: stacked over its margin no layer adds a thousandth, so A1 closes at its cheap read
 
 `scripts/probe_hlast_layers.py`, 2026-09-04. One forward per Population A
 window (3,893) keeping the say marker's row at every block output and at

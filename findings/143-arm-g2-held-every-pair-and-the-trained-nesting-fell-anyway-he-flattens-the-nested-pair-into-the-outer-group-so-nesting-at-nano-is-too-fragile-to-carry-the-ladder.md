@@ -1,4 +1,6 @@
-# One hundred and forty-third finding — arm G2 held every pair arm F had and the trained nesting fell anyway, this time because he flattens the nested pair into the outer group; two differently matched arms broke the same base two different ways, so nesting at nano is too fragile to carry the arity ladder, while the outer four-carrier installs cleanly at both seeds
+# Nesting at 20M breaks two different ways; too fragile to build on
+
+**Full result:** Arm G2 held every pair arm F had and the trained nesting fell anyway, this time because he flattens the nested pair into the outer group; two differently matched arms broke the same base two different ways, so nesting at nano is too fragile to carry the arity ladder, while the outer four-carrier installs cleanly at both seeds
 
 **Cost:** 6.6 min of scoring on the 1 card first cited here (`nano20m_v3_fw_ladder_add`). Backfilled 2026-09-26 from the cards' `seconds`; training and probe time were never recorded, so this is a floor.
 

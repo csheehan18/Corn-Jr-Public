@@ -1,4 +1,6 @@
-# One hundred and sixty-fifth finding — the wide greeting read: the cap costs greeting in what he writes and not in what he holds -- on 161 hand-written greeting phrasings the four mix checkpoints write 58, 71, 59 and 108 against 83-106 without the cap (means 74 and 94, twelve points), "costs greeting" by the table, while the inside read is level (130-148 against 138-148); "hello again", "hi mate" and "just popping in to say hello" go to `ack`, `open` and `farewell` with greeting in the state, and two training seeds of identical data write 59 and 108
+# The cap costs greetings in what he writes, not what he knows
+
+**Full result:** The wide greeting read: the cap costs greeting in what he writes and not in what he holds -- on 161 hand-written greeting phrasings the four mix checkpoints write 58, 71, 59 and 108 against 83-106 without the cap (means 74 and 94, twelve points), "costs greeting" by the table, while the inside read is level (130-148 against 138-148); "hello again", "hi mate" and "just popping in to say hello" go to `ack`, `open` and `farewell` with greeting in the state, and two training seeds of identical data write 59 and 108
 
 **Cost:** 98 s on the card (eight checkpoints, 161 phrasings scored over eight moves and the inside read; contended -- the card at 39%, a bound); no training; 17:07-17:14 on 2026-10-11 end to end, build and pre-registration commit included.
 

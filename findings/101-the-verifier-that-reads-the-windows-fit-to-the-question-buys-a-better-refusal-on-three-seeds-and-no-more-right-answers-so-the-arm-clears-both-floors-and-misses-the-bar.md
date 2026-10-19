@@ -1,4 +1,6 @@
-# Hundred-and-first finding — the verifier that also reads the window's fit to the question buys a better refusal on all three seeds and no more right answers, so it clears both floors, misses the bar, and its one mechanism win does not reproduce
+# Reading question fit improves refusals but not right answers
+
+**Full result:** The verifier that also reads the window's fit to the question buys a better refusal on all three seeds and no more right answers, so it clears both floors, misses the bar, and its one mechanism win does not reproduce
 
 **Cost:** 0 s of new scoring on record; it reads 1 card scored for an earlier finding (`corn_jr_260m_v4_ft4g`). Backfilled 2026-09-26 from the cards' `seconds`; training and probe time were never recorded, so this is a floor.
 

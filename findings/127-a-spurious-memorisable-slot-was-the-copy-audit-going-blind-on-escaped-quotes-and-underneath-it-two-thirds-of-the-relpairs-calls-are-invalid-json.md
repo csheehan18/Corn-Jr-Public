@@ -1,4 +1,6 @@
-# Hundred-and-twenty-seventh finding — the copy audit called a sound slice memorisable because its own value class stops at an escaped quote, and underneath that false positive two thirds of `relpairs.txt`'s tool calls are not valid JSON, written past the slice's own guard because that guard parsed the observation and threw the call away
+# Two thirds of one dataset's tool calls were invalid JSON
+
+**Full result:** The copy audit called a sound slice memorisable because its own value class stops at an escaped quote, and underneath that false positive two thirds of `relpairs.txt`'s tool calls are not valid JSON, written past the slice's own guard because that guard parsed the observation and threw the call away
 
 **Cost:** 13.1 min of scoring on the 3 cards first cited here (`corn_jr_260m_v4_ftxrel`, `nano20m_v3_extract_seed2`, `nano20m_v3_extract_widetype_seed2`); it also reads 3 cards scored for an earlier finding (`nano20m_v3_extract`, `nano20m_v3_extract_narrowtype`, `nano20m_v3_extract_widetype`). Backfilled 2026-09-26 from the cards' `seconds`; training and probe time were never recorded, so this is a floor.
 

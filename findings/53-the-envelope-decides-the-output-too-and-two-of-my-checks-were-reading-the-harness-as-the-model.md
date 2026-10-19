@@ -1,4 +1,6 @@
-# Fifty-third finding — the envelope decides the output too, and two of my checks were reading the harness as the model
+# Two of my checks were scoring the harness, not the model
+
+**Full result:** The envelope decides the output too, and two of my checks were reading the harness as the model
 
 **Cost:** 0 s of new scoring on record; it reads 1 card scored for an earlier finding (`corn_jr_260m`). Backfilled 2026-09-26 from the cards' `seconds`; training and probe time were never recorded, so this is a floor.
 

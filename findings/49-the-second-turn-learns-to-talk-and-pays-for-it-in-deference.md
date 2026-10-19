@@ -1,4 +1,6 @@
-# Forty-ninth finding — the second turn learns to talk, and pays for it out of deference
+# Second-turn data teaches him to talk, at a cost to deferring
+
+**Full result:** The second turn learns to talk, and pays for it out of deference
 
 **Cost:** 0 s of new scoring on record; it reads 2 cards scored for an earlier finding (`corn_jr_260m`, `nano20m_v1`). Backfilled 2026-09-26 from the cards' `seconds`; training and probe time were never recorded, so this is a floor.
 

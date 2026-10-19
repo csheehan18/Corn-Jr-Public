@@ -1,4 +1,6 @@
-# One hundred and sixty-eighth finding — recover with the field named outright ("though the price can stretch a bit"): the seeds split -- paired 8 and 288 of 288 -- but both learn whether the person bent at all, which neither did when the limit was named by meaning, so the position is not a wall; one seed learns which limit and the other forms a fixed ranking; and the standing copy kill fires at both seeds, a copied number one digit off
+# Naming the flexible limit outright splits the seeds
+
+**Full result:** Recover with the field named outright ("though the price can stretch a bit"): the seeds split -- paired 8 and 288 of 288 -- but both learn whether the person bent at all, which neither did when the limit was named by meaning, so the position is not a wall; one seed learns which limit and the other forms a fixed ranking; and the standing copy kill fires at both seeds, a copied number one digit off
 
 **Cost:** 41.4 min of training two nano runs (1,243 s each, contended -- the card at 38-39%, a bound; registered ~45 min end to end, actual 42.4); 38 s of probing, two `tool_copy_wide` cards in 18 s, the two control reads 58 s and the hand read 11 s on the card; the build about 5 min of CPU (15:13-15:18 on 2026-10-13), the read 16:01-16:10.
 

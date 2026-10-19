@@ -1,4 +1,6 @@
-# One hundred and sixtieth finding — the block's costs: at the 260M step 2048 trains at 1.20x the 512 wall clock and 1024 at 1.06x, a fine-tune fits at 2048 in the memory it uses at 512, decode is free on a short turn and 100 tok/s deep in a full window as shipped, and a 2048 window holds ten documents with a third of its attention inside one
+# 2048-token blocks cost 1.2x training time and fit in memory
+
+**Full result:** The block's costs: at the 260M step 2048 trains at 1.20x the 512 wall clock and 1024 at 1.06x, a fine-tune fits at 2048 in the memory it uses at 512, decode is free on a short turn and 100 tok/s deep in a full window as shipped, and a 2048 window holds ten documents with a third of its attention inside one
 
 **Cost:** ~12 min of GPU in four chains under `scripts/gpu.py`, all marked contended (card at 31-44% light use): 3 min (killed -- a spill I should have priced first), 5.2, 5.8 and 0.9 min; CPU ~5 s for the packing probe and 79 s for the 2048 conversation build; the bench options, the probe, the decode fix and its guard and this write-up took about 25 min (16:25-16:50 on 2026-10-10).
 

@@ -1,4 +1,6 @@
-# Ninety-second finding — the passage tells the verifier nothing the window has not already said, cross-window agreement is at chance, and the six arms that assume otherwise flip sign between seeds inside the threshold's own fold noise
+# Reading the whole passage tells the checker nothing new
+
+**Full result:** The passage tells the verifier nothing the window has not already said, cross-window agreement is at chance, and the six arms that assume otherwise flip sign between seeds inside the threshold's own fold noise
 
 `scripts/probe_passage_features.py`, 2026-09-03. **Replay only** — no GPU, no
 decode, no weight read, no head retrained — over

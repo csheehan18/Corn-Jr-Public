@@ -1,4 +1,6 @@
-# Seventy-sixth finding — the single-request control returns the copy rows on both vehicles, and what is left over is the control's own failure species
+# A single-request control removes the compound requests' copying cost
+
+**Full result:** The single-request control returns the copy rows on both vehicles, and what is left over is the control's own failure species
 
 **Cost:** 0 s of new scoring on record; it reads 1 card scored for an earlier finding (`nano20m_v3`). Backfilled 2026-09-26 from the cards' `seconds`; training and probe time were never recorded, so this is a floor.
 

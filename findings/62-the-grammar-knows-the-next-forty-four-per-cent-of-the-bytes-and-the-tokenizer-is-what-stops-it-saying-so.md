@@ -1,4 +1,6 @@
-# Sixty-second finding — the grammar knows the next 44% of the bytes, and the tokenizer is what stops it saying so
+# The call grammar fixes 44% of bytes; the tokenizer blocks using it
+
+**Full result:** The grammar knows the next 44% of the bytes, and the tokenizer is what stops it saying so
 
 No GPU, no checkpoint, no training. Everything below is a walk of 400 real
 calls from `data/raw/tools.txt` through the real `CallConstraint`, counted.

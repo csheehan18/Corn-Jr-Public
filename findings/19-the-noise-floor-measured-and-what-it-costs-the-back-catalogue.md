@@ -1,4 +1,6 @@
-# Nineteenth finding — the noise floor, measured, and what it costs the back catalogue
+# The noise floor across four seeds, and which past readings it erases
+
+**Full result:** The noise floor, measured, and what it costs the back catalogue
 
 **Cost:** 3.5 min of scoring on the 1 card first cited here (`nano20m_struct`); it also reads 1 card scored for an earlier finding (`nano20m_balanced`). Backfilled 2026-09-26 from the cards' `seconds`; training and probe time were never recorded, so this is a floor.
 

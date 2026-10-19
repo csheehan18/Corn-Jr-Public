@@ -1,4 +1,6 @@
-# One hundred and seventy-first finding — branch at 50M splits again, the other way round: seed 1337 installs (held-out quads 75 and 58 of 144) and 2337 does not (6 and 0), so two runs of four install at 20M and 50M together, and size to 50M at matched tokens does not steady the binding; no run at either size reads a wording it never trained
+# At 50M, branch choice still splits across seeds
+
+**Full result:** Branch at 50M splits again, the other way round: seed 1337 installs (held-out quads 75 and 58 of 144) and 2337 does not (6 and 0), so two runs of four install at 20M and 50M together, and size to 50M at matched tokens does not steady the binding; no run at either size reads a wording it never trained
 
 **Cost:** 69.7 min of training two runs at 10 x 640 (2,094 s and 2,087 s, contended -- the card at 38-40%, a bound; benched beforehand at 85.6k tok/s, so ~28 min a run was registered and ~35 was paid); 44 s of probing, two `tool_copy_wide` cards in 26 s, the bench 34 s; chain 09:56-11:07 on 2026-10-14, the read 11:07-11:09.
 

@@ -1,4 +1,6 @@
-# Seventy-seventh finding — the fresh-strings bet holds at 5B, and the one row that moves down fails by over-resolving the date
+# At 5B tokens, fresh text is no worse than re-reading text
+
+**Full result:** The fresh-strings bet holds at 5B, and the one row that moves down fails by over-resolving the date
 
 **Cost:** 3.1 min of scoring on the 1 card first cited here (`corn_jr_260m_v4`); it also reads 1 card scored for an earlier finding (`corn_jr_260m`). Backfilled 2026-09-26 from the cards' `seconds`; training and probe time were never recorded, so this is a floor.
 

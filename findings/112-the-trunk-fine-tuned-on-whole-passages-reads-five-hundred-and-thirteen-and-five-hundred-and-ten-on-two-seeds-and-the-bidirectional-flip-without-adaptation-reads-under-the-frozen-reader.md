@@ -1,4 +1,6 @@
-# Hundred-and-twelfth finding — a rank-32 adapter on the trunk, reading each passage whole under causal attention, reads 513 and 510 of 721 on two seeds against the shipped 389 and 388, and the bidirectional flip without an adaptation phase reads 267 after one epoch, under the frozen reader it was meant to beat
+# Training on whole passages lifts extraction from 54% to 71%
+
+**Full result:** A rank-32 adapter on the trunk, reading each passage whole under causal attention, reads 513 and 510 of 721 on two seeds against the shipped 389 and 388, and the bidirectional flip without an adaptation phase reads 267 after one epoch, under the frozen reader it was meant to beat
 
 **Cost:** 0 s of new scoring on record; it reads 1 card scored for an earlier finding (`corn_jr_260m_v4_ft4g`). Backfilled 2026-09-26 from the cards' `seconds`; training and probe time were never recorded, so this is a floor.
 

@@ -1,4 +1,6 @@
-# Twenty-sixth finding — he knows exactly where a turn ends, and the 35 was ours
+# He knows where a turn ends; the long replies were our fault
+
+**Full result:** He knows exactly where a turn ends, and the 35 was ours
 
 The twenty-fifth finding said `conv20` had the vocabulary of conversation and not its shape, on a
 median turn of 35 words against a corpus that breaks at 13. Three mechanisms could produce that,

@@ -1,4 +1,6 @@
-# Hundred-and-twenty-fifth finding — decisions 7 and 8 are taken: the whole-passage reader is the default, and a routed question about his life is answered at the runtime by a decline that says he is a model, which catches all sixteen held-out phrasings and none of twenty requests
+# Two decisions: whole-passage reader by default, life questions declined
+
+**Full result:** Decisions 7 and 8 are taken: the whole-passage reader is the default, and a routed question about his life is answered at the runtime by a decline that says he is a model, which catches all sixteen held-out phrasings and none of twenty requests
 
 **2026-09-05, evening, the owner's two decisions after finding 124, both
 runtime-only and both guarded. No card. Nothing trained. The eval rows are

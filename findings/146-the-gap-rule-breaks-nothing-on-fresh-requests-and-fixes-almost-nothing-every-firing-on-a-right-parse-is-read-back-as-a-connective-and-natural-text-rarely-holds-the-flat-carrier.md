@@ -1,4 +1,6 @@
-# One hundred and forty-sixth finding — the gap rule breaks nothing on requests it was not designed on and fixes almost nothing: every firing on a parse he had right comes back a connective, the few groups it opens at a non-carrier all land on parses already wrong, and natural requests rarely hold the flat carrier that made it worth 0.95 on the chains
+# A runtime gap-filling rule breaks nothing but fixes little on real requests
+
+**Full result:** The gap rule breaks nothing on requests it was not designed on and fixes almost nothing: every firing on a parse he had right comes back a connective, the few groups it opens at a non-carrier all land on parses already wrong, and natural requests rarely hold the flat carrier that made it worth 0.95 on the chains
 
 **Cost:** 6.5 min of GPU for the whole read (19:39-19:46, about 95 s a checkpoint over 450 requests, 510-528 decodes each with the memo), no training; the set, the scorer and its CPU checks took a few minutes without the card.
 

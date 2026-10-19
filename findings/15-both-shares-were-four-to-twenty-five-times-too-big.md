@@ -1,4 +1,6 @@
-# Fifteenth finding — the two shares anyone priced were both four to twenty-five times too big
+# The two measured data shares were 4 to 25 times too large
+
+**Full result:** The two shares anyone priced were both four to twenty-five times too big
 
 **Cost:** 4.4 min of scoring on the 1 card first cited here (`nano20m_balanced`). Backfilled 2026-09-26 from the cards' `seconds`; training and probe time were never recorded, so this is a floor.
 

@@ -1,4 +1,6 @@
-# Hundred-and-fifteenth finding — `grounded` strips frame words out of the middle of a span before testing that it is contiguous, so "best-of-seven" is tested as "best seven" and refused; on the whole-passage adapter that costs ten and seven right answers a seed against three on the window reader, and it is `READER-AUDIT.md` row 43 with its size measured
+# A copy-check bug refused answers like 'best-of-seven'
+
+**Full result:** `grounded` strips frame words out of the middle of a span before testing that it is contiguous, so "best-of-seven" is tested as "best seven" and refused; on the whole-passage adapter that costs ten and seven right answers a seed against three on the window reader, and it is `READER-AUDIT.md` row 43 with its size measured
 
 Replay, 2026-09-05, no GPU, both seeds, both readers. Found while asking
 what `AGGREGATION` could mean on finding 112's harvests, where every

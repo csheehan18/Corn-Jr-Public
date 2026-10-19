@@ -1,4 +1,6 @@
-# Fifty-sixth finding — the official split guarantees questions and not documents, so 14% of the eval was in the slice, and the training half cannot be read by the code that reads the eval half
+# The official split overlaps documents: 14% of the eval leaked into training
+
+**Full result:** The official split guarantees questions and not documents, so 14% of the eval was in the slice, and the training half cannot be read by the code that reads the eval half
 
 **Cost:** 0 s of new scoring on record; it reads 2 cards scored for an earlier finding (`nano20m`, `nano20m_v3`). Backfilled 2026-09-26 from the cards' `seconds`; training and probe time were never recorded, so this is a floor.
 

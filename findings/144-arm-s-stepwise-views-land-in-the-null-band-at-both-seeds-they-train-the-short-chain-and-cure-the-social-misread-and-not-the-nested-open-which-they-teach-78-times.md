@@ -1,4 +1,6 @@
-# One hundred and forty-fourth finding — arm S's stepwise views land in the null band at both seeds: they make the short chain reliable and cure the view read as `social`, and they do not train the one decision a long chain needs at every step -- opening a nested group inside the view -- which the payload shows 78 times
+# Showing the request step by step fixes short chains, not long ones
+
+**Full result:** Arm S's stepwise views land in the null band at both seeds: they make the short chain reliable and cure the view read as `social`, and they do not train the one decision a long chain needs at every step -- opening a nested group inside the view -- which the payload shows 78 times
 
 **Cost:** 7.1 min of scoring on the 1 card first cited here (`nano20m_v3_fw_steps`). Backfilled 2026-09-26 from the cards' `seconds`; training and probe time were never recorded, so this is a floor.
 

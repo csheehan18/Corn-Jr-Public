@@ -1,4 +1,6 @@
-# One hundred and thirty-seventh finding — the level-3 floor is flat against every covariate that moves the trained levels: the span the deep cut must write drives the in-distribution cell from 0.968 to 0.132 and leaves the unseen depth between 0.03 and 0.11 across its whole range, where the spans are already the shortest on the item, so copy burden is not what pins it and the greedy zero is one failure and not two
+# The depth-3 failure doesn't track copy length
+
+**Full result:** The level-3 floor is flat against every covariate that moves the trained levels: the span the deep cut must write drives the in-distribution cell from 0.968 to 0.132 and leaves the unseen depth between 0.03 and 0.11 across its whole range, where the spans are already the shortest on the item, so copy burden is not what pins it and the greedy zero is one failure and not two
 
 **Cost:** 10.0 min of scoring on the 2 cards first cited here (`nano20m_v3_funcworld_rope_seed2`, `nano20m_v3_funcworld_seed2`); it also reads 4 cards scored for an earlier finding (`nano20m_v3_funcworld`, `nano20m_v3_funcworld_rope`, `nano20m_v3_funcworld_rope_seed3` and 1 more). Backfilled 2026-09-26 from the cards' `seconds`; training and probe time were never recorded, so this is a floor.
 

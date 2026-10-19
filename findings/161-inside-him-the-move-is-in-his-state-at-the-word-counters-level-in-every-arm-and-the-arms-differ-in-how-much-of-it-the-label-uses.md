@@ -1,4 +1,6 @@
-# One hundred and sixty-first finding — probe C, inside him at the move decision: a linear reader on his own state reads 46 to 55 of 100 far phrasings at all eight checkpoints, at the word counter's level and 15 to 35 over an untrained net of his shape, while he writes 12 to 40; six checkpoints read built and overridden and A3b's two read between, so the registered verdict is split -- the arms differ in how much of the state the label uses, not in how much is there, and what A3b misses is mostly not in its state
+# His internal state knows more than he writes about move choice
+
+**Full result:** Probe C, inside him at the move decision: a linear reader on his own state reads 46 to 55 of 100 far phrasings at all eight checkpoints, at the word counter's level and 15 to 35 over an untrained net of his shape, while he writes 12 to 40; six checkpoints read built and overridden and A3b's two read between, so the registered verdict is split -- the arms differ in how much of the state the label uses, not in how much is there, and what A3b misses is mostly not in its state
 
 **Cost:** 140 s on the card for the registered read and 140 s for the post hoc prior-keeping read (both contended, the card at 39-40% before each -- bounds); the CPU sweep before the pre-registration commit 188 s; hand and post hoc reads off the card under 10 s; 13:14-13:29 on 2026-10-11 end to end, build included.
 

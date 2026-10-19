@@ -1,4 +1,6 @@
-# One hundred and thirty-fifth finding — raising the depth-3 share from eight to twenty per cent of turns, at a shape coverage every corpus already saturates, deepens the preference to open a group at the depths shown, leaves the one depth never shown at the floor with the two seeds of the larger dose spanning the band, and costs unseen entities; the dose is exposure and exposure is not the lever on depth
+# More depth-3 training data doesn't teach depth 4
+
+**Full result:** Raising the depth-3 share from eight to twenty per cent of turns, at a shape coverage every corpus already saturates, deepens the preference to open a group at the depths shown, leaves the one depth never shown at the floor with the two seeds of the larger dose spanning the band, and costs unseen entities; the dose is exposure and exposure is not the lever on depth
 
 PLAN-TAG-SPINE phase C5, the dose arm, read 2026-09-14. Four nano runs
 pre-registered in `configs/mix_v3_funcworld_dose2.py` and `_dose3.py`: the

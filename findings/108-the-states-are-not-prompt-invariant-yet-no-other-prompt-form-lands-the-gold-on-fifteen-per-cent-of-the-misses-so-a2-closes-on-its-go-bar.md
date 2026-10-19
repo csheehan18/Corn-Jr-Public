@@ -1,4 +1,6 @@
-# Hundred-and-eighth finding — the states the span head reads are not prompt-invariant: half the argmaxes move when the question is written once and four fifths when the JSON goes, yet no other prompt form lands the gold on fifteen per cent of the misses, and every one loses more right answers than it gains, so A2 closes on its go bar
+# The reader is sensitive to prompt wording, but no wording does better
+
+**Full result:** The states the span head reads are not prompt-invariant: half the argmaxes move when the question is written once and four fifths when the JSON goes, yet no other prompt form lands the gold on fifteen per cent of the misses, and every one loses more right answers than it gains, so A2 closes on its go bar
 
 `scripts/probe_prompt_forms.py`, 2026-09-04. Four prompt forms over
 Population A's 3,893 windows, one forward each at the shipped layers, scored

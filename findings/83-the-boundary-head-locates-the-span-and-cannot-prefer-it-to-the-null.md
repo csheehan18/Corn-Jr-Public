@@ -1,4 +1,6 @@
-# 83. The boundary head locates the span and cannot prefer it to the null
+# The boundary model finds answers but can't prefer them to silence
+
+**Full result:** The boundary head locates the span and cannot prefer it to the null
 
 **Cost:** 6.3 min of scoring on the 1 card first cited here (`corn_jr_260m_v4_ft4g`). Backfilled 2026-09-26 from the cards' `seconds`; training and probe time were never recorded, so this is a floor.
 

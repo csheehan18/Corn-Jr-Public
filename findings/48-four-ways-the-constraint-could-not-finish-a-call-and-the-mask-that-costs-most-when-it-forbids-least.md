@@ -1,4 +1,6 @@
-# Forty-eighth finding — four ways the constraint could not finish a call, and the mask that costs most when it forbids least
+# Four bugs let decoding escape the call grammar mid-call
+
+**Full result:** Four ways the constraint could not finish a call, and the mask that costs most when it forbids least
 
 **Cost:** 0 s of new scoring on record; it reads 1 card scored for an earlier finding (`corn_jr_260m`). Backfilled 2026-09-26 from the cards' `seconds`; training and probe time were never recorded, so this is a floor.
 

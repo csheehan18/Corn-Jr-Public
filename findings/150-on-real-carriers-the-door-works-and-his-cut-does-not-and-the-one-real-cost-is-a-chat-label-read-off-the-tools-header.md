@@ -1,4 +1,6 @@
-# One hundred and fiftieth finding — on the real carriers the door works and his cut does not: given the gold parse, the two-note row reads 18 and 26 of 48 from 0 and 2, with his own parse 2 and 7; the forced card's zeros are his parse line where the prompt has none, and the one cost that survives staging is a `chat` label read off the `tools:` header
+# On real requests the runtime's machinery works but his own parse doesn't
+
+**Full result:** On the real carriers the door works and his cut does not: given the gold parse, the two-note row reads 18 and 26 of 48 from 0 and 2, with his own parse 2 and 7; the forced card's zeros are his parse line where the prompt has none, and the one cost that survives staging is a `chat` label read off the `tools:` header
 
 **Cost:** 70.5 min of training four nano runs (16.7-18.6 min each, `card_cost.py`; registered at ~18 min) and 12.1 min of scoring four standard cards; about 10 min of `prepare_mix` and the guard; `probe_a2.py` about 6 min a checkpoint on the registered rows and about 3 min on the post hoc guard rows, two checkpoints each (10:43-12:52 on 2026-10-04 end to end, against a registered ~2 h).
 

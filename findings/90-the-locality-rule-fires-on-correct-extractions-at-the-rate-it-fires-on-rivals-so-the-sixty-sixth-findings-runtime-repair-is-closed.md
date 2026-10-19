@@ -1,4 +1,6 @@
-# Ninetieth finding — the locality rule cannot tell a rival from a gold inside one window, so the sixty-sixth finding's runtime repair is closed and the eighty-ninth's revival of it was one inference too far
+# A nearby-words rule can't tell a rival answer from the right one
+
+**Full result:** The locality rule cannot tell a rival from a gold inside one window, so the sixty-sixth finding's runtime repair is closed and the eighty-ninth's revival of it was one inference too far
 
 `scripts/probe_locality.py`, 2026-09-03. **Replay only** — no GPU, no decode,
 no weight read, no tokenizer — over `evals/results/nullpr_s{1,2}_popa.json`,

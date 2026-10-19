@@ -1,4 +1,6 @@
-# One hundred and forty-seventh finding — the nested bind owns the form and the copy pointer, not the count: invented spans, repeats, splices and swapped number words go to zero, legal lines go from 516 to 2,917 of 3,456, and a marked chain passes the three-level depth wall for the first time, while where a group closes, whether a nested group opens at all and which request words he drops stay his -- he skips words where he used to invent them, and the `struct` column's rise on nested rows is half a broken line becoming readable
+# When the runtime holds the structure, invented words vanish; grouping stays his
+
+**Full result:** The nested bind owns the form and the copy pointer, not the count: invented spans, repeats, splices and swapped number words go to zero, legal lines go from 516 to 2,917 of 3,456, and a marked chain passes the three-level depth wall for the first time, while where a group closes, whether a nested group opens at all and which request words he drops stay his -- he skips words where he used to invent them, and the `struct` column's rise on nested rows is half a broken line becoming readable
 
 **Cost:** about 100 min of GPU, no training -- 20 min for arm F seed 1's six cards (2026-10-01, 22:13-22:33) and 80 min for the other 26 (2026-10-02, 08:55-10:15), a bound ladder or nestgen card 4-6 min except on G2 seed 2, where the stranding hole below took them to 13.5 and 10.3 min; the read, its tables and the grammar repair on CPU, under 5 min.
 

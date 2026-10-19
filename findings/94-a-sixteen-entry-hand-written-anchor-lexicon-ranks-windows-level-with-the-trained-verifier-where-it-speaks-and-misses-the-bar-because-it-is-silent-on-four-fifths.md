@@ -1,4 +1,6 @@
-# Ninety-fourth finding — a sixteen-entry hand-written anchor lexicon ranks windows level with the trained verifier on the passages where it speaks, adds +0.005 AUC against a bar of +0.02 because it is silent on four fifths of them, and so the frame idea's binding constraint is coverage
+# A 16-word hand-written lexicon matches the trained checker where it applies
+
+**Full result:** A sixteen-entry hand-written anchor lexicon ranks windows level with the trained verifier on the passages where it speaks, adds +0.005 AUC against a bar of +0.02 because it is silent on four fifths of them, and so the frame idea's binding constraint is coverage
 
 `scripts/probe_frame_window.py`, 2026-09-03. **Replay only** — no GPU, no
 decode, no weight read, no tokenizer, **and no model writes the frame** — over

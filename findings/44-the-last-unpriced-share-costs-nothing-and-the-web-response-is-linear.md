@@ -1,4 +1,6 @@
-# Forty-fourth finding — the last unpriced share costs nothing, and the web response is linear over two doses
+# The last unmeasured data share costs nothing; web gains are linear
+
+**Full result:** The last unpriced share costs nothing, and the web response is linear over two doses
 
 `configs/mix_v1_temp5.py` ×2 against `mix_v1` ×4. One pair of slices moves: temporal
 12,821,624 → 6,546,719 tokens (**9.79% → §4's declared 5.00%**), web taking all 4.79 points

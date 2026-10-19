@@ -1,4 +1,6 @@
-# One hundred and fifty-eighth finding — memorise or learn is readable off the data: a wording seen more than ten times is labelled from memory (A3's on cells 74-100% right past ten sightings, 6-47% under eleven, 29-33% never seen), a carrier that settles the answer is learned as a list (62 openings settle every ask/find label of the old parse world and he never cuts a held-out one; the functional world's best key settles 7% and he does), and A3b halves A3's lookup mass -- a family contrast registered here before its re-run (probe only)
+# Wordings seen over ten times get memorised; key phrases become lists
+
+**Full result:** Memorise or learn is readable off the data: a wording seen more than ten times is labelled from memory (A3's on cells 74-100% right past ten sightings, 6-47% under eleven, 29-33% never seen), a carrier that settles the answer is learned as a list (62 openings settle every ask/find label of the old parse world and he never cuts a held-out one; the functional world's best key settles 7% and he does), and A3b halves A3's lookup mass -- a family contrast registered here before its re-run (probe only)
 
 **Cost:** CPU only, no training: `probe_lookup.py`'s three reads about 3 min together (the two parse worlds about a minute each, the move slices and the sightings read about 15 s); a scratch scan of finding 52's openings over six `mix_v3_5b` sources about 4 min; 10:59-11:13 on 2026-10-10 end to end.
 

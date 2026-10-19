@@ -1,4 +1,6 @@
-# Seventy-fifth finding — the fine-tune does not overwrite what the mix installed, and the re-ask band comes back whole
+# Fine-tuning doesn't overwrite what pretraining installed
+
+**Full result:** The fine-tune does not overwrite what the mix installed, and the re-ask band comes back whole
 
 **Cost:** 3.8 min of scoring on the 2 cards first cited here (`nano20m_v3_turn2`, `nano20m_v3_turn2_joint`); it also reads 1 card scored for an earlier finding (`nano20m_v3`). Backfilled 2026-09-26 from the cards' `seconds`; training and probe time were never recorded, so this is a floor.
 

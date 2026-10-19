@@ -1,4 +1,6 @@
-# Ninety-fifth finding — the gold is among the head's own ten on nine tenths of the residue, so the ninety-third finding's fifty-eight per cent ceiling was an artefact of conditioning on admission, and perfect window choice with a perfect pick from those ten reads eighty-three per cent
+# The right answer is among the top ten on 90% of misses
+
+**Full result:** The gold is among the head's own ten on nine tenths of the residue, so the ninety-third finding's fifty-eight per cent ceiling was an artefact of conditioning on admission, and perfect window choice with a perfect pick from those ten reads eighty-three per cent
 
 `scripts/probe_reader_rank.py` and `scripts/audit_refused_wrong.py`,
 2026-09-03. **Replay only** — no GPU, no decode, no weight read, no tokenizer,

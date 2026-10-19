@@ -1,4 +1,6 @@
-# Hundred-and-thirteenth finding — the cross-fitted pair-rows verifier on the whole-passage adapter separates right picks from wrong three points better than the arm's own margin on held rows, and on Population A it is that margin's own curve to the passage on the answerable half and forty correct silences worse on the other, so it closes at its willingness control
+# A checker on the whole-passage reader doesn't beat its own confidence
+
+**Full result:** The cross-fitted pair-rows verifier on the whole-passage adapter separates right picks from wrong three points better than the arm's own margin on held rows, and on Population A it is that margin's own curve to the passage on the answerable half and forty correct silences worse on the other, so it closes at its willingness control
 
 `scripts/train_reader_whole.py --fold {0,1}` then `--verifier`, 2026-09-05,
 seed 1 only. Two fold arms of finding 112's recipe (three epochs each on half

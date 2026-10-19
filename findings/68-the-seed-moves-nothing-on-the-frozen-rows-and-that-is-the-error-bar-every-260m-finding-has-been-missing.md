@@ -1,4 +1,6 @@
-# Sixty-eighth finding — the seed moves nothing on the frozen rows, and that is the error bar every 260M finding has been missing
+# At 260M the seed barely moves scores, measured for the first time
+
+**Full result:** The seed moves nothing on the frozen rows, and that is the error bar every 260M finding has been missing
 
 **Cost:** 12.6 min of scoring on the 1 card first cited here (`corn_jr_260m_ftnarrow_seed2`); it also reads 2 cards scored for an earlier finding (`corn_jr_260m`, `corn_jr_260m_ftwide_seed2`). Backfilled 2026-09-26 from the cards' `seconds`; training and probe time were never recorded, so this is a floor.
 

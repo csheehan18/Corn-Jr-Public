@@ -1,4 +1,6 @@
-# Tenth finding — the tool slice, and what a generator cannot buy
+# A generated tool dataset caps at 2.3 MB of distinct examples
+
+**Full result:** The tool slice, and what a generator cannot buy
 
 **Cost:** 0 s of new scoring on record; it reads 1 card scored for an earlier finding (`nano20m_web_bpe`). Backfilled 2026-09-26 from the cards' `seconds`; training and probe time were never recorded, so this is a floor.
 

@@ -1,4 +1,6 @@
-# Fifty-seventh finding — the slice separates on all three rows, and he bought it by declining three fifths of the answerable half
+# Extraction training works, mostly by declining answerable questions
+
+**Full result:** The slice separates on all three rows, and he bought it by declining three fifths of the answerable half
 
 **Cost:** 3.5 min of scoring on the 1 card first cited here (`nano20m_v3_extract`); it also reads 2 cards scored for an earlier finding (`corn_jr_260m`, `nano20m_v3`). Backfilled 2026-09-26 from the cards' `seconds`; training and probe time were never recorded, so this is a floor.
 

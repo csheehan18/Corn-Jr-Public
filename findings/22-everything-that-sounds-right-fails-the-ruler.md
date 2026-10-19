@@ -1,4 +1,6 @@
-# Twenty-second finding — everything that sounds right fails the ruler, and the ruler came from web text
+# Every conversation dataset fails a vocabulary test built from web text
+
+**Full result:** Everything that sounds right fails the ruler, and the ruler came from web text
 
 A fourth conversational candidate, measured the way the other three were: a million words at
 three offsets, `scripts/vocab.py`'s word rule, turn length beside the two vocabulary numbers.

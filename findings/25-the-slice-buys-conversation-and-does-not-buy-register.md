@@ -1,4 +1,6 @@
-# Twenty-fifth finding — the slice buys conversation and does not buy register
+# Dialogue data buys conversational vocabulary, not conversational style
+
+**Full result:** The slice buys conversation and does not buy register
 
 `register.conv` is the sixth addable row and the first that asks the question §4 buys the
 conversational slice *for*. Nothing in `evals/` measured register: the nats/byte rows say a

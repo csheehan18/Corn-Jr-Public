@@ -1,4 +1,6 @@
-# One hundred and thirty-sixth finding — the depth-4 zero is a position the corpus pinned at zero, not an absence of recursion: a parse line at index 3 holds a group in 0 of 2,236 blocks, he predicts a fourth level 96 of 96 when the deep cut is given, and the identical cut scored at line 2 instead reads 8 to 27 of 96 on four checkpoints and survives being padded back to the original length
+# The depth-4 failure is a position never seen, not missing recursion
+
+**Full result:** The depth-4 zero is a position the corpus pinned at zero, not an absence of recursion: a parse line at index 3 holds a group in 0 of 2,236 blocks, he predicts a fourth level 96 of 96 when the deep cut is given, and the identical cut scored at line 2 instead reads 8 to 27 of 96 on four checkpoints and survives being padded back to the original length
 
 **Cost:** 19.1 min of scoring on the 4 cards first cited here (`nano20m_v3_funcworld`, `nano20m_v3_funcworld_rope`, `nano20m_v3_funcworld_rope_seed3`, `nano20m_v3_funcworld_seed3`); it also reads 2 cards scored for an earlier finding (`nano100m_v1`, `nano20m`). Backfilled 2026-09-26 from the cards' `seconds`; training and probe time were never recorded, so this is a floor.
 

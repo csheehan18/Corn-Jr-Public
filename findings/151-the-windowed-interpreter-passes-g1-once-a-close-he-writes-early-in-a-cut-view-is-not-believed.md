@@ -1,4 +1,6 @@
-# One hundred and fifty-first finding — the windowed interpreter passes G1 once a close he writes early in a cut view is no longer believed: arity 30 of 30 on both arm F seeds, depth 131 and 265 against the committed 77 and 128, arm S 0.87 and 0.87 against a bar of 0.85 — where the first read, believing those closes, failed two of three
+# Ignoring groups he closes too early lets the interpreter pass
+
+**Full result:** The windowed interpreter passes G1 once a close he writes early in a cut view is no longer believed: arity 30 of 30 on both arm F seeds, depth 131 and 265 against the committed 77 and 128, arm S 0.87 and 0.87 against a bar of 0.85 — where the first read, believing those closes, failed two of three
 
 **Cost:** four `probe_window.py` sweeps' worth of the 3080, about 50 min in all: the first read 13 min (07:57-08:10 on 2026-10-07, against a registered 20-25), the item-by-item re-decode of arm S seed 1 both ways about 4 min, a sweep that ran across the module's edits and was discarded 13 min, the read of record 11.5 min (09:45-09:56), and the residual re-decode about 2.5 min. The fix and its guard section were CPU, about 30 min.
 

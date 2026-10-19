@@ -1,4 +1,6 @@
-# One hundred and sixty-ninth finding — G6's branch rung: when the runtime checks the condition and writes the person's two continuations as a menu, the seeds split -- at 2337 the pick follows the result and the frame together on every trained wording (105 and 96 of 144 held-out quads), at 1337 it barely follows the result at all (0 and 29) -- and at neither seed does the binding reach a wording it never trained; the standing copy kill fires at both seeds
+# Choosing a branch from a checked condition: seeds split
+
+**Full result:** G6's branch rung: when the runtime checks the condition and writes the person's two continuations as a menu, the seeds split -- at 2337 the pick follows the result and the frame together on every trained wording (105 and 96 of 144 held-out quads), at 1337 it barely follows the result at all (0 and 29) -- and at neither seed does the binding reach a wording it never trained; the standing copy kill fires at both seeds
 
 **Cost:** 38.9 min of training two nano runs (1,189 s and 1,144 s, contended -- the card at 39-40%, a bound; registered ~45 min end to end, actual 39.8); 37 s of probing, two `tool_copy_wide` cards in 17 s, the two control reads 37 s and the copy hand read 28 s on the card; the build about 12 min of CPU (08:09-08:21 on 2026-10-14), the read 09:00-09:04.
 

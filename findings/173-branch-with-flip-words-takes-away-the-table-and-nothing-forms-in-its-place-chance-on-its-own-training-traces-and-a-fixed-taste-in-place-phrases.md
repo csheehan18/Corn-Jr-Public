@@ -1,4 +1,6 @@
-# One hundred and seventy-third finding — branch rebuilt with flip words takes the table away and nothing forms in its place: at one pass and 2.2% of the mix the pick is at chance on the traces it trained on (202 of 400, a median margin of 0.01 nats), the result does not reach it, and what he writes is a fixed taste in place phrases ("a spot to eat" picked 89% of the times it is offered, "somewhere to eat" 26%)
+# Branch choice falls to chance when condition words flip the meaning
+
+**Full result:** Branch rebuilt with flip words takes the table away and nothing forms in its place: at one pass and 2.2% of the mix the pick is at chance on the traces it trained on (202 of 400, a median margin of 0.01 nats), the result does not reach it, and what he writes is a fixed taste in place phrases ("a spot to eat" picked 89% of the times it is offered, "somewhere to eat" 26%)
 
 **Cost:** 19.1 min of training one nano run (1,146 s, contended -- the card at 37-40%, a bound), two reads at 18-19 s, one copy card 9 s, the control read 15 s, the free-decode hand read 9 s and the own-trace reads ~20 s on the card; the build 13:26-13:34 on 2026-10-14, the chain 13:34-13:54, the read 13:54-13:57.
 

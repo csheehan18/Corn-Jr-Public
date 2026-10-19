@@ -1,4 +1,6 @@
-# Eighty-second finding — the extent headroom was containment, the real repair is `span_loose - span`, and the span head is worse than generation once the column can tell a region from an answer
+# Scored fairly, the boundary model trails plain generation
+
+**Full result:** The extent headroom was containment, the real repair is `span_loose - span`, and the span head is worse than generation once the column can tell a region from an answer
 
 **Cost:** 0 s of new scoring on record; it reads 1 card scored for an earlier finding (`corn_jr_260m_v4`). Backfilled 2026-09-26 from the cards' `seconds`; training and probe time were never recorded, so this is a floor.
 

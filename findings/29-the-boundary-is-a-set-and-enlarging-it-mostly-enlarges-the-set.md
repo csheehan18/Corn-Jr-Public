@@ -1,4 +1,6 @@
-# Twenty-ninth finding — the boundary is a set, and enlarging it mostly enlarges the set
+# More phrasing templates fix only the phrasings that were added
+
+**Full result:** The boundary is a set, and enlarging it mostly enlarges the set
 
 **Cost:** 0 s of new scoring on record; it reads 3 cards scored for an earlier finding (`nano20m_conv20`, `nano20m_v1`, `nano20m_v1_wide`). Backfilled 2026-09-26 from the cards' `seconds`; training and probe time were never recorded, so this is a floor.
 

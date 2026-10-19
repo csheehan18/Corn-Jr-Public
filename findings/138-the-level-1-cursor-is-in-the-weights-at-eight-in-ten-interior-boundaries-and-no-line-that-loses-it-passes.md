@@ -1,4 +1,6 @@
-# One hundred and thirty-eighth finding — the level-1 cursor is in the weights and not at the ceiling: with everything before it gold he opens the next part where the last one ended at 80 to 86 per cent of interior boundaries at nano and 93 at 100M against a floor of 1, flat in offset, a lost cursor lands mid-part and no line that loses one passes, while the close is his at 98 per cent and a quarter of level-1 failures tile the utterance and fail on the decision alone
+# He knows where the next request part starts, 80 to 93 percent
+
+**Full result:** The level-1 cursor is in the weights and not at the ceiling: with everything before it gold he opens the next part where the last one ended at 80 to 86 per cent of interior boundaries at nano and 93 at 100M against a floor of 1, flat in offset, a lost cursor lands mid-part and no line that loses one passes, while the close is his at 98 per cent and a quarter of level-1 failures tile the utterance and fail on the decision alone
 
 **Cost:** 7.6 min of scoring on the 1 card first cited here (`nano20m_v3_fw_b1024`); it also reads 3 cards scored for an earlier finding (`nano100m_v3_funcworld_rope`, `nano20m_v3`, `nano20m_v3_funcworld`). Backfilled 2026-09-26 from the cards' `seconds`; training and probe time were never recorded, so this is a floor.
 

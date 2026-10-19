@@ -1,4 +1,6 @@
-# Hundred-and-sixth finding — fifty thousand SQuAD windows lift the span head 1.3 points on one seed and sink it 1.6 on the other, and move Population A's pick stage by +2 and −5, so more labelled windows are not the pick's lever either and the arm closes at its gate
+# Fifty thousand extra labelled windows don't help the reader
+
+**Full result:** Fifty thousand SQuAD windows lift the span head 1.3 points on one seed and sink it 1.6 on the other, and move Population A's pick stage by +2 and −5, so more labelled windows are not the pick's lever either and the arm closes at its gate
 
 **Cost:** 0 s of new scoring on record; it reads 1 card scored for an earlier finding (`corn_jr_260m_v4_ft4g`). Backfilled 2026-09-26 from the cards' `seconds`; training and probe time were never recorded, so this is a floor.
 

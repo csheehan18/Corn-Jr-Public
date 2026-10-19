@@ -1,4 +1,6 @@
-# Hundred-and-ninth finding — five layer bands trained on the same ten thousand windows rank the shipped band at the top within a point on both seeds, and a five-layer band is no better, so the pick's missing signal is not in another three layers of the same stack and A3 closes on its kill
+# Other layer choices don't beat the shipped one
+
+**Full result:** Five layer bands trained on the same ten thousand windows rank the shipped band at the top within a point on both seeds, and a five-layer band is no better, so the pick's missing signal is not in another three layers of the same stack and A3 closes on its kill
 
 `scripts/harvest_states.py --layers 0..19,-1` and
 `scripts/train_reader_cached.py --band ... --skip-evals`, 2026-09-04. One

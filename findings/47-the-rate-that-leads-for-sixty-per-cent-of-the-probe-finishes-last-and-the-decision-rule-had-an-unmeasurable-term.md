@@ -1,4 +1,6 @@
-# Forty-seventh finding — the rate that leads for sixty per cent of the probe finishes last, and the decision rule had an unmeasurable term in it
+# The leading learning rate finished last; 3e-4 stays
+
+**Full result:** The rate that leads for sixty per cent of the probe finishes last, and the decision rule had an unmeasurable term in it
 
 **Cost:** 10.2 min of scoring on the 1 card first cited here (`corn_jr_260m`). Backfilled 2026-09-26 from the cards' `seconds`; training and probe time were never recorded, so this is a floor.
 

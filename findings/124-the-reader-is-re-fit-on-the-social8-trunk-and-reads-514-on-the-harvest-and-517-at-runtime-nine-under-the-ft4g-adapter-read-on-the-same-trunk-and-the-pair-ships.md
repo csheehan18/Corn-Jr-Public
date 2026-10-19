@@ -1,4 +1,6 @@
-# Hundred-and-twenty-fourth finding — the reader is re-fit on the social8 trunk and reads 514 of 721 on the harvest and 517 at runtime at its own threshold, nine under the ft4g adapter read as a proxy on the same trunk, and the pair ships with the swap guarded
+# Refitting the reader on the social model reads 517 at runtime
+
+**Full result:** The reader is re-fit on the social8 trunk and reads 514 of 721 on the harvest and 517 at runtime at its own threshold, nine under the ft4g adapter read as a proxy on the same trunk, and the pair ships with the swap guarded
 
 **Cost:** 0 s of new scoring on record; it reads 1 card scored for an earlier finding (`corn_jr_260m_v4_ft_social8`). Backfilled 2026-09-26 from the cards' `seconds`; training and probe time were never recorded, so this is a floor.
 

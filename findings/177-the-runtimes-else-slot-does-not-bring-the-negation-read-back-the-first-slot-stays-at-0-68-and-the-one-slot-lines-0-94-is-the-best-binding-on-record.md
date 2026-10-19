@@ -1,4 +1,6 @@
-# One hundred and seventy-seventh finding — taking the else slot out of the loss does not bring the negation read back: with the runtime writing `| else -> <the other option>`, his first slot reads 0.68 (the negated families 0.53) against the one-slot line's 0.94 (0.97), the pick from a right line slips from every quad to 0.95, and the gate still passes on all three cells (81, 42, 58) -- so the one-slot line is the best binding on record and the second slot's cost comes through training, not the context
+# Leaving the second slot out of training doesn't restore 'not'
+
+**Full result:** Taking the else slot out of the loss does not bring the negation read back: with the runtime writing `| else -> <the other option>`, his first slot reads 0.68 (the negated families 0.53) against the one-slot line's 0.94 (0.97), the pick from a right line slips from every quad to 0.95, and the gate still passes on all three cells (81, 42, 58) -- so the one-slot line is the best binding on record and the second slot's cost comes through training, not the context
 
 **Cost:** 19.8 min of training one nano run (1,187 s, contended -- the card at 36-37%, a bound), two bound three-way reads (138 s, and 176's checkpoint again), the first unbound read 125 s, one gold-line read 15 s, one copy card 9 s and the own-trace read ~7 s on the card; the build 12:20-12:25 on 2026-10-17, the chain 12:25-12:45, the reads 12:45-12:56.
 

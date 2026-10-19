@@ -1,4 +1,6 @@
-# Thirteenth finding — invent the world, and the copy discipline generalises
+# Inventing the fact database makes him copy tool answers perfectly
+
+**Full result:** Invent the world, and the copy discipline generalises
 
 The twelfth finding diagnosed `tool.copy` 0/120 as a corpus defect rather than a model result:
 `web_search`'s answer was a function of its query over 28 hand-written facts, 107 training
