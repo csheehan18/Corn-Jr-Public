@@ -137,11 +137,19 @@ a claim about the model.
 | [`corn/`](corn/) | The parts of the model code the runtime needs: the model, decoding, tools, and the answer reader. |
 | [`tokenizers/`](tokenizers/) | The tokenizer the model was trained with. |
 | [`docs/MODEL-CARD.md`](docs/MODEL-CARD.md) | What release 0.5 can and can't do, with measured numbers. |
+| [`docs/VOICE.md`](docs/VOICE.md) | The rules for how the model talks. Every line it speaks is written or filtered against this page. |
+| [`examples/`](examples/) | Sample files for making it yours: a persona, a recipe book it can answer from, and a list of your own words for table columns. |
 | [`VISION.md`](VISION.md) | What the project is aiming for. |
 
 **Not included:** the model weights, the training code, the data generators,
 and the corpus. Without weights the runtime will start but has nothing to
 load.
+
+The findings and the model card are copied from my main repo unchanged. A few
+of them link to files that only exist there (`DESIGN-NOTES.md`,
+`EXTERNAL-RESEARCH.md`, `GENERATORS.md`, `RELEASE.md`), so those links won't
+open here. They also name scripts and training configs that aren't in this
+repo.
 
 ## Running it
 

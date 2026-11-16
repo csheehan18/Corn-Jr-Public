@@ -24,6 +24,11 @@ data/raw/*
 # source in the same sense, no corpus, no name, no personal data.
 !data/raw/move_carriers.txt
 !data/raw/move_replies.txt
+# ROADMAP C4's two hand-written pools (scripts/gen_self_v5.py): the self
+# questions by register and his replies, `{name}` where the header's name is
+# copied -- source in the same sense, no corpus, no name, no personal data.
+!data/raw/self_carriers_v5.txt
+!data/raw/self_replies_v5.txt
 
 # Paraphrase arms of the frozen eval set -- regenerate with
 # scripts/paraphrase_evals.py. Unlike `evals/`, these are not frozen but
