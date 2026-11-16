@@ -124,7 +124,7 @@ from typing import NamedTuple
 import torch
 
 from .markers import D_CALL
-from .tools import REGISTRY
+from .tools import REGISTRY, tool_schema
 
 SPACE = 0x20
 QUOTE = 0x22
@@ -187,7 +187,7 @@ def _names(declared: tuple[str, ...] | None) -> tuple[str, ...]:
     return tuple(declared)
 
 
-def _required(tool: str) -> tuple[str, ...]:
+def _required(tool: str, sig: str = "v4") -> tuple[str, ...]:
     """What `tool` must be given -- nothing, when the registry has never heard of it.
 
     A declared tool the registry does not carry brings its parameters on the
@@ -196,11 +196,11 @@ def _required(tool: str) -> tuple[str, ...]:
     an unknown tool may close on `{}` and may close on any set of keys. See
     `_names` for why unknown tools are legal at all.
     """
-    known = REGISTRY.get(tool)
+    known = tool_schema(tool, sig)
     return known.required() if known is not None else ()
 
 
-def _nameable(tool: str, used: tuple[str, ...]) -> bool:
+def _nameable(tool: str, used: tuple[str, ...], sig: str = "v4") -> bool:
     """Is there a key this tool could still be given?
 
     **The machine must never enter a state it cannot leave.** A phase with no
@@ -224,7 +224,7 @@ def _nameable(tool: str, used: tuple[str, ...]) -> bool:
     line, and refusing a key it cannot check would be inventing a limit it has
     no source for.
     """
-    known = REGISTRY.get(tool)
+    known = tool_schema(tool, sig)
     if known is None:
         return True
     return any(n not in used for n in known.allowed())
@@ -301,7 +301,13 @@ MOVES: tuple[str, ...] = ("greeting", "wellbeing", "thanks", "farewell",
 # (`corn/decompgen.py`, arms F, G, S on disk) is built and guarded on the
 # seven; the move bind admits this set, a superset, so it refuses nothing a
 # corpus on disk writes.
-MOVES_1_0: tuple[str, ...] = MOVES + ("share",)
+#
+# **`self`, the ninth (D-A1.23, owner 2026-11-12)**: a question about him --
+# his name, what he is, who made him, a life he does not have -- answered by
+# saying what he is. ROADMAP C4 built the class and found it had no home:
+# `open` is the residual with *neutral* hand-backs, and a self reply is not
+# neutral, it is the one place he says what he is. Same superset argument.
+MOVES_1_0: tuple[str, ...] = MOVES + ("share", "self")
 
 # The two line prefixes. Plain text, not markers: `tokenizers/bpe8k.json` ships
 # seven specials and an eighth makes every checkpoint on disk incomparable
@@ -524,6 +530,7 @@ class State(NamedTuple):
     hexleft: int = 0           # remaining digits of a \uXXXX escape
     value: bytes = b""         # the copy slot's bytes so far; b"" when unconstrained
     spaces: int = 0            # insignificant spaces run so far; see MAX_SPACES
+    sig: str = "v4"            # whose signatures: "v5" is the 1.0 table (`tools.tool_schema`)
 
 
 def replace(st: State, **changes) -> State:
@@ -697,18 +704,18 @@ def _advance(st: State, b: int, copy: CopySpec | None = None,
         # parameter to fill is the deadlock `_nameable` exists to prevent, and
         # it is one BPE token away at `args_open`, where `{"` is a single
         # merge.
-        if b == QUOTE and _nameable(st.tool, st.used):
+        if b == QUOTE and _nameable(st.tool, st.used, st.sig):
             return replace(st, phase="arg_name", prefix="")
         # `{}` only where the tool asks for nothing, and only before a comma
         # has promised another pair. `decline` is that tool -- it has no
         # parameters at all -- and every unknown declared tool takes this
         # branch too; see `_required`.
-        if b == ord("}") and p == "arg_first" and not _required(st.tool):
+        if b == ord("}") and p == "arg_first" and not _required(st.tool, st.sig):
             return replace(st, phase="obj_close")
         return None
 
     if p == "arg_name":
-        known = REGISTRY.get(st.tool)
+        known = tool_schema(st.tool, st.sig)
         if known is None:
             # No enum: the declaration names this tool's parameters and the
             # machine was not handed it, so it checks that the key is a
@@ -844,10 +851,10 @@ def _advance(st: State, b: int, copy: CopySpec | None = None,
         # A comma promises another pair, so it may only be written when there
         # is one left to write. Otherwise `arg_key` is entered with nothing
         # legal in it, which is the same deadlock one phase further on.
-        if b == ord(",") and _nameable(st.tool, st.used):
+        if b == ord(",") and _nameable(st.tool, st.used, st.sig):
             return replace(st, phase="arg_key")
         if b == ord("}"):
-            if all(r in st.used for r in _required(st.tool)):
+            if all(r in st.used for r in _required(st.tool, st.sig)):
                 return replace(st, phase="obj_close")
             return None
         return None
@@ -861,9 +868,9 @@ def _advance(st: State, b: int, copy: CopySpec | None = None,
 
 
 def accepts(text: str, copy: CopySpec | None = None,
-            declared: tuple[str, ...] | None = None) -> bool:
+            declared: tuple[str, ...] | None = None, sig: str = "v4") -> bool:
     """Does the machine accept `text` as a complete call? Pure, for the guard."""
-    st = State()
+    st = State(sig=sig)
     for b in text.encode("utf-8"):
         if st.phase == DONE:
             return False  # trailing bytes past the close
@@ -903,7 +910,9 @@ class CallConstraint:
 
     def __init__(self, tok, device: str = "cpu", copy_slots=frozenset(),
                  narrow_slots=frozenset(),
-                 declared: tuple[str, ...] | None = None):
+                 declared: tuple[str, ...] | None = None, sig: str = "v4"):
+        # Whose signatures the call is held to -- `tools.tool_schema`.
+        self.sig = sig
         ids = tok.encode(D_CALL)
         if len(ids) != 1:
             raise ValueError(
@@ -1222,7 +1231,7 @@ class CallConstraint:
         """Advance on a token the decoder has committed to."""
         if self.state is None:
             if tid == self.arm_id:
-                self.state = State()
+                self.state = State(sig=self.sig)
             return
         st = self.state
         for b in self.vocab[tid]:
@@ -1307,7 +1316,7 @@ def parse_step(st: ParseState, b: int, parent: bytes,
     `parent` is what every span must be a word-bounded substring of -- the
     utterance at level 1, the parent part's span below that. `line` selects the
     two shapes: `parts` is `label[span]` repeated, `move` is one value of
-    `MOVES_1_0` (the seven and `share`, D-A1.22).
+    `MOVES_1_0` (the seven, `share` (D-A1.22) and `self` (D-A1.23)).
     """
     if line == "move":
         if st.phase == "prefix":

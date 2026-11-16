@@ -231,6 +231,7 @@ class Session:
             # the say against it (PLAN-PERSONALITY (sixth)).
             "persona_name": self.agent.world.persona.name,
             "name_header": getattr(self.agent, "name_header", False),
+            "turn_format": getattr(self.agent, "turn_format", "v4"),
             # Ground rule 13: a card must record what the history opened on,
             # because the first-turn number and the seeded number differ by
             # 3-5x and two reads taken under unstated settings cannot be
@@ -671,6 +672,7 @@ def main() -> None:
         family_check=cfg.family_check,
         identity_check=cfg.identity_check,
         name_header=cfg.name_header,
+        turn_format=cfg.turn_format,
         round_reserve=cfg.round_reserve,
         budget=cfg.budget,
         buckets=cfg.buckets,
@@ -863,6 +865,7 @@ def main() -> None:
         "family_check": cfg.family_check,
         "identity_check": cfg.identity_check,
         "name_header": cfg.name_header,
+        "turn_format": cfg.turn_format,
         "round_reserve": cfg.round_reserve,
         "budget": cfg.budget,
         # Reported because it changes what every row on every scorecard means.

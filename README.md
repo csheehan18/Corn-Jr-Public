@@ -7,20 +7,20 @@ for it: the tokenizer, the training corpus, the model, and the runtime around
 it. It all runs on a single RTX 3080.
 
 The project is also a research log. Every experiment gets a numbered write-up
-called a **finding**, and there are 181 of them here. They record what I
+called a **finding**, and there are 241 of them here. They record what I
 expected, what happened, and what I got wrong, including the experiments that
 failed. This repo holds those findings and the runtime code. The training code
 and weights are not included yet.
 
 Each finding opens with a one-line headline in plain English, and the
-[findings index](findings/README.md) lists all 181 that way. Under the
+[findings index](findings/README.md) lists all 241 that way. Under the
 headline, a finding is a working record written in the project's own
 vocabulary; [GLOSSARY.md](GLOSSARY.md) explains every in-house word in one
 sentence.
 
 ## Start here
 
-You don't need to read 181 findings. These are the ones I'd point anyone to
+You don't need to read 241 findings. These are the ones I'd point anyone to
 first, grouped by what they taught me.
 
 ### Models take the cheapest route the data allows
@@ -88,6 +88,27 @@ first, grouped by what they taught me.
   "the other one" when the condition fails was right on 864 of 864 prompts on
   all three starting models.
 
+### What small models showed about learning word meaning
+
+Findings 181 to 240 are mostly experiments on 5M and 20M models, which train
+in hours, asking what makes a model understand words and not only predict
+them.
+
+- **[Finding 185](findings/185-plain-fineweb-for-the-web-share-raises-the-understanding-ruler-wishes-0-40-against-0-28-to-0-32-fields-0-58-against-0-50-to-0-54-with-81-of-88-rows-in-band.md).**
+  Swapping the most textbook-like web text for everyday web text raised a
+  word-meaning test from 0.28 to 0.32 on the controls to 0.40, at little cost
+  elsewhere. One seed, so a direction and not a settled number.
+- **[Finding 221](findings/221-a-book-of-tallied-lines-reads-the-understanding-ruler-above-the-20m-on-the-same-tokens-and-level-with-the-260m.md).**
+  A plain table of which words appear near which, counted in one pass with no
+  training at all, scored 51 of 96 on that test. Two 20M models trained on
+  the same text scored 35 and 37. The information is in the data; the small
+  model fails to pick it up.
+- **[Findings 236](findings/236-eight-times-the-updates-from-the-same-tokens-reads-held-out-text-0-19-nats-worse-at-5m-and-the-lift-falls-under-every-ordinary-run-though-a-fifth-of-a-run-had-read-0-15-better.md)
+  and [237](findings/237-with-the-weight-decay-cut-to-0-0188-the-small-step-5m-reads-3-224-beside-3-235-and-the-controls-3-041-its-weights-twice-ordinary-size-and-cooling-recovers-0-03-of-the-0-18.md).**
+  A short test run said eight times as many small training steps would help.
+  The full run came out worse, 3.235 against 3.041. I predicted "better" at
+  nine in ten and was wrong, and 237 rules out the two excuses I had for it.
+
 ## How the research is run
 
 - **Predictions come first.** More than half the experiments are written down before
@@ -100,7 +121,7 @@ first, grouped by what they taught me.
   the model's actual outputs is read by hand. Several times in this log, the
   measurement turned out to be wrong when the model was not.
 - **Automated checks guard against silent failures.** The main repo has about
-  100 scripts that catch the failures that never raise an error, such as a
+  110 scripts that catch the failures that never raise an error, such as a
   dataset that quietly mislabels 2% of its examples.
 
 The findings refer to the model as "he". That's a habit from the project, not
@@ -110,7 +131,7 @@ a claim about the model.
 
 | Folder | What it is |
 |---|---|
-| [`findings/`](findings/) | All 181 findings. [`findings/README.md`](findings/README.md) is the full index, one plain headline each. |
+| [`findings/`](findings/) | All 241 findings. [`findings/README.md`](findings/README.md) is the full index, one plain headline each. |
 | [`GLOSSARY.md`](GLOSSARY.md) | Every in-house word the findings use, one sentence each. |
 | [`harness/`](harness/) | The runtime: the server, tool backends, the local web app ("the studio"), the voice client, and the evaluation suites. |
 | [`corn/`](corn/) | The parts of the model code the runtime needs: the model, decoding, tools, and the answer reader. |

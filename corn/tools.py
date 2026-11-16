@@ -216,7 +216,31 @@ LATENCY_CLASSES = ("fast", "slow")
 # ---------------------------------------------------------------- validation
 
 
-def validate_call(raw: str) -> dict:
+# **The 1.0 signatures** (PLAN-PEOPLE 8b, owner 2026-10-08; ROADMAP C7): the
+# names stay and the contact goes -- `place_call()` and `send_text(message)`,
+# reaching only the owner. `REGISTRY` keeps the v4 shapes because every
+# shipped checkpoint, generator and frozen eval was written against them;
+# a runtime serving the 1.0 turn (`turn_format="v5"`, ROADMAP H3) reads these
+# instead, through `tool_schema`, so the grammar, `validate_call` and the
+# declaration hold a 1.0 checkpoint to the calls its corpus trained
+# (`data/raw/tools_v5_owner.txt`: `place_call` with `{}`). Every other tool
+# is the same under both.
+SIGNATURES_1_0: dict[str, Tool] = {
+    "place_call": Tool(name="place_call", params=(), latency="slow",
+                       summary="call you"),
+    "send_text": Tool(name="send_text", params=(Param("message"),), latency="slow",
+                      summary="text you a message"),
+}
+
+
+def tool_schema(name: str, sig: str = "v4") -> "Tool | None":
+    """The schema a call to `name` is held to under `sig` ("v4" or "v5")."""
+    if sig == "v5" and name in SIGNATURES_1_0:
+        return SIGNATURES_1_0[name]
+    return REGISTRY.get(name)
+
+
+def validate_call(raw: str, sig: str = "v4") -> dict:
     """Is `raw` a well-formed call against the registry? Never raises.
 
     Returns `{"ok": bool, "why": str, "name": str | None, "arguments": dict}`.
@@ -243,7 +267,8 @@ def validate_call(raw: str) -> dict:
         out["why"] = "no_name"
         return out
     out["name"] = name
-    if name not in REGISTRY:
+    tool = tool_schema(name, sig)
+    if tool is None:
         out["why"] = "unknown_tool"
         return out
     args = obj.get("arguments")
@@ -252,7 +277,6 @@ def validate_call(raw: str) -> dict:
         return out
     out["arguments"] = args
 
-    tool = REGISTRY[name]
     missing = [p for p in tool.required() if p not in args]
     if missing:
         out["why"] = f"missing:{','.join(sorted(missing))}"

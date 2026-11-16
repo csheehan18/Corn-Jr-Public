@@ -76,6 +76,17 @@ class Config:
     # refuses a fine-tune across it; a checkpoint's own `config.json` says
     # which it is, and one written before the field defaults to "learned".
     pos_enc: str = "learned"
+    # The arrangement (`corn/wordloop.py`, whose docstring argues it). "gpt"
+    # is every checkpoint on disk and builds `corn.model.CornModel`;
+    # "wordloop" builds `n_layer` distinct blocks run `n_loops` times, a
+    # `word_rows` x `word_dim` hashed table for the word so far, and, with
+    # `surprise_input`, his own per-token surprise read back as an input.
+    # Architecture, shaped into the weights.
+    arch: str = "gpt"
+    n_loops: int = 1
+    word_rows: int = 0
+    word_dim: int = 64
+    surprise_input: bool = False
     # RoPE's base wavelength; the standard 10,000 at a 512 block. Read only
     # when `pos_enc == "rope"`.
     rope_theta: float = 10000.0
@@ -133,6 +144,74 @@ class Config:
     # construction (`gen_funcworld.py --block`), so nothing is lost and the
     # share of draws that land in the source is unchanged.
     align_parse_blocks: bool = False
+    # Surprise-steered reading (`corn/surprise.py`, whose docstring argues
+    # every setting): a capped share of each step's web rows replaced by
+    # fresh, varied web text carrying the words his loss says he is learning.
+    # Off by default; with it off the batcher and the loop are untouched.
+    surprise_sched: bool = False
+    surprise_cap: float = 0.15
+    surprise_replay_cap: int = 3
+    surprise_gap: int = 25
+    surprise_lp_min: float = 0.05
+    surprise_min_count: int = 10
+    surprise_max_count: int = 1000
+    surprise_sources: tuple = ("web", "web_plain")
+    # "progress" chooses words by learning progress; "random" is the control
+    # (finding 198's open question): a fixed random set of candidates,
+    # `surprise_random_words` ((lo, hi, n), ...) a band of training count,
+    # steered in random order under the same caps, spacing and variety.
+    # The matching exercise (`corn/contrast.py`, whose docstring argues it):
+    # quads a micro-batch of "does this reply belong to this message",
+    # scored so a reply's general likelihood cancels. 0 builds nothing.
+    contrast_quads: int = 0
+    contrast_weight: float = 1.0
+    # The built-in reply judge (`corn/judge.py` section 8): `judge_layers`
+    # blocks on the trunk's last states whose fit for every next token is
+    # added to the word scores at a learned weight (starting at
+    # `judge_alpha`), trained from step one on `judge_quads` swapped-reply
+    # quads a micro-batch at `judge_weight`, its gradient reaching the trunk.
+    # 0 builds nothing.
+    judge_layers: int = 0
+    judge_quads: int = 0
+    judge_weight: float = 1.0
+    judge_alpha: float = 1.0
+    # Keep the lesson out of the word table (finding 217's named channel):
+    # the exercise reads its inputs and scores its tokens through a detached
+    # table, so its gradient reaches the trunk's blocks and never the tied
+    # input/output embedding.
+    judge_detach_table: bool = False
+    surprise_choose: str = "progress"
+    surprise_random_words: tuple = ()
+    # The press (`corn/press.py`, whose docstring argues every choice): how
+    # hard each train token bears on the loss, read from
+    # `data/<mix>/train.press_<name>.bin`. Empty is off: the batcher and
+    # the loop are untouched and the loss is the model's own mean.
+    press: str = ""
+    # The far lesson (`corn/far.py`, whose docstring argues it): `far_pairs`
+    # pairs a micro-batch, read off the reading's own logits -- which of two
+    # pieces stands 2 to `far_window` ahead here, one from this row's text
+    # and one from another's -- at `far_weight` times their mean loss. 0 is
+    # off: nothing is built and the loop is the loop it was.
+    far_pairs: int = 0
+    far_weight: float = 1.0
+    far_window: int = 40
+    # Homes (`corn/homes.py`, whose docstring argues it): the path of a
+    # frozen table of count-made word summaries; each word's row is added,
+    # through one trained matrix, to the input of the piece after the word.
+    # Empty is off: nothing is built and the forward is the one it was.
+    # `homes_shuffle` (a seed) gives every word another word's home -- the
+    # control with the same numbers and no count.
+    homes: str = ""
+    homes_shuffle: int = 0
+    # The counted start (`scripts/build_table.py`, whose docstring argues
+    # it): the path of a word-piece table counted from the training text,
+    # which replaces the random starting values of `wte` -- and so of the
+    # tied `lm_head`. Nothing is frozen and nothing is added: it is where
+    # the table starts, and training moves it as it moves any weight. Empty
+    # is off. `table_shuffle` (a seed) starts each piece on another piece's
+    # row -- the control with the same numbers and no count.
+    table_init: str = ""
+    table_shuffle: int = 0
     compile: bool = True
     seed: int = 1337
     out_dir: str = "checkpoints"

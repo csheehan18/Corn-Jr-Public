@@ -307,6 +307,41 @@ class Block(nn.Module):
         return x + self.mlp(self.ln_2(x))
 
 
+class Judge(nn.Module):
+    """The reply judge (`corn/judge.py` argues it): `n_layers` of the trunk's
+    own block over its last states, and a head that scores a token by the
+    judge state against the token's embedding. Here, not in `corn/judge.py`,
+    because the built-in judge (`Config.judge_layers`, section 8 there) is a
+    module of `CornModel` and `corn/judge.py` imports this file."""
+
+    def __init__(self, cfg: Config, n_layers: int = 1):
+        super().__init__()
+        self.n_layers = n_layers
+        self.blocks = nn.ModuleList([Block(cfg) for _ in range(n_layers)])
+        self.ln = nn.LayerNorm(cfg.n_embd, bias=cfg.bias)
+        self.head = nn.Linear(cfg.n_embd, cfg.n_embd, bias=False)
+        self.bias = nn.Parameter(torch.zeros(1))
+        self.apply(CornModel._init_weights)
+        for name, p in self.named_parameters():
+            if name.endswith("c_proj.weight"):
+                nn.init.normal_(p, mean=0.0, std=0.02 / (2 * max(n_layers, 1)) ** 0.5)
+
+    def forward(self, h: torch.Tensor, rope) -> torch.Tensor:
+        """Judge states `(B, T, C)` from trunk states `(B, T, C)`."""
+        x = h
+        for b in self.blocks:
+            x, _ = b(x, None, True, None, rope)
+        return self.head(self.ln(x))
+
+    def score(self, z: torch.Tensor, wte: torch.Tensor, ids: torch.Tensor) -> torch.Tensor:
+        """Fit logits: `z` `(..., C)` against the embeddings of `ids` `(..., K)` -> `(..., K)`."""
+        return torch.einsum("...c,...kc->...k", z, wte[ids]) + self.bias
+
+    def all_scores(self, z: torch.Tensor, wte: torch.Tensor) -> torch.Tensor:
+        """Fit logits for every token at once: `(B, T, C)` -> `(B, T, V)`."""
+        return z @ wte.t() + self.bias
+
+
 class CornModel(nn.Module):
     def __init__(self, cfg: Config, vocab_size: int):
         super().__init__()
@@ -370,6 +405,82 @@ class CornModel(nn.Module):
             self.rope_cos: torch.Tensor | None = None
             self.rope_sin: torch.Tensor | None = None
 
+        # The built-in reply judge (`corn/judge.py` section 8). Absent unless
+        # asked for, and built off a forked generator for the tag map's
+        # reason above: the trunk, and every batch offset after it, are the
+        # control's at the same seed, so the arm differs from its control by
+        # the judge and nothing else (`scripts/check_judge.py` 8).
+        self.judge = None
+        self.judge_alpha = None
+        if cfg.judge_layers:
+            with torch.random.fork_rng(devices=[]):
+                torch.manual_seed(cfg.seed ^ 0x1D6E)
+                self.judge = Judge(cfg, cfg.judge_layers)
+            self.judge_alpha = nn.Parameter(torch.tensor(float(cfg.judge_alpha)))
+
+        # Homes (`corn/homes.py`): a frozen table of count-made word
+        # summaries and one trained matrix that maps a home onto the input.
+        # Absent unless asked for. The matrix starts at zero, so the first
+        # forward is the control's, and it is built off a forked generator
+        # for the tag map's reason above: the trunk and every batch offset
+        # are the control's at the same seed (`scripts/check_homes.py`). The
+        # table is a saved buffer, so a checkpoint carries the homes it was
+        # trained with. `home_cut` is set by a caller, never here -- the
+        # cutter is training-side -- so that a reader which passes no
+        # `homes` gets them cut; with neither, `forward` refuses.
+        self.home_in = None
+        self.home_cut = None
+        if cfg.homes:
+            import numpy as np
+
+            page = torch.from_numpy(np.load(cfg.homes)["page"]).float()
+            self.register_buffer("home_page", torch.cat([torch.zeros(1, page.size(1)), page]))
+            with torch.random.fork_rng(devices=[]):
+                self.home_in = nn.Linear(page.size(1), cfg.n_embd, bias=False)
+            nn.init.zeros_(self.home_in.weight)
+
+        # The counted start (`scripts/build_table.py`): the word-piece table
+        # begins at a table counted from the training text instead of at its
+        # random draw. Copied in last, after every draw above, so every other
+        # weight and the generator are the control's at the same seed
+        # (`scripts/check_model.py`); the shuffle draws from its own
+        # generator for the same reason. A piece the count never met keeps
+        # its random row. With tied embeddings this is the output table too.
+        if cfg.table_init:
+            import numpy as np
+
+            z = np.load(cfg.table_init)
+            table, live = torch.from_numpy(z["table"]).float(), torch.from_numpy(z["live"]).bool()
+            if tuple(table.shape) != tuple(self.wte.weight.shape):
+                raise ValueError(f"table_init holds a table of {tuple(table.shape)}; this model's "
+                                 f"is {tuple(self.wte.weight.shape)}")
+            rows = live.nonzero().squeeze(1)
+            src = rows
+            if cfg.table_shuffle:
+                gen = torch.Generator().manual_seed(cfg.table_shuffle)
+                src = rows[torch.randperm(len(rows), generator=gen)]
+            with torch.no_grad():
+                self.wte.weight[rows] = table[src]
+
+    def judge_bias(self, h: torch.Tensor, rope, last: bool) -> torch.Tensor:
+        """What the built-in judge adds to the word scores: its learned weight
+        times log sigmoid of its fit for every token, `(B, T, V)` -- or at the
+        last position only. The judge reads the whole window either way.
+
+        **The fit is detached; only the weight learns from next-word loss.**
+        Without it next-word reading -- 12,288 tokens a micro-batch against
+        the lesson's few quads -- trains the judge into a second word head:
+        on 1,000 iterations (probe only -- not on disk) its swap lesson
+        stayed at chance (0.50-0.57 right) and validation loss rose 0.05.
+        The judge learns fit from its lesson alone (`corn/judge.py` section
+        8); next-word reading decides only how much to use it."""
+        with torch.no_grad():
+            z = self.judge(h, rope)
+            if last:
+                z = z[:, [-1], :]
+            fit = F.logsigmoid(self.judge.all_scores(z, self.wte.weight))
+        return self.judge_alpha * fit
+
     def _rope(self, pos: torch.Tensor) -> Rope:
         """The (cos, sin) of `pos`, a `(T,)` tensor of positions, or None under `wpe`."""
         if self.rope_cos is None:
@@ -404,6 +515,7 @@ class CornModel(nn.Module):
         causal: bool = True,
         tags: torch.Tensor | None = None,
         attn_mask: torch.Tensor | None = None,
+        homes: torch.Tensor | None = None,
     ) -> tuple[torch.Tensor, torch.Tensor | None, list[KV]]:
         """`tags` is the per-token label map of PLAN-LOOP §4, or nothing;
         `attn_mask` is PLAN-TAG-SPINE §4's structural mask, or nothing --
@@ -419,6 +531,9 @@ class CornModel(nn.Module):
         `GraphedDecoder.prefill` takes a map, once per level.
         """
         B, T = idx.shape
+        if self.judge is not None and caches:
+            raise ValueError("the built-in judge keeps no cache -- decode with the full window "
+                             "(corn.wordloop.generate_nocache)")
         past = caches[0][0].size(2) if caches else 0
         if past + T > self.cfg.block_size:
             raise ValueError(f"sequence {past + T} exceeds block_size {self.cfg.block_size}")
@@ -445,6 +560,24 @@ class CornModel(nn.Module):
         else:
             x = self.drop(self.wte(idx) + self.wpe(pos))
 
+        # Homes (`corn/homes.py`): the row of the word that ended just before
+        # each piece, 0 for none, through the one trained matrix. Added after
+        # the lines above so that they stay the lines they were. A model
+        # built with homes never runs without them silently.
+        if self.home_in is not None:
+            if caches:
+                raise ValueError("homes keep no cache -- decode with the full window "
+                                 "(corn.wordloop.generate_nocache)")
+            if homes is None:
+                if self.home_cut is None:
+                    raise ValueError("this model reads homes: pass homes=, or call "
+                                     "corn.homes.attach(model) once after loading it")
+                homes = self.home_cut(idx)
+            x = x + self.home_in(self.home_page[homes]).to(x.dtype)
+        elif homes is not None:
+            raise ValueError("homes were passed to a model built with homes=\"\" -- "
+                             "it has nowhere to put them")
+
         new_caches: list[KV] = []
         for i, block in enumerate(self.blocks):
             if tags is not None and i == self.cfg.tag_layer and i > 0:
@@ -455,6 +588,8 @@ class CornModel(nn.Module):
 
         if targets is not None:
             logits = self.lm_head(x)
+            if self.judge is not None:
+                logits = logits + self.judge_bias(x, rope, last=False)
             loss = F.cross_entropy(
                 logits.view(-1, logits.size(-1)), targets.reshape(-1), ignore_index=-1
             )
@@ -462,6 +597,8 @@ class CornModel(nn.Module):
             # Only the last position matters for sampling; skip the rest of the
             # head. At vocab 256 this is small, at 32k it is not.
             logits = self.lm_head(x[:, [-1], :])
+            if self.judge is not None:
+                logits = logits + self.judge_bias(x, rope, last=True)
             loss = None
         return logits, loss, new_caches
 
@@ -495,6 +632,12 @@ class CornModel(nn.Module):
         instead of recomputing it -- 42.1% of a turn's prefill on the measured
         corpus (`scripts/prefill_redundancy.py`).
         """
+        if self.judge is not None:
+            raise ValueError("the built-in judge has no slot in the static cache -- decode with "
+                             "the full window (corn.wordloop.generate_nocache)")
+        if self.home_in is not None:
+            raise ValueError("homes have no slot in the static cache -- decode with "
+                             "the full window (corn.wordloop.generate_nocache)")
         rope = self._rope(pos)
         if rope is not None:
             x = self.wte(idx)
@@ -766,4 +909,10 @@ def load_adapter(model: CornModel, path: str, trunk_ckpt: str) -> dict:
 
 
 def build_model(cfg: Config, vocab_size: int) -> CornModel:
+    if cfg.arch == "wordloop":
+        from .wordloop import WordLoopModel
+
+        return WordLoopModel(cfg, vocab_size)
+    if cfg.arch != "gpt":
+        raise ValueError(f"arch must be 'gpt' or 'wordloop', got {cfg.arch!r}")
     return CornModel(cfg, vocab_size)

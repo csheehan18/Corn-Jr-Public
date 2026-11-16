@@ -1,0 +1,111 @@
+# A counted starting table helps early and is erased by the end
+
+**Full result:** A 5M whose word-piece table starts at a table counted from its training text -- finding 228's piece count squeezed to 256 numbers a piece, at the random table's scale, nothing added and nothing frozen -- reads 69, 76, 78 and 79 of the understanding ruler's 141 fields over four seeds (mean 75.5) and 68, 55, 62 and 66 of its 192 wishes (mean 62.8). Twelve 5Ms from a random start read 65 to 84 and 61 to 72. F and W fail. The start is real: at 250 iterations the run is 0.074 nats ahead of the random start on validation loss. By the end it is 0.003 to 0.019 nats a token ahead on held-out text, 0.011 at each seed that has a control -- little, by the registered line. And the table does not keep what it was given: read as a count it answers 82 fields at step zero and 65, 62, 63 and 55 after training, where the controls' tables end at 67 and 64. T is erased. The shuffled control was not owed.
+
+**Cost:** tables, copy-in, guard section, six configs and reader committed with the pre-registration at 21:42 on 2026-11-14 (ba733e8), after the tables were built (14.2 s of card) and four 250-iteration smokes chose the window (100.7 s); the four runs trained 300.4, 302.2, 300.4 and 299.7 s, 1,285.5 s for the chain with its read. ETA about 25 minutes of card; 21.4.
+
+**The question** (owner, 2026-11-14: "How are we deciding the starting
+weights? Maybe that's where the book could come in", and against my advice
+to skip it, "its starting spot would be stronger and nudges should help it
+more"). Finding 234 gave him the count as a frozen input and that touched
+only the way in. His table is tied, so a counted table stands on the output
+side too from step zero; and my case against the run compared the table
+read as a count with him read through sentences, which are two instruments.
+The pre-registration is `configs/nano5m_v3_webblend_table.py`'s docstring.
+
+## What was built
+
+`scripts/build_table.py`: finding 228's piece count over the train stream
+(8,147 of 8,192 pieces met, the ruler never read), the top 256
+eigen-directions of its symmetrised PPMI lines, `E = Q * sqrt(lam)`, scaled
+by one number to the random table's root-mean-square (0.02). `Config.
+table_init` copies it over the table's draw after every other draw, so the
+rest of the trunk and every batch are the control's at the same seed
+(`scripts/check_model.py`). The window was chosen without the ruler, by
+validation loss at 250 iterations from seed 1337:
+
+    window       5        10       20       40       random start
+    val at 250   4.164    4.176    4.197    4.216    4.239
+
+## The read
+
+    twelve 5Ms from a random start (finding 231): fields 65 to 84, mean 74.5; wishes 61 to 72, mean 64.7; held-out text 3.025 to 3.054 (ten of the same shape)
+
+                              wishes (192)   fields (141)   held-out text, against the controls' mean   its table as a count, fields
+    the starting table             --             --                                                    82
+    control, seed 1337             68             79            3.0355                                  67
+    control, seed 1338             62             75            3.0472                                  64
+    TABLE, seed 1337               68             69            -0.0170                                 65
+    TABLE, seed 1338               55             76            -0.0057                                 62
+    TABLE, seed 1339               62             78            -0.0028                                 63
+    TABLE, seed 1340               66             79            -0.0191                                 55
+
+## The pre-registered rows
+
+* **F fails.** Mean 75.5 against a fail line of 79.5; a random start
+  averages 74.5. Mine was "fails or a direction, mean 74 to 81".
+* **W fails.** Mean 62.8; seed 1338's 55 is under every random-start run.
+* **L: little.** All four are under the controls' mean, two of them by
+  0.017 and 0.019, and the line was 0.02 on all four. Against the control
+  at its own seed the gain is 0.011 (seed 1337) and 0.012 (1338). Ten
+  random-start runs of this shape span 0.029, so 0.011 is inside the draw
+  for a single run and is the same sign four times. I called it inside 0.01
+  of the controls: two are outside.
+* **T: erased.** 65, 62, 63, 55 where it started at 82 and "erased" was all
+  four at 70 or under. I called 66 to 74, "between, tending to erased": it
+  went further than that, to where a random start's table ends or below.
+* **K not owed**: F and W both fail.
+
+**The owner's prediction** -- a stronger starting spot that the nudges
+build on -- holds for the first few hundred steps and for a hundredth of a
+nat at the end, and not for the ruler: the nudges did not build on the
+start, they replaced it.
+
+## Read by hand
+
+* **Fields that change side, seed 1337**: 6 right only from the counted
+  start ("that won't take too long" -> time, "that goes direct" -> stops,
+  "where I can get online" -> wifi) and 16 right only from the random one
+  ("that's a bargain" -> price twice, "that's light to carry around" ->
+  weight, "I can do in an afternoon" -> duration). 69 against 79 at this
+  seed; the other three seeds read 76, 78 and 79.
+* **Stock answers**: the seed-1337 run says `rating` on 11 of its 72
+  misses, the most any of these runs leans on one label; the others are
+  like the controls (genre 8, genre 8, rating 9).
+* **What they write** is alike in kind: short chat turns that answer the
+  opener loosely, web continuations that circle their noun ("a very popular
+  ocean with a long and large ocean").
+
+## What it licenses
+
+By the pre-registration, its third outcome: **F does not hold and T is
+erased.**
+
+* **Training wears a counted start back to what the next-piece question
+  pays for.** The table began holding 82 fields' worth of "which pieces
+  keep company" and ended holding 55 to 65, level with or under a table
+  that began as noise. What the count knows was in his weights at step
+  zero and the next-piece loss took it out.
+* **This is the plainest read yet of why he lacks it.** Findings 222 to 231
+  could not put the count's knowledge in; finding 234 put it beside his
+  input and it bought nothing; here it was in the weights themselves and
+  one pass of ordinary training removed it. He does not fail to find this
+  knowledge. Next-piece reading does not keep it.
+* **A counted start is a small free speed-up, not understanding.** 0.074
+  nats ahead at 250 iterations and about 0.011 at the end, for no
+  parameters and no time. Finding 197 puts a 5M and a 20M 0.045 apart. Not
+  shown past the run-to-run draw on four seeds; worth a line in a recipe
+  only if a longer read confirms it.
+* **The 20M from a counted start is not proposed.** Nor is a frozen or
+  slowed table on this ground: that is finding 234's input by another
+  name, and it gained nothing.
+* **Unguarded read.** `scripts/check_model.py` holds the copy-in; no guard
+  pins `scripts/read_table_arm.py` or `scripts/build_table.py`, whose own
+  checks are the controls' saved counts, finding 228's tied reads and the
+  tally against a plain loop.
+
+**What it does not settle.** When in training the start is lost -- the
+tables at iterations 250, 1,000 and 2,500 would say whether it goes in the
+warm-up or wears away. Whether a wider table (a 20M's 512) keeps more. And
+the question this run points at: what he would keep if what he is asked
+paid for it.

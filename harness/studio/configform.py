@@ -74,7 +74,7 @@ ADVANCED = ("grammar", "fold", "restrict", "seed_turn", "seed_trim",
             "seed_repass", "history_fold", "budget", "round_reserve",
             "extract_gate", "gate_threshold", "reader", "reader_threshold",
             "reader_extent_d", "reader_adapter", "reader_whole_threshold",
-            "family_check", "identity_check", "name_header",
+            "family_check", "identity_check", "name_header", "turn_format",
             "buckets", "compile_step", "prefix_reuse")
 
 ELSEWHERE = ("tools", "tools_dir", "decline")  # other pages' fields
@@ -126,6 +126,7 @@ LABELS = {
     "family_check": "Social family check",
     "identity_check": "Identity questions",
     "name_header": "Name header",
+    "turn_format": "Turn format",
     "buckets": "Windowed decode graphs",
     "compile_step": "Compile the decode step",
     "prefix_reuse": "Reuse the shared prefix",
@@ -136,6 +137,7 @@ CHOICES = {
     "reader": ("generate", "head", "head_whole"),
     "identity_check": ("on", "log"),
     "family_check": ("on", "log", "off"),
+    "turn_format": ("v4", "v5"),
     "seed_trim": ("off", "obs", "both"),
     "seed_repass": ("off", "always", "contaminated"),
 }

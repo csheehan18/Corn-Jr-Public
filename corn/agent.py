@@ -117,6 +117,8 @@ import torch
 from .decode import GraphedDecoder, default_buckets
 from .extract import FRAME, content_words, grounded
 from .grammar import DEFAULT_COPY_SLOTS, SPAN_SLOTS, CallConstraint
+from .layers import Layers, door_names, move_family
+from .layers import head as v5_head
 from .persona import DEFAULT as DEFAULT_PERSONA
 from .persona import (PERSON_BIRTHDAY, PLACEHOLDER_NAME, PLACEHOLDER_USER, Marker,
                       Occasion, Persona, heads_up_key, name_header, unfilled)
@@ -146,6 +148,7 @@ from .tools import (
     READING,
     REGISTRY,
     Tool,
+    tool_schema,
     ask_agent_tool,
     owner_call_tool,
     owner_text_tool,
@@ -3570,7 +3573,7 @@ def fallback_say(payload) -> str:
 
 
 def declaration(tools: tuple[str, ...] = (),
-                offer_decline: bool = True) -> str:
+                offer_decline: bool = True, sig: str = "v4") -> str:
     """The `tools:` line that goes above `<|user|>`, with `decline` last.
 
     **This is the Phase 3 format decision DATA.md says cannot be retrofitted,
@@ -3593,7 +3596,10 @@ def declaration(tools: tuple[str, ...] = (),
     shown = declaration_names(tools, offer_decline)
     parts = []
     for n in shown:
-        t = REGISTRY[n]
+        # Under v5 the 1.0 signatures (`tools.SIGNATURES_1_0`): a declaration
+        # offering `place_call(contact)` to a checkpoint the grammar holds to
+        # `place_call()` would be the disagreement this function exists to stop.
+        t = tool_schema(n, sig)
         params = ", ".join(
             p.name + ("" if p.required else "?") for p in t.params
         )
@@ -4015,6 +4021,9 @@ class Agent:
         family_check: str = "on",
         identity_check: str = "on",
         name_header: bool = False,
+        # ROADMAP H3: `v5` is the 1.0 turn (`corn/layers.py`). `v4` is every
+        # runtime before it, byte for byte, and the default.
+        turn_format: str = "v4",
         # PLAN-CONVERSATION 4h. Tokens held back from the history fit so the
         # second round of a turn is not tail-cut -- see `ROUND_ADDITION`. 0 is
         # the shipped trimmer.
@@ -4070,9 +4079,9 @@ class Agent:
         self.declared = (declaration_names(tools, offer_decline)
                          if declare else None)
         self.decl_line = (
-            declaration(tools, offer_decline) + chr(10)) if declare else ""
+            declaration(tools, offer_decline, turn_format) + chr(10)) if declare else ""
         self.constraint = (
-            CallConstraint(self.tok, device, copy_slots=copy_slots,
+            CallConstraint(self.tok, device, copy_slots=copy_slots, sig=turn_format,
                            narrow_slots=narrow_slots,
                            declared=self.declared)
             if grammar else None
@@ -4196,6 +4205,17 @@ class Agent:
         self.identity_pool = ""
         # See `turn()`'s head: the `name:` line, for checkpoints trained on it.
         self.name_header = bool(name_header)
+        # **The 1.0 turn (ROADMAP H3).** Under `v5` the head is always `name:`
+        # and the day, with no `tools:` line, and every user line is followed by his
+        # `parts:` line and, after `parts: chat`, maybe his `move:` -- each
+        # under its bind (`corn.layers`). Built here, once, because the binds
+        # cache per state and a per-turn build would throw the cache away.
+        if turn_format not in ("v4", "v5"):
+            raise ValueError(f"turn_format {turn_format!r} is not v4 or v5")
+        self.turn_format = turn_format
+        self.layers = Layers(self.tok, device) if turn_format == "v5" else None
+        # What his lines said on the turn in progress -- `None` off v5.
+        self.turn_layers: dict | None = None
         self.round_reserve = int(round_reserve)
         self.budget = int(budget)
         # **Keep the KV of whatever prefix a round shares with the one before
@@ -4362,7 +4382,7 @@ class Agent:
         if (mode == "off" or raw is None or not self.seed_text
                 or D_CALL not in emitted):
             return emitted, raw
-        first = validate_call(raw)
+        first = validate_call(raw, self.turn_format)
         if not first["ok"] or first["name"] not in self.SEED_REPASS_TOOLS:
             return emitted, raw
         query = first["arguments"].get("query")
@@ -4382,7 +4402,7 @@ class Agent:
         if clean != ctx:                 # something to take off
             again = self._until_marker(clean, budget, guard_say=guard_say)
             _, raw2 = split_emission(again)
-            second = validate_call(raw2) if raw2 is not None else None
+            second = validate_call(raw2, self.turn_format) if raw2 is not None else None
             if (second is not None and second["ok"]
                     and second["name"] == first["name"]):
                 query2 = second["arguments"].get("query")
@@ -4457,6 +4477,15 @@ class Agent:
         if self.seed_text and below.startswith(self.seed_text):
             return below[len(self.seed_text):]
         return below
+
+    @torch.no_grad()
+    def _score(self, ids: list[int]):
+        """The next-token logits for a context of ids -- `corn.layers`'
+        scorer. A full forward per token, no cache: a layer line is a few
+        tokens, and the binds backtrack, which a cache would have to undo."""
+        block = self.model.cfg.block_size
+        x = torch.tensor([ids[-block:]], dtype=torch.long, device=self.device)
+        return self.model(x)[0][0, -1].float()
 
     def _prior(self, opening: str, budget: int) -> str:
         """`fit_history` against this checkpoint's block size and tokenizer.
@@ -4759,6 +4788,16 @@ class Agent:
         # arrives -- so the one thing that can be got right is that each marker
         # sits where its own corpus has it, including how often.
         head = ""
+        # **The 1.0 head (ROADMAP H3): `name:` and the day, always, and no
+        # `tools:` line.** `corn.layers.head` says why the day is no longer a
+        # vote under v5, and why the declaration is not shown (owner,
+        # 2026-11-12): the 1.0 real-tool slices never declare the real tools.
+        # The narrowing stays -- `self.declared` still holds the call grammar
+        # -- so this is the one place the declaration and the narrowing part,
+        # and it is the corpus that parts them. `name_header` and `day` are
+        # v4's switches and are not read.
+        if self.layers is not None:
+            head = v5_head(self.world.persona.name, self.world.anchor)
         # **His name, first, when the checkpoint was taught to read it there.**
         # PLAN-PERSONALITY (sixth): the corpus puts `name: X` as the first line
         # of a named transcript, above the day and the declaration, and the
@@ -4766,12 +4805,13 @@ class Agent:
         # one design in which he *copies* his name rather than recalls it.
         # Off by default: a checkpoint that never saw the line is handed the
         # context it was measured on.
-        if self.name_header:
+        if self.layers is None and self.name_header:
             head += name_header(self.world.persona.name)
-        if day:
+        if self.layers is None and day:
             head += f"<|day|>{self.world.anchor.isoformat()} "
             head += f"{self.world.anchor.strftime('%A')}\n"
-        head += self.decl_line
+        if self.layers is None:
+            head += self.decl_line
         user_line = f"{D_USER}{user}\n"
         # Trimming happens against this turn's opening *and* the head, so the
         # check is "what still fits with the new question and the declaration in
@@ -4781,6 +4821,25 @@ class Agent:
         prior = (self._prior(head + user_line, budget)
                  if (self.multi or self.history) else "")
         ctx, carried = stack(head, prior, user_line)
+        # **His layer lines, under their binds (ROADMAP H3, `corn.layers`).**
+        # Written before any hatch reads the turn, so every path below -- the
+        # pools, the identity answer, the decode -- finishes a turn whose
+        # transcript carries them, and the history he reads next turn has the
+        # shape C6 rendered on every 1.0 turn. Decoded on the context as it
+        # stands, then the history is re-fitted with the longer user line.
+        self.turn_layers = None
+        if self.layers is not None:
+            lay = self.layers.write(self._score, ctx, user)
+            self.turn_layers = lay
+            if lay["text"]:
+                user_line += lay["text"]
+                prior = (self._prior(head + user_line, budget)
+                         if (self.multi or self.history) else "")
+                ctx, carried = stack(head, prior, user_line)
+            _emit("layers", parts=lay["parts"], move=lay["move"],
+                  closed=lay["closed"], pops=lay["pops"])
+            if echo and not lay["closed"]:
+                print("  ~~ the parse line did not close; the turn goes on without one")
         # What is new this turn: the head only when nothing carried it in.
         # Printed and emitted rather than `ctx` because a client watching a
         # conversation should see the turn, and a declaration it was already
@@ -4858,6 +4917,13 @@ class Agent:
         # `social` was drawn from.
         family = (social_family(user, self.world.persona.name)
                   if social is not None else None)
+        # **Under v5 his move is read in place of the detector** (D7,
+        # `corn/moveline.py`): the family check holds his reply to the family
+        # he declared. A move that names no family -- `self`, `share`, `open`
+        # -- or no move at all leaves the detector's reading in place.
+        if (social is not None and self.turn_layers is not None
+                and move_family(self.turn_layers["move"])):
+            family = move_family(self.turn_layers["move"])
         direct = social
         # **And "who are you" comes off the same hatch, for a second reason.**
         # A social turn is routed here because it has no side effect worth
@@ -5252,6 +5318,15 @@ class Agent:
                 cut = below.rfind(D_USER)
                 self.constraint.set_source(
                     below, below[cut:] if cut >= 0 else below)
+                # **The door, under v5** (`corn/door.py`): the next call may
+                # name only its part's role's tools and the helpers. Re-read
+                # every round, because a compound's second part opens once the
+                # first part's call is in `ctx`. No part left to bind leaves
+                # the declaration whole -- the door narrows and never widens,
+                # and an empty set would deadlock the call grammar.
+                if self.layers is not None:
+                    self.constraint.set_declared(
+                        door_names(ctx, self.declared or tuple(REGISTRY)) or self.declared)
             # **Not streamed when the runtime already knows what must be
             # said.** `text` events are what a streaming client speaks as they
             # arrive, so letting his paraphrase through and correcting it in
@@ -5403,7 +5478,7 @@ class Agent:
                     author = "model"
                 break
 
-            v = validate_call(raw)
+            v = validate_call(raw, self.turn_format)
             # **A placeholder in a call is a leak, and it is counted here
             # rather than refused here.** PLAN-PERSONALITY §5b: the grammar
             # admits any string in a `text` or `message` field, so a model
@@ -5717,6 +5792,9 @@ def main() -> None:
              "runtime, and the control a fold-dated card is read against. "
              "See `fold_turn`",
     )
+    ap.add_argument("--turn-format", default="v4", choices=("v4", "v5"),
+                    help="v5 is the 1.0 turn: name and day always, no tools: line, and "
+                         "his parts:/move: lines under their binds (corn/layers.py)")
     ap.add_argument("--device", default="cuda" if torch.cuda.is_available() else "cpu")
     ap.add_argument(
         "--buckets",
@@ -5787,6 +5865,7 @@ def main() -> None:
         history_fold=args.fold_history,
         family_check=args.family_check,
         identity_check=args.identity_check,
+        turn_format=args.turn_format,
         round_reserve=args.round_reserve,
         budget=args.budget,
         multi=args.multi,

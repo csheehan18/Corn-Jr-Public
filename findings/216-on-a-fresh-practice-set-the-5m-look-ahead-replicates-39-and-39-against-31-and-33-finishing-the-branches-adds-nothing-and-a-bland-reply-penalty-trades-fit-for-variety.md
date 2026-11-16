@@ -1,0 +1,106 @@
+# The look-ahead holds on new messages; finishing and penalties add nothing
+
+**Full result:** On 100 new hand-written messages, the look-ahead of finding 215, settings unchanged, lifts the plain 5M's fitting replies to 39 and 39 against greedy's 31 and 33 by a blind hand read -- 21 replies pass only under it and 7 only under greedy (sign test p = 0.013) -- so 215's direction replicates on messages it was never read on. Neither of the two changes aimed at its losses adds to it: finishing the five kept branches and re-ranking the finished replies reads 40 and 40 (80 pooled against the look-ahead's 78, 14 to 12 paired), under the pre-registered +5, so no new arm goes to the exam; penalising the bland reply raises variety by half (80 and 88 distinct three-word openings against 58 and 60) and costs fit (32 and 34, 66 pooled, 13 to 25 paired), and both together read 33 and 39. Finishing changes 54-70 of 100 replies and mostly swaps a failure for a failure: the finished score is led by fluency and the judge's end-of-reply vote is too small to overrule it. A linear probe on the 260M's states, fitted on 2,072 hand labels, counts every practice arm within 5.3 of the hand count -- it meets its bar, though its error is the size of the gains it would have to see
+
+**Cost:** the grader and its check, the practice set, `corn/judge.py` section 7 and `check_judge.py` 7, the pre-registration 15:47-16:20 on 2026-10-24 (09f8197); generation and grading 2.0 min (contended at 39%, a bound); the blind hand read of 1,000 replies ~12 min. ETA ~2.5 h for the whole sweep, actual ~1 h.
+
+**The question** (owner, 2026-10-24: "let's really nail 5M"; "do 1 and 2").
+Finding 215's look-ahead lost 18 replies to two habits: a fine opening that
+went wrong later, and a pull toward the generic "I don't know. I just feel
+like...". Idea 1 finishes the kept branches and lets the judge choose
+among whole replies, where it reads best (finding 214's J1); idea 2
+subtracts half of each word's log-probability after an empty message
+(finding 205's form) inside the beam and the final score
+(`docs/PLAN-REPLY-JUDGE.md` Phase 1c, `corn/judge.py` section 7).
+
+## The instrument
+
+Tuning on the 148 would fit the exam, so the choice was made on a practice
+set of 100 new messages (`scripts/reply_dev_messages.py`, hand-written
+2026-10-24, the 148's ten kinds, no overlap -- the probe asserts it). An
+automatic grader was checked first against the hand labels of findings
+214-215, its bar set before it ran (`scripts/grade_replies.py`: held-out
+AUC 0.85, every arm within 6 of the hand count):
+
+    grader                                   held-out AUC   arms off by      bar
+    260M likelihood features (logistic)      0.819          up to 14         not met
+    probe on 260M states, 0.5 cut            0.931          up to 24         not met
+    probe, count = sum of p (fixed before    --             up to 5.3        met
+      this read, fitted on 214-215 labels)
+
+Neither chose anything here; the practice set was read by hand. The third
+row is the probe's counting rule tested on this read for the first time:
+it meets the registered bar. Its error of up to 5 per arm is as large as
+the look-ahead's gain per seed (+8, +6), and it puts greedy and the
+look-ahead within 0.4 of each other at seed 2 where the hand read gives 6
+apart -- so it can screen for large effects, not decide between close arms.
+
+## The read (blind hand read, of 100 practice messages)
+
+    arm                                    seed 1   seed 2   pooled   paired against look-ahead
+    greedy                                 31       33       64       7 : 21 (against greedy: look 21 : 7, p 0.013)
+    look-ahead (215's)                     39       39       78       --
+    + finish the kept branches (look_f)    40       40       80       14 : 12, p 0.85
+    + bland-reply penalty (look_p)         32       34       66       13 : 25, p 0.073
+    + both (look_pf)                       33       39       72       18 : 24, p 0.44
+    distinct three-word openings
+      greedy / look / look_f / look_p / look_pf    66/58/66/80/80   60/60/74/88/85
+    probe grader, expected passes          35.5/37.0/37.6/33.9/36.2   34.2/34.6/37.6/32.5/33.7
+
+(`evals/results/reply_dev__*`: replies, the blind file, its key, the hand
+labels and the probe's grades.)
+
+**The rows, as registered.** D: the best new arm (look_f, 80) beats the
+look-ahead (78) by 2, under 5 -- **no winner; the look-ahead stays best
+and nothing new goes to the 148** (row E not run). G: met. The prediction
+was look_f wins D and passes E: wrong. The prediction that the penalty
+raises variety and leaves fit level: half right -- variety up by half,
+fit down by 12 pooled.
+
+## Read by hand
+
+**Finishing the branches is a lateral move.** It changes 70 and 54 of the
+100 replies and swaps like for like: "Congratulations, Kehon! I knew you
+could do it." becomes "That's great! Congratulations! What made you decide
+to become a promotion?" (a pass lost), "Let me take a look." to a sprained
+ankle becomes "That's great! I'm glad you're enjoying it." (lost), "Oh my
+god, I'm sorry. I didn't mean to hurt you." to locked keys becomes "Oh no,
+that's terrible. What happened?" (won). The finished score is the mean
+log-probability plus the judge's vote at the end marker, and the most
+fluent finished reply is often a stock line; the judge's vote spans about
+0.7 nats (finding 214) and does not overrule it.
+
+**The penalty works as designed and costs what 205 found.** Stock openings
+fall away ("What kind of salt?", "Wow, that's really good! What made you
+decide to get salt?") and odd ones come in: "Holden. Well, I'm not sure if
+I'm ready to go." to "Hold on.", "Thank good." to "Fine.". Raising a word
+because the empty message does not expect it raises rare words, and at 5M
+rare words are often wrong ones.
+
+**The look-ahead's gains on new messages** are 215's kind: a question built
+from the message where greedy asks "What? Why?", and a mood turned the
+right way round.
+
+## The cause, and what it licenses
+
+Both arms fail for one reason: **the judge's vote is too weak and too
+unsure to choose among fluent candidates.** The search finds better
+replies (the look-ahead's gain replicates), but once the candidates are
+all fluent, what decides is the judge, and it misreads mood on bad news
+and spans 0.7 nats.
+
+* **The look-ahead is the 5M's best decoder so far, now on two message
+  sets**: +5 / +15 on the 148 (finding 215), +8 / +6 on the practice set.
+* **Finishing and the penalty are dropped as defaults.** The penalty stays
+  an option where variety matters more than fit.
+* **The next lever is the judge itself**, idea 5 of the owner's list:
+  retrain it on hard negatives (the wrong replies it now rates as fitting,
+  cheerful replies to bad news first), then read the look-ahead with it on
+  the practice set. Giving the judge more say (idea 4) waits on that, since
+  a louder judge that misreads mood amplifies the misreading.
+* **The probe grader may screen** a sweep for effects over about 6 per
+  arm; a choice between close arms still needs the hand read.
+
+**What it does not settle.** Penalty strengths other than 0.5; finishing
+with a judge that reads mood; any size above 5M; the 148 for these arms
+(not run, by the registered rule).

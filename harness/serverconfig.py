@@ -221,6 +221,12 @@ HELP = {
                    "arm 9's header design trains him to copy his name from "
                    "(PLAN-PERSONALITY (sixth)). Off by default: a checkpoint "
                    "that never saw the line gets the context it was measured on",
+    "turn_format": "v4 serves the turn as every shipped checkpoint was "
+                   "trained; v5 is the 1.0 turn -- `name:` and the day "
+                   "always, no `tools:` line, and his `parts:` and `move:` lines "
+                   "under their binds, the call held to its part "
+                   "(corn/layers.py, ROADMAP H3). Only a checkpoint trained on "
+                   "the 1.0 corpus reads v5",
     "identity_check": "the identity hatch (who are you, are you an AI, a "
                       "question about his life): `on` answers from the pools "
                       "as it always has, `log` lets the turn route so the "
@@ -411,6 +417,7 @@ class ServerConfig:
     family_check: str = "on"
     identity_check: str = "on"
     name_header: bool = False
+    turn_format: str = "v4"
     round_reserve: int = 0
     budget: int = 120           # decision 11; see history_fold above
     # **Both are exact, which is the whole reason they can be defaults.**
@@ -546,6 +553,9 @@ class ServerConfig:
         if self.identity_check not in ("on", "log"):
             raise ConfigError(f"identity_check {self.identity_check!r} is not "
                               f"on or log")
+        if self.turn_format not in ("v4", "v5"):
+            raise ConfigError(f"turn_format {self.turn_format!r} is not v4 or v5 "
+                              "-- see corn/layers.py")
         if self.family_check not in ("on", "log", "off"):
             raise ConfigError(f"family_check {self.family_check!r} is not "
                               "`on`, `log` or `off` -- see corn/socialfam.py")
@@ -678,6 +688,8 @@ def add_arguments(ap: argparse.ArgumentParser) -> None:
                     choices=("on", "log"), help=HELP["identity_check"])
     ap.add_argument("--name-header", dest="name_header", action="store_true",
                     default=None, help=HELP["name_header"])
+    ap.add_argument("--turn-format", dest="turn_format", default=None,
+                    choices=("v4", "v5"), help=HELP["turn_format"])
     ap.add_argument("--family-check", default=None,
                     choices=("on", "log", "off"), help=HELP["family_check"])
     ap.add_argument("--round-reserve", type=int, default=None,
