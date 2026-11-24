@@ -1,0 +1,106 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>128 · Questions about his life go to the web six times in ten · Corn-Jr</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600&family=IBM+Plex+Mono:wght@400;500&family=Spectral:ital,wght@0,400;0,500;0,600;1,400&family=Spectral+SC:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/Corn-Jr-Public/static/library.css">
+<script defer src="/Corn-Jr-Public/static/library.js"></script>
+<script type="speculationrules">
+{"prerender": [{"where": {"and": [{"href_matches": "/Corn-Jr-Public/*"}, {"not": {"href_matches": "/Corn-Jr-Public/random.html"}}, {"not": {"href_matches": "/Corn-Jr-Public/static/*"}}]}, "eagerness": "moderate"}]}
+</script>
+
+</head>
+<body>
+<div class="page">
+  <header class="running">
+    <a class="book" href="/Corn-Jr-Public/">Corn-Jr · The Record</a>
+    <nav>
+      <a href="/Corn-Jr-Public/" data-key="shelf">Shelf</a><a href="/Corn-Jr-Public/findings.html" data-key="findings" class="here">Findings</a><a href="/Corn-Jr-Public/doc/VISION.html" data-key="VISION">Vision</a><a href="/Corn-Jr-Public/doc/GLOSSARY.html" data-key="GLOSSARY">Glossary</a>
+      <a href="https://github.com/csheehan18/Corn-Jr-Public">Source</a>
+    </nav>
+  </header>
+  
+
+<article class="sheet" style="--c:var(--c3)">
+  <div class="progress" aria-hidden="true"></div>
+  <section class="grid chapter-open finding-open">
+    <a class="tab" href="/Corn-Jr-Public/thread/personality.html" title="Personality and self"><small>Part</small><span>III</span></a>
+    <p class="cn">128</p>
+    <p class="partline"><a href="/Corn-Jr-Public/thread/personality.html">Personality and self</a> · not yet committed</p>
+    <h1>Questions about his life go to the web six times in ten</h1>
+  </section>
+
+  <section class="grid">
+    <p class="marginal">The result, as the finding states it</p><div class="prose"><p class="lead">The family check and the life hatch land with the card reading them: a question about his life goes to the web on six to eight turns in ten, the fold and the reserve move no copy column on the checkpoint that copies, the first distractor copy is seen at depth three, and a lookup history costs the next social move a third of its answers</p></div>
+    <p class="marginal">What it cost</p><div class="prose"><p class="cost">3.1 min of scoring on the 2 cards first cited here (<code>corn_jr_260m_v4_ft4g__historygrid-0905ctl</code>, <code>corn_jr_260m_v4_ft_social3__historygrid-0905ctl</code>); it also reads 3 cards scored for an earlier finding (<code>corn_jr_260m_v4_ft4g</code>, <code>corn_jr_260m_v4_ft_social2</code>, <code>corn_jr_260m_v4_ft_social3</code>). Backfilled 2026-09-26 from the cards' <code>seconds</code>; training and probe time were never recorded, so this is a floor.</p></div>
+  </section>
+
+  
+
+  <section class="grid">
+    <div class="prose doc"><p><strong>Numbered 128 on 2026-09-08, having been written as 115.</strong> Two sessions on 2026-09-05 both claimed 115 — this one at 13:46 and the grounding-rule finding at 15:01 — and both rows sat in the table for three days, so "finding <a class="fref" href="/Corn-Jr-Public/finding/115.html">115</a>" was ambiguous in five source files. The other one keeps the number: five frozen scorecards are named <code>*__grounded115.json</code> and cannot be renamed without breaking the manifests that carry their hashes, where everything pointing here is prose. So this file is out of date order by three days, and the number is the citation key rather than the clock.</p>
+<p>2026-09-05. <strong>PLAN-CONVERSATION's card half</strong>, run serialised on the 3080 in the evening after the CPU half landed in <code>a67d0779</code>. Nine <code>historygrid</code> cards (<code>harness/results/*__historygrid-0905*.json</code>, seed 0, <code>--multi</code>, <code>--no-log</code>, no packs, the owner's <code>server.json</code> bypassed with an empty <code>--config</code>) and three <code>corn.evals --only social,social_self,social_low</code> cards (<code>evals/results/social__*__socialrows-0905.json</code>). Nothing trained. Every number below is read against the readings pre-registered in <code>docs/PLAN-CONVERSATION.md</code> §4g, §4h (the fourth section), §5a--5c and §6d.</p>
+<h3 id="0-what-ran">0. What ran</h3>
+<p>historygrid   ft4      depth 1   shipped / fold ft4      depth 3   shipped arm 2    depth 1   shipped arm 2    depth 3   shipped / fold / reserve (--round-reserve 115 --budget 96) ft4g     depth 1   shipped arm 3    depth 1   shipped evals         ft4g, arm 2, arm 3   social.<em>, social.self</em>, social.low_*</p>
+<p><code>arm 2</code> is <code>corn_jr_260m_v4_ft_social2</code>, the checkpoint the 2026-09-04 session ran on; <code>arm 3</code> is <code>_social3</code>. Every card's <code>social_nocall</code> arm landed 18/18 and <code>adjacent_frame_kept</code> read 8/8 and 4/4 everywhere, so the frame is not what any number below is about.</p>
+<h3 id="1-social-self-the-residue-is-the-router-not-a-life">1. <code>social.self</code> — the residue is the router, not a life</h3>
+<p>The row PLAN-CONVERSATION 5a built as a ruler, 47 declared prompts about his life with no prefill, read on the three checkpoints:</p>
+<p>pass    web_search   decline   say passes   say refused ft4g              7 / 47       39            7          0            1 arm 2            13 / 47       30            3         10            4 arm 3            16 / 47       28            6         10            3 held-out 16      3 / 8 / 8</p>
+<p><strong>The defect §1 quoted — "I'm 23.", "I'm a web developer" — is one item in forty-seven on every checkpoint</strong> (<code>life: i got a</code>, once each). What the router does with "how old are you" is send it to <code>web_search</code>: <strong>83%, 64% and 60%</strong> of the row. That is finding <a class="fref" href="/Corn-Jr-Public/finding/78.html">78</a>'s grid M species again — a question about <em>him</em> answered out of a search index — on the family of questions that finding did not probe. So §10 decision 8's question ("does the routed say's residue deserve a guard of its own?") has its number, and the number says the guard would be aimed at the wrong place: the residue is a call, not a sentence, and no <code>social_rejection</code> clause reads a call. The 4c hatch closes 31 of the 47 phrasings before the router sees them; the 16 held-out phrasings are the honest size of what is left, at 19% / 50% / 50%.</p>
+<h3 id="2-social-low-the-floor-is-a-floor">2. <code>social.low_*</code> — the floor is a floor</h3>
+<p>low_declared_nocall   low_voice   low_family   heldout ft4g                        7 / 28            17 / 28      0 / 28     0 / 4 arm 2                      17 / 28            24 / 28      2 / 28     0 / 4 arm 3                      16 / 28            23 / 28      1 / 28     0 / 4</p>
+<p><code>low_family</code> reads 0 to 2 of 28 — the "expected near 0" of §6a's floor, now a number arm 5 is read against. The species behind the routing half is §1's own: on arm 2 the eleven misses are all <code>called_decline</code> ("Wish I could, but nothing here does that." to a stated low mood), and on ft4g fifteen decline and four search. With <code>&lt;|say|&gt;</code> supplied the sentence is speakable four times in five on the social arms (<code>low_voice</code>), and it is not a consolation: <code>no family marker</code> on 20 of 26 misses, the rest answering ack, greeting or wellbeing. That is the gap between "he can speak" and "he answers the feeling", as a pair of columns.</p>
+<h3 id="3-social-voice-after-4b-s-carve-out-and-family-unmoved">3. <code>social.voice</code> after 4b's carve-out, and <code>family</code> unmoved</h3>
+<p><code>sorry you</code>, <code>glad you</code> and <code>birthday</code> left the life-claim list; the consolation markers carry the first two. Re-scored on the same 112 items:</p>
+<p>voice              family     farewell (voice) ft4g          57 -&gt; 59  +2        53 -&gt; 53     11 -&gt; 11 arm 2         86 -&gt; 89  +3        71 -&gt; 71     13 -&gt; 14 arm 3         90 -&gt; 93  +3        65 -&gt; 65     12 -&gt; 13</p>
+<p>Two to three items a checkpoint, all of them replies the old list refused as a life and the new one does not; <code>family</code> byte-identical, which it had to be — the five families' markers did not move and <code>good to hear</code> joined the ack list on a line no item carried. The delta is recorded here and the row is comparable across the date with this line beside it.</p>
+<h3 id="4-the-fold-and-the-reserve-on-the-checkpoint-that-copies">4. The fold and the reserve, on the checkpoint that copies</h3>
+<p>At depth 1 (one prior turn) the fold never fires and the ft4 rows are identical shipped against fold. At depth 3 on arm 2, where the trimmer takes the oldest turns:</p>
+<p>reissued_q   reissued_u   copied_from            social_answered arm 2  depth 3  shipped       1 + 1        1 + 1      bound 3, distractor 1     22 / 36 arm 2  depth 3  fold          1 + 1        1 + 1      bound 3, distractor 2     23 / 36 arm 2  depth 3  reserve       1 + 1        1 + 1      bound 3, distractor 1     20 / 36</p>
+<p>(<code>reissued_q</code> and <code>reissued_u</code> are the <code>lookup_ok</code> + <code>lookup_fail</code> cells of 8; the same probe, "who painted the mona lisa", re-issues under every lookup history on every arm.)</p>
+<p><strong>§4g's second reading fires: the fold is a compression only.</strong> <code>reissued_*</code> and <code>routed_fresh</code> are unmoved, and the reason is sharper than the plan's hypothesis allowed. The fold deletes the <code>&lt;|call|&gt;</code> line, but on a lookup turn the user line <em>is</em> the query — "the capital of Selaethdia" is what was typed and what was searched — so the string the copy grammar lifts survives the fold in the half the fold keeps. The paragraph in §4g claiming the fold "deletes the exact string <code>reissued_query</code> copies" is withdrawn on its own terms; the depth column it buys (finding 4g's table: depth 3 held whole 2% -&gt; 74%) stands, and <code>social_answered</code> under the fold is within one item of shipped.</p>
+<p><strong>§4h's second reading fires: the sliced head was harmless at this depth.</strong> Every copy column under <code>--round-reserve 115 --budget 96</code> is the shipped column exactly; <code>social_answered</code> is two items lower, inside the spread the same cells show between seeds of the same setting. The reserve ships as correctness (default off, the A/B arm) and §4f is priced against it.</p>
+<p><strong>§6d's second reading is seen for the first time.</strong> <code>copied_from</code> reports <code>distractor</code> at depth 3 — one case shipped, two under the fold — after a <em>social</em> opener: with no query of its own in the bound turn, "who painted the mona lisa" lifted "the capital of Elmorndmar" from two exchanges back. At depth 1 the column is <code>bound 1, none 71</code> on ft4g and arm 2 and <code>none 72</code> on ft4 and arm 3; at depth 3 the bound copies are three on arm 2 and there are none on ft4 at any depth. He binds to the wrong turn when there is a wrong turn to bind to, at about one probe in seventy on the checkpoint that copies at all. Arm 8's premise holds and its effect size is small on the grid; the live session's byte-for-byte re-issues were under a deeper and messier history than any arm here builds.</p>
+<h3 id="5-social-second-turn-as-the-grid-reads-it">5. <code>social.second_turn</code>, as the grid reads it</h3>
+<p>The new social probe family — six whole-utterance moves after each history, scored on no call plus the move's family in the reply:</p>
+<p>control   after lookup_ok   lookup_fail   chat_nocall   declined   social_nocall   all six arms ft4            6 / 6        5 / 6            5 / 6         6 / 6         5 / 6        6 / 6         32 / 36 ft4g           6 / 6        2 / 6            2 / 6         3 / 6         4 / 6        6 / 6         21 / 36 arm 2          6 / 6        4 / 6            4 / 6         4 / 6         4 / 6        6 / 6         26 / 36 arm 3          6 / 6        3 / 6            2 / 6         4 / 6         5 / 6        6 / 6         23 / 36</p>
+<p>Every control answers 6/6 and every social-after-social answers 6/6, so the hatch holds a conversation with itself. <strong>What costs the next social move is a <em>tool</em> turn before it</strong>: after a lookup, ft4g answers two of six, the social arms three or four. The misses are <code>web_search</code> calls on "good night" and "rough day" — the routing prior of the previous turn carried into a turn that has no request in it, which is finding <a class="fref" href="/Corn-Jr-Public/finding/35.html">35</a>'s number ("multi-turn is 0.34% of the mix and the only shape is the daycross follow-up") as a column. This is the row arm 7 is read on, and its base is written: 26/36 on arm 2.</p>
+<h3 id="6-what-this-does-not-claim">6. What this does not claim</h3>
+<p>Not that the fold is wrong to ship: the depth it buys is measured and the copies it fails to remove were never going to move on a checkpoint that copies at depth 1 with nothing to fold. Not that the reserve is unnecessary: the probe's 61–78% second-round cut is real; it is harmless <em>on these columns at this depth</em>, and the frame row cannot see a sliced declaration that a later round recovers from. Not that <code>social.self</code>'s 16 held-out phrasings are the whole residue — they are the sixteen a session wrote, and the web-search share on them (12 of 16 on ft4g) is the number to widen the hatch against, not a bound. Not a seed replicate on anything: one seed, one grid, and the between-arm differences on <code>social_answered</code> are one to two items out of six.</p>
+<h3 id="measurement-provenance">Measurement provenance</h3>
+<p><code>harness/results/corn_jr_260m_v4_ft4__historygrid-0905{ctl,fold,ctl-depth3}.json</code>, <code>corn_jr_260m_v4_ft_social2__historygrid-0905{ctl,ctl-depth3,fold-depth3,reserve-depth3}.json</code>, <code>corn_jr_260m_v4_ft4g__historygrid-0905ctl.json</code>, <code>corn_jr_260m_v4_ft_social3__historygrid-0905ctl.json</code>; each records its <code>decode</code> block with <code>family_check</code>, <code>round_reserve</code> and <code>budget</code> in the instance. <code>evals/results/social__{corn_jr_260m_v4_ft4g,corn_jr_260m_v4_ft_social2,corn_jr_260m_v4_ft_social3}__socialrows-0905.json</code> against the same checkpoints' <code>__socialrows.json</code> from 2026-09-02/03 for the before column. Source <code>a67d0779</code> plus this file. Every card was read with the server's <code>--family-check on</code> default, which touches only the hatch path and no row here reads the hatch path's own sentence.</p></div>
+  </section>
+
+  <section class="grid refs">
+    <div class="body two-even">
+      <div>
+        <h2 class="small">It cites</h2>
+        <ul class="reflist"><li style="--c:var(--c1)"><a href="/Corn-Jr-Public/finding/4.html"><span class="fn">4</span>A frozen evaluation set, and the three problems it caught</a></li><li style="--c:var(--c1)"><a href="/Corn-Jr-Public/finding/35.html"><span class="fn">35</span>One percent of non-tool turns teaches him when not to call</a></li><li style="--c:var(--c3)"><a href="/Corn-Jr-Public/finding/78.html"><span class="fn">78</span>Forcing copied search queries breaks follow-ups; keyword shortcuts catch few chats</a></li></ul>
+        
+      </div>
+      <div>
+        <h2 class="small">Cited by</h2>
+        <ul class="reflist"><li style="--c:var(--c3)"><a href="/Corn-Jr-Public/finding/119.html"><span class="fn">119</span>Fine-tuning from the shipped base: frozen scores hold, small social costs</a></li><li style="--c:var(--c3)"><a href="/Corn-Jr-Public/finding/123.html"><span class="fn">123</span>One unrelated exchange in history stops repeated calls</a></li></ul>
+        
+      </div>
+    </div>
+    <p class="body source">docs/findings/128-a-life-question-goes-to-the-web-six-times-in-ten-the-fold-and-the-reserve-move-no-copy-column-and-the-first-distractor-copy-is-seen-at-depth-three.md</p>
+  </section>
+</article>
+
+  
+<footer class="turn">
+  <div></div>
+  <div class="r"><span class="sc">next</span><a href="/Corn-Jr-Public/finding/158.html">158 · Wordings seen over ten times get memorised; key phrases become lists</a></div>
+  <p class="keys"><kbd>←</kbd> <kbd>→</kbd> turn the page · <kbd>/</kbd> find</p>
+</footer>
+<p class="bynumber">Previous and next in <a href="/Corn-Jr-Public/thread/personality.html">Personality and self</a>. By number:
+  <a href="/Corn-Jr-Public/finding/127.html">127</a> · <a href="/Corn-Jr-Public/finding/129.html">129</a></p>
+
+</div>
+</body>
+</html>

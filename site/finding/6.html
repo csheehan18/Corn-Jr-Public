@@ -1,0 +1,94 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>6 · Fine-tuning installs the tool format but not using the tool&#39;s answer · Corn-Jr</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600&family=IBM+Plex+Mono:wght@400;500&family=Spectral:ital,wght@0,400;0,500;0,600;1,400&family=Spectral+SC:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/Corn-Jr-Public/static/library.css">
+<script defer src="/Corn-Jr-Public/static/library.js"></script>
+<script type="speculationrules">
+{"prerender": [{"where": {"and": [{"href_matches": "/Corn-Jr-Public/*"}, {"not": {"href_matches": "/Corn-Jr-Public/random.html"}}, {"not": {"href_matches": "/Corn-Jr-Public/static/*"}}]}, "eagerness": "moderate"}]}
+</script>
+
+</head>
+<body>
+<div class="page">
+  <header class="running">
+    <a class="book" href="/Corn-Jr-Public/">Corn-Jr · The Record</a>
+    <nav>
+      <a href="/Corn-Jr-Public/" data-key="shelf">Shelf</a><a href="/Corn-Jr-Public/findings.html" data-key="findings" class="here">Findings</a><a href="/Corn-Jr-Public/doc/VISION.html" data-key="VISION">Vision</a><a href="/Corn-Jr-Public/doc/GLOSSARY.html" data-key="GLOSSARY">Glossary</a>
+      <a href="https://github.com/csheehan18/Corn-Jr-Public">Source</a>
+    </nav>
+  </header>
+  
+
+<article class="sheet" style="--c:var(--c1)">
+  <div class="progress" aria-hidden="true"></div>
+  <section class="grid chapter-open finding-open">
+    <a class="tab" href="/Corn-Jr-Public/thread/tool-calls.html" title="Tool calls and copying"><small>Part</small><span>I</span></a>
+    <p class="cn">6</p>
+    <p class="partline"><a href="/Corn-Jr-Public/thread/tool-calls.html">Tool calls and copying</a> · 17 August 2026</p>
+    <h1>Fine-tuning installs the tool format but not using the tool&#39;s answer</h1>
+  </section>
+
+  <section class="grid">
+    <p class="marginal">The result, as the finding states it</p><div class="prose"><p class="lead">The format fine-tunes in fine; deferring to the tool does not</p></div>
+    <p class="marginal">What it cost</p><div class="prose"><p class="cost">2.4 min of scoring on the 2 cards first cited here (<code>nano20m_ft</code>, <code>nano20m_ft_replay</code>); it also reads 2 cards scored for an earlier finding (<code>nano20m</code>, <code>nano20m_pilot</code>). Backfilled 2026-09-26 from the cards' <code>seconds</code>; training and probe time were never recorded, so this is a floor.</p></div>
+  </section>
+
+  
+
+  <section class="grid">
+    <div class="prose doc"><p>The fifth finding showed the format in pretraining works. It could not show that a fine-tune <em>wouldn't</em> have worked, which is what DATA.md §4 actually claims, and §4's stated reason was capacity: at 250M there is no room for a light fine-tune to install a format the base model has never seen. <code>Config.init_from</code> now exists, so the control arm ran — twice.</p>
+<p>Both arms start from <code>checkpoints/nano20m/ckpt.pt</code>, the TinyStories-only model that has never seen a <code>&lt;|call|&gt;</code>, and both read <strong>exactly 44,775,000 temporal tokens</strong> — the pilot's figure to the token, byte-identical corpora verified by sha256. Temporal exposure is held constant, so the only variable is when the model read it.</p>
+<div class="tablewrap"><table><thead><tr><th>row</th><th><code>nano20m_pilot</code>&lt;br&gt;pretrained</th><th><code>nano20m_ft</code>&lt;br&gt;fine-tuned</th><th><code>nano20m_ft_replay</code>&lt;br&gt;fine-tuned + 1:1 replay</th></tr></thead><tbody><tr><td><code>narrative</code> nats/byte</td><td>0.4117</td><td>0.8182–0.8268</td><td><strong>0.3929–0.3975</strong></td></tr><tr><td><code>temporal</code> nats/byte</td><td>0.1000</td><td>0.1052–0.1065</td><td>0.1132–0.1165</td></tr><tr><td><code>temporal.route</code></td><td>99.8%</td><td>99.5–99.8%</td><td>99.2–99.5%</td></tr><tr><td><code>refusal.clarify</code></td><td>100.0%</td><td>100.0%</td><td>100.0%</td></tr><tr><td><code>refusal.no_guess</code></td><td>100.0%</td><td>100.0%</td><td>100.0%</td></tr><tr><td><code>temporal.copy</code></td><td><strong>100.0%</strong> (353/353)</td><td>82.2–92.1%</td><td>48.2–66.3%</td></tr></tbody></table></div>
+<p>Ranges span the best-val and final checkpoints of each arm and a retrain from the same seed. <code>nano20m_pilot</code> scored twice, identically.</p>
+<p><strong>The capacity argument is refuted.</strong> Five minutes of fine-tuning installs the <code>&lt;|call|&gt;</code> envelope in a model that had never encountered one, and routing, clarification and no-guess come out at the pretrained arm's level in every fine-tuned checkpoint scored. Whatever is special about pretraining the format, it is not that a 25M model lacks room to absorb one late.</p>
+<p><strong>One behaviour doesn't come along: using the tool's answer.</strong> <code>temporal.copy</code> scores the turn <em>after</em> the tool responds, and a date that is not the tool's fails even when it is correct. The pretrained arm is 353 of 353. No fine-tuned checkpoint is, and every failure of every fine-tuned checkpoint is <code>wrong_date</code> — never malformed, never empty, never a missing call.</p>
+<p><strong>Every single one of those failures is the same failure.</strong> Retaining all 400 generations instead of the first eight:</p>
+<div class="tablewrap"><table><thead><tr><th>arm</th><th>copy failures</th><th>month and day correct</th><th>year written</th></tr></thead><tbody><tr><td><code>nano20m_pilot</code></td><td>0 / 353</td><td>—</td><td>—</td></tr><tr><td><code>nano20m_ft</code></td><td>28</td><td><strong>28 of 28</strong></td><td>2027 ×28</td></tr><tr><td><code>nano20m_ft_replay</code></td><td>183</td><td><strong>183 of 183</strong></td><td>2027 ×181, 2024 ×2</td></tr><tr><td><code>nano20m_ft_replay</code> (final)</td><td>119</td><td><strong>119 of 119</strong></td><td>2027 ×119</td></tr></tbody></table></div>
+<pre><code>want   &lt;|call|&gt;{&quot;name&quot;: &quot;recall_day&quot;, &quot;arguments&quot;: {&quot;date&quot;: &quot;2028-04-11&quot;}}
+got    &lt;|call|&gt;{&quot;name&quot;: &quot;recall_day&quot;, &quot;arguments&quot;: {&quot;date&quot;: &quot;2027-04-11&quot;}}</code></pre>
+<p>Not one failure, in any arm, has a wrong month or a wrong day. The model copies those from the tool exactly and replaces the <strong>year</strong> — and 2027 is <code>ANCHOR_END</code>, the last year the generator ever emits. The eval anchors are 2028, held out by the decontamination design, so the year is the one part of the tool's answer these models have never been asked to produce.</p>
+<p>It isn't throwing the tool's answer away. It is copying the fields that varied during training and clamping the field that didn't. Which is the failure VISION §5.2 is built to prevent — answering from the weights instead of the lookup — appearing in precisely the field where the weights have a narrow prior to answer from.</p>
+<p>That also bounds what the row proves. <code>temporal.copy</code> separates these arms <em>because</em> the year is out of distribution, so in the fine-tuned arms it is measuring whether copying generalises past the training distribution rather than deference in the abstract. The pretrained arm handles the same out-of-distribution year 353 times out of 353, so the ordering holds — but an in-distribution variant would likely put all three arms at ceiling and show nothing.</p>
+<p><strong>Replay makes the trade visible and cannot escape it.</strong> The first arm lost half its prose — 0.3974 → 0.8268 nats/byte — and the obvious objection is that the recipe was bad: no replay, and a temporal-only val that selects the most-forgotten checkpoint of the run. So the second arm gets 1:1 narrative replay and a blended val, deliberately tuned in the control's favour rather than to be representative. It works, completely: <strong>0.3929 against the base model's 0.3974, zero forgetting.</strong> And <code>temporal.copy</code> falls from the 82–92% band to 48–66%, because replay is a gradient that strengthens precisely the prior copy has to override.</p>
+<p>So there is a dial with prose at one end and deference at the other, and the pretrained arm is not a better point on it — it is off the curve, paying 3.6% of prose and scoring 100%.</p>
+<p><strong>What this does not settle:</strong></p>
+<ul><li><strong>The replay arm was still climbing.</strong> 49.6% at its best-val checkpoint (iter 1,600), 66.3% at its last (iter 3,644). Replay halves the temporal gradient per step, so that arm may be exposure-limited rather than incapable. Finding out means giving a fine-tune <em>more</em> temporal data than the pretraining arm got, which breaks the equal-exposure property the comparison rests on — a different experiment, not a longer version of this one.</li><li><strong><code>temporal.copy</code> is unstable in the fine-tune arms.</strong> Adjacent checkpoints of one run read 90.4% and 82.2%; a retrain from the same seed moved it 1–2 points. The pretrained arm reads 353/353 twice. The gap between "bouncing between 48% and 92%" and "at ceiling" is the result; the individual numbers are not.</li><li><strong>Still 25M, still one tool, still in-distribution phrasings.</strong> Every caveat on the fifth finding carries forward unchanged.</li></ul>
+<h4 id="the-decontamination-row-had-the-opposite-bug-and-this-run-fo">The decontamination row had the opposite bug, and this run found it</h4>
+<p>The fifth finding fixed a status that cried wolf. The fine-tuned checkpoints exposed one that cried nothing. Contamination was computed from <code>cfg.data_dir</code> — for a fine-tune, the corpus the model saw <em>last</em> — so <code>nano20m_ft</code> was checked against a temporal-only corpus and its narrative row came back <code>clean</code>, for a model whose weights came from a pretrain that was selected on the narrative eval text. A false alarm gets ignored; a false all-clear gets believed, and it gets quieter the more stages a checkpoint has.</p>
+<p><code>corn.evals</code> now walks the <code>init_from</code> chain and scores every corpus a checkpoint read, merging to the worst status. A parent corpus that is not on disk reads <code>UNAVAILABLE</code>, never <code>clean</code>, so the walk cannot go quiet by losing a file. <code>clean</code> is attributed to no single stage, because it is the one status every stage earns jointly. 48 checks, up from 40 (86 today — the ninth and tenth findings added a group each). <code>HARNESS_VERSION</code> stays 1 — no scored quantity changed, and the pilot re-scored byte-identical across the fix.</p></div>
+  </section>
+
+  <section class="grid refs">
+    <div class="body two-even">
+      <div>
+        <h2 class="small">It cites</h2>
+        <p class="aside">No other finding by number.</p>
+      </div>
+      <div>
+        <h2 class="small">Cited by</h2>
+        <ul class="reflist"><li style="--c:var(--c1)"><a href="/Corn-Jr-Public/finding/60.html"><span class="fn">60</span>Fine-tuning costs nothing but delivers three fifths of pretraining&#39;s gain</a></li><li style="--c:var(--c2)"><a href="/Corn-Jr-Public/finding/65.html"><span class="fn">65</span>Fine-tuning installs extraction at 260M from zero</a></li><li style="--c:var(--c3)"><a href="/Corn-Jr-Public/finding/74.html"><span class="fn">74</span>Second-turn behaviour installs; compound requests forget how to stop</a></li></ul>
+        
+      </div>
+    </div>
+    <p class="body source">docs/findings/06-the-format-fine-tunes-in-fine-deferring-to-the-tool-does-not.md</p>
+  </section>
+</article>
+
+  
+<footer class="turn">
+  <div><span class="sc">previous</span><a href="/Corn-Jr-Public/finding/5.html">5 · The tool-call format must be in pretraining, and costs about 3%</a></div>
+  <div class="r"><span class="sc">next</span><a href="/Corn-Jr-Public/finding/10.html">10 · A generated tool dataset caps at 2.3 MB of distinct examples</a></div>
+  <p class="keys"><kbd>←</kbd> <kbd>→</kbd> turn the page · <kbd>/</kbd> find</p>
+</footer>
+<p class="bynumber">Previous and next in <a href="/Corn-Jr-Public/thread/tool-calls.html">Tool calls and copying</a>. By number:
+  <a href="/Corn-Jr-Public/finding/5.html">5</a> · <a href="/Corn-Jr-Public/finding/7.html">7</a></p>
+
+</div>
+</body>
+</html>

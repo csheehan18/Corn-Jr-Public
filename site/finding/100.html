@@ -1,0 +1,106 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>100 · Two bidirectional layers over the reader add nothing · Corn-Jr</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600&family=IBM+Plex+Mono:wght@400;500&family=Spectral:ital,wght@0,400;0,500;0,600;1,400&family=Spectral+SC:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/Corn-Jr-Public/static/library.css">
+<script defer src="/Corn-Jr-Public/static/library.js"></script>
+<script type="speculationrules">
+{"prerender": [{"where": {"and": [{"href_matches": "/Corn-Jr-Public/*"}, {"not": {"href_matches": "/Corn-Jr-Public/random.html"}}, {"not": {"href_matches": "/Corn-Jr-Public/static/*"}}]}, "eagerness": "moderate"}]}
+</script>
+
+</head>
+<body>
+<div class="page">
+  <header class="running">
+    <a class="book" href="/Corn-Jr-Public/">Corn-Jr · The Record</a>
+    <nav>
+      <a href="/Corn-Jr-Public/" data-key="shelf">Shelf</a><a href="/Corn-Jr-Public/findings.html" data-key="findings" class="here">Findings</a><a href="/Corn-Jr-Public/doc/VISION.html" data-key="VISION">Vision</a><a href="/Corn-Jr-Public/doc/GLOSSARY.html" data-key="GLOSSARY">Glossary</a>
+      <a href="https://github.com/csheehan18/Corn-Jr-Public">Source</a>
+    </nav>
+  </header>
+  
+
+<article class="sheet" style="--c:var(--c2)">
+  <div class="progress" aria-hidden="true"></div>
+  <section class="grid chapter-open finding-open">
+    <a class="tab" href="/Corn-Jr-Public/thread/reading.html" title="Reading documents"><small>Part</small><span>II</span></a>
+    <p class="cn">100</p>
+    <p class="partline"><a href="/Corn-Jr-Public/thread/reading.html">Reading documents</a> · 4 September 2026</p>
+    <h1>Two bidirectional layers over the reader add nothing</h1>
+  </section>
+
+  <section class="grid">
+    <p class="marginal">The result, as the finding states it</p><div class="prose"><p class="lead">Two bidirectional encoder layers over the cached window states buy the pick nothing: the arm peaks below the head it was meant to beat, misses its pre-registered gate by nine points, and spends every later epoch getting more confident and no more right</p></div>
+    <p class="marginal">What it cost</p><div class="prose"><p class="cost">0 s of new scoring on record; it reads 1 card scored for an earlier finding (<code>corn_jr_260m_v4_ft4g</code>). Backfilled 2026-09-26 from the cards' <code>seconds</code>; training and probe time were never recorded, so this is a floor.</p></div>
+  </section>
+
+  
+
+  <section class="grid">
+    <div class="prose doc"><p><code>scripts/train_reader_cached.py --arm encoder</code>, 2026-09-03. One seed, by the owner's call to stop, which §4 records as a decision. The frozen <code>corn_jr_260m_v4_ft4g</code> trunk with no weight of it moved, the same cached states, the same candidate enumeration, the same span-head loss, the same article split and the same selection metric as the built arm. <code>evals/results/reader_encoder_s1.json</code>, <code>checkpoints/reader_encoder_s1.pt</code>.</p>
+<h3 id="0-the-arm-and-the-claim-it-was-run-on-rather-than-the-one-it">0. The arm, and the claim it was run on rather than the one it was declined on</h3>
+<p>The ninety-fifth finding <strong>declined</strong> this architecture, and <code>PLAN-READER-RESIDUE.md</code> §7.4 records why the decline does not carry to the claim it is run on here. It was declined because its stated rationale — <em>a causal trunk cannot see a span's right context, so the gold falls outside the enumeration</em> — is contradicted by that finding's own measurement that the gold is inside the ten on 89% of the residue. The claim now is the opposite one, and it is the ninety-sixth finding's §4: <strong>the gold is inside the enumeration and is ranked second to tenth on the plurality of the residue, and the argmax leads it by a median 3.72 and 3.05 span-head logits.</strong> That is a scoring failure over a candidate list that already contains the answer. Same architecture, different claim.</p>
+<p><strong>What was built.</strong> <code>CachedHead</code> gains two <code>TransformerEncoderLayer</code>s over each window's own candidate rows, in front of the existing pair scorer and changing nothing else. It projects 3,072 to 256, attends, and projects back, which is <strong>3,158,528 parameters</strong> against the built scorer's 7,947,520 and the trunk's 260M. It is residual with a <strong>zero-initialised output projection</strong>, so at initialisation the arm computes the built arm's score exactly — verified to 0.0, along with every built-arm weight being the same draw, the flat and padded score paths agreeing to 0.0, and a window's score being independent of how wide the widest window in its micro-batch happens to be.</p>
+<p>That last check is not decoration. Without a key-padding mask the pad rows attend and are attended to, and a window's encoding would depend on its batch-mates — a batching artefact <strong>inside</strong> the score, which the loss mask downstream would hide.</p>
+<h3 id="1-the-gate-was-pre-registered-and-it-is-missed-by-nine-point">1. The gate was pre-registered and it is missed by nine points</h3>
+<p><code>PLAN-READER-RESIDUE.md</code> §7.4: <strong>held-out exact-pair &gt;= 0.62, from 0.54, on both seeds — and if it misses, the arm stops there and no Population A number is read</strong>, because an arm that cannot pick better on held-out training data has nothing to convert and reading the population would be reading noise.</p>
+<p>held-out exact-pair, by epoch      selection built    s1  .4863 .5172 .5133 .5287 .5369 .5410     0.5410 built    s2  .4973 .5050 .5040 .5261 .5368 .5425     0.5425 encoder  s1  .5162 .5291 .5338 .5236 .5186 .5184     0.5338</p>
+<p><strong>0.5338 against a gate of 0.62 and against the built arm's own 0.5410.</strong> The arm does not merely miss the gate; it finishes <strong>below the head it was built to beat</strong>, on the metric it was to be selected by, having been given 3.2M parameters and the right context the whole argument rested on.</p>
+<p><strong>No Population A number was read on this arm</strong>, as the gate says. The harvested checkpoint is on disk and is not scored.</p>
+<h3 id="2-it-learns-something-early-and-then-spends-five-epochs-unle">2. It learns something early and then spends five epochs unlearning it</h3>
+<p>The shape is the result, and it is not the built arm's shape.</p>
+<p>epoch          0      1      2      3      4      5 train loss   1.808  1.396  1.186  0.999  0.849  0.714 exact-pair   .5162  .5291  .5338  .5236  .5186  .5184 logit std     3.86   4.08   4.51   4.70   5.43   5.65</p>
+<p><strong>The encoder is ahead of the built arm at every one of the first three epochs</strong> — 0.5162 against 0.4863 at epoch 0, which is the built arm's epoch-1 number reached an epoch early — so right context is not worthless to this scorer. <strong>Then it peaks at epoch 2 and declines for three epochs while the training loss keeps falling</strong>, where the built arm rises monotonically to the end. That is overfitting, and 3.2M parameters over 95,204 training windows is where it would come from.</p>
+<p><strong>And the confidence rises the whole way.</strong> The logit standard deviation goes 3.86 to 5.65 — up 46% — across the three epochs in which held-out accuracy <em>falls</em>. <strong>The arm makes the head more certain and no more correct</strong>, which is the ninety-sixth finding's §4 read from the other side: the pick failure was already confident at a median 3.7 logits, and the treatment aimed at it widens the margins without moving the ranking.</p>
+<h3 id="3-what-this-closes-and-what-it-does-not">3. What this closes, and what it does not</h3>
+<p><strong>It closes the cheap version of the pick lever.</strong> <code>ORACLE_PICK</code> bounds every post-hoc re-pick over these candidates at 449 and 493 of 721 (finding <a class="fref" href="/Corn-Jr-Public/finding/96.html">96</a>), and <code>ONLY_GOLD_PICK</code>'s 672 and 670 is what the pick is worth once admission is handed over. Nothing in this file reaches any of it: the arm gets 0.5338 where the untouched head gets 0.5410.</p>
+<p><strong>It does not show that right context is useless</strong>, and §2 is the reason to say so carefully. The first three epochs are a real lead. What is shown is that this parametrisation of it, at this size, on this many windows, has its optimum before the built arm's does and lands under it. A smaller encoder, more regularisation, or a larger training set are all untried, and choosing one of them after reading this table is a choice made on this table.</p>
+<p><strong>The eighty-sixth finding's re-ranker and this arm now fail the same way from two directions.</strong> That one could not choose better among the head's own top five and never left the span head's argmax rate; this one is given the states and the right context and lands below the span head. Two different mechanisms aimed at the pick, both reaching under the baseline.</p>
+<h3 id="4-one-seed-and-it-is-the-owner-s-call">4. One seed, and it is the owner's call</h3>
+<p>The gate reads <em>on both seeds</em>, and seed 2 was started and <strong>stopped by the owner after one epoch</strong> on the ground that the arm was not close: it read 0.5050 at epoch 0, against the built arm's 0.4973 and seed 1's 0.5162, which is the same shape and the same distance from 0.62. That single epoch is reported here as one epoch of an incomplete run and is not a seed-2 result; the killed run's orphan checkpoint was deleted rather than left on disk with no record behind it.</p>
+<p><strong>This is a deviation from the two-seed house rule and it is recorded as a decision rather than as an oversight.</strong> The rule exists so that a <em>claimed</em> effect is replicated. The claim here is that an arm missed a pre-registered gate by nine points from below its own baseline, and a second seed would cost eighteen minutes to establish that it also misses.</p>
+<h3 id="what-this-cannot-say">What this cannot say</h3>
+<p><strong>It is one seed on the metric and zero seeds on the population.</strong> The gate is a stopping rule and it stopped the arm; no Population A read exists for this head and none should be quoted.</p>
+<p><strong>Six epochs is the built arm's schedule and not this arm's.</strong> The encoder peaks at epoch 2, so its own schedule would be shorter; the number reported is the best epoch by the selection metric, which is the protocol, but the run was not tuned for this architecture and nothing here says a tuned one lands in the same place.</p>
+<p><strong>The zero-initialised residual is a choice with a consequence.</strong> It makes epoch 0 the built arm exactly, which is what makes the comparison clean; it also means the encoder has to earn its way out of an identity, and a different initialisation is a different arm.</p>
+<p><strong>Nothing here touched the trunk, <code>corn/extract.py</code>, <code>corn/gate.py</code>, any scorer, any frozen eval row, or the shipped <code>corn/reader.py</code>.</strong></p>
+<h3 id="what-follows">What follows</h3>
+<p><strong>Both levers the ninety-sixth finding named have now been aimed at and neither moved.</strong> B2, the admission lever, failed its mechanism bar on both seeds and made outranking worse (finding <a class="fref" href="/Corn-Jr-Public/finding/99.html">99</a>); P1, the pick lever, failed its gate below its own baseline. The two coupled levers of similar size are both still unspent, and <code>ONLY_GOLD</code>'s 515 / 499 and <code>ONLY_GOLD_PICK</code>'s 672 / 670 are still the bounds.</p>
+<p><strong>What is left in <code>PLAN-READER-RESIDUE.md</code> is the owner's call on the 22 (§3) and A4</strong>, and the ninety-eighth finding is the independent read on the generated frame, which §7.4's B2 failing branch names as the next thing aimed at admission and prices as much more expensive than anything tried here.</p>
+<p><strong>Left unexplained:</strong> the encoder's epoch-0 lead. 0.5162 against 0.4863 is the largest single-epoch gap between these two arms anywhere in either curve, and it is at the epoch where the encoder has barely moved off the identity its zero-initialised output starts it at. Either the LayerNorm and projection in front of the scorer are doing the work rather than the attention, or the arm learns something in one pass that it then overfits away. An ablation with the attention removed and the projection kept would separate them and is one training run.</p></div>
+  </section>
+
+  <section class="grid refs">
+    <div class="body two-even">
+      <div>
+        <h2 class="small">It cites</h2>
+        <ul class="reflist"><li style="--c:var(--c2)"><a href="/Corn-Jr-Public/finding/96.html"><span class="fn">96</span>Given only the right window, the reader reaches 93%</a></li><li style="--c:var(--c2)"><a href="/Corn-Jr-Public/finding/99.html"><span class="fn">99</span>Ranking candidates together makes the checker worse on both seeds</a></li></ul>
+        
+      </div>
+      <div>
+        <h2 class="small">Cited by</h2>
+        <ul class="reflist"><li style="--c:var(--c2)"><a href="/Corn-Jr-Public/finding/102.html"><span class="fn">102</span>Twice the training epochs doesn&#39;t improve the answer finder</a></li><li style="--c:var(--c2)"><a href="/Corn-Jr-Public/finding/103.html"><span class="fn">103</span>Averaging three seeds&#39; readers barely helps</a></li><li style="--c:var(--c2)"><a href="/Corn-Jr-Public/finding/112.html"><span class="fn">112</span>Training on whole passages lifts extraction from 54% to 71%</a></li></ul>
+        
+      </div>
+    </div>
+    <p class="body source">docs/findings/100-the-encoder-over-the-cached-states-gets-more-confident-and-no-more-right-so-the-pick-arm-fails-its-gate-below-the-head-it-was-meant-to-beat.md</p>
+  </section>
+</article>
+
+  
+<footer class="turn">
+  <div><span class="sc">previous</span><a href="/Corn-Jr-Public/finding/99.html">99 · Ranking candidates together makes the checker worse on both seeds</a></div>
+  <div class="r"><span class="sc">next</span><a href="/Corn-Jr-Public/finding/101.html">101 · Reading question fit improves refusals but not right answers</a></div>
+  <p class="keys"><kbd>←</kbd> <kbd>→</kbd> turn the page · <kbd>/</kbd> find</p>
+</footer>
+<p class="bynumber">Previous and next in <a href="/Corn-Jr-Public/thread/reading.html">Reading documents</a>. By number:
+  <a href="/Corn-Jr-Public/finding/99.html">99</a> · <a href="/Corn-Jr-Public/finding/101.html">101</a></p>
+
+</div>
+</body>
+</html>

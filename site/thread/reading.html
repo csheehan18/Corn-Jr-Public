@@ -1,0 +1,489 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Reading documents · Corn-Jr</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600&family=IBM+Plex+Mono:wght@400;500&family=Spectral:ital,wght@0,400;0,500;0,600;1,400&family=Spectral+SC:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/Corn-Jr-Public/static/library.css">
+<script defer src="/Corn-Jr-Public/static/library.js"></script>
+<script type="speculationrules">
+{"prerender": [{"where": {"and": [{"href_matches": "/Corn-Jr-Public/*"}, {"not": {"href_matches": "/Corn-Jr-Public/random.html"}}, {"not": {"href_matches": "/Corn-Jr-Public/static/*"}}]}, "eagerness": "moderate"}]}
+</script>
+<script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.14.1/dist/cdn.min.js"></script>
+</head>
+<body>
+<div class="page">
+  <header class="running">
+    <a class="book" href="/Corn-Jr-Public/">Corn-Jr · The Record</a>
+    <nav>
+      <a href="/Corn-Jr-Public/" data-key="shelf" class="here">Shelf</a><a href="/Corn-Jr-Public/findings.html" data-key="findings">Findings</a><a href="/Corn-Jr-Public/doc/VISION.html" data-key="VISION">Vision</a><a href="/Corn-Jr-Public/doc/GLOSSARY.html" data-key="GLOSSARY">Glossary</a>
+      <a href="https://github.com/csheehan18/Corn-Jr-Public">Source</a>
+    </nav>
+  </header>
+  
+<article class="sheet" style="--c:var(--c2)" x-data="{ all: false }">
+  <div class="progress" aria-hidden="true"></div>
+  <section class="grid chapter-open">
+    <a class="tab" href="/Corn-Jr-Public/part/II.html"><small>Part</small><span>II</span></a>
+    <p class="partline"><a href="/Corn-Jr-Public/part/II.html">Reading</a></p>
+    <h1 class="vt-title">Reading documents</h1>
+    <p class="subtitle">Finding the answer in a passage: extraction, the checker, and the whole-passage reader that shipped.</p>
+    <div class="status"><svg class="strip" viewBox="0 0 260 12" width="260" height="12" aria-hidden="true">
+  <line x1="0" y1="11.5" x2="260" y2="11.5" class="base"/>
+  <line x1="58.8" y1="2" x2="58.8" y2="11"/><line x1="59.9" y1="2" x2="59.9" y2="11"/><line x1="60.9" y1="2" x2="60.9" y2="11"/><line x1="62.0" y1="2" x2="62.0" y2="11"/><line x1="64.2" y1="2" x2="64.2" y2="11"/><line x1="70.6" y1="2" x2="70.6" y2="11"/><line x1="71.7" y1="2" x2="71.7" y2="11"/><line x1="76.0" y1="2" x2="76.0" y2="11"/><line x1="87.9" y1="2" x2="87.9" y2="11"/><line x1="89.0" y1="2" x2="89.0" y2="11"/><line x1="90.1" y1="2" x2="90.1" y2="11"/><line x1="91.1" y1="2" x2="91.1" y2="11"/><line x1="92.2" y1="2" x2="92.2" y2="11"/><line x1="93.3" y1="2" x2="93.3" y2="11"/><line x1="94.4" y1="2" x2="94.4" y2="11"/><line x1="96.5" y1="2" x2="96.5" y2="11"/><line x1="97.6" y1="2" x2="97.6" y2="11"/><line x1="98.7" y1="2" x2="98.7" y2="11"/><line x1="99.8" y1="2" x2="99.8" y2="11"/><line x1="100.9" y1="2" x2="100.9" y2="11"/><line x1="101.9" y1="2" x2="101.9" y2="11"/><line x1="103.0" y1="2" x2="103.0" y2="11"/><line x1="104.1" y1="2" x2="104.1" y2="11"/><line x1="105.2" y1="2" x2="105.2" y2="11"/><line x1="106.3" y1="2" x2="106.3" y2="11"/><line x1="107.3" y1="2" x2="107.3" y2="11"/><line x1="108.4" y1="2" x2="108.4" y2="11"/><line x1="109.5" y1="2" x2="109.5" y2="11"/><line x1="110.6" y1="2" x2="110.6" y2="11"/><line x1="111.7" y1="2" x2="111.7" y2="11"/><line x1="112.7" y1="2" x2="112.7" y2="11"/><line x1="113.8" y1="2" x2="113.8" y2="11"/><line x1="114.9" y1="2" x2="114.9" y2="11"/><line x1="116.0" y1="2" x2="116.0" y2="11"/><line x1="117.0" y1="2" x2="117.0" y2="11"/><line x1="118.1" y1="2" x2="118.1" y2="11"/><line x1="119.2" y1="2" x2="119.2" y2="11"/><line x1="120.3" y1="2" x2="120.3" y2="11"/><line x1="121.4" y1="2" x2="121.4" y2="11"/><line x1="122.4" y1="2" x2="122.4" y2="11"/><line x1="123.5" y1="2" x2="123.5" y2="11"/><line x1="124.6" y1="2" x2="124.6" y2="11"/><line x1="125.7" y1="2" x2="125.7" y2="11"/><line x1="126.8" y1="2" x2="126.8" y2="11"/><line x1="127.8" y1="2" x2="127.8" y2="11"/><line x1="134.3" y1="2" x2="134.3" y2="11"/><line x1="135.4" y1="2" x2="135.4" y2="11"/>
+</svg><span>47 findings, 54 to 125, filed 24 August 2026 to 5 September 2026</span></div>
+  </section>
+
+  
+
+  <section class="grid">
+    <h2 class="sec">The findings, in order</h2>
+    <p class="hint"><button type="button" @click="all = !all" x-text="all ? 'Hide the full results' : 'Show every full result'">Show every full result</button></p>
+    <ol class="entries">
+      
+      <li x-data="{ open: false }">
+        <span class="fn"><a href="/Corn-Jr-Public/finding/54.html">54</a></span>
+        <div>
+          <a class="et" href="/Corn-Jr-Public/finding/54.html">Batch decoding 32 to 128 windows: both predictions about why were wrong</a>
+          <span class="ed">24 August 2026 · <button type="button" class="more" @click="open = !open" x-text="(open || all) ? 'less' : 'more'">more</button></span>
+          <div class="fold" :class="(open || all) && 'open'"><div><p class="efull">Thirty-two windows to a hundred and twenty-eight, and both predictions about why were wrong</p></div></div>
+        </div>
+      </li>
+      
+      <li x-data="{ open: false }">
+        <span class="fn"><a href="/Corn-Jr-Public/finding/55.html">55</a></span>
+        <div>
+          <a class="et" href="/Corn-Jr-Public/finding/55.html">Four hundred passages show he writes his own answer instead of copying</a>
+          <span class="ed">24 August 2026 · <button type="button" class="more" @click="open = !open" x-text="(open || all) ? 'less' : 'more'">more</button></span>
+          <div class="fold" :class="(open || all) && 'open'"><div><p class="efull">Six subjects said he recites, four hundred say he composes, and the slice was aimed at the wrong behaviour</p></div></div>
+        </div>
+      </li>
+      
+      <li x-data="{ open: false }">
+        <span class="fn"><a href="/Corn-Jr-Public/finding/56.html">56</a></span>
+        <div>
+          <a class="et" href="/Corn-Jr-Public/finding/56.html">The official split overlaps documents: 14% of the eval leaked into training</a>
+          <span class="ed">24 August 2026 · <button type="button" class="more" @click="open = !open" x-text="(open || all) ? 'less' : 'more'">more</button></span>
+          <div class="fold" :class="(open || all) && 'open'"><div><p class="efull">The official split guarantees questions and not documents, so 14% of the eval was in the slice, and the training half cannot be read by the code that reads the eval half</p></div></div>
+        </div>
+      </li>
+      
+      <li x-data="{ open: false }">
+        <span class="fn"><a href="/Corn-Jr-Public/finding/57.html">57</a></span>
+        <div>
+          <a class="et" href="/Corn-Jr-Public/finding/57.html">Extraction training works, mostly by declining answerable questions</a>
+          <span class="ed">25 August 2026 · <button type="button" class="more" @click="open = !open" x-text="(open || all) ? 'less' : 'more'">more</button></span>
+          <div class="fold" :class="(open || all) && 'open'"><div><p class="efull">The slice separates on all three rows, and he bought it by declining three fifths of the answerable half</p></div></div>
+        </div>
+      </li>
+      
+      <li x-data="{ open: false }">
+        <span class="fn"><a href="/Corn-Jr-Public/finding/59.html">59</a></span>
+        <div>
+          <a class="et" href="/Corn-Jr-Public/finding/59.html">No declines hide in unscored wording; the rest looks like salience</a>
+          <span class="ed">25 August 2026 · <button type="button" class="more" @click="open = !open" x-text="(open || all) ? 'less' : 'more'">more</button></span>
+          <div class="fold" :class="(open || all) && 'open'"><div><p class="efull">Nothing abstains in words the row cannot read, and what is left looks like saliency</p></div></div>
+        </div>
+      </li>
+      
+      <li x-data="{ open: false }">
+        <span class="fn"><a href="/Corn-Jr-Public/finding/65.html">65</a></span>
+        <div>
+          <a class="et" href="/Corn-Jr-Public/finding/65.html">Fine-tuning installs extraction at 260M from zero</a>
+          <span class="ed">26 August 2026 · <button type="button" class="more" @click="open = !open" x-text="(open || all) ? 'less' : 'more'">more</button></span>
+          <div class="fold" :class="(open || all) && 'open'"><div><p class="efull">Extraction installs by fine-tune at 260M, and the sixth finding's boundary does not hold here</p></div></div>
+        </div>
+      </li>
+      
+      <li x-data="{ open: false }">
+        <span class="fn"><a href="/Corn-Jr-Public/finding/66.html">66</a></span>
+        <div>
+          <a class="et" href="/Corn-Jr-Public/finding/66.html">The extractor takes the first value of the right type</a>
+          <span class="ed">26 August 2026 · <button type="button" class="more" @click="open = !open" x-text="(open || all) ? 'less' : 'more'">more</button></span>
+          <div class="fold" :class="(open || all) && 'open'"><div><p class="efull">The extractor takes the first value of the right type, and flipping the clause flips which question it answers</p></div></div>
+        </div>
+      </li>
+      
+      <li x-data="{ open: false }">
+        <span class="fn"><a href="/Corn-Jr-Public/finding/70.html">70</a></span>
+        <div>
+          <a class="et" href="/Corn-Jr-Public/finding/70.html">The first-value rule holds on a new fixed test set</a>
+          <span class="ed">26 August 2026 · <button type="button" class="more" @click="open = !open" x-text="(open || all) ? 'less' : 'more'">more</button></span>
+          <div class="fold" :class="(open || all) && 'open'"><div><p class="efull">The paired-property row exists, and the first-taker rule survives being put on a frozen file</p></div></div>
+        </div>
+      </li>
+      
+      <li x-data="{ open: false }">
+        <span class="fn"><a href="/Corn-Jr-Public/finding/81.html">81</a></span>
+        <div>
+          <a class="et" href="/Corn-Jr-Public/finding/81.html">The answer score measures willingness to answer, not confidence</a>
+          <span class="ed">31 August 2026 · <button type="button" class="more" @click="open = !open" x-text="(open || all) ? 'less' : 'more'">more</button></span>
+          <div class="fold" :class="(open || all) && 'open'"><div><p class="efull">The isolated score is a willingness meter and not a confidence meter, ranking windows is the one thing it buys, and every read-time route to the span is now closed</p></div></div>
+        </div>
+      </li>
+      
+      <li x-data="{ open: false }">
+        <span class="fn"><a href="/Corn-Jr-Public/finding/82.html">82</a></span>
+        <div>
+          <a class="et" href="/Corn-Jr-Public/finding/82.html">Scored fairly, the boundary model trails plain generation</a>
+          <span class="ed">1 September 2026 · <button type="button" class="more" @click="open = !open" x-text="(open || all) ? 'less' : 'more'">more</button></span>
+          <div class="fold" :class="(open || all) && 'open'"><div><p class="efull">The extent headroom was containment, the real repair is <code>span_loose - span</code>, and the span head is worse than generation once the column can tell a region from an answer</p></div></div>
+        </div>
+      </li>
+      
+      <li x-data="{ open: false }">
+        <span class="fn"><a href="/Corn-Jr-Public/finding/83.html">83</a></span>
+        <div>
+          <a class="et" href="/Corn-Jr-Public/finding/83.html">The boundary model finds answers but can&#39;t prefer them to silence</a>
+          <span class="ed">2 September 2026 · <button type="button" class="more" @click="open = !open" x-text="(open || all) ? 'less' : 'more'">more</button></span>
+          <div class="fold" :class="(open || all) && 'open'"><div><p class="efull">The boundary head locates the span and cannot prefer it to the null</p></div></div>
+        </div>
+      </li>
+      
+      <li x-data="{ open: false }">
+        <span class="fn"><a href="/Corn-Jr-Public/finding/84.html">84</a></span>
+        <div>
+          <a class="et" href="/Corn-Jr-Public/finding/84.html">A fallback rule buys 35 answers, but refusals still dominate</a>
+          <span class="ed">2 September 2026 · <button type="button" class="more" @click="open = !open" x-text="(open || all) ? 'less' : 'more'">more</button></span>
+          <div class="fold" :class="(open || all) && 'open'"><div><p class="efull">The fallback reduce buys thirty-five right answers at the same conditional accuracy, and the refusal still owns half of what is left</p></div></div>
+        </div>
+      </li>
+      
+      <li x-data="{ open: false }">
+        <span class="fn"><a href="/Corn-Jr-Public/finding/85.html">85</a></span>
+        <div>
+          <a class="et" href="/Corn-Jr-Public/finding/85.html">The checker needs cross-fitted labels; fallback rules are exhausted</a>
+          <span class="ed">3 September 2026 · <button type="button" class="more" @click="open = !open" x-text="(open || all) ? 'less' : 'more'">more</button></span>
+          <div class="fold" :class="(open || all) && 'open'"><div><p class="efull">The verifier label has to be cross-fitted, and cross-fitted with the span head's confidence it passes the verifier bar; the extent rule buys eight for nothing and the reduce family is closed</p></div></div>
+        </div>
+      </li>
+      
+      <li x-data="{ open: false }">
+        <span class="fn"><a href="/Corn-Jr-Public/finding/86.html">86</a></span>
+        <div>
+          <a class="et" href="/Corn-Jr-Public/finding/86.html">A checker that reads the candidate answer works; re-ranking does not</a>
+          <span class="ed">3 September 2026 · <button type="button" class="more" @click="open = !open" x-text="(open || all) ? 'less' : 'more'">more</button></span>
+          <div class="fold" :class="(open || all) && 'open'"><div><p class="efull">The verifier that reads the span it verifies clears the verifier bar, and the re-ranker cannot choose better than the span head</p></div></div>
+        </div>
+      </li>
+      
+      <li x-data="{ open: false }">
+        <span class="fn"><a href="/Corn-Jr-Public/finding/87.html">87</a></span>
+        <div>
+          <a class="et" href="/Corn-Jr-Public/finding/87.html">The passage reader ships: 389 of 721 right, up 107</a>
+          <span class="ed">3 September 2026 · <button type="button" class="more" @click="open = !open" x-text="(open || all) ? 'less' : 'more'">more</button></span>
+          <div class="fold" :class="(open || all) && 'open'"><div><p class="efull">The reader head ships, and the runtime reads what the replay said it would to the passage</p></div></div>
+        </div>
+      </li>
+      
+      <li x-data="{ open: false }">
+        <span class="fn"><a href="/Corn-Jr-Public/finding/89.html">89</a></span>
+        <div>
+          <a class="et" href="/Corn-Jr-Public/finding/89.html">Wrong rival answers are mostly about position on the shipped checker</a>
+          <span class="ed">3 September 2026 · <button type="button" class="more" @click="open = !open" x-text="(open || all) ? 'less' : 'more'">more</button></span>
+          <div class="fold" :class="(open || all) && 'open'"><div><p class="efull">The rival is positional on the shipped verifier, §6.3's premise fails there and holds only on the head it was written from, and the position prior is earned</p></div></div>
+        </div>
+      </li>
+      
+      <li x-data="{ open: false }">
+        <span class="fn"><a href="/Corn-Jr-Public/finding/90.html">90</a></span>
+        <div>
+          <a class="et" href="/Corn-Jr-Public/finding/90.html">A nearby-words rule can&#39;t tell a rival answer from the right one</a>
+          <span class="ed">3 September 2026 · <button type="button" class="more" @click="open = !open" x-text="(open || all) ? 'less' : 'more'">more</button></span>
+          <div class="fold" :class="(open || all) && 'open'"><div><p class="efull">The locality rule cannot tell a rival from a gold inside one window, so the sixty-sixth finding's runtime repair is closed and the eighty-ninth's revival of it was one inference too far</p></div></div>
+        </div>
+      </li>
+      
+      <li x-data="{ open: false }">
+        <span class="fn"><a href="/Corn-Jr-Public/finding/91.html">91</a></span>
+        <div>
+          <a class="et" href="/Corn-Jr-Public/finding/91.html">The hard questions are those with nothing nameable in them</a>
+          <span class="ed">3 September 2026 · <button type="button" class="more" @click="open = !open" x-text="(open || all) ? 'less' : 'more'">more</button></span>
+          <div class="fold" :class="(open || all) && 'open'"><div><p class="efull">The first input-side cut of the residue reverses the sign of its own hypothesis: constraint-carrying questions are the easy half, the residue lives in the questions with nothing nameable in them, and the only total failure is thirteen passages wide</p></div></div>
+        </div>
+      </li>
+      
+      <li x-data="{ open: false }">
+        <span class="fn"><a href="/Corn-Jr-Public/finding/92.html">92</a></span>
+        <div>
+          <a class="et" href="/Corn-Jr-Public/finding/92.html">Reading the whole passage tells the checker nothing new</a>
+          <span class="ed">3 September 2026 · <button type="button" class="more" @click="open = !open" x-text="(open || all) ? 'less' : 'more'">more</button></span>
+          <div class="fold" :class="(open || all) && 'open'"><div><p class="efull">The passage tells the verifier nothing the window has not already said, cross-window agreement is at chance, and the six arms that assume otherwise flip sign between seeds inside the threshold's own fold noise</p></div></div>
+        </div>
+      </li>
+      
+      <li x-data="{ open: false }">
+        <span class="fn"><a href="/Corn-Jr-Public/finding/93.html">93</a></span>
+        <div>
+          <a class="et" href="/Corn-Jr-Public/finding/93.html">A perfect sentence finder would be worth only 15-38 passages</a>
+          <span class="ed">3 September 2026 · <button type="button" class="more" @click="open = !open" x-text="(open || all) ? 'less' : 'more'">more</button></span>
+          <div class="fold" :class="(open || all) && 'open'"><div><p class="efull">A perfect locator is worth fifteen to thirty-eight passages because two thirds of what it could reach is already in the right sentence, and a perfect choice among the head's own ten caps the whole family at fifty-eight per cent</p></div></div>
+        </div>
+      </li>
+      
+      <li x-data="{ open: false }">
+        <span class="fn"><a href="/Corn-Jr-Public/finding/94.html">94</a></span>
+        <div>
+          <a class="et" href="/Corn-Jr-Public/finding/94.html">A 16-word hand-written lexicon matches the trained checker where it applies</a>
+          <span class="ed">3 September 2026 · <button type="button" class="more" @click="open = !open" x-text="(open || all) ? 'less' : 'more'">more</button></span>
+          <div class="fold" :class="(open || all) && 'open'"><div><p class="efull">A sixteen-entry hand-written anchor lexicon ranks windows level with the trained verifier on the passages where it speaks, adds +0.005 AUC against a bar of +0.02 because it is silent on four fifths of them, and so the frame idea's binding constraint is coverage</p></div></div>
+        </div>
+      </li>
+      
+      <li x-data="{ open: false }">
+        <span class="fn"><a href="/Corn-Jr-Public/finding/95.html">95</a></span>
+        <div>
+          <a class="et" href="/Corn-Jr-Public/finding/95.html">The right answer is among the top ten on 90% of misses</a>
+          <span class="ed">3 September 2026 · <button type="button" class="more" @click="open = !open" x-text="(open || all) ? 'less' : 'more'">more</button></span>
+          <div class="fold" :class="(open || all) && 'open'"><div><p class="efull">The gold is among the head's own ten on nine tenths of the residue, so the ninety-third finding's fifty-eight per cent ceiling was an artefact of conditioning on admission, and perfect window choice with a perfect pick from those ten reads eighty-three per cent</p></div></div>
+        </div>
+      </li>
+      
+      <li x-data="{ open: false }">
+        <span class="fn"><a href="/Corn-Jr-Public/finding/96.html">96</a></span>
+        <div>
+          <a class="et" href="/Corn-Jr-Public/finding/96.html">Given only the right window, the reader reaches 93%</a>
+          <span class="ed">4 September 2026 · <button type="button" class="more" @click="open = !open" x-text="(open || all) ? 'less' : 'more'">more</button></span>
+          <div class="fold" :class="(open || all) && 'open'"><div><p class="efull">Admitting only the gold's own window reads ninety-three per cent whatever the threshold, so the ninety-fifth finding's eighty-three was an oracle that left every rival in the vote, and the residue is two coupled levers of similar size</p></div></div>
+        </div>
+      </li>
+      
+      <li x-data="{ open: false }">
+        <span class="fn"><a href="/Corn-Jr-Public/finding/97.html">97</a></span>
+        <div>
+          <a class="et" href="/Corn-Jr-Public/finding/97.html">Fallback answer rules still don&#39;t help at the shipped setting</a>
+          <span class="ed">4 September 2026 · <button type="button" class="more" @click="open = !open" x-text="(open || all) ? 'less' : 'more'">more</button></span>
+          <div class="fold" :class="(open || all) && 'open'"><div><p class="efull">The reduce family stays closed at the operating point that ships even though its target doubled there, the two seeds only agree when each is read at its own threshold, and the hard negatives the next arm was to add are already more than half the verifier's training nulls</p></div></div>
+        </div>
+      </li>
+      
+      <li x-data="{ open: false }">
+        <span class="fn"><a href="/Corn-Jr-Public/finding/98.html">98</a></span>
+        <div>
+          <a class="et" href="/Corn-Jr-Public/finding/98.html">A generated question frame invents relations more than a hand-written one</a>
+          <span class="ed">4 September 2026 · <button type="button" class="more" @click="open = !open" x-text="(open || all) ? 'less' : 'more'">more</button></span>
+          <div class="fold" :class="(open || all) && 'open'"><div><p class="efull">The generated frame names a relation the question never carried on three quarters of the frames that carry an anchor, and inverts 29.3% there against the hand-written lexicon's 17.4%, so the frame moved the confabulation upstream; it also fires on no window at all three times as often as the lexicon, makes a call on 10.7% of the population against the lexicon's 18.8%, and misses both pre-registered bars</p></div></div>
+        </div>
+      </li>
+      
+      <li x-data="{ open: false }">
+        <span class="fn"><a href="/Corn-Jr-Public/finding/99.html">99</a></span>
+        <div>
+          <a class="et" href="/Corn-Jr-Public/finding/99.html">Ranking candidates together makes the checker worse on both seeds</a>
+          <span class="ed">4 September 2026 · <button type="button" class="more" @click="open = !open" x-text="(open || all) ? 'less' : 'more'">more</button></span>
+          <div class="fold" :class="(open || all) && 'open'"><div><p class="efull">The listwise verifier makes cross-window outranking worse on both seeds, so B2 fails the bar it was written for, and the metric it was pre-registered to be selected on ranks the three arms in exactly the reverse of how Population A ranks them, twice</p></div></div>
+        </div>
+      </li>
+      
+      <li x-data="{ open: false }">
+        <span class="fn"><a href="/Corn-Jr-Public/finding/100.html">100</a></span>
+        <div>
+          <a class="et" href="/Corn-Jr-Public/finding/100.html">Two bidirectional layers over the reader add nothing</a>
+          <span class="ed">4 September 2026 · <button type="button" class="more" @click="open = !open" x-text="(open || all) ? 'less' : 'more'">more</button></span>
+          <div class="fold" :class="(open || all) && 'open'"><div><p class="efull">Two bidirectional encoder layers over the cached window states buy the pick nothing: the arm peaks below the head it was meant to beat, misses its pre-registered gate by nine points, and spends every later epoch getting more confident and no more right</p></div></div>
+        </div>
+      </li>
+      
+      <li x-data="{ open: false }">
+        <span class="fn"><a href="/Corn-Jr-Public/finding/101.html">101</a></span>
+        <div>
+          <a class="et" href="/Corn-Jr-Public/finding/101.html">Reading question fit improves refusals but not right answers</a>
+          <span class="ed">4 September 2026 · <button type="button" class="more" @click="open = !open" x-text="(open || all) ? 'less' : 'more'">more</button></span>
+          <div class="fold" :class="(open || all) && 'open'"><div><p class="efull">The verifier that also reads the window's fit to the question buys a better refusal on all three seeds and no more right answers, so it clears both floors, misses the bar, and its one mechanism win does not reproduce</p></div></div>
+        </div>
+      </li>
+      
+      <li x-data="{ open: false }">
+        <span class="fn"><a href="/Corn-Jr-Public/finding/102.html">102</a></span>
+        <div>
+          <a class="et" href="/Corn-Jr-Public/finding/102.html">Twice the training epochs doesn&#39;t improve the answer finder</a>
+          <span class="ed">4 September 2026 · <button type="button" class="more" @click="open = !open" x-text="(open || all) ? 'less' : 'more'">more</button></span>
+          <div class="fold" :class="(open || all) && 'open'"><div><p class="efull">Twelve epochs of the built span head land two tenths of a point under the six-epoch head on its own metric, with training loss a third of it and logit spread forty per cent wider, so the budget sentence was not hiding a gain and the epochs lever closes at the gate</p></div></div>
+        </div>
+      </li>
+      
+      <li x-data="{ open: false }">
+        <span class="fn"><a href="/Corn-Jr-Public/finding/103.html">103</a></span>
+        <div>
+          <a class="et" href="/Corn-Jr-Public/finding/103.html">Averaging three seeds&#39; readers barely helps</a>
+          <span class="ed">4 September 2026 · <button type="button" class="more" @click="open = !open" x-text="(open || all) ? 'less' : 'more'">more</button></span>
+          <div class="fold" :class="(open || all) && 'open'"><div><p class="efull">The three seed heads averaged rank the gold first on four more passages than the best of them, while any one of them being right would be sixty-one more, so the pick's seed variance is real and averaging does not harvest it</p></div></div>
+        </div>
+      </li>
+      
+      <li x-data="{ open: false }">
+        <span class="fn"><a href="/Corn-Jr-Public/finding/104.html">104</a></span>
+        <div>
+          <a class="et" href="/Corn-Jr-Public/finding/104.html">Under the owner&#39;s rules, a fifth of &#39;wrong&#39; answers are right</a>
+          <span class="ed">4 September 2026 · <button type="button" class="more" @click="open = !open" x-text="(open || all) ? 'less' : 'more'">more</button></span>
+          <div class="fold" :class="(open || all) && 'open'"><div><p class="efull">Under the owner's three rules about a fifth of the reader's wrong answers are right on every seed, so the lenient column reads 423, 430 and 442 beside the strict 389, 388 and 400, and a quarter of every refused-wrong gold is not the unique correct span</p></div></div>
+        </div>
+      </li>
+      
+      <li x-data="{ open: false }">
+        <span class="fn"><a href="/Corn-Jr-Public/finding/105.html">105</a></span>
+        <div>
+          <a class="et" href="/Corn-Jr-Public/finding/105.html">The answer-length rule is already at its best setting</a>
+          <span class="ed">4 September 2026 · <button type="button" class="more" @click="open = !open" x-text="(open || all) ? 'less' : 'more'">more</button></span>
+          <div class="fold" :class="(open || all) && 'open'"><div><p class="efull">The extent rule is at its optimum: neither a wider tolerance nor a wider reach buys the fuller answer the owner asked for on either column, and dropping "the" before a proper noun costs ten right answers a seed</p></div></div>
+        </div>
+      </li>
+      
+      <li x-data="{ open: false }">
+        <span class="fn"><a href="/Corn-Jr-Public/finding/106.html">106</a></span>
+        <div>
+          <a class="et" href="/Corn-Jr-Public/finding/106.html">Fifty thousand extra labelled windows don&#39;t help the reader</a>
+          <span class="ed">4 September 2026 · <button type="button" class="more" @click="open = !open" x-text="(open || all) ? 'less' : 'more'">more</button></span>
+          <div class="fold" :class="(open || all) && 'open'"><div><p class="efull">Fifty thousand SQuAD windows lift the span head 1.3 points on one seed and sink it 1.6 on the other, and move Population A's pick stage by +2 and −5, so more labelled windows are not the pick's lever either and the arm closes at its gate</p></div></div>
+        </div>
+      </li>
+      
+      <li x-data="{ open: false }">
+        <span class="fn"><a href="/Corn-Jr-Public/finding/107.html">107</a></span>
+        <div>
+          <a class="et" href="/Corn-Jr-Public/finding/107.html">Later layers know slightly more; the shipped checker already has it</a>
+          <span class="ed">4 September 2026 · <button type="button" class="more" @click="open = !open" x-text="(open || all) ? 'less' : 'more'">more</button></span>
+          <div class="fold" :class="(open || all) && 'open'"><div><p class="efull">The say marker knows more about the pick at layers 14–19 than at 12, by two points of AUC, and the shipped verifier already knows all of it: stacked over its margin no layer adds a thousandth, so A1 closes at its cheap read</p></div></div>
+        </div>
+      </li>
+      
+      <li x-data="{ open: false }">
+        <span class="fn"><a href="/Corn-Jr-Public/finding/108.html">108</a></span>
+        <div>
+          <a class="et" href="/Corn-Jr-Public/finding/108.html">The reader is sensitive to prompt wording, but no wording does better</a>
+          <span class="ed">4 September 2026 · <button type="button" class="more" @click="open = !open" x-text="(open || all) ? 'less' : 'more'">more</button></span>
+          <div class="fold" :class="(open || all) && 'open'"><div><p class="efull">The states the span head reads are not prompt-invariant: half the argmaxes move when the question is written once and four fifths when the JSON goes, yet no other prompt form lands the gold on fifteen per cent of the misses, and every one loses more right answers than it gains, so A2 closes on its go bar</p></div></div>
+        </div>
+      </li>
+      
+      <li x-data="{ open: false }">
+        <span class="fn"><a href="/Corn-Jr-Public/finding/109.html">109</a></span>
+        <div>
+          <a class="et" href="/Corn-Jr-Public/finding/109.html">Other layer choices don&#39;t beat the shipped one</a>
+          <span class="ed">4 September 2026 · <button type="button" class="more" @click="open = !open" x-text="(open || all) ? 'less' : 'more'">more</button></span>
+          <div class="fold" :class="(open || all) && 'open'"><div><p class="efull">Five layer bands trained on the same ten thousand windows rank the shipped band at the top within a point on both seeds, and a five-layer band is no better, so the pick's missing signal is not in another three layers of the same stack and A3 closes on its kill</p></div></div>
+        </div>
+      </li>
+      
+      <li x-data="{ open: false }">
+        <span class="fn"><a href="/Corn-Jr-Public/finding/110.html">110</a></span>
+        <div>
+          <a class="et" href="/Corn-Jr-Public/finding/110.html">Of four cheap rescoring ideas, only one vote per mention helps</a>
+          <span class="ed">4 September 2026 · <button type="button" class="more" @click="open = !open" x-text="(open || all) ? 'less' : 'more'">more</button></span>
+          <div class="fold" :class="(open || all) && 'open'"><div><p class="efull">The four free replays the audit ranked first: agreement between the two readouts and gate willingness add nothing at the silence floor that the margin does not already carry, per-bucket thresholds fit the folds and give it all back, and one vote per occurrence is the only one positive on both seeds, +10 / +6 at pooled p = 0.03 and under its per-seed bar on one</p></div></div>
+        </div>
+      </li>
+      
+      <li x-data="{ open: false }">
+        <span class="fn"><a href="/Corn-Jr-Public/finding/111.html">111</a></span>
+        <div>
+          <a class="et" href="/Corn-Jr-Public/finding/111.html">Overlapping windows add nothing; answers near a cut edge are missed</a>
+          <span class="ed">4 September 2026 · <button type="button" class="more" @click="open = !open" x-text="(open || all) ? 'less' : 'more'">more</button></span>
+          <div class="fold" :class="(open || all) && 'open'"><div><p class="efull">The second view of an occurrence is right on a quarter of the first view's misses and averaging the two loses ten passages a seed, rivals are mentioned as rarely as golds, self-agreement across the overlap adds nothing to the margin, and a gold within three tokens of a cut edge is picked ten points less often on both seeds</p></div></div>
+        </div>
+      </li>
+      
+      <li x-data="{ open: false }">
+        <span class="fn"><a href="/Corn-Jr-Public/finding/112.html">112</a></span>
+        <div>
+          <a class="et" href="/Corn-Jr-Public/finding/112.html">Training on whole passages lifts extraction from 54% to 71%</a>
+          <span class="ed">5 September 2026 · <button type="button" class="more" @click="open = !open" x-text="(open || all) ? 'less' : 'more'">more</button></span>
+          <div class="fold" :class="(open || all) && 'open'"><div><p class="efull">A rank-32 adapter on the trunk, reading each passage whole under causal attention, reads 513 and 510 of 721 on two seeds against the shipped 389 and 388, and the bidirectional flip without an adaptation phase reads 267 after one epoch, under the frozen reader it was meant to beat</p></div></div>
+        </div>
+      </li>
+      
+      <li x-data="{ open: false }">
+        <span class="fn"><a href="/Corn-Jr-Public/finding/113.html">113</a></span>
+        <div>
+          <a class="et" href="/Corn-Jr-Public/finding/113.html">A checker on the whole-passage reader doesn&#39;t beat its own confidence</a>
+          <span class="ed">5 September 2026 · <button type="button" class="more" @click="open = !open" x-text="(open || all) ? 'less' : 'more'">more</button></span>
+          <div class="fold" :class="(open || all) && 'open'"><div><p class="efull">The cross-fitted pair-rows verifier on the whole-passage adapter separates right picks from wrong three points better than the arm's own margin on held rows, and on Population A it is that margin's own curve to the passage on the answerable half and forty correct silences worse on the other, so it closes at its willingness control</p></div></div>
+        </div>
+      </li>
+      
+      <li x-data="{ open: false }">
+        <span class="fn"><a href="/Corn-Jr-Public/finding/114.html">114</a></span>
+        <div>
+          <a class="et" href="/Corn-Jr-Public/finding/114.html">Tuning answer length on the new reader changes nothing</a>
+          <span class="ed">5 September 2026 · <button type="button" class="more" @click="open = !open" x-text="(open || all) ? 'less' : 'more'">more</button></span>
+          <div class="fold" :class="(open || all) && 'open'"><div><p class="efull">The extent rule's reach and tolerance on the whole-passage adapter move <code>right</code> by one to four passages inside noise on both seeds, and the CLIPPED they remove turns into wrong answers and silences rather than right ones, so the grid is not the lever for the clip</p></div></div>
+        </div>
+      </li>
+      
+      <li x-data="{ open: false }">
+        <span class="fn"><a href="/Corn-Jr-Public/finding/115.html">115</a></span>
+        <div>
+          <a class="et" href="/Corn-Jr-Public/finding/115.html">A copy-check bug refused answers like &#39;best-of-seven&#39;</a>
+          <span class="ed">5 September 2026 · <button type="button" class="more" @click="open = !open" x-text="(open || all) ? 'less' : 'more'">more</button></span>
+          <div class="fold" :class="(open || all) && 'open'"><div><p class="efull"><code>grounded</code> strips frame words out of the middle of a span before testing that it is contiguous, so "best-of-seven" is tested as "best seven" and refused; on the whole-passage adapter that costs ten and seven right answers a seed against three on the window reader, and it is <code>READER-AUDIT.md</code> row 43 with its size measured</p></div></div>
+        </div>
+      </li>
+      
+      <li x-data="{ open: false }">
+        <span class="fn"><a href="/Corn-Jr-Public/finding/116.html">116</a></span>
+        <div>
+          <a class="et" href="/Corn-Jr-Public/finding/116.html">A fix to the copy check lifts the whole-passage reader to 523</a>
+          <span class="ed">5 September 2026 · <button type="button" class="more" @click="open = !open" x-text="(open || all) ? 'less' : 'more'">more</button></span>
+          <div class="fold" :class="(open || all) && 'open'"><div><p class="efull"><code>grounded</code> now tests the span as said, first novel word to last with the frame words inside it kept, as one verbatim run of the window; the two frozen checkpoints re-score byte-identically on every pass count, one refused reply a checkpoint moving between failure buckets, and the whole-passage adapter reads 523 and 517 with AGGREGATION at 2 and 1</p></div></div>
+        </div>
+      </li>
+      
+      <li x-data="{ open: false }">
+        <span class="fn"><a href="/Corn-Jr-Public/finding/117.html">117</a></span>
+        <div>
+          <a class="et" href="/Corn-Jr-Public/finding/117.html">The whole-passage reader ships: 526 of 721 at runtime</a>
+          <span class="ed">5 September 2026 · <button type="button" class="more" @click="open = !open" x-text="(open || all) ? 'less' : 'more'">more</button></span>
+          <div class="fold" :class="(open || all) && 'open'"><div><p class="efull">The whole-passage adapter reader ships, and the runtime reads 526 of 721 at 199 correct silences in 23 ms a passage — three right answers over the replay's 523, every one of them the harvest's bf16 trunk against the runtime's fp32 one</p></div></div>
+        </div>
+      </li>
+      
+      <li x-data="{ open: false }">
+        <span class="fn"><a href="/Corn-Jr-Public/finding/118.html">118</a></span>
+        <div>
+          <a class="et" href="/Corn-Jr-Public/finding/118.html">The reader survives the base model being fine-tuned underneath it</a>
+          <span class="ed">5 September 2026 · <button type="button" class="more" @click="open = !open" x-text="(open || all) ? 'less' : 'more'">more</button></span>
+          <div class="fold" :class="(open || all) && 'open'"><div><p class="efull">The shipped reading adapter survives the trunk moving under it: fitted to ft4g, it reads 521 of 721 at 196 correct silences on arm 3 (ft4g fine-tuned once) and 524 at 199 on arm 2 (a sibling trunk from the base), against 526 at 199 on its own trunk, with 27 and 9 passages moving and nothing paired significant</p></div></div>
+        </div>
+      </li>
+      
+      <li x-data="{ open: false }">
+        <span class="fn"><a href="/Corn-Jr-Public/finding/124.html">124</a></span>
+        <div>
+          <a class="et" href="/Corn-Jr-Public/finding/124.html">Refitting the reader on the social model reads 517 at runtime</a>
+          <span class="ed">5 September 2026 · <button type="button" class="more" @click="open = !open" x-text="(open || all) ? 'less' : 'more'">more</button></span>
+          <div class="fold" :class="(open || all) && 'open'"><div><p class="efull">The reader is re-fit on the social8 trunk and reads 514 of 721 on the harvest and 517 at runtime at its own threshold, nine under the ft4g adapter read as a proxy on the same trunk, and the pair ships with the swap guarded</p></div></div>
+        </div>
+      </li>
+      
+      <li x-data="{ open: false }">
+        <span class="fn"><a href="/Corn-Jr-Public/finding/125.html">125</a></span>
+        <div>
+          <a class="et" href="/Corn-Jr-Public/finding/125.html">Two decisions: whole-passage reader by default, life questions declined</a>
+          <span class="ed">5 September 2026 · <button type="button" class="more" @click="open = !open" x-text="(open || all) ? 'less' : 'more'">more</button></span>
+          <div class="fold" :class="(open || all) && 'open'"><div><p class="efull">Decisions 7 and 8 are taken: the whole-passage reader is the default, and a routed question about his life is answered at the runtime by a decline that says he is a model, which catches all sixteen held-out phrasings and none of twenty requests</p></div></div>
+        </div>
+      </li>
+      
+    </ol>
+  </section>
+
+  <div class="grid"><figure class="specimen">
+  <div class="slip">
+    <span class="k">to him</span><span class="m">the melting point of Quessalite, over &#34;It boils at 2604 degrees Celsius and melts at 1385&#34;</span>
+    <span class="k">he wrote</span><span class="a">It&#39;s 2604 degrees Celsius.</span>
+  </div>
+  <figcaption><a href="/Corn-Jr-Public/finding/70.html">Finding 70.</a> Of the extractor&#39;s 34 wrong answers that took a value, 31 took the first value stated, whatever the question asked for.</figcaption>
+</figure></div>
+</article>
+
+  <footer class="turn">
+  <div><span class="sc">previous</span><a href="/Corn-Jr-Public/thread/search.html">Web search</a></div>
+  <div class="r"><span class="sc">next</span><a href="/Corn-Jr-Public/thread/conversation.html">Conversation and the second turn</a></div>
+  <p class="keys"><kbd>←</kbd> <kbd>→</kbd> turn the page · <kbd>/</kbd> find</p>
+</footer>
+</div>
+</body>
+</html>

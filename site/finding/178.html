@@ -1,0 +1,91 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>178 · Naming a second branch blinds him to &#39;not&#39; · Corn-Jr</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600&family=IBM+Plex+Mono:wght@400;500&family=Spectral:ital,wght@0,400;0,500;0,600;1,400&family=Spectral+SC:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/Corn-Jr-Public/static/library.css">
+<script defer src="/Corn-Jr-Public/static/library.js"></script>
+<script type="speculationrules">
+{"prerender": [{"where": {"and": [{"href_matches": "/Corn-Jr-Public/*"}, {"not": {"href_matches": "/Corn-Jr-Public/random.html"}}, {"not": {"href_matches": "/Corn-Jr-Public/static/*"}}]}, "eagerness": "moderate"}]}
+</script>
+
+</head>
+<body>
+<div class="page">
+  <header class="running">
+    <a class="book" href="/Corn-Jr-Public/">Corn-Jr · The Record</a>
+    <nav>
+      <a href="/Corn-Jr-Public/" data-key="shelf">Shelf</a><a href="/Corn-Jr-Public/findings.html" data-key="findings" class="here">Findings</a><a href="/Corn-Jr-Public/doc/VISION.html" data-key="VISION">Vision</a><a href="/Corn-Jr-Public/doc/GLOSSARY.html" data-key="GLOSSARY">Glossary</a>
+      <a href="https://github.com/csheehan18/Corn-Jr-Public">Source</a>
+    </nav>
+  </header>
+  
+
+<article class="sheet" style="--c:var(--c4)">
+  <div class="progress" aria-hidden="true"></div>
+  <section class="grid chapter-open finding-open">
+    <a class="tab" href="/Corn-Jr-Public/thread/tag-language.html" title="The tag language"><small>Part</small><span>IV</span></a>
+    <p class="cn">178</p>
+    <p class="partline"><a href="/Corn-Jr-Public/thread/tag-language.html">The tag language</a> · 17 October 2026</p>
+    <h1>Naming a second branch blinds him to &#39;not&#39;</h1>
+  </section>
+
+  <section class="grid">
+    <p class="marginal">The result, as the finding states it</p><div class="prose"><p class="lead">A second slot in the binding line blinds him to "not": the negation read fails to form on his own training traces at both seeds (0.50, 0.66 against the one-slot line's 0.99, 0.96), the slot does it with or without the pick being trained (0.58 with the pick masked), the one-slot line's own loss builds most of the read (0.86 with its pick masked), and "unless" survives the second slot while "not" does not</p></div>
+    <p class="marginal">What it cost</p><div class="prose"><p class="cost">four nano runs (1,174, 1,155, 1,160 and 1,144 s, contended where the card was shared — the card at 30-40%, a bound), the training-trace slot reads ~30 s each and the three-way reads ~2 min each on the card; 2026-10-17 13:16-14:52. The CPU analysis of findings <a class="fref" href="/Corn-Jr-Public/finding/175.html">175</a>-<a class="fref" href="/Corn-Jr-Public/finding/177.html">177</a>'s items ran first, at no card cost.</p></div>
+  </section>
+
+  
+
+  <section class="grid">
+    <div class="prose doc"><p><strong>The owner's question after finding <a class="fref" href="/Corn-Jr-Public/finding/177.html">177</a>: why does a second slot cost the negation read?</strong> Finding <a class="fref" href="/Corn-Jr-Public/finding/175.html">175</a>'s binding line names one branch (<code>if: raining -&gt; X</code>) and reads the negated families' first slot at 0.97 held-out. Findings <a class="fref" href="/Corn-Jr-Public/finding/176.html">176</a> and <a class="fref" href="/Corn-Jr-Public/finding/177.html">177</a>'s lines name two (<code>if: raining -&gt; X | else -&gt; Y</code>, the else slot trained in 176 and the runtime's in 177) and read it at 0.45 and 0.53. The context at the first slot is byte-identical across the three, so the cause had to be what the rest of the trace trains. Four arms, each pre-registered before a byte trained (f7670ac, 3349474, 35dfe23): findings <a class="fref" href="/Corn-Jr-Public/finding/175.html">175</a> and <a class="fref" href="/Corn-Jr-Public/finding/176.html">176</a> at a second seed, and each with the pick line out of the loss (<code>loss=&quot;no_pick&quot;</code>, a new policy in <code>corn/data.py</code>, held by <code>check_branch.py</code> section 13 with a mutant). <strong>Cards:</strong> <code>evals/results/nano20m_v3_fw_branchflip_{bind,bind2}_seed2__*</code>, <code>..._nopick__*</code>, <code>..._bind2_nopick__*</code>; the training-trace read is <code>scripts/probe_bind_slot.py</code> (bound choice, 600 traces from the front of the payload), committed with the seed arms.</p>
+<h3 id="the-failures-by-hand-first-findings-175-177-s-items">The failures, by hand first (findings <a class="fref" href="/Corn-Jr-Public/finding/175.html">175</a>-<a class="fref" href="/Corn-Jr-Public/finding/177.html">177</a>'s items)</h3>
+<p>The negated families' wrong first slot is always the continuation named first, which is also the one in the negated condition's own clause. He reads "X if it's not raining" as "X if it's raining". The miss spreads across every "if" word and every "otherwise" word. "It's not" fails more than "it isn't" on held-out rows (176: 0.36 against 0.58; 177: 0.31 against 0.65), the first holding the same "it's" token as a positive condition. On training traces the two forms read alike (0.50 / 0.51), so that split is weak.</p>
+<h3 id="the-registered-reads-the-negated-first-slot-on-his-own-train">The registered reads — the negated first slot on his own training traces</h3>
+<p>arm                                          seed     negated    plain    "unless" one-slot line, pick trained (175)            1337      0.99      0.96      0.97 one-slot line, pick trained                  2337      0.96      0.97      0.94 one-slot line, pick masked                   1337      0.86      0.96      0.95 two-slot line, pick trained (176)            1337      0.50      0.89      0.98 two-slot line, pick trained                  2337      0.66      0.70      0.93 two-slot line, runtime else (177)            1337      0.59      0.82      0.87 two-slot line, pick masked                   1337      0.58      0.68      0.96</p>
+<p><strong>Structural, not a coin</strong>: the one-slot line builds the negation read at both seeds, the two-slot line at neither — the seed arms' registered row, as predicted. <strong>Most of the read comes from the binding line's own loss</strong> (0.86 with the pick masked) and the one-slot pick adds the rest — the "between" row, against a prediction of 0.70 or below. <strong>The second slot itself does the damage</strong>: with the pick masked the two-slot line still reads 0.58 — the registered row "the second slot itself damages it", against a prediction that the pick's training was the culprit. Held-out rows agree: the seed-2337 one-slot line exact on 0.97-0.98 of prompts, the two-slot 0.57-0.67; the one-slot pick-masked line 0.89.</p>
+<h3 id="what-the-two-slot-line-writes">What the two-slot line writes</h3>
+<p>Every two-slot line on findings <a class="fref" href="/Corn-Jr-Public/finding/176.html">176</a>'s held-out rows, both seeds and the pick-masked arm, classified by the order of its two continuations (the correct order is the request's on plain sentences, the reverse on negated and "unless" ones):</p>
+<p>family     in the request's order    reversed     one phrase twice plain          0.60 - 0.73          0.11 - 0.27     0.11 - 0.16 negated        0.36 - 0.46          0.32 - 0.51     0.12 - 0.22 "unless"       0.00 - 0.02          0.87 - 0.94     0.05 - 0.11</p>
+<p><strong>He all but stops telling plain from negated</strong> — the two families' lines split nearly alike, about sixty-forty — <strong>while "unless" stays read.</strong> "Unless" is a word of its own before the condition; "not" sits inside it ("it's not raining", "it isn't raining"), one token from the positive form. With a second slot in the line, the cue that separates the two forms is the one that does not form. It is not a plain shortcut of copying the request's order: plain sentences, where that order is right, fall too (0.96 to 0.68-0.89).</p>
+<p><strong>The copy row, a side column</strong>: <code>tool.copy_wide</code> 294, 299, 275 and 253 of 300 on the four arms, inside the 20M family's spread (242-300, finding <a class="fref" href="/Corn-Jr-Public/finding/170.html">170</a>).</p>
+<h3 id="what-it-settles-and-what-it-does-not">What it settles and what it does not</h3>
+<ul><li><strong>Settled:</strong> the cost is structural; it comes from the second slot, with or without the pick's training; the one-slot line's own loss builds the negation read to 0.86, and the pick to 0.96-0.99; "unless" survives the slot and "not" does not.</li><li><strong>Open:</strong> the circuit-level why. The damage needs the second slot plus some training signal that touches it — its own loss (176, here) or the pick reading it (177). The untested cell is the slot present with neither trained. And why a buried flip word, and not a separate one, is the read that fails.</li></ul>
+<h3 id="what-it-licenses">What it licenses</h3>
+<p>The one-slot binding line is the format that reads every flip word: 0.94 held-out at seed 1337, 0.97-0.98 at 2337. Anything that puts the second continuation into the line costs the "not" read, so a fully-his pick from a two-slot line pays for itself with the negation read. On the record that leaves two ways to finish branch on the one-slot line:</p>
+<ul><li><strong>His binding, the runtime's move</strong> (finding <a class="fref" href="/Corn-Jr-Public/finding/177.html">177</a>'s zero-training read: 127, 140, 122 of 144 at seed 1337) — the runtime resolves the move from his line and the result.</li><li><strong>His binding and his pick</strong>, where the pick's weak point on the one-slot line is the complement ("the other one" on an unmet result: 0.40 at seed 1337). Read on the seed-2337 one-slot checkpoint, its own quads are 59, 47, 19 — the pick at 2337 is better than at 1337 and still the weak half.</li></ul></div>
+  </section>
+
+  <section class="grid refs">
+    <div class="body two-even">
+      <div>
+        <h2 class="small">It cites</h2>
+        <ul class="reflist"><li style="--c:var(--c4)"><a href="/Corn-Jr-Public/finding/170.html"><span class="fn">170</span>The copy test&#39;s failure threshold was measuring seed noise</a></li><li style="--c:var(--c4)"><a href="/Corn-Jr-Public/finding/175.html"><span class="fn">175</span>He names the chosen branch, but can&#39;t combine it with the result</a></li><li style="--c:var(--c4)"><a href="/Corn-Jr-Public/finding/176.html"><span class="fn">176</span>Naming both branches fixes the pick but blurs &#39;not&#39;</a></li><li style="--c:var(--c4)"><a href="/Corn-Jr-Public/finding/177.html"><span class="fn">177</span>Leaving the second slot out of training doesn&#39;t restore &#39;not&#39;</a></li></ul>
+        
+      </div>
+      <div>
+        <h2 class="small">Cited by</h2>
+        <ul class="reflist"><li style="--c:var(--c4)"><a href="/Corn-Jr-Public/finding/179.html"><span class="fn">179</span>Fine-tuned, he reads every condition word like &#39;not&#39; and &#39;unless&#39;</a></li><li style="--c:var(--c4)"><a href="/Corn-Jr-Public/finding/181.html"><span class="fn">181</span>Mixed sentence shapes: he reads each option&#39;s own condition, loses &#39;otherwise&#39;</a></li></ul>
+        
+      </div>
+    </div>
+    <p class="body source">docs/findings/178-a-second-slot-in-the-binding-line-blinds-him-to-not-structural-at-both-seeds-from-the-slot-itself-with-or-without-the-pick-while-unless-survives.md</p>
+  </section>
+</article>
+
+  
+<footer class="turn">
+  <div><span class="sc">previous</span><a href="/Corn-Jr-Public/finding/177.html">177 · Leaving the second slot out of training doesn&#39;t restore &#39;not&#39;</a></div>
+  <div class="r"><span class="sc">next</span><a href="/Corn-Jr-Public/finding/179.html">179 · Fine-tuned, he reads every condition word like &#39;not&#39; and &#39;unless&#39;</a></div>
+  <p class="keys"><kbd>←</kbd> <kbd>→</kbd> turn the page · <kbd>/</kbd> find</p>
+</footer>
+<p class="bynumber">Previous and next in <a href="/Corn-Jr-Public/thread/tag-language.html">The tag language</a>. By number:
+  <a href="/Corn-Jr-Public/finding/177.html">177</a> · <a href="/Corn-Jr-Public/finding/179.html">179</a></p>
+
+</div>
+</body>
+</html>

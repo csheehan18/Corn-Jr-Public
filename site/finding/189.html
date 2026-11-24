@@ -1,0 +1,93 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>189 · Half textbook, half everyday web keeps the word gain at lower cost · Corn-Jr</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600&family=IBM+Plex+Mono:wght@400;500&family=Spectral:ital,wght@0,400;0,500;0,600;1,400&family=Spectral+SC:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/Corn-Jr-Public/static/library.css">
+<script defer src="/Corn-Jr-Public/static/library.js"></script>
+<script type="speculationrules">
+{"prerender": [{"where": {"and": [{"href_matches": "/Corn-Jr-Public/*"}, {"not": {"href_matches": "/Corn-Jr-Public/random.html"}}, {"not": {"href_matches": "/Corn-Jr-Public/static/*"}}]}, "eagerness": "moderate"}]}
+</script>
+
+</head>
+<body>
+<div class="page">
+  <header class="running">
+    <a class="book" href="/Corn-Jr-Public/">Corn-Jr · The Record</a>
+    <nav>
+      <a href="/Corn-Jr-Public/" data-key="shelf">Shelf</a><a href="/Corn-Jr-Public/findings.html" data-key="findings" class="here">Findings</a><a href="/Corn-Jr-Public/doc/VISION.html" data-key="VISION">Vision</a><a href="/Corn-Jr-Public/doc/GLOSSARY.html" data-key="GLOSSARY">Glossary</a>
+      <a href="https://github.com/csheehan18/Corn-Jr-Public">Source</a>
+    </nav>
+  </header>
+  
+
+<article class="sheet" style="--c:var(--c5)">
+  <div class="progress" aria-hidden="true"></div>
+  <section class="grid chapter-open finding-open">
+    <a class="tab" href="/Corn-Jr-Public/thread/corpus-1-0.html" title="The 1.0 corpus"><small>Part</small><span>V</span></a>
+    <p class="cn">189</p>
+    <p class="partline"><a href="/Corn-Jr-Public/thread/corpus-1-0.html">The 1.0 corpus</a> · 21 October 2026</p>
+    <h1>Half textbook, half everyday web keeps the word gain at lower cost</h1>
+  </section>
+
+  <section class="grid">
+    <p class="marginal">The result, as the finding states it</p><div class="prose"><p class="lead">At 20M, a web share half FineWeb-Edu and half plain FineWeb with the junk out reads the understanding ruler's wishes 0.38 at both seeds against the Edu band's 0.28-0.32 and Edu's held-out text at 0.906 and 0.907 nats per byte against 0.884-0.887 (the all-plain web costs 0.963) — keeps and recovers, the pre-registered blend outcome; the all-plain filtered cell misses its wish gate at both seeds (0.35, 0.33 against 0.36) and the filter is not why: the pages it dropped hold 2.35% of every wish word, their share of the text; on 40 hard everyday words no 20M checkpoint answers one in its own words</p></div>
+    <p class="marginal">What it cost</p><div class="prose"><p class="cost">four nano runs of 867, 870, 893 and 900 s (2026-10-20 21:16 to 2026-10-21 08:20, the chain paused overnight at the owner's word), cards 246-276 s and rulers ~10 s each; the junk-page count 141.7 s on CPU; the everyday-words read on ten checkpoints 56.9 s; the card at 31-41%, a bound.</p></div>
+  </section>
+
+  
+
+  <section class="grid">
+    <div class="prose doc"><p><strong>The question</strong> (pre-registered at 2db41ec, <code>configs/mix_v3_webblend.py</code>). Finding <a class="fref" href="/Corn-Jr-Public/finding/185.html">185</a>: plain FineWeb in place of FineWeb-Edu raised the wish read 0.28-0.32 -&gt; 0.40 on one seed and cost Edu's own held-out text 0.886 -&gt; 0.963. Two cells: <strong>P</strong>, the same swap with the junk filter's 16,932 pages out (2be3af2) — does the filter take understanding with the junk? — and <strong>B</strong>, the web weight split to the token between Edu and the filtered file — does half the plain web keep most of the gain at less of the cost? Two seeds each; mix_v3's budget and iterations.</p>
+<h3 id="the-read">The read</h3>
+<p>run                          fields   wishes   lm web    behaviour rows (of 84 with three controls) Edu: nano20m_v3 / _seed2 /   0.50-    0.28-    0.884-    — _compiled               0.54     0.32     0.887 finding <a class="fref" href="/Corn-Jr-Public/finding/185.html">185</a> (unfiltered)     0.58     0.40     0.963     77 in band, 3 below, 4 above P  nano20m_v3_plainclean     0.54     0.35     0.964     76 in band, 0 below, 8 above P  _seed2                    0.56     0.33     0.963     80 in band, 3 below, 1 above B  nano20m_v3_webblend       0.55     0.38     0.906     76 in band, 4 below, 4 above B  _seed2                    0.54     0.38     0.907     72 in band, 7 below, 5 above</p>
+<p><strong>B keeps and recovers at both seeds</strong> (wishes &gt;= 0.36, lm web &lt;= 0.925): the pre-registered row "a blend keeps the everyday web's gain at under half its cost". It recovers more than half the cost — 0.906 sits 0.019 above the Edu band where the all-plain web sits 0.076 above — and its wishes sit above both P seeds.</p>
+<p><strong>P's fields keep (0.54, 0.56) and its wishes miss at both seeds</strong> (0.35, 0.33 against a gate of 0.36): the pre-registered row "the filter took understanding with the junk — read the dropped pages by kind before any blend is called".</p>
+<h3 id="the-dropped-pages-read">The dropped pages, read</h3>
+<p><code>scripts/probe_junk_wishes.py</code> counts every word the wish read turns on — the 36 wish labels and the content words of its 96 descriptions — in the pages the filter dropped and the pages it kept:</p>
+<p>dropped pages 16,932, 12,715,211 words — 2.37% of the text the 36 wish labels     37,817 of 1,612,085 dropped (2.35%; 1.0x the text's share) description words   1,371,716 of 56,235,392 dropped (2.44%; 1.0x)</p>
+<p>The labels most over-represented in the junk are <em>cheap</em> (4.2x), <em>thrilling</em> (2.9x), <em>romantic</em> (2.3x) and <em>exciting</em> (1.6x) — the casino and dating pages — and even <em>cheap</em> lost only 3,228 of 32,256 occurrences. <strong>The filter took the wish words in proportion to the text and no more, so it cannot be why P reads lower.</strong> What is left is the read itself: 96 items put one run's wish rate within about +-0.05 of its mean (binomial), finding <a class="fref" href="/Corn-Jr-Public/finding/185.html">185</a>'s 0.40 is one seed, and P's 0.33-0.35 against B's 0.38 is no larger than that spread. Read as a pair, P and B sit 0.03 and 0.07 above the Edu mean (0.31) — the opposite order to their plain shares, inside the spread: at this resolution the wish gain does not grow with the share, which is what makes the blend cheap.</p>
+<h3 id="costs">Costs</h3>
+<p>Finding <a class="fref" href="/Corn-Jr-Public/finding/185.html">185</a>'s rule (each behaviour row within the three Edu controls' range widened by 5% of n). No row falls at both seeds of a cell, so no cost replicates. The largest single drops are B seed 2's note rows (<code>tool.note_fidelity</code>, <code>notefid.*</code> 1/120 against 10-19), read off the card's recorded reasons: 117 of 120 <code>wrong_tool</code>, the controls' own dominant failure (89 of 120 at 11/120) — a row near its floor falling further, not a new failure; B seed 1 reads 6/120 on the same row. <code>turn2.second</code> reads 130 and 132 on B seed 1 and P seed 2 against 157-175 and 166 on B seed 2: one seed in each cell. These are bounds — read from the cards' reasons, not decoded by hand. The prediction ("a row or two in each cell") was right for P and low for B (4 and 7 below, none shared).</p>
+<h3 id="hard-everyday-words-scripts-ruler-words-py-ce0f247">Hard everyday words (<code>scripts/ruler_words.py</code>, ce0f247)</h3>
+<p>Finding <a class="fref" href="/Corn-Jr-Public/finding/188.html">188</a>'s 40 hard words and phrases, scored on what he writes after "what does X mean? It means" — right only when an accepted meaning appears that he could not copy from the prompt:</p>
+<p>every 20M here (Edu, plain, P, B)   free 0/40      pick 0.30-0.42 (chance 0.25) corn_jr_260m_v4                     free 1/40      pick 0.53 corn_jr_260m_v4_ft_social8          free 1/40      pick 0.45</p>
+<p>The free read is the number; the pick is printed to show how much it flatters. The 260Ms' one credit each, read by hand: <code>social8</code> <em>bucks</em> -&gt; "the amount of money that is spent" (right) and <code>v4</code> <em>ubiquitous</em> -&gt; "not as common as they were" (the inverse; a false credit). Their answers also carry two partial meanings the list does not credit ("on the cards" -&gt; "that the rain is coming"; "staycation" -&gt; "staying in one place for a while") and the 20Ms none. <strong>The instrument was fixed during this read</strong>: its first pass credited <em>gas guzzler</em> -&gt; "the gas is not a gas", <em>dirt cheap</em> -&gt; an echo of the request and <em>low-key</em> -&gt; "a quiet catch-up" copied from the request; an accepted meaning that shares a content word with the target or its request no longer counts. Predicted: slang stays near zero at 20M — held. Whether the everyday web moves these words is a 260M question.</p>
+<h3 id="what-it-licenses">What it licenses</h3>
+<ul><li><strong>For D1: the web share is a blend.</strong> Half Edu, half the filtered plain web keeps the everyday web's word gain at about a quarter of its cost on Edu's own text, at both seeds; the pilot's ruler (and now <code>ruler_words.py</code>) sets the split at 260M.</li><li><strong>The filtered file is the plain source from here</strong>: it took junk and no share of the wish words beyond its share of the text.</li><li><strong>The wish read's spread is wider than its gates assume.</strong> At 96 items a gate 0.04 above a band misses on noise; a read that decides a share wants more items or more seeds.</li></ul>
+<p><strong>What it does not settle.</strong> Any size above 20M; any split but half; the hard words, which no 20M knows; the cost rows, read off the cards and not by hand.</p></div>
+  </section>
+
+  <section class="grid refs">
+    <div class="body two-even">
+      <div>
+        <h2 class="small">It cites</h2>
+        <ul class="reflist"><li style="--c:var(--c5)"><a href="/Corn-Jr-Public/finding/185.html"><span class="fn">185</span>Everyday web text taught him more word meanings at little cost</a></li><li style="--c:var(--c5)"><a href="/Corn-Jr-Public/finding/188.html"><span class="fn">188</span>His surprise spots unusual words, not words he misunderstands</a></li></ul>
+        
+      </div>
+      <div>
+        <h2 class="small">Cited by</h2>
+        <ul class="reflist"><li style="--c:var(--c5)"><a href="/Corn-Jr-Public/finding/190.html"><span class="fn">190</span>A third web source, DCLM, splits its seeds and adds nothing measurable</a></li><li style="--c:var(--c5)"><a href="/Corn-Jr-Public/finding/191.html"><span class="fn">191</span>Doubled wish test: the blend holds, DCLM&#39;s second seed falls back</a></li><li style="--c:var(--c5)"><a href="/Corn-Jr-Public/finding/193.html"><span class="fn">193</span>DCLM&#39;s stronger stock answer is not in its text</a></li><li style="--c:var(--c4)"><a href="/Corn-Jr-Public/finding/194.html"><span class="fn">194</span>Everyday web text leaves the soft read under loop near chance</a></li><li style="--c:var(--c5)"><a href="/Corn-Jr-Public/finding/196.html"><span class="fn">196</span>Loop fails because the small model lacks the knowledge, not the format</a></li><li style="--c:var(--c5)"><a href="/Corn-Jr-Public/finding/197.html"><span class="fn">197</span>A model a quarter as wide nearly matches the 20M&#39;s understanding</a></li><li style="--c:var(--c5)"><a href="/Corn-Jr-Public/finding/198.html"><span class="fn">198</span>Surprise-steered reading lowers rare-word surprise but not understanding at 5M</a></li></ul>
+        
+      </div>
+    </div>
+    <p class="body source">docs/findings/189-half-edu-half-filtered-plain-web-keeps-the-wish-gain-at-both-seeds-at-under-half-the-cost-the-all-plain-filtered-cell-misses-and-the-filter-is-not-why.md</p>
+  </section>
+</article>
+
+  
+<footer class="turn">
+  <div><span class="sc">previous</span><a href="/Corn-Jr-Public/finding/185.html">185 · Everyday web text taught him more word meanings at little cost</a></div>
+  <div class="r"><span class="sc">next</span><a href="/Corn-Jr-Public/finding/190.html">190 · A third web source, DCLM, splits its seeds and adds nothing measurable</a></div>
+  <p class="keys"><kbd>←</kbd> <kbd>→</kbd> turn the page · <kbd>/</kbd> find</p>
+</footer>
+<p class="bynumber">Previous and next in <a href="/Corn-Jr-Public/thread/corpus-1-0.html">The 1.0 corpus</a>. By number:
+  <a href="/Corn-Jr-Public/finding/188.html">188</a> · <a href="/Corn-Jr-Public/finding/190.html">190</a></p>
+
+</div>
+</body>
+</html>

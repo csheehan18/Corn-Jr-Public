@@ -1,0 +1,87 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>192 · With DCLM mixed in, he leans harder on one stock answer · Corn-Jr</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600&family=IBM+Plex+Mono:wght@400;500&family=Spectral:ital,wght@0,400;0,500;0,600;1,400&family=Spectral+SC:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/Corn-Jr-Public/static/library.css">
+<script defer src="/Corn-Jr-Public/static/library.js"></script>
+<script type="speculationrules">
+{"prerender": [{"where": {"and": [{"href_matches": "/Corn-Jr-Public/*"}, {"not": {"href_matches": "/Corn-Jr-Public/random.html"}}, {"not": {"href_matches": "/Corn-Jr-Public/static/*"}}]}, "eagerness": "moderate"}]}
+</script>
+
+</head>
+<body>
+<div class="page">
+  <header class="running">
+    <a class="book" href="/Corn-Jr-Public/">Corn-Jr · The Record</a>
+    <nav>
+      <a href="/Corn-Jr-Public/" data-key="shelf">Shelf</a><a href="/Corn-Jr-Public/findings.html" data-key="findings" class="here">Findings</a><a href="/Corn-Jr-Public/doc/VISION.html" data-key="VISION">Vision</a><a href="/Corn-Jr-Public/doc/GLOSSARY.html" data-key="GLOSSARY">Glossary</a>
+      <a href="https://github.com/csheehan18/Corn-Jr-Public">Source</a>
+    </nav>
+  </header>
+  
+
+<article class="sheet" style="--c:var(--c5)">
+  <div class="progress" aria-hidden="true"></div>
+  <section class="grid chapter-open finding-open">
+    <a class="tab" href="/Corn-Jr-Public/thread/corpus-1-0.html" title="The 1.0 corpus"><small>Part</small><span>V</span></a>
+    <p class="cn">192</p>
+    <p class="partline"><a href="/Corn-Jr-Public/thread/corpus-1-0.html">The 1.0 corpus</a> · 21 October 2026</p>
+    <h1>With DCLM mixed in, he leans harder on one stock answer</h1>
+  </section>
+
+  <section class="grid">
+    <p class="marginal">The result, as the finding states it</p><div class="prose"><p class="lead">The thirds' low seed (finding <a class="fref" href="/Corn-Jr-Public/finding/191.html">191</a>: wishes 0.31 on 192 items against its twin's 0.37) did not learn less — its checkpoint is the last iteration, its validation loss the lowest of the four web runs (2.407), its loss on every web source lower than its twin's, its misses spread over seven of eight kinds; what moved is the default: asked with descriptions that answer none of the options, every 20M falls back on a stock label, and his real misses follow those defaults label for label (r = 0.62-0.91 over the 36 labels); both DCLM seeds lean on their defaults hardest of any mix (top two labels 0.36 and 0.39 of no-answer picks, <em>relaxing</em> 47 and 56 of 192, misses r = 0.91 and 0.89) and the blend least (0.25, 0.29; r = 0.62, 0.68); the label frequencies of DCLM's text do not explain it</p></div>
+    <p class="marginal">What it cost</p><div class="prose"><p class="cost">13:20-13:43 on 2026-10-21; the checkpoint and log reads on CPU; the misses re-read on four runs and the default read on ten checkpoints, 143.6 s, contended (the card at 36%, a bound).</p></div>
+  </section>
+
+  
+
+  <section class="grid">
+    <div class="prose doc"><p><strong>The question</strong> (owner, 2026-10-21: "wanna double check why? Like what went wrong?"). Finding <a class="fref" href="/Corn-Jr-Public/finding/191.html">191</a> showed the thirds' second seed reads at the Edu level on 192 wish items, the new 96 included, while its twin and both blend seeds read 0.37-0.38.</p>
+<h3 id="what-it-is-not">What it is not</h3>
+<p>run                        ckpt iter   ckpt val   web    web_plain   web_dclm   (per-source at iteration 5237) B  nano20m_v3_webblend     5125        2.527      3.669  3.811       — B  _seed2                  5125        2.478      3.694  3.846       — T  nano20m_v3_webthirds    5237        2.488      3.517  3.758       3.623 T  _seed2                  5237        2.407      3.490  3.741       3.607</p>
+<ul><li><strong>Not undertrained</strong>: both thirds checkpoints are the last iteration, and seed 2's validation loss is the lowest of the four.</li><li><strong>Not the everyday text learned worse</strong>: seed 2's loss is lower than its twin's on all three web sources.</li><li><strong>Not a lost topic</strong>: against its twin it reads 1-3 items lower in seven of eight kinds and 2 higher in one; its 23 extra misses have 17 different right answers.</li><li><strong>Not the words of DCLM's text</strong>: the label the thirds favour, <em>relaxing</em>, is rarer in DCLM (6.1 per million words) than in plain FineWeb (17.5); the label they almost never pick, <em>funny</em>, is commoner in DCLM (74.1 against 47.3).</li></ul>
+<h3 id="what-it-is-the-default-scripts-probe-wish-defaults-py">What it is: the default (<code>scripts/probe_wish_defaults.py</code>)</h3>
+<p>Every description is put to the kind next to it — "a vet helping farm animals in a sleepy valley" asked as a <em>game</em> — so no option is right and the label picked is his default; scored exactly as the ruler scores.</p>
+<p>run                          real read   defaults: top two   leading default   misses vs defaults (r) Edu  nano20m_v3              60/192      0.26                relaxing 28       0.79 _seed2                  55/192      0.32                relaxing 40       0.80 _compiled               61/192      0.32                relaxing 40       0.77 P  filtered plain            68/192      0.31                relaxing 41       0.81 _seed2                    65/192      0.30                relaxing 36       0.84 B  half Edu, half P          71/192      0.25                relaxing 27       0.62 _seed2                    73/192      0.29                relaxing 39       0.68 T  thirds with DCLM          71/192      0.36                relaxing 47       0.91 _seed2                    60/192      0.39                relaxing 56       0.89 corn_jr_260m_v4 (Edu)        111/192     0.25                romantic 25       0.69</p>
+<p><strong>His misses are his defaults.</strong> On every checkpoint the labels he picks when nothing fits are the labels his wrong answers land on (r 0.62-0.91): when the meaning of a description is too weak to decide, the stock answer decides. GENERATORS §5's signature — a default that differs by seed — read here on a ruler rather than a corpus.</p>
+<p><strong>DCLM strengthens the default and the blend weakens it.</strong> Both thirds seeds lean on their defaults more than any other mix, and their misses follow the defaults most closely; seed 2 leans hardest of all and reads lowest. The blend's two seeds lean least and their misses track the default least — there, more of what he gets wrong is something other than the stock answer. The 260M leans as little as the blend, on a different stock label.</p>
+<h3 id="what-it-licenses">What it licenses</h3>
+<ul><li><strong>The thirds' low seed is a stock answer, not lost knowledge.</strong> DCLM in thirds did not take the everyday web's understanding away; it made him fall back harder on a default when unsure, and one seed of two fell far enough to read at Edu's level.</li><li><strong>The blend is right for a second reason</strong>: it carries the weakest default pull of any 20M mix, not only the highest read.</li><li><strong>The wish read measures the default as well as the meaning.</strong> A read that decides a share should print the default pull beside the score — <code>probe_wish_defaults.py</code> costs seconds a checkpoint.</li></ul>
+<p><strong>What it does not settle.</strong> Why DCLM strengthens the default (its label frequencies say it should not); whether two seeds' ordering holds with more; whether the default pull at 260M moves with the web share.</p></div>
+  </section>
+
+  <section class="grid refs">
+    <div class="body two-even">
+      <div>
+        <h2 class="small">It cites</h2>
+        <ul class="reflist"><li style="--c:var(--c5)"><a href="/Corn-Jr-Public/finding/191.html"><span class="fn">191</span>Doubled wish test: the blend holds, DCLM&#39;s second seed falls back</a></li></ul>
+        
+      </div>
+      <div>
+        <h2 class="small">Cited by</h2>
+        <ul class="reflist"><li style="--c:var(--c5)"><a href="/Corn-Jr-Public/finding/193.html"><span class="fn">193</span>DCLM&#39;s stronger stock answer is not in its text</a></li><li style="--c:var(--c5)"><a href="/Corn-Jr-Public/finding/198.html"><span class="fn">198</span>Surprise-steered reading lowers rare-word surprise but not understanding at 5M</a></li><li style="--c:var(--c5)"><a href="/Corn-Jr-Public/finding/222.html"><span class="fn">222</span>Pressing harder where the book points taught the 20M nothing more</a></li><li style="--c:var(--c5)"><a href="/Corn-Jr-Public/finding/228.html"><span class="fn">228</span>The fields stall is not the word-pieces, and not hidden in him</a></li></ul>
+        
+      </div>
+    </div>
+    <p class="body source">docs/findings/192-the-wish-misses-are-his-default-labels-and-with-dclm-in-the-web-he-leans-on-relaxing-hardest-so-the-thirds-low-seed-is-a-stock-answer-not-lost-knowledge.md</p>
+  </section>
+</article>
+
+  
+<footer class="turn">
+  <div><span class="sc">previous</span><a href="/Corn-Jr-Public/finding/191.html">191 · Doubled wish test: the blend holds, DCLM&#39;s second seed falls back</a></div>
+  <div class="r"><span class="sc">next</span><a href="/Corn-Jr-Public/finding/193.html">193 · DCLM&#39;s stronger stock answer is not in its text</a></div>
+  <p class="keys"><kbd>←</kbd> <kbd>→</kbd> turn the page · <kbd>/</kbd> find</p>
+</footer>
+<p class="bynumber">Previous and next in <a href="/Corn-Jr-Public/thread/corpus-1-0.html">The 1.0 corpus</a>. By number:
+  <a href="/Corn-Jr-Public/finding/191.html">191</a> · <a href="/Corn-Jr-Public/finding/193.html">193</a></p>
+
+</div>
+</body>
+</html>

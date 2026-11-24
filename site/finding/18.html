@@ -1,0 +1,96 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>18 · That 18-item swing was one fact; the test held only six answers · Corn-Jr</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600&family=IBM+Plex+Mono:wght@400;500&family=Spectral:ital,wght@0,400;0,500;0,600;1,400&family=Spectral+SC:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/Corn-Jr-Public/static/library.css">
+<script defer src="/Corn-Jr-Public/static/library.js"></script>
+<script type="speculationrules">
+{"prerender": [{"where": {"and": [{"href_matches": "/Corn-Jr-Public/*"}, {"not": {"href_matches": "/Corn-Jr-Public/random.html"}}, {"not": {"href_matches": "/Corn-Jr-Public/static/*"}}]}, "eagerness": "moderate"}]}
+</script>
+
+</head>
+<body>
+<div class="page">
+  <header class="running">
+    <a class="book" href="/Corn-Jr-Public/">Corn-Jr · The Record</a>
+    <nav>
+      <a href="/Corn-Jr-Public/" data-key="shelf">Shelf</a><a href="/Corn-Jr-Public/findings.html" data-key="findings" class="here">Findings</a><a href="/Corn-Jr-Public/doc/VISION.html" data-key="VISION">Vision</a><a href="/Corn-Jr-Public/doc/GLOSSARY.html" data-key="GLOSSARY">Glossary</a>
+      <a href="https://github.com/csheehan18/Corn-Jr-Public">Source</a>
+    </nav>
+  </header>
+  
+
+<article class="sheet" style="--c:var(--c1)">
+  <div class="progress" aria-hidden="true"></div>
+  <section class="grid chapter-open finding-open">
+    <a class="tab" href="/Corn-Jr-Public/thread/measurement.html" title="Measurement and noise"><small>Part</small><span>I</span></a>
+    <p class="cn">18</p>
+    <p class="partline"><a href="/Corn-Jr-Public/thread/measurement.html">Measurement and noise</a> · 17 August 2026</p>
+    <h1>That 18-item swing was one fact; the test held only six answers</h1>
+  </section>
+
+  <section class="grid">
+    <p class="marginal">The result, as the finding states it</p><div class="prose"><p class="lead">A hundred and twenty items, six answers, and the rule was already written</p></div>
+    
+  </section>
+
+  
+
+  <section class="grid">
+    <div class="prose doc"><p>The seventeenth finding said <code>tool.copy</code> moves 18 items on the seed alone and called it noise. Regenerating the row on both checkpoints and diffing item by item says otherwise. <strong>The row fell 18 items and 17 of them are one answer:</strong></p>
+<p>1337   &lt;|say|&gt;Alexander Fleming. 1338   &lt;|say|&gt;It's Flemingbelander Flemingbel.</p>
+<p>17 of the 20 <code>the discoverer of penicillin</code> items flipped from pass to fail, and nothing else did. <code>Flemingbel</code> appears in none of the 8,697 training <code>FACTS</code> — the model is not reciting a memorised answer, it is garbling a copy mid-name, which is a different failure from the one <code>trained_answer</code> was built to catch and scores as <code>wrong_answer</code> correctly.</p>
+<p><strong><code>evals/tool_copy.jsonl</code> is 120 prompts over six answers.</strong> <code>HELD_OUT_FACTS</code> is six hand-written facts and the builder wraps each in ~20 of the 25 <code>SEARCH_TEMPLATES</code>:</p>
+<div class="tablewrap"><table><thead><tr><th>answer</th><th>items</th></tr></thead><tbody><tr><td><code>1,642 metres at its deepest</code></td><td>22</td></tr><tr><td><code>the Mekong</code></td><td>22</td></tr><tr><td><code>Alexander Fleming</code></td><td>20</td></tr><tr><td><code>Kinshasa</code></td><td>20</td></tr><tr><td><code>up to 3.5 metres</code></td><td>18</td></tr><tr><td><code>3,422 degrees Celsius</code></td><td>18</td></tr></tbody></table></div>
+<p>So the row's effective sample size is 6 and its resolution is one fact — about 20 items, or 17 points. <strong>Every movement the project has read off it is a whole number of facts</strong>: 120→111, 120→114, 120→102 and 120→99 are all ±1, and the thirteenth finding's 27→120 is about five, which is why that one was never in doubt. The small ones never meant anything.</p>
+<h4 id="the-number-was-in-the-manifest-the-whole-time">The number was in the manifest the whole time</h4>
+<p><code>make_evals.py</code> has written <code>tool_copy_answers</code> into <code>evals/manifest.json</code> since the day that row was built, with a comment saying it plainly — <em>the prompts are 120 distinct sentences; the answers are six</em>. It has read <strong>6</strong> for five findings. Nothing consumed it, no check asserted it, and every finding since quoted the row out of 120.</p>
+<h4 id="it-is-11-s-own-rule-pointed-at-the-eval-instead-of-the-corpu">It is §11's own rule, pointed at the eval instead of the corpus</h4>
+<p>§11 states it: <em>any span the model is meant to copy must come from a space too large to learn as a set.</em> It cost three findings in the corpus — 28 search facts, 400 field names, and the sixth finding's <code>ANCHOR_END</code> read backwards — and <code>check_copyable.py</code> now enforces it over <code>data/raw/*.txt</code> so it cannot recur there. <strong>Nothing enforced it on <code>evals/</code>, and the row built to test that very rule was the smallest set in the project.</strong> The corpus-side guard and the eval-side hole were written eight days apart.</p>
+<h4 id="the-widened-row-and-why-it-had-to-be-invented">The widened row, and why it had to be invented</h4>
+<p><code>evals/tool_copy_wide.jsonl</code> is the same items from a search index wide enough to resolve something: <strong>300 prompts over 232 answers, 1.29 each against 20.00</strong>. It went in with <code>make_evals.py --add</code>, so all eight prior sha256 and <code>built</code> are untouched and every existing scorecard stays comparable — <code>tool_copy.jsonl</code> keeps its quantum and is still scored, first, in the same place on every scorecard.</p>
+<p>Hand-writing 200 more real facts was the obvious route and is the wrong one, for the reason <code>corn/tools.py</code> already gives about the training index: every real fact written down is one a larger model could know, and a model answering <code>Kinshasa</code> from its weights scores identically to one that read the observation. So <code>HELD_OUT_FACTS_WIDE</code> is <strong>invented</strong> — 560 facts over the same six shapes, drawn from the master name pool past what <code>_invent_facts</code> consumes, which makes the two worlds disjoint by partition rather than by luck. <code>FACTS</code> is byte-identical before and after (sha256 verified), which matters more than it looks: <code>score_tool_copy</code> reads <code>FACTS</code> to decide what counts as a <code>trained_answer</code>, so redefining it would have silently changed what fourteen existing scorecards mean.</p>
+<h4 id="the-same-substring-bug-a-third-time-in-the-numbers">The same substring bug, a third time, in the numbers</h4>
+<p>Three of the six shapes draw from disjoint name pools and collide zero times. The two integer shapes were designed the same way — depths 2,010–4,990 against training's 120–1,990, melting points 3,810–5,900 against 230–3,800, ranges chosen so the numbers <em>cannot</em> coincide — and it does not work:</p>
+<p>held out   '2,566 metres at its deepest' training     '566 metres at its deepest'   &lt;- matches, word-bounded</p>
+<p><strong>The thousands comma is a word boundary</strong>, so every comma-formatted four-digit answer contains a three-digit one. 40 of 600 candidates are dropped for it, all depths and melting points. This is the twelfth finding's bug a third time — a short numeric answer found inside a longer one — and it means the collision filter is the mechanism on two of six shapes rather than the guard it was written as. Wingspans escape only by accident of format: three decimals against training's two puts a digit where the boundary would have to be. The docstring claiming range-disjointness was wrong and now says this instead.</p>
+<h4 id="the-guard-and-what-it-caught-on-its-first-run">The guard, and what it caught on its first run</h4>
+<p><code>check_evals.py</code> gains two groups and is now 16. Group 15 is the general form: <strong>every <code>.jsonl</code> in the manifest must declare a maximum items-per-target, and a row that does not declare one fails.</strong> That is <code>check_copyable.py</code>'s argument about undeclared slices — all three instances got in because nobody thought to look — so the fix is a table nobody can add a row without editing.</p>
+<div class="tablewrap"><table><thead><tr><th>row</th><th>items</th><th>targets</th><th>each</th><th>declared</th></tr></thead><tbody><tr><td><code>schema.jsonl</code></td><td>200</td><td>200</td><td>1.00</td><td>≤ 1.0</td></tr><tr><td><code>tool_copy_wide.jsonl</code></td><td>300</td><td>232</td><td>1.29</td><td>≤ 2.0</td></tr><tr><td><code>temporal.jsonl</code></td><td>400</td><td>306</td><td>1.31</td><td>≤ 3.0</td></tr><tr><td><code>tools.jsonl</code></td><td>200</td><td>105</td><td>1.90</td><td>≤ 2.5</td></tr><tr><td><code>tool_copy.jsonl</code></td><td>120</td><td><strong>6</strong></td><td><strong>20.00</strong></td><td>≤ 25.0</td></tr></tbody></table></div>
+<p>The frozen row is declared <strong>as broken</strong> rather than quietly exempted: it cannot be rebuilt without moving its sha256, so it keeps its quantum, the number is pinned so it cannot get worse, and <code>tool.copy_wide</code> is the row to read. On its first run the group failed — <code>variety.jsonl</code> was undeclared — which is the guard doing its job on a row that legitimately has no gold target; it now declares <code>None</code> explicitly, on the same argument <code>check_copyable.py</code> makes for an empty tuple. Group 16 is the wide row's holdout, and the queries and answers were also checked against <code>data/raw/tools.txt</code> directly: <strong>0 of 560 queries, 0 of 560 answers and 0 of 300 user lines appear in the corpus that was trained on.</strong></p>
+<h4 id="what-this-does-not-say">What this does not say</h4>
+<p>Nothing here is a model result — no checkpoint changed and no corpus moved. It is a measurement about a ruler, and the ruler was wrong in the direction that inflates confidence: five findings quoted a six-way row out of 120. The seventeenth finding's general claim is not withdrawn, because <code>tool.validity</code> moved 13 items over 105 distinct targets and <code>variety.distinct3</code> moved 1.85 points, and neither has a clustering story. Those two are what the seed replicates are actually measuring.</p></div>
+  </section>
+
+  <section class="grid refs">
+    <div class="body two-even">
+      <div>
+        <h2 class="small">It cites</h2>
+        <p class="aside">No other finding by number.</p>
+      </div>
+      <div>
+        <h2 class="small">Cited by</h2>
+        <p class="aside">No later finding yet.</p>
+      </div>
+    </div>
+    <p class="body source">docs/findings/18-a-hundred-and-twenty-items-six-answers.md</p>
+  </section>
+</article>
+
+  
+<footer class="turn">
+  <div><span class="sc">previous</span><a href="/Corn-Jr-Public/finding/17.html">17 · One test moved 18 items on the random seed alone</a></div>
+  <div class="r"><span class="sc">next</span><a href="/Corn-Jr-Public/finding/19.html">19 · The noise floor across four seeds, and which past readings it erases</a></div>
+  <p class="keys"><kbd>←</kbd> <kbd>→</kbd> turn the page · <kbd>/</kbd> find</p>
+</footer>
+<p class="bynumber">Previous and next in <a href="/Corn-Jr-Public/thread/measurement.html">Measurement and noise</a>. By number:
+  <a href="/Corn-Jr-Public/finding/17.html">17</a> · <a href="/Corn-Jr-Public/finding/19.html">19</a></p>
+
+</div>
+</body>
+</html>

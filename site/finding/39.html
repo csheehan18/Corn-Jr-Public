@@ -1,0 +1,95 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>39 · Restricting names to declared tools fixes routing, not refusal · Corn-Jr</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600&family=IBM+Plex+Mono:wght@400;500&family=Spectral:ital,wght@0,400;0,500;0,600;1,400&family=Spectral+SC:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/Corn-Jr-Public/static/library.css">
+<script defer src="/Corn-Jr-Public/static/library.js"></script>
+<script type="speculationrules">
+{"prerender": [{"where": {"and": [{"href_matches": "/Corn-Jr-Public/*"}, {"not": {"href_matches": "/Corn-Jr-Public/random.html"}}, {"not": {"href_matches": "/Corn-Jr-Public/static/*"}}]}, "eagerness": "moderate"}]}
+</script>
+
+</head>
+<body>
+<div class="page">
+  <header class="running">
+    <a class="book" href="/Corn-Jr-Public/">Corn-Jr · The Record</a>
+    <nav>
+      <a href="/Corn-Jr-Public/" data-key="shelf">Shelf</a><a href="/Corn-Jr-Public/findings.html" data-key="findings" class="here">Findings</a><a href="/Corn-Jr-Public/doc/VISION.html" data-key="VISION">Vision</a><a href="/Corn-Jr-Public/doc/GLOSSARY.html" data-key="GLOSSARY">Glossary</a>
+      <a href="https://github.com/csheehan18/Corn-Jr-Public">Source</a>
+    </nav>
+  </header>
+  
+
+<article class="sheet" style="--c:var(--c1)">
+  <div class="progress" aria-hidden="true"></div>
+  <section class="grid chapter-open finding-open">
+    <a class="tab" href="/Corn-Jr-Public/thread/routing.html" title="Routing and declining"><small>Part</small><span>I</span></a>
+    <p class="cn">39</p>
+    <p class="partline"><a href="/Corn-Jr-Public/thread/routing.html">Routing and declining</a> · 18 August 2026</p>
+    <h1>Restricting names to declared tools fixes routing, not refusal</h1>
+  </section>
+
+  <section class="grid">
+    <p class="marginal">The result, as the finding states it</p><div class="prose"><p class="lead">Narrowing buys the routing completely, and buys the refusal not at all</p></div>
+    
+  </section>
+
+  
+
+  <section class="grid">
+    <div class="prose doc"><p>WS-E stage 1's free pre-reading. <strong>No training.</strong> Two checkpoints already on disk, three cells over the same items, <code>n=200</code> per level and per cell.</p>
+<p>The thirty-fourth finding left one recommendation unmeasured. It found that Corn-Jr routes to declared tools he was never trained on at parity with trained ones, and <strong>cannot decline at all</strong> — 0/276, inventing a name in 190–216 of them — and it proposed constraining the emitted name to the <em>declared</em> set, estimating that this "turns 78% of these failures into either a declared tool or no call". It was explicit that this "does not produce a refusal".</p>
+<p>Both halves of that are now measured rather than estimated, and one of them was understated.</p>
+<h3 id="the-three-cells">The three cells</h3>
+<div class="tablewrap"><table><thead><tr><th>checkpoint</th><th>cell</th><th>name pass</th><th><code>undeclared_name</code></th><th><code>wrong_declared</code></th><th><code>unparseable</code></th><th><strong><code>absent</code> pass</strong></th></tr></thead><tbody><tr><td><code>toolspace</code></td><td>none</td><td>95/379</td><td>263</td><td>7</td><td>14</td><td><strong>0/221</strong></td></tr><tr><td><code>toolspace</code></td><td>declared</td><td><strong>238</strong>/379</td><td>0</td><td>128</td><td>13</td><td><strong>0/221</strong></td></tr><tr><td><code>toolspace</code></td><td>decline</td><td>235/379</td><td>0</td><td>131</td><td>13</td><td><strong>0/221</strong></td></tr><tr><td><code>toolspace_seed2</code></td><td>none</td><td>92/379</td><td>251</td><td>15</td><td>21</td><td><strong>0/221</strong></td></tr><tr><td><code>toolspace_seed2</code></td><td>declared</td><td><strong>224</strong>/379</td><td>0</td><td>117</td><td>38</td><td><strong>0/221</strong></td></tr><tr><td><code>toolspace_seed2</code></td><td>decline</td><td>209/379</td><td>0</td><td>106</td><td>64</td><td><strong>3/221</strong></td></tr></tbody></table></div>
+<p><code>none</code> is what every existing scorecard measured: the name is masked against <code>REGISTRY</code> and nothing else. <code>declared</code> narrows it to the tools that transcript actually offers. <code>decline</code> adds <code>decline</code> to the declaration line — last, on every line including the ones whose answer is a real tool — and to the mask.</p>
+<h3 id="narrowing-is-worth-far-more-than-78-and-the-extra-is-the-int">Narrowing is worth far more than 78%, and the extra is the interesting part</h3>
+<p><code>undeclared_name</code> goes to <strong>0</strong>, which is by construction and is not the result. What is the result is where the mass lands. On the <code>domain</code> level, seed 1: 116 invented names become <strong>52 correct calls</strong> and 63 wrong-but-declared ones. Pooled over three levels, narrowing converts <strong>+143 and +132 of 379</strong> into the <em>right</em> tool.</p>
+<p>So the thirty-fourth finding's estimate was conservative in a way that matters. It said the failures become "a declared tool or no call"; about <strong>45%</strong> of them become the tool that was actually asked for. On the two hardest levels the row goes from <strong>0/120 and 0/128 to 89/120 and 52/128</strong> — from a floor to something worth reading, with no training and no corpus.</p>
+<p>This is the largest behavioural change in the project bought by inference alone.</p>
+<h3 id="and-it-buys-no-refusal-whatsoever">And it buys no refusal whatsoever</h3>
+<p><strong><code>absent</code> reads 0/221, 0/221, 0/221, 0/221, 0/221 and 3/221.</strong> Three items, all on one seed, one per level. Against a baseline of 0 that is not a signal; against 442 items it is 0.7%.</p>
+<p><code>decline</code> was declared on every line, rendered in <code>corn/toolspace.py</code>'s own shape, positioned last so its presence carried no cue, and the mask left it open as the <strong>only</strong> name available that was not a wrong answer. He still called a wrong tool 218 times out of 221.</p>
+<p>There is no membership test to strengthen and no escape he was failing to find. The behaviour is absent rather than blocked, which is what the thirty-fourth finding said and what this rules out any cheaper explanation for.</p>
+<h3 id="what-it-cost-which-is-not-nothing">What it cost, which is not nothing</h3>
+<p>Adding a seventh name to the enum cost name accuracy on both seeds: 238 → 235 and 224 → 209. Seed 2's <code>domain</code> cell is where it concentrates, <code>unparseable</code> 38 → 64.</p>
+<p>The direction is consistent and the size is not readable at two seeds — −3 against −15 is a spread wider than either number. What can be said is that it is a cost rather than free, and that it lands on the level with the widest name space, which is where an extra competing name would be expected to hurt.</p>
+<h3 id="what-this-bounds-for-stage-2">What this bounds for stage 2</h3>
+<p>The pre-reading was built to be worth having whichever way it read, and the way it reads is useful:</p>
+<ul><li><strong>The corpus has to teach the behaviour; the grammar cannot hand it over.</strong> Stage 2's arm is not optional and its null is not pre-empted. If <code>absent</code> moves there, it moved because the corpus taught routing-to-<code>decline</code>, not because the escape became available.</li><li><strong>Narrowing should ship regardless of what stage 2 reads.</strong> It is free, it is large, and it is independent of the refusal question. <code>corn/agent.py</code> already does it as of WS-E stage 1.</li><li><strong>The seven-way enum's cost is now a known quantity</strong> and stage 2's name rows have to be read against <code>declared</code>, not against <code>none</code>, or the arm will be charged for a cost this pre-reading already priced.</li></ul>
+<h3 id="what-this-does-not-settle">What this does not settle</h3>
+<ul><li><strong>These checkpoints were never trained on the name.</strong> A model that has never seen <code>decline</code> in any position has no reason to emit it, and this measures exactly that. It is a bound on what the grammar can do alone, not evidence about what the corpus can do.</li><li><strong>Two seeds, one corpus family, <code>n=200</code> per level.</strong> The <code>absent</code> denominator is 221 per checkpoint-cell rather than the 276 the thirty-fourth finding used, because the constrained decode is eager per token and 400 was not worth the wall clock for a row reading 0.</li><li><strong><code>wrong_declared</code> is not analysed here.</strong> Narrowing converts invented names into declared ones and slightly under half of those are correct; which of the declared tools the other half pick, and whether that is a near-miss or a coin flip, is a question this cell can answer and nobody has asked it yet.</li><li><strong>The option-C grammar is name-narrowing only.</strong> A declared tool the registry has never heard of is held to well-formedness rather than to its declaration's parameter list, so nothing here speaks to whether constraining <em>parameters</em> from the declaration line would buy anything.</li></ul></div>
+  </section>
+
+  <section class="grid refs">
+    <div class="body two-even">
+      <div>
+        <h2 class="small">It cites</h2>
+        <p class="aside">No other finding by number.</p>
+      </div>
+      <div>
+        <h2 class="small">Cited by</h2>
+        <p class="aside">No later finding yet.</p>
+      </div>
+    </div>
+    <p class="body source">docs/findings/39-narrowing-buys-the-routing-completely-and-buys-the-refusal-not-at-all.md</p>
+  </section>
+</article>
+
+  
+<footer class="turn">
+  <div><span class="sc">previous</span><a href="/Corn-Jr-Public/finding/38.html">38 · A confidence margin spots wrong calls, except where it was needed</a></div>
+  <div class="r"><span class="sc">next</span><a href="/Corn-Jr-Public/finding/41.html">41 · Too noisy to read; underneath, wrong contact names fell 19 to 2</a></div>
+  <p class="keys"><kbd>←</kbd> <kbd>→</kbd> turn the page · <kbd>/</kbd> find</p>
+</footer>
+<p class="bynumber">Previous and next in <a href="/Corn-Jr-Public/thread/routing.html">Routing and declining</a>. By number:
+  <a href="/Corn-Jr-Public/finding/38.html">38</a> · <a href="/Corn-Jr-Public/finding/40.html">40</a></p>
+
+</div>
+</body>
+</html>

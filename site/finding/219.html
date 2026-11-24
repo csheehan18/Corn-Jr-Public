@@ -1,0 +1,90 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>219 · A 5M reading only conversation answers far more messages · Corn-Jr</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600&family=IBM+Plex+Mono:wght@400;500&family=Spectral:ital,wght@0,400;0,500;0,600;1,400&family=Spectral+SC:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/Corn-Jr-Public/static/library.css">
+<script defer src="/Corn-Jr-Public/static/library.js"></script>
+<script type="speculationrules">
+{"prerender": [{"where": {"and": [{"href_matches": "/Corn-Jr-Public/*"}, {"not": {"href_matches": "/Corn-Jr-Public/random.html"}}, {"not": {"href_matches": "/Corn-Jr-Public/static/*"}}]}, "eagerness": "moderate"}]}
+</script>
+
+</head>
+<body>
+<div class="page">
+  <header class="running">
+    <a class="book" href="/Corn-Jr-Public/">Corn-Jr · The Record</a>
+    <nav>
+      <a href="/Corn-Jr-Public/" data-key="shelf">Shelf</a><a href="/Corn-Jr-Public/findings.html" data-key="findings" class="here">Findings</a><a href="/Corn-Jr-Public/doc/VISION.html" data-key="VISION">Vision</a><a href="/Corn-Jr-Public/doc/GLOSSARY.html" data-key="GLOSSARY">Glossary</a>
+      <a href="https://github.com/csheehan18/Corn-Jr-Public">Source</a>
+    </nav>
+  </header>
+  
+
+<article class="sheet" style="--c:var(--c5)">
+  <div class="progress" aria-hidden="true"></div>
+  <section class="grid chapter-open finding-open">
+    <a class="tab" href="/Corn-Jr-Public/thread/reply-judge.html" title="The reply judge"><small>Part</small><span>V</span></a>
+    <p class="cn">219</p>
+    <p class="partline"><a href="/Corn-Jr-Public/thread/reply-judge.html">The reply judge</a> · 24 October 2026</p>
+    <h1>A 5M reading only conversation answers far more messages</h1>
+  </section>
+
+  <section class="grid">
+    <p class="marginal">The result, as the finding states it</p><div class="prose"><p class="lead">The same 6.95M-parameter model, the same 130M tokens read once, with every token conversation — 55% SODA dialogue, 40% SODA exchanges in the one-off reply frame, 5% EmpatheticDialogues and short-reply OpenAssistant (research only) — answers 34 and 36 of 100 fresh hand-written one-off messages by a blind hand read, against 26 and 20 for the 5M that reads the usual mix (half web, 15% conversation): +8 and +16, 42 replies passing only under it and 18 only under the control (sign test p = 0.003), the pre-registered row R. With the judge-picked look-ahead on top it reads 41 and 41 (+7 and +5 over its own greedy, 22 to 10, p = 0.05 — L holds at seed 1, misses by 2 at seed 2), +15 and +21 over the control's greedy and +17 and +14 over the control's own look-ahead (47 to 16). It is not yet a coherent 5M by the registered bar (60 of 100 at both seeds, R+ and L+ not met). The gains are in plans (1-2 of 8 to 6-7), feelings, good news and bad news; advice, opinions and the short and vague stay where the control is. The price: narrative and web text cost twice as much (1.03 and 1.41 nats a byte against 0.49 and 0.95); held-out SODA costs less (0.456 against 0.558)</p></div>
+    <p class="marginal">What it cost</p><div class="prose"><p class="cost">the framed exchanges (<code>scripts/prepare_chat_pairs.py</code>, 6 s), the mix (44 s), the hand check of the stream, the 100-message exam, the configs and pre-registration 17:23-17:32 on 2026-10-24 (408482c); the chain 17:32-17:56, 23.7 min (two runs 273 and 290 s, two judges ~340 s each, 800 replies, contended at ~40%, a bound); the blind hand read of 800 ~15 min. ETA ~1.5 h, actual ~1.2 h.</p></div>
+  </section>
+
+  
+
+  <section class="grid">
+    <div class="prose doc"><p><strong>The question</strong> (owner, 2026-10-24: "Can we do an only chat mix purely for research on this? Like a one off pure research question of can we get a coherent 5M model in one off chatting"; "should we do the judge picker combo that helped us initially just applied to this"). The control reads about 20M tokens of conversation — ~3 a parameter, once — and half its reading is web text; TinyStories (Eldan and Li 2023) found coherence under 10M parameters follows a narrow reading of the kind the model must write. Not a 1.0 mix (the 1.0 direction is broad reading, finding <a class="fref" href="/Corn-Jr-Public/finding/185.html">185</a>; the corpus's EmpatheticDialogues licence keeps it to research). <code>configs/nano5m_chatonly.py</code>'s docstring is the pre-registration.</p>
+<p><strong>The instrument.</strong> A fresh exam (<code>scripts/reply_exam2_messages.py</code>): 100 everyday messages hand-written 2026-10-24 in the 148's ten kinds, no overlap with the 148 or the practice set, read by no model before. Eight versions in one blind file; findings <a class="fref" href="/Corn-Jr-Public/finding/214.html">214</a>-<a class="fref" href="/Corn-Jr-Public/finding/218.html">218</a>'s rule and reader. It reads harder than the practice set: the control's greedy 26 / 20 here against 31 / 33 there.</p>
+<h3 id="the-read">The read</h3>
+<p>read (of 100, blind)                       seed 1   seed 2 control greedy                             26       20 control + look-ahead (finding <a class="fref" href="/Corn-Jr-Public/finding/214.html">214</a>'s judge) 24       27 chat-only greedy                           34       36 chat-only + look-ahead (its own judge)     41       41</p>
+<p>paired, pooled over both seeds             arm only : other only chat greedy vs control greedy            42 : 18   p 0.003 chat look vs chat greedy                 22 : 10   p 0.050 chat look vs control look                47 : 16   p 0.0001 control look vs control greedy           16 : 11   p 0.44</p>
+<p>by kind (greedy control / chat greedy / chat look, seed 1 / seed 2) good news (10)    3/2   6/5   6/5        feelings (10)   6/4   9/8   8/8 bad news (12)     6/4   4/8   6/9        plans (8)       1/2   7/6   7/6 small talk (12)   2/4   3/3   6/3        opinions (8)    2/1   2/1   1/1 about him (8)     2/1   1/2   3/2        short (12)      2/1   1/1   2/2 advice (12)       0/0   0/1   1/2        odd (8)         2/1   1/1   1/3</p>
+<p>lm narrative / web / conversational control      0.4864 / 0.9512 / 0.5579     0.4883 / 0.9522 / 0.5599 chat-only    1.0321 / 1.4110 / 0.4558     1.0284 / 1.4125 / 0.4577 judge J1, held-out same-dialogue quads at the end (judge | his own) chat-only s1  0.943 | 0.947   (the control's own read 0.904, finding <a class="fref" href="/Corn-Jr-Public/finding/214.html">214</a>) distinct openings, greedy: control 61 / 66, chat-only 46 / 59; commonest under chat greedy: "that's great i'm" x18 / x10</p>
+<p>(<code>evals/results/reply_chatonly__*</code>: replies, the blind file, its key, the hand labels, the language rows; <code>evals/results/judge__nano5m_chatonly*.json</code>.)</p>
+<p><strong>The rows, as registered.</strong> R: +8 and +16, at least 7 at both — <strong>holds: reading only conversation makes a 5M answer one-off messages more often.</strong> R+: 34 / 36, under 60 — not met. L: +7 and +5 — holds at seed 1, misses at seed 2. L+: 41 / 41 — not met. The prediction was R at +10-20 (+8 / +16), no R+, L at +4-8 (+7 / +5), no L+: on all four rows.</p>
+<h3 id="read-by-hand">Read by hand</h3>
+<p><strong>What chat reading fixes.</strong> Plans most: "That sounds like a great idea! I'm sure you'll love it there." to a move, "That's great! What kind of cake is it?", "Why do you want to learn to swim?" — the control answered most of these with "What? Why?" or a wrong object. Feelings and news turn the right way more often ("Oh no! I hope you're not too upset." to a phone in the bath, "I'm so sorry, Jaydon. That must have been really tough for you." to a grandad's death). A few advice replies now carry an answer ("You'll need to replace them." to smelly shoes).</p>
+<p><strong>What it does not.</strong> The stock pull is still there and has moved: "That's great! I'm sure you'll do great." becomes the commonest line, and it lands on bad news ("That's great news! I'm really happy for you." to a rent rise, "Oh, wow! That's amazing! How did you find it?" to losing five pounds). Short and vague messages get SODA's scene-openers — "Hi, I'm looking for a new car." to "Hello!", "So, what do you think of the new project?" to "Alright then." — because SODA's dialogues begin with a scenario, not a reply to "Meh.". Opinions get "Yes, I am." to a question about e-books. Advice is still almost empty: no reading of chat supplies how to save for a holiday.</p>
+<p><strong>The look-ahead on this model</strong> adds where the stock line is the miss: "Oh no! I hope you're not too upset." where greedy wrote a cheerful line, "What kind of cake?" where greedy wrote "That's great, son!". On the control it does not replicate on this exam (24 / 27 against 26 / 20, 16 to 11): the look-ahead's gain is surest where the model's candidates are good enough to choose between.</p>
+<h3 id="what-it-licenses">What it licenses</h3>
+<ul><li><strong>Reading is the biggest single lever found for the 5M's one-off replies.</strong> Same size, same budget: 26 / 20 to 34 / 36, and 41 / 41 with the look-ahead — +15 / +21 over the control's greedy, the largest gain of any 5M arm in findings <a class="fref" href="/Corn-Jr-Public/finding/202.html">202</a>-<a class="fref" href="/Corn-Jr-Public/finding/219.html">219</a>.</li><li><strong>The remaining failures are named and each has a lever</strong>: the stock line on bad news (the judge's mood read; a judge on hard negatives, or move tags), the short and vague (no such messages in SODA — a slice of short replies to short messages), the scene-opener habit (SODA's dialogue starts; exchanges cut from mid-dialogue only), and advice (knowledge: retrieval, or size).</li><li><strong>Reading more of it is the next cheap read</strong>: each exchange was read once; four passes cost ~20 min a run (the 2x2 of the owner's plan).</li><li><strong>For 1.0</strong>: the share and form of conversation in the mix move one-off replies at fixed size — a direction to carry to the D1 share table, read at the pilot, not a 1.0 mix (this one gives up stories and the web).</li></ul>
+<p><strong>What it does not settle.</strong> More passes; the four named fixes; any size above 5M; the app's full prompt; multi-turn conversation.</p></div>
+  </section>
+
+  <section class="grid refs">
+    <div class="body two-even">
+      <div>
+        <h2 class="small">It cites</h2>
+        <ul class="reflist"><li style="--c:var(--c5)"><a href="/Corn-Jr-Public/finding/185.html"><span class="fn">185</span>Everyday web text taught him more word meanings at little cost</a></li><li style="--c:var(--c5)"><a href="/Corn-Jr-Public/finding/202.html"><span class="fn">202</span>A shape built for small models cost language and taught only spelling</a></li><li style="--c:var(--c5)"><a href="/Corn-Jr-Public/finding/203.html"><span class="fn">203</span>His surprise flags unfamiliar names, not questions he cannot answer</a></li><li style="--c:var(--c5)"><a href="/Corn-Jr-Public/finding/204.html"><span class="fn">204</span>Running the same layers twice moves nothing measurable at 5M</a></li><li style="--c:var(--c5)"><a href="/Corn-Jr-Public/finding/205.html"><span class="fn">205</span>Choosing replies by what the message raises varies them, not their fit</a></li><li style="--c:var(--c5)"><a href="/Corn-Jr-Public/finding/206.html"><span class="fn">206</span>A matching lesson at a tenth of conversation reading did not take</a></li><li style="--c:var(--c5)"><a href="/Corn-Jr-Public/finding/207.html"><span class="fn">207</span>The pairs he fails are mostly decidable: he loses the conversation&#39;s thread</a></li><li style="--c:var(--c5)"><a href="/Corn-Jr-Public/finding/208.html"><span class="fn">208</span>The shipped model answers most one-off messages coherently</a></li><li style="--c:var(--c5)"><a href="/Corn-Jr-Public/finding/209.html"><span class="fn">209</span>The small model answers half of even its own style&#39;s openers</a></li><li style="--c:var(--c5)"><a href="/Corn-Jr-Public/finding/210.html"><span class="fn">210</span>Real everyday dialogue fits the owner&#39;s messages best; Reddit worst</a></li><li style="--c:var(--c5)"><a href="/Corn-Jr-Public/finding/211.html"><span class="fn">211</span>Real everyday dialogue moves him toward how the owner talks</a></li><li style="--c:var(--c5)"><a href="/Corn-Jr-Public/finding/212.html"><span class="fn">212</span>People asking an assistant fits the owner best; the answers do not</a></li><li style="--c:var(--c5)"><a href="/Corn-Jr-Public/finding/213.html"><span class="fn">213</span>A small dose matching how the owner talks moves him furthest</a></li><li style="--c:var(--c5)"><a href="/Corn-Jr-Public/finding/214.html"><span class="fn">214</span>A reply judge beside the 5M moves his replies level</a></li><li style="--c:var(--c5)"><a href="/Corn-Jr-Public/finding/215.html"><span class="fn">215</span>Looking a few words ahead with the judge lifts his replies</a></li><li style="--c:var(--c5)"><a href="/Corn-Jr-Public/finding/216.html"><span class="fn">216</span>The look-ahead holds on new messages; finishing and penalties add nothing</a></li><li style="--c:var(--c5)"><a href="/Corn-Jr-Public/finding/217.html"><span class="fn">217</span>A judge built into the 5M learns, is ignored, and costs him</a></li><li style="--c:var(--c5)"><a href="/Corn-Jr-Public/finding/218.html"><span class="fn">218</span>The built-in judge&#39;s cost is not the word table</a></li></ul>
+        
+      </div>
+      <div>
+        <h2 class="small">Cited by</h2>
+        <p class="aside">No later finding yet.</p>
+      </div>
+    </div>
+    <p class="body source">docs/findings/219-a-5m-that-reads-only-conversation-answers-34-and-36-of-100-fresh-one-off-messages-against-26-and-20-and-41-and-41-with-the-look-ahead.md</p>
+  </section>
+</article>
+
+  
+<footer class="turn">
+  <div><span class="sc">previous</span><a href="/Corn-Jr-Public/finding/218.html">218 · The built-in judge&#39;s cost is not the word table</a></div>
+  <div class="r"><span class="sc">next</span><a href="/Corn-Jr-Public/finding/220.html">220 · Judging his own drafts does not help; plain beam search might</a></div>
+  <p class="keys"><kbd>←</kbd> <kbd>→</kbd> turn the page · <kbd>/</kbd> find</p>
+</footer>
+<p class="bynumber">Previous and next in <a href="/Corn-Jr-Public/thread/reply-judge.html">The reply judge</a>. By number:
+  <a href="/Corn-Jr-Public/finding/218.html">218</a> · <a href="/Corn-Jr-Public/finding/220.html">220</a></p>
+
+</div>
+</body>
+</html>

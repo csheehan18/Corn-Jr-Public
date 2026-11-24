@@ -1,0 +1,86 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>193 · DCLM&#39;s stronger stock answer is not in its text · Corn-Jr</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600&family=IBM+Plex+Mono:wght@400;500&family=Spectral:ital,wght@0,400;0,500;0,600;1,400&family=Spectral+SC:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/Corn-Jr-Public/static/library.css">
+<script defer src="/Corn-Jr-Public/static/library.js"></script>
+<script type="speculationrules">
+{"prerender": [{"where": {"and": [{"href_matches": "/Corn-Jr-Public/*"}, {"not": {"href_matches": "/Corn-Jr-Public/random.html"}}, {"not": {"href_matches": "/Corn-Jr-Public/static/*"}}]}, "eagerness": "moderate"}]}
+</script>
+
+</head>
+<body>
+<div class="page">
+  <header class="running">
+    <a class="book" href="/Corn-Jr-Public/">Corn-Jr · The Record</a>
+    <nav>
+      <a href="/Corn-Jr-Public/" data-key="shelf">Shelf</a><a href="/Corn-Jr-Public/findings.html" data-key="findings" class="here">Findings</a><a href="/Corn-Jr-Public/doc/VISION.html" data-key="VISION">Vision</a><a href="/Corn-Jr-Public/doc/GLOSSARY.html" data-key="GLOSSARY">Glossary</a>
+      <a href="https://github.com/csheehan18/Corn-Jr-Public">Source</a>
+    </nav>
+  </header>
+  
+
+<article class="sheet" style="--c:var(--c5)">
+  <div class="progress" aria-hidden="true"></div>
+  <section class="grid chapter-open finding-open">
+    <a class="tab" href="/Corn-Jr-Public/thread/corpus-1-0.html" title="The 1.0 corpus"><small>Part</small><span>V</span></a>
+    <p class="cn">193</p>
+    <p class="partline"><a href="/Corn-Jr-Public/thread/corpus-1-0.html">The 1.0 corpus</a> · 21 October 2026</p>
+    <h1>DCLM&#39;s stronger stock answer is not in its text</h1>
+  </section>
+
+  <section class="grid">
+    <p class="marginal">The result, as the finding states it</p><div class="prose"><p class="lead">The thirds' stronger pull toward a stock wish label (finding <a class="fref" href="/Corn-Jr-Public/finding/192.html">192</a>) is in all three of the ruler's phrasings — top-two default share 0.31-0.42 against the blend's 0.25-0.32, frame by frame — and not in DCLM's words: the label it favours, <em>relaxing</em>, sits in the answer slot (after feels, is, so, very, pretty, really, call it) 0.5 times per million words in DCLM against 0.9 in plain FineWeb, 0.2% of all slot uses against 0.5%, while DCLM carries more "so funny" and "so sad" (10.1 and 10.5 against 6.0 and 6.2) and the thirds do not favour either; both registered predictions failed, so the cause is not a text pattern and two seeds cannot name it</p></div>
+    <p class="marginal">What it cost</p><div class="prose"><p class="cost">13:48-13:52 on 2026-10-21; the per-frame default read on six checkpoints 121.8 s (contended, the card at 38%, a bound); the slot count over the first 1,000 MB of each web source 215 s on CPU.</p></div>
+  </section>
+
+  
+
+  <section class="grid">
+    <div class="prose doc"><p><strong>The question</strong> (owner, 2026-10-21: "come up with a quick investigation and then we will move on with the half and half"). Finding <a class="fref" href="/Corn-Jr-Public/finding/192.html">192</a>: both thirds seeds lean on a stock label hardest of any mix, <em>relaxing</em> above all, and the label's plain frequency in DCLM says they should not. Two predictions were stated before either read: the review phrasing ("Review: ... Overall this film feels ___") carries most of the thirds' pull; DCLM has more <em>relaxing</em> in that slot per million words than plain FineWeb.</p>
+<h3 id="phrasing-probe-wish-defaults-py-by-frame">Phrasing (<code>probe_wish_defaults.py --by-frame</code>)</h3>
+<p>run                     "people would call it"   "in one word, it is"   "Review ... feels" T  nano20m_v3_webthirds  0.34 (relaxing 43)       0.31 (relaxing 38)     0.39 (relaxing 52) T  _seed2                0.40 (relaxing 54)       0.39 (relaxing 58)     0.42 (romantic 47) B  nano20m_v3_webblend   0.25 (relaxing 28)       0.29 (sad 32)          0.30 (relaxing 34) B  _seed2                0.32 (relaxing 36)       0.28 (relaxing 37)     0.27 (relaxing 30) P  nano20m_v3_plainclean 0.36 (relaxing 48)       0.26 (relaxing 28)     0.34 (relaxing 36) Edu nano20m_v3           0.24 (relaxing 29)       0.28 (sad 30)          0.27 (relaxing 28)</p>
+<p>(top-two share of 192 no-answer picks; the leading label in brackets)</p>
+<p><strong>The pull is in every phrasing.</strong> Both thirds seeds lean harder than both blend seeds in each frame taken alone, and seed 2's review frame leans to <em>romantic</em>, not <em>relaxing</em>. The first prediction fails.</p>
+<h3 id="text-scripts-count-wish-slots-py">Text (<code>scripts/count_wish_slots.py</code>)</h3>
+<p>per million words      in the slot / anywhere edu          plain         dclm relaxing               0.2 / 4.0    0.9 / 16.5    0.5 / 6.0 romantic               0.1 / 11.2   0.6 / 25.7    0.6 / 21.0 funny                  0.6 / 6.4    6.0 / 47.5   10.1 / 72.7 sad                    1.7 / 14.5   6.2 / 33.3   10.5 / 55.2</p>
+<p><strong>DCLM puts <em>relaxing</em> in the slot less often than plain FineWeb does</strong>, and puts the labels the thirds never favour there more often. The second prediction fails.</p>
+<h3 id="what-it-licenses">What it licenses</h3>
+<ul><li><strong>The stronger stock answer is not taught by DCLM's word patterns.</strong> It is something about how training went with the web in thirds — each source a third, DCLM among them — and two seeds cannot say what.</li><li><strong>Nothing here changes D1</strong>: finding <a class="fref" href="/Corn-Jr-Public/finding/189.html">189</a>'s blend stands on a higher read and the weakest default pull of any mix (finding <a class="fref" href="/Corn-Jr-Public/finding/192.html">192</a>).</li><li><strong>The investigation stops here, as agreed.</strong> More seeds of the thirds, or DCLM in place of Edu, would be the next reads if DCLM is wanted again.</li></ul>
+<p><strong>What it does not settle.</strong> The cause; whether the thirds' stronger default holds over more seeds.</p></div>
+  </section>
+
+  <section class="grid refs">
+    <div class="body two-even">
+      <div>
+        <h2 class="small">It cites</h2>
+        <ul class="reflist"><li style="--c:var(--c5)"><a href="/Corn-Jr-Public/finding/189.html"><span class="fn">189</span>Half textbook, half everyday web keeps the word gain at lower cost</a></li><li style="--c:var(--c5)"><a href="/Corn-Jr-Public/finding/192.html"><span class="fn">192</span>With DCLM mixed in, he leans harder on one stock answer</a></li></ul>
+        
+      </div>
+      <div>
+        <h2 class="small">Cited by</h2>
+        <ul class="reflist"><li style="--c:var(--c5)"><a href="/Corn-Jr-Public/finding/198.html"><span class="fn">198</span>Surprise-steered reading lowers rare-word surprise but not understanding at 5M</a></li></ul>
+        
+      </div>
+    </div>
+    <p class="body source">docs/findings/193-dclm-s-stronger-default-is-in-every-phrasing-and-not-in-its-text-relaxing-sits-in-the-answer-slot-less-often-in-dclm-than-in-plain-fineweb.md</p>
+  </section>
+</article>
+
+  
+<footer class="turn">
+  <div><span class="sc">previous</span><a href="/Corn-Jr-Public/finding/192.html">192 · With DCLM mixed in, he leans harder on one stock answer</a></div>
+  <div class="r"></div>
+  <p class="keys"><kbd>←</kbd> <kbd>→</kbd> turn the page · <kbd>/</kbd> find</p>
+</footer>
+<p class="bynumber">Previous and next in <a href="/Corn-Jr-Public/thread/corpus-1-0.html">The 1.0 corpus</a>. By number:
+  <a href="/Corn-Jr-Public/finding/192.html">192</a> · <a href="/Corn-Jr-Public/finding/194.html">194</a></p>
+
+</div>
+</body>
+</html>

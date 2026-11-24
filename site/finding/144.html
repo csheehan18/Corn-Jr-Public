@@ -1,0 +1,99 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>144 · Showing the request step by step fixes short chains, not long ones · Corn-Jr</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600&family=IBM+Plex+Mono:wght@400;500&family=Spectral:ital,wght@0,400;0,500;0,600;1,400&family=Spectral+SC:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/Corn-Jr-Public/static/library.css">
+<script defer src="/Corn-Jr-Public/static/library.js"></script>
+<script type="speculationrules">
+{"prerender": [{"where": {"and": [{"href_matches": "/Corn-Jr-Public/*"}, {"not": {"href_matches": "/Corn-Jr-Public/random.html"}}, {"not": {"href_matches": "/Corn-Jr-Public/static/*"}}]}, "eagerness": "moderate"}]}
+</script>
+
+</head>
+<body>
+<div class="page">
+  <header class="running">
+    <a class="book" href="/Corn-Jr-Public/">Corn-Jr · The Record</a>
+    <nav>
+      <a href="/Corn-Jr-Public/" data-key="shelf">Shelf</a><a href="/Corn-Jr-Public/findings.html" data-key="findings" class="here">Findings</a><a href="/Corn-Jr-Public/doc/VISION.html" data-key="VISION">Vision</a><a href="/Corn-Jr-Public/doc/GLOSSARY.html" data-key="GLOSSARY">Glossary</a>
+      <a href="https://github.com/csheehan18/Corn-Jr-Public">Source</a>
+    </nav>
+  </header>
+  
+
+<article class="sheet" style="--c:var(--c4)">
+  <div class="progress" aria-hidden="true"></div>
+  <section class="grid chapter-open finding-open">
+    <a class="tab" href="/Corn-Jr-Public/thread/parse-depth.html" title="The parse and depth"><small>Part</small><span>IV</span></a>
+    <p class="cn">144</p>
+    <p class="partline"><a href="/Corn-Jr-Public/thread/parse-depth.html">The parse and depth</a> · 26 September 2026</p>
+    <h1>Showing the request step by step fixes short chains, not long ones</h1>
+  </section>
+
+  <section class="grid">
+    <p class="marginal">The result, as the finding states it</p><div class="prose"><p class="lead">Arm S's stepwise views land in the null band at both seeds: they make the short chain reliable and cure the view read as <code>social</code>, and they do not train the one decision a long chain needs at every step — opening a nested group inside the view — which the payload shows 78 times</p></div>
+    <p class="marginal">What it cost</p><div class="prose"><p class="cost">7.1 min of scoring on the 1 card first cited here (<code>nano20m_v3_fw_steps</code>). Backfilled 2026-09-26 from the cards' <code>seconds</code>; training and probe time were never recorded, so this is a floor.</p></div>
+  </section>
+
+  
+
+  <section class="grid">
+    <div class="prose doc"><p>PLAN-PARSE-WEIGHTS arm S, read 2026-09-26. Two nano cells (<code>nano20m_v3_fw_steps</code>, seeds 1337 and 2337) against arm F at the same seeds. Pre-registration: <code>configs/mix_v3_funcworld_steps.py</code>, committed at <code>ee66a09</code> with the one-shot side gate added at <code>c12275a</code>, both before either seed trained. Arm F's file byte-identical, 7,596 stepwise views (a request from a nested group's carrier on, and the gold line for exactly what is shown) added on top at G2's weight. <strong>Every pre-registered reading is null or held; the lines say where the views worked and why they could not reach the gate.</strong></p>
+<h3 id="the-pre-registered-read">The pre-registered read</h3>
+<p><code>scripts/probe_stepwise_depth.py --per 12 --brief --show</code>, honest (no answer key in the loop), window 50. Arm F re-run through the same command in the same sitting reproduces its pre-registered band to the level — <strong>77/420 and 128/420</strong> — so the instrument is deterministic and the comparison is like-for-like. Levels right in order, depths 6-15:</p>
+<p>depth  carriers    F s1     S s1     F s2     S s2 6       5       24/60    27/60    33/60    30/60 8       7       17/84    29/84    26/84    34/84 10       9       12/108   30/108   25/108   29/108 15      14       24/168   37/168   44/168   31/168 pooled           77 0.18  123 0.29  128 0.30  124 0.30 full chains       2/48     4/48     6/48     6/48</p>
+<p><strong>Gate (&gt;= 0.42 at both seeds): not met. Both seeds sit inside F's band, 0.18-0.30</strong> — the pre-registered null: <em>the step does not train from views at this size; the runtime carries depth alone.</em></p>
+<p>The rest, in the order the pre-registration lists them:</p>
+<p>kill       tool.copy          120/120  120/120        (F 102, 120)   not fired side       stepwise arity 30   29/30    27/30         (F 29, 30)     held, seed 2 on the line one-shot   ladder nest2 struct  16       12           (F 15, 18)     &lt;= 18 at both: null</p>
+<p>Committed: <code>evals/results/nano20m_v3_fw_steps{,_seed2}{,__ladder}.json</code>, the item files, and the four <code>__stepdepth.log</code> files (S and F) with every step's line, <code>__steparity.log</code> beside them.</p>
+<h3 id="what-the-lines-say">What the lines say</h3>
+<p>Every step line in the four logs, 305 / 256 on F and 162 / 160 on S, counted by species (a scratchpad count over the logged lines, which the probe truncates at 170 characters — <strong>a bound</strong>):</p>
+<p>species                                  F s1     S s1     F s2     S s2 step read as social[...] at its start    87       3        2        0 a carrier written inline, not opened     82       57       20       53 ... as the view's first nested carrier  34       55       13       42</p>
+<p><strong>The views cured one miss.</strong> A view opening on a carrier ("the pair, ...") was read as <code>social</code> on 87 of arm F seed 1's steps; every view in the payload opens on exactly such a carrier, and S seed 1 does it 3 times. F seed 2 never had the problem. That is consistent with seed 1's whole rise, 0.18 to 0.29, and with seed 2's flat 0.30 — not tested item by item.</p>
+<p><strong>They did not cure the other, and it is one decision.</strong> On S, 55 of 57 and 42 of 53 inline misses are the <em>first</em> nested carrier after the one the view opened on — he opens the view's group, writes its first member, and writes the next carrier's words flat:</p>
+<p>shown  the pair, the capital of Selunnddia and two things, the capital of Kelenndburg and ... S s1   ask[the pair, ask[the capital of Selunnddia] and two things, ask[the capital of Kelenndburg]] ...</p>
+<p>On deep chains (6-15) the share of steps carrying that miss <strong>rose at both seeds</strong>: F 70/234 and 11/187, S 46/107 and 43/107.</p>
+<p><strong>The payload shows that decision rarely.</strong> Read off the golds with the probe's own tree reader: of 7,596 views, <strong>1,026 (13.5%) contain a nested group inside the view at all</strong>, and <strong>78</strong> carry the probe's shape — a nested group as the last member, opening on a bare carrier. Arm F's file has 122. So the arm took the one decision a long chain asks at every middle step from 122 instances to 200, in a 139M-token run, beside 6,570 views that show an opened carrier followed by flat members. The three "inline" hits the counter finds in the payload are false positives (a filler before an opened carrier). Nothing in the bytes teaches the flat write; the bytes simply do not teach the open.</p>
+<h3 id="what-moved-that-the-gate-does-not-pool">What moved that the gate does not pool</h3>
+<p>Depths 3-5 — chains the corpus's own depth covers, whose last view is short — were read by the same command and are not in the gate:</p>
+<p>depths 3-5   F s1      S s1      F s2      S s2 levels       37/108    68/108    57/108    65/108 full chains   8/36     19/36     11/36     18/36</p>
+<p>Up at both seeds. <strong>The step does train where one view holds the whole rest of the chain</strong>; past that, every middle view needs a nested group opened inside it, and that is where both seeds stop. Not pre-registered and read after the gate; a direction.</p>
+<p>One-shot, the depth probe's chain column (carrier levels reproduced in an unbroken run from the top) is higher on S at all eight depth-by-seed cells from 6 to 15 (e.g. depth 8, 0.00 and 0.33 to 0.67 and 0.67) — small counts over twelve items a cell, recorded not read. The ladder's one-shot <code>nest2</code> side gate is null, and <code>outer4</code> fell (23 and 16 against 31 and 20, the number word kept 8 and 29 of ~52): the views do not lift one-shot structure.</p>
+<p>Off-target card rows moved a lot (<code>search.route_base</code> 91 to 189 and 176, <code>tool.selection</code> 68 to 124 and 139); arm G2 moved the same row 84 to 159 between its own two seeds, so at nano these rows are not read from one arm.</p>
+<h3 id="what-it-does-not-say">What it does not say</h3>
+<p>It does not say the nested open is untrainable. It says 78 instances of it did not train it. A payload whose views are <em>cut so a nested group falls inside them</em> would ask that question; this pre-registration licenses no third seed and no second arm, and the owner decides whether one is worth it. Nano, one synthetic world, greedy decodes, a hand-built instrument with no pin of its own (rule 28): <strong>every stepwise number here is a bound.</strong></p>
+<p><strong>Licenses</strong> what the table says: the runtime carries depth alone, as finding <a class="fref" href="/Corn-Jr-Public/finding/143.html">143</a> already licensed. The views are not recommended for the 1.0 corpus on this evidence. What stays the weights' decision under the windowed runtime — whether a carrier inside the view opens a group — is now named and counted, and is the thing any further arm on it would have to target.</p></div>
+  </section>
+
+  <section class="grid refs">
+    <div class="body two-even">
+      <div>
+        <h2 class="small">It cites</h2>
+        <p class="aside">No other finding by number.</p>
+      </div>
+      <div>
+        <h2 class="small">Cited by</h2>
+        <ul class="reflist"><li style="--c:var(--c4)"><a href="/Corn-Jr-Public/finding/145.html"><span class="fn">145</span>The depth limit is the linking word; re-showing uncovered text fixes it</a></li></ul>
+        
+      </div>
+    </div>
+    <p class="body source">docs/findings/144-arm-s-stepwise-views-land-in-the-null-band-at-both-seeds-they-train-the-short-chain-and-cure-the-social-misread-and-not-the-nested-open-which-they-teach-78-times.md</p>
+  </section>
+</article>
+
+  
+<footer class="turn">
+  <div><span class="sc">previous</span><a href="/Corn-Jr-Public/finding/143.html">143 · Nesting at 20M breaks two different ways; too fragile to build on</a></div>
+  <div class="r"><span class="sc">next</span><a href="/Corn-Jr-Public/finding/145.html">145 · The depth limit is the linking word; re-showing uncovered text fixes it</a></div>
+  <p class="keys"><kbd>←</kbd> <kbd>→</kbd> turn the page · <kbd>/</kbd> find</p>
+</footer>
+<p class="bynumber">Previous and next in <a href="/Corn-Jr-Public/thread/parse-depth.html">The parse and depth</a>. By number:
+  <a href="/Corn-Jr-Public/finding/143.html">143</a> · <a href="/Corn-Jr-Public/finding/145.html">145</a></p>
+
+</div>
+</body>
+</html>

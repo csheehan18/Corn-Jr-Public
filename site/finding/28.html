@@ -1,0 +1,113 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>28 · Tool routing was template matching; deferring to the tool was not · Corn-Jr</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600&family=IBM+Plex+Mono:wght@400;500&family=Spectral:ital,wght@0,400;0,500;0,600;1,400&family=Spectral+SC:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/Corn-Jr-Public/static/library.css">
+<script defer src="/Corn-Jr-Public/static/library.js"></script>
+<script type="speculationrules">
+{"prerender": [{"where": {"and": [{"href_matches": "/Corn-Jr-Public/*"}, {"not": {"href_matches": "/Corn-Jr-Public/random.html"}}, {"not": {"href_matches": "/Corn-Jr-Public/static/*"}}]}, "eagerness": "moderate"}]}
+</script>
+
+</head>
+<body>
+<div class="page">
+  <header class="running">
+    <a class="book" href="/Corn-Jr-Public/">Corn-Jr · The Record</a>
+    <nav>
+      <a href="/Corn-Jr-Public/" data-key="shelf">Shelf</a><a href="/Corn-Jr-Public/findings.html" data-key="findings" class="here">Findings</a><a href="/Corn-Jr-Public/doc/VISION.html" data-key="VISION">Vision</a><a href="/Corn-Jr-Public/doc/GLOSSARY.html" data-key="GLOSSARY">Glossary</a>
+      <a href="https://github.com/csheehan18/Corn-Jr-Public">Source</a>
+    </nav>
+  </header>
+  
+
+<article class="sheet" style="--c:var(--c1)">
+  <div class="progress" aria-hidden="true"></div>
+  <section class="grid chapter-open finding-open">
+    <a class="tab" href="/Corn-Jr-Public/thread/routing.html" title="Routing and declining"><small>Part</small><span>I</span></a>
+    <p class="cn">28</p>
+    <p class="partline"><a href="/Corn-Jr-Public/thread/routing.html">Routing and declining</a> · 17 August 2026</p>
+    <h1>Tool routing was template matching; deferring to the tool was not</h1>
+  </section>
+
+  <section class="grid">
+    <p class="marginal">The result, as the finding states it</p><div class="prose"><p class="lead">Routing was template matching, deference was not, and the difference is one token</p></div>
+    <p class="marginal">What it cost</p><div class="prose"><p class="cost">9.2 min of scoring on the 2 cards first cited here (<code>nano20m_v1</code>, <code>nano20m_v1_wide</code>); it also reads 1 card scored for an earlier finding (<code>nano20m_conv20</code>). Backfilled 2026-09-26 from the cards' <code>seconds</code>; training and probe time were never recorded, so this is a floor.</p></div>
+  </section>
+
+  
+
+  <section class="grid">
+    <div class="prose doc"><p>Every behaviour number in this document was measured on utterances the training generators wrote. <code>EVAL_WORLD</code> holds out the facts, the contacts and the anchor years; it holds out nothing about <em>how the request is phrased</em>, because <code>make_evals.py</code> renders its items through <code>corn/temporal.py</code>'s and <code>corn/toolgen.py</code>'s own template pools. The fifth finding said so and called it "format compliance, not generalization" — and then nothing could test it, because the harness was built from the same pools it would have to escape.</p>
+<p><code>scripts/paraphrase_evals.py</code> builds two variants of the frozen items. Everything except the user's words is byte-identical: same anchor, same expression, same <code>gold_call</code>, same observation, same <code>gold_after</code>, same ids, same order. The build fails if any line other than the <code>&lt;|user|&gt;</code> line differs, and nothing under <code>evals/</code> is touched — the arms are separate directories with their own manifests, so all eleven sha256 and every scorecard written against them are unaffected.</p>
+<div class="tablewrap"><table><thead><tr><th>arm</th><th>the utterance</th></tr></thead><tbody><tr><td><strong>retemplate</strong></td><td>re-rendered from a <em>different</em> template in the same training pool — in-distribution by construction</td></tr><tr><td><strong>paraphrase</strong></td><td>rendered from 136 carriers written for this experiment, which no generator has ever emitted</td></tr></tbody></table></div>
+<p>The retemplate arm is what makes it an experiment rather than an anecdote: without it, a fall under paraphrase could be these rows being item-fragile rather than distribution-sensitive. Two further rows are <strong>invariance controls</strong> — <code>schema.conform</code> and <code>tool.copy</code> are scored from files neither arm rewrites, so any movement in them is the harness disagreeing with itself. Both came back exact, on both checkpoints, in both arms.</p>
+<h4 id="the-split">The split</h4>
+<div class="tablewrap"><table><thead><tr><th>row</th><th>frozen</th><th>retemplate</th><th>paraphrase</th><th>floor (as read)</th><th>floor (measured on an arm)</th></tr></thead><tbody><tr><td><code>temporal.route</code></td><td>398/400</td><td>398/400</td><td><strong>348/400</strong></td><td>2</td><td><strong>19</strong></td></tr><tr><td><code>tool.selection</code></td><td>156/200</td><td>152/200</td><td><strong>134/200</strong></td><td>8</td><td><strong>41</strong></td></tr><tr><td><code>tool.validity</code></td><td>175/181</td><td>175/181</td><td>167/181</td><td>13</td><td>9</td></tr><tr><td><code>temporal.copy</code></td><td>353/353</td><td>353/353</td><td><strong>353/353</strong></td><td>0</td><td>0</td></tr><tr><td><code>tool.copy_wide</code></td><td>276/300</td><td>280/300</td><td><strong>278/300</strong></td><td>29</td><td>5</td></tr><tr><td><code>refusal.clarify</code></td><td>47/47</td><td>47/47</td><td>47/47</td><td>0</td><td>0</td></tr><tr><td><code>refusal.no_guess</code></td><td>47/47</td><td>47/47</td><td>47/47</td><td>0</td><td>0</td></tr><tr><td><code>schema.conform</code></td><td>193/200</td><td>193/200</td><td>193/200</td><td><em>control</em></td><td><em>control</em></td></tr><tr><td><code>tool.copy</code></td><td>100/120</td><td>100/120</td><td>100/120</td><td><em>control</em></td><td><em>control</em></td></tr></tbody></table></div>
+<p><strong>The last column was added afterwards and one reading depends on it.</strong> Every floor this finding was written against came from the nineteenth finding, which measured all nine on the <em>frozen</em> set. The twenty-ninth finding's seed replicate shows a row's noise depends on where in its range the model is standing, and on a paraphrase arm <code>temporal.route</code> moves 19 items on the seed alone and <code>tool.selection</code> moves 41. The 50-item fall below is safe against either number. <strong><code>tool.selection</code>'s 22 is not</strong>, and the paragraph on it further down is annotated accordingly.</p>
+<p><code>nano20m_v1</code>. <strong>The rows that ask him to understand the request move; the rows that ask him to use what the tool returned do not.</strong> <code>temporal.route</code> loses 50 items against a floor of 2 — and against the arm-measured 19 it is still 2.6x, while the in-distribution control loses none at all. <code>temporal.copy</code> reads 353/353 in all three arms.</p>
+<p>It replicates on a second corpus. <code>nano20m_conv20</code> moves <code>temporal.route</code> 399 → <strong>349</strong> and <code>tool.selection</code> 155 → <strong>131</strong>, holds <code>temporal.copy</code> at 353/353 and <code>tool.copy_wide</code> inside its floor, and reproduces both invariance controls exactly.</p>
+<p>That is the good outcome for §4. The load-bearing claim of this project — the sixth finding, VISION §5.2, the whole argument for pretraining the format — is about <strong>deference</strong>, and deference does not care how the request was worded. The number that does not survive is <code>temporal.route</code> 400/400, which has been quoted since the fifth finding and was never the argument.</p>
+<h4 id="every-one-of-the-52-failures-is-wrong-expression">Every one of the 52 failures is <code>wrong_expression</code></h4>
+<p>Not one <code>empty</code>, not one <code>unparseable</code>, not one <code>wrong_tool</code>. Under paraphrase the model still emits well-formed JSON and still names <code>resolve_date</code>, on 400 items of 400 in every arm. What it gets wrong is <em>which words of the sentence are the expression</em>.</p>
+<pre><code>said   I&#x27;m trying to work out the date of coming Monday
+want   coming Monday
+got    the coming Monday
+
+said   I&#x27;d like the notes last Tuesday
+want   last Tuesday
+got    the notes last Tuesday
+
+said   so tomorrow -- that&#x27;s which date?
+want   tomorrow
+got    this morning</code></pre>
+<p>Two modes, in roughly equal number. It <strong>absorbs</strong> a neighbouring carrier word into the span, or — where the span has no left context at all — it <strong>substitutes</strong> a high-frequency training expression. Three different expressions under the <code>so {e}</code> carrier all came back <code>this morning</code>.</p>
+<p><code>score_route</code>'s docstring bundles two abilities: "it called <code>resolve_date</code> <strong>and</strong> put the user's own words in the argument." Only the second is template-dependent, and the row has never been able to say which of them a number came from.</p>
+<h4 id="the-mechanism-is-the-token-immediately-to-the-left-of-the-sp">The mechanism is the token immediately to the left of the span</h4>
+<p><code>scripts/paraphrase_attribute.py</code> re-runs the same generations item by item and joins each verdict to the carrier that produced it. The obvious hypothesis — that failure tracks how different the sentence is overall — is visible in the raw numbers and is a confound:</p>
+<div class="tablewrap"><table><thead><tr><th>similarity to nearest training template</th><th>pass</th></tr></thead><tbody><tr><td>≥ 0.75</td><td>93.5%</td></tr><tr><td>0.60 – 0.75</td><td>87.4%</td></tr><tr><td>&lt; 0.60</td><td>85.2%</td></tr></tbody></table></div>
+<p>Split instead by the <strong>one word that precedes the slot</strong>, against every left edge the training templates ever put before an expression (<code>date</code>, <code>did</code>, <code>for</code>, <code>on</code>, <code>was</code>, <code>what</code>, …):</p>
+<div class="tablewrap"><table><thead><tr><th></th><th><code>nano20m_v1</code></th><th><code>nano20m_conv20</code></th></tr></thead><tbody><tr><td>a left edge the model has seen before a span</td><td><strong>154/159 — 96.9%</strong></td><td><strong>153/159 — 96.2%</strong></td></tr><tr><td>a left edge it has not</td><td><strong>194/241 — 80.5%</strong></td><td><strong>196/241 — 81.3%</strong></td></tr></tbody></table></div>
+<p>96.9% is the frozen set's own number, reached on carriers the model has never seen, twice. And once the left edge is held, similarity flattens: within seen edges, far/mid read 97.7% and 96.1% on <code>v1</code> and 95.5% and 96.1% on <code>conv20</code> — no gradient at all. <strong>The dose-response by similarity was this effect wearing a disguise.</strong></p>
+<p>The worst left edges are the ones that could plausibly be <em>part</em> of a temporal expression — <code>so</code> 25.0%, slot-initial 44.4%, <code>the rundown</code> 63.6%, <code>the notes</code> 66.7%, <code>of</code> 72.7% — while unseen edges that could not be (<code>knowing</code>, <code>had</code>, <code>out</code>, <code>saying</code>) read 100%. The model is not reading the phrase. It is <strong>segmenting it off a left-boundary cue</strong>, and when that cue is a token it never saw in that role it mis-segments, always toward including it.</p>
+<p>This is §11's copyable-span rule pointed at the <em>prompt</em> instead of the answer. The rule says a span the model must copy has to come from a space too large to memorise as a set. What this adds is that the span's <strong>boundaries</strong> are learned the same way, out of a set that is far smaller — the generators vary what goes in the slot exhaustively and leave what sits immediately to its left nearly fixed. Six distinct left edges across the whole of <code>DATE_TEMPLATES_PAST</code>.</p>
+<h4 id="tool-selection-falls-for-a-different-reason-and-it-is-not-ex"><code>tool.selection</code> falls for a different reason, and it is not explained</h4>
+<p>The same analysis run on <code>tool.selection</code> does <strong>not</strong> separate: 68.7% on seen left edges against 63.8% on unseen for <code>v1</code>, 67.9% against 60.9% for <code>conv20</code> — a gap far smaller than <code>temporal.route</code>'s and in a row that fell 22 items. So the left-boundary mechanism is specific to pulling an argument out of the sentence, which is what <code>temporal.route</code> scores and what <code>tool.selection</code> does not.</p>
+<p>What that row does instead is fall back to a default. <code>chose_save_note</code> goes 8 → 20 on <code>v1</code> and 6 → 20 on <code>conv20</code>, with <code>chose_send_text</code> 0 → 6 and 2 → 9. Faced with a request shaped unlike anything it was trained on, it does not decline and it does not pick at random — it picks <code>save_note</code>. Nothing here says why, and the similarity split is the one that shows a gradient on this row (100% / 58.5% / 68.2% near/mid/far on <code>v1</code>, monotonic 88.9% / 65.9% / 50.0% on <code>conv20</code>), which is the reverse of <code>temporal.route</code> and is unexplained.</p>
+<p><strong>Annotated after the twenty-ninth finding: the 22-item fall is not attributable, and this section claims more than it can carry.</strong> <code>tool.selection</code> moves <strong>41 items on a paraphrase arm across one seed pair</strong> of <code>nano20m_v1_wide</code>, so a 22-item drop on a single checkpoint sits well inside the noise of the row on that arm. What survives is weaker and worth stating exactly: the <em>contrast between arms</em> went the same way on two independently trained checkpoints — retemplate −4 and +4, paraphrase −22 and −24 — and a control that moves ±4 while the treatment moves ∼23 twice is not nothing. But the size is unpriced, the <code>save_note</code> mechanism rests on failure-mode counts inside an unreadable row, and <strong>the right next step for this question is a better instrument rather than another arm.</strong> The left-edge negative above is unaffected: it compares two buckets <em>within</em> one arm and one checkpoint, where the seed does not enter.</p>
+<h4 id="what-this-does-not-show">What this does not show</h4>
+<ul><li><strong>These are one person's paraphrases, not recordings.</strong> The carriers are hand-written to be ordinary speech at the originals' length, and <code>check_disjoint</code> proves none is a training template — but a real speech recogniser's output is still a different distribution.</li><li><strong>Two carriers collided by prefix and were caught after the fact.</strong> <code>give me {q}</code> and <code>let&#x27;s {r}</code> match training lines in <em>other</em> pools (<code>give me the date for {e}</code> → <code>resolve_date</code>, <code>let&#x27;s call {c}</code> → <code>place_call</code>), which the whole-string check missed. They cover 5 of <code>tool.selection</code>'s 200 items and 5 of its 66 losses; quarantining them leaves 139/195 and changes nothing. Neither touches <code>temporal.route</code>.</li><li><strong>The exhaustiveness claim is checked, and it is what makes the arm safe.</strong> 100.00% of the <code>&lt;|user|&gt;</code> lines in <code>data/raw/temporal.txt</code> and <code>data/raw/tools.txt</code> are matched by a training template, so "no generator emits these carriers" is a property of the population rather than of a sample. It says nothing about the web and conversational slices, which are real text and may well contain them — and if they do, that is the more interesting version of the question rather than a threat to this one.</li><li><strong>It does not price a fix.</strong> Widening the left context of every template is one arm and has not been run. Nothing here says whether the model would then segment properly or merely learn a larger set of boundaries.</li><li><strong>Still 25M, and this is exactly the kind of result that should move with scale.</strong> A larger model has more room to represent the phrase rather than its frame, which makes this a candidate for the 100M check to carry rather than a settled number.</li></ul></div>
+  </section>
+
+  <section class="grid refs">
+    <div class="body two-even">
+      <div>
+        <h2 class="small">It cites</h2>
+        <p class="aside">No other finding by number.</p>
+      </div>
+      <div>
+        <h2 class="small">Cited by</h2>
+        <ul class="reflist"><li style="--c:var(--c3)"><a href="/Corn-Jr-Public/finding/158.html"><span class="fn">158</span>Wordings seen over ten times get memorised; key phrases become lists</a></li></ul>
+        
+      </div>
+    </div>
+    <p class="body source">docs/findings/28-routing-was-template-matching-deference-was-not.md</p>
+  </section>
+</article>
+
+  
+<footer class="turn">
+  <div></div>
+  <div class="r"><span class="sc">next</span><a href="/Corn-Jr-Public/finding/29.html">29 · More phrasing templates fix only the phrasings that were added</a></div>
+  <p class="keys"><kbd>←</kbd> <kbd>→</kbd> turn the page · <kbd>/</kbd> find</p>
+</footer>
+<p class="bynumber">Previous and next in <a href="/Corn-Jr-Public/thread/routing.html">Routing and declining</a>. By number:
+  <a href="/Corn-Jr-Public/finding/27.html">27</a> · <a href="/Corn-Jr-Public/finding/29.html">29</a></p>
+
+</div>
+</body>
+</html>

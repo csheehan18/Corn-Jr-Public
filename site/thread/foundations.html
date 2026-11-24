@@ -1,0 +1,114 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Foundations · Corn-Jr</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600&family=IBM+Plex+Mono:wght@400;500&family=Spectral:ital,wght@0,400;0,500;0,600;1,400&family=Spectral+SC:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/Corn-Jr-Public/static/library.css">
+<script defer src="/Corn-Jr-Public/static/library.js"></script>
+<script type="speculationrules">
+{"prerender": [{"where": {"and": [{"href_matches": "/Corn-Jr-Public/*"}, {"not": {"href_matches": "/Corn-Jr-Public/random.html"}}, {"not": {"href_matches": "/Corn-Jr-Public/static/*"}}]}, "eagerness": "moderate"}]}
+</script>
+<script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.14.1/dist/cdn.min.js"></script>
+</head>
+<body>
+<div class="page">
+  <header class="running">
+    <a class="book" href="/Corn-Jr-Public/">Corn-Jr · The Record</a>
+    <nav>
+      <a href="/Corn-Jr-Public/" data-key="shelf" class="here">Shelf</a><a href="/Corn-Jr-Public/findings.html" data-key="findings">Findings</a><a href="/Corn-Jr-Public/doc/VISION.html" data-key="VISION">Vision</a><a href="/Corn-Jr-Public/doc/GLOSSARY.html" data-key="GLOSSARY">Glossary</a>
+      <a href="https://github.com/csheehan18/Corn-Jr-Public">Source</a>
+    </nav>
+  </header>
+  
+<article class="sheet" style="--c:var(--c1)" x-data="{ all: false }">
+  <div class="progress" aria-hidden="true"></div>
+  <section class="grid chapter-open">
+    <a class="tab" href="/Corn-Jr-Public/part/I.html"><small>Part</small><span>I</span></a>
+    <p class="partline"><a href="/Corn-Jr-Public/part/I.html">The base and its tools</a></p>
+    <h1 class="vt-title">Foundations</h1>
+    <p class="subtitle">The pipeline, decode speed and the training settings everything else stands on.</p>
+    <div class="status"><svg class="strip" viewBox="0 0 260 12" width="260" height="12" aria-hidden="true">
+  <line x1="0" y1="11.5" x2="260" y2="11.5" class="base"/>
+  <line x1="0.5" y1="2" x2="0.5" y2="11"/><line x1="1.6" y1="2" x2="1.6" y2="11"/><line x1="2.7" y1="2" x2="2.7" y2="11"/><line x1="3.7" y1="2" x2="3.7" y2="11"/><line x1="51.2" y1="2" x2="51.2" y2="11"/><line x1="69.6" y1="2" x2="69.6" y2="11"/>
+</svg><span>6 findings, 0 to 64, filed 17 August 2026 to 26 August 2026</span></div>
+  </section>
+
+  
+
+  <section class="grid">
+    <h2 class="sec">The findings, in order</h2>
+    <p class="hint"><button type="button" @click="all = !all" x-text="all ? 'Hide the full results' : 'Show every full result'">Show every full result</button></p>
+    <ol class="entries">
+      
+      <li x-data="{ open: false }">
+        <span class="fn"><a href="/Corn-Jr-Public/finding/0.html">0</a></span>
+        <div>
+          <a class="et" href="/Corn-Jr-Public/finding/0.html">The small training pipeline runs end to end with no code changes</a>
+          <span class="ed">17 August 2026 · <button type="button" class="more" @click="open = !open" x-text="(open || all) ? 'less' : 'more'">more</button></span>
+          <div class="fold" :class="(open || all) && 'open'"><div><p class="efull">Phase 0 pass condition — met</p></div></div>
+        </div>
+      </li>
+      
+      <li x-data="{ open: false }">
+        <span class="fn"><a href="/Corn-Jr-Public/finding/1.html">1</a></span>
+        <div>
+          <a class="et" href="/Corn-Jr-Public/finding/1.html">Five times the parameters costs only a third of the decode speed</a>
+          <span class="ed">17 August 2026</span>
+          
+        </div>
+      </li>
+      
+      <li x-data="{ open: false }">
+        <span class="fn"><a href="/Corn-Jr-Public/finding/2.html">2</a></span>
+        <div>
+          <a class="et" href="/Corn-Jr-Public/finding/2.html">Decode speed is launch overhead per layer; CUDA graphs remove most</a>
+          <span class="ed">17 August 2026 · <button type="button" class="more" @click="open = !open" x-text="(open || all) ? 'less' : 'more'">more</button></span>
+          <div class="fold" :class="(open || all) && 'open'"><div><p class="efull">The extrapolation, measured</p></div></div>
+        </div>
+      </li>
+      
+      <li x-data="{ open: false }">
+        <span class="fn"><a href="/Corn-Jr-Public/finding/3.html">3</a></span>
+        <div>
+          <a class="et" href="/Corn-Jr-Public/finding/3.html">Training and validation loss never separate on one pass of data</a>
+          <span class="ed">17 August 2026 · <button type="button" class="more" @click="open = !open" x-text="(open || all) ? 'less' : 'more'">more</button></span>
+          <div class="fold" :class="(open || all) && 'open'"><div><p class="efull">What a clean loss curve is worth</p></div></div>
+        </div>
+      </li>
+      
+      <li x-data="{ open: false }">
+        <span class="fn"><a href="/Corn-Jr-Public/finding/47.html">47</a></span>
+        <div>
+          <a class="et" href="/Corn-Jr-Public/finding/47.html">The leading learning rate finished last; 3e-4 stays</a>
+          <span class="ed">22 August 2026 · <button type="button" class="more" @click="open = !open" x-text="(open || all) ? 'less' : 'more'">more</button></span>
+          <div class="fold" :class="(open || all) && 'open'"><div><p class="efull">The rate that leads for sixty per cent of the probe finishes last, and the decision rule had an unmeasurable term in it</p></div></div>
+        </div>
+      </li>
+      
+      <li x-data="{ open: false }">
+        <span class="fn"><a href="/Corn-Jr-Public/finding/64.html">64</a></span>
+        <div>
+          <a class="et" href="/Corn-Jr-Public/finding/64.html">Re-reading the prompt each round costs launches, not tokens: 0.22 ms</a>
+          <span class="ed">26 August 2026 · <button type="button" class="more" @click="open = !open" x-text="(open || all) ? 'less' : 'more'">more</button></span>
+          <div class="fold" :class="(open || all) && 'open'"><div><p class="efull">Prefill costs launches, not tokens, so 42% redundancy was worth 0.22 ms</p></div></div>
+        </div>
+      </li>
+      
+    </ol>
+  </section>
+
+  
+</article>
+
+  <footer class="turn">
+  <div></div>
+  <div class="r"><span class="sc">next</span><a href="/Corn-Jr-Public/thread/measurement.html">Measurement and noise</a></div>
+  <p class="keys"><kbd>←</kbd> <kbd>→</kbd> turn the page · <kbd>/</kbd> find</p>
+</footer>
+</div>
+</body>
+</html>

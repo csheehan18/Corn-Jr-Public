@@ -1,0 +1,114 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>97 · Fallback answer rules still don&#39;t help at the shipped setting · Corn-Jr</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600&family=IBM+Plex+Mono:wght@400;500&family=Spectral:ital,wght@0,400;0,500;0,600;1,400&family=Spectral+SC:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/Corn-Jr-Public/static/library.css">
+<script defer src="/Corn-Jr-Public/static/library.js"></script>
+<script type="speculationrules">
+{"prerender": [{"where": {"and": [{"href_matches": "/Corn-Jr-Public/*"}, {"not": {"href_matches": "/Corn-Jr-Public/random.html"}}, {"not": {"href_matches": "/Corn-Jr-Public/static/*"}}]}, "eagerness": "moderate"}]}
+</script>
+
+</head>
+<body>
+<div class="page">
+  <header class="running">
+    <a class="book" href="/Corn-Jr-Public/">Corn-Jr · The Record</a>
+    <nav>
+      <a href="/Corn-Jr-Public/" data-key="shelf">Shelf</a><a href="/Corn-Jr-Public/findings.html" data-key="findings" class="here">Findings</a><a href="/Corn-Jr-Public/doc/VISION.html" data-key="VISION">Vision</a><a href="/Corn-Jr-Public/doc/GLOSSARY.html" data-key="GLOSSARY">Glossary</a>
+      <a href="https://github.com/csheehan18/Corn-Jr-Public">Source</a>
+    </nav>
+  </header>
+  
+
+<article class="sheet" style="--c:var(--c2)">
+  <div class="progress" aria-hidden="true"></div>
+  <section class="grid chapter-open finding-open">
+    <a class="tab" href="/Corn-Jr-Public/thread/reading.html" title="Reading documents"><small>Part</small><span>II</span></a>
+    <p class="cn">97</p>
+    <p class="partline"><a href="/Corn-Jr-Public/thread/reading.html">Reading documents</a> · 4 September 2026</p>
+    <h1>Fallback answer rules still don&#39;t help at the shipped setting</h1>
+  </section>
+
+  <section class="grid">
+    <p class="marginal">The result, as the finding states it</p><div class="prose"><p class="lead">The reduce family stays closed at the operating point that ships even though its target doubled there, the two seeds only agree when each is read at its own threshold, and the hard negatives the next arm was to add are already more than half the verifier's training nulls</p></div>
+    
+  </section>
+
+  
+
+  <section class="grid">
+    <div class="prose doc"><p><code>scripts/probe_reduce_shipped.py</code> and a count over the two state caches, 2026-09-03. <strong>Replay only for §1 to §3</strong> — no GPU, no decode, no weight read — over <code>nullpr_s{1,2}_popa.json</code> joined to <code>pairs_built_s{1,2}_popa.json</code>. <code>evals/results/reduce_shipped_s{1,2}.json</code>. §4 opens the harvested state caches and reads their metadata only; no state row is scored and nothing is trained.</p>
+<h3 id="0-the-bar-protocol-is-now-in-a-committed-script-and-it-repro">0. The bar protocol is now in a committed script, and it reproduces</h3>
+<p><code>corn/reader.py</code>'s threshold is -2.02, "the mean of the two cross-validated fold values under the bar protocol: the <code>t</code> that maximises <code>right</code> on the training fold among those holding that fold's share of 200 correct silences". <strong>That sweep existed nowhere in the repo</strong> — <code>probe_reader_passages.cross_validate</code> implements the <code>joint</code> protocol only, and the rule that chose the shipped constant lived in the session that settled it. <code>bar_sweep</code> here is it, and the reproduction is the check that it is the same rule:</p>
+<p>this file's fold thresholds   -1.9796 / -2.0608   mean -2.0202 corn/reader.py records        -1.9800 / -2.0610   mean -2.02</p>
+<p>At that point it reads <strong>389 right of 721 at 199 correct silences on seed 1</strong> and <strong>388 at 196 on seed 2</strong>, which is finding <a class="fref" href="/Corn-Jr-Public/finding/86.html">86</a>'s own pair of numbers.</p>
+<h3 id="1-the-two-seeds-agree-at-their-own-operating-point-and-disag">1. The two seeds agree at their own operating point and disagree at a shared constant</h3>
+<p>The ninety-fifth and ninety-sixth findings read SHIPPED as <em>the single constant -2.02</em>, and that constant is <strong>seed 1's</strong> cross-validated mean. Applying it to seed 2's harvest is seed 1's threshold on another seed's scores:</p>
+<p>species          each seed's own bar CV      the constant -2.02 on both s1        s2                 s1        s2 REFUSED_WRONG      93        110                93        83 REFUSED_RIGHT      78         80                77        50 AGGREGATION        64         50                66        60 RIVAL              63         59                62        79 CLIPPED            18         23                18        27 UNGROUNDED         16         11                16        13 residue           332        333               332       312 right / u.silent  389/199   388/196           389/200   409/170</p>
+<p><strong>Under its own protocol the seed-2 table is seed 1's table.</strong> <code>REFUSED_RIGHT</code> 78 against 80 rather than 77 against 50; <code>RIVAL</code> 63 against 59 rather than 62 against 79; the residue 332 against 333 rather than 332 against 312. <code>REFUSED_WRONG</code> is the largest species on both seeds either way, and it is larger on seed 2 (110) than anything the shared constant showed.</p>
+<p><strong>And seed 2 at -2.02 is not an operating point this project would ship</strong>: 409 right at <strong>170</strong> correct silences, thirty below the floor <code>PLAN-EXTRACTION- READER.md</code> PRIMARY names and the bar protocol exists to hold. Sizing an arm from that row sizes it against a willingness setting nobody chose. This is the same defect the eighty-ninth finding found (a superseded head) and the ninety-fifth found (a superseded threshold) in a third form: <strong>a threshold that is right for one seed quoted on another</strong>. Every arm in <code>PLAN-READER-RESIDUE.md</code> §7 is sized on the left-hand table.</p>
+<h3 id="2-a2-stays-closed-at-shipped-where-its-target-had-doubled">2. A2 stays closed at SHIPPED, where its target had doubled</h3>
+<p>The ninety-fifth finding named A2 — the score-aware <code>reduce</code> — as the one arm whose target <em>doubles</em> at the point that ships (<code>AGGREGATION</code> 31 → 66 and 42 → 60) and the one arm that costs no GPU, and said to re-run it there. The eighty-fifth finding's six variants, rebuilt because its own script was never committed, each at its own cross-validated <code>t</code> under the bar protocol with the extent rule at <code>d = 2.0</code>, paired against the same-protocol <code>hybrid</code>:</p>
+<p>variant       s1 right / u.sil   vs hybrid           s2 right / u.sil   vs hybrid hybrid           389 / 199       (ships)                388 / 196       (ships) span             395 / 199        +6 (21/27, p .47)     382 / 197        -5 (27/22, p .57) hybrid_span      386 / 199        -3 (15/12, p .70)     387 / 196        -1 (13/12, p 1) hybrid_lp        378 / 199       -11 (19/8,  p .05)     377 / 198        -9 (18/9,  p .12) dedupe           398 / 199        +9 (9/18,  p .12)     393 / 196        +5 (10/15, p .42) dedupe_span      396 / 199        +7 (21/28, p .39)     387 / 196        -1 (22/21, p 1)</p>
+<p>AGGREGATION      hybrid 64 / 50  -&gt;  span 58 / 54, dedupe 55 / 45, hybrid_lp 74 / 61</p>
+<p><strong>Every variant misses every pre-registered bar on both seeds.</strong> <code>AGGREGATION</code> falls by 14% and 10% at its best against a bar of half. <code>right &gt;= 400</code> is missed by all five on both seeds. Seed 2's silence floor of 199 is missed by its own baseline at 196, <strong>which was written down before the run</strong> because a bar the baseline fails is a statement about the seed.</p>
+<p><strong><code>dedupe</code> is the only variant positive on both seeds — +9 and +5 — and it is not significant, p = 0.12 and 0.42.</strong> It is reported as the pre-registered failing branch said it would be: a consistently-signed correctness fix, not an arm, not banked. Its sign is at least mechanically coherent, and larger here than the +1 / +2 the eighty-fifth finding read at JOINT, because a duplicated span is more of a problem where more windows are admitted.</p>
+<p><strong>The eighty-fifth finding's mechanism sentence survives the change of operating point</strong>, which is why this was worth running rather than assuming: <em>a pair logit is not comparable across windows and the null logit, which was trained across windows, is</em>. <code>hybrid_lp</code> — the one ranking quantity in the family that is comparable across windows on its face, the argmax pair's within-window log-probability — is the <strong>worst</strong> variant at both points and on all four cells. <strong>The doubling of <code>AGGREGATION</code> at SHIPPED is a fact about admission and not about ranking.</strong></p>
+<h3 id="3-the-reproduction-check-ran-first-and-four-of-five-variants">3. The reproduction check ran first and four of five variants reproduce</h3>
+<p>At JOINT with the extent rule off, against the eighty-fifth finding's own table, which is what licenses reading §2 off the same code:</p>
+<p>variant        this file      finding <a class="fref" href="/Corn-Jr-Public/finding/85.html">85</a> span           -3             -4 hybrid_span    -8             -5 hybrid_lp     -16            -15 dedupe_span    -3             -3 dedupe         -7             +1</p>
+<p>Four are inside the ±7 fold wander the ninety-second finding measured as the threshold's own noise. <strong><code>dedupe</code> does not reproduce.</strong> Its definition here is one vote per distinct span <em>text</em>: the harvest carries token offsets inside a window and not character offsets in the passage, so one occurrence seen twice cannot be told from two occurrences without a tokenizer this file does not load. It moves 178 vote masks at a comparable threshold against the eighty-fifth finding's 155. <strong>So <code>dedupe</code> here is a restated variant under a stated definition and is not that finding's <code>dedupe</code></strong>, and its +9 / +5 is quoted as this file's number and not as a replication of that one.</p>
+<h3 id="4-the-hard-negatives-the-next-arm-wanted-are-already-56-of-t">4. The hard negatives the next arm wanted are already 56% of the verifier's training nulls</h3>
+<p>The arm queued behind A2 was <em>"retrain the verifier with the gold passage's own non-gold windows as hard negatives, keeping a uniform-window share so the unanswerable half stays calibrated; pre-register the mix, e.g. 50/50, and one alternative"</em>. Counted over <code>spans_nq_null</code> and <code>spans_nq_positive</code> <strong>before any GPU was spent</strong>, joining on the NQ question id every cached window already carries:</p>
+<p>spans_nq_null                                            100,000 rows absent_topical   a passage nobody could answer          42,078 absent_window    a non-gold window of an answerable passage                                57,922 of which the passage also contributes a positive window to the cache — a sibling                        56,092   56.1%</p>
+<p><strong>Sibling negatives are 56.1% of the null half and 96.8% of every <code>absent_window</code>.</strong> The verifier has been trained on the hard negatives the arm proposed to add, at a share above either mix that was to be pre-registered. There is no 50/50 to choose and no alternative to compare it against: the arm as specified is not runnable, and re-weighting what is already the majority class is not a mechanism.</p>
+<p><strong>What is missing is not the negatives. It is the comparison.</strong> The head is trained with a pointwise binary loss over a shuffled pool, so it is never asked which of <em>one passage's</em> windows carries the answer — and the failure the ninety-third and ninety-sixth findings name is exactly that: a no-gold window outranking every gold-bearing one on the same passage, 25.5% and 22.2% of the answerable half. The listwise variant, named as an option in the arm's own specification, is therefore the whole of it. The cache supports it with no new harvest:</p>
+<p>passages with a positive window and at least one sibling    31,792 rows in those groups                     53,132 positive + 56,092 sibling mean group size                                              3.44 windows</p>
+<p><strong>This is why the count was taken before the training run rather than after it.</strong> Two of the last four findings were corrections to arms that had been sized against something that was no longer true, and the cheapest place to catch the third was a pass over metadata that took eight seconds.</p>
+<h3 id="what-this-cannot-say">What this cannot say</h3>
+<p><strong>§2 is a re-read of a closed arm and it does not reopen it.</strong> Five variants losing or flat at a second operating point is weaker evidence than the eighty-fifth finding's mechanism, not stronger; what §2 adds is that the mechanism does not depend on the threshold.</p>
+<p><strong><code>dedupe</code> is unreplicated in its own right.</strong> It does not reproduce at JOINT, its +9 / +5 is not significant on either seed, and it is a variant of this file's definition rather than of the eighty-fifth finding's. Nothing should be built on it without settling what an occurrence is, which needs the tokenizer.</p>
+<p><strong>§1 is a threshold comparison and not a seed comparison.</strong> It does not say that the two seeds' <em>heads</em> agree; it says the two seeds' species tables agree once each is read where its own protocol puts it. The seeds still differ by 21 passages of correct silence at their own points.</p>
+<p><strong>§4 counts rows and does not train anything.</strong> That sibling negatives are present at 56% does not establish that the verifier learned nothing from them, and no number here says a listwise loss will do better. It establishes only that the arm as written had no variable in it.</p>
+<p><strong>Two seeds, one trunk, one population</strong>, Population A under <code>hybrid</code>, at both operating points, with each read's point stated.</p>
+<h3 id="what-follows">What follows</h3>
+<p><strong><code>PLAN-READER-RESIDUE.md</code> §7 carries the re-sizing</strong> and it removes A2's +32 / +25 from the plan's arithmetic: the four arms at their bars now read 501 and 495 of 721 with A2 and <strong>469 and 470 without it</strong>, 65.0% and 65.2%.</p>
+<p><strong>§7.3's ceiling assignment is the part of this worth carrying forward.</strong> A3 and A4 both change the pick on an already-admitted window, so both are bounded by <code>ORACLE_PICK</code> — <strong>449 and 493</strong> — and at their bars they claim +41 and +42 of a shared budget of +60 and +84. Two thirds and half of the entire post-hoc pick budget from two arms, which was invisible while both were being quoted against a window oracle.</p>
+<p><strong>B2 is now the listwise arm and only that</strong>, pre-registered in §7.4 with its selection metric (held-out AUC on the sibling-negative split), its bars and its failing branch written before it runs.</p>
+<p><strong>Left unexplained:</strong> <code>span</code> is +6 on seed 1 and -5 on seed 2 while <code>dedupe_span</code> is +7 and -1, and the two seeds disagree in sign on every <code>s_best</code> variant while agreeing on <code>hybrid_lp</code> and <code>dedupe</code>. Nothing here says whether that is the fold wander or a property of the two harvests.</p></div>
+  </section>
+
+  <section class="grid refs">
+    <div class="body two-even">
+      <div>
+        <h2 class="small">It cites</h2>
+        <ul class="reflist"><li style="--c:var(--c2)"><a href="/Corn-Jr-Public/finding/85.html"><span class="fn">85</span>The checker needs cross-fitted labels; fallback rules are exhausted</a></li><li style="--c:var(--c2)"><a href="/Corn-Jr-Public/finding/86.html"><span class="fn">86</span>A checker that reads the candidate answer works; re-ranking does not</a></li></ul>
+        
+      </div>
+      <div>
+        <h2 class="small">Cited by</h2>
+        <ul class="reflist"><li style="--c:var(--c2)"><a href="/Corn-Jr-Public/finding/110.html"><span class="fn">110</span>Of four cheap rescoring ideas, only one vote per mention helps</a></li><li style="--c:var(--c2)"><a href="/Corn-Jr-Public/finding/112.html"><span class="fn">112</span>Training on whole passages lifts extraction from 54% to 71%</a></li></ul>
+        
+      </div>
+    </div>
+    <p class="body source">docs/findings/97-the-reduce-family-stays-closed-at-the-point-that-ships-and-the-hard-negatives-the-next-arm-wanted-are-already-more-than-half-its-training-nulls.md</p>
+  </section>
+</article>
+
+  
+<footer class="turn">
+  <div><span class="sc">previous</span><a href="/Corn-Jr-Public/finding/96.html">96 · Given only the right window, the reader reaches 93%</a></div>
+  <div class="r"><span class="sc">next</span><a href="/Corn-Jr-Public/finding/98.html">98 · A generated question frame invents relations more than a hand-written one</a></div>
+  <p class="keys"><kbd>←</kbd> <kbd>→</kbd> turn the page · <kbd>/</kbd> find</p>
+</footer>
+<p class="bynumber">Previous and next in <a href="/Corn-Jr-Public/thread/reading.html">Reading documents</a>. By number:
+  <a href="/Corn-Jr-Public/finding/96.html">96</a> · <a href="/Corn-Jr-Public/finding/98.html">98</a></p>
+
+</div>
+</body>
+</html>

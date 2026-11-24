@@ -1,0 +1,102 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>139 · Aligning training blocks to transcript starts helps parsing, short of target · Corn-Jr</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600&family=IBM+Plex+Mono:wght@400;500&family=Spectral:ital,wght@0,400;0,500;0,600;1,400&family=Spectral+SC:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/Corn-Jr-Public/static/library.css">
+<script defer src="/Corn-Jr-Public/static/library.js"></script>
+<script type="speculationrules">
+{"prerender": [{"where": {"and": [{"href_matches": "/Corn-Jr-Public/*"}, {"not": {"href_matches": "/Corn-Jr-Public/random.html"}}, {"not": {"href_matches": "/Corn-Jr-Public/static/*"}}]}, "eagerness": "moderate"}]}
+</script>
+
+</head>
+<body>
+<div class="page">
+  <header class="running">
+    <a class="book" href="/Corn-Jr-Public/">Corn-Jr · The Record</a>
+    <nav>
+      <a href="/Corn-Jr-Public/" data-key="shelf">Shelf</a><a href="/Corn-Jr-Public/findings.html" data-key="findings" class="here">Findings</a><a href="/Corn-Jr-Public/doc/VISION.html" data-key="VISION">Vision</a><a href="/Corn-Jr-Public/doc/GLOSSARY.html" data-key="GLOSSARY">Glossary</a>
+      <a href="https://github.com/csheehan18/Corn-Jr-Public">Source</a>
+    </nav>
+  </header>
+  
+
+<article class="sheet" style="--c:var(--c4)">
+  <div class="progress" aria-hidden="true"></div>
+  <section class="grid chapter-open finding-open">
+    <a class="tab" href="/Corn-Jr-Public/thread/tag-spine.html" title="The tag spine"><small>Part</small><span>IV</span></a>
+    <p class="cn">139</p>
+    <p class="partline"><a href="/Corn-Jr-Public/thread/tag-spine.html">The tag spine</a> · 16 September 2026</p>
+    <h1>Aligning training blocks to transcript starts helps parsing, short of target</h1>
+  </section>
+
+  <section class="grid">
+    <p class="marginal">The result, as the finding states it</p><div class="prose"><p class="lead">Arm A at one seed: blocks aligned to transcript starts move the level-1 cursor from 558 to 639 of 772 and cut invented spans by a fifth, short of the pre-registered third, lift unseen entities by nine and trained shapes by one, cost held-out carriers four and the deep cells ten, and put the copy band under its kill line on one of six answers, where a copied person's name comes back as an invented entity</p></div>
+    <p class="marginal">What it cost</p><div class="prose"><p class="cost">15.1 min of scoring on the 2 cards first cited here (<code>nano20m_v3_fw_b1024_alignA</code>, <code>nano20m_v3_fw_b1024_alignA_seed2</code>); it also reads 1 card scored for an earlier finding (<code>nano20m_v3_fw_b1024</code>). Backfilled 2026-09-26 from the cards' <code>seconds</code>; training and probe time were never recorded, so this is a floor.</p></div>
+  </section>
+
+  
+
+  <section class="grid">
+    <div class="prose doc"><p>PLAN-PARSE-WEIGHTS arm A, lever 7a of FAILURES-PARSE, built and trained 2026-09-15 by another session as <code>configs/nano20m_v3_fw_b1024_alignA.py</code> and read here the same day. <strong>One seed; the pre-registered kill needs two.</strong> The pair is the arm against <code>nano20m_v3_fw_b1024</code> at seed 1337: block 1024, batch 12, 5,513 steps, <code>compile</code> on, one field changed (<code>align_parse_blocks</code>), confirmed from both checkpoints' <code>config.json</code>. Cards: the arm's full card <code>evals/results/nano20m_v3_fw_b1024_alignA.json</code>, and on both sides <code>__parseonly.json</code> with <code>__parse_items.jsonl</code>, <code>__cursor.json</code> with <code>__cursor_items.jsonl</code>, and <code>__parsebind.json</code>.</p>
+<h3 id="what-the-arm-changes">What the arm changes</h3>
+<p><code>Batcher</code> samples block offsets uniformly; an offset inside a parse-bearing transcript now snaps back to that transcript's first token, so no <code>parts:</code> line trains against an utterance the window cut off. The other session measured the whole-utterance rate on the built stream at 0.898 uniform and 1.000 snapped. Read off the same stream here: snapping also raises each level's expected full-line exposures by 3 to 7 per cent (level 1 x1.03, level 2 x1.07, level 3 x1.05, level 4 x1.03), so the arm is cleaner context and slightly more parse gradient together, as its config docstring says.</p>
+<h3 id="the-card-arm-against-control">The card, arm against control</h3>
+<p>row                 control   arm       W-rope seeds 1, 2 parse.w_span          48/120   49        60, 62 parse.w_entity        16/120   25        41, 42 parse.w_heldout       12/140    8        17, 10 parse.w_pairing        0/96     1         0,  0 parse.w_depth4         0/96     0         0,  0 parse.w_repair        37/60    42        36, 37 move.w_next           99/120  108       104, 103 e2e.w_tree            22/60    24        30, 32 tool.selection        83/200  128       133, 139   (reported, not read) tool.copy            120/120  100       120, 120   <strong>kill line 118</strong> temporal.copy        353/353  352       353, 353 val loss              2.228    2.230</p>
+<p>The language rows are within 0.001 nats a byte on every source.</p>
+<h3 id="the-three-pre-registered-numbers">The three pre-registered numbers</h3>
+<p><strong>The cursor</strong> (<code>probe_cursor.py</code>, interior boundaries, first boundary excluded): 558 to <strong>639 of 772</strong>, 0.723 to 0.828, the largest move of any arm on this instrument and into W's band (615-665). Every row rises: trained shapes 90 to 112 of 126, entities 134 to 152 of 175, held-out carriers 128 to 134 of 202, pairings 107 to 121 of 138, depth 4 99 to 120 of</p>
+<ol><li>Far misses, two or more words off, 180 to 107. By boundary: the bare space 0.61 to 0.79, modifiers on both sides 0.26 to 0.44.</li></ol>
+<p><strong>The crossing</strong> (level-1 cells of the scorer, 572 lines): passes 108 to 122; lines with a span not in the utterance <strong>236 to 187</strong>, invented spans 286 to 220 — a fall of 21 to 23 per cent against the gate's third. Lines that tile the utterance and fail on the cut or the label rise 228 to 263: the failures that remain are more often decisions. Lines that lose the cursor anywhere fall 190 to 124, and finding <a class="fref" href="/Corn-Jr-Public/finding/138.html">138</a>'s rule holds on both sides — 0 and 1 of them pass.</p>
+<p><strong>Free and bound</strong> (<code>probe_parsebind.py</code>, level 1 unless said):</p>
+<p>cell                 control free -&gt; bound    arm free -&gt; bound w_span     l1            53 -&gt; 56                58 -&gt; 61 w_heldout  l1            19 -&gt; 24                10 -&gt; 14 w_pairing  l1             6 -&gt;  7                 6 -&gt;  6 w_depth4   l1             6 -&gt;  8                 7 -&gt;  9 w_pairing  l3            53 -&gt; 56                41 -&gt; 55 w_depth4   l4            44 -&gt; 49                34 -&gt; 39</p>
+<p>On trained shapes free and bound rise together by five with the gap unchanged, which is a decision moved and not bookkeeping. On held-out carriers both fall by nine or ten. On the two deepest cells free falls by ten and twelve, and the exposure arithmetic above says that is not a shift of gradient away from deep lines; at one seed it is unread.</p>
+<h3 id="the-copy-band">The copy band</h3>
+<p><code>tool.copy</code> reads 100 of 120, under the band's kill line of 118, with every one of the twenty misses on one answer of six. Asked to read <code>Alexander Fleming</code> back from the observation he says <code>It&#x27;s Belaeskdia Fleming.</code> or <code>It&#x27;s Torilvrin.</code> — a name shaped like the parse world's invented entities in place of the copied one; the other five answers are 100 of 100 and <code>temporal.copy</code> is 352 of 353. The control and both W seeds read 120. This is the recall-over-copy species of FAILURES-PARSE §7e on the tool slice, and it is the first time an arm has moved it. One seed cannot say whether the alignment did it or the seed did; two seeds under the band kill the arm whatever the parse rows say.</p>
+<h3 id="reading">Reading</h3>
+<p>The mixed row. The arm does what 7a predicted on the mechanism it names — the cursor and the invented spans move in the right direction by more than any arm before it — and misses the gate's size, costs the held-out and deep cells, and trips the copy band once. Nothing here is a result until seed 2: <code>nano20m_v3_fw_b1024_alignA_seed2</code> against a <code>nano20m_v3_fw_b1024_seed2</code> that does not yet exist, so the second pair is two runs. If the copy row repeats under 118 the arm is dead and the mechanism goes to §7e's line; if it does not, the parse reading is decided by the cursor and the crossing at two seeds, and the deep-cell drop is read against its seed spread.</p>
+<h3 id="what-this-does-not-say">What this does not say</h3>
+<p>One seed on each side; the control's own tool rows sit oddly low on <code>tool.selection</code> (83 against W's 133-139), so this control is not a quiet one. The bound decode's deep cells are 96 items with a seed spread nobody has measured at block 1024. The whole-utterance rate of 1.000 is the other session's number, read off the stream and not re-derived here.</p>
+<p><em>Instruments.</em> <code>corn.evals</code> full card and <code>--only funcworld_parse --items</code>, <code>probe_cursor.py</code>, <code>probe_parsebind.py</code> (about twelve minutes a checkpoint at block 1024), a scratchpad regeneration of the twenty copy misses with their bytes, and the exposure arithmetic over <code>Batcher._parse_transcripts</code>; all serialised on the card beside the owner's server, no timing read.</p>
+<h3 id="amended-2026-09-16-the-second-seed-and-the-kill-does-not-fir">Amended 2026-09-16 — the second seed, and the kill does not fire</h3>
+<p><code>nano20m_v3_fw_b1024_alignA_seed2</code>, one field from the seed-1 twin. <strong>The copy band recovers</strong>: <code>tool.copy</code> <strong>119 of 120</strong> against the kill line of 118, <code>tool.copy_wide</code> 300 of 300, <code>temporal.copy</code> 353 of 353. This finding's own clause — <em>two seeds under the band kill the arm</em> — is therefore not met, and the seed-1 reading of 100 of 120 was an excursion rather than the alignment. <strong>Arm A is not killed.</strong> The title above was written before this read and stands as the record of what one seed said.</p>
+<p>What replicates, and in the same direction both times:</p>
+<p>row                  control    seed 1    seed 2      W tool.copy            120/120   100/120   119/120   120/120 invented spans        399/824   299/792   318/805        — parse.w_repair          37/60     42/60     44/60     34-37/60 parse.w_entity         16/120    25/120    21/120     41-42/120 e2e.w_tree              22/60     24/60     26/60     22-32/60 parse.w_span           48/120    49/120    51/120     60-66/120 parse.w_pairing          0/96      1/96      0/96      0-1/96</p>
+<p>So the gate is <strong>missed at both seeds and missed consistently</strong>: the invented share falls 48.4% to 37.8% and 39.5%, a fifth against the pre-registered third. <code>parse.w_repair</code> is above W's band on both arm seeds, which no cell in this phase had managed.</p>
+<p><strong>Two rows this finding read as signal that are not.</strong> <code>tool.selection</code> reads 83, 128 and 75 across the control and the two arm seeds, so the observation that "this control is not a quiet one" at 83 is variance and not a property of the control — the row is simply loose at nano and should not be read either way. And <code>extract.span</code> falls on <strong>both</strong> arm seeds (12 on the control to 5 and 3), which is not in the table above because nothing here explains it; it is the one unexplained cost of arm A and it is owed a look before the arm ships.</p>
+<p><strong>Two numbers from the seed-1 write-up, re-derived.</strong> The share of drawn tokens landing in the parse-bearing segment is 5.000% with alignment on and off alike — snapping moves the window, never whether the offset is in the segment — so arm A is not a dose change in disguise. Parse lines a window rise 0.2740 to 0.2888, <strong>5.4%</strong>, not the 15% an earlier small-sample read claimed. And the whole-utterance rate by level, in closed form over uniform offsets rather than sampled: 0.954 / 0.878 / 0.788 / 0.665 by level and 0.903 overall on <code>mix_v3_funcworld_b1024</code>, against 0.954 / 0.824 / 0.687 and 0.891 on W at block 512 — so the damage 7a names is concentrated at levels 3 and 4, and block 1024 is slightly <em>better</em> on it than 512, not worse.</p></div>
+  </section>
+
+  <section class="grid refs">
+    <div class="body two-even">
+      <div>
+        <h2 class="small">It cites</h2>
+        <ul class="reflist"><li style="--c:var(--c4)"><a href="/Corn-Jr-Public/finding/138.html"><span class="fn">138</span>He knows where the next request part starts, 80 to 93 percent</a></li></ul>
+        
+      </div>
+      <div>
+        <h2 class="small">Cited by</h2>
+        <ul class="reflist"><li style="--c:var(--c4)"><a href="/Corn-Jr-Public/finding/141.html"><span class="fn">141</span>Written as one nested line, he builds a structure never trained</a></li><li style="--c:var(--c4)"><a href="/Corn-Jr-Public/finding/168.html"><span class="fn">168</span>Naming the flexible limit outright splits the seeds</a></li><li style="--c:var(--c4)"><a href="/Corn-Jr-Public/finding/169.html"><span class="fn">169</span>Choosing a branch from a checked condition: seeds split</a></li></ul>
+        
+      </div>
+    </div>
+    <p class="body source">docs/findings/139-arm-a-at-one-seed-aligned-blocks-move-the-cursor-and-cut-invented-spans-by-a-fifth-and-put-the-copy-band-under-its-kill-line.md</p>
+  </section>
+</article>
+
+  
+<footer class="turn">
+  <div><span class="sc">previous</span><a href="/Corn-Jr-Public/finding/136.html">136 · The depth-4 failure is a position never seen, not missing recursion</a></div>
+  <div class="r"><span class="sc">next</span><a href="/Corn-Jr-Public/finding/147.html">147 · When the runtime holds the structure, invented words vanish; grouping stays his</a></div>
+  <p class="keys"><kbd>←</kbd> <kbd>→</kbd> turn the page · <kbd>/</kbd> find</p>
+</footer>
+<p class="bynumber">Previous and next in <a href="/Corn-Jr-Public/thread/tag-spine.html">The tag spine</a>. By number:
+  <a href="/Corn-Jr-Public/finding/138.html">138</a> · <a href="/Corn-Jr-Public/finding/140.html">140</a></p>
+
+</div>
+</body>
+</html>

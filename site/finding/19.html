@@ -1,0 +1,96 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>19 · The noise floor across four seeds, and which past readings it erases · Corn-Jr</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600&family=IBM+Plex+Mono:wght@400;500&family=Spectral:ital,wght@0,400;0,500;0,600;1,400&family=Spectral+SC:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/Corn-Jr-Public/static/library.css">
+<script defer src="/Corn-Jr-Public/static/library.js"></script>
+<script type="speculationrules">
+{"prerender": [{"where": {"and": [{"href_matches": "/Corn-Jr-Public/*"}, {"not": {"href_matches": "/Corn-Jr-Public/random.html"}}, {"not": {"href_matches": "/Corn-Jr-Public/static/*"}}]}, "eagerness": "moderate"}]}
+</script>
+
+</head>
+<body>
+<div class="page">
+  <header class="running">
+    <a class="book" href="/Corn-Jr-Public/">Corn-Jr · The Record</a>
+    <nav>
+      <a href="/Corn-Jr-Public/" data-key="shelf">Shelf</a><a href="/Corn-Jr-Public/findings.html" data-key="findings" class="here">Findings</a><a href="/Corn-Jr-Public/doc/VISION.html" data-key="VISION">Vision</a><a href="/Corn-Jr-Public/doc/GLOSSARY.html" data-key="GLOSSARY">Glossary</a>
+      <a href="https://github.com/csheehan18/Corn-Jr-Public">Source</a>
+    </nav>
+  </header>
+  
+
+<article class="sheet" style="--c:var(--c1)">
+  <div class="progress" aria-hidden="true"></div>
+  <section class="grid chapter-open finding-open">
+    <a class="tab" href="/Corn-Jr-Public/thread/measurement.html" title="Measurement and noise"><small>Part</small><span>I</span></a>
+    <p class="cn">19</p>
+    <p class="partline"><a href="/Corn-Jr-Public/thread/measurement.html">Measurement and noise</a> · 17 August 2026</p>
+    <h1>The noise floor across four seeds, and which past readings it erases</h1>
+  </section>
+
+  <section class="grid">
+    <p class="marginal">The result, as the finding states it</p><div class="prose"><p class="lead">The noise floor, measured, and what it costs the back catalogue</p></div>
+    <p class="marginal">What it cost</p><div class="prose"><p class="cost">3.5 min of scoring on the 1 card first cited here (<code>nano20m_struct</code>); it also reads 1 card scored for an earlier finding (<code>nano20m_balanced</code>). Backfilled 2026-09-26 from the cards' <code>seconds</code>; training and probe time were never recorded, so this is a floor.</p></div>
+  </section>
+
+  
+
+  <section class="grid">
+    <div class="prose doc"><p>Four seeds on one corpus. <code>nano20m_balanced</code> at 1337, 1338, 1339, 1340 — same <code>data_dir</code>, same bins, two differing fields of 30, all four selected at iter 5,237. Nothing here is a model result; it is the error bar sixteen findings were written without.</p>
+<div class="tablewrap"><table><thead><tr><th>row</th><th>1337</th><th>1338</th><th>1339</th><th>1340</th><th>spread</th></tr></thead><tbody><tr><td><code>lm temporal</code></td><td>0.0944</td><td>0.0947</td><td>0.0953</td><td>0.0951</td><td><strong>0.0009</strong></td></tr><tr><td><code>lm narrative</code></td><td>0.3679</td><td>0.3677</td><td>0.3666</td><td>0.3672</td><td><strong>0.0012</strong></td></tr><tr><td><code>lm web</code></td><td>0.9106</td><td>0.9110</td><td>0.9089</td><td>0.9127</td><td><strong>0.0038</strong></td></tr><tr><td><code>temporal.copy</code></td><td>353/353</td><td>353/353</td><td>353/353</td><td>353/353</td><td><strong>0</strong></td></tr><tr><td><code>refusal.clarify</code></td><td>47/47</td><td>47/47</td><td>47/47</td><td>47/47</td><td><strong>0</strong></td></tr><tr><td><code>refusal.no_guess</code></td><td>47/47</td><td>47/47</td><td>47/47</td><td>47/47</td><td><strong>0</strong></td></tr><tr><td><code>temporal.route</code></td><td>400/400</td><td>398/400</td><td>400/400</td><td>399/400</td><td><strong>2</strong></td></tr><tr><td><code>schema.conform</code></td><td>172/200</td><td>174/200</td><td>174/200</td><td>173/200</td><td><strong>2</strong></td></tr><tr><td><code>tool.selection</code></td><td>150/200</td><td>154/200</td><td>157/200</td><td>158/200</td><td><strong>8</strong></td></tr><tr><td><code>tool.validity</code></td><td>171/181</td><td>158/181</td><td>166/181</td><td>168/181</td><td><strong>13</strong></td></tr><tr><td><code>tool.copy</code></td><td>120/120</td><td>102/120</td><td>102/120</td><td>116/120</td><td><strong>18</strong> (15.0 pts)</td></tr><tr><td><code>tool.copy_wide</code></td><td>277/300</td><td>278/300</td><td>249/300</td><td>266/300</td><td><strong>29</strong> (9.7 pts)</td></tr><tr><td><code>variety.distinct3</code></td><td>89.34%</td><td>87.49%</td><td>87.96%</td><td>88.73%</td><td><strong>1.85 pts</strong></td></tr></tbody></table></div>
+<p><strong>The rows do not share a noise floor and never did.</strong> Three are exactly reproducible across seeds, two move by 2 items, and the copy and validity rows move by 13–18. Reading a 10-item delta as a result on <code>schema.conform</code> and on <code>tool.copy</code> are not the same act, and the project has been doing both.</p>
+<h4 id="the-perfect-score-was-six-facts-and-the-wide-row-says-92">The perfect score was six facts, and the wide row says 92%</h4>
+<p><code>tool.copy</code> reads <strong>120/120 on seed 1337</strong>. On that same checkpoint <code>tool.copy_wide</code> reads <strong>277/300 — 92.3%</strong>, with 21 <code>wrong_answer</code> and 2 <code>trained_answer</code>. The ceiling the twelfth and thirteenth findings established, and that "the copy discipline generalises" was declared on, is six hand-written facts all landing right. The behaviour it stands for is at 92%, not 100%.</p>
+<p>The two rows also <strong>disagree about which checkpoint is better</strong>. Frozen ranks 1337 first and 1338 joint-last; wide ranks 1338 first and 1337 second, and puts 1339 last by a distance the frozen row cannot see at all (249/300 against 102/120, the same score 1338 gets). A six-way row does not order checkpoints, and it has been used to order them since the eleventh finding.</p>
+<p>Widening did not make the row quiet — 9.7 points of spread against the frozen row's 15.0 — so <strong>copy behaviour is genuinely seed-dependent at this scale</strong> and that is a real finding rather than an artefact of six facts. What widening bought is a number that means what it says.</p>
+<h4 id="what-the-floors-do-to-conclusions-already-drawn">What the floors do to conclusions already drawn</h4>
+<div class="tablewrap"><table><thead><tr><th>claim</th><th>size</th><th>floor</th><th>verdict</th></tr></thead><tbody><tr><td><code>schema.conform</code> 0 → 194 (fourteenth)</td><td>194</td><td>2</td><td>stands, overwhelmingly</td></tr><tr><td><code>tool.copy</code> 27 → 120 (thirteenth)</td><td>93</td><td>18</td><td>stands</td></tr><tr><td><code>tool.selection</code> 0 → 146, <code>tool.validity</code> 112 → 167 (eleventh)</td><td>146, 55</td><td>8, 13</td><td>stands</td></tr><tr><td>every nats/byte comparison in the project</td><td>0.03–0.10</td><td>0.004</td><td>stands</td></tr><tr><td><strong>structured 10% → 2.5% costs <code>schema.conform</code> 22 items</strong></td><td>22</td><td><strong>2</strong></td><td><strong>real, 11x the floor</strong></td></tr><tr><td>structured 10% → 2.5% buys <code>tool.copy</code> 21 items</td><td>21</td><td>18</td><td><strong>real, but 1.2x — see below</strong></td></tr><tr><td>structured 10% → 2.5% buys <code>tool.validity</code> 3, <code>temporal.route</code> 2</td><td>3, 2</td><td>13, 2</td><td>inside noise</td></tr><tr><td><strong><code>tool.selection</code> 150 → 116 from the narrative cut (sixteenth)</strong></td><td>34</td><td><strong>8</strong></td><td><strong>real, and was dismissed</strong></td></tr><tr><td><code>tool.copy</code> 120 → 111 from the narrative/temporal cut (sixteenth)</td><td>9</td><td>18</td><td>withdrawn</td></tr><tr><td><code>variety.distinct3</code> 89.3 → 89.2 (sixteenth)</td><td>0.1</td><td>1.85</td><td>withdrawn</td></tr></tbody></table></div>
+<p><strong>Annotated after the thirtieth finding: two of these verdicts reverse, and both are ones this section added to the back catalogue rather than removed from it.</strong> Every floor in the column above was measured on four seeds of <code>nano20m_balanced</code>, on the frozen set. Eight further checkpoints across two more corpus families put the <em>frozen</em> floors at <code>tool.selection</code> <strong>44</strong> and 36, <code>tool.copy_wide</code> <strong>41</strong> and 28, <code>tool.copy</code> 20 and <strong>28</strong>, <code>schema.conform</code> 4 and <strong>8</strong>. Re-read against the worst case over everything now measured:</p>
+<div class="tablewrap"><table><thead><tr><th>claim</th><th>size</th><th>19th floor</th><th>worst frozen</th><th>verdict now</th></tr></thead><tbody><tr><td><code>schema.conform</code> 0 → 194 (fourteenth)</td><td>194</td><td>2</td><td>8</td><td>stands, 24x</td></tr><tr><td><code>tool.copy</code> 27 → 120 (thirteenth)</td><td>93</td><td>18</td><td>28</td><td>stands, 3.3x</td></tr><tr><td><code>tool.selection</code> 0 → 146 (eleventh)</td><td>146</td><td>8</td><td>44</td><td>stands, 3.3x</td></tr><tr><td><code>tool.validity</code> 112 → 167 (eleventh)</td><td>55</td><td>13</td><td>18</td><td>stands, 3.1x</td></tr><tr><td>every nats/byte comparison</td><td>0.03–0.10</td><td>0.004</td><td>0.0047</td><td>stands</td></tr><tr><td>structured 10% → 2.5% costs <code>schema.conform</code> 22</td><td>22</td><td>2</td><td><strong>8</strong></td><td>real, but <strong>2.75x, not 11x</strong></td></tr><tr><td>structured 10% → 2.5% buys <code>tool.copy</code> 21</td><td>21</td><td>18</td><td><strong>28</strong></td><td><strong>inside noise — withdrawn</strong></td></tr><tr><td><code>tool.selection</code> 150 → 116 (sixteenth)</td><td>34</td><td>8</td><td><strong>44</strong></td><td><strong>inside noise — withdrawn</strong></td></tr></tbody></table></div>
+<p>The four load-bearing "stands" verdicts all survive, at smaller multiples. The three withdrawals below the line — <code>tool.copy</code> −9, <code>variety.distinct3</code> −0.1, and the two inside-noise rows — stay withdrawn, since a wider floor cannot rescue anything. <strong>Everything this section moved in the other direction is gone.</strong> Both reversals have their own sections below and are annotated there.</p>
+<p><strong>"2.5% structured is better on every axis that matters" does not survive, but the replacement is a trade rather than a reversal.</strong> Cutting to 2.5% costs 22 items of <code>schema.conform</code> at a floor of 2 — eleven times its noise, the most solid single number in the comparison — and buys 21 items of <code>tool.copy</code> at a floor of 18, which clears its floor by a factor of 1.2 and is therefore the weakest kind of real. It also costs 0.0068 of <code>lm web</code> against a floor of 0.0038. So 10% buys schema conformance and costs copy discipline and a little prose, and the <em>sizes</em> say the schema side is far better established than the other two. §11's "better on every axis" was wrong; "10% is better full stop" would be wrong in the same way, from the other direction.</p>
+<p><em>(Read against the thirtieth finding's floors: <code>schema.conform</code>'s 22 is <strong>2.75x its noise, not eleven times</strong>, and while it is still the most solid number in the comparison that is now a statement about the other two rather than a strong claim about this one. The <code>tool.copy</code> leg is inside a floor of 28 and gone twice over — on size here, and on the row itself in the twentieth finding. The <code>lm web</code> leg is untouched; the language rows are the only ones that reproduced across all three families.)</em></p>
+<p><strong>The 21 items are also exactly one fact.</strong> <code>tool.copy</code> is the six-answer row, so a 21-item movement is one held-out fact flipping and sits at the row's resolution limit rather than above it. That comparison is not settled by arithmetic on the old scorecards — it is settled by re-scoring <code>nano20m_struct</code> on <code>tool.copy_wide</code>, which costs no training at all.</p>
+<h4 id="the-sixteenth-finding-dismissed-a-real-regression-withdrawn">The sixteenth finding dismissed a real regression — withdrawn</h4>
+<blockquote><p><strong>Withdrawn by the thirtieth finding, and the sixteenth was right.</strong> <code>tool.selection</code>'s <em>frozen</em> floor is <strong>44</strong> on four seeds of <code>mix_v1</code> and <strong>36</strong> on <code>mix_v1_wide</code>. The 34-item fall is inside both, and so is the attribution arm's 28. The section below is kept because its reasoning about borrowed caveats is still correct — it just turned out to apply to this section as much as to the one it was aimed at.</p></blockquote>
+<p><code>tool.selection</code> 150 → 116 across the narrative cut was written off there as "34 points, one point inside the ~35 the thirteenth finding established as unreadable, so it is not evidence either way." <strong>The floor is 8, and 34 is more than four times it.</strong> The narrative cut costs a large, real amount of tool selection, and the attribution arm agrees independently: holding temporal and cutting only narrative reads 122/200, also far outside the floor. That is the single biggest cost of cutting narrative and it went unrecorded because a caveat borrowed from adjacent checkpoints of one run was pointing at the wrong row.</p>
+<h4 id="tool-selection-was-never-the-unreadable-row-withdrawn-and-th"><code>tool.selection</code> was never the unreadable row — withdrawn, and the number was right</h4>
+<blockquote><p><strong>The ~35 this section demolished is bracketed by the two families measured since.</strong> The row's frozen spread is 8 on <code>nano20m_balanced</code>, <strong>36</strong> on <code>mix_v1_wide</code> and <strong>44</strong> on <code>mix_v1</code>, so the thirteenth finding's ~35 sits inside the range and the 8 is the outlier. The criticism of <em>how</em> it was derived stands — adjacent late-cosine checkpoints of one run are not independent draws, and generalising them into a rule about corpus comparisons was not supported by the quantity measured. It nevertheless landed on roughly the right number, and this section replaced it with one that two later families contradict. <code>tool.selection</code> is in fact the <strong>least</strong> readable behaviour row in the harness: 44 frozen and 62 on an arm.</p></blockquote>
+<p>It has carried "differences under ~35 are not readable" since the thirteenth finding. Across four seeds it moves <strong>8 items</strong>. The ~35 came from two <em>adjacent checkpoints inside one run</em>, which is a different quantity — late-cosine checkpoints of one trajectory, not independent draws — and it was generalised into a rule about corpus comparisons. The rows that actually need the caution are <code>tool.copy</code> and <code>tool.validity</code>, and neither ever carried it.</p>
+<h4 id="what-four-seeds-is-and-is-not">What four seeds is and is not</h4>
+<p>Four points give a spread, not a standard deviation, and a spread grows with sample size — a fifth seed can only widen these. So they are lower bounds on the noise, which is the safe direction for the use they are being put to: a delta inside these numbers is definitely not readable, while a delta outside them is <em>probably</em> real rather than certainly. Every floor here is also specific to this corpus, this model size and this budget, and the honest expectation is that they move at 250M rather than that they transfer.</p></div>
+  </section>
+
+  <section class="grid refs">
+    <div class="body two-even">
+      <div>
+        <h2 class="small">It cites</h2>
+        <p class="aside">No other finding by number.</p>
+      </div>
+      <div>
+        <h2 class="small">Cited by</h2>
+        <p class="aside">No later finding yet.</p>
+      </div>
+    </div>
+    <p class="body source">docs/findings/19-the-noise-floor-measured-and-what-it-costs-the-back-catalogue.md</p>
+  </section>
+</article>
+
+  
+<footer class="turn">
+  <div><span class="sc">previous</span><a href="/Corn-Jr-Public/finding/18.html">18 · That 18-item swing was one fact; the test held only six answers</a></div>
+  <div class="r"><span class="sc">next</span><a href="/Corn-Jr-Public/finding/30.html">30 · Noise levels belong to a training setup, not to a test</a></div>
+  <p class="keys"><kbd>←</kbd> <kbd>→</kbd> turn the page · <kbd>/</kbd> find</p>
+</footer>
+<p class="bynumber">Previous and next in <a href="/Corn-Jr-Public/thread/measurement.html">Measurement and noise</a>. By number:
+  <a href="/Corn-Jr-Public/finding/18.html">18</a> · <a href="/Corn-Jr-Public/finding/20.html">20</a></p>
+
+</div>
+</body>
+</html>

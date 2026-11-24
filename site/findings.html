@@ -1,0 +1,718 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Findings · Corn-Jr</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600&family=IBM+Plex+Mono:wght@400;500&family=Spectral:ital,wght@0,400;0,500;0,600;1,400&family=Spectral+SC:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/Corn-Jr-Public/static/library.css">
+<script defer src="/Corn-Jr-Public/static/library.js"></script>
+<script type="speculationrules">
+{"prerender": [{"where": {"and": [{"href_matches": "/Corn-Jr-Public/*"}, {"not": {"href_matches": "/Corn-Jr-Public/random.html"}}, {"not": {"href_matches": "/Corn-Jr-Public/static/*"}}]}, "eagerness": "moderate"}]}
+</script>
+<script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.14.1/dist/cdn.min.js"></script>
+</head>
+<body>
+<div class="page">
+  <header class="running">
+    <a class="book" href="/Corn-Jr-Public/">Corn-Jr · The Record</a>
+    <nav>
+      <a href="/Corn-Jr-Public/" data-key="shelf">Shelf</a><a href="/Corn-Jr-Public/findings.html" data-key="findings" class="here">Findings</a><a href="/Corn-Jr-Public/doc/VISION.html" data-key="VISION">Vision</a><a href="/Corn-Jr-Public/doc/GLOSSARY.html" data-key="GLOSSARY">Glossary</a>
+      <a href="https://github.com/csheehan18/Corn-Jr-Public">Source</a>
+    </nav>
+  </header>
+  
+<script type="application/json" id="titles">{"0": "The small training pipeline runs end to end with no code changes", "1": "Five times the parameters costs only a third of the decode speed", "2": "Decode speed is launch overhead per layer; CUDA graphs remove most", "3": "Training and validation loss never separate on one pass of data", "4": "A frozen evaluation set, and the three problems it caught", "5": "The tool-call format must be in pretraining, and costs about 3%", "6": "Fine-tuning installs the tool format but not using the tool\u0027s answer", "7": "Real web text improves prose but not using the tool\u0027s answer", "8": "An 8k BPE tokenizer reads 3.8x more text per token", "9": "BPE\u0027s compression becomes a better model; a fifth comes from context", "10": "A generated tool dataset caps at 2.3 MB of distinct examples", "11": "A twenty-fifth of the planned tool data buys most of the behaviour", "12": "Copying fails to generalise because the training facts were memorisable", "13": "Inventing the fact database makes him copy tool answers perfectly", "14": "The JSON data taught the format but not copying field names", "15": "The two measured data shares were 4 to 25 times too large", "16": "A new output-variety metric, and a data change that didn\u0027t move it", "17": "One test moved 18 items on the random seed alone", "18": "That 18-item swing was one fact; the test held only six answers", "19": "The noise floor across four seeds, and which past readings it erases", "20": "No data share moves copying above noise", "21": "Copying is a step: it appears once any tool data exists", "22": "Every conversation dataset fails a vocabulary test built from web text", "23": "The vocabulary test really measures how much web text is mixed in", "24": "The rejected dialogue data costs prose quality and nothing else", "25": "Dialogue data buys conversational vocabulary, not conversational style", "26": "He knows where a turn ends; the long replies were our fault", "27": "The first data mix with every share measured, not guessed", "28": "Tool routing was template matching; deferring to the tool was not", "29": "More phrasing templates fix only the phrasings that were added", "30": "Noise levels belong to a training setup, not to a test", "31": "The gain has no sharp threshold, and the fix was already cheap", "32": "A bigger phrasing test; its no-transfer reading was later withdrawn", "33": "Copying depends on the tool output\u0027s shape and nothing else", "34": "He picks tools he never saw in training, but can\u0027t say no", "35": "One percent of non-tool turns teaches him when not to call", "36": "Reply length inflates the measured style gain, but the gain survives", "37": "Training second-turn declines changed nothing and cost tool choice", "38": "A confidence margin spots wrong calls, except where it was needed", "39": "Restricting names to declared tools fixes routing, not refusal", "40": "Moving the date header recovers about ninety items it was costing", "41": "Too noisy to read; underneath, wrong contact names fell 19 to 2", "42": "He now declines 118 times, with routing untouched", "43": "Two extra seeds already on disk retire three earlier readings", "44": "The last unmeasured data share costs nothing; web gains are linear", "45": "The first full data mix keeps every separately measured effect", "46": "A dataset was missing a class; one test passed by reciting", "47": "The leading learning rate finished last; 3e-4 stays", "48": "Four bugs let decoding escape the call grammar mid-call", "49": "Second-turn data teaches him to talk, at a cost to deferring", "50": "Invented facts make him copy; a real name brings memory back", "51": "At 260M the date header helps where at 30M it hurt", "52": "Of 25 search phrasings taught, he kept about four", "53": "Two of my checks were scoring the harness, not the model", "54": "Batch decoding 32 to 128 windows: both predictions about why were wrong", "55": "Four hundred passages show he writes his own answer instead of copying", "56": "The official split overlaps documents: 14% of the eval leaked into training", "57": "Extraction training works, mostly by declining answerable questions", "58": "Tripling a fact type in training left his declines unchanged", "59": "No declines hide in unscored wording; the rest looks like salience", "60": "Fine-tuning costs nothing but delivers three fifths of pretraining\u0027s gain", "61": "The phrasing test itself has noise of sixty items", "62": "The call grammar fixes 44% of bytes; the tokenizer blocks using it", "63": "Fresh tool training, not new phrasings, fixed search routing", "64": "Re-reading the prompt each round costs launches, not tokens: 0.22 ms", "65": "Fine-tuning installs extraction at 260M from zero", "66": "The extractor takes the first value of the right type", "67": "The best tool-router never declines; the best decliner never serves", "68": "At 260M the seed barely moves scores, measured for the first time", "69": "The tools data, not extraction data, displaced his declining", "70": "The first-value rule holds on a new fixed test set", "71": "Giving memory-lookup calls real results turns silence into recitation", "72": "Search returned \u0027capital punishment\u0027 for \u0027capital of Mongolia\u0027; fixed", "73": "Training both answers on one phrasing breaks the serve/decline trade-off", "74": "Second-turn behaviour installs; compound requests forget how to stop", "75": "Fine-tuning doesn\u0027t overwrite what pretraining installed", "76": "A single-request control removes the compound requests\u0027 copying cost", "77": "At 5B tokens, fresh text is no worse than re-reading text", "78": "Forcing copied search queries breaks follow-ups; keyword shortcuts catch few chats", "79": "A quarter of search results pass the relevance check on one letter", "80": "Contradicting a trained behaviour needs that behaviour\u0027s data replayed", "81": "The answer score measures willingness to answer, not confidence", "82": "Scored fairly, the boundary model trails plain generation", "83": "The boundary model finds answers but can\u0027t prefer them to silence", "84": "A fallback rule buys 35 answers, but refusals still dominate", "85": "The checker needs cross-fitted labels; fallback rules are exhausted", "86": "A checker that reads the candidate answer works; re-ranking does not", "87": "The passage reader ships: 389 of 721 right, up 107", "88": "Social replies install by fine-tune; the fix moves failures elsewhere", "89": "Wrong rival answers are mostly about position on the shipped checker", "90": "A nearby-words rule can\u0027t tell a rival answer from the right one", "91": "The hard questions are those with nothing nameable in them", "92": "Reading the whole passage tells the checker nothing new", "93": "A perfect sentence finder would be worth only 15-38 passages", "94": "A 16-word hand-written lexicon matches the trained checker where it applies", "95": "The right answer is among the top ten on 90% of misses", "96": "Given only the right window, the reader reaches 93%", "97": "Fallback answer rules still don\u0027t help at the shipped setting", "98": "A generated question frame invents relations more than a hand-written one", "99": "Ranking candidates together makes the checker worse on both seeds", "100": "Two bidirectional layers over the reader add nothing", "101": "Reading question fit improves refusals but not right answers", "102": "Twice the training epochs doesn\u0027t improve the answer finder", "103": "Averaging three seeds\u0027 readers barely helps", "104": "Under the owner\u0027s rules, a fifth of \u0027wrong\u0027 answers are right", "105": "The answer-length rule is already at its best setting", "106": "Fifty thousand extra labelled windows don\u0027t help the reader", "107": "Later layers know slightly more; the shipped checker already has it", "108": "The reader is sensitive to prompt wording, but no wording does better", "109": "Other layer choices don\u0027t beat the shipped one", "110": "Of four cheap rescoring ideas, only one vote per mention helps", "111": "Overlapping windows add nothing; answers near a cut edge are missed", "112": "Training on whole passages lifts extraction from 54% to 71%", "113": "A checker on the whole-passage reader doesn\u0027t beat its own confidence", "114": "Tuning answer length on the new reader changes nothing", "115": "A copy-check bug refused answers like \u0027best-of-seven\u0027", "116": "A fix to the copy check lifts the whole-passage reader to 523", "117": "The whole-passage reader ships: 526 of 721 at runtime", "118": "The reader survives the base model being fine-tuned underneath it", "119": "Fine-tuning from the shipped base: frozen scores hold, small social costs", "120": "Consolation replies barely move and cost tool routing", "121": "Cutting mood-prefixed search calls removes the whole cost", "122": "The second social turn installs and lifts the first", "123": "One unrelated exchange in history stops repeated calls", "124": "Refitting the reader on the social model reads 517 at runtime", "125": "Two decisions: whole-passage reader by default, life questions declined", "126": "A hand-driven session found a chat turn sent out as a search", "127": "Two thirds of one dataset\u0027s tool calls were invalid JSON", "128": "Questions about his life go to the web six times in ten", "129": "He learns to label his own request; forcing labels doesn\u0027t change calls", "130": "A label in the text is a hint, never the decision", "131": "Once the runtime enforces the label, a forged one is obeyed 36/36", "132": "Rotary position embeddings beat learned positions on most tests", "133": "On a synthetic world he generalises labels but not one level deeper", "134": "He learns to write a summary line of conversation state", "135": "More depth-3 training data doesn\u0027t teach depth 4", "136": "The depth-4 failure is a position never seen, not missing recursion", "137": "The depth-3 failure doesn\u0027t track copy length", "138": "He knows where the next request part starts, 80 to 93 percent", "139": "Aligning training blocks to transcript starts helps parsing, short of target", "140": "Depth-4 failure is position alone; moved to line one it works", "141": "Written as one nested line, he builds a structure never trained", "142": "Removing four-member groups from training broke nesting another way", "143": "Nesting at 20M breaks two different ways; too fragile to build on", "144": "Showing the request step by step fixes short chains, not long ones", "145": "The depth limit is the linking word; re-showing uncovered text fixes it", "146": "A runtime gap-filling rule breaks nothing but fixes little on real requests", "147": "When the runtime holds the structure, invented words vanish; grouping stays his", "148": "Picking a template by letter never installed; one seed in three learned", "149": "With checkable rules filtered, he picks the template matching the request", "150": "On real requests the runtime\u0027s machinery works but his own parse doesn\u0027t", "151": "Ignoring groups he closes too early lets the interpreter pass", "152": "What each layer of the tag language costs in tokens", "153": "He writes a summary of the conversation state but doesn\u0027t use it", "154": "With no template he completes nothing; inside one, every task runs", "155": "A new fine-tune recipe keeps follow-ups but \u0027what about X?\u0027 still fails", "156": "He can\u0027t build a goal from two observations at one pass", "157": "Writing his move first steers the reply and beats the old regex", "158": "Wordings seen over ten times get memorised; key phrases become lists", "159": "More ways to phrase each move helps unseen phrasings modestly", "160": "2048-token blocks cost 1.2x training time and fit in memory", "161": "His internal state knows more than he writes about move choice", "162": "Real dialogue openings replaced the hand-written ones rather than adding to them", "163": "Capping real openings at half keeps both consolation styles; greetings drop", "164": "Greeting accuracy swings eight items on identical data", "165": "The cap costs greetings in what he writes, not what he knows", "166": "Halving the tool data leaves tool use intact", "167": "He can\u0027t learn which limit a person will relax", "168": "Naming the flexible limit outright splits the seeds", "169": "Choosing a branch from a checked condition: seeds split", "170": "The copy test\u0027s failure threshold was measuring seed noise", "171": "At 50M, branch choice still splits across seeds", "172": "The starting model, not the trace format, makes branching reliable", "173": "Branch choice falls to chance when condition words flip the meaning", "174": "A space after the bracket shifts his default to the first option", "175": "He names the chosen branch, but can\u0027t combine it with the result", "176": "Naming both branches fixes the pick but blurs \u0027not\u0027", "177": "Leaving the second slot out of training doesn\u0027t restore \u0027not\u0027", "178": "Naming a second branch blinds him to \u0027not\u0027", "179": "Fine-tuned, he reads every condition word like \u0027not\u0027 and \u0027unless\u0027", "180": "When the runtime orders the menu, \u0027the other one\u0027 is perfect", "181": "Mixed sentence shapes: he reads each option\u0027s own condition, loses \u0027otherwise\u0027", "182": "Copying the condition\u0027s clause first: new sentence shapes read, new words don\u0027t", "183": "More words fixed most misses; an unseen \u0027unless\u0027 word still reads \u0027if\u0027", "184": "Looping until it sounds right: he learns to always keep looking", "185": "Everyday web text taught him more word meanings at little cost", "186": "He knows roughly what descriptions mean but ignores a described menu", "187": "Trained on invented names, he learned to copy one, never which", "188": "His surprise spots unusual words, not words he misunderstands", "189": "Half textbook, half everyday web keeps the word gain at lower cost", "190": "A third web source, DCLM, splits its seeds and adds nothing measurable", "191": "Doubled wish test: the blend holds, DCLM\u0027s second seed falls back", "192": "With DCLM mixed in, he leans harder on one stock answer", "193": "DCLM\u0027s stronger stock answer is not in its text", "194": "Everyday web text leaves the soft read under loop near chance", "195": "Balanced keep-looking odds flip loop from never stopping to always stopping", "196": "Loop fails because the small model lacks the knowledge, not the format", "197": "A model a quarter as wide nearly matches the 20M\u0027s understanding", "198": "Surprise-steered reading lowers rare-word surprise but not understanding at 5M", "199": "Steering mostly teaches how likely a word is, partly where it fits", "200": "A model that cannot learn picks the same words the scheduler did", "201": "Words picked at random gain less than words the scheduler picked", "202": "A shape built for small models cost language and taught only spelling", "203": "His surprise flags unfamiliar names, not questions he cannot answer", "204": "Running the same layers twice moves nothing measurable at 5M", "205": "Choosing replies by what the message raises varies them, not their fit", "206": "A matching lesson at a tenth of conversation reading did not take", "207": "The pairs he fails are mostly decidable: he loses the conversation\u0027s thread", "208": "The shipped model answers most one-off messages coherently", "209": "The small model answers half of even its own style\u0027s openers", "210": "Real everyday dialogue fits the owner\u0027s messages best; Reddit worst", "211": "Real everyday dialogue moves him toward how the owner talks", "212": "People asking an assistant fits the owner best; the answers do not", "213": "A small dose matching how the owner talks moves him furthest", "214": "A reply judge beside the 5M moves his replies level", "215": "Looking a few words ahead with the judge lifts his replies", "216": "The look-ahead holds on new messages; finishing and penalties add nothing", "217": "A judge built into the 5M learns, is ignored, and costs him", "218": "The built-in judge\u0027s cost is not the word table", "219": "A 5M reading only conversation answers far more messages", "220": "Judging his own drafts does not help; plain beam search might", "221": "A book of tallies, no weights, beats the 20M on word meaning", "222": "Pressing harder where the book points taught the 20M nothing more", "223": "His word vectors hold less than his framed answers do", "224": "One hard press makes the word likelier everywhere, and writes no line", "225": "Pressing the difference a neighbour makes writes some of the pair", "226": "Kept presses last, but break the text and churn the words", "227": "A short word vector holds field knowledge; frozen, he cannot read it", "228": "The fields stall is not the word-pieces, and not hidden in him", "229": "Asked from afar, a step writes a pair the next-piece question misses", "230": "Kept far lines add up from afar, not for the next piece", "231": "A far lesson in training takes, costs reading, and lifts nothing clearly", "232": "He uses far words like the 260M; his gap is close in", "233": "A left-to-right count still beats him, so order is not it", "234": "Given the count\u0027s word summaries, he leans on them and gains nothing", "235": "A counted starting table helps early and is erased by the end", "236": "Eight times the nudges reads worse; the short test had misled", "237": "Decay and end noise both cleared: the small-step run just learned less", "238": "He writes worst exactly where he reads worst, message by message", "239": "The count book judges replies a little, and picks no better", "240": "Real exchanges around \"never mind\" taught the 5M nothing measurable"}</script>
+<div x-data="{ q: '', part: '', titles: JSON.parse(document.getElementById('titles').textContent),
+               hit(n) { const q = this.q.trim().toLowerCase(); return !q || String(n) === q || this.titles[n].toLowerCase().includes(q) },
+               any(ns) { return ns.some(n => this.hit(n)) },
+               count() { return Object.keys(this.titles).filter(n => this.hit(n)).length },
+               esc(s) { return s.replace(/[&<>]/g, c => ({'&': '&amp;', '<': '&lt;', '>': '&gt;'})[c]) },
+               mark(n) { const t = this.titles[n], q = this.q.trim(), i = q ? t.toLowerCase().indexOf(q.toLowerCase()) : -1;
+                         return i < 0 ? this.esc(t) : this.esc(t.slice(0, i)) + '<mark>' + this.esc(t.slice(i, i + q.length)) + '</mark>' + this.esc(t.slice(i + q.length)) } }">
+<section class="grid titlepage short">
+  <h1>Findings</h1>
+  <p class="sub">All 241, by part and thread, in the order they were made</p>
+  <div class="filter">
+    <label>Find <input type="search" x-model="q" placeholder="a word, or a number" autocomplete="off"></label>
+    <span class="parts-filter">
+      <button type="button" @click="part = ''" :class="part === '' && 'on'">all</button>
+      <button type="button" style="--c:var(--c1)" @click="part = part === 'I' ? '' : 'I'" :class="part === 'I' && 'on'">I</button><button type="button" style="--c:var(--c2)" @click="part = part === 'II' ? '' : 'II'" :class="part === 'II' && 'on'">II</button><button type="button" style="--c:var(--c3)" @click="part = part === 'III' ? '' : 'III'" :class="part === 'III' && 'on'">III</button><button type="button" style="--c:var(--c4)" @click="part = part === 'IV' ? '' : 'IV'" :class="part === 'IV' && 'on'">IV</button><button type="button" style="--c:var(--c5)" @click="part = part === 'V' ? '' : 'V'" :class="part === 'V' && 'on'">V</button><button type="button" style="--c:var(--c6)" @click="part = part === 'VI' ? '' : 'VI'" :class="part === 'VI' && 'on'">VI</button>
+    </span>
+    <span class="count" x-show="q.trim()" x-cloak x-text="count() + ' of 241'"></span>
+  </div>
+  <p class="nomatch" x-show="!any([0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 100, 101, 102, 103, 104, 105, 106, 107, 108, 109, 11, 110, 111, 112, 113, 114, 115, 116, 117, 118, 119, 12, 120, 121, 122, 123, 124, 125, 126, 127, 128, 129, 13, 130, 131, 132, 133, 134, 135, 136, 137, 138, 139, 14, 140, 141, 142, 143, 144, 145, 146, 147, 148, 149, 15, 150, 151, 152, 153, 154, 155, 156, 157, 158, 159, 16, 160, 161, 162, 163, 164, 165, 166, 167, 168, 169, 17, 170, 171, 172, 173, 174, 175, 176, 177, 178, 179, 18, 180, 181, 182, 183, 184, 185, 186, 187, 188, 189, 19, 190, 191, 192, 193, 194, 195, 196, 197, 198, 199, 20, 200, 201, 202, 203, 204, 205, 206, 207, 208, 209, 21, 210, 211, 212, 213, 214, 215, 216, 217, 218, 219, 22, 220, 221, 222, 223, 224, 225, 226, 227, 228, 229, 23, 230, 231, 232, 233, 234, 235, 236, 237, 238, 239, 24, 240, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 36, 37, 38, 39, 40, 41, 42, 43, 44, 45, 46, 47, 48, 49, 50, 51, 52, 53, 54, 55, 56, 57, 58, 59, 60, 61, 62, 63, 64, 65, 66, 67, 68, 69, 70, 71, 72, 73, 74, 75, 76, 77, 78, 79, 80, 81, 82, 83, 84, 85, 86, 87, 88, 89, 90, 91, 92, 93, 94, 95, 96, 97, 98, 99])" x-cloak>No finding's headline holds that.</p>
+</section>
+
+
+
+<section class="index-part" style="--c:var(--c1)" x-show="(part === '' || part === 'I') && any([0, 1, 2, 3, 47, 64, 4, 16, 17, 18, 19, 30, 43, 46, 53, 61, 68, 7, 8, 9, 15, 22, 23, 24, 25, 27, 40, 44, 45, 51, 76, 77, 5, 6, 10, 11, 12, 13, 14, 20, 21, 33, 48, 50, 62, 71, 127, 28, 29, 31, 32, 34, 35, 37, 38, 39, 41, 42, 58, 67, 69, 73, 60, 75, 80])">
+  <h2><span class="pr">I</span><a href="/Corn-Jr-Public/part/I.html">The base and its tools</a></h2>
+  <div class="index-cols">
+    
+    <div class="index-thread" x-show="any([0, 1, 2, 3, 47, 64])">
+      <h3><a href="/Corn-Jr-Public/thread/foundations.html">Foundations</a></h3>
+      <ul>
+        
+        <li x-show="hit(0)"><a href="/Corn-Jr-Public/finding/0.html"><span class="fn">0</span><span x-html="mark(0)">The small training pipeline runs end to end with no code changes</span></a></li>
+        
+        <li x-show="hit(1)"><a href="/Corn-Jr-Public/finding/1.html"><span class="fn">1</span><span x-html="mark(1)">Five times the parameters costs only a third of the decode speed</span></a></li>
+        
+        <li x-show="hit(2)"><a href="/Corn-Jr-Public/finding/2.html"><span class="fn">2</span><span x-html="mark(2)">Decode speed is launch overhead per layer; CUDA graphs remove most</span></a></li>
+        
+        <li x-show="hit(3)"><a href="/Corn-Jr-Public/finding/3.html"><span class="fn">3</span><span x-html="mark(3)">Training and validation loss never separate on one pass of data</span></a></li>
+        
+        <li x-show="hit(47)"><a href="/Corn-Jr-Public/finding/47.html"><span class="fn">47</span><span x-html="mark(47)">The leading learning rate finished last; 3e-4 stays</span></a></li>
+        
+        <li x-show="hit(64)"><a href="/Corn-Jr-Public/finding/64.html"><span class="fn">64</span><span x-html="mark(64)">Re-reading the prompt each round costs launches, not tokens: 0.22 ms</span></a></li>
+        
+      </ul>
+    </div>
+    
+    <div class="index-thread" x-show="any([4, 16, 17, 18, 19, 30, 43, 46, 53, 61, 68])">
+      <h3><a href="/Corn-Jr-Public/thread/measurement.html">Measurement and noise</a></h3>
+      <ul>
+        
+        <li x-show="hit(4)"><a href="/Corn-Jr-Public/finding/4.html"><span class="fn">4</span><span x-html="mark(4)">A frozen evaluation set, and the three problems it caught</span></a></li>
+        
+        <li x-show="hit(16)"><a href="/Corn-Jr-Public/finding/16.html"><span class="fn">16</span><span x-html="mark(16)">A new output-variety metric, and a data change that didn&#39;t move it</span></a></li>
+        
+        <li x-show="hit(17)"><a href="/Corn-Jr-Public/finding/17.html"><span class="fn">17</span><span x-html="mark(17)">One test moved 18 items on the random seed alone</span></a></li>
+        
+        <li x-show="hit(18)"><a href="/Corn-Jr-Public/finding/18.html"><span class="fn">18</span><span x-html="mark(18)">That 18-item swing was one fact; the test held only six answers</span></a></li>
+        
+        <li x-show="hit(19)"><a href="/Corn-Jr-Public/finding/19.html"><span class="fn">19</span><span x-html="mark(19)">The noise floor across four seeds, and which past readings it erases</span></a></li>
+        
+        <li x-show="hit(30)"><a href="/Corn-Jr-Public/finding/30.html"><span class="fn">30</span><span x-html="mark(30)">Noise levels belong to a training setup, not to a test</span></a></li>
+        
+        <li x-show="hit(43)"><a href="/Corn-Jr-Public/finding/43.html"><span class="fn">43</span><span x-html="mark(43)">Two extra seeds already on disk retire three earlier readings</span></a></li>
+        
+        <li x-show="hit(46)"><a href="/Corn-Jr-Public/finding/46.html"><span class="fn">46</span><span x-html="mark(46)">A dataset was missing a class; one test passed by reciting</span></a></li>
+        
+        <li x-show="hit(53)"><a href="/Corn-Jr-Public/finding/53.html"><span class="fn">53</span><span x-html="mark(53)">Two of my checks were scoring the harness, not the model</span></a></li>
+        
+        <li x-show="hit(61)"><a href="/Corn-Jr-Public/finding/61.html"><span class="fn">61</span><span x-html="mark(61)">The phrasing test itself has noise of sixty items</span></a></li>
+        
+        <li x-show="hit(68)"><a href="/Corn-Jr-Public/finding/68.html"><span class="fn">68</span><span x-html="mark(68)">At 260M the seed barely moves scores, measured for the first time</span></a></li>
+        
+      </ul>
+    </div>
+    
+    <div class="index-thread" x-show="any([7, 8, 9, 15, 22, 23, 24, 25, 27, 40, 44, 45, 51, 76, 77])">
+      <h3><a href="/Corn-Jr-Public/thread/corpus-mix.html">The corpus mix</a></h3>
+      <ul>
+        
+        <li x-show="hit(7)"><a href="/Corn-Jr-Public/finding/7.html"><span class="fn">7</span><span x-html="mark(7)">Real web text improves prose but not using the tool&#39;s answer</span></a></li>
+        
+        <li x-show="hit(8)"><a href="/Corn-Jr-Public/finding/8.html"><span class="fn">8</span><span x-html="mark(8)">An 8k BPE tokenizer reads 3.8x more text per token</span></a></li>
+        
+        <li x-show="hit(9)"><a href="/Corn-Jr-Public/finding/9.html"><span class="fn">9</span><span x-html="mark(9)">BPE&#39;s compression becomes a better model; a fifth comes from context</span></a></li>
+        
+        <li x-show="hit(15)"><a href="/Corn-Jr-Public/finding/15.html"><span class="fn">15</span><span x-html="mark(15)">The two measured data shares were 4 to 25 times too large</span></a></li>
+        
+        <li x-show="hit(22)"><a href="/Corn-Jr-Public/finding/22.html"><span class="fn">22</span><span x-html="mark(22)">Every conversation dataset fails a vocabulary test built from web text</span></a></li>
+        
+        <li x-show="hit(23)"><a href="/Corn-Jr-Public/finding/23.html"><span class="fn">23</span><span x-html="mark(23)">The vocabulary test really measures how much web text is mixed in</span></a></li>
+        
+        <li x-show="hit(24)"><a href="/Corn-Jr-Public/finding/24.html"><span class="fn">24</span><span x-html="mark(24)">The rejected dialogue data costs prose quality and nothing else</span></a></li>
+        
+        <li x-show="hit(25)"><a href="/Corn-Jr-Public/finding/25.html"><span class="fn">25</span><span x-html="mark(25)">Dialogue data buys conversational vocabulary, not conversational style</span></a></li>
+        
+        <li x-show="hit(27)"><a href="/Corn-Jr-Public/finding/27.html"><span class="fn">27</span><span x-html="mark(27)">The first data mix with every share measured, not guessed</span></a></li>
+        
+        <li x-show="hit(40)"><a href="/Corn-Jr-Public/finding/40.html"><span class="fn">40</span><span x-html="mark(40)">Moving the date header recovers about ninety items it was costing</span></a></li>
+        
+        <li x-show="hit(44)"><a href="/Corn-Jr-Public/finding/44.html"><span class="fn">44</span><span x-html="mark(44)">The last unmeasured data share costs nothing; web gains are linear</span></a></li>
+        
+        <li x-show="hit(45)"><a href="/Corn-Jr-Public/finding/45.html"><span class="fn">45</span><span x-html="mark(45)">The first full data mix keeps every separately measured effect</span></a></li>
+        
+        <li x-show="hit(51)"><a href="/Corn-Jr-Public/finding/51.html"><span class="fn">51</span><span x-html="mark(51)">At 260M the date header helps where at 30M it hurt</span></a></li>
+        
+        <li x-show="hit(76)"><a href="/Corn-Jr-Public/finding/76.html"><span class="fn">76</span><span x-html="mark(76)">A single-request control removes the compound requests&#39; copying cost</span></a></li>
+        
+        <li x-show="hit(77)"><a href="/Corn-Jr-Public/finding/77.html"><span class="fn">77</span><span x-html="mark(77)">At 5B tokens, fresh text is no worse than re-reading text</span></a></li>
+        
+      </ul>
+    </div>
+    
+    <div class="index-thread" x-show="any([5, 6, 10, 11, 12, 13, 14, 20, 21, 33, 48, 50, 62, 71, 127])">
+      <h3><a href="/Corn-Jr-Public/thread/tool-calls.html">Tool calls and copying</a></h3>
+      <ul>
+        
+        <li x-show="hit(5)"><a href="/Corn-Jr-Public/finding/5.html"><span class="fn">5</span><span x-html="mark(5)">The tool-call format must be in pretraining, and costs about 3%</span></a></li>
+        
+        <li x-show="hit(6)"><a href="/Corn-Jr-Public/finding/6.html"><span class="fn">6</span><span x-html="mark(6)">Fine-tuning installs the tool format but not using the tool&#39;s answer</span></a></li>
+        
+        <li x-show="hit(10)"><a href="/Corn-Jr-Public/finding/10.html"><span class="fn">10</span><span x-html="mark(10)">A generated tool dataset caps at 2.3 MB of distinct examples</span></a></li>
+        
+        <li x-show="hit(11)"><a href="/Corn-Jr-Public/finding/11.html"><span class="fn">11</span><span x-html="mark(11)">A twenty-fifth of the planned tool data buys most of the behaviour</span></a></li>
+        
+        <li x-show="hit(12)"><a href="/Corn-Jr-Public/finding/12.html"><span class="fn">12</span><span x-html="mark(12)">Copying fails to generalise because the training facts were memorisable</span></a></li>
+        
+        <li x-show="hit(13)"><a href="/Corn-Jr-Public/finding/13.html"><span class="fn">13</span><span x-html="mark(13)">Inventing the fact database makes him copy tool answers perfectly</span></a></li>
+        
+        <li x-show="hit(14)"><a href="/Corn-Jr-Public/finding/14.html"><span class="fn">14</span><span x-html="mark(14)">The JSON data taught the format but not copying field names</span></a></li>
+        
+        <li x-show="hit(20)"><a href="/Corn-Jr-Public/finding/20.html"><span class="fn">20</span><span x-html="mark(20)">No data share moves copying above noise</span></a></li>
+        
+        <li x-show="hit(21)"><a href="/Corn-Jr-Public/finding/21.html"><span class="fn">21</span><span x-html="mark(21)">Copying is a step: it appears once any tool data exists</span></a></li>
+        
+        <li x-show="hit(33)"><a href="/Corn-Jr-Public/finding/33.html"><span class="fn">33</span><span x-html="mark(33)">Copying depends on the tool output&#39;s shape and nothing else</span></a></li>
+        
+        <li x-show="hit(48)"><a href="/Corn-Jr-Public/finding/48.html"><span class="fn">48</span><span x-html="mark(48)">Four bugs let decoding escape the call grammar mid-call</span></a></li>
+        
+        <li x-show="hit(50)"><a href="/Corn-Jr-Public/finding/50.html"><span class="fn">50</span><span x-html="mark(50)">Invented facts make him copy; a real name brings memory back</span></a></li>
+        
+        <li x-show="hit(62)"><a href="/Corn-Jr-Public/finding/62.html"><span class="fn">62</span><span x-html="mark(62)">The call grammar fixes 44% of bytes; the tokenizer blocks using it</span></a></li>
+        
+        <li x-show="hit(71)"><a href="/Corn-Jr-Public/finding/71.html"><span class="fn">71</span><span x-html="mark(71)">Giving memory-lookup calls real results turns silence into recitation</span></a></li>
+        
+        <li x-show="hit(127)"><a href="/Corn-Jr-Public/finding/127.html"><span class="fn">127</span><span x-html="mark(127)">Two thirds of one dataset&#39;s tool calls were invalid JSON</span></a></li>
+        
+      </ul>
+    </div>
+    
+    <div class="index-thread" x-show="any([28, 29, 31, 32, 34, 35, 37, 38, 39, 41, 42, 58, 67, 69, 73])">
+      <h3><a href="/Corn-Jr-Public/thread/routing.html">Routing and declining</a></h3>
+      <ul>
+        
+        <li x-show="hit(28)"><a href="/Corn-Jr-Public/finding/28.html"><span class="fn">28</span><span x-html="mark(28)">Tool routing was template matching; deferring to the tool was not</span></a></li>
+        
+        <li x-show="hit(29)"><a href="/Corn-Jr-Public/finding/29.html"><span class="fn">29</span><span x-html="mark(29)">More phrasing templates fix only the phrasings that were added</span></a></li>
+        
+        <li x-show="hit(31)"><a href="/Corn-Jr-Public/finding/31.html"><span class="fn">31</span><span x-html="mark(31)">The gain has no sharp threshold, and the fix was already cheap</span></a></li>
+        
+        <li x-show="hit(32)"><a href="/Corn-Jr-Public/finding/32.html"><span class="fn">32</span><span x-html="mark(32)">A bigger phrasing test; its no-transfer reading was later withdrawn</span></a></li>
+        
+        <li x-show="hit(34)"><a href="/Corn-Jr-Public/finding/34.html"><span class="fn">34</span><span x-html="mark(34)">He picks tools he never saw in training, but can&#39;t say no</span></a></li>
+        
+        <li x-show="hit(35)"><a href="/Corn-Jr-Public/finding/35.html"><span class="fn">35</span><span x-html="mark(35)">One percent of non-tool turns teaches him when not to call</span></a></li>
+        
+        <li x-show="hit(37)"><a href="/Corn-Jr-Public/finding/37.html"><span class="fn">37</span><span x-html="mark(37)">Training second-turn declines changed nothing and cost tool choice</span></a></li>
+        
+        <li x-show="hit(38)"><a href="/Corn-Jr-Public/finding/38.html"><span class="fn">38</span><span x-html="mark(38)">A confidence margin spots wrong calls, except where it was needed</span></a></li>
+        
+        <li x-show="hit(39)"><a href="/Corn-Jr-Public/finding/39.html"><span class="fn">39</span><span x-html="mark(39)">Restricting names to declared tools fixes routing, not refusal</span></a></li>
+        
+        <li x-show="hit(41)"><a href="/Corn-Jr-Public/finding/41.html"><span class="fn">41</span><span x-html="mark(41)">Too noisy to read; underneath, wrong contact names fell 19 to 2</span></a></li>
+        
+        <li x-show="hit(42)"><a href="/Corn-Jr-Public/finding/42.html"><span class="fn">42</span><span x-html="mark(42)">He now declines 118 times, with routing untouched</span></a></li>
+        
+        <li x-show="hit(58)"><a href="/Corn-Jr-Public/finding/58.html"><span class="fn">58</span><span x-html="mark(58)">Tripling a fact type in training left his declines unchanged</span></a></li>
+        
+        <li x-show="hit(67)"><a href="/Corn-Jr-Public/finding/67.html"><span class="fn">67</span><span x-html="mark(67)">The best tool-router never declines; the best decliner never serves</span></a></li>
+        
+        <li x-show="hit(69)"><a href="/Corn-Jr-Public/finding/69.html"><span class="fn">69</span><span x-html="mark(69)">The tools data, not extraction data, displaced his declining</span></a></li>
+        
+        <li x-show="hit(73)"><a href="/Corn-Jr-Public/finding/73.html"><span class="fn">73</span><span x-html="mark(73)">Training both answers on one phrasing breaks the serve/decline trade-off</span></a></li>
+        
+      </ul>
+    </div>
+    
+    <div class="index-thread" x-show="any([60, 75, 80])">
+      <h3><a href="/Corn-Jr-Public/thread/fine-tuning.html">Fine-tuning the base</a></h3>
+      <ul>
+        
+        <li x-show="hit(60)"><a href="/Corn-Jr-Public/finding/60.html"><span class="fn">60</span><span x-html="mark(60)">Fine-tuning costs nothing but delivers three fifths of pretraining&#39;s gain</span></a></li>
+        
+        <li x-show="hit(75)"><a href="/Corn-Jr-Public/finding/75.html"><span class="fn">75</span><span x-html="mark(75)">Fine-tuning doesn&#39;t overwrite what pretraining installed</span></a></li>
+        
+        <li x-show="hit(80)"><a href="/Corn-Jr-Public/finding/80.html"><span class="fn">80</span><span x-html="mark(80)">Contradicting a trained behaviour needs that behaviour&#39;s data replayed</span></a></li>
+        
+      </ul>
+    </div>
+    
+  </div>
+</section>
+
+
+<section class="index-part" style="--c:var(--c2)" x-show="(part === '' || part === 'II') && any([52, 63, 72, 79, 54, 55, 56, 57, 59, 65, 66, 70, 81, 82, 83, 84, 85, 86, 87, 89, 90, 91, 92, 93, 94, 95, 96, 97, 98, 99, 100, 101, 102, 103, 104, 105, 106, 107, 108, 109, 110, 111, 112, 113, 114, 115, 116, 117, 118, 124, 125])">
+  <h2><span class="pr">II</span><a href="/Corn-Jr-Public/part/II.html">Reading</a></h2>
+  <div class="index-cols">
+    
+    <div class="index-thread" x-show="any([52, 63, 72, 79])">
+      <h3><a href="/Corn-Jr-Public/thread/search.html">Web search</a></h3>
+      <ul>
+        
+        <li x-show="hit(52)"><a href="/Corn-Jr-Public/finding/52.html"><span class="fn">52</span><span x-html="mark(52)">Of 25 search phrasings taught, he kept about four</span></a></li>
+        
+        <li x-show="hit(63)"><a href="/Corn-Jr-Public/finding/63.html"><span class="fn">63</span><span x-html="mark(63)">Fresh tool training, not new phrasings, fixed search routing</span></a></li>
+        
+        <li x-show="hit(72)"><a href="/Corn-Jr-Public/finding/72.html"><span class="fn">72</span><span x-html="mark(72)">Search returned &#39;capital punishment&#39; for &#39;capital of Mongolia&#39;; fixed</span></a></li>
+        
+        <li x-show="hit(79)"><a href="/Corn-Jr-Public/finding/79.html"><span class="fn">79</span><span x-html="mark(79)">A quarter of search results pass the relevance check on one letter</span></a></li>
+        
+      </ul>
+    </div>
+    
+    <div class="index-thread" x-show="any([54, 55, 56, 57, 59, 65, 66, 70, 81, 82, 83, 84, 85, 86, 87, 89, 90, 91, 92, 93, 94, 95, 96, 97, 98, 99, 100, 101, 102, 103, 104, 105, 106, 107, 108, 109, 110, 111, 112, 113, 114, 115, 116, 117, 118, 124, 125])">
+      <h3><a href="/Corn-Jr-Public/thread/reading.html">Reading documents</a></h3>
+      <ul>
+        
+        <li x-show="hit(54)"><a href="/Corn-Jr-Public/finding/54.html"><span class="fn">54</span><span x-html="mark(54)">Batch decoding 32 to 128 windows: both predictions about why were wrong</span></a></li>
+        
+        <li x-show="hit(55)"><a href="/Corn-Jr-Public/finding/55.html"><span class="fn">55</span><span x-html="mark(55)">Four hundred passages show he writes his own answer instead of copying</span></a></li>
+        
+        <li x-show="hit(56)"><a href="/Corn-Jr-Public/finding/56.html"><span class="fn">56</span><span x-html="mark(56)">The official split overlaps documents: 14% of the eval leaked into training</span></a></li>
+        
+        <li x-show="hit(57)"><a href="/Corn-Jr-Public/finding/57.html"><span class="fn">57</span><span x-html="mark(57)">Extraction training works, mostly by declining answerable questions</span></a></li>
+        
+        <li x-show="hit(59)"><a href="/Corn-Jr-Public/finding/59.html"><span class="fn">59</span><span x-html="mark(59)">No declines hide in unscored wording; the rest looks like salience</span></a></li>
+        
+        <li x-show="hit(65)"><a href="/Corn-Jr-Public/finding/65.html"><span class="fn">65</span><span x-html="mark(65)">Fine-tuning installs extraction at 260M from zero</span></a></li>
+        
+        <li x-show="hit(66)"><a href="/Corn-Jr-Public/finding/66.html"><span class="fn">66</span><span x-html="mark(66)">The extractor takes the first value of the right type</span></a></li>
+        
+        <li x-show="hit(70)"><a href="/Corn-Jr-Public/finding/70.html"><span class="fn">70</span><span x-html="mark(70)">The first-value rule holds on a new fixed test set</span></a></li>
+        
+        <li x-show="hit(81)"><a href="/Corn-Jr-Public/finding/81.html"><span class="fn">81</span><span x-html="mark(81)">The answer score measures willingness to answer, not confidence</span></a></li>
+        
+        <li x-show="hit(82)"><a href="/Corn-Jr-Public/finding/82.html"><span class="fn">82</span><span x-html="mark(82)">Scored fairly, the boundary model trails plain generation</span></a></li>
+        
+        <li x-show="hit(83)"><a href="/Corn-Jr-Public/finding/83.html"><span class="fn">83</span><span x-html="mark(83)">The boundary model finds answers but can&#39;t prefer them to silence</span></a></li>
+        
+        <li x-show="hit(84)"><a href="/Corn-Jr-Public/finding/84.html"><span class="fn">84</span><span x-html="mark(84)">A fallback rule buys 35 answers, but refusals still dominate</span></a></li>
+        
+        <li x-show="hit(85)"><a href="/Corn-Jr-Public/finding/85.html"><span class="fn">85</span><span x-html="mark(85)">The checker needs cross-fitted labels; fallback rules are exhausted</span></a></li>
+        
+        <li x-show="hit(86)"><a href="/Corn-Jr-Public/finding/86.html"><span class="fn">86</span><span x-html="mark(86)">A checker that reads the candidate answer works; re-ranking does not</span></a></li>
+        
+        <li x-show="hit(87)"><a href="/Corn-Jr-Public/finding/87.html"><span class="fn">87</span><span x-html="mark(87)">The passage reader ships: 389 of 721 right, up 107</span></a></li>
+        
+        <li x-show="hit(89)"><a href="/Corn-Jr-Public/finding/89.html"><span class="fn">89</span><span x-html="mark(89)">Wrong rival answers are mostly about position on the shipped checker</span></a></li>
+        
+        <li x-show="hit(90)"><a href="/Corn-Jr-Public/finding/90.html"><span class="fn">90</span><span x-html="mark(90)">A nearby-words rule can&#39;t tell a rival answer from the right one</span></a></li>
+        
+        <li x-show="hit(91)"><a href="/Corn-Jr-Public/finding/91.html"><span class="fn">91</span><span x-html="mark(91)">The hard questions are those with nothing nameable in them</span></a></li>
+        
+        <li x-show="hit(92)"><a href="/Corn-Jr-Public/finding/92.html"><span class="fn">92</span><span x-html="mark(92)">Reading the whole passage tells the checker nothing new</span></a></li>
+        
+        <li x-show="hit(93)"><a href="/Corn-Jr-Public/finding/93.html"><span class="fn">93</span><span x-html="mark(93)">A perfect sentence finder would be worth only 15-38 passages</span></a></li>
+        
+        <li x-show="hit(94)"><a href="/Corn-Jr-Public/finding/94.html"><span class="fn">94</span><span x-html="mark(94)">A 16-word hand-written lexicon matches the trained checker where it applies</span></a></li>
+        
+        <li x-show="hit(95)"><a href="/Corn-Jr-Public/finding/95.html"><span class="fn">95</span><span x-html="mark(95)">The right answer is among the top ten on 90% of misses</span></a></li>
+        
+        <li x-show="hit(96)"><a href="/Corn-Jr-Public/finding/96.html"><span class="fn">96</span><span x-html="mark(96)">Given only the right window, the reader reaches 93%</span></a></li>
+        
+        <li x-show="hit(97)"><a href="/Corn-Jr-Public/finding/97.html"><span class="fn">97</span><span x-html="mark(97)">Fallback answer rules still don&#39;t help at the shipped setting</span></a></li>
+        
+        <li x-show="hit(98)"><a href="/Corn-Jr-Public/finding/98.html"><span class="fn">98</span><span x-html="mark(98)">A generated question frame invents relations more than a hand-written one</span></a></li>
+        
+        <li x-show="hit(99)"><a href="/Corn-Jr-Public/finding/99.html"><span class="fn">99</span><span x-html="mark(99)">Ranking candidates together makes the checker worse on both seeds</span></a></li>
+        
+        <li x-show="hit(100)"><a href="/Corn-Jr-Public/finding/100.html"><span class="fn">100</span><span x-html="mark(100)">Two bidirectional layers over the reader add nothing</span></a></li>
+        
+        <li x-show="hit(101)"><a href="/Corn-Jr-Public/finding/101.html"><span class="fn">101</span><span x-html="mark(101)">Reading question fit improves refusals but not right answers</span></a></li>
+        
+        <li x-show="hit(102)"><a href="/Corn-Jr-Public/finding/102.html"><span class="fn">102</span><span x-html="mark(102)">Twice the training epochs doesn&#39;t improve the answer finder</span></a></li>
+        
+        <li x-show="hit(103)"><a href="/Corn-Jr-Public/finding/103.html"><span class="fn">103</span><span x-html="mark(103)">Averaging three seeds&#39; readers barely helps</span></a></li>
+        
+        <li x-show="hit(104)"><a href="/Corn-Jr-Public/finding/104.html"><span class="fn">104</span><span x-html="mark(104)">Under the owner&#39;s rules, a fifth of &#39;wrong&#39; answers are right</span></a></li>
+        
+        <li x-show="hit(105)"><a href="/Corn-Jr-Public/finding/105.html"><span class="fn">105</span><span x-html="mark(105)">The answer-length rule is already at its best setting</span></a></li>
+        
+        <li x-show="hit(106)"><a href="/Corn-Jr-Public/finding/106.html"><span class="fn">106</span><span x-html="mark(106)">Fifty thousand extra labelled windows don&#39;t help the reader</span></a></li>
+        
+        <li x-show="hit(107)"><a href="/Corn-Jr-Public/finding/107.html"><span class="fn">107</span><span x-html="mark(107)">Later layers know slightly more; the shipped checker already has it</span></a></li>
+        
+        <li x-show="hit(108)"><a href="/Corn-Jr-Public/finding/108.html"><span class="fn">108</span><span x-html="mark(108)">The reader is sensitive to prompt wording, but no wording does better</span></a></li>
+        
+        <li x-show="hit(109)"><a href="/Corn-Jr-Public/finding/109.html"><span class="fn">109</span><span x-html="mark(109)">Other layer choices don&#39;t beat the shipped one</span></a></li>
+        
+        <li x-show="hit(110)"><a href="/Corn-Jr-Public/finding/110.html"><span class="fn">110</span><span x-html="mark(110)">Of four cheap rescoring ideas, only one vote per mention helps</span></a></li>
+        
+        <li x-show="hit(111)"><a href="/Corn-Jr-Public/finding/111.html"><span class="fn">111</span><span x-html="mark(111)">Overlapping windows add nothing; answers near a cut edge are missed</span></a></li>
+        
+        <li x-show="hit(112)"><a href="/Corn-Jr-Public/finding/112.html"><span class="fn">112</span><span x-html="mark(112)">Training on whole passages lifts extraction from 54% to 71%</span></a></li>
+        
+        <li x-show="hit(113)"><a href="/Corn-Jr-Public/finding/113.html"><span class="fn">113</span><span x-html="mark(113)">A checker on the whole-passage reader doesn&#39;t beat its own confidence</span></a></li>
+        
+        <li x-show="hit(114)"><a href="/Corn-Jr-Public/finding/114.html"><span class="fn">114</span><span x-html="mark(114)">Tuning answer length on the new reader changes nothing</span></a></li>
+        
+        <li x-show="hit(115)"><a href="/Corn-Jr-Public/finding/115.html"><span class="fn">115</span><span x-html="mark(115)">A copy-check bug refused answers like &#39;best-of-seven&#39;</span></a></li>
+        
+        <li x-show="hit(116)"><a href="/Corn-Jr-Public/finding/116.html"><span class="fn">116</span><span x-html="mark(116)">A fix to the copy check lifts the whole-passage reader to 523</span></a></li>
+        
+        <li x-show="hit(117)"><a href="/Corn-Jr-Public/finding/117.html"><span class="fn">117</span><span x-html="mark(117)">The whole-passage reader ships: 526 of 721 at runtime</span></a></li>
+        
+        <li x-show="hit(118)"><a href="/Corn-Jr-Public/finding/118.html"><span class="fn">118</span><span x-html="mark(118)">The reader survives the base model being fine-tuned underneath it</span></a></li>
+        
+        <li x-show="hit(124)"><a href="/Corn-Jr-Public/finding/124.html"><span class="fn">124</span><span x-html="mark(124)">Refitting the reader on the social model reads 517 at runtime</span></a></li>
+        
+        <li x-show="hit(125)"><a href="/Corn-Jr-Public/finding/125.html"><span class="fn">125</span><span x-html="mark(125)">Two decisions: whole-passage reader by default, life questions declined</span></a></li>
+        
+      </ul>
+    </div>
+    
+  </div>
+</section>
+
+
+<section class="index-part" style="--c:var(--c3)" x-show="(part === '' || part === 'III') && any([26, 36, 49, 74, 119, 121, 123, 126, 88, 120, 122, 157, 159, 161, 162, 163, 164, 165, 128, 158, 78, 155])">
+  <h2><span class="pr">III</span><a href="/Corn-Jr-Public/part/III.html">Conversation</a></h2>
+  <div class="index-cols">
+    
+    <div class="index-thread" x-show="any([26, 36, 49, 74, 119, 121, 123, 126])">
+      <h3><a href="/Corn-Jr-Public/thread/conversation.html">Conversation and the second turn</a></h3>
+      <ul>
+        
+        <li x-show="hit(26)"><a href="/Corn-Jr-Public/finding/26.html"><span class="fn">26</span><span x-html="mark(26)">He knows where a turn ends; the long replies were our fault</span></a></li>
+        
+        <li x-show="hit(36)"><a href="/Corn-Jr-Public/finding/36.html"><span class="fn">36</span><span x-html="mark(36)">Reply length inflates the measured style gain, but the gain survives</span></a></li>
+        
+        <li x-show="hit(49)"><a href="/Corn-Jr-Public/finding/49.html"><span class="fn">49</span><span x-html="mark(49)">Second-turn data teaches him to talk, at a cost to deferring</span></a></li>
+        
+        <li x-show="hit(74)"><a href="/Corn-Jr-Public/finding/74.html"><span class="fn">74</span><span x-html="mark(74)">Second-turn behaviour installs; compound requests forget how to stop</span></a></li>
+        
+        <li x-show="hit(119)"><a href="/Corn-Jr-Public/finding/119.html"><span class="fn">119</span><span x-html="mark(119)">Fine-tuning from the shipped base: frozen scores hold, small social costs</span></a></li>
+        
+        <li x-show="hit(121)"><a href="/Corn-Jr-Public/finding/121.html"><span class="fn">121</span><span x-html="mark(121)">Cutting mood-prefixed search calls removes the whole cost</span></a></li>
+        
+        <li x-show="hit(123)"><a href="/Corn-Jr-Public/finding/123.html"><span class="fn">123</span><span x-html="mark(123)">One unrelated exchange in history stops repeated calls</span></a></li>
+        
+        <li x-show="hit(126)"><a href="/Corn-Jr-Public/finding/126.html"><span class="fn">126</span><span x-html="mark(126)">A hand-driven session found a chat turn sent out as a search</span></a></li>
+        
+      </ul>
+    </div>
+    
+    <div class="index-thread" x-show="any([88, 120, 122, 157, 159, 161, 162, 163, 164, 165])">
+      <h3><a href="/Corn-Jr-Public/thread/social.html">Social replies</a></h3>
+      <ul>
+        
+        <li x-show="hit(88)"><a href="/Corn-Jr-Public/finding/88.html"><span class="fn">88</span><span x-html="mark(88)">Social replies install by fine-tune; the fix moves failures elsewhere</span></a></li>
+        
+        <li x-show="hit(120)"><a href="/Corn-Jr-Public/finding/120.html"><span class="fn">120</span><span x-html="mark(120)">Consolation replies barely move and cost tool routing</span></a></li>
+        
+        <li x-show="hit(122)"><a href="/Corn-Jr-Public/finding/122.html"><span class="fn">122</span><span x-html="mark(122)">The second social turn installs and lifts the first</span></a></li>
+        
+        <li x-show="hit(157)"><a href="/Corn-Jr-Public/finding/157.html"><span class="fn">157</span><span x-html="mark(157)">Writing his move first steers the reply and beats the old regex</span></a></li>
+        
+        <li x-show="hit(159)"><a href="/Corn-Jr-Public/finding/159.html"><span class="fn">159</span><span x-html="mark(159)">More ways to phrase each move helps unseen phrasings modestly</span></a></li>
+        
+        <li x-show="hit(161)"><a href="/Corn-Jr-Public/finding/161.html"><span class="fn">161</span><span x-html="mark(161)">His internal state knows more than he writes about move choice</span></a></li>
+        
+        <li x-show="hit(162)"><a href="/Corn-Jr-Public/finding/162.html"><span class="fn">162</span><span x-html="mark(162)">Real dialogue openings replaced the hand-written ones rather than adding to them</span></a></li>
+        
+        <li x-show="hit(163)"><a href="/Corn-Jr-Public/finding/163.html"><span class="fn">163</span><span x-html="mark(163)">Capping real openings at half keeps both consolation styles; greetings drop</span></a></li>
+        
+        <li x-show="hit(164)"><a href="/Corn-Jr-Public/finding/164.html"><span class="fn">164</span><span x-html="mark(164)">Greeting accuracy swings eight items on identical data</span></a></li>
+        
+        <li x-show="hit(165)"><a href="/Corn-Jr-Public/finding/165.html"><span class="fn">165</span><span x-html="mark(165)">The cap costs greetings in what he writes, not what he knows</span></a></li>
+        
+      </ul>
+    </div>
+    
+    <div class="index-thread" x-show="any([128, 158])">
+      <h3><a href="/Corn-Jr-Public/thread/personality.html">Personality and self</a></h3>
+      <ul>
+        
+        <li x-show="hit(128)"><a href="/Corn-Jr-Public/finding/128.html"><span class="fn">128</span><span x-html="mark(128)">Questions about his life go to the web six times in ten</span></a></li>
+        
+        <li x-show="hit(158)"><a href="/Corn-Jr-Public/finding/158.html"><span class="fn">158</span><span x-html="mark(158)">Wordings seen over ten times get memorised; key phrases become lists</span></a></li>
+        
+      </ul>
+    </div>
+    
+    <div class="index-thread" x-show="any([78, 155])">
+      <h3><a href="/Corn-Jr-Public/thread/follow-ups.html">Follow-ups</a></h3>
+      <ul>
+        
+        <li x-show="hit(78)"><a href="/Corn-Jr-Public/finding/78.html"><span class="fn">78</span><span x-html="mark(78)">Forcing copied search queries breaks follow-ups; keyword shortcuts catch few chats</span></a></li>
+        
+        <li x-show="hit(155)"><a href="/Corn-Jr-Public/finding/155.html"><span class="fn">155</span><span x-html="mark(155)">A new fine-tune recipe keeps follow-ups but &#39;what about X?&#39; still fails</span></a></li>
+        
+      </ul>
+    </div>
+    
+  </div>
+</section>
+
+
+<section class="index-part" style="--c:var(--c4)" x-show="(part === '' || part === 'IV') && any([129, 130, 131, 132, 133, 134, 135, 136, 139, 147, 148, 150, 153, 137, 138, 140, 141, 142, 143, 144, 145, 146, 149, 151, 152, 154, 156, 167, 168, 169, 170, 171, 172, 173, 174, 175, 176, 177, 178, 179, 180, 181, 182, 183, 184, 194, 195])">
+  <h2><span class="pr">IV</span><a href="/Corn-Jr-Public/part/IV.html">The tag language</a></h2>
+  <div class="index-cols">
+    
+    <div class="index-thread" x-show="any([129, 130, 131, 132, 133, 134, 135, 136, 139, 147, 148, 150, 153])">
+      <h3><a href="/Corn-Jr-Public/thread/tag-spine.html">The tag spine</a></h3>
+      <ul>
+        
+        <li x-show="hit(129)"><a href="/Corn-Jr-Public/finding/129.html"><span class="fn">129</span><span x-html="mark(129)">He learns to label his own request; forcing labels doesn&#39;t change calls</span></a></li>
+        
+        <li x-show="hit(130)"><a href="/Corn-Jr-Public/finding/130.html"><span class="fn">130</span><span x-html="mark(130)">A label in the text is a hint, never the decision</span></a></li>
+        
+        <li x-show="hit(131)"><a href="/Corn-Jr-Public/finding/131.html"><span class="fn">131</span><span x-html="mark(131)">Once the runtime enforces the label, a forged one is obeyed 36/36</span></a></li>
+        
+        <li x-show="hit(132)"><a href="/Corn-Jr-Public/finding/132.html"><span class="fn">132</span><span x-html="mark(132)">Rotary position embeddings beat learned positions on most tests</span></a></li>
+        
+        <li x-show="hit(133)"><a href="/Corn-Jr-Public/finding/133.html"><span class="fn">133</span><span x-html="mark(133)">On a synthetic world he generalises labels but not one level deeper</span></a></li>
+        
+        <li x-show="hit(134)"><a href="/Corn-Jr-Public/finding/134.html"><span class="fn">134</span><span x-html="mark(134)">He learns to write a summary line of conversation state</span></a></li>
+        
+        <li x-show="hit(135)"><a href="/Corn-Jr-Public/finding/135.html"><span class="fn">135</span><span x-html="mark(135)">More depth-3 training data doesn&#39;t teach depth 4</span></a></li>
+        
+        <li x-show="hit(136)"><a href="/Corn-Jr-Public/finding/136.html"><span class="fn">136</span><span x-html="mark(136)">The depth-4 failure is a position never seen, not missing recursion</span></a></li>
+        
+        <li x-show="hit(139)"><a href="/Corn-Jr-Public/finding/139.html"><span class="fn">139</span><span x-html="mark(139)">Aligning training blocks to transcript starts helps parsing, short of target</span></a></li>
+        
+        <li x-show="hit(147)"><a href="/Corn-Jr-Public/finding/147.html"><span class="fn">147</span><span x-html="mark(147)">When the runtime holds the structure, invented words vanish; grouping stays his</span></a></li>
+        
+        <li x-show="hit(148)"><a href="/Corn-Jr-Public/finding/148.html"><span class="fn">148</span><span x-html="mark(148)">Picking a template by letter never installed; one seed in three learned</span></a></li>
+        
+        <li x-show="hit(150)"><a href="/Corn-Jr-Public/finding/150.html"><span class="fn">150</span><span x-html="mark(150)">On real requests the runtime&#39;s machinery works but his own parse doesn&#39;t</span></a></li>
+        
+        <li x-show="hit(153)"><a href="/Corn-Jr-Public/finding/153.html"><span class="fn">153</span><span x-html="mark(153)">He writes a summary of the conversation state but doesn&#39;t use it</span></a></li>
+        
+      </ul>
+    </div>
+    
+    <div class="index-thread" x-show="any([137, 138, 140, 141, 142, 143, 144, 145, 146])">
+      <h3><a href="/Corn-Jr-Public/thread/parse-depth.html">The parse and depth</a></h3>
+      <ul>
+        
+        <li x-show="hit(137)"><a href="/Corn-Jr-Public/finding/137.html"><span class="fn">137</span><span x-html="mark(137)">The depth-3 failure doesn&#39;t track copy length</span></a></li>
+        
+        <li x-show="hit(138)"><a href="/Corn-Jr-Public/finding/138.html"><span class="fn">138</span><span x-html="mark(138)">He knows where the next request part starts, 80 to 93 percent</span></a></li>
+        
+        <li x-show="hit(140)"><a href="/Corn-Jr-Public/finding/140.html"><span class="fn">140</span><span x-html="mark(140)">Depth-4 failure is position alone; moved to line one it works</span></a></li>
+        
+        <li x-show="hit(141)"><a href="/Corn-Jr-Public/finding/141.html"><span class="fn">141</span><span x-html="mark(141)">Written as one nested line, he builds a structure never trained</span></a></li>
+        
+        <li x-show="hit(142)"><a href="/Corn-Jr-Public/finding/142.html"><span class="fn">142</span><span x-html="mark(142)">Removing four-member groups from training broke nesting another way</span></a></li>
+        
+        <li x-show="hit(143)"><a href="/Corn-Jr-Public/finding/143.html"><span class="fn">143</span><span x-html="mark(143)">Nesting at 20M breaks two different ways; too fragile to build on</span></a></li>
+        
+        <li x-show="hit(144)"><a href="/Corn-Jr-Public/finding/144.html"><span class="fn">144</span><span x-html="mark(144)">Showing the request step by step fixes short chains, not long ones</span></a></li>
+        
+        <li x-show="hit(145)"><a href="/Corn-Jr-Public/finding/145.html"><span class="fn">145</span><span x-html="mark(145)">The depth limit is the linking word; re-showing uncovered text fixes it</span></a></li>
+        
+        <li x-show="hit(146)"><a href="/Corn-Jr-Public/finding/146.html"><span class="fn">146</span><span x-html="mark(146)">A runtime gap-filling rule breaks nothing but fixes little on real requests</span></a></li>
+        
+      </ul>
+    </div>
+    
+    <div class="index-thread" x-show="any([149, 151, 152, 154, 156, 167, 168, 169, 170, 171, 172, 173, 174, 175, 176, 177, 178, 179, 180, 181, 182, 183, 184, 194, 195])">
+      <h3><a href="/Corn-Jr-Public/thread/tag-language.html">The tag language</a></h3>
+      <ul>
+        
+        <li x-show="hit(149)"><a href="/Corn-Jr-Public/finding/149.html"><span class="fn">149</span><span x-html="mark(149)">With checkable rules filtered, he picks the template matching the request</span></a></li>
+        
+        <li x-show="hit(151)"><a href="/Corn-Jr-Public/finding/151.html"><span class="fn">151</span><span x-html="mark(151)">Ignoring groups he closes too early lets the interpreter pass</span></a></li>
+        
+        <li x-show="hit(152)"><a href="/Corn-Jr-Public/finding/152.html"><span class="fn">152</span><span x-html="mark(152)">What each layer of the tag language costs in tokens</span></a></li>
+        
+        <li x-show="hit(154)"><a href="/Corn-Jr-Public/finding/154.html"><span class="fn">154</span><span x-html="mark(154)">With no template he completes nothing; inside one, every task runs</span></a></li>
+        
+        <li x-show="hit(156)"><a href="/Corn-Jr-Public/finding/156.html"><span class="fn">156</span><span x-html="mark(156)">He can&#39;t build a goal from two observations at one pass</span></a></li>
+        
+        <li x-show="hit(167)"><a href="/Corn-Jr-Public/finding/167.html"><span class="fn">167</span><span x-html="mark(167)">He can&#39;t learn which limit a person will relax</span></a></li>
+        
+        <li x-show="hit(168)"><a href="/Corn-Jr-Public/finding/168.html"><span class="fn">168</span><span x-html="mark(168)">Naming the flexible limit outright splits the seeds</span></a></li>
+        
+        <li x-show="hit(169)"><a href="/Corn-Jr-Public/finding/169.html"><span class="fn">169</span><span x-html="mark(169)">Choosing a branch from a checked condition: seeds split</span></a></li>
+        
+        <li x-show="hit(170)"><a href="/Corn-Jr-Public/finding/170.html"><span class="fn">170</span><span x-html="mark(170)">The copy test&#39;s failure threshold was measuring seed noise</span></a></li>
+        
+        <li x-show="hit(171)"><a href="/Corn-Jr-Public/finding/171.html"><span class="fn">171</span><span x-html="mark(171)">At 50M, branch choice still splits across seeds</span></a></li>
+        
+        <li x-show="hit(172)"><a href="/Corn-Jr-Public/finding/172.html"><span class="fn">172</span><span x-html="mark(172)">The starting model, not the trace format, makes branching reliable</span></a></li>
+        
+        <li x-show="hit(173)"><a href="/Corn-Jr-Public/finding/173.html"><span class="fn">173</span><span x-html="mark(173)">Branch choice falls to chance when condition words flip the meaning</span></a></li>
+        
+        <li x-show="hit(174)"><a href="/Corn-Jr-Public/finding/174.html"><span class="fn">174</span><span x-html="mark(174)">A space after the bracket shifts his default to the first option</span></a></li>
+        
+        <li x-show="hit(175)"><a href="/Corn-Jr-Public/finding/175.html"><span class="fn">175</span><span x-html="mark(175)">He names the chosen branch, but can&#39;t combine it with the result</span></a></li>
+        
+        <li x-show="hit(176)"><a href="/Corn-Jr-Public/finding/176.html"><span class="fn">176</span><span x-html="mark(176)">Naming both branches fixes the pick but blurs &#39;not&#39;</span></a></li>
+        
+        <li x-show="hit(177)"><a href="/Corn-Jr-Public/finding/177.html"><span class="fn">177</span><span x-html="mark(177)">Leaving the second slot out of training doesn&#39;t restore &#39;not&#39;</span></a></li>
+        
+        <li x-show="hit(178)"><a href="/Corn-Jr-Public/finding/178.html"><span class="fn">178</span><span x-html="mark(178)">Naming a second branch blinds him to &#39;not&#39;</span></a></li>
+        
+        <li x-show="hit(179)"><a href="/Corn-Jr-Public/finding/179.html"><span class="fn">179</span><span x-html="mark(179)">Fine-tuned, he reads every condition word like &#39;not&#39; and &#39;unless&#39;</span></a></li>
+        
+        <li x-show="hit(180)"><a href="/Corn-Jr-Public/finding/180.html"><span class="fn">180</span><span x-html="mark(180)">When the runtime orders the menu, &#39;the other one&#39; is perfect</span></a></li>
+        
+        <li x-show="hit(181)"><a href="/Corn-Jr-Public/finding/181.html"><span class="fn">181</span><span x-html="mark(181)">Mixed sentence shapes: he reads each option&#39;s own condition, loses &#39;otherwise&#39;</span></a></li>
+        
+        <li x-show="hit(182)"><a href="/Corn-Jr-Public/finding/182.html"><span class="fn">182</span><span x-html="mark(182)">Copying the condition&#39;s clause first: new sentence shapes read, new words don&#39;t</span></a></li>
+        
+        <li x-show="hit(183)"><a href="/Corn-Jr-Public/finding/183.html"><span class="fn">183</span><span x-html="mark(183)">More words fixed most misses; an unseen &#39;unless&#39; word still reads &#39;if&#39;</span></a></li>
+        
+        <li x-show="hit(184)"><a href="/Corn-Jr-Public/finding/184.html"><span class="fn">184</span><span x-html="mark(184)">Looping until it sounds right: he learns to always keep looking</span></a></li>
+        
+        <li x-show="hit(194)"><a href="/Corn-Jr-Public/finding/194.html"><span class="fn">194</span><span x-html="mark(194)">Everyday web text leaves the soft read under loop near chance</span></a></li>
+        
+        <li x-show="hit(195)"><a href="/Corn-Jr-Public/finding/195.html"><span class="fn">195</span><span x-html="mark(195)">Balanced keep-looking odds flip loop from never stopping to always stopping</span></a></li>
+        
+      </ul>
+    </div>
+    
+  </div>
+</section>
+
+
+<section class="index-part" style="--c:var(--c5)" x-show="(part === '' || part === 'V') && any([160, 166, 185, 189, 190, 191, 192, 193, 186, 187, 188, 196, 197, 198, 199, 200, 201, 202, 203, 222, 223, 224, 225, 226, 227, 228, 229, 230, 231, 232, 233, 234, 235, 236, 237, 204, 205, 206, 207, 208, 209, 210, 211, 212, 213, 214, 215, 216, 217, 218, 219, 220, 238, 239, 240])">
+  <h2><span class="pr">V</span><a href="/Corn-Jr-Public/part/V.html">The 1.0 run and small-scale arcs</a></h2>
+  <div class="index-cols">
+    
+    <div class="index-thread" x-show="any([160, 166, 185, 189, 190, 191, 192, 193])">
+      <h3><a href="/Corn-Jr-Public/thread/corpus-1-0.html">The 1.0 corpus</a></h3>
+      <ul>
+        
+        <li x-show="hit(160)"><a href="/Corn-Jr-Public/finding/160.html"><span class="fn">160</span><span x-html="mark(160)">2048-token blocks cost 1.2x training time and fit in memory</span></a></li>
+        
+        <li x-show="hit(166)"><a href="/Corn-Jr-Public/finding/166.html"><span class="fn">166</span><span x-html="mark(166)">Halving the tool data leaves tool use intact</span></a></li>
+        
+        <li x-show="hit(185)"><a href="/Corn-Jr-Public/finding/185.html"><span class="fn">185</span><span x-html="mark(185)">Everyday web text taught him more word meanings at little cost</span></a></li>
+        
+        <li x-show="hit(189)"><a href="/Corn-Jr-Public/finding/189.html"><span class="fn">189</span><span x-html="mark(189)">Half textbook, half everyday web keeps the word gain at lower cost</span></a></li>
+        
+        <li x-show="hit(190)"><a href="/Corn-Jr-Public/finding/190.html"><span class="fn">190</span><span x-html="mark(190)">A third web source, DCLM, splits its seeds and adds nothing measurable</span></a></li>
+        
+        <li x-show="hit(191)"><a href="/Corn-Jr-Public/finding/191.html"><span class="fn">191</span><span x-html="mark(191)">Doubled wish test: the blend holds, DCLM&#39;s second seed falls back</span></a></li>
+        
+        <li x-show="hit(192)"><a href="/Corn-Jr-Public/finding/192.html"><span class="fn">192</span><span x-html="mark(192)">With DCLM mixed in, he leans harder on one stock answer</span></a></li>
+        
+        <li x-show="hit(193)"><a href="/Corn-Jr-Public/finding/193.html"><span class="fn">193</span><span x-html="mark(193)">DCLM&#39;s stronger stock answer is not in its text</span></a></li>
+        
+      </ul>
+    </div>
+    
+    <div class="index-thread" x-show="any([186, 187, 188, 196, 197, 198, 199, 200, 201, 202, 203, 222, 223, 224, 225, 226, 227, 228, 229, 230, 231, 232, 233, 234, 235, 236, 237])">
+      <h3><a href="/Corn-Jr-Public/thread/understanding.html">Understanding at small scale</a></h3>
+      <ul>
+        
+        <li x-show="hit(186)"><a href="/Corn-Jr-Public/finding/186.html"><span class="fn">186</span><span x-html="mark(186)">He knows roughly what descriptions mean but ignores a described menu</span></a></li>
+        
+        <li x-show="hit(187)"><a href="/Corn-Jr-Public/finding/187.html"><span class="fn">187</span><span x-html="mark(187)">Trained on invented names, he learned to copy one, never which</span></a></li>
+        
+        <li x-show="hit(188)"><a href="/Corn-Jr-Public/finding/188.html"><span class="fn">188</span><span x-html="mark(188)">His surprise spots unusual words, not words he misunderstands</span></a></li>
+        
+        <li x-show="hit(196)"><a href="/Corn-Jr-Public/finding/196.html"><span class="fn">196</span><span x-html="mark(196)">Loop fails because the small model lacks the knowledge, not the format</span></a></li>
+        
+        <li x-show="hit(197)"><a href="/Corn-Jr-Public/finding/197.html"><span class="fn">197</span><span x-html="mark(197)">A model a quarter as wide nearly matches the 20M&#39;s understanding</span></a></li>
+        
+        <li x-show="hit(198)"><a href="/Corn-Jr-Public/finding/198.html"><span class="fn">198</span><span x-html="mark(198)">Surprise-steered reading lowers rare-word surprise but not understanding at 5M</span></a></li>
+        
+        <li x-show="hit(199)"><a href="/Corn-Jr-Public/finding/199.html"><span class="fn">199</span><span x-html="mark(199)">Steering mostly teaches how likely a word is, partly where it fits</span></a></li>
+        
+        <li x-show="hit(200)"><a href="/Corn-Jr-Public/finding/200.html"><span class="fn">200</span><span x-html="mark(200)">A model that cannot learn picks the same words the scheduler did</span></a></li>
+        
+        <li x-show="hit(201)"><a href="/Corn-Jr-Public/finding/201.html"><span class="fn">201</span><span x-html="mark(201)">Words picked at random gain less than words the scheduler picked</span></a></li>
+        
+        <li x-show="hit(202)"><a href="/Corn-Jr-Public/finding/202.html"><span class="fn">202</span><span x-html="mark(202)">A shape built for small models cost language and taught only spelling</span></a></li>
+        
+        <li x-show="hit(203)"><a href="/Corn-Jr-Public/finding/203.html"><span class="fn">203</span><span x-html="mark(203)">His surprise flags unfamiliar names, not questions he cannot answer</span></a></li>
+        
+        <li x-show="hit(222)"><a href="/Corn-Jr-Public/finding/222.html"><span class="fn">222</span><span x-html="mark(222)">Pressing harder where the book points taught the 20M nothing more</span></a></li>
+        
+        <li x-show="hit(223)"><a href="/Corn-Jr-Public/finding/223.html"><span class="fn">223</span><span x-html="mark(223)">His word vectors hold less than his framed answers do</span></a></li>
+        
+        <li x-show="hit(224)"><a href="/Corn-Jr-Public/finding/224.html"><span class="fn">224</span><span x-html="mark(224)">One hard press makes the word likelier everywhere, and writes no line</span></a></li>
+        
+        <li x-show="hit(225)"><a href="/Corn-Jr-Public/finding/225.html"><span class="fn">225</span><span x-html="mark(225)">Pressing the difference a neighbour makes writes some of the pair</span></a></li>
+        
+        <li x-show="hit(226)"><a href="/Corn-Jr-Public/finding/226.html"><span class="fn">226</span><span x-html="mark(226)">Kept presses last, but break the text and churn the words</span></a></li>
+        
+        <li x-show="hit(227)"><a href="/Corn-Jr-Public/finding/227.html"><span class="fn">227</span><span x-html="mark(227)">A short word vector holds field knowledge; frozen, he cannot read it</span></a></li>
+        
+        <li x-show="hit(228)"><a href="/Corn-Jr-Public/finding/228.html"><span class="fn">228</span><span x-html="mark(228)">The fields stall is not the word-pieces, and not hidden in him</span></a></li>
+        
+        <li x-show="hit(229)"><a href="/Corn-Jr-Public/finding/229.html"><span class="fn">229</span><span x-html="mark(229)">Asked from afar, a step writes a pair the next-piece question misses</span></a></li>
+        
+        <li x-show="hit(230)"><a href="/Corn-Jr-Public/finding/230.html"><span class="fn">230</span><span x-html="mark(230)">Kept far lines add up from afar, not for the next piece</span></a></li>
+        
+        <li x-show="hit(231)"><a href="/Corn-Jr-Public/finding/231.html"><span class="fn">231</span><span x-html="mark(231)">A far lesson in training takes, costs reading, and lifts nothing clearly</span></a></li>
+        
+        <li x-show="hit(232)"><a href="/Corn-Jr-Public/finding/232.html"><span class="fn">232</span><span x-html="mark(232)">He uses far words like the 260M; his gap is close in</span></a></li>
+        
+        <li x-show="hit(233)"><a href="/Corn-Jr-Public/finding/233.html"><span class="fn">233</span><span x-html="mark(233)">A left-to-right count still beats him, so order is not it</span></a></li>
+        
+        <li x-show="hit(234)"><a href="/Corn-Jr-Public/finding/234.html"><span class="fn">234</span><span x-html="mark(234)">Given the count&#39;s word summaries, he leans on them and gains nothing</span></a></li>
+        
+        <li x-show="hit(235)"><a href="/Corn-Jr-Public/finding/235.html"><span class="fn">235</span><span x-html="mark(235)">A counted starting table helps early and is erased by the end</span></a></li>
+        
+        <li x-show="hit(236)"><a href="/Corn-Jr-Public/finding/236.html"><span class="fn">236</span><span x-html="mark(236)">Eight times the nudges reads worse; the short test had misled</span></a></li>
+        
+        <li x-show="hit(237)"><a href="/Corn-Jr-Public/finding/237.html"><span class="fn">237</span><span x-html="mark(237)">Decay and end noise both cleared: the small-step run just learned less</span></a></li>
+        
+      </ul>
+    </div>
+    
+    <div class="index-thread" x-show="any([204, 205, 206, 207, 208, 209, 210, 211, 212, 213, 214, 215, 216, 217, 218, 219, 220, 238, 239, 240])">
+      <h3><a href="/Corn-Jr-Public/thread/reply-judge.html">The reply judge</a></h3>
+      <ul>
+        
+        <li x-show="hit(204)"><a href="/Corn-Jr-Public/finding/204.html"><span class="fn">204</span><span x-html="mark(204)">Running the same layers twice moves nothing measurable at 5M</span></a></li>
+        
+        <li x-show="hit(205)"><a href="/Corn-Jr-Public/finding/205.html"><span class="fn">205</span><span x-html="mark(205)">Choosing replies by what the message raises varies them, not their fit</span></a></li>
+        
+        <li x-show="hit(206)"><a href="/Corn-Jr-Public/finding/206.html"><span class="fn">206</span><span x-html="mark(206)">A matching lesson at a tenth of conversation reading did not take</span></a></li>
+        
+        <li x-show="hit(207)"><a href="/Corn-Jr-Public/finding/207.html"><span class="fn">207</span><span x-html="mark(207)">The pairs he fails are mostly decidable: he loses the conversation&#39;s thread</span></a></li>
+        
+        <li x-show="hit(208)"><a href="/Corn-Jr-Public/finding/208.html"><span class="fn">208</span><span x-html="mark(208)">The shipped model answers most one-off messages coherently</span></a></li>
+        
+        <li x-show="hit(209)"><a href="/Corn-Jr-Public/finding/209.html"><span class="fn">209</span><span x-html="mark(209)">The small model answers half of even its own style&#39;s openers</span></a></li>
+        
+        <li x-show="hit(210)"><a href="/Corn-Jr-Public/finding/210.html"><span class="fn">210</span><span x-html="mark(210)">Real everyday dialogue fits the owner&#39;s messages best; Reddit worst</span></a></li>
+        
+        <li x-show="hit(211)"><a href="/Corn-Jr-Public/finding/211.html"><span class="fn">211</span><span x-html="mark(211)">Real everyday dialogue moves him toward how the owner talks</span></a></li>
+        
+        <li x-show="hit(212)"><a href="/Corn-Jr-Public/finding/212.html"><span class="fn">212</span><span x-html="mark(212)">People asking an assistant fits the owner best; the answers do not</span></a></li>
+        
+        <li x-show="hit(213)"><a href="/Corn-Jr-Public/finding/213.html"><span class="fn">213</span><span x-html="mark(213)">A small dose matching how the owner talks moves him furthest</span></a></li>
+        
+        <li x-show="hit(214)"><a href="/Corn-Jr-Public/finding/214.html"><span class="fn">214</span><span x-html="mark(214)">A reply judge beside the 5M moves his replies level</span></a></li>
+        
+        <li x-show="hit(215)"><a href="/Corn-Jr-Public/finding/215.html"><span class="fn">215</span><span x-html="mark(215)">Looking a few words ahead with the judge lifts his replies</span></a></li>
+        
+        <li x-show="hit(216)"><a href="/Corn-Jr-Public/finding/216.html"><span class="fn">216</span><span x-html="mark(216)">The look-ahead holds on new messages; finishing and penalties add nothing</span></a></li>
+        
+        <li x-show="hit(217)"><a href="/Corn-Jr-Public/finding/217.html"><span class="fn">217</span><span x-html="mark(217)">A judge built into the 5M learns, is ignored, and costs him</span></a></li>
+        
+        <li x-show="hit(218)"><a href="/Corn-Jr-Public/finding/218.html"><span class="fn">218</span><span x-html="mark(218)">The built-in judge&#39;s cost is not the word table</span></a></li>
+        
+        <li x-show="hit(219)"><a href="/Corn-Jr-Public/finding/219.html"><span class="fn">219</span><span x-html="mark(219)">A 5M reading only conversation answers far more messages</span></a></li>
+        
+        <li x-show="hit(220)"><a href="/Corn-Jr-Public/finding/220.html"><span class="fn">220</span><span x-html="mark(220)">Judging his own drafts does not help; plain beam search might</span></a></li>
+        
+        <li x-show="hit(238)"><a href="/Corn-Jr-Public/finding/238.html"><span class="fn">238</span><span x-html="mark(238)">He writes worst exactly where he reads worst, message by message</span></a></li>
+        
+        <li x-show="hit(239)"><a href="/Corn-Jr-Public/finding/239.html"><span class="fn">239</span><span x-html="mark(239)">The count book judges replies a little, and picks no better</span></a></li>
+        
+        <li x-show="hit(240)"><a href="/Corn-Jr-Public/finding/240.html"><span class="fn">240</span><span x-html="mark(240)">Real exchanges around &#34;never mind&#34; taught the 5M nothing measurable</span></a></li>
+        
+      </ul>
+    </div>
+    
+  </div>
+</section>
+
+
+<section class="index-part" style="--c:var(--c6)" x-show="(part === '' || part === 'VI') && any([221])">
+  <h2><span class="pr">VI</span><a href="/Corn-Jr-Public/part/VI.html">The book lab</a></h2>
+  <div class="index-cols">
+    
+    <div class="index-thread" x-show="any([221])">
+      <h3><a href="/Corn-Jr-Public/thread/book-lab.html">The book lab</a></h3>
+      <ul>
+        
+        <li x-show="hit(221)"><a href="/Corn-Jr-Public/finding/221.html"><span class="fn">221</span><span x-html="mark(221)">A book of tallies, no weights, beats the 20M on word meaning</span></a></li>
+        
+      </ul>
+    </div>
+    
+  </div>
+</section>
+
+</div>
+
+  
+</div>
+</body>
+</html>

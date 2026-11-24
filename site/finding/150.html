@@ -1,0 +1,95 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>150 · On real requests the runtime&#39;s machinery works but his own parse doesn&#39;t · Corn-Jr</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600&family=IBM+Plex+Mono:wght@400;500&family=Spectral:ital,wght@0,400;0,500;0,600;1,400&family=Spectral+SC:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/Corn-Jr-Public/static/library.css">
+<script defer src="/Corn-Jr-Public/static/library.js"></script>
+<script type="speculationrules">
+{"prerender": [{"where": {"and": [{"href_matches": "/Corn-Jr-Public/*"}, {"not": {"href_matches": "/Corn-Jr-Public/random.html"}}, {"not": {"href_matches": "/Corn-Jr-Public/static/*"}}]}, "eagerness": "moderate"}]}
+</script>
+
+</head>
+<body>
+<div class="page">
+  <header class="running">
+    <a class="book" href="/Corn-Jr-Public/">Corn-Jr · The Record</a>
+    <nav>
+      <a href="/Corn-Jr-Public/" data-key="shelf">Shelf</a><a href="/Corn-Jr-Public/findings.html" data-key="findings" class="here">Findings</a><a href="/Corn-Jr-Public/doc/VISION.html" data-key="VISION">Vision</a><a href="/Corn-Jr-Public/doc/GLOSSARY.html" data-key="GLOSSARY">Glossary</a>
+      <a href="https://github.com/csheehan18/Corn-Jr-Public">Source</a>
+    </nav>
+  </header>
+  
+
+<article class="sheet" style="--c:var(--c4)">
+  <div class="progress" aria-hidden="true"></div>
+  <section class="grid chapter-open finding-open">
+    <a class="tab" href="/Corn-Jr-Public/thread/tag-spine.html" title="The tag spine"><small>Part</small><span>IV</span></a>
+    <p class="cn">150</p>
+    <p class="partline"><a href="/Corn-Jr-Public/thread/tag-spine.html">The tag spine</a> · 4 October 2026</p>
+    <h1>On real requests the runtime&#39;s machinery works but his own parse doesn&#39;t</h1>
+  </section>
+
+  <section class="grid">
+    <p class="marginal">The result, as the finding states it</p><div class="prose"><p class="lead">On the real carriers the door works and his cut does not: given the gold parse, the two-note row reads 18 and 26 of 48 from 0 and 2, with his own parse 2 and 7; the forced card's zeros are his parse line where the prompt has none, and the one cost that survives staging is a <code>chat</code> label read off the <code>tools:</code> header</p></div>
+    <p class="marginal">What it cost</p><div class="prose"><p class="cost">70.5 min of training four nano runs (16.7-18.6 min each, <code>card_cost.py</code>; registered at ~18 min) and 12.1 min of scoring four standard cards; about 10 min of <code>prepare_mix</code> and the guard; <code>probe_a2.py</code> about 6 min a checkpoint on the registered rows and about 3 min on the post hoc guard rows, two checkpoints each (10:43-12:52 on 2026-10-04 end to end, against a registered ~2 h).</p></div>
+  </section>
+
+  
+
+  <section class="grid">
+    <div class="prose doc"><p>ROADMAP A2, PLAN-TAG-SPINE §12, pre-registered in <code>configs/mix_v3_a2_on.py</code> before a byte trained (b2ea2ff). The first read of the tag language on the real carriers: <code>mix_v3</code> plus the turn-2 and compound payloads, off against on, the on cell carrying a <code>parts:</code> line (SPEC-LANGUAGE §3) under every user turn of the six turn-shaped slices, written after the fact from what each turn did (<code>corn/parseline.py</code>; 722,019 lines, 1.86% of the mix, transcripts matched document for document). Seeds 1337 and 2337, <code>compile=True</code>. The owner's decisions of 2026-10-03: <code>act</code> the ninth label (D-A1.21), every no-call turn <code>parts: chat</code>, the role table in the runtime (<code>corn/door.py</code>). <strong>Cards:</strong> <code>evals/results/nano20m_v3_a2_{off,on}{,_seed2}.json</code> (forced), <code>nano20m_v3_a2_on{,_seed2}__a2.json</code> and <code>__a2_items.jsonl</code> (the staged protocols), <code>__a2_guards.json</code> and <code>__a2_guards_items.jsonl</code> (post hoc, below). <code>probe_a2.py</code> is a hand-built instrument held by <code>scripts/check_parseline.py</code> and nothing more: <strong>every staged number is a bound</strong> (rule 28).</p>
+<h3 id="the-registered-reading">The registered reading</h3>
+<p>The off cell is readable: on its own payloads' rows it sits in the single-payload bases' band (<code>turn2.react</code> 116 and 116 against <code>nano20m_v3_turn2c</code>'s 117; <code>compound.pipe</code> 45 and 48 against the compound base's 44 and 47), so the joint mix did not move the floor.</p>
+<p>row                     off forced   on forced    on bound     on gold      on free compound.items            0    2       0    0       2    7      18   26       1    4 compound.items_first      3    2       4    5       7    7      23   21       3    5 compound.pipe            45   48       0    0      45   29      48   48      45   41 compound.pipe_first      47   48       5   37      46   35      48   48      48   48 turn2.chain_ellipsis     47   45      31   31      42   44      42   44      42   44 turn2.chain_pronoun      21   20      13   10      15   21      15   21      15   17 turn2.chain_result       48   50      46   49      50   50      50   50      50   50 turn2.react             116  116       0    0     117  119     120  120     117  119 turn2.reask              50   32       0    0      53   48      53   48      53   48 turn2.reask_yn           37   36       0    0      34   33      34   33      34   33 tool.copy_wide          300  299     299  299      (forced only)</p>
+<p>Seed 1337 then seed 2337 in each pair; <code>compound.*</code> of 48, <code>chain_*</code> of 50, <code>react</code> of 120, <code>reask</code> of 96, <code>reask_yn</code> of 40.</p>
+<p><strong>The gate</strong> — <code>compound.items</code> under <em>bound</em> above the off cell's <em>forced</em> by more than 12, at both seeds — <strong>fails</strong>: 2 and 7 against 0 and 2, lifts of 2 and 5. <strong>Under <em>gold</em> it passes at both seeds</strong>: 18 and 26, lifts of 18 and</p>
+<ol><li>That is the registered row <strong>"<em>gold</em> passes the gate, <em>bound</em> does not — the door works and he cannot cut real requests at nano: the parse is the runtime's to propose, or 1.x."</strong> The kill did not fire: <code>tool.copy_wide</code> 299 and 299 against 300 and 299.</li></ol>
+<p><strong>And by the letter the guard row fires too.</strong> The table registered "a hold or guard row falls at both seeds, <em>forced</em> or <em>bound</em>" as a kill for that slice's tagging, and on the forced card the on cell falls at both seeds on <code>turn2.react</code>, <code>reask</code>, <code>reask_yn</code>, <code>compound.pipe</code>, <code>tool.selection</code> (176 and 190 to 125 and 84) and <code>social.self</code> (47 and 44 to 0 and 0), among others. That reading is the record; what it is made of is the next section, and the owner takes which governs.</p>
+<h3 id="the-forced-card-s-zeros-are-his-parse-line">The forced card's zeros are his parse line</h3>
+<p>Every real row's prompt either ends after the user line or forces the next line (<code>&lt;|call|&gt;</code>, <code>&lt;|say|&gt;</code>) straight under it; the on cell trained on a corpus where that line is always a <code>parts:</code> line. <strong>On every forced react and reask prompt, both seeds, his first line is a parse line</strong> — <code>parts: chat</code> on 117 and 119 of 120 react prompts, 96 and 95 of 96 reask, 40 and 40 of 40 reask_yn — which the row's scorer reads as "no say". Staged so that he writes it first (<em>bound</em>), the same rows read at the off cell: react 117 and 119 against 116, reask 53 and 48 against 50 and 32, chain_result 50 and 50. <strong>No registered hold or guard row falls at both seeds under <em>bound</em>.</strong> The forced collapse is finding <a class="fref" href="/Corn-Jr-Public/finding/134.html">134</a>'s lesson at scale: a prompt one line off the corpus is a prompt about a different corpus. The registered table's "<em>forced</em> or <em>bound</em>" clause was the error; the on cell's forced card measures the protocol.</p>
+<h3 id="post-hoc-the-forced-only-guard-rows-staged">Post hoc: the forced-only guard rows, staged</h3>
+<p>The pre-registration read <code>tool.selection</code>, <code>tool.validity</code> and <code>social.*</code> on the forced card only. After the read above they were staged the same way (<code>probe_a2.py --families guards</code>, written 2026-10-04 after the registered read; <strong>probe only, post hoc, never a substitute for the registered reading</strong>):</p>
+<p>row                      off forced     on bound      on gold     falls (rule: below off by more than its 95% half-width) tool.selection           176   190     186   182     172  170     seed 2337 only tool.validity            172   176     181   181     181  181     no social.self               47    44      47    47      20   34     no social.bare_nocall        64    58      80    86     112  112     no (above) social.declared_nocall     4    68       5     4     112  112     seed 2337 only (the off cell reads 4 and 68) social.voice              72    88      47    66      57   85     <strong>both seeds</strong> social.family             15    17       7    13      27   24     seed 1337 only</p>
+<p><strong>One row falls at both seeds: <code>social.voice</code></strong> — his reply to a social opener, read under a route header. By hand, the cause is the label: <strong>on those prompts his bound parse is <code>parts: ask</code>, 91 and 102 of 112</strong> — "alright cool", "how was your day" — and the say that follows is tool register ("Right, that no tool covers this request", "Add a meeting | decline() — ..."). The same openers with no declaration line (<code>social.bare_nocall</code>) are labelled <code>chat</code> and read above the off cell. <strong>In the tagged corpus no <code>chat</code> turn ever sits under a <code>tools:</code> line</strong>: counted over all six twins, 0 <code>chat</code> and 200,000 other labels under one (every one toolspace's), 214,518 <code>chat</code> and 307,501 other without — so the line learned is "a declaration means a task", read off the header, not the words. That is SPEC §0's coverage argument (a layer on only some slices is a cue for those slices) arriving one level down, at a label value. Given the right label (<em>gold</em>), the declared no-call row reads 112 and 112, the door holding the call shut, and the voice row 57 and 85.</p>
+<h3 id="read-by-hand-what-fails-where">Read by hand: what fails, where</h3>
+<ul><li><strong>The cut.</strong> On <code>compound.items</code> his bound parse is a single bare part — <code>parts: note</code>, treating both notes as one — on 37 and 19 of 48; it carries the gold labels on 2 and 9. The eval rows join their two notes with "and also that", "plus that", ", and another that"; the corpus templates with "and that", "and one that", "and another saying", ", then that" (<code>corn/turn2gen.py</code>). He does not cut at a connective he never saw cut. When he does cut he is sometimes right (<code>note[note down the landlord&#x27;s office shuts at half four] note[that the spare key is with the neighbour]</code> -&gt; both notes, passed) and sometimes runs into nesting the grammar still allows (<code>note[note[note[size act[note[note[is]]]]]]</code>). <code>compound.pipe</code> at seed 2337 fails under <em>bound</em> the same way — <code>parts: ask</code>, or the whole request wrapped in one <code>find[...]</code> — so after the search no note part is left and he says instead (19 of 19 failures <code>said_instead</code>).</li><li><strong>The extent, under <em>gold</em>.</strong> With the right cut the door makes him write the second note, and the remaining failures are where the copy ends: of <code>wrong_text</code>, 19 of 20 and 10 of 14 are spans of the request cut short ("the filter size is twenty by twenty", "-five" dropped; "the good parking"), and <code>wrong_contact</code> copies too much ("Thaddeus saying call me when you're free"). The copy half admits any span of the part; nothing says where a note ends.</li><li><strong>Two ways round the copy half, an instrument hole named:</strong> at seed 2337 the door let through <code>&quot;contact&quot;: &quot;Free&quot;</code> and <code>&quot;contact&quot;: &quot;You&quot;</code> — a JSON escape and a capital the request does not have. The call object's copy rule still folds case both ways and decodes escapes (SPEC-LANGUAGE D-A1.14: <code>span_ok</code> until H3). Every <em>gold</em> number is a bound for that reason too.</li></ul>
+<h3 id="what-it-licenses-for-the-owner">What it licenses — for the owner</h3>
+<ul><li><strong>The parse is the runtime's to propose on real carriers at nano</strong> (the registered row), or 1.x: the door carries what a right parse gives it (<code>compound.items</code> 0 and 2 to 18 and 26), and he does not write the right parse for a connective he never saw. D7's row for the parse line reads: <em>the door is worth riding; his cut is not yet</em>.</li><li><strong>The registered forced-clause kill reads the instrument</strong>, by the hand read above; the owner decides whether it governs. If it does, the tagging of <code>turn2</code>, <code>compound</code>, <code>tools</code>, <code>toolspace</code> and <code>chat</code> is killed in this form.</li><li><strong>Two fixes the record now names, neither made here:</strong> the corpus puts <code>chat</code> turns under <code>tools:</code> lines (a social or chat turn inside a declared transcript), so the label stops being read off the header; and the door gets an extent rule — a note's text runs to its part's end, a contact stops at the contact — PLAN-EXTRACTION-READER's extent problem in the door.</li></ul>
+<h3 id="what-it-does-not-say">What it does not say</h3>
+<p>That the parse cannot be learned on real carriers: one dose (1.86%), one set of templates whose connectives the eval does not share, nano. That the door's lift is the parse line's: <em>gold</em> inserts a line the off cell never sees, so <em>gold</em> against off forced is the door plus the line. That the staged guard rows are the registered reading — they are post hoc. Anything at 260M.</p></div>
+  </section>
+
+  <section class="grid refs">
+    <div class="body two-even">
+      <div>
+        <h2 class="small">It cites</h2>
+        <ul class="reflist"><li style="--c:var(--c4)"><a href="/Corn-Jr-Public/finding/134.html"><span class="fn">134</span>He learns to write a summary line of conversation state</a></li></ul>
+        
+      </div>
+      <div>
+        <h2 class="small">Cited by</h2>
+        <ul class="reflist"><li style="--c:var(--c5)"><a href="/Corn-Jr-Public/finding/166.html"><span class="fn">166</span>Halving the tool data leaves tool use intact</a></li></ul>
+        
+      </div>
+    </div>
+    <p class="body source">docs/findings/150-on-real-carriers-the-door-works-and-his-cut-does-not-and-the-one-real-cost-is-a-chat-label-read-off-the-tools-header.md</p>
+  </section>
+</article>
+
+  
+<footer class="turn">
+  <div><span class="sc">previous</span><a href="/Corn-Jr-Public/finding/148.html">148 · Picking a template by letter never installed; one seed in three learned</a></div>
+  <div class="r"><span class="sc">next</span><a href="/Corn-Jr-Public/finding/153.html">153 · He writes a summary of the conversation state but doesn&#39;t use it</a></div>
+  <p class="keys"><kbd>←</kbd> <kbd>→</kbd> turn the page · <kbd>/</kbd> find</p>
+</footer>
+<p class="bynumber">Previous and next in <a href="/Corn-Jr-Public/thread/tag-spine.html">The tag spine</a>. By number:
+  <a href="/Corn-Jr-Public/finding/149.html">149</a> · <a href="/Corn-Jr-Public/finding/151.html">151</a></p>
+
+</div>
+</body>
+</html>

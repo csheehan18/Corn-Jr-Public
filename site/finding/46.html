@@ -1,0 +1,98 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>46 · A dataset was missing a class; one test passed by reciting · Corn-Jr</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600&family=IBM+Plex+Mono:wght@400;500&family=Spectral:ital,wght@0,400;0,500;0,600;1,400&family=Spectral+SC:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/Corn-Jr-Public/static/library.css">
+<script defer src="/Corn-Jr-Public/static/library.js"></script>
+<script type="speculationrules">
+{"prerender": [{"where": {"and": [{"href_matches": "/Corn-Jr-Public/*"}, {"not": {"href_matches": "/Corn-Jr-Public/random.html"}}, {"not": {"href_matches": "/Corn-Jr-Public/static/*"}}]}, "eagerness": "moderate"}]}
+</script>
+
+</head>
+<body>
+<div class="page">
+  <header class="running">
+    <a class="book" href="/Corn-Jr-Public/">Corn-Jr · The Record</a>
+    <nav>
+      <a href="/Corn-Jr-Public/" data-key="shelf">Shelf</a><a href="/Corn-Jr-Public/findings.html" data-key="findings" class="here">Findings</a><a href="/Corn-Jr-Public/doc/VISION.html" data-key="VISION">Vision</a><a href="/Corn-Jr-Public/doc/GLOSSARY.html" data-key="GLOSSARY">Glossary</a>
+      <a href="https://github.com/csheehan18/Corn-Jr-Public">Source</a>
+    </nav>
+  </header>
+  
+
+<article class="sheet" style="--c:var(--c1)">
+  <div class="progress" aria-hidden="true"></div>
+  <section class="grid chapter-open finding-open">
+    <a class="tab" href="/Corn-Jr-Public/thread/measurement.html" title="Measurement and noise"><small>Part</small><span>I</span></a>
+    <p class="cn">46</p>
+    <p class="partline"><a href="/Corn-Jr-Public/thread/measurement.html">Measurement and noise</a> · 19 August 2026</p>
+    <h1>A dataset was missing a class; one test passed by reciting</h1>
+  </section>
+
+  <section class="grid">
+    <p class="marginal">The result, as the finding states it</p><div class="prose"><p class="lead">A slice on disk was 4% short of its generator, and the row that finally moved did it by reciting</p></div>
+    
+  </section>
+
+  
+
+  <section class="grid">
+    <div class="prose doc"><p><code>configs/mix_v3.py</code> ×2 — <code>mix_v2</code>'s shares to the token with three files swapped for higher-cardinality twins, aimed at an exposure regime that only exists at 5B. The run was declared in advance as a <strong>regression check, not a validation</strong>. It found three things, none of them the thing it was checking for.</p>
+<h3 id="1-data-raw-tools-txt-is-4-short-of-the-generator-that-is-sup">1. <code>data/raw/tools.txt</code> is 4% short of the generator that is supposed to produce it</h3>
+<p>file                        transcripts   cold-start examples data/raw/tools.txt on disk       10,000                     0 the same command, rebuilt        10,000                   400 data/raw/tools_names.txt          9,766                   451</p>
+<p><code>gen_tools.py</code> with default arguments emits the <code>cold_start</code> class at <code>KIND_WEIGHTS</code> 4 of 100. The file on disk contains <strong>none of it</strong>. <code>tools_names.txt</code>, generated 2026-08-18 from the same generator, contains it — which is how this surfaced at all.</p>
+<p><strong>So no corpus in this project through <code>mix_v2</code> has ever contained the cold-start class</strong>, while <code>scripts/check_tools.py</code> group 9 asserts nine separate properties about it and passes. It passes because it checks the <strong>generator</strong>, not the <strong>file</strong>. DATA.md §11 already recorded that <code>tools.txt</code> "does not regenerate byte-identically at the default seed (7,756 distinct on disk against 7,754 rebuilt)" and flagged it as a loose end. This is what that drift was, and it was worth 4% of the slice rather than two transcripts.</p>
+<h3 id="2-the-consequence-a-project-long-hard-zero-was-an-absent-cla">2. The consequence: a project-long hard zero was an absent class, and moving it is recitation</h3>
+<p>The forty-third finding, on <code>refusal.say_unechoed</code>:</p>
+<blockquote><p><strong><code>refusal.say_unechoed</code> is a hard zero.</strong> 0/55 on four seeds of the baseline, both seeds of the chat arm, and both sizes. Nothing in this project has ever moved it.</p></blockquote>
+<p><code>mix_v3</code> reads <strong>55/55 on both seeds.</strong> The explanation is not capability:</p>
+<div class="tablewrap"><table><thead><tr><th>corpus</th><th>occurrences of the two gold sentences</th></tr></thead><tbody><tr><td><code>tools.txt</code> (in <code>mix_v1</code>, <code>mix_v2</code>)</td><td><strong>0</strong></td></tr><tr><td><code>tools_names.txt</code> (in <code>mix_v3</code>)</td><td><strong>902</strong></td></tr></tbody></table></div>
+<p><strong>The 55 items rest on 2 distinct sentences.</strong> The row was built to tell relaying from reciting, and at two strings appearing ~900 times in training it cannot: a model that memorised them scores 55/55, and so does one that reads the observation. The honest statement is that the class entered the corpus for the first time and the row is no longer measuring what its name says.</p>
+<p>This is <code>say.jsonl</code>'s declared ceiling arriving in practice. The handoff already recorded that the file "sits on 18 target sentences" and that 55 of 150 items are answerable without reading the observation. Two of those 18 carry the whole unechoed cell.</p>
+<p><strong>It also makes <code>mix_v3</code>'s tools swap a two-variable change</strong>, which its own config claims is a one-line cardinality repair. The book went 57 → 3,435 <em>and</em> the cold-start class went absent → present. Nothing on the tool rows in that run is attributable until those are separated, and <code>data/raw/tools_cold.txt</code> — the current generator with the hand-written book — is the cell that separates them. Built here, not yet trained.</p>
+<h3 id="3-refusal-clarify-47-47-40-45-47-is-the-honest-number-and-th">3. <code>refusal.clarify</code> 47/47 → 40-45/47 is the honest number, and the drop is the result</h3>
+<p><code>mix_v3</code> reads 45/47 and 40/47 where <code>mix_v2</code> reads 47/47. That is not a <code>mix_v3</code> effect: the <code>sayvar</code> arm alone reads <strong>40/47 and 47/47</strong> against a baseline of 47/47 on four seeds, so <code>mix_v3</code> reproduces it exactly.</p>
+<p>Both corpora contain <strong>all nine</strong> of the eval's clarify strings, so presence is not the variable. Frequency is:</p>
+<div class="tablewrap"><table><thead><tr><th>corpus</th><th>clarify phrasings</th><th>uses each</th></tr></thead><tbody><tr><td><code>temporal.txt</code></td><td>8</td><td>1,620.7</td></tr><tr><td><code>temporal_sayvar.txt</code></td><td>2,548</td><td>4.5</td></tr></tbody></table></div>
+<p>At 1,620 uses each the nine eval strings are memorised and the row passes without reading the observation. At 4.5 uses each they are not, so the model has to relay — and it relays 40 to 45 of 47 rather than all of them. <strong><code>refusal.clarify</code> at 47/47 was recitation on every checkpoint that ever reported it</strong>, which <code>score_say</code>'s own docstring had already guessed in writing ("exactly as <code>refusal.clarify</code> at 47/47 was") without a corpus that could test it.</p>
+<p>A better corpus produced a worse number on a row that was measuring the wrong thing. That is the fourth time in this project — after <code>tool.selection</code>, <code>temporal.route</code> and <code>tool.name_fidelity</code> — and the pattern is now specific enough to state as a rule: <strong>a row scored by exact match against a closed phrasing table measures memorisation until the table is large enough that it cannot.</strong></p>
+<h4 id="one-false-number-corrected-where-it-lived">One false number, corrected where it lived</h4>
+<p><code>scripts/check_copyable.py</code> claimed sayvar's 2,548 phrasings "took <code>refusal.clarify</code> to 100%". They did not — the arm reads 40/47 and 47/47 against a baseline already at 47/47 on four seeds, so it lowered one seed and moved nothing up. The cardinality claim around it is unaffected and the number attached to it was wrong. Corrected in place.</p>
+<h3 id="what-did-go-as-designed">What did go as designed</h3>
+<ul><li><strong><code>substituted_composed</code> fired for the first time</strong>, 3 and 3. The forty-third finding added that bucket because <code>score_name_fidelity</code>'s labels were silently corpus-relative; <code>mix_v3</code> is the first corpus to move the book underneath them, and the bucket did the job it was built for. <code>tool.name_fidelity</code> reads 46 and 56 against <code>mix_v2</code>'s 43 and 53 — overlapping.</li><li><strong><code>effect.py</code> reads OVERLAP on every frozen row</strong> against <code>mix_v2</code> except <code>temporal.route</code> (+1) and <code>tool.copy_wide</code> (+2), both with churn unmeasured. The regression check passes.</li><li><strong>The cardinality repairs measure as intended</strong>: toolspace parameter value 75 → <strong>9,540 effective at 4.7 uses each</strong>, which is <code>sayvar</code>'s demonstrated regime.</li></ul>
+<h3 id="what-this-does-not-settle-and-one-thing-it-un-settles">What this does not settle, and one thing it un-settles</h3>
+<ul><li><strong>The repairs are still unvalidated.</strong> Everything here targets an exposure regime that exists only at 5B. This was pre-registered and stands: the validation is the cardinality measurement, not the checkpoint.</li><li><strong><code>mix_v3</code> should not replace <code>mix_v2</code> yet.</strong> The tools swap is two variables and the cold-start class entered by accident rather than by decision.</li><li><strong>Every <code>refusal.say</code> number in the catalogue is now suspect</strong> in the same way <code>refusal.clarify</code> turned out to be, and for the same reason: 18 target sentences. The thirty-third finding's regime argument applies to evals as well as corpora, and nobody has swept the eval files for it.</li></ul></div>
+  </section>
+
+  <section class="grid refs">
+    <div class="body two-even">
+      <div>
+        <h2 class="small">It cites</h2>
+        <p class="aside">No other finding by number.</p>
+      </div>
+      <div>
+        <h2 class="small">Cited by</h2>
+        <p class="aside">No later finding yet.</p>
+      </div>
+    </div>
+    <p class="body source">docs/findings/46-a-slice-on-disk-was-four-per-cent-short-of-its-generator-and-a-hard-zero-turns-out-to-be-recitation.md</p>
+  </section>
+</article>
+
+  
+<footer class="turn">
+  <div><span class="sc">previous</span><a href="/Corn-Jr-Public/finding/43.html">43 · Two extra seeds already on disk retire three earlier readings</a></div>
+  <div class="r"><span class="sc">next</span><a href="/Corn-Jr-Public/finding/53.html">53 · Two of my checks were scoring the harness, not the model</a></div>
+  <p class="keys"><kbd>←</kbd> <kbd>→</kbd> turn the page · <kbd>/</kbd> find</p>
+</footer>
+<p class="bynumber">Previous and next in <a href="/Corn-Jr-Public/thread/measurement.html">Measurement and noise</a>. By number:
+  <a href="/Corn-Jr-Public/finding/45.html">45</a> · <a href="/Corn-Jr-Public/finding/47.html">47</a></p>
+
+</div>
+</body>
+</html>

@@ -1,0 +1,90 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>175 · He names the chosen branch, but can&#39;t combine it with the result · Corn-Jr</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600&family=IBM+Plex+Mono:wght@400;500&family=Spectral:ital,wght@0,400;0,500;0,600;1,400&family=Spectral+SC:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/Corn-Jr-Public/static/library.css">
+<script defer src="/Corn-Jr-Public/static/library.js"></script>
+<script type="speculationrules">
+{"prerender": [{"where": {"and": [{"href_matches": "/Corn-Jr-Public/*"}, {"not": {"href_matches": "/Corn-Jr-Public/random.html"}}, {"not": {"href_matches": "/Corn-Jr-Public/static/*"}}]}, "eagerness": "moderate"}]}
+</script>
+
+</head>
+<body>
+<div class="page">
+  <header class="running">
+    <a class="book" href="/Corn-Jr-Public/">Corn-Jr · The Record</a>
+    <nav>
+      <a href="/Corn-Jr-Public/" data-key="shelf">Shelf</a><a href="/Corn-Jr-Public/findings.html" data-key="findings" class="here">Findings</a><a href="/Corn-Jr-Public/doc/VISION.html" data-key="VISION">Vision</a><a href="/Corn-Jr-Public/doc/GLOSSARY.html" data-key="GLOSSARY">Glossary</a>
+      <a href="https://github.com/csheehan18/Corn-Jr-Public">Source</a>
+    </nav>
+  </header>
+  
+
+<article class="sheet" style="--c:var(--c4)">
+  <div class="progress" aria-hidden="true"></div>
+  <section class="grid chapter-open finding-open">
+    <a class="tab" href="/Corn-Jr-Public/thread/tag-language.html" title="The tag language"><small>Part</small><span>IV</span></a>
+    <p class="cn">175</p>
+    <p class="partline"><a href="/Corn-Jr-Public/thread/tag-language.html">The tag language</a> · 14 October 2026</p>
+    <h1>He names the chosen branch, but can&#39;t combine it with the result</h1>
+  </section>
+
+  <section class="grid">
+    <p class="marginal">The result, as the finding states it</p><div class="prose"><p class="lead">The binding line he writes beside the request installs: he names the continuation the condition selects on 92-99% of held-out prompts, flip words and all, and the pick reads that line (95% on a met condition) — but crossing the line with the result does not form: on an unmet condition he still takes the line's continuation 60% of the time, so the gate passes on one held-out side of three cells</p></div>
+    <p class="marginal">What it cost</p><div class="prose"><p class="cost">20.8 min of training one nano run (1,245 s, contended — the card at 38%, a bound), the three-way read 93 s, one gold-line read 16 s, one copy card 9 s, the control read 145 s and the own-trace read ~7 s on the card; the build 15:37-15:44 on 2026-10-14, the chain 15:44-16:05, the read 16:05-16:08.</p></div>
+  </section>
+
+  
+
+  <section class="grid">
+    <div class="prose doc"><p><strong>GENERATORS D5 — the hop in the bytes — at the owner's go.</strong> Findings <a class="fref" href="/Corn-Jr-Public/finding/173.html">173</a> and <a class="fref" href="/Corn-Jr-Public/finding/174.html">174</a>: with the table taken away, the pick never formed, not even on its own training traces (202 and 209 of 400). One token, 200-400 tokens past the words that decide it, had to read a flip word, find which continuation it attaches to, and cross that with the result. This arm splits it. After the parse he writes one line naming the continuation the condition selects — <code>if: raining -&gt; a place for dinner</code> — with the flip words a few tokens away (<strong>step A</strong>). The pick then reads that line two lines above the result (<strong>step B</strong>). Pre-registered in <code>configs/mix_v3_funcworld_branchflip_bind.py</code> at 707e96b before a byte trained. <strong>One change from finding <a class="fref" href="/Corn-Jr-Public/finding/174.html">174</a>'s arm: the line</strong> (<code>branchflipgen.FlipBranch.bind_line</code>; <code>check_branch.py</code> section 10 holds payload and rows as finding <a class="fref" href="/Corn-Jr-Public/finding/174.html">174</a>'s plus the line, re-derived by rule from the words). One seed. <strong>Cards:</strong> <code>evals/results/nano20m_v3_fw_branchflip_bind__bind{,_items}.json*</code>, <code>__branchflip_bind.json</code>, <code>__copywide.json</code>; the control <code>nano20m_v3_fw_filter_ev2__branchflip_bind.json</code>.</p>
+<h3 id="the-registered-read-scripts-probe-branch-bind-py-three-ways">The registered read (<code>scripts/probe_branch_bind.py</code>, three ways)</h3>
+<p>cell              his line exact   quads: own line   gold line   forged line followed   forged quads held-out first       530 / 576          4 / 144        4 / 144        419 / 576             17 / 144 held-out second      568 / 576         19 / 144       19 / 144        367 / 576              9 / 144 flip pairs           532 / 576          0 / 144        0 / 144        397 / 576              0 / 144 arm E2 (control)       0 / 1,728        0-1            0-1         267-311 / 576           0-2</p>
+<p><strong>The gate — <code>own</code> quads above 14 on each held-out side and the flip cell — passes on one of three</strong> (held-out second, 19). By the table that is short of a pass. The registered rows do not fit what happened, and the hand read says why: the table's third row, "gold fails or the forged line is not followed — the line is written and not read", is what the numbers land on, and its reading is wrong. <strong>The line is read.</strong> What does not form is crossing it with the result.</p>
+<h3 id="read-by-hand">Read by hand</h3>
+<p>The three-way probe prints his own line beside the gold one on every prompt of eight quads before any number. <strong>Step A is right on 30 of the 32 lines shown</strong>, flip words included: "look for somewhere for lunch provided it isn't snowing — failing that a spot for a pint" is <code>if: snowing -&gt; a spot for a pint</code>. "Get me somewhere to stay as long as it isn't open, else somewhere for a drink" is <code>if: open -&gt; somewhere for a drink</code>. "A spot to eat except if it's foggy, and if so a spot for a pint" is <code>if: foggy -&gt; a spot for a pint</code>. Over all held-out and flip prompts his line is exact on 1,630 of 1,728 (0.94). The two wrong lines shown (row 002's base prompts, "assuming it's closed — get me a spot for a pint; if not a spot to eat", written <code>if: closed -&gt; a spot to eat</code>) name the other continuation.</p>
+<p><strong>Step B, split by the result</strong>, on the gold line (full-option, all 1,728 prompts):</p>
+<p>the condition is    picks right   picks the line's continuation met                 825 / 864 (0.95)      0.95 not met             342 / 864 (0.40)      0.60</p>
+<p><strong>He copies the continuation his line names, and the result barely moves it.</strong> On a met condition that copy is the answer. On an unmet one the answer is the <em>other</em> continuation, and he takes the line's anyway three times in five. The result does reach the pick — the line's continuation is taken 0.95 of the time on a met condition and 0.60 on an unmet one — but it does not decide it.</p>
+<h3 id="on-its-own-training-traces">On its own training traces</h3>
+<p>400 payload traces from the front of the file (<code>own_traces.py</code>, scratch, probe only — not on disk): <strong>289 right, median margin +1.15 nats</strong>. Findings <a class="fref" href="/Corn-Jr-Public/finding/173.html">173</a> and <a class="fref" href="/Corn-Jr-Public/finding/174.html">174</a> read 202 and 209 there, at +0.01 and +0.07. Something formed where it trained, and it is the half the split above shows.</p>
+<p><strong>The copy row, a side column</strong>: <code>tool.copy_wide</code> 297 of 300.</p>
+<h3 id="what-it-licenses">What it licenses</h3>
+<ul><li><strong>Step A installs: he reads flip words beside the request.</strong> The binding that never formed at the pick, at any size, seed or frame (findings <a class="fref" href="/Corn-Jr-Public/finding/169.html">169</a>-<a class="fref" href="/Corn-Jr-Public/finding/174.html">174</a>), forms at 92-99% when he writes it next to the words, as a copy of a span. This is the first positive reading of a flip word on the record.</li><li><strong>Step B is half there</strong>, and the half that is missing is one operation: on <code>unmet</code>, take the continuation the line does <em>not</em> name. Everything else in the pick is a copy of something two lines up. Taking "the other one" is not a copy — it is a complement, and the pick falls back to the copy. The next arm follows from that: <strong>the line names both branches</strong> (<code>if: raining -&gt; X | else -&gt; Y</code>), so the pick on either result is a copy of one slot of his own line, and nothing is left that is not a copy.</li><li><strong>For the D7 trace layer</strong>: a binding line costs ~8 tokens a branch turn and turns the hardest read in the rung into the strongest skill he has.</li></ul>
+<p><strong>What it does not settle.</strong> One seed, by the owner's standard; whether the two-slot line closes step B; and whether a line read this reliably at 20M transfers to the 1.0 corpus's real wordings.</p></div>
+  </section>
+
+  <section class="grid refs">
+    <div class="body two-even">
+      <div>
+        <h2 class="small">It cites</h2>
+        <ul class="reflist"><li style="--c:var(--c4)"><a href="/Corn-Jr-Public/finding/173.html"><span class="fn">173</span>Branch choice falls to chance when condition words flip the meaning</a></li><li style="--c:var(--c4)"><a href="/Corn-Jr-Public/finding/174.html"><span class="fn">174</span>A space after the bracket shifts his default to the first option</a></li></ul>
+        
+      </div>
+      <div>
+        <h2 class="small">Cited by</h2>
+        <ul class="reflist"><li style="--c:var(--c4)"><a href="/Corn-Jr-Public/finding/176.html"><span class="fn">176</span>Naming both branches fixes the pick but blurs &#39;not&#39;</a></li><li style="--c:var(--c4)"><a href="/Corn-Jr-Public/finding/177.html"><span class="fn">177</span>Leaving the second slot out of training doesn&#39;t restore &#39;not&#39;</a></li><li style="--c:var(--c4)"><a href="/Corn-Jr-Public/finding/178.html"><span class="fn">178</span>Naming a second branch blinds him to &#39;not&#39;</a></li><li style="--c:var(--c4)"><a href="/Corn-Jr-Public/finding/179.html"><span class="fn">179</span>Fine-tuned, he reads every condition word like &#39;not&#39; and &#39;unless&#39;</a></li><li style="--c:var(--c4)"><a href="/Corn-Jr-Public/finding/180.html"><span class="fn">180</span>When the runtime orders the menu, &#39;the other one&#39; is perfect</a></li><li style="--c:var(--c4)"><a href="/Corn-Jr-Public/finding/181.html"><span class="fn">181</span>Mixed sentence shapes: he reads each option&#39;s own condition, loses &#39;otherwise&#39;</a></li><li style="--c:var(--c4)"><a href="/Corn-Jr-Public/finding/182.html"><span class="fn">182</span>Copying the condition&#39;s clause first: new sentence shapes read, new words don&#39;t</a></li><li style="--c:var(--c5)"><a href="/Corn-Jr-Public/finding/187.html"><span class="fn">187</span>Trained on invented names, he learned to copy one, never which</a></li></ul>
+        
+      </div>
+    </div>
+    <p class="body source">docs/findings/175-his-binding-line-installs-he-reads-the-flip-words-beside-the-request-on-92-to-99-percent-and-the-pick-reads-the-line-but-crossing-it-with-the-result-does-not-form.md</p>
+  </section>
+</article>
+
+  
+<footer class="turn">
+  <div><span class="sc">previous</span><a href="/Corn-Jr-Public/finding/174.html">174 · A space after the bracket shifts his default to the first option</a></div>
+  <div class="r"><span class="sc">next</span><a href="/Corn-Jr-Public/finding/176.html">176 · Naming both branches fixes the pick but blurs &#39;not&#39;</a></div>
+  <p class="keys"><kbd>←</kbd> <kbd>→</kbd> turn the page · <kbd>/</kbd> find</p>
+</footer>
+<p class="bynumber">Previous and next in <a href="/Corn-Jr-Public/thread/tag-language.html">The tag language</a>. By number:
+  <a href="/Corn-Jr-Public/finding/174.html">174</a> · <a href="/Corn-Jr-Public/finding/176.html">176</a></p>
+
+</div>
+</body>
+</html>

@@ -1,0 +1,95 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>183 · More words fixed most misses; an unseen &#39;unless&#39; word still reads &#39;if&#39; · Corn-Jr</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600&family=IBM+Plex+Mono:wght@400;500&family=Spectral:ital,wght@0,400;0,500;0,600;1,400&family=Spectral+SC:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/Corn-Jr-Public/static/library.css">
+<script defer src="/Corn-Jr-Public/static/library.js"></script>
+<script type="speculationrules">
+{"prerender": [{"where": {"and": [{"href_matches": "/Corn-Jr-Public/*"}, {"not": {"href_matches": "/Corn-Jr-Public/random.html"}}, {"not": {"href_matches": "/Corn-Jr-Public/static/*"}}]}, "eagerness": "moderate"}]}
+</script>
+
+</head>
+<body>
+<div class="page">
+  <header class="running">
+    <a class="book" href="/Corn-Jr-Public/">Corn-Jr · The Record</a>
+    <nav>
+      <a href="/Corn-Jr-Public/" data-key="shelf">Shelf</a><a href="/Corn-Jr-Public/findings.html" data-key="findings" class="here">Findings</a><a href="/Corn-Jr-Public/doc/VISION.html" data-key="VISION">Vision</a><a href="/Corn-Jr-Public/doc/GLOSSARY.html" data-key="GLOSSARY">Glossary</a>
+      <a href="https://github.com/csheehan18/Corn-Jr-Public">Source</a>
+    </nav>
+  </header>
+  
+
+<article class="sheet" style="--c:var(--c4)">
+  <div class="progress" aria-hidden="true"></div>
+  <section class="grid chapter-open finding-open">
+    <a class="tab" href="/Corn-Jr-Public/thread/tag-language.html" title="The tag language"><small>Part</small><span>IV</span></a>
+    <p class="cn">183</p>
+    <p class="partline"><a href="/Corn-Jr-Public/thread/tag-language.html">The tag language</a> · 20 October 2026</p>
+    <h1>More words fixed most misses; an unseen &#39;unless&#39; word still reads &#39;if&#39;</h1>
+  </section>
+
+  <section class="grid">
+    <p class="marginal">The result, as the finding states it</p><div class="prose"><p class="lead">With the word lists widened and a backward cut for a parenthetical condition, three of five gates pass at all three starts — structures 0.986-0.995 (the parenthetical cells 140 of 144), held cells 0.979-1.000, finding <a class="fref" href="/Corn-Jr-Public/finding/180.html">180</a>'s rows 0.988-0.995 — and two miss at all three on one kind of word: an unseen unless-word is read as a plain "if" ("aside from if" 8 / 10 / 56 of 96, while an unseen if-word, else-word, default and switch verb read 90-96), and the hand-written probe reads 46 / 41 / 34 of 58 against 48</p></div>
+    <p class="marginal">What it cost</p><div class="prose"><p class="cost">three fine-tunes of 650 iterations at 20M (157, 143, 144 s, contended — the card at 36-38%, a bound), two span reads a run (145-147 s and 167-169 s), slot reads and copy cards at 7-9 s, the real-wording probe: one chain of 1,466.4 s, 12:10-12:34 on 2026-10-20, registered ~22 min; the zero-training control 525 s; the build 11:46-12:09 on CPU.</p></div>
+  </section>
+
+  
+
+  <section class="grid">
+    <div class="prose doc"><p><strong>The owner's go, 2026-10-20</strong>: "let's do 1 and 2 together" — finding <a class="fref" href="/Corn-Jr-Public/finding/182.html">182</a>'s two misses at once. Finding <a class="fref" href="/Corn-Jr-Public/finding/182.html">182</a> put the condition's clause first (<code>cond:</code>, then <code>if: [not ]v -&gt; X</code>) and composed structures installed and transferred; what missed was words the lists lacked and a parenthetical condition the cut rule ran forward. Two changes, read on separate columns (<code>corn/branchwidegen.py</code>, pre-registered at d4ad2e5 in <code>configs/mix_v3_bind_ft_wide.py</code>):</p>
+<ol><li><strong>every word list widened</strong>, <code>branchstructgen</code>'s extended and never edited — unless-words 2 to 9 ("but not if" among them), if-words 5 to 10, else-words 5 to 11, defaults, switch verbs, negations, and a word between the condition word and "it" ("unless perhaps it's v") — with one word a slot held out (<code>HELD_WORDS</code>);</li><li><strong>the parenthetical order</strong> ("A, unless it's v, in which case B") and a cut rule that runs a condition clause holding no continuation <strong>back</strong> when the next clause opens on an else-word or an in-which-case word.</li></ol>
+<p>Everything else is finding <a class="fref" href="/Corn-Jr-Public/finding/182.html">182</a>'s: the format, the starts, the recipe, the weight (1.86 passes against 1.88). <code>check_branch.py</code> section 18 holds it.</p>
+<h3 id="the-registered-read">The registered read</h3>
+<p>The decision — the continuation his <code>if:</code> line implies, which the runtime acts on (<code>probe_branch_span.py</code>):</p>
+<p>start  struct (gate 0.94;   held cells    held words (0.85;   180's rows   far probe XPY 0.90)            (0.90)        "aside" 0.75)       (0.97)       (48 of 58) ev2    856/864, XPY 140/144  480/480       388/480, 8/96      1,708 0.988    46 ev2s2  860/864, XPY 140/144  478/480       390/480, 10/96     1,720 0.995    41 ev2s3  852/864, XPY 140/144  480/480       432/480, 56/96     1,714 0.992    34</p>
+<p>control, finding <a class="fref" href="/Corn-Jr-Public/finding/182.html">182</a>'s runs on the same rows (zero training): non-XPY 512-522/720,  284-338/480   276-316/480,       1,648-1,664    37-38 XPY 44-80/144                       12-22/96</p>
+<p><strong>Installs, transfers and the old eight pass at all three starts</strong>; own quads 212-214 of 216 on the structure rows, 119-120 of 120 held, 139-144 of 144 on each of finding <a class="fref" href="/Corn-Jr-Public/finding/180.html">180</a>'s cells. <strong>Held words and the far probe miss at all three.</strong> The pick half holds: every gold-line quad right on every row set. On his training traces the <code>if:</code> line's continuation reads 1.00 in every family. The prediction was right on the three structure gates, wrong on held words (2 of 3 predicted, 0 of 3) and on the far probe (1 of 3, 0 of 3).</p>
+<h3 id="the-held-words-one-at-a-time">The held words, one at a time</h3>
+<p>held word              ev2      ev2s2    ev2s3    (of 96) "supposing"            96       94       90       an if-word "or otherwise"         96       96       96       an else-word "as my first choice"   96       96       96       a default "opt for"              92       94       94       a switch verb "aside from if"         8       10       56       an unless-word</p>
+<p><strong>Every held word transfers but the unless-word.</strong> On "aside from if" his clause is exact and his <code>if:</code> line has no "not" — the unseen negative word read as the "if" it ends in. Six trained unless-words of the same build ("apart from if", "other than if", "except for if", "excepting if") did not make a seventh one readable: nine words were learned as a list. The asymmetry is the finding: <strong>an unseen condition word is read as a plain condition</strong> — which is right for every if-word and wrong for every unless-word.</p>
+<h3 id="the-far-probe-by-shape">The far probe, by shape</h3>
+<p>Pooled over the three starts (6 a shape), against finding <a class="fref" href="/Corn-Jr-Public/finding/182.html">182</a>:</p>
+<ul><li><p><strong>The parentheticals</strong> (part 2, pre-registered): "A, unless of course it's v, in which case B" <strong>1 to 6</strong>; "A, but only if it's not v — else B" 0 to</p>
+<ol><li>On the second he cuts <code>but only if it&#x27;s not snowing -- else B</code> and writes <code>if: not snowing -&gt; B</code> — forward through the else-word. The generator's parenthetical never opens on "but"; its default-then-switch order does ("Y, but if v, X", forward), and the "but" won over the else-word after it.</li></ol></li><li><strong>Connectives no list holds</strong> (part 1): "anything but" 1 to 4, "is the backup" 1 to 3, "then definitely ... but if it's not then" 0 to 1, "save for if" 0 to 0 (the clause exact, no "not" — the unless-word again), "in the event that" 1 to 0 (he cuts "A by default", reading no condition in the clause that holds one). Pre-registered: 3+ on three of five; two.</li><li><strong>The third start's negation column</strong>, 8 of 20 against 18 and 17: on "if it doesn't turn out to be foggy, A; otherwise B" (both "doesn't" and "turns out" kept out of every list) his clause is exact and his line has no "not". The same kind of miss at one start in three.</li><li>"go with B, though if it's v make it A" fell 3 to 0 — he cuts the default clause, once writing "otherwise" into his clause where the request has "though".</li></ul>
+<h3 id="the-copy-row-a-side-column">The copy row, a side column</h3>
+<p><code>tool.copy_wide</code> 295, 283, 292 against the starts' 298, 295, 293 — not readable by finding <a class="fref" href="/Corn-Jr-Public/finding/170.html">170</a>'s rule; the second start low again, in a fourth arm.</p>
+<h3 id="what-it-licenses">What it licenses</h3>
+<ul><li><strong>The structure layer is done for branch at nano by fine-tune</strong>: composed structures, the parenthetical with its backward cut, and finding <a class="fref" href="/Corn-Jr-Public/finding/180.html">180</a>'s eight all read at 0.97-1.00 at three starts of three, and the structural held cells at 0.98-1.00.</li><li><strong>Widening a word list transfers to unseen words of the same role — except where the role is a negation the word itself must carry.</strong> An unseen if-word, else-word, default or switch verb is read; an unseen unless-word (or "doesn't", at one start) is read as positive, because that is what an unknown condition word defaults to. Nine unless-words did not teach "unless" as a meaning.</li><li><strong>For the 1.0 branch slice</strong>: the negative markers need coverage, not a sample — the unless-words and negations people use, mined from real text, in the dozens; or the polarity is checked against the request by the runtime. Which is the owner's.</li></ul>
+<p><strong>What it does not settle.</strong> Whether real-text unless-words in the dozens teach the meaning or only a longer list; a "but"-led parenthetical; the third start's "doesn't"; pretraining at one pass in this form; and the second start's copy species.</p></div>
+  </section>
+
+  <section class="grid refs">
+    <div class="body two-even">
+      <div>
+        <h2 class="small">It cites</h2>
+        <ul class="reflist"><li style="--c:var(--c4)"><a href="/Corn-Jr-Public/finding/170.html"><span class="fn">170</span>The copy test&#39;s failure threshold was measuring seed noise</a></li><li style="--c:var(--c4)"><a href="/Corn-Jr-Public/finding/180.html"><span class="fn">180</span>When the runtime orders the menu, &#39;the other one&#39; is perfect</a></li><li style="--c:var(--c4)"><a href="/Corn-Jr-Public/finding/182.html"><span class="fn">182</span>Copying the condition&#39;s clause first: new sentence shapes read, new words don&#39;t</a></li></ul>
+        
+      </div>
+      <div>
+        <h2 class="small">Cited by</h2>
+        <ul class="reflist"><li style="--c:var(--c4)"><a href="/Corn-Jr-Public/finding/184.html"><span class="fn">184</span>Looping until it sounds right: he learns to always keep looking</a></li><li style="--c:var(--c5)"><a href="/Corn-Jr-Public/finding/185.html"><span class="fn">185</span>Everyday web text taught him more word meanings at little cost</a></li></ul>
+        
+      </div>
+    </div>
+    <p class="body source">docs/findings/183-widened-words-and-a-backward-cut-pass-three-of-five-gates-at-three-starts-and-an-unseen-unless-word-is-still-read-as-a-plain-if.md</p>
+  </section>
+</article>
+
+  
+<footer class="turn">
+  <div><span class="sc">previous</span><a href="/Corn-Jr-Public/finding/182.html">182 · Copying the condition&#39;s clause first: new sentence shapes read, new words don&#39;t</a></div>
+  <div class="r"><span class="sc">next</span><a href="/Corn-Jr-Public/finding/184.html">184 · Looping until it sounds right: he learns to always keep looking</a></div>
+  <p class="keys"><kbd>←</kbd> <kbd>→</kbd> turn the page · <kbd>/</kbd> find</p>
+</footer>
+<p class="bynumber">Previous and next in <a href="/Corn-Jr-Public/thread/tag-language.html">The tag language</a>. By number:
+  <a href="/Corn-Jr-Public/finding/182.html">182</a> · <a href="/Corn-Jr-Public/finding/184.html">184</a></p>
+
+</div>
+</body>
+</html>

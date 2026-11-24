@@ -1,0 +1,98 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>25 · Dialogue data buys conversational vocabulary, not conversational style · Corn-Jr</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600&family=IBM+Plex+Mono:wght@400;500&family=Spectral:ital,wght@0,400;0,500;0,600;1,400&family=Spectral+SC:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/Corn-Jr-Public/static/library.css">
+<script defer src="/Corn-Jr-Public/static/library.js"></script>
+<script type="speculationrules">
+{"prerender": [{"where": {"and": [{"href_matches": "/Corn-Jr-Public/*"}, {"not": {"href_matches": "/Corn-Jr-Public/random.html"}}, {"not": {"href_matches": "/Corn-Jr-Public/static/*"}}]}, "eagerness": "moderate"}]}
+</script>
+
+</head>
+<body>
+<div class="page">
+  <header class="running">
+    <a class="book" href="/Corn-Jr-Public/">Corn-Jr · The Record</a>
+    <nav>
+      <a href="/Corn-Jr-Public/" data-key="shelf">Shelf</a><a href="/Corn-Jr-Public/findings.html" data-key="findings" class="here">Findings</a><a href="/Corn-Jr-Public/doc/VISION.html" data-key="VISION">Vision</a><a href="/Corn-Jr-Public/doc/GLOSSARY.html" data-key="GLOSSARY">Glossary</a>
+      <a href="https://github.com/csheehan18/Corn-Jr-Public">Source</a>
+    </nav>
+  </header>
+  
+
+<article class="sheet" style="--c:var(--c1)">
+  <div class="progress" aria-hidden="true"></div>
+  <section class="grid chapter-open finding-open">
+    <a class="tab" href="/Corn-Jr-Public/thread/corpus-mix.html" title="The corpus mix"><small>Part</small><span>I</span></a>
+    <p class="cn">25</p>
+    <p class="partline"><a href="/Corn-Jr-Public/thread/corpus-mix.html">The corpus mix</a> · 17 August 2026</p>
+    <h1>Dialogue data buys conversational vocabulary, not conversational style</h1>
+  </section>
+
+  <section class="grid">
+    <p class="marginal">The result, as the finding states it</p><div class="prose"><p class="lead">The slice buys conversation and does not buy register</p></div>
+    
+  </section>
+
+  
+
+  <section class="grid">
+    <div class="prose doc"><p><code>register.conv</code> is the sixth addable row and the first that asks the question §4 buys the conversational slice <em>for</em>. Nothing in <code>evals/</code> measured register: the nats/byte rows say a corpus was learned, and <code>variety.distinct3</code> says a model does not repeat itself, which a fluent storybook also does not.</p>
+<p><strong>No threshold anywhere, which is the point after the twenty-third finding.</strong> Five coordinates are measured identically on a continuation and on windows of the frozen eval texts, and a reply is scored by which of three measured registers it is nearest to. The scale is the range the registers themselves occupy on each feature, so nothing here is a constant anybody chose.</p>
+<div class="tablewrap"><table><thead><tr><th>feature</th><th>conversational</th><th>narrative</th><th>web</th></tr></thead><tbody><tr><td>words to first line break</td><td><strong>13.3</strong></td><td>28.4</td><td>20.2</td></tr><tr><td>second person</td><td><strong>0.0500</strong></td><td>0.0089</td><td>0.0073</td></tr><tr><td>first person</td><td><strong>0.0955</strong></td><td>0.0104</td><td>0.0072</td></tr><tr><td>past-tense reporting verbs</td><td>0.0111</td><td><strong>0.0532</strong></td><td>0.0065</td></tr><tr><td>ends in a question mark</td><td><strong>0.225</strong></td><td>0.000</td><td>0.080</td></tr></tbody></table></div>
+<h4 id="the-floor-first-then-the-reading">The floor first, then the reading</h4>
+<p>Four seeds on <code>mix_balanced</code>, the same replicates the nineteenth finding used:</p>
+<div class="tablewrap"><table><thead><tr><th>checkpoint</th><th><code>register.conv</code></th><th>from dialogue</th><th>from story</th></tr></thead><tbody><tr><td><code>balanced</code> 1337</td><td>12.0%</td><td>23.0%</td><td>1.0%</td></tr><tr><td><code>balanced</code> 1338</td><td>12.0%</td><td>24.0%</td><td>0.0%</td></tr><tr><td><code>balanced</code> 1339</td><td>12.5%</td><td>23.0%</td><td>2.0%</td></tr><tr><td><code>balanced</code> 1340</td><td>13.0%</td><td>25.0%</td><td>1.0%</td></tr><tr><td><strong>spread</strong></td><td><strong>1.0 pt</strong></td><td><strong>2.0 pts</strong></td><td><strong>2.0 pts</strong></td></tr></tbody></table></div>
+<p>A 1.0-point floor makes this the tightest generation-scored row in the project — <code>tool.copy</code> moves 15.0 points on the seed alone and <code>variety.distinct3</code> moves 1.85. Against it:</p>
+<div class="tablewrap"><table><thead><tr><th>checkpoint</th><th>conversational share</th><th><code>register.conv</code></th><th>from dialogue</th><th>from story</th></tr></thead><tbody><tr><td><strong><code>conv20</code></strong></td><td><strong>20%</strong></td><td><strong>38.0%</strong></td><td><strong>76.0%</strong></td><td><strong>0.0%</strong></td></tr><tr><td><code>web_bpe</code></td><td>0%</td><td>19.0%</td><td>37.0%</td><td>1.0%</td></tr><tr><td><code>narrative10</code></td><td>0%</td><td>14.1%</td><td>28.3%</td><td>0.0%</td></tr><tr><td><code>notools</code></td><td>0%</td><td>13.5%</td><td>27.0%</td><td>0.0%</td></tr><tr><td><code>balanced</code></td><td>0%</td><td>12.0%</td><td>23.0%</td><td>1.0%</td></tr></tbody></table></div>
+<p><strong>Prompted with dialogue, the slice moves the row 23% → 76% — 53 points against a floor of 2.0.</strong> That is the largest behavioural effect of any share change the project has measured, on a row with the tightest floor it has. The conversational slice does what it was bought to do, and <code>variety.distinct3</code> could not see it: the same comparison moves that row 0.73 points against a floor of 1.85.</p>
+<h4 id="and-prompted-with-a-story-nothing-moves-at-all">And prompted with a story, nothing moves at all</h4>
+<p><strong>Every checkpoint scores 0–2% on story openings, including the one with 20% dialogue.</strong> §5.0's complaint is that he answers a story opening in storybook register whether narrative is 47% of the corpus or 10%; with a fifth of the budget replaced by conversation, he still does. The slice bought conversation and did not buy a register the prompt did not already choose.</p>
+<p><strong>Whether that is a failure is a real question and this row does not settle it.</strong> A base language model continuing a story opening as a story is doing its job — prompt-following is not a defect, and 0% on that half may be correct behaviour rather than a regression. What it establishes either way is that the conversational slice does not change register when the prompt has already chosen one, which is worth knowing before anyone prices the share on register grounds. It is also why the two halves are reported separately: pooled, this row would read 38% and hide that one half tripled while the other did not move.</p>
+<h4 id="the-fourth-nats-byte-row-which-came-free-and-moved-further-t">The fourth nats/byte row, which came free and moved further than any before it</h4>
+<p><code>evals/text_conversational.txt</code> had to exist for the anchors, and a held-out text is a language-modelling row whether or not you wanted one:</p>
+<div class="tablewrap"><table><thead><tr><th>row</th><th><code>balanced</code></th><th><code>conv20</code></th><th>Δ</th></tr></thead><tbody><tr><td><strong><code>lm conversational</code></strong></td><td>0.8749</td><td><strong>0.5073</strong></td><td><strong>−0.3676</strong></td></tr><tr><td><code>lm narrative</code></td><td>0.3679</td><td>0.3949</td><td>+0.0271</td></tr><tr><td><code>lm web</code></td><td>0.9106</td><td>0.9051</td><td>−0.0055</td></tr><tr><td><code>lm temporal</code></td><td>0.0944</td><td>0.0962</td><td>+0.0018</td></tr></tbody></table></div>
+<p><strong>−0.3676 is six times the largest nats/byte move the project had recorded</strong> — the sixteenth finding's <code>lm web</code> 0.9106 → 0.8502 at −0.0604, from cutting narrative by 37 points. A 42% relative improvement, against a floor of 0.0038 on the noisiest language row. The slice is emphatically learned, which is the least surprising result here and the one that makes the rest legible: whatever <code>register.conv</code> is failing to see on story prompts, it is not that the model never read the corpus.</p>
+<h4 id="he-sounds-conversational-and-is-not-shaped-like-conversation">~~He sounds conversational and is not shaped like conversation~~ — withdrawn</h4>
+<p><strong>This section reported a median turn of 35 words against a conversational corpus that breaks at 13, and concluded the slice bought the vocabulary of conversation and not its shape. The 35 was a pooled statistic and the conclusion was wrong</strong> — see the twenty-sixth finding, which was built to explain it and disproved it instead.</p>
+<p><code>median_turn</code> was pooled across both prompt sources. The story half produces unbroken prose that reaches the 40-word cap, so a median over 100 of those and 100 dialogue replies lands at the seam between two distributions and describes neither. Per source, which is how this row reports its <em>score</em> and should always have reported this:</p>
+<div class="tablewrap"><table><thead><tr><th>checkpoint</th><th>dialogue score</th><th><strong>median turn, dialogue</strong></th><th>median turn, story</th></tr></thead><tbody><tr><td><code>conv20</code></td><td>76.0%</td><td><strong>14</strong></td><td>40 <em>(cap)</em></td></tr><tr><td><code>narrative10</code></td><td>28.3%</td><td><strong>14</strong></td><td>40</td></tr><tr><td><code>web_bpe</code></td><td>37.0%</td><td><strong>16</strong></td><td>40</td></tr><tr><td><code>balanced</code></td><td>23.0%</td><td><strong>17</strong></td><td>40</td></tr><tr><td>conversational anchor</td><td>—</td><td><strong>13</strong></td><td>—</td></tr></tbody></table></div>
+<p><strong>Every checkpoint already produces conversational-length turns on dialogue prompts.</strong> <code>conv20</code> breaks at 14 words against a corpus that breaks at 13. There was never a shape problem, and the 23% → 76% the slice buys is carried by the person and question coordinates because turn length was near-correct on both sides of the comparison all along.</p>
+<p>The 80-word re-score in the commit before this one read the same pooled number and inherited the same error; its one durable result is that the conversational anchor is 13.5 at an 80-word window, so the reference side was never censored.</p>
+<p>What the mistake cost is worth naming: this row reports its score by source <em>precisely because</em> pooling two prompt types hides the answer, and then its own diagnostic pooled them.</p>
+<h4 id="what-it-does-not-say">What it does not say</h4>
+<p>Neither half is unprompted, so §11's standing request — what register does he fall into when nothing has chosen one — is still unanswered, and this row inherits that gap rather than closing it. The anchors are three registers because those are the three held-out texts that exist; temporal has one too and was left out because a transcript slice is a format rather than a register. And the row is nearest-anchor, not quality: a model emitting fluent nonsense in short second-person turns would score well here and badly on every nats/byte row, which is the same caution <code>variety.distinct3</code> carries one row over.</p></div>
+  </section>
+
+  <section class="grid refs">
+    <div class="body two-even">
+      <div>
+        <h2 class="small">It cites</h2>
+        <p class="aside">No other finding by number.</p>
+      </div>
+      <div>
+        <h2 class="small">Cited by</h2>
+        <p class="aside">No later finding yet.</p>
+      </div>
+    </div>
+    <p class="body source">docs/findings/25-the-slice-buys-conversation-and-does-not-buy-register.md</p>
+  </section>
+</article>
+
+  
+<footer class="turn">
+  <div><span class="sc">previous</span><a href="/Corn-Jr-Public/finding/24.html">24 · The rejected dialogue data costs prose quality and nothing else</a></div>
+  <div class="r"><span class="sc">next</span><a href="/Corn-Jr-Public/finding/27.html">27 · The first data mix with every share measured, not guessed</a></div>
+  <p class="keys"><kbd>←</kbd> <kbd>→</kbd> turn the page · <kbd>/</kbd> find</p>
+</footer>
+<p class="bynumber">Previous and next in <a href="/Corn-Jr-Public/thread/corpus-mix.html">The corpus mix</a>. By number:
+  <a href="/Corn-Jr-Public/finding/24.html">24</a> · <a href="/Corn-Jr-Public/finding/26.html">26</a></p>
+
+</div>
+</body>
+</html>

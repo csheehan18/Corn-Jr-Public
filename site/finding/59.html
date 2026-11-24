@@ -1,0 +1,125 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>59 · No declines hide in unscored wording; the rest looks like salience · Corn-Jr</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600&family=IBM+Plex+Mono:wght@400;500&family=Spectral:ital,wght@0,400;0,500;0,600;1,400&family=Spectral+SC:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/Corn-Jr-Public/static/library.css">
+<script defer src="/Corn-Jr-Public/static/library.js"></script>
+<script type="speculationrules">
+{"prerender": [{"where": {"and": [{"href_matches": "/Corn-Jr-Public/*"}, {"not": {"href_matches": "/Corn-Jr-Public/random.html"}}, {"not": {"href_matches": "/Corn-Jr-Public/static/*"}}]}, "eagerness": "moderate"}]}
+</script>
+
+</head>
+<body>
+<div class="page">
+  <header class="running">
+    <a class="book" href="/Corn-Jr-Public/">Corn-Jr · The Record</a>
+    <nav>
+      <a href="/Corn-Jr-Public/" data-key="shelf">Shelf</a><a href="/Corn-Jr-Public/findings.html" data-key="findings" class="here">Findings</a><a href="/Corn-Jr-Public/doc/VISION.html" data-key="VISION">Vision</a><a href="/Corn-Jr-Public/doc/GLOSSARY.html" data-key="GLOSSARY">Glossary</a>
+      <a href="https://github.com/csheehan18/Corn-Jr-Public">Source</a>
+    </nav>
+  </header>
+  
+
+<article class="sheet" style="--c:var(--c2)">
+  <div class="progress" aria-hidden="true"></div>
+  <section class="grid chapter-open finding-open">
+    <a class="tab" href="/Corn-Jr-Public/thread/reading.html" title="Reading documents"><small>Part</small><span>II</span></a>
+    <p class="cn">59</p>
+    <p class="partline"><a href="/Corn-Jr-Public/thread/reading.html">Reading documents</a> · 25 August 2026</p>
+    <h1>No declines hide in unscored wording; the rest looks like salience</h1>
+  </section>
+
+  <section class="grid">
+    <p class="marginal">The result, as the finding states it</p><div class="prose"><p class="lead">Nothing abstains in words the row cannot read, and what is left looks like saliency</p></div>
+    <p class="marginal">What it cost</p><div class="prose"><p class="cost">0 s of new scoring on record; it reads 1 card scored for an earlier finding (<code>corn_jr_260m</code>). Backfilled 2026-09-26 from the cards' <code>seconds</code>; training and probe time were never recorded, so this is a floor.</p></div>
+  </section>
+
+  
+
+  <section class="grid">
+    <div class="prose doc"><p>An audit, not an arm. No training, no card time, no scorer change. Six checkpoints already on disk: the two WS-B pilots and WS-E's four, read at <code>--max-samples 400</code> so every one of the 400 eval items is retained per run.</p>
+<p><strong>The hypothesis under test is the fifty-sixth finding's third premise</strong>, and it was the last one the fifty-eighth finding left standing:</p>
+<blockquote><p>the abstention vocabulary this slice can teach is bounded by the row that scores it … and a model abstaining in words the row does not credit will read as a failure it is not</p></blockquote>
+<p><code>score_extract_abstain</code> requires two things: a phrase from <code>MISS_MARKERS</code> present, <strong>and</strong> no content word outside <code>_MISS_VOCAB</code>, the question, and <code>FRAME</code>. The gate is real at generation — three of the first nine <code>MISS_SAY</code> drafts failed it, <code>&quot;I&#x27;m afraid&quot;</code> on the <code>m</code> an apostrophe leaves behind, <code>&quot;This doesn&#x27;t say&quot;</code> because <code>FRAME</code> carries <code>that</code> and not <code>this</code>, and <code>&quot;There&#x27;s nothing here about&quot;</code> because <code>nothing about</code> is a marker and <code>nothing here about</code> is not. The question is whether it also costs anything at <em>scoring</em> time.</p>
+<h3 id="the-reconstruction-is-checked-before-it-is-used">The reconstruction is checked before it is used</h3>
+<p>The verdict logic was re-run over the retained samples and compared against the scorecard each run had already written. Exact agreement, four of four:</p>
+<p>ctl s1   card 156/200 {no_miss 42, wrote_own 2}   recon identical ctl s2   card 152/200 {no_miss 46, wrote_own 2}   recon identical arm s1   card 172/200 {no_miss 26, wrote_own 2}   recon identical arm s2   card 130/200 {no_miss 60, hedged 7, wrote_own 3}   recon identical</p>
+<p>This is the forty-sixth finding's rule applied to an audit rather than a corpus: a reader that disagrees with the thing it is auditing is measuring itself.</p>
+<h3 id="both-directions-read-zero">Both directions read zero</h3>
+<p>A reply was flagged if it carried <strong>any</strong> negation or uncertainty token outside <code>MISS_MARKERS</code> — <code>nothing</code>, <code>unclear</code>, <code>unsure</code>, <code>unable</code>, <code>doesn</code>, <code>isn</code>, <code>sorry</code>, <code>afraid</code>, <code>unfortunat</code>, <code>seems</code>, <code>appears</code>, <code>without</code>, <code>missing</code>, <code>unspecified</code>, and twenty more.</p>
+<p>unanswerable half, <code>no_miss</code> failures carrying an uncredited hedge   0 / 265 answerable half, <code>wrong_span</code>/<code>invented</code> replies that read as a decline the vocabulary missed                                       0 / 260</p>
+<p><strong>Zero, both ways, across six checkpoints.</strong> Every <code>no_miss</code> failure is a confident assertion rather than an abstention phrased differently:</p>
+<p>"Looks like Rod Cameron."       "North India." "Looks like Budweiser."         "It's September 1977." "Nacio Herb Brown, according to wikipedia.org."</p>
+<h3 id="what-that-settles">What that settles</h3>
+<p><strong><code>extract.abstain</code> is not understating abstention.</strong> The row is measuring what it claims to measure on every checkpoint this project has scored it on.</p>
+<p><strong>And the fifty-eighth finding's decline rate is not understated</strong>, which is the reason the second direction was run at all. That rate is <code>_is_miss</code> over the answerable half, so a decline in uncredited words would have been counted as an attempt and the null would have been softer than reported. It was not.</p>
+<p><strong>The gate stays a real generation-side constraint and is not a measurement defect.</strong> The distinction matters: <code>MISS_SAY</code> was written <em>around</em> the row, and that cost is paid once, in the pool's diversity. Nothing since has been mis-scored because of it. No scorer change follows, so ground rule 4's re-scoring obligation does not arise.</p>
+<h3 id="four-hypotheses-are-now-retired">Four hypotheses are now retired</h3>
+<p>class balance      the 50/50 slice split          probe, 2321f6e gold position      U-shaped positional bias       probe: flat, both seeds corpus frequency   FACTS 89.7% name-or-number     fifty-eighth finding the scorer         the abstention vocabulary      this finding</p>
+<h3 id="what-is-left-stated-as-a-hypothesis-and-not-a-result">What is left, stated as a hypothesis and not a result</h3>
+<p>The items were characterised because the audit made it free, and the pattern is sharp enough to record.</p>
+<p><strong>All 36 <code>other</code> golds appear verbatim in their windows</strong>, exactly as names and numbers do — 100% for all three types. So <code>other</code> is not harder in the sense of the answer being absent, and the eval items are sound.</p>
+<p><code>other</code> items declined by ALL four WS-E runs    24 / 36 declined by NONE                                0 / 36</p>
+<p>Not one <code>other</code> item survives every run. And the golds look like this:</p>
+<p>where does eye of the round roast come from  -&gt;  the rear leg of the cow what was the book wealth of nations about    -&gt;  what builds nations' wealth what type of business is chamber of commerce -&gt;  a form of business network</p>
+<p>These are descriptive noun phrases woven into running prose. A name or a number is <strong>lexically salient</strong> inside a window; "the rear leg of the cow" is not.</p>
+<p><strong>If the mechanism is saliency rather than frequency, the fifty-eighth finding's null is explained rather than merely recorded</strong> — answer-type frequency in the corpus cannot teach a model to locate a span that has no lexical marking, so tripling that frequency would move nothing, which is what it did.</p>
+<p><strong>This is a hypothesis and it has no instrument.</strong> Naming what would falsify it comes before proposing an arm — the twenty-third finding's shape is exactly the risk of building a slice against an observed failure whose cause is still a guess.</p>
+<h3 id="correction-the-instrument-this-asked-for-cannot-be-keyed-on-">Correction — the instrument this asked for cannot be keyed on <code>answer_type</code></h3>
+<p>Added the same day, after trying to build it.</p>
+<p>The paragraph above asked for something that separates "cannot locate an unmarked span" from "has learned that answers look like names". <strong>Those are not two hypotheses.</strong> <code>scripts/prepare_nq.py</code>'s <code>answer_type</code> is purely orthographic:</p>
+<p>if re.search(r"\d", gold):   return "number" if gold[:1].isupper():       return "name" return "other"</p>
+<p>So "he declines on <code>other</code>" <em>is</em> "he declines when the gold carries no digit and no leading capital". The label and the marking are one measurement wearing two names, and no split keyed on <code>answer_type</code> can pull them apart. The instrument was proposed without checking that the thing it would key on could carry the distinction.</p>
+<p><strong>What a split by in-window occurrence does say</strong>, over the four WS-E runs:</p>
+<p>type    how the gold appears in the window   items   decline name    capitalised, mid-sentence              73     63.0% name    capitalised, sentence-initial          46     44.0% number  capitalised, mid-sentence              11     45.5% number  lowercase                              33     67.4% other   lowercase                              35     89.3%</p>
+<p>The coarse reading survives: a gold carrying <strong>no marking at all</strong> is declined most, and anything with a digit or a capital sits 20-45 points below it.</p>
+<p><strong>The within-<code>name</code> split goes backwards for a saliency account, though.</strong> A capitalised proper noun mid-sentence is the most findable thing in a window and it is declined <em>more</em> (63.0%) than one at a sentence start (44.0%), where the capital is grammar rather than a name marker. Saliency predicts the opposite. That is 73 items against 46, four runs each, so it is not rounding.</p>
+<p><strong>And this is where the analysis stops, on the seventeenth finding's grounds.</strong> There are 200 answerable items, 36 of them <code>other</code>, and they have now been cut by type, by gold length and by in-window occurrence, with several cells at n=1. That is a lot of post-hoc splits on one small sample. <strong>The defensible conclusion is not a mechanism but a limit: this eval cannot answer the question</strong>, because the label is the orthography and the items where marking and category come apart are a handful.</p>
+<p>Separating them needs items built to separate them — proper nouns appearing lowercase, common nouns capitalised mid-sentence, the same fact asked in a marked and an unmarked form. That is an eval-construction task and it is <code>PLAN-WEB-SEARCH.md</code>'s WS-F.</p>
+<h3 id="cost">Cost</h3>
+<p>Nothing. Six checkpoints already existed, scored at <code>--max-samples 400</code>, and the audit is arithmetic over their retained samples. The one thing it required was the sample cap being raised — at the default 8 this could not have been asked, which is the point commit <code>2321f6e</code> made and this finding is the second use of.</p>
+<h3 id="why-the-thread-is-parked-here-which-is-a-judgement-and-not-a">Why the thread is parked here, which is a judgement and not a measurement</h3>
+<p><strong>Recorded so the next session does not re-derive it.</strong> WS-F is pre-registered and unbuilt on purpose. Everything below is reasoning, not evidence, and it should be overturned by evidence rather than deferred to.</p>
+<p><strong>Where this sits in the chain is the whole argument.</strong></p>
+<p>recognise   53/200 on real subjects, 87/200 invented   finding <a class="fref" href="/Corn-Jr-Public/finding/52.html">52</a> retrieve    works — 22/24 provider responses had it   WS-A1 reduce      8/24 answers thrown away before the model  WS-A1 extract     9/200 on frozen corn_jr_260m, upper bound  finding <a class="fref" href="/Corn-Jr-Public/finding/55.html">55</a> abstain     0/200                                      finding <a class="fref" href="/Corn-Jr-Public/finding/55.html">55</a></p>
+<p>The fifty-fifth through fifty-ninth findings are all <strong>link four</strong>. Link one is failing on roughly three quarters of real subjects, and a failure there means the rest never runs — extraction can be perfect and buy nothing on a turn that never became a search. The <code>other</code> asymmetry is real and it lives inside 36 items of a 200-item row on the fourth link; finding <a class="fref" href="/Corn-Jr-Public/finding/52.html">52</a>'s defect is 147 of 200 turns on the first.</p>
+<p><strong>Five hypotheses retired and no cause found is itself information.</strong> Class balance, gold position, corpus type-frequency, the scorer, and the instrument proposed to replace them. Each retirement was cheap and each was correct. But the returns are diminishing in a way the next candidate does not obviously reverse.</p>
+<p><strong>And a positive WS-F might not be actionable, which is the part worth writing down.</strong> Suppose it reads "marking drives the decline". The intervention that follows is a slice teaching extraction of unmarked spans — and the fifty-eighth finding is a measured null on corpus-side dosing of very nearly that behaviour. So the cheapest remaining measurement would buy a conclusion whose follow-up is already under suspicion. That is not a reason the result would be wrong; it is a reason it may not pay for the next step after it.</p>
+<p><strong>The contrast that decides it:</strong> finding <a class="fref" href="/Corn-Jr-Public/finding/52.html">52</a>'s defect has a <em>known</em> cause — 25 phrasings offered, about 4 kept — and an intervention already written up, in <code>PLAN-PHASE-3.md</code> P3-B. This thread has an unknown cause and no intervention with a clean precedent.</p>
+<p><strong>What would restart it.</strong> Any of: WS-F becoming necessary because link one is fixed and link four is then the binding constraint; a cheap way to build the crossed items falling out of other work; or evidence that the asymmetry costs something at 260M that it does not cost at nano. <strong>The items are cheap to build and need no card to read</strong> — if the thread is being closed rather than parked, building them without scoring them preserves the option for nothing.</p></div>
+  </section>
+
+  <section class="grid refs">
+    <div class="body two-even">
+      <div>
+        <h2 class="small">It cites</h2>
+        <ul class="reflist"><li style="--c:var(--c2)"><a href="/Corn-Jr-Public/finding/52.html"><span class="fn">52</span>Of 25 search phrasings taught, he kept about four</a></li><li style="--c:var(--c2)"><a href="/Corn-Jr-Public/finding/55.html"><span class="fn">55</span>Four hundred passages show he writes his own answer instead of copying</a></li></ul>
+        
+      </div>
+      <div>
+        <h2 class="small">Cited by</h2>
+        <ul class="reflist"><li style="--c:var(--c2)"><a href="/Corn-Jr-Public/finding/65.html"><span class="fn">65</span>Fine-tuning installs extraction at 260M from zero</a></li><li style="--c:var(--c2)"><a href="/Corn-Jr-Public/finding/72.html"><span class="fn">72</span>Search returned &#39;capital punishment&#39; for &#39;capital of Mongolia&#39;; fixed</a></li></ul>
+        
+      </div>
+    </div>
+    <p class="body source">docs/findings/59-nothing-abstains-in-words-the-row-cannot-read-and-what-is-left-looks-like-saliency.md</p>
+  </section>
+</article>
+
+  
+<footer class="turn">
+  <div><span class="sc">previous</span><a href="/Corn-Jr-Public/finding/57.html">57 · Extraction training works, mostly by declining answerable questions</a></div>
+  <div class="r"><span class="sc">next</span><a href="/Corn-Jr-Public/finding/65.html">65 · Fine-tuning installs extraction at 260M from zero</a></div>
+  <p class="keys"><kbd>←</kbd> <kbd>→</kbd> turn the page · <kbd>/</kbd> find</p>
+</footer>
+<p class="bynumber">Previous and next in <a href="/Corn-Jr-Public/thread/reading.html">Reading documents</a>. By number:
+  <a href="/Corn-Jr-Public/finding/58.html">58</a> · <a href="/Corn-Jr-Public/finding/60.html">60</a></p>
+
+</div>
+</body>
+</html>

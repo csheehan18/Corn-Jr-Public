@@ -1,0 +1,96 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>116 · A fix to the copy check lifts the whole-passage reader to 523 · Corn-Jr</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600&family=IBM+Plex+Mono:wght@400;500&family=Spectral:ital,wght@0,400;0,500;0,600;1,400&family=Spectral+SC:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/Corn-Jr-Public/static/library.css">
+<script defer src="/Corn-Jr-Public/static/library.js"></script>
+<script type="speculationrules">
+{"prerender": [{"where": {"and": [{"href_matches": "/Corn-Jr-Public/*"}, {"not": {"href_matches": "/Corn-Jr-Public/random.html"}}, {"not": {"href_matches": "/Corn-Jr-Public/static/*"}}]}, "eagerness": "moderate"}]}
+</script>
+
+</head>
+<body>
+<div class="page">
+  <header class="running">
+    <a class="book" href="/Corn-Jr-Public/">Corn-Jr · The Record</a>
+    <nav>
+      <a href="/Corn-Jr-Public/" data-key="shelf">Shelf</a><a href="/Corn-Jr-Public/findings.html" data-key="findings" class="here">Findings</a><a href="/Corn-Jr-Public/doc/VISION.html" data-key="VISION">Vision</a><a href="/Corn-Jr-Public/doc/GLOSSARY.html" data-key="GLOSSARY">Glossary</a>
+      <a href="https://github.com/csheehan18/Corn-Jr-Public">Source</a>
+    </nav>
+  </header>
+  
+
+<article class="sheet" style="--c:var(--c2)">
+  <div class="progress" aria-hidden="true"></div>
+  <section class="grid chapter-open finding-open">
+    <a class="tab" href="/Corn-Jr-Public/thread/reading.html" title="Reading documents"><small>Part</small><span>II</span></a>
+    <p class="cn">116</p>
+    <p class="partline"><a href="/Corn-Jr-Public/thread/reading.html">Reading documents</a> · 5 September 2026</p>
+    <h1>A fix to the copy check lifts the whole-passage reader to 523</h1>
+  </section>
+
+  <section class="grid">
+    <p class="marginal">The result, as the finding states it</p><div class="prose"><p class="lead"><code>grounded</code> now tests the span as said, first novel word to last with the frame words inside it kept, as one verbatim run of the window; the two frozen checkpoints re-score byte-identically on every pass count, one refused reply a checkpoint moving between failure buckets, and the whole-passage adapter reads 523 and 517 with AGGREGATION at 2 and 1</p></div>
+    <p class="marginal">What it cost</p><div class="prose"><p class="cost">62 s of scoring on the 2 cards first cited here (<code>corn_jr_260m_v4__grounded115</code>, <code>corn_jr_260m_v4_ft4g__grounded115</code>); it also reads 3 cards scored for an earlier finding (<code>corn_jr_260m_v4</code>, <code>corn_jr_260m_v4_ft4g</code>, <code>nano20m_v3</code>). Backfilled 2026-09-26 from the cards' <code>seconds</code>; training and probe time were never recorded, so this is a floor.</p></div>
+  </section>
+
+  
+
+  <section class="grid">
+    <div class="prose doc"><p><code>corn/extract.py::grounded</code>, <code>scripts/check_extract.py</code>, 2026-09-05. The owner took finding <a class="fref" href="/Corn-Jr-Public/finding/115.html">115</a>'s repair the same day ("it was put in place when results were much worse"), so this is the rule-4 record: the change, the guard, the re-score of two frozen checkpoints with every moved row listed, and the reader numbers under the new rule. <code>evals/results/corn_jr_260m_v4_ft4g__grounded115.json</code>, <code>corn_jr_260m_v4__grounded115.json</code> (the <code>--only extract,paired</code> cards), <code>whole_causal_s{1,2}_grounded115.json</code>.</p>
+<h3 id="0-the-change">0. The change</h3>
+<p>Before, the contiguity test ran over the reply's <em>novel</em> words alone, the frame words having been stripped out from wherever they sat:</p>
+<p>novel = [w for w in said if w in window_words and w not in question_words and w not in source_words and w not in FRAME] return len(set(novel)) == 1 or longest_span(" ".join(novel), window) &gt;= 2</p>
+<p>After, it runs over the span as said from the first novel word to the last, and the whole of that must be a verbatim run of the window:</p>
+<p>core = said[novel_at[0]:novel_at[-1] + 1] return longest_span(" ".join(core), window) == len(core)</p>
+<p>Two things moved, and the second was found by the guard written for the first. Keeping the inner frame words is what lets "best-of-seven", "Stephen A. Douglas" and "Coton in the Elms" through. Requiring the whole core rather than any two contiguous words is what keeps "1858 of Illinois" out: with the frame word kept, the old <code>&gt;= 2</code> would have passed it on the strength of "of Illinois" alone, and two window facts joined by a frame word is the invention the rule exists to refuse. The first draft of the change had <code>&gt;= 2</code>, the new guard case failed on it, and the rule was tightened before any number was read. Frame words <em>outside</em> the span ("It's", "according to Wikipedia") are still stripped, which is what lets a one-word fact through; the no-invention test and the novel-word requirement are unchanged.</p>
+<p><code>scripts/check_extract.py</code> gains four cases: the three spans above are grounded, and "1858 of Illinois" is not. All prior cases still pass.</p>
+<h3 id="1-rule-4-the-frozen-checkpoints-re-scored">1. Rule 4: the frozen checkpoints, re-scored</h3>
+<p><code>python -m corn.evals --only extract,paired</code> on <code>corn_jr_260m_v4_ft4g</code> and <code>corn_jr_260m_v4</code>, against their frozen cards:</p>
+<p>row               ft4g frozen -&gt; now     v4 frozen -&gt; now extract.span        97/200 -&gt; 97/200       94/200 -&gt; 94/200 extract.abstain    111/200 -&gt; 111/200     121/200 -&gt; 121/200 extract.brevity    395/400 -&gt; 395/400     399/400 -&gt; 399/400 extract.paired     115/128 -&gt; 115/128     117/128 -&gt; 117/128</p>
+<p><strong>Every pass count is byte-identical.</strong> Inside <code>extract.span</code>'s failure buckets one reply a checkpoint moves: <code>invented</code> 13 -&gt; 12 on both, the reply now landing in <code>wrong_span</code> — a span the passage does contain, framed with a function word inside it, that the old rule refused as invention and the new one scores as what it is, a wrong answer. (The <code>near_miss_*</code>, <code>span_loose</code> and <code>span_tight</code> rows in the new cards are rows the harness has added since those cards were frozen, finding <a class="fref" href="/Corn-Jr-Public/finding/82.html">82</a>, and are not this change.) The generative reader's numbers do not move because it rarely emits a multi-word span with a function word inside it exactly.</p>
+<h3 id="2-the-readers-under-the-new-rule">2. The readers under the new rule</h3>
+<p>Population A, bar protocol, extent on, hybrid, own CV'd thresholds:</p>
+<p>right  wrong  silent  u.silent  attempt  acc|att   paired vs 112 / 87 shipped s1       392    192     137       199     0.810    0.671     +3 shipped s2       391    175     155       196     0.785    0.691     +3 W2 causal s1     523    127      71       198     0.902    0.805    +10 (p 0.021) W2 causal s2     517    125      79       200     0.890    0.805     +7 (p 0.065)</p>
+<p>species s1 / s2:  AGGREGATION 2 / 1 (from 16 / 10)   REFUSED_RIGHT 19 / 27 RIVAL 94 / 90   CLIPPED 33 / 35   UNGROUNDED 8 / 8</p>
+<p>Correct silence is unchanged to a passage. <strong>72.5% and 71.7% strict on all 721</strong>; paired against the shipped reader under the same rule, +131 and +126 right. The adapter's <code>AGGREGATION</code> residue, which on one window could only ever have been the runtime refusing the head, is gone.</p>
+<h3 id="3-the-guards">3. The guards</h3>
+<p><code>scripts/check_extract.py</code> passes with the four new cases. <code>check_all.py</code> reads 65 of 67 with the card idle: the two that fail, <code>check_churn.py</code> (seven nano20m_v3 extract attributions no longer re-derive to their scorecards' failure buckets) and <code>check_copyable.py</code> (<code>relpairs.txt</code>'s window and search-query value counts), <strong>fail identically with this change stashed</strong> — both predate it and belong to other work, and are reported here so nobody attributes them to the rule.</p>
+<h3 id="4-what-this-changes-on-the-record">4. What this changes on the record</h3>
+<p>Finding <a class="fref" href="/Corn-Jr-Public/finding/87.html">87</a>'s shipped point is 392 / 391 under the current rule rather than 389 / 388, and finding <a class="fref" href="/Corn-Jr-Public/finding/112.html">112</a>'s arm is 523 / 517 rather than 513 / 510; both findings stand as measured under the rule of their day and say so by date. Finding <a class="fref" href="/Corn-Jr-Public/finding/85.html">85</a>'s "12 contiguity defect" among the 22 unwinnable passages is repaired. <code>READER-AUDIT.md</code> row 43 closes. The plan's arms (<code>PLAN-READER-WHOLE-NEXT.md</code>) are now read against 523 / 517.</p></div>
+  </section>
+
+  <section class="grid refs">
+    <div class="body two-even">
+      <div>
+        <h2 class="small">It cites</h2>
+        <ul class="reflist"><li style="--c:var(--c2)"><a href="/Corn-Jr-Public/finding/82.html"><span class="fn">82</span>Scored fairly, the boundary model trails plain generation</a></li><li style="--c:var(--c2)"><a href="/Corn-Jr-Public/finding/85.html"><span class="fn">85</span>The checker needs cross-fitted labels; fallback rules are exhausted</a></li><li style="--c:var(--c2)"><a href="/Corn-Jr-Public/finding/87.html"><span class="fn">87</span>The passage reader ships: 389 of 721 right, up 107</a></li><li style="--c:var(--c2)"><a href="/Corn-Jr-Public/finding/112.html"><span class="fn">112</span>Training on whole passages lifts extraction from 54% to 71%</a></li><li style="--c:var(--c2)"><a href="/Corn-Jr-Public/finding/115.html"><span class="fn">115</span>A copy-check bug refused answers like &#39;best-of-seven&#39;</a></li></ul>
+        
+      </div>
+      <div>
+        <h2 class="small">Cited by</h2>
+        <ul class="reflist"><li style="--c:var(--c2)"><a href="/Corn-Jr-Public/finding/117.html"><span class="fn">117</span>The whole-passage reader ships: 526 of 721 at runtime</a></li><li style="--c:var(--c2)"><a href="/Corn-Jr-Public/finding/124.html"><span class="fn">124</span>Refitting the reader on the social model reads 517 at runtime</a></li></ul>
+        
+      </div>
+    </div>
+    <p class="body source">docs/findings/116-the-grounding-rule-now-tests-the-span-as-said-and-the-two-frozen-checkpoints-re-score-byte-identically-on-every-pass-count-while-the-adapter-reads-523-and-517.md</p>
+  </section>
+</article>
+
+  
+<footer class="turn">
+  <div><span class="sc">previous</span><a href="/Corn-Jr-Public/finding/115.html">115 · A copy-check bug refused answers like &#39;best-of-seven&#39;</a></div>
+  <div class="r"><span class="sc">next</span><a href="/Corn-Jr-Public/finding/117.html">117 · The whole-passage reader ships: 526 of 721 at runtime</a></div>
+  <p class="keys"><kbd>←</kbd> <kbd>→</kbd> turn the page · <kbd>/</kbd> find</p>
+</footer>
+<p class="bynumber">Previous and next in <a href="/Corn-Jr-Public/thread/reading.html">Reading documents</a>. By number:
+  <a href="/Corn-Jr-Public/finding/115.html">115</a> · <a href="/Corn-Jr-Public/finding/117.html">117</a></p>
+
+</div>
+</body>
+</html>

@@ -1,0 +1,125 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>101 · Reading question fit improves refusals but not right answers · Corn-Jr</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600&family=IBM+Plex+Mono:wght@400;500&family=Spectral:ital,wght@0,400;0,500;0,600;1,400&family=Spectral+SC:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/Corn-Jr-Public/static/library.css">
+<script defer src="/Corn-Jr-Public/static/library.js"></script>
+<script type="speculationrules">
+{"prerender": [{"where": {"and": [{"href_matches": "/Corn-Jr-Public/*"}, {"not": {"href_matches": "/Corn-Jr-Public/random.html"}}, {"not": {"href_matches": "/Corn-Jr-Public/static/*"}}]}, "eagerness": "moderate"}]}
+</script>
+
+</head>
+<body>
+<div class="page">
+  <header class="running">
+    <a class="book" href="/Corn-Jr-Public/">Corn-Jr · The Record</a>
+    <nav>
+      <a href="/Corn-Jr-Public/" data-key="shelf">Shelf</a><a href="/Corn-Jr-Public/findings.html" data-key="findings" class="here">Findings</a><a href="/Corn-Jr-Public/doc/VISION.html" data-key="VISION">Vision</a><a href="/Corn-Jr-Public/doc/GLOSSARY.html" data-key="GLOSSARY">Glossary</a>
+      <a href="https://github.com/csheehan18/Corn-Jr-Public">Source</a>
+    </nav>
+  </header>
+  
+
+<article class="sheet" style="--c:var(--c2)">
+  <div class="progress" aria-hidden="true"></div>
+  <section class="grid chapter-open finding-open">
+    <a class="tab" href="/Corn-Jr-Public/thread/reading.html" title="Reading documents"><small>Part</small><span>II</span></a>
+    <p class="cn">101</p>
+    <p class="partline"><a href="/Corn-Jr-Public/thread/reading.html">Reading documents</a> · 4 September 2026</p>
+    <h1>Reading question fit improves refusals but not right answers</h1>
+  </section>
+
+  <section class="grid">
+    <p class="marginal">The result, as the finding states it</p><div class="prose"><p class="lead">The verifier that also reads the window's fit to the question buys a better refusal on all three seeds and no more right answers, so it clears both floors, misses the bar, and its one mechanism win does not reproduce</p></div>
+    <p class="marginal">What it cost</p><div class="prose"><p class="cost">0 s of new scoring on record; it reads 1 card scored for an earlier finding (<code>corn_jr_260m_v4_ft4g</code>). Backfilled 2026-09-26 from the cards' <code>seconds</code>; training and probe time were never recorded, so this is a floor.</p></div>
+  </section>
+
+  
+
+  <section class="grid">
+    <div class="prose doc"><p><code>scripts/train_null_head.py --window-features</code>, 2026-09-04 (seed 3; seeds 1 and 2 on 2026-09-04 in commit <code>86da847c</code>, whose message was the only record until this file). Three verifier heads on the frozen <code>corn_jr_260m_v4_ft4g</code> trunk with no weight of it moved, the shipped span head loaded frozen and never trained, ~4 s an epoch on cached states, one Population A harvest a seed. <code>evals/results/nullwf_s{1,2,3}.json</code> and <code>_popa.json</code>; <code>paired_nullwf_s{1,2,3}.json</code>; <code>reader_funnel_nullwf_s{1,2,3}.json</code> and <code>reader_funnel_s3.json</code>. <code>corn/reader.py</code> is untouched.</p>
+<h3 id="0-the-arm">0. The arm</h3>
+<p>The shipped verifier (finding <a class="fref" href="/Corn-Jr-Public/finding/86.html">86</a>, arm A) reads the span head's argmax pair, that pair's two boundary rows and three scalars about its score — <code>s_best</code>, margin, length — and never the window. The hundredth finding's audit noticed what that leaves out: a passage carrying "sung by Matt Monro" verbatim scored below two windows holding no answer, because the verifier judges the pick and not the window the pick sits in.</p>
+<p><code>scripts/window_features.py</code> is the five numbers that were missing, defined once and read from the cache's own <code>meta</code> in training and from the prompt at inference so the two cannot drift:</p>
+<p>overlap        question words present in the window, after a crude suffix strip with an irregular-verb table ("sang" = "sung") overlap_frac   that overlap as a share of the question's words win_len        the window's length in tokens rel_pos        the window's position in its passage, 0 to 1 n_windows      how many windows the passage was cut into</p>
+<p>Training-set moments on seed 3: overlap 1.72 ± 1.37, overlap_frac 0.36 ± 0.27, win_len 38.1 ± 6.1, rel_pos 0.46 ± 0.37, n_windows 6.2 ± 4.0. The head widens from three scalars to eight; everything else — architecture, pair rows, the cross-fitted verifier label, <code>--feat-norm std</code>, the article split, eight epochs, selection on held-out balanced accuracy, the harvest — is the shipped recipe. A checkpoint declares whether it carries the five, and <code>train_reader_cached.read_cached</code> computes them at inference only for one that does, so every head trained before this reads exactly as it did.</p>
+<p><strong>Pre-registered, from A1's protocol (<code>PLAN-READER-RESIDUE.md</code> §6):</strong> three seeds; the bar protocol, extent on, hybrid reduce, each seed at its own cross-validated threshold; the 420-right bar with the silence floor (199 / 196 / 201) and the <code>acc | att</code> floor (0.674 / 0.693 / 0.692) held. The mechanism bar, written before seed 3 ran: <code>AGGREGATION</code> falls by at least a third, as it did on seed 1.</p>
+<h3 id="1-the-table-three-seeds">1. The table, three seeds</h3>
+<p><code>scripts/probe_harvest_paired.py</code> (new; §5) reads both harvests at the bar protocol and pairs them by passage id. It reproduces the two seeds' numbers from <code>86da847c</code>'s message to the passage.</p>
+<p>right  wrong  a.silent | u.silent  u.wrong | joint  attempt  acc|att  AGG      CV'd t s1 shipped      389    188      144        199       83     588   0.800    0.674    64   -1.980 / -2.061 s1 + window     393    171      157        207       75     600   0.782    0.697    43   -0.255 / -0.489 s2 shipped      388    172      161        196       86     584   0.777    0.693    50   -1.600 / -1.746 s2 + window     391    163      167        202       80     593   0.768    0.706    49   -1.589 / -1.749 s3 shipped      400    178      143        201       81     601   0.802    0.692    64   -1.882 / -2.325 s3 + window     398    169      154        206       76     604   0.786    0.702    63   -1.726 / -2.262</p>
+<p>Against the bars: <strong>the 420-right bar is missed on all three seeds</strong> (393 / 391 / 398). Both floors are cleared on all three — correct silences 207 / 202 / 206 against 199 / 196 / 201, <code>acc | att</code> 0.697 / 0.706 / 0.702 against 0.674 / 0.693 / 0.692 — and the attempt rate is printed beside them because it falls on every seed, by 1.8, 0.9 and 1.6 points.</p>
+<p>The three seeds have one shape and it is not the shape the arm was aimed at:</p>
+<p>delta, arm - shipped     right   wrong   u.silent   joint seed 1                     +4     -17        +8      +12 seed 2                     +3      -9        +6       +9 seed 3                     -2      -9        +5       +3 pooled                     +5     -35       +19      +24</p>
+<p><strong>Fewer wrong answers on the answerable half and more correct silences on the unanswerable half, on every seed; <code>right</code> is flat.</strong> Under the owner's rule (2026-09-03: a precision-only gain counts as a gain provided attempt rate is reported beside it) this is a gain in precision — <code>acc | att</code> up 2.3, 1.3 and 1.0 points — bought at 1.8, 0.9 and 1.6 points of attempt rate, and it is not the passages the bar counts.</p>
+<h3 id="2-paired-on-the-same-passages-none-of-it-is-significant">2. Paired on the same passages, none of it is significant</h3>
+<p>McNemar over the passages both harvests hold, at each harvest's own CV'd threshold:</p>
+<p>seed 1              seed 2              seed 3             pooled joint bit         +12 (74/86, .385)    +9 (32/41, .349)    +3 (25/28, .784)   +24 (131/155, .174) right alone        +4 (53/57, .775)    +3 (22/25, .771)    -2 (21/19, .875)    +5 (96/101, .776) correct silence    +8 (21/29, .322)    +6 (10/16, .327)    +5  (4/9, .267)    +19 (35/54, .056)</p>
+<p>(lost / won, then p.) The only line that approaches significance pooled is the silence line, at p = 0.056 over 89 moved verdicts. The <code>right</code> line is +5 over 197 moved verdicts on 2,163 answerable reads, and the fold noise the ninety-second finding measured is ±7 a seed. <strong>Nothing here is a direction on <code>right</code>.</strong></p>
+<p>Where the answerable verdicts moved, seed by seed:</p>
+<p>s1    s2    s3 wrong  -&gt; silent   31    29    14 right  -&gt; silent   36     9    14 silent -&gt; right    27    17    11 wrong  -&gt; right    30     8     8 right  -&gt; wrong    17    13     7 silent -&gt; wrong    27    15     6</p>
+<p>Seed 1 moved 168 answerable verdicts to net +4; seed 3 moved 60 to net −2. The arm's action is largest where its threshold moved most (seed 1's CV'd constants went from −1.98 / −2.06 to −0.26 / −0.49, a re-scaling of the head's logit that the bar protocol absorbs) and smallest where the head's scale stayed put (seed 3, −1.88 / −2.33 to −1.73 / −2.26).</p>
+<h3 id="3-the-mechanism-does-not-reproduce-and-the-funnel-says-why">3. The mechanism does not reproduce, and the funnel says why</h3>
+<p><code>scripts/probe_reader_funnel.py</code> on the six harvests. The first three stages are the span head's and do not move — same head, same ten, same argmax:</p>
+<p>s1 shipped  + window   s2 shipped  + window   s3 shipped  + window answerable                          721        721         721        721         721        721 the gold in some gold window's ten  678        678         679        679         676        676 the head ranks it first there       494        494         484        484         493        493 that window clears the threshold    419        389         407        409         431        429 right on this route                 362        356         364        365         372        371 right off-route (extent rule)        27         37          24         26          28         27 right, total                        389        393         388        391         400        398</p>
+<p>lost at admission                    75        105          77         75          62         64 lost at the vote and extent          57         33          43         44          59         58</p>
+<p><strong>On seed 1 the arm admitted 30 fewer gold-first windows and lost 24 fewer at the vote</strong> — a stricter admission that also silenced rivals, which is why <code>AGGREGATION</code> fell 64 → 43 and <code>REFUSED_RIGHT</code> rose 78 → 91 on that seed. On seeds 2 and 3 admission and the vote each move by at most two passages. <code>AGGREGATION</code> reads 50 → 49 and 64 → 63. <strong>The mechanism bar — a third off <code>AGGREGATION</code> — is met on one seed of three and fails by its size on the other two.</strong> Seed 1's 21-passage fall was the fold threshold moving, not the five features re-ranking anything: the species tables underneath move in different directions on each seed.</p>
+<p>species, shipped -&gt; arm      s1          s2          s3 REFUSED_WRONG              93 -&gt; 84   110 -&gt; 113   99 -&gt; 107 REFUSED_RIGHT              78 -&gt; 91    80 -&gt; 78    71 -&gt; 76 AGGREGATION                64 -&gt; 43    50 -&gt; 49    64 -&gt; 63 RIVAL                      63 -&gt; 74    59 -&gt; 59    49 -&gt; 44 CLIPPED                    18 -&gt; 23    23 -&gt; 20    25 -&gt; 22 UNGROUNDED                 16 -&gt; 13    11 -&gt; 11    13 -&gt; 11</p>
+<p>This is the result the hundredth finding's audit predicted for every hand feature: removing the question from the prompt drops in-window accuracy from 59% to 19%, so the trunk already reads each candidate with the question in context, and five numbers about lexical overlap are a cruder restatement of what the boundary rows already carry. Where they help is the unanswerable half — a window with no question words in it is a little easier to refuse — which is the one place the boundary rows of a wrong pick say least.</p>
+<h3 id="4-the-selection-metric-disagrees-with-itself-across-seeds">4. The selection metric disagrees with itself across seeds</h3>
+<p>Held-out balanced accuracy at the selected epoch, shipped → window:</p>
+<p>shipped            + window           AUC shipped -&gt; window seed 1    0.7666 (ep 3)      0.7525 (ep 3)      0.8500 -&gt; 0.8298 seed 2    0.7520 (ep 2)      0.7497 (ep 1)      0.8311 -&gt; 0.8305 seed 3    0.7612 (ep 2)      0.7715 (ep 2)      0.8436 -&gt; 0.8532</p>
+<p><code>86da847c</code> recorded that both heads were worse on the metric that selected their epoch. <strong>Seed 3 is better on it, by a point of balanced accuracy and a point of AUC, and reads the fewest passages differently of the three.</strong> So the held-out metric and Population A disagree in direction on seed 3 as they did in the ninety-ninth finding on both seeds, and the "worse at its own task" reading was two seeds' noise. Neither direction is a pattern.</p>
+<h3 id="5-what-is-on-disk-that-was-not-before">5. What is on disk that was not before</h3>
+<p><strong><code>scripts/probe_harvest_paired.py</code></strong> — two reader harvests of the same passages, read at the bar protocol with extent on and hybrid reduce, each at its own CV'd threshold, aligned by passage id (asserted), paired by McNemar on the joint bit, on <code>right</code> alone and on correct silence alone, with the verdict moves and the species tables side by side, and — added for §7 — each harvest read at the other's attempt rate by shifting both of its fold thresholds together, as the willingness control. The seed-1 and seed-2 reads in <code>86da847c</code>'s message were done by hand and lived in no file, which is how the eighty-fifth finding's A2 table was lost; this is that read committed, and <code>probe_reduce_shipped.py</code>'s bar protocol is imported rather than re-implemented.</p>
+<p><code>evals/results/paired_nullwf_s{1,2,3}.json</code>, <code>reader_funnel_s3.json</code> (the shipped seed-3 funnel, which <code>reader_funnel.json</code> did not hold) and <code>reader_funnel_nullwf_s{1,2,3}.json</code>.</p>
+<h3 id="6-verdict-and-limits">6. Verdict and limits</h3>
+<p><strong>Closed as an arm aimed at <code>right</code></strong>: the 420 bar failed on three seeds, the paired <code>right</code> line is +5 pooled at p = 0.78, and the mechanism it was written for reproduces on one seed of three. Under the audit's rule — a pre-registered bar failed on two seeds — it is closed.</p>
+<p><strong>Not closed as a precision improvement, and not banked either.</strong> §1 and §2 read it as a better refusal — fewer wrong on every seed (−17 / −9 / −9), more correct silences on every seed (+8 / +6 / +5, pooled p = 0.056), attempt rate down 0.9 to 1.8 points. <strong>§7, written after this section, says the silence half of that is the threshold and not the head</strong>: read at the shipped head's own attempt rate the arm has the same correct silences and is right on 8 / 5 / 4 more passages and wrong on 8 / 6 / 4 fewer. That is the arm's whole content — about one point of <code>acc | att</code> at equal willingness, same sign on three seeds, each inside fold noise. If the owner wants it, it costs moving <code>scripts/window_features.py</code> under <code>corn/</code> and re-pointing <code>corn/reader.py</code> at <code>nullwf_s*.pt</code> and its thresholds; nothing else changes. This file does not make that call.</p>
+<p>Limits. The extent rule at d = 2.0 and the hybrid reduce are the shipped constants and were not re-tuned for the arm. The pooled McNemar treats the three seeds' passages as independent trials when they are the same 1,003 passages read by three heads, so the pooled p-values are optimistic. Seed 3's shipped baseline, 400 right, is eleven above seeds 1 and 2, and its shipped funnel (<code>reader_funnel_s3.json</code>) was not in the record before this file.</p>
+<h3 id="7-the-willingness-control-run-after-6-was-written-the-silenc">7. The willingness control, run after §6 was written: the silence gain is the threshold, and what is left is one point of precision at equal willingness</h3>
+<p>§6 named the read that would settle whether §1's shape was more than a re-tune of willingness. It is one sweep and it was written the same session: <code>probe_harvest_paired.py</code> now moves <strong>both</strong> of a harvest's CV'd fold thresholds together until its attempt rate matches the other harvest's, and reads the table there. Shifting the pair keeps the fold structure and the bar protocol's own constants; only willingness moves.</p>
+<p>right  wrong  a.silent | u.silent  u.wrong | attempt  acc|att  AGG   shift s1 shipped         389    188      144        199       83     0.800    0.674    64 s1 shipped @ arm   385    179      157        207       75     0.782    0.683    57   +0.12 s1 + window        393    171      157        207       75     0.782    0.697    43 s1 window @ shpd   398    179      144        199       83     0.800    0.690    50   -0.10</p>
+<p>s2 shipped         388    172      161        196       86     0.777    0.693    50 s2 shipped @ arm   386    169      166        199       83     0.770    0.695    48   +0.05 s2 + window        391    163      167        202       80     0.768    0.706    49 s2 window @ shpd   395    165      161        199       83     0.777    0.705    50   -0.05</p>
+<p>s3 shipped         400    178      143        201       81     0.802    0.692    64 s3 shipped @ arm   394    173      154        206       76     0.786    0.695    61   +0.08 s3 + window        398    169      154        206       76     0.786    0.702    63 s3 window @ shpd   404    173      144        197       85     0.800    0.700    64   -0.13</p>
+<p><strong>At the arm's attempt rate the shipped head has exactly the arm's correct silences on seeds 1 and 3 (207, 206) and three fewer on seed 2 (199 against 202).</strong> §1's "more correct silences on every seed" was the arm's CV'd threshold sitting 0.05 to 0.12 logits stricter in effect, and the bar protocol choosing it because the stricter point held the silence share; the shipped head moved to the same willingness refuses the same passages. The pooled p = 0.056 on the silence line in §2 is therefore not evidence about the five features.</p>
+<p>What does not go away when willingness is equalised:</p>
+<p>arm minus shipped               right   wrong   u.silent at the arm's attempt rate         +8      -8        0        seed 1 +5      -6       +3        seed 2 +4      -4        0        seed 3 at the shipped attempt rate       +9      -9        0        seed 1 +7      -7       +3        seed 2 +4      -5       -4        seed 3</p>
+<p><strong>The arm's content is 4 to 9 more right and as many fewer wrong a seed at the same willingness, same sign on all three seeds and in both directions of the match, +17 / −18 pooled at the arm's rate and +20 / −21 at the shipped rate.</strong> Each seed is inside the ±7 fold noise; three of the same sign and size are not nothing and are not a bar. On seed 1 <code>AGGREGATION</code> still falls at matched willingness, 57 → 43, so part of that seed's mechanism win was the head and not the threshold — and it still does not appear on seeds 2 and 3 (48 → 49, 61 → 63).</p>
+<p>Two cautions on the control itself. <code>window @ shipped</code> on seed 3 reads 197 correct silences, four under that seed's floor of 201, so that row is not a point the reader would ship and is quoted only as the mirror of the match. And the match is on attempt rate over the answerable half; a match on correct silences would move the thresholds by a different amount and was not run.</p>
+<p><strong>§6's verdict, restated with this in hand.</strong> Closed on <code>right</code> at the bar. What the arm actually buys is about one point of <code>acc | att</code> at equal willingness — the same right-for-wrong trade in every seed — and not the refusal §1 described. That is the number the owner's rule would count, with the attempt rate unchanged by construction; it is smaller than §1 made it look, and it is the honest one.</p></div>
+  </section>
+
+  <section class="grid refs">
+    <div class="body two-even">
+      <div>
+        <h2 class="small">It cites</h2>
+        <ul class="reflist"><li style="--c:var(--c2)"><a href="/Corn-Jr-Public/finding/86.html"><span class="fn">86</span>A checker that reads the candidate answer works; re-ranking does not</a></li></ul>
+        
+      </div>
+      <div>
+        <h2 class="small">Cited by</h2>
+        <ul class="reflist"><li style="--c:var(--c2)"><a href="/Corn-Jr-Public/finding/104.html"><span class="fn">104</span>Under the owner&#39;s rules, a fifth of &#39;wrong&#39; answers are right</a></li><li style="--c:var(--c2)"><a href="/Corn-Jr-Public/finding/110.html"><span class="fn">110</span>Of four cheap rescoring ideas, only one vote per mention helps</a></li><li style="--c:var(--c2)"><a href="/Corn-Jr-Public/finding/112.html"><span class="fn">112</span>Training on whole passages lifts extraction from 54% to 71%</a></li></ul>
+        
+      </div>
+    </div>
+    <p class="body source">docs/findings/101-the-verifier-that-reads-the-windows-fit-to-the-question-buys-a-better-refusal-on-three-seeds-and-no-more-right-answers-so-the-arm-clears-both-floors-and-misses-the-bar.md</p>
+  </section>
+</article>
+
+  
+<footer class="turn">
+  <div><span class="sc">previous</span><a href="/Corn-Jr-Public/finding/100.html">100 · Two bidirectional layers over the reader add nothing</a></div>
+  <div class="r"><span class="sc">next</span><a href="/Corn-Jr-Public/finding/102.html">102 · Twice the training epochs doesn&#39;t improve the answer finder</a></div>
+  <p class="keys"><kbd>←</kbd> <kbd>→</kbd> turn the page · <kbd>/</kbd> find</p>
+</footer>
+<p class="bynumber">Previous and next in <a href="/Corn-Jr-Public/thread/reading.html">Reading documents</a>. By number:
+  <a href="/Corn-Jr-Public/finding/100.html">100</a> · <a href="/Corn-Jr-Public/finding/102.html">102</a></p>
+
+</div>
+</body>
+</html>

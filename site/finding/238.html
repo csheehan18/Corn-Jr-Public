@@ -1,0 +1,86 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>238 · He writes worst exactly where he reads worst, message by message · Corn-Jr</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600&family=IBM+Plex+Mono:wght@400;500&family=Spectral:ital,wght@0,400;0,500;0,600;1,400&family=Spectral+SC:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/Corn-Jr-Public/static/library.css">
+<script defer src="/Corn-Jr-Public/static/library.js"></script>
+<script type="speculationrules">
+{"prerender": [{"where": {"and": [{"href_matches": "/Corn-Jr-Public/*"}, {"not": {"href_matches": "/Corn-Jr-Public/random.html"}}, {"not": {"href_matches": "/Corn-Jr-Public/static/*"}}]}, "eagerness": "moderate"}]}
+</script>
+
+</head>
+<body>
+<div class="page">
+  <header class="running">
+    <a class="book" href="/Corn-Jr-Public/">Corn-Jr · The Record</a>
+    <nav>
+      <a href="/Corn-Jr-Public/" data-key="shelf">Shelf</a><a href="/Corn-Jr-Public/findings.html" data-key="findings" class="here">Findings</a><a href="/Corn-Jr-Public/doc/VISION.html" data-key="VISION">Vision</a><a href="/Corn-Jr-Public/doc/GLOSSARY.html" data-key="GLOSSARY">Glossary</a>
+      <a href="https://github.com/csheehan18/Corn-Jr-Public">Source</a>
+    </nav>
+  </header>
+  
+
+<article class="sheet" style="--c:var(--c5)">
+  <div class="progress" aria-hidden="true"></div>
+  <section class="grid chapter-open finding-open">
+    <a class="tab" href="/Corn-Jr-Public/thread/reply-judge.html" title="The reply judge"><small>Part</small><span>V</span></a>
+    <p class="cn">238</p>
+    <p class="partline"><a href="/Corn-Jr-Public/thread/reply-judge.html">The reply judge</a> · 15 November 2026</p>
+    <h1>He writes worst exactly where he reads worst, message by message</h1>
+  </section>
+
+  <section class="grid">
+    <p class="marginal">The result, as the finding states it</p><div class="prose"><p class="lead">Over finding <a class="fref" href="/Corn-Jr-Public/finding/208.html">208</a>'s 148 one-off messages, a message's mean swap margin on the shipped 260M — how strongly he prefers a hand-written fitting reply over a swapped one — predicts whether his own greedy reply to that message was hand-labelled coherent at AUC 0.713, and at 0.713 counting only pairs inside one of the ten message categories. Message length predicts the label at 0.54 and taking it out of the margin leaves 0.713. Pre-registered row R: linked (0.65 or more). On the plain 5M the same read is 0.544 (0.586 within category): near chance. The share of pairs he gets right predicts nothing at either size (0.544, 0.516) — the 260M gets nearly every pair right, so only the margin's size carries the signal.</p></div>
+    <p class="marginal">What it cost</p><div class="prose"><p class="cost">pre-registered and committed at 21b9000 before either read was computed; started 15:11:55 on 2026-11-15, read 1 on CPU in under 2 s, hand read and length check under 1 min; written 15:15-15:20. No card.</p></div>
+  </section>
+
+  
+
+  <section class="grid">
+    <div class="prose doc"><p><strong>The question</strong> (owner, 2026-11-15: "Run both probes", after a brainstorm on how a model can understand words while still generating text). Findings <a class="fref" href="/Corn-Jr-Public/finding/204.html">204</a> and <a class="fref" href="/Corn-Jr-Public/finding/208.html">208</a> measured that he recognises the fitting reply far more often than he writes one — 99-100% of swap pairs against 123 of 148 written at 260M. Is that one weak signal read two ways, or two competences that fail in different places? It had never been read message by message. The pre-registration is <code>scripts/probe_read_write.py</code>'s docstring, read 1.</p>
+<h3 id="the-read">The read</h3>
+<p>A message's <strong>read score</strong> is the mean margin (finding <a class="fref" href="/Corn-Jr-Public/finding/204.html">204</a>'s swap score, a reply's general likelihood cancelled) over every pair it sits in, either side, across and within category pooled: 7 to 18 pairs a message. Its <strong>write label</strong> is finding <a class="fref" href="/Corn-Jr-Public/finding/208.html">208</a>'s blind hand label of that run's own greedy reply. The parse reproduces 208's totals (123 and 70) by assertion.</p>
+<p>run                     writes    R  AUC    Rc  within category   share-right AUC corn_jr_260m (shipped)  123/148   0.713     0.713                 0.544 nano5m_v3_webblend       70/148   0.544     0.586                 0.516</p>
+<p>Not registered, read after: message length (words) predicts the 260M's label at 0.540 and correlates 0.25 with the read score; the read score with length regressed out still reads 0.713. <strong>Prediction was wrong</strong>: it said 0.58-0.68, linked more by category than by item; it is linked by item.</p>
+<h3 id="the-hand-read">The hand read</h3>
+<p>The eight messages he reads worst, with the fitting reply he was shown and the one he wrote:</p>
+<p>138  "There's a spider in my bath and I'm not going in there."   F shown: I'd leave it for a while too. wrote: Okay, we'll send someone over right away. Can you tell me where you are? 118  "Maybe."             F   wrote: It's about 5,000. 61   "Any ideas for a cheap date night?"   F   wrote: I don't know, what did you have in mind? 147  "My neighbour gave me a huge bag of lemons."   P   wrote: That's great! How many did you get? 120  "Never mind."        F   wrote: I don't mind. 116  "Hmm."               F   wrote: That's interesting. 137  "I accidentally called my teacher mum."   P   wrote: I'm sorry to hear that. What happened? 127  "Wait, what?"        F   wrote: I'm sorry, I didn't mean to. I was just trying to get your attention.</p>
+<p>Six of eight fail. What they share is that the meaning is not in the words: a spider in the bath is a joke-sized complaint and not an emergency, "Never mind" withdraws a request, "Wait, what?" asks for a repeat. Where the message's words carry its meaning he reads it well and writes well; where the meaning is in what the words imply, both fail together.</p>
+<h3 id="what-it-licenses">What it licenses</h3>
+<p><strong>Reading and writing are one competence in the 260M, not two.</strong> The messages his recognition finds hard are the ones he writes badly on, beyond what the kind of message or its length explains. So the recognise-ahead-of- write gap of findings <a class="fref" href="/Corn-Jr-Public/finding/204.html">204</a> and <a class="fref" href="/Corn-Jr-Public/finding/208.html">208</a> is mostly the same weak signal read two ways — recognition with the prior subtracted and the whole reply in view, writing committed at the first word — and a fix that strengthens understanding of a message should move both. At 5M the link is near chance, which fits finding <a class="fref" href="/Corn-Jr-Public/finding/214.html">214</a>'s weak recognition there: little signal to share. One checkpoint per size, one hand labeller, 148 messages; the 5M's second seed and exam 2 on the 260M have no swap read and are not in it.</p></div>
+  </section>
+
+  <section class="grid refs">
+    <div class="body two-even">
+      <div>
+        <h2 class="small">It cites</h2>
+        <ul class="reflist"><li style="--c:var(--c5)"><a href="/Corn-Jr-Public/finding/204.html"><span class="fn">204</span>Running the same layers twice moves nothing measurable at 5M</a></li><li style="--c:var(--c5)"><a href="/Corn-Jr-Public/finding/208.html"><span class="fn">208</span>The shipped model answers most one-off messages coherently</a></li><li style="--c:var(--c5)"><a href="/Corn-Jr-Public/finding/214.html"><span class="fn">214</span>A reply judge beside the 5M moves his replies level</a></li></ul>
+        
+      </div>
+      <div>
+        <h2 class="small">Cited by</h2>
+        <ul class="reflist"><li style="--c:var(--c5)"><a href="/Corn-Jr-Public/finding/240.html"><span class="fn">240</span>Real exchanges around &#34;never mind&#34; taught the 5M nothing measurable</a></li></ul>
+        
+      </div>
+    </div>
+    <p class="body source">docs/findings/238-the-260m-writes-badly-on-the-messages-he-reads-worst-auc-0-71-and-0-71-inside-category-message-length-explains-none-of-it-and-at-5m-the-link-is-near-chance-0-54.md</p>
+  </section>
+</article>
+
+  
+<footer class="turn">
+  <div><span class="sc">previous</span><a href="/Corn-Jr-Public/finding/220.html">220 · Judging his own drafts does not help; plain beam search might</a></div>
+  <div class="r"><span class="sc">next</span><a href="/Corn-Jr-Public/finding/239.html">239 · The count book judges replies a little, and picks no better</a></div>
+  <p class="keys"><kbd>←</kbd> <kbd>→</kbd> turn the page · <kbd>/</kbd> find</p>
+</footer>
+<p class="bynumber">Previous and next in <a href="/Corn-Jr-Public/thread/reply-judge.html">The reply judge</a>. By number:
+  <a href="/Corn-Jr-Public/finding/237.html">237</a> · <a href="/Corn-Jr-Public/finding/239.html">239</a></p>
+
+</div>
+</body>
+</html>

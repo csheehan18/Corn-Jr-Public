@@ -1,0 +1,79 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>1 · Five times the parameters costs only a third of the decode speed · Corn-Jr</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600&family=IBM+Plex+Mono:wght@400;500&family=Spectral:ital,wght@0,400;0,500;0,600;1,400&family=Spectral+SC:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/Corn-Jr-Public/static/library.css">
+<script defer src="/Corn-Jr-Public/static/library.js"></script>
+<script type="speculationrules">
+{"prerender": [{"where": {"and": [{"href_matches": "/Corn-Jr-Public/*"}, {"not": {"href_matches": "/Corn-Jr-Public/random.html"}}, {"not": {"href_matches": "/Corn-Jr-Public/static/*"}}]}, "eagerness": "moderate"}]}
+</script>
+
+</head>
+<body>
+<div class="page">
+  <header class="running">
+    <a class="book" href="/Corn-Jr-Public/">Corn-Jr · The Record</a>
+    <nav>
+      <a href="/Corn-Jr-Public/" data-key="shelf">Shelf</a><a href="/Corn-Jr-Public/findings.html" data-key="findings" class="here">Findings</a><a href="/Corn-Jr-Public/doc/VISION.html" data-key="VISION">Vision</a><a href="/Corn-Jr-Public/doc/GLOSSARY.html" data-key="GLOSSARY">Glossary</a>
+      <a href="https://github.com/csheehan18/Corn-Jr-Public">Source</a>
+    </nav>
+  </header>
+  
+
+<article class="sheet" style="--c:var(--c1)">
+  <div class="progress" aria-hidden="true"></div>
+  <section class="grid chapter-open finding-open">
+    <a class="tab" href="/Corn-Jr-Public/thread/foundations.html" title="Foundations"><small>Part</small><span>I</span></a>
+    <p class="cn">1</p>
+    <p class="partline"><a href="/Corn-Jr-Public/thread/foundations.html">Foundations</a> · 17 August 2026</p>
+    <h1>Five times the parameters costs only a third of the decode speed</h1>
+  </section>
+
+  <section class="grid">
+    
+    <p class="marginal">What it cost</p><div class="prose"><p class="cost">0 s of new scoring on record; it reads 1 card scored for an earlier finding (<code>nano20m</code>). Backfilled 2026-09-26 from the cards' <code>seconds</code>; training and probe time were never recorded, so this is a floor.</p></div>
+  </section>
+
+  
+
+  <section class="grid">
+    <div class="prose doc"><p>Corn-Nano-0: 4.9M params, 65M tokens, val <strong>0.6104 nats/byte</strong> (0.88 bits/byte), ~17 min.</p>
+<p>The bench turned up something that bears on VISION.md §4, which estimates ~1500 tok/s for 250M from a memory-bandwidth argument and concludes inference speed is not at risk:</p>
+<div class="tablewrap"><table><thead><tr><th>config</th><th>params</th><th>decode</th></tr></thead><tbody><tr><td><code>nano</code> (6 layers)</td><td>4.9M</td><td>331 tok/s — 3.02 ms/tok</td></tr><tr><td><code>nano20m</code> (8 layers)</td><td>25.5M</td><td>250 tok/s — 3.99 ms/tok</td></tr></tbody></table></div>
+<p><strong>5x the parameters costs 32% of the speed.</strong> Cost tracks <em>layer count</em>, at a flat ~0.5ms per layer, not parameter count — so in eager PyTorch decode is bound by per-layer kernel launch overhead, not by bandwidth. The bandwidth ceiling is real but nowhere near binding yet.</p>
+<p>The consequence: a 250M model at 16–24 layers extrapolates to ~8–12 ms/token, or <strong>85–125 tok/s — under the 250 tok/s target</strong>, unless per-token overhead is removed. That makes CUDA graphs / <code>torch.compile</code> / a fused decode path the lever that matters, and quantization roughly irrelevant. §4's headroom is available but not free.</p>
+<p>This is exactly the trade <code>bench.py</code> exists to catch, and it argues for keeping layer count down and width up when the 250M architecture gets chosen.</p></div>
+  </section>
+
+  <section class="grid refs">
+    <div class="body two-even">
+      <div>
+        <h2 class="small">It cites</h2>
+        <p class="aside">No other finding by number.</p>
+      </div>
+      <div>
+        <h2 class="small">Cited by</h2>
+        <p class="aside">No later finding yet.</p>
+      </div>
+    </div>
+    <p class="body source">docs/findings/01-first-finding.md</p>
+  </section>
+</article>
+
+  
+<footer class="turn">
+  <div><span class="sc">previous</span><a href="/Corn-Jr-Public/finding/0.html">0 · The small training pipeline runs end to end with no code changes</a></div>
+  <div class="r"><span class="sc">next</span><a href="/Corn-Jr-Public/finding/2.html">2 · Decode speed is launch overhead per layer; CUDA graphs remove most</a></div>
+  <p class="keys"><kbd>←</kbd> <kbd>→</kbd> turn the page · <kbd>/</kbd> find</p>
+</footer>
+<p class="bynumber">Previous and next in <a href="/Corn-Jr-Public/thread/foundations.html">Foundations</a>. By number:
+  <a href="/Corn-Jr-Public/finding/0.html">0</a> · <a href="/Corn-Jr-Public/finding/2.html">2</a></p>
+
+</div>
+</body>
+</html>

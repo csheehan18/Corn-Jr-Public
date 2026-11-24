@@ -1,0 +1,88 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>240 · Real exchanges around &#34;never mind&#34; taught the 5M nothing measurable · Corn-Jr</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600&family=IBM+Plex+Mono:wght@400;500&family=Spectral:ital,wght@0,400;0,500;0,600;1,400&family=Spectral+SC:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/Corn-Jr-Public/static/library.css">
+<script defer src="/Corn-Jr-Public/static/library.js"></script>
+<script type="speculationrules">
+{"prerender": [{"where": {"and": [{"href_matches": "/Corn-Jr-Public/*"}, {"not": {"href_matches": "/Corn-Jr-Public/random.html"}}, {"not": {"href_matches": "/Corn-Jr-Public/static/*"}}]}, "eagerness": "moderate"}]}
+</script>
+
+</head>
+<body>
+<div class="page">
+  <header class="running">
+    <a class="book" href="/Corn-Jr-Public/">Corn-Jr · The Record</a>
+    <nav>
+      <a href="/Corn-Jr-Public/" data-key="shelf">Shelf</a><a href="/Corn-Jr-Public/findings.html" data-key="findings" class="here">Findings</a><a href="/Corn-Jr-Public/doc/VISION.html" data-key="VISION">Vision</a><a href="/Corn-Jr-Public/doc/GLOSSARY.html" data-key="GLOSSARY">Glossary</a>
+      <a href="https://github.com/csheehan18/Corn-Jr-Public">Source</a>
+    </nav>
+  </header>
+  
+
+<article class="sheet" style="--c:var(--c5)">
+  <div class="progress" aria-hidden="true"></div>
+  <section class="grid chapter-open finding-open">
+    <a class="tab" href="/Corn-Jr-Public/thread/reply-judge.html" title="The reply judge"><small>Part</small><span>V</span></a>
+    <p class="cn">240</p>
+    <p class="partline"><a href="/Corn-Jr-Public/thread/reply-judge.html">The reply judge</a> · 15 November 2026</p>
+    <h1>Real exchanges around &#34;never mind&#34; taught the 5M nothing measurable</h1>
+  </section>
+
+  <section class="grid">
+    <p class="marginal">The result, as the finding states it</p><div class="prose"><p class="lead">Thirty-six hand-written situations — a line of his, a short turn ("Never mind.", "Maybe.", "Hmm.", "Fine.", "What?", "Whatever."), the reply that fits — read by a swap inside each situation, so only the short turn can decide. The shipped 260M reads them at 0.75 of pairs right on the wordings the lesson would hold and 0.64 on reworded ones never in it ("Forget it.", "Perhaps.", "Um.", "Suit yourself."); ten ordinary 5Ms read 0.47-0.69 and 0.39-0.64, near chance. Two 5Ms reading 0.5% of the run as two-speaker subtitle exchanges around the seen wordings (2,636 windows, each read about nine times) against two reading the same amount of plain two-speaker exchanges: seen-half mean margin 1.04 and 1.24 against 0.84 and 0.60 (gap +0.42, rule 0.66), unseen 0.77 and -0.07 against -0.09 and 0.42 (gap +0.19, rule 0.93). Neither row holds; every arm sits inside the ten ordinary runs' band (seen 0.29-1.40, unseen -0.57-0.99). Cost nil (narrative and web within 0.005). Blind hand read of 144 replies to the reworded items: 0 pass, at every run. Before any run, the first cut of windows failed its own hand read, 14 of 50, and was replaced by a registered second cut that passed 31 of 50.</p></div>
+    <p class="marginal">What it cost</p><div class="prose"><p class="cost">pre-registered at 9450650 (16:19 start on 2026-11-15), amendment at 4ba0ef9, mixes and configs at 9700852; card 12.0 s step 0, 5.9 s the one-step test, 16:36-16:59 for four runs and the read under one detached lock (23 min); window cuts and mixes on CPU in minutes; three hand reads (50, 50, 144) about 15 min. ETA said 2-3 h all in; it took about 45 min.</p></div>
+  </section>
+
+  
+
+  <section class="grid">
+    <div class="prose doc"><p><strong>The question</strong> (owner, 2026-11-15: "Lets do it fully", after a three-agent brainstorm he asked for — "How can we get a model to understand words while still generating text" — and choosing 5M: "we haven't really gotten the potential out of it"). Finding <a class="fref" href="/Corn-Jr-Public/finding/238.html">238</a>: the 260M reads and writes worst on the same messages, those whose meaning is not in their words. A red-team read found such turns almost absent from his conversation (9.07M SODA turns hold "Never mind" alone 4 times). So: does a 5M that reads real exchanges around those turns learn what the turn <em>does</em> — reading reworded turns it never saw — or only a reply per wording? The pre-registration and its amendment are <code>scripts/probe_markers.py</code>'s docstring.</p>
+<h3 id="step-0-the-items-before-anything-was-built">Step 0 — the items, before anything was built</h3>
+<p>swap share right, mean margin      seen half       unseen half      his line removed: seen / unseen corn_jr_260m (shipped)             0.75  3.46      0.64  2.45       0.69 4.48 / 0.78 3.65 ten ordinary 5Ms                   0.47-0.69       0.39-0.64        (sd of mean margin 0.330 / 0.466)</p>
+<p>Both gates passed (G1 at its line exactly, 27 of 36). Read beside and not predicted: <strong>the 260M reads the reworded turns better without his line in front (0.78) than with it (0.64)</strong> — the situation he is shown pulls his reading off the turn; per function the mean-margin gap is widest on <code>think</code> (0.78 with the line against 2.75 without) and <code>dismiss</code> (2.80 against 5.18).</p>
+<h3 id="the-windows-two-cuts-the-first-failing">The windows — two cuts, the first failing</h3>
+<p>From the first 100 MB of OpenSubtitles (research-only), a window is the line before a short turn, the turn, and the line after, framed as his line, the person's turn, his reply. <strong>W: 14 of 50</strong> windows had the next line answering the turn as another speaker — a plain subtitle line does not say who speaks, and mostly the turn's own speaker carries on (<code>markers__windows50_labels.txt</code>). The arm as registered stopped there. The amendment, committed before a new window was cut, kept only turns that open a two-speaker subtitle (a dash on the turn and on the next line, first of the pair): <strong>W2: 31 of 50</strong>, past its line of 30. That rule leaves 2,636 windows (<code>what</code> 1,000 of them under the cap, <code>never mind</code> 57, <code>i guess</code> 43, <code>hm</code> 42), so 0.5% of the run reads each window about nine times — the amendment's "about twice" was miscounted from bytes, and is corrected here, not there.</p>
+<h3 id="the-one-step-test">The one-step test</h3>
+<p>One AdamW step on 64 marker windows against one on 64 plain ones, three batches each, from the plain 5M: seen-half margin -0.607 against -0.674, so <strong>O passes on its letter</strong> — but both kinds of step moved every read the same way (seen down about 0.65, unseen up about 0.50), and the difference between them, 0.07, is a tenth of the shift they share. The local signal was there only barely.</p>
+<h3 id="the-rows">The rows</h3>
+<p>run                     seen: right  margin    unseen: right  margin    lm narrative  web marker windows  s1      0.64         1.04      0.61           0.77      0.4897        0.9527 marker windows  s2      0.69         1.24      0.53          -0.07      0.4880        0.9535 plain windows   s1      0.67         0.84      0.47          -0.09      0.4864        0.9480 plain windows   s2      0.47         0.60      0.61           0.42      0.4884        0.9524</p>
+<p>U  unseen  gap +0.19 against 2 sd 0.93       does not hold K  seen    gap +0.42 against 2 sd 0.66       does not hold (both marker seeds above both plain, the size short) C  cost    narrative +0.003 / -0.000, web +0.005 / +0.001   holds H  blind hand read, 36 reworded items x 4 runs: 0 of 144 pass</p>
+<p><strong>Prediction was wrong</strong> on K: it said the seen wordings would move clearly and the unseen would not. Neither moved past the band. <strong>H is at the floor and cannot rank the runs</strong>: every 5M answers "What?", "I don't know", "No, I don't think so", or turns to the situation's words ("I don't want to go running") and ignores the short turn (<code>markers__blind_labels.txt</code>).</p>
+<h3 id="what-it-licenses">What it licenses</h3>
+<p><strong>At 0.5% of a 5M run, real two-speaker exchanges around short turns teach neither the wordings shown nor the reworded ones, past the spread of ordinary runs; and a 5M writes no fitting reply to these turns in this frame at all.</strong> So the seen-against-unseen question — lookup or inference — is not answered here: there was no lookup to compare against. Three things limit it, each named rather than guessed past: the lesson is thin (2,636 windows, a third of them <code>what</code>, the withdraw and hedge wordings in the tens) and only 31 of 50 are real replies; the dose is 0.5%; and the 5M band is wide on 36 pairs (sd 0.33 and 0.47). What would read it is more real two-speaker data — the full OpenSubtitles release, not on disk, is the owner's call — or the size where the signal exists: the 260M already reads these at 0.75 and 0.64, and his line costing him 0.14 on the reworded half is the sharper question this arm turned up.</p></div>
+  </section>
+
+  <section class="grid refs">
+    <div class="body two-even">
+      <div>
+        <h2 class="small">It cites</h2>
+        <ul class="reflist"><li style="--c:var(--c5)"><a href="/Corn-Jr-Public/finding/238.html"><span class="fn">238</span>He writes worst exactly where he reads worst, message by message</a></li></ul>
+        
+      </div>
+      <div>
+        <h2 class="small">Cited by</h2>
+        <p class="aside">No later finding yet.</p>
+      </div>
+    </div>
+    <p class="body source">docs/findings/240-two-speaker-subtitle-exchanges-around-never-mind-maybe-hmm-at-half-a-percent-leave-the-5m-inside-its-band-on-seen-and-unseen-wordings-and-it-writes-no-fitting-reply.md</p>
+  </section>
+</article>
+
+  
+<footer class="turn">
+  <div><span class="sc">previous</span><a href="/Corn-Jr-Public/finding/239.html">239 · The count book judges replies a little, and picks no better</a></div>
+  <div class="r"></div>
+  <p class="keys"><kbd>←</kbd> <kbd>→</kbd> turn the page · <kbd>/</kbd> find</p>
+</footer>
+<p class="bynumber">Previous and next in <a href="/Corn-Jr-Public/thread/reply-judge.html">The reply judge</a>. By number:
+  <a href="/Corn-Jr-Public/finding/239.html">239</a></p>
+
+</div>
+</body>
+</html>

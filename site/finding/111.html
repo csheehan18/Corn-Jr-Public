@@ -1,0 +1,105 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>111 · Overlapping windows add nothing; answers near a cut edge are missed · Corn-Jr</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600&family=IBM+Plex+Mono:wght@400;500&family=Spectral:ital,wght@0,400;0,500;0,600;1,400&family=Spectral+SC:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/Corn-Jr-Public/static/library.css">
+<script defer src="/Corn-Jr-Public/static/library.js"></script>
+<script type="speculationrules">
+{"prerender": [{"where": {"and": [{"href_matches": "/Corn-Jr-Public/*"}, {"not": {"href_matches": "/Corn-Jr-Public/random.html"}}, {"not": {"href_matches": "/Corn-Jr-Public/static/*"}}]}, "eagerness": "moderate"}]}
+</script>
+
+</head>
+<body>
+<div class="page">
+  <header class="running">
+    <a class="book" href="/Corn-Jr-Public/">Corn-Jr · The Record</a>
+    <nav>
+      <a href="/Corn-Jr-Public/" data-key="shelf">Shelf</a><a href="/Corn-Jr-Public/findings.html" data-key="findings" class="here">Findings</a><a href="/Corn-Jr-Public/doc/VISION.html" data-key="VISION">Vision</a><a href="/Corn-Jr-Public/doc/GLOSSARY.html" data-key="GLOSSARY">Glossary</a>
+      <a href="https://github.com/csheehan18/Corn-Jr-Public">Source</a>
+    </nav>
+  </header>
+  
+
+<article class="sheet" style="--c:var(--c2)">
+  <div class="progress" aria-hidden="true"></div>
+  <section class="grid chapter-open finding-open">
+    <a class="tab" href="/Corn-Jr-Public/thread/reading.html" title="Reading documents"><small>Part</small><span>II</span></a>
+    <p class="cn">111</p>
+    <p class="partline"><a href="/Corn-Jr-Public/thread/reading.html">Reading documents</a> · 4 September 2026</p>
+    <h1>Overlapping windows add nothing; answers near a cut edge are missed</h1>
+  </section>
+
+  <section class="grid">
+    <p class="marginal">The result, as the finding states it</p><div class="prose"><p class="lead">The second view of an occurrence is right on a quarter of the first view's misses and averaging the two loses ten passages a seed, rivals are mentioned as rarely as golds, self-agreement across the overlap adds nothing to the margin, and a gold within three tokens of a cut edge is picked ten points less often on both seeds</p></div>
+    
+  </section>
+
+  
+
+  <section class="grid">
+    <div class="prose doc"><p>2026-09-04. <strong>Replay only</strong> — no GPU, no decode, no weight read. <code>scripts/probe_two_views.py</code> (new) over <code>nullpr_s{1,2}_popa.json</code>, <code>pairs_built_s{1,2}_popa.json</code> and the <code>bpe8k</code> tokenizer, importing finding <a class="fref" href="/Corn-Jr-Public/finding/110.html">110</a>'s occurrence join. Two seeds at the bar protocol, extent on, hybrid reduce, each at its own threshold. <code>evals/results/two_views.json</code>. <code>corn/reader.py</code> and <code>corn/extract.py</code> are untouched.</p>
+<h3 id="0-what-ran">0. What ran</h3>
+<p>Finding <a class="fref" href="/Corn-Jr-Public/finding/110.html">110</a>'s machinery makes every candidate in every window's ten an <em>occurrence</em>, a character position in the passage. Windows step by half their width, so on most passages one occurrence is read by two windows under two contexts, and the pipeline has never compared those two readings before the argmax. Five reads followed from that, pre-registered in the file's docstring, in the order the follow-up plan gave them: combine the two views before the argmax (idea 1), a topic-entity prior from occurrence counts (idea 4), the pick rate against the gold's distance from a cut edge (idea 5), the extent rule's consistency across views (idea 6), and self-agreement across the overlap as a free admission feature (idea 2). The join locates 38,930 candidates a seed and fails on 349 / 363 of them, which are scored alone.</p>
+<h3 id="1-the-two-views-combined-before-the-argmax-killed">1. The two views, combined before the argmax — killed</h3>
+<p><strong>The second view is right on a quarter of the first view's misses.</strong> Over gold-bearing windows whose ten holds the gold (1,097 / 1,101 a seed), the argmax is the gold on 731 / 700, finding <a class="fref" href="/Corn-Jr-Public/finding/103.html">103</a>'s 66.6% / 63.6%. Of the 366 / 401 misses, another window's ten holds the <em>same occurrence</em> of the gold on 232 / 251, and there it is rank 1 on <strong>57 / 66</strong>. So the neighbouring window does sometimes know what this one does not, and the passage-level statistic already harvests it: "some gold window ranks the gold first" reads 494 / 484 because it is an OR over views.</p>
+<p>Combining the views replaces that OR with a mean, and the mean loses:</p>
+<p>gold ranked first      per-window rate shipped (each view alone)     494      484        66.6%    63.6% logprob, mean over views      484 −10  472 −12    66.7%    64.3%   (primary) dev, mean over views          484 −10  473 −11    66.3%    64.1% raw, mean over views          488  −6  473 −11    67.3%    63.9%</p>
+<p>The per-window rate is flat to +0.7 points and the passage count falls by ten and twelve. That is finding <a class="fref" href="/Corn-Jr-Public/finding/103.html">103</a>'s shape a second time, with context as the variance source instead of the seed: any-of-three heads read 555 against a mean of 498 there, and here any-of-two views reads 494 against a mean of</p>
+<ol><li><strong>Averaging removes the disagreement the OR was living on, and the vote downstream cannot tell which view to believe.</strong> The go bar (≥ +15 gold-first on both seeds) is missed by 25 and 27; the per-window rate did rise on both seeds so the kill as written does not fire, and the arm is closed on the go bar. Through the bar protocol the primary combination reads +3 (2 / 5) and +0 (5 / 5) right with 566 / 586 window picks moved, on margins computed for the old argmax, which is the floor the docstring said it would be.</li></ol>
+<h3 id="2-the-topic-entity-penalty-killed">2. The topic-entity penalty — killed</h3>
+<p>The hypothesis was that Wikipedia repeats its subject and mentions the answer once, so a span's occurrence count would separate topic from answer. On the 122 / 104 residue passages the reader spoke a wrong span on (<code>RIVAL</code> and <code>AGGREGATION</code> at own t), the spoken text occurs in the passage exactly as often as the gold on <strong>100 / 84</strong>, more often on 12 / 10, less often on 10 /</p>
+<ol><li>The go bar was ≥ 60% "rival out-occurs gold"; it reads 9.8% / 9.6%. The cost side is the same picture: on the 731 / 700 windows the argmax is right, it out-occurs the runner-up on 10.5% / 11.0% and ties it on 82%. <strong>Rivals are mentioned as rarely as golds.</strong> The prior has nothing to act on.</li></ol>
+<h3 id="3-edge-distance-a-mechanism-for-w1-measured">3. Edge distance — a mechanism for W1, measured</h3>
+<p>The first version of this read binned the gold by its distance from either window edge and read the <em>opposite</em> of the hypothesis, 70.8% / 69.2% rank 1 within three tokens of an edge against 65% / 63% deep inside — because the first window's left edge is the passage's own start, where a definitional first sentence holds the answer. Counting only <strong>cut</strong> edges (a window's left edge unless it is the first window, its right edge unless it is the last):</p>
+<p>tokens from the nearest cut edge    seed 1              seed 2 0–3                                  77   59.7%          74   59.5% 4–7                                  86   65.1%          89   61.8% 8–15                                184   64.7%         180   59.4% 16–31                               325   64.6%         330   63.3% 32 and more                         383   70.0%         386   66.6% no cut edge (one window)             42   76.2%          42   66.7%</p>
+<p><strong>A gold within three tokens of a cut edge is picked ten and seven points less often than one thirty tokens from any cut</strong>, on both seeds, and the curve is monotone enough to read as one. It is the first measurement on the record that the window boundary itself costs the pick something, which W1 (<code>PLAN-READER-WHOLE.md</code> §3) has argued from the window-count distribution and never measured. Its size is small: the windows within seven tokens of a cut are 163 / 163 of about 1,100 a seed, and a ten-point deficit on them is about sixteen windows, fewer passages, some of which the other view already recovers. That is consistent with the audit's estimate for the window as a lever and does not enlarge it.</p>
+<h3 id="4-the-extent-rule-across-the-views-nothing-there">4. The extent rule across the views — nothing there</h3>
+<p>On the residue, the gold is the argmax in two windows on 35 / 32 passages, the extent rule widened it differently on 2 / 3, and on <strong>none</strong> is one widening right and the other wrong. <code>CLIPPED</code> is not a disagreement between views.</p>
+<h3 id="5-self-agreement-across-the-overlap-killed">5. Self-agreement across the overlap — killed</h3>
+<p>Finding <a class="fref" href="/Corn-Jr-Public/finding/110.html">110</a>'s L1 found agreement between the head and the generator refuses wrong answers at the cost of a decode per window. The free version is whether the neighbouring window's argmax is the same occurrence: +1 on 1,621 / 1,610 windows, −1 (the neighbour's ten holds this argmax's occurrence and picks something else) on 1,067 / 1,088, 0 (no second view) on 1,205 / 1,195. As a raw bit it separates "the argmax is the gold" at <strong>AUC 0.613 / 0.600</strong>, against L1's generator agreement at 0.69. Under the same two-feature bar CV one fold on each seed chooses β = 0 and the other β = 0.25, and the arm reads <strong>−1 / −1 right</strong> (3 / 2 on both seeds, p = 1). The willingness control has nothing to say because nothing moved. Two views of one head agree because they are one head; the generator agreed because it is a different readout, and even that one the verifier had already priced.</p>
+<h3 id="6-what-the-five-say-together">6. What the five say together</h3>
+<p>read                          go / bar                       result                  verdict 1  views combined             gold-first ≥ +15 both          −10 / −12               closed on the go bar 2  topic-entity prior         rival out-occurs gold ≥ 60%    9.8% / 9.6%             killed 3  edge distance              a read                         −10 / −7 points at 0–3  W1's mechanism, small 4  extent across views        a read                         0 / 0                   nothing there 5  self-agreement             ≥ +10 both, p &lt; 0.05           −1 / −1                 killed</p>
+<p>The overlap between windows is not a second opinion the pipeline is wasting. Where the two views disagree, the OR the passage statistic already takes is the best a read-time rule can do with them, and every rule that tries to be cleverer than the OR loses passages. What the join did buy is §3: a measured, two-seed, monotone cost of the window boundary on the pick, which is the premise W1 rests on and which it can now be read against.</p>
+<h3 id="7-what-this-cannot-say">7. What this cannot say</h3>
+<p><strong>§1's full read reuses margins computed for the old argmax.</strong> A window whose pick moved is admitted on a verifier row about a different span; the +3 / +0 is a floor, and a re-harvested verifier could read higher. It cannot read past the pick stage's own −10 / −12, which is measured on the head alone.</p>
+<p><strong>§2 counts case-insensitive string occurrences</strong>, so "the Beatles" and "Beatles" are two texts. A lemmatised or entity-linked count could read differently; nothing on the record suggests it would reach 60%.</p>
+<p><strong>§3 is a rate over windows, not passages</strong>, and the bins under 100 windows carry about five points of binomial noise each; the claim rests on the two ends of the curve agreeing on both seeds, not on any one bin.</p>
+<p><strong>§5's feature has three values</strong> and the CV's grid for β is coarse; a finer grid could find a small positive on one fold, which is what the fold disagreement in finding <a class="fref" href="/Corn-Jr-Public/finding/110.html">110</a> already showed for two-feature admission rules generally.</p>
+<p><strong>Nothing is selected on Population A</strong>; every weight and threshold is chosen on one fold and read on the other.</p>
+<h3 id="8-on-disk">8. On disk</h3>
+<p><code>scripts/probe_two_views.py</code> (new; imports <code>probe_free_replays.Seed</code> and the occurrence join; about four minutes a seed on the CPU). <code>evals/results/two_views.json</code>. <code>READER-AUDIT.md</code> rows 67–71 and reading-log entry 111.</p></div>
+  </section>
+
+  <section class="grid refs">
+    <div class="body two-even">
+      <div>
+        <h2 class="small">It cites</h2>
+        <ul class="reflist"><li style="--c:var(--c2)"><a href="/Corn-Jr-Public/finding/103.html"><span class="fn">103</span>Averaging three seeds&#39; readers barely helps</a></li><li style="--c:var(--c2)"><a href="/Corn-Jr-Public/finding/110.html"><span class="fn">110</span>Of four cheap rescoring ideas, only one vote per mention helps</a></li></ul>
+        
+      </div>
+      <div>
+        <h2 class="small">Cited by</h2>
+        <p class="aside">No later finding yet.</p>
+      </div>
+    </div>
+    <p class="body source">docs/findings/111-the-second-view-of-an-occurrence-is-right-on-a-quarter-of-the-misses-and-averaging-them-loses-ten-a-seed-while-a-gold-near-a-cut-edge-is-picked-ten-points-less-often.md</p>
+  </section>
+</article>
+
+  
+<footer class="turn">
+  <div><span class="sc">previous</span><a href="/Corn-Jr-Public/finding/110.html">110 · Of four cheap rescoring ideas, only one vote per mention helps</a></div>
+  <div class="r"><span class="sc">next</span><a href="/Corn-Jr-Public/finding/112.html">112 · Training on whole passages lifts extraction from 54% to 71%</a></div>
+  <p class="keys"><kbd>←</kbd> <kbd>→</kbd> turn the page · <kbd>/</kbd> find</p>
+</footer>
+<p class="bynumber">Previous and next in <a href="/Corn-Jr-Public/thread/reading.html">Reading documents</a>. By number:
+  <a href="/Corn-Jr-Public/finding/110.html">110</a> · <a href="/Corn-Jr-Public/finding/112.html">112</a></p>
+
+</div>
+</body>
+</html>

@@ -1,0 +1,94 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>132 · Rotary position embeddings beat learned positions on most tests · Corn-Jr</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600&family=IBM+Plex+Mono:wght@400;500&family=Spectral:ital,wght@0,400;0,500;0,600;1,400&family=Spectral+SC:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/Corn-Jr-Public/static/library.css">
+<script defer src="/Corn-Jr-Public/static/library.js"></script>
+<script type="speculationrules">
+{"prerender": [{"where": {"and": [{"href_matches": "/Corn-Jr-Public/*"}, {"not": {"href_matches": "/Corn-Jr-Public/random.html"}}, {"not": {"href_matches": "/Corn-Jr-Public/static/*"}}]}, "eagerness": "moderate"}]}
+</script>
+
+</head>
+<body>
+<div class="page">
+  <header class="running">
+    <a class="book" href="/Corn-Jr-Public/">Corn-Jr · The Record</a>
+    <nav>
+      <a href="/Corn-Jr-Public/" data-key="shelf">Shelf</a><a href="/Corn-Jr-Public/findings.html" data-key="findings" class="here">Findings</a><a href="/Corn-Jr-Public/doc/VISION.html" data-key="VISION">Vision</a><a href="/Corn-Jr-Public/doc/GLOSSARY.html" data-key="GLOSSARY">Glossary</a>
+      <a href="https://github.com/csheehan18/Corn-Jr-Public">Source</a>
+    </nav>
+  </header>
+  
+
+<article class="sheet" style="--c:var(--c4)">
+  <div class="progress" aria-hidden="true"></div>
+  <section class="grid chapter-open finding-open">
+    <a class="tab" href="/Corn-Jr-Public/thread/tag-spine.html" title="The tag spine"><small>Part</small><span>IV</span></a>
+    <p class="cn">132</p>
+    <p class="partline"><a href="/Corn-Jr-Public/thread/tag-spine.html">The tag spine</a> · 14 September 2026</p>
+    <h1>Rotary position embeddings beat learned positions on most tests</h1>
+  </section>
+
+  <section class="grid">
+    <p class="marginal">The result, as the finding states it</p><div class="prose"><p class="lead">RoPE against learned positions on the dummy world: above on the trained parse at both seeds, three per cent better on three of four language rows, two below on the bound tree, and the held-out rows zero as on every arm before it, so rung 2 trains both trunks at nano and its mid size takes the one the parse prefers</p></div>
+    <p class="marginal">What it cost</p><div class="prose"><p class="cost">3.1 min of scoring on the 1 card first cited here (<code>nano20m_v3_decomp_b_rope</code>). Backfilled 2026-09-26 from the cards' <code>seconds</code>; training and probe time were never recorded, so this is a floor.</p></div>
+  </section>
+
+  
+
+  <section class="grid">
+    <div class="prose doc"><p>PLAN-TAG-SPINE phase C0, the position encoding as an arm (§5 lever 4), read 2026-09-13. Two nano runs, <code>nano20m_v3_decomp_b_rope</code> at seeds 1337 and 1338, on arm B's file byte for byte (<code>data/mix_v3_decomp_b</code>, rule 1) under B's schedule, loss policy and token budget, with one field moved: <code>Config.pos_enc=&quot;rope&quot;</code>. Pre-registered in the config docstring with B's band, the outcome table, the unreadable outcome, the kill and the fallback before a byte trained. B's two seeds are the control, already scored, nothing retrained. Full cards, the bound partial cards (<code>--role-bind --copy-bind</code>), and <code>scripts/check_decode.py</code> parity on both checkpoints.</p>
+<h3 id="the-question">The question</h3>
+<p>Rung 2 asks whether a label learned as a function can be written for a shape he was never shown, and learned absolute positions are the choice the compositional-generalisation literature most consistently finds harmful for exactly that. Ten runs train one trunk. <strong>Which?</strong> Measured on the world that exists, so the choice is a reading and not a citation, and so a RoPE defect in the decode path is found on a seventeen-minute run.</p>
+<h3 id="what-was-built">What was built</h3>
+<p><code>Config.pos_enc</code> (<code>learned</code> | <code>rope</code>, <code>rope_theta</code>). Under <code>rope</code> no <code>wpe</code> is built; every attention layer rotates q and k by their position before the dot product, in the training forward and in the graphed decode <code>step</code> alike, so the cache holds rotated keys and decode needs no new path. The trunk is drawn exactly as the learned build draws it — <code>wpe</code> constructed so the generator advances the same, then dropped — so at one seed a RoPE arm against a <code>wpe</code> arm is the encoding alone. <code>pos_enc</code> joined <code>INIT_MUST_MATCH</code>, so a fine-tune across it is refused by name.</p>
+<p><strong>Held by <code>scripts/check_model.py</code></strong>, sixteen new checks: <code>pos_enc=&quot;learned&quot;</code> spelled out is the pre-flag forward bit for bit; the RoPE trunk is the learned trunk tensor for tensor minus <code>wpe</code>, and the generator is left where the learned build leaves it; the RoPE <code>step</code> — token by token and as one chunk into an empty cache — is the RoPE <code>forward</code> within 1e-5, and the cat-cache forward is too; attention under RoPE is unchanged by a constant shift of every position to 1e-9 and moved by a stretch of the positions. <code>check_decode.py</code> on a RoPE checkpoint: greedy parity 96/96 static, graph, bucketed and compiled; prefix reuse 24/24; the batched reader inert — on the smoke checkpoint before the runs and on both trained ones after.</p>
+<p><strong>Cost, measured before the run</strong> (<code>corn/trainbench.py</code>, batch 24 x 512, bf16, compiled, 30 timed steps after 5 warm, idle card; probe only — not on disk): 139.1 against 137.6 ms a step, <strong>+1.1%</strong>, peak 3.18 against 3.00 GB. 29,368,832 parameters against 29,630,976: the 512 x 512 table.</p>
+<h3 id="the-read-against-b-s-band">The read, against B's band</h3>
+<p>row                 B s1   B s2   RoPE s1  RoPE s2   reading parse.span            77     78      81       81     above, both seeds parse.entity          71     77      70       74     inside parse.heldout          0      0       0        0     zero, as ever parse.depth3           0      0       0        0     zero, as ever move.next             96     97      98       96     inside move.args            120    115     118      116     inside e2e.tree              18     24      22       16     inside B's spread of 6 e2e.rebind            48     49      48       46     one seed two below move.next  bound     116    117     117      118     inside move.args  bound     120    120     120      120     inside e2e.tree   bound      45     51      43       43     two below B's low, both seeds e2e.rebind bound      48     49      48       46     one seed two below tool.copy            120    120     120      120     inside tool.copy_wide       296    289     292      292     inside tool.validity        136    138     155      159     above, both seeds tool.selection       128    118     138      104     the row whose spread is 35 temporal.route       399    397     397      398     inside temporal.copy        353    353     353      353     inside</p>
+<p>val_loss            2.2899 2.3124  2.2236   2.2464   lower by 0.066 at both seeds nats/byte  narrative 0.4510 0.4522  0.4362   0.4389   -3.2%, both seeds web       0.8832 0.8822  0.8571   0.8586   -2.9%, both seeds conv.     0.5155 0.5164  0.4962   0.4947   -3.9%, both seeds temporal  0.1080 0.1092  0.1095   0.1050   inside</p>
+<p>Run time 1,040.7 s and 1,086.7 s against B's ~1,010 s (the second beside the owner's desktop in use).</p>
+<p><strong>The pre-registered table lands on its mixed row.</strong> RoPE is above B's band on <code>parse.span</code> at both seeds (81 and 81 against 77 and 78, B's own spread 1), above it on <code>tool.validity</code> at both, and better on three of four language rows at both seeds with the validation loss lower by 0.066 twice — and it is two below B's low on the tree under the binding at both seeds (43 and 43 against 45 and 51, B's spread 6). By the docstring's own definition of the band, widened by nothing, that is below on one deciding row and above on another, and the row written for it says: <strong>rung 2's nano seeds train both trunks, and the mid size takes the one nano prefers on the parse rows.</strong> The kill did not fire (the copy band holds at 120, 292, 353); the fallback did not fire (nothing is below at both seeds on the copy band, on <code>parse.span</code> or on the language rows).</p>
+<p>Two things beside the table. The bound-tree gap is inside B's own seed spread and lives in the sixteen items whose two tools of one role the label cannot choose between (finding <a class="fref" href="/Corn-Jr-Public/finding/131.html">131</a>), so it is a direction and not a size. And the language rows are the clearest read in this finding: three per cent of nats a byte at both seeds on web, narrative and conversational prose is larger than any arm on this mix has moved them, and it is the reason RoPE goes to the 1.0 corpus's trunk decision (PLAN-1-0 §10) as a measured candidate whatever rung 2 reads.</p>
+<h3 id="an-instrument-fact-found-while-designing-the-next-world">An instrument fact, found while designing the next world</h3>
+<p><code>corn/decompgen.py</code> joins level-1 parts and level-2 children from one joiner table, so a two-question turn is a legal flat pair <em>and</em> a legal composite, and the gold is whichever the generator drew. Counted on the frozen rows (probe only — not on disk): <strong>26 of 120 <code>span</code> items, 33 of 120 <code>entity</code>, 63 of 120 <code>heldout</code> and 96 of 96 <code>depth3</code></strong> carry a level-1 arity that no reading of the sentence decides. B's <code>span</code> failures are 19 of 43 <code>wrong_arity</code> and its <code>depth3</code> failures 43 of 96; every <code>parse.depth3</code> zero since finding <a class="fref" href="/Corn-Jr-Public/finding/129.html">129</a> was read on items whose flat parse is legal. This does not move any reading in this finding — both trunks were read on the same rows — and it is why the next world marks a composite on the surface (PLAN-TAG-SPINE §5b).</p>
+<h3 id="instruments">Instruments</h3>
+<ul><li>The trunk-init sameness across the flag, in the guard before anything trained — finding <a class="fref" href="/Corn-Jr-Public/finding/130.html">130</a>'s lesson, applied at construction.</li><li>A smoke run of the real trainer (twelve iterations, compiled, one eval, one checkpoint) and <code>check_decode.py --compile</code> on its checkpoint, before the runs.</li><li><code>check_decode.py</code> on both trained checkpoints after, so a decode-path defect could not be read as a model result — the unreadable clause of the pre-registration, which did not fire.</li></ul>
+<h3 id="limits">Limits</h3>
+<p>Two seeds, so directions (rule 6). A nano read on a dummy world whose held-out rows are zero on every trunk, so nothing here says what the encoding does for the thing rung 2 is for; that is C4's question, and it is why both trunks train there. The bound-tree difference is two items at each seed inside a spread of six. The language-row gain is on a 137M-token mix at 29M parameters and is not assumed to survive to 260M.</p></div>
+  </section>
+
+  <section class="grid refs">
+    <div class="body two-even">
+      <div>
+        <h2 class="small">It cites</h2>
+        <ul class="reflist"><li style="--c:var(--c4)"><a href="/Corn-Jr-Public/finding/129.html"><span class="fn">129</span>He learns to label his own request; forcing labels doesn&#39;t change calls</a></li><li style="--c:var(--c4)"><a href="/Corn-Jr-Public/finding/130.html"><span class="fn">130</span>A label in the text is a hint, never the decision</a></li><li style="--c:var(--c4)"><a href="/Corn-Jr-Public/finding/131.html"><span class="fn">131</span>Once the runtime enforces the label, a forged one is obeyed 36/36</a></li></ul>
+        
+      </div>
+      <div>
+        <h2 class="small">Cited by</h2>
+        <ul class="reflist"><li style="--c:var(--c4)"><a href="/Corn-Jr-Public/finding/133.html"><span class="fn">133</span>On a synthetic world he generalises labels but not one level deeper</a></li></ul>
+        
+      </div>
+    </div>
+    <p class="body source">docs/findings/132-rope-against-learned-positions-on-the-dummy-world-above-on-the-trained-parse-at-both-seeds-three-per-cent-better-on-the-language-rows-two-below-on-the-bound-tree-and-the-held-out-rows-zero-as-ever.md</p>
+  </section>
+</article>
+
+  
+<footer class="turn">
+  <div><span class="sc">previous</span><a href="/Corn-Jr-Public/finding/131.html">131 · Once the runtime enforces the label, a forged one is obeyed 36/36</a></div>
+  <div class="r"><span class="sc">next</span><a href="/Corn-Jr-Public/finding/133.html">133 · On a synthetic world he generalises labels but not one level deeper</a></div>
+  <p class="keys"><kbd>←</kbd> <kbd>→</kbd> turn the page · <kbd>/</kbd> find</p>
+</footer>
+<p class="bynumber">Previous and next in <a href="/Corn-Jr-Public/thread/tag-spine.html">The tag spine</a>. By number:
+  <a href="/Corn-Jr-Public/finding/131.html">131</a> · <a href="/Corn-Jr-Public/finding/133.html">133</a></p>
+
+</div>
+</body>
+</html>

@@ -1,0 +1,334 @@
+/* The library: a reference book in clothbound parts. Tokens first; every
+   colour on the page is one of these. */
+:root{
+  --paper:#f6f2e9;
+  --ink:#1e1b16;
+  --muted:#6b6457;
+  --soft:#4a443a;
+  --rule:#cfc6b4;
+  --accent:#7a2418;
+  --slip:#ebe4d3;
+  --c1:#8a3b32; /* madder */
+  --c2:#3d4a62; /* indigo-slate */
+  --c3:#596340; /* moss */
+  --c4:#946f2c; /* ochre */
+  --c5:#5d3e49; /* plum-brown */
+  --c6:#3e6060; /* teal-grey */
+  --c:var(--accent);
+}
+*{box-sizing:border-box}
+html{background:var(--paper)}
+body{margin:0;background:var(--paper);color:var(--ink);
+  font-family:"Spectral",Georgia,serif;font-size:18px;line-height:1.62;
+  font-variant-numeric:oldstyle-nums proportional-nums;
+  -webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility}
+a{color:inherit;text-decoration:none}
+a:hover{color:var(--accent)}
+[x-cloak]{display:none !important}
+button{font:inherit;color:inherit;background:none;border:0;padding:0;cursor:pointer}
+.sc{font-family:"Spectral SC",serif;letter-spacing:.03em}
+
+.page{max-width:1040px;margin:0 auto;padding:0 40px}
+.grid{display:grid;grid-template-columns:150px minmax(0,1fr);column-gap:36px}
+.body{grid-column:2}
+
+/* Running head */
+.running{display:flex;justify-content:space-between;align-items:baseline;gap:20px;
+  padding:26px 0 10px;border-bottom:1px solid var(--ink);font-size:15px;color:var(--muted)}
+.running .book{color:var(--ink);font-style:italic;white-space:nowrap}
+.running nav{display:flex;flex-wrap:wrap;justify-content:flex-end;gap:4px 22px}
+.running nav a.here{color:var(--ink)}
+
+/* Title page */
+.titlepage{padding:52px 0 6px}
+.titlepage h1{grid-column:2;margin:0;font-family:"Cormorant Garamond",serif;font-weight:500;font-size:64px;line-height:1.05}
+.titlepage .sub{grid-column:2;margin:10px 0 0;font-style:italic;font-size:20px;color:var(--muted)}
+.titlepage.short h1{font-size:54px}
+
+/* The shelf */
+.shelf-fig{margin:34px 0 0}
+.shelf{display:block;width:100%;height:auto}
+.shelf a rect{transition:fill-opacity .2s}
+.shelf a:hover rect,.shelf a:focus-visible rect{fill-opacity:1}
+.shelf a:focus{outline:none}
+.shelf .band{stroke:var(--paper);stroke-width:.8;opacity:.5}
+.shelf .st{font-family:"Spectral",serif;font-size:12px;fill:var(--paper);dominant-baseline:central;letter-spacing:.01em}
+.shelf .sn{font-family:"Spectral",serif;font-size:11px;fill:var(--paper);text-anchor:middle;font-variant-numeric:lining-nums}
+.shelf .pale .st,.shelf .pale .sn{fill:var(--ink);opacity:.8}
+.shelf .pale .band{stroke:var(--ink);opacity:.22}
+.shelf .plank{fill:var(--ink)}
+.shelf .pn{font-family:"Spectral SC",serif;font-size:15px;text-anchor:middle;fill:var(--muted)}
+.shelf-fig figcaption{display:grid;grid-template-columns:150px minmax(0,1fr);column-gap:36px;margin-top:8px;
+  font-size:14.5px;color:var(--muted);font-style:italic;line-height:1.45}
+.shelf-fig figcaption > *{grid-column:2;grid-row:1;max-width:46em}
+.shelf-fig .read{margin:0;font-style:normal;color:var(--ink);opacity:0;visibility:hidden}
+.shelf-fig .read .rn{font-family:"Cormorant Garamond",serif;font-weight:600;font-size:21px;color:var(--c)}
+.shelf-fig .read .rc{font-style:italic;color:var(--muted)}
+.shelf-fig .read .rl{display:block;font-size:15.5px;font-style:italic;color:var(--soft);margin-top:2px}
+
+.intro{margin-top:26px}
+.intro .prose{font-size:18px}
+
+/* Home: parts and recent */
+.two{display:grid;grid-template-columns:minmax(0,1.15fr) minmax(0,1fr);gap:56px;margin-top:40px}
+h2.small{font-family:"Cormorant Garamond",serif;font-weight:500;font-size:28px;margin:0 0 6px;
+  padding-bottom:6px;border-bottom:1px solid var(--rule)}
+h2.small + * {margin-top:10px}
+.parts{list-style:none;margin:0;padding:0}
+.parts li{display:grid;grid-template-columns:14px 34px minmax(0,1fr) auto;column-gap:10px;margin:0 0 14px;align-items:baseline}
+.parts .sw{display:block;width:12px;height:34px;background:var(--c);align-self:start;margin-top:5px}
+.parts .pr{font-family:"Spectral SC",serif;color:var(--c);font-size:16px}
+.parts .pt{font-size:19px}
+.parts .pc{font-size:14px;font-style:italic;color:var(--muted);white-space:nowrap}
+.parts p{grid-column:3 / -1;margin:0;font-size:15px;font-style:italic;color:var(--muted);line-height:1.45}
+.latest{list-style:none;margin:0 0 28px;padding:0}
+.latest li{margin:0 0 10px;line-height:1.4}
+.latest a{display:grid;grid-template-columns:40px minmax(0,1fr)}
+.latest small{display:block;margin-left:40px;font-size:13.5px;color:var(--muted);font-style:italic}
+.fn{font-family:"Cormorant Garamond",serif;font-weight:600;font-size:19px;color:var(--c);
+  font-variant-numeric:lining-nums tabular-nums}
+.live{margin:0 0 18px;padding:0 0 0 18px;font-size:16.5px;line-height:1.5}
+.live li::marker{color:var(--muted)}
+.aside{font-size:15px;font-style:italic;color:var(--muted)}
+.aside a{border-bottom:1px solid var(--rule)}
+
+/* Part opener */
+.part-head{margin-top:52px;align-items:stretch}
+.part-head .cloth{grid-column:1;justify-self:end;width:96px;min-height:124px;background:var(--c);color:var(--paper);
+  display:flex;flex-direction:column;align-items:center;justify-content:flex-end;padding:0 0 12px;position:relative}
+.part-head .cloth::before,.part-head .cloth::after{content:"";position:absolute;left:8px;right:8px;height:1px;background:var(--paper);opacity:.45}
+.part-head .cloth::before{top:9px}
+.part-head .cloth::after{top:13px}
+.part-head .pl{font-family:"Spectral SC",serif;font-size:13px;letter-spacing:.06em;opacity:.85;line-height:1}
+.part-head .pr{font-family:"Cormorant Garamond",serif;font-weight:500;font-size:52px;line-height:.95;margin-top:2px}
+.part-head .ph{grid-column:2;align-self:end;border-bottom:1px solid var(--rule);padding-bottom:12px}
+.part-head h1{margin:0;font-family:"Cormorant Garamond",serif;font-weight:500;font-size:46px;line-height:1.05}
+.part-head .gloss{margin:6px 0 0;font-size:17px;color:var(--muted);font-style:italic;max-width:36em}
+
+/* Contents-style lists */
+.toc{list-style:none;margin:26px 0 0;padding:0}
+.toc li{display:grid;grid-template-columns:150px minmax(0,1fr);column-gap:36px;margin:0 0 16px}
+.toc .n{text-align:right;font-family:"Cormorant Garamond",serif;font-weight:600;font-size:22px;line-height:1.35;
+  font-variant-numeric:lining-nums tabular-nums;color:var(--c)}
+.toc .line{display:flex;align-items:baseline;min-width:0}
+.toc .t{flex:0 1 auto;font-size:20px}
+.toc .dots{flex:1 1 40px;overflow:hidden;white-space:nowrap;color:var(--rule);margin:0 8px;font-size:15px;letter-spacing:.32em;min-width:30px}
+.toc .dots::after{content:". . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . ."}
+.toc .st{flex:0 0 auto;font-size:15.5px;font-style:italic;color:var(--muted);white-space:nowrap}
+.toc .st.live{font-style:normal;color:var(--ink);font-weight:500}
+.toc .below{grid-column:2;font-size:15px;color:var(--muted);line-height:1.45;font-style:italic;display:flex;flex-direction:column;gap:4px}
+.toc .meta{display:flex;align-items:center;gap:10px;font-style:normal;font-size:13.5px}
+.toc.plans{grid-column:1 / -1;margin-top:0}
+.toc.plans li{margin-bottom:6px}
+.toc.plans .t{font-size:17.5px}
+
+.strip{display:inline-block;vertical-align:middle;flex:0 0 auto}
+.strip .base{stroke:var(--rule);stroke-width:1}
+.strip line{stroke:var(--c);stroke-width:1}
+.strip line.hit{stroke:var(--ink);stroke-width:2}
+
+/* A sheet: a thread, finding, plan or document page */
+.sheet{border-left:10px solid var(--c);margin-left:-50px;padding-left:40px}
+.sheet.plain{border-left-color:transparent}
+.chapter-open{padding:60px 0 26px}
+.chapter-open .tab{grid-column:1;grid-row:1 / span 3;justify-self:end;align-self:start;width:56px;height:96px;background:var(--c);
+  color:var(--paper);display:flex;flex-direction:column;align-items:center;justify-content:flex-end;padding-bottom:9px;margin-top:6px}
+.chapter-open .tab:hover{color:var(--paper);filter:brightness(1.1)}
+.chapter-open .tab span{font-family:"Cormorant Garamond",serif;font-weight:500;font-size:30px;line-height:1}
+.chapter-open .tab small{font-family:"Spectral SC",serif;font-size:11px;letter-spacing:.06em;opacity:.85}
+.chapter-open .cn{grid-column:2;margin:0 0 6px;font-family:"Cormorant Garamond",serif;font-weight:500;font-size:112px;
+  line-height:.9;font-variant-numeric:lining-nums;color:var(--c)}
+.chapter-open .partline{grid-column:2;font-size:16px;color:var(--muted);margin:0 0 8px;font-style:italic}
+.chapter-open .partline a{border-bottom:1px solid var(--rule)}
+.chapter-open h1{grid-column:2;margin:0;font-family:"Cormorant Garamond",serif;font-weight:500;font-size:50px;line-height:1.08;max-width:17em}
+.chapter-open h1.plan-title{font-size:40px}
+.chapter-open .subtitle{grid-column:2;margin:12px 0 0;font-size:20px;font-style:italic;line-height:1.45;max-width:32em}
+.chapter-open .status{grid-column:2;margin:22px 0 0;font-size:15px;color:var(--muted);display:flex;align-items:center;gap:12px;flex-wrap:wrap;max-width:46em}
+.chapter-open .status .sw{font-style:italic;color:var(--ink)}
+.chapter-open .status .sw.live{font-style:normal;font-weight:500}
+
+h2.sec{grid-column:2;margin:38px 0 12px;font-family:"Cormorant Garamond",serif;font-weight:600;font-size:28px;line-height:1.2}
+.hint{grid-column:2;margin:-6px 0 12px;font-size:14.5px;font-style:italic;color:var(--muted)}
+.hint button,.more{font-style:italic;color:var(--muted);border-bottom:1px solid var(--rule)}
+.hint button:hover,.more:hover{color:var(--accent)}
+
+.entries{grid-column:1 / -1;list-style:none;margin:0;padding:0}
+.entries li{display:grid;grid-template-columns:150px minmax(0,1fr);column-gap:36px;margin:0 0 12px}
+.entries .fn{text-align:right;font-size:22px;line-height:1.3}
+.entries .et{font-size:18.5px;line-height:1.4}
+.entries .ed{display:block;font-size:13.5px;font-style:italic;color:var(--muted)}
+.entries .efull{margin:6px 0 4px;font-size:16px;line-height:1.55;color:var(--soft);max-width:38em}
+
+/* Prose and rendered documents */
+.prose{grid-column:2;max-width:36em}
+.prose p{margin:0 0 1em;hyphens:auto}
+.prose p.lead{font-size:19px}
+.prose p.cost{font-size:15px;color:var(--muted)}
+.marginal{grid-column:1;text-align:right;font-size:14px;line-height:1.45;color:var(--muted);font-style:italic;margin:4px 0 0}
+.doc{max-width:38em;margin-top:8px}
+.doc h2,.doc h3,.doc h4,.doc h5{font-family:"Cormorant Garamond",serif;font-weight:600;line-height:1.2;margin:1.6em 0 .5em}
+.doc h2{font-size:30px}
+.doc h3{font-size:25px}
+.doc h4,.doc h5{font-size:21px}
+.doc a{border-bottom:1px solid var(--rule)}
+a.fref{border-bottom:1px solid transparent;color:var(--c);font-variant-numeric:lining-nums}
+a.fref:hover{border-bottom-color:var(--c)}
+.doc .deadlink{border-bottom:1px dotted var(--rule)}
+.doc ul,.doc ol{padding-left:1.3em;margin:0 0 1em}
+.doc li{margin:0 0 .35em}
+.doc blockquote{margin:0 0 1em;padding:0 0 0 18px;border-left:2px solid var(--rule);color:var(--soft);font-style:italic}
+.doc hr{border:0;border-top:1px solid var(--rule);margin:2em 0}
+code{font-family:"IBM Plex Mono",ui-monospace,monospace;font-size:.82em;font-variant-numeric:normal;overflow-wrap:anywhere}
+pre{background:var(--slip);padding:12px 16px;overflow-x:auto;line-height:1.45;margin:0 0 1.2em}
+pre code{font-size:13.5px;overflow-wrap:normal;white-space:pre}
+.tablewrap{overflow-x:auto;margin:0 0 1.2em;max-width:none}
+.doc table{border-collapse:collapse;font-size:15px;line-height:1.45;width:100%}
+.doc th{text-align:left;font-weight:500;font-style:italic;color:var(--muted);padding:0 14px 6px 0;border-bottom:1px solid var(--ink);vertical-align:bottom}
+.doc td{padding:7px 14px 7px 0;border-bottom:1px solid var(--rule);vertical-align:top;font-variant-numeric:lining-nums tabular-nums}
+.doc tr:last-child td{border-bottom:1px solid var(--ink)}
+.source{font-family:"IBM Plex Mono",monospace;font-size:12.5px;color:var(--muted);margin:30px 0 0;overflow-wrap:anywhere}
+
+/* Specimens: his own words, set like a museum label */
+.specimen{grid-column:1 / -1;display:grid;grid-template-columns:150px minmax(0,1fr);column-gap:36px;margin:22px 0 8px}
+.specimen .slip{grid-column:2;max-width:36em;background:var(--slip);padding:14px 20px 15px;
+  display:grid;grid-template-columns:6.2em minmax(0,1fr);column-gap:14px;row-gap:5px;align-items:baseline;
+  font-family:"IBM Plex Mono",ui-monospace,monospace;font-size:14.5px;line-height:1.5;border-left:3px solid var(--c)}
+.specimen .k{font-family:"Spectral",serif;font-style:italic;font-size:13.5px;color:var(--muted);text-align:right}
+.specimen .m{color:var(--muted)}
+.specimen figcaption{grid-column:2;max-width:36em;margin-top:7px;font-size:14px;line-height:1.45;font-style:italic;color:var(--muted)}
+.specimen figcaption a{font-style:normal;color:var(--c)}
+
+/* Finding references */
+.refs{margin-top:30px;padding-top:6px}
+.two-even{display:grid;grid-template-columns:1fr 1fr;gap:36px;border-top:1px solid var(--rule);padding-top:14px}
+.reflist{list-style:none;margin:0;padding:0;font-size:15.5px;line-height:1.4}
+.reflist li{margin:0 0 8px}
+.reflist a{display:grid;grid-template-columns:38px minmax(0,1fr)}
+.reflist .fn{font-size:18px}
+
+/* Index */
+.filter{grid-column:2;display:flex;flex-wrap:wrap;gap:12px 26px;align-items:baseline;margin:22px 0 0;font-size:15.5px;color:var(--muted)}
+.filter input{font:inherit;font-size:16px;color:var(--ink);background:transparent;border:0;border-bottom:1px solid var(--ink);
+  padding:2px 2px 3px;width:15em;margin-left:8px;outline:none}
+.filter input::placeholder{color:var(--muted);font-style:italic}
+.parts-filter{display:flex;gap:6px}
+.parts-filter button{font-family:"Spectral SC",serif;font-size:15px;padding:0 6px 2px;color:var(--muted);border-bottom:2px solid transparent}
+.parts-filter button.on{color:var(--ink);border-bottom-color:var(--c, var(--ink))}
+.nomatch{grid-column:2;margin:18px 0 0;font-style:italic;color:var(--muted)}
+.index-part{margin-top:40px}
+.index-part h2{display:grid;grid-template-columns:150px minmax(0,1fr);column-gap:36px;align-items:baseline;margin:0 0 10px;
+  font-family:"Cormorant Garamond",serif;font-weight:500;font-size:32px;border-bottom:1px solid var(--rule);padding-bottom:6px}
+.index-part h2 .pr{text-align:right;font-family:"Spectral SC",serif;font-size:18px;color:var(--c)}
+.index-cols{columns:2 24em;column-gap:48px}
+.index-thread{break-inside:avoid-column;margin:0 0 20px}
+.index-thread h3{font-size:16.5px;font-weight:500;font-style:italic;margin:0 0 5px;color:var(--soft)}
+.index-thread h3 a{border-bottom:1px solid var(--rule)}
+.index-thread ul{list-style:none;margin:0;padding:0}
+.index-thread li{font-size:15px;line-height:1.35;margin:0 0 4px}
+.index-thread li a{display:grid;grid-template-columns:34px minmax(0,1fr)}
+.index-thread .fn{font-size:16px}
+
+/* Turning the page */
+.turn{display:grid;grid-template-columns:1fr 1fr;gap:30px;margin:56px 0 0;padding:14px 0 0;border-top:1px solid var(--ink);font-style:italic;font-size:17px}
+.turn .sc{display:block;font-style:normal;font-size:13px;color:var(--muted)}
+.turn .r{text-align:right}
+.bynumber{margin:12px 0 0;padding-bottom:80px;font-size:14px;color:var(--muted);font-style:italic}
+.bynumber a{font-style:normal;font-variant-numeric:lining-nums}
+.turn + :not(.bynumber){padding-bottom:80px}
+.page > .turn:last-child{margin-bottom:80px}
+
+/* Small interactive pieces */
+mark{background:color-mix(in srgb,var(--c4) 30%,transparent);color:inherit;padding:0 1px;border-radius:2px}
+.filter .count{font-style:italic;font-size:14.5px;font-variant-numeric:lining-nums}
+.fold{display:grid;grid-template-rows:0fr;opacity:0;visibility:hidden}
+.fold > div{overflow:hidden;min-height:0}
+.fold.open{grid-template-rows:1fr;opacity:1;visibility:visible}
+.shelf-fig .read,.shelf-fig .cap{transition:opacity .18s ease,visibility 0s .18s}
+.shelf-fig figcaption.reading .read{opacity:1;visibility:visible;transition:opacity .18s ease}
+.shelf-fig figcaption.reading .cap{opacity:0;visibility:hidden}
+.keys{grid-column:1 / -1;margin:14px 0 0;font-size:12.5px;font-style:normal;color:var(--muted);text-align:center;opacity:.7}
+kbd{font-family:"IBM Plex Mono",ui-monospace,monospace;font-size:11px;border:1px solid var(--rule);border-bottom-width:2px;border-radius:3px;padding:0 4px}
+@media (hover:none){.keys{display:none}}
+.progress{display:none}
+@supports (animation-timeline:scroll()){
+  .progress{display:block;position:fixed;top:0;left:0;right:0;height:3px;background:var(--c);z-index:5;
+    transform-origin:0 50%;animation:progress linear both;animation-timeline:scroll(root)}
+  .sheet.plain .progress{background:var(--accent)}
+  @keyframes progress{from{transform:scaleX(0)}to{transform:scaleX(1)}}
+}
+
+/* Motion. The pages are real pages, so moving between them is the browser's
+   cross-document view transition; library.js only names what carries over.
+   Short and eased: the page you open rises in, the number or title you chose
+   flies to where it lands, a turned page slides the way a page turns. All of
+   it sits under no-preference, and nothing here waits on anything. */
+@view-transition{navigation:auto}
+.running{view-transition-name:running}
+.chapter-open .cn{view-transition-name:num}
+.vt-title{view-transition-name:title}
+.chapter-open .tab,.part-head .cloth{view-transition-name:tab}
+.progress{view-transition-name:progress}
+
+@media (prefers-reduced-motion:no-preference){
+  a,button{transition:color .18s ease,border-color .18s ease}
+
+  ::view-transition-group(*){animation-duration:.36s;animation-timing-function:cubic-bezier(.2,.75,.25,1)}
+  ::view-transition-old(root){animation:.14s ease-in both vt-fade-out}
+  ::view-transition-new(root){animation:.32s cubic-bezier(.2,.75,.25,1) .03s both vt-rise}
+  html:active-view-transition-type(next)::view-transition-old(root){animation:.24s ease-in both vt-out-left}
+  html:active-view-transition-type(next)::view-transition-new(root){animation:.36s cubic-bezier(.2,.75,.25,1) both vt-in-right}
+  html:active-view-transition-type(prev)::view-transition-old(root),
+  html:active-view-transition-type(back)::view-transition-old(root){animation:.24s ease-in both vt-out-right}
+  html:active-view-transition-type(prev)::view-transition-new(root),
+  html:active-view-transition-type(back)::view-transition-new(root){animation:.36s cubic-bezier(.2,.75,.25,1) both vt-in-left}
+  ::view-transition-old(progress),::view-transition-new(progress){animation:none}
+  @keyframes vt-fade-out{to{opacity:0}}
+  @keyframes vt-rise{from{opacity:0;transform:translateY(10px)}}
+  @keyframes vt-out-left{to{opacity:0;transform:translateX(-36px)}}
+  @keyframes vt-in-right{from{opacity:0;transform:translateX(48px)}}
+  @keyframes vt-out-right{to{opacity:0;transform:translateX(36px)}}
+  @keyframes vt-in-left{from{opacity:0;transform:translateX(-48px)}}
+
+  /* The shelf: a book lifts when you point at it; once a sitting they are set out. */
+  .shelf a{transition:transform .26s cubic-bezier(.2,.75,.25,1)}
+  .shelf a:hover,.shelf a:focus-visible{transform:translateY(-9px)}
+  .shelf.enter a{animation:book-in .6s cubic-bezier(.2,.75,.25,1) backwards;animation-delay:calc(var(--i) * 30ms + 60ms)}
+  @keyframes book-in{from{opacity:0;transform:translateY(22px)}}
+
+  /* Folds open by height, not by a jump. */
+  .fold{transition:grid-template-rows .32s cubic-bezier(.2,.75,.25,1),opacity .2s ease,visibility 0s .32s}
+  .fold.open{transition:grid-template-rows .32s cubic-bezier(.2,.75,.25,1),opacity .26s ease .06s,visibility 0s}
+
+  /* Contents: the leader darkens toward what you point at. */
+  .toc .dots{transition:color .25s ease}
+  .toc li:hover .dots{color:var(--muted)}
+  .parts .sw{transition:transform .25s cubic-bezier(.2,.75,.25,1);transform-origin:50% 100%}
+  .parts li:hover .sw{transform:scaleY(1.18)}
+
+  /* The finder: what comes back into view settles in. */
+  .index-thread,.index-thread li,.index-part{animation:settle .22s ease both}
+  @keyframes settle{from{opacity:0;transform:translateY(3px)}}
+
+  /* His words rise as they scroll in. */
+  @supports (animation-timeline:view()){
+    .specimen .slip{animation:slip-in linear both;animation-timeline:view();animation-range:entry 0% entry 70%}
+    @keyframes slip-in{from{opacity:0;transform:translateY(18px)}}
+  }
+}
+
+@media (max-width:760px){
+  .page{padding:0 16px}
+  .grid,.toc li,.entries li,.specimen,.shelf-fig figcaption,.index-part h2{grid-template-columns:minmax(0,1fr)}
+  .grid > *, .toc li > *, .entries li > *{grid-column:1 !important}
+  .toc .n,.entries .fn,.marginal{text-align:left}
+  .chapter-open .tab{display:none}
+  .chapter-open h1{font-size:36px}
+  .chapter-open .cn{font-size:72px}
+  .titlepage h1{font-size:44px}
+  .sheet{margin-left:-16px;padding-left:10px;border-left-width:6px}
+  .two,.two-even{grid-template-columns:minmax(0,1fr);gap:28px}
+  .index-cols{margin-left:0;columns:1}
+  .part-head .cloth{display:none}
+  .running{flex-direction:column;gap:6px}
+  .running nav{justify-content:flex-start}
+}

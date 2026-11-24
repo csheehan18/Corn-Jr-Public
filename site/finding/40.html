@@ -1,0 +1,87 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>40 · Moving the date header recovers about ninety items it was costing · Corn-Jr</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600&family=IBM+Plex+Mono:wght@400;500&family=Spectral:ital,wght@0,400;0,500;0,600;1,400&family=Spectral+SC:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/Corn-Jr-Public/static/library.css">
+<script defer src="/Corn-Jr-Public/static/library.js"></script>
+<script type="speculationrules">
+{"prerender": [{"where": {"and": [{"href_matches": "/Corn-Jr-Public/*"}, {"not": {"href_matches": "/Corn-Jr-Public/random.html"}}, {"not": {"href_matches": "/Corn-Jr-Public/static/*"}}]}, "eagerness": "moderate"}]}
+</script>
+
+</head>
+<body>
+<div class="page">
+  <header class="running">
+    <a class="book" href="/Corn-Jr-Public/">Corn-Jr · The Record</a>
+    <nav>
+      <a href="/Corn-Jr-Public/" data-key="shelf">Shelf</a><a href="/Corn-Jr-Public/findings.html" data-key="findings" class="here">Findings</a><a href="/Corn-Jr-Public/doc/VISION.html" data-key="VISION">Vision</a><a href="/Corn-Jr-Public/doc/GLOSSARY.html" data-key="GLOSSARY">Glossary</a>
+      <a href="https://github.com/csheehan18/Corn-Jr-Public">Source</a>
+    </nav>
+  </header>
+  
+
+<article class="sheet" style="--c:var(--c1)">
+  <div class="progress" aria-hidden="true"></div>
+  <section class="grid chapter-open finding-open">
+    <a class="tab" href="/Corn-Jr-Public/thread/corpus-mix.html" title="The corpus mix"><small>Part</small><span>I</span></a>
+    <p class="cn">40</p>
+    <p class="partline"><a href="/Corn-Jr-Public/thread/corpus-mix.html">The corpus mix</a> · 19 August 2026</p>
+    <h1>Moving the date header recovers about ninety items it was costing</h1>
+  </section>
+
+  <section class="grid">
+    <p class="marginal">The result, as the finding states it</p><div class="prose"><p class="lead">Decorrelating <code>&lt;|day|&gt;</code> recovers about ninety of the items it was costing</p></div>
+    <p class="marginal">What it cost</p><div class="prose"><p class="cost">0 s of new scoring on record; it reads 1 card scored for an earlier finding (<code>nano20m_v1_chat</code>). Backfilled 2026-09-26 from the cards' <code>seconds</code>; training and probe time were never recorded, so this is a floor.</p></div>
+  </section>
+
+  
+
+  <section class="grid">
+    <div class="prose doc"><p><code>configs/mix_v1_chatday.py</code> ×2 against <code>nano20m_v1_chat</code> ×2. One file swapped in a 5% slice: <code>chat.txt</code> → <code>chat_day.txt</code>, same 194,337 transcripts, same weight to the token, a <code>&lt;|day|&gt;</code> header above 96,755 of them.</p>
+<p><strong>The controls hold, so the arm is readable.</strong> <code>register.conv</code> is the one that decides this — the twenty-fifth finding priced it at exactly this dialogue share against a 1.0-point floor, the tightest in the project.</p>
+<div class="tablewrap"><table><thead><tr><th>control</th><th>baseline</th><th>arm</th></tr></thead><tbody><tr><td><code>register.conv</code> /200</td><td>[77, 82]</td><td><strong>[82, 82]</strong></td></tr><tr><td><code>chat.abstain_talk</code> /100</td><td>[100, 100]</td><td>[100, 100]</td></tr><tr><td><code>chat.engage</code> /100</td><td>[100, 100]</td><td>[99, 99]</td></tr><tr><td><code>temporal.route</code> /400</td><td>[398, 400]</td><td>[398, 398]</td></tr><tr><td><code>temporal.copy</code> /353</td><td>[353, 353]</td><td>[353, 353]</td></tr></tbody></table></div>
+<h3 id="the-header-cost-137-items-on-average-and-now-costs-46">The header cost 137 items on average and now costs 46</h3>
+<p><code>daycross</code> is a <em>paired difference</em> — the same 200 tool requests scored bare, then again with a header above them — and neither cell means anything alone.</p>
+<div class="tablewrap"><table><thead><tr><th></th><th>seed 1</th><th>seed 2</th><th>range</th></tr></thead><tbody><tr><td>baseline <code>mix_v1_chat</code></td><td>−155</td><td>−120</td><td>[−155, −120]</td></tr><tr><td><strong>arm <code>chatday</code></strong></td><td><strong>−29</strong></td><td><strong>−63</strong></td><td><strong>[−63, −29]</strong></td></tr></tbody></table></div>
+<p>The ranges do not overlap and the gap is about 90 items against a within-arm spread of 34. By the thirtieth finding's rule that is a size worth quoting, not merely a direction.</p>
+<p><strong>The mechanism moved the way the config said it had to.</strong> The header's damage was specifically a collapse onto <code>resolve_date</code>, and that is what receded:</p>
+<div class="tablewrap"><table><thead><tr><th>checkpoint</th><th><code>resolve_date</code> named bare</th><th>under the header</th></tr></thead><tbody><tr><td><code>chat</code> s1</td><td>14</td><td><strong>189</strong></td></tr><tr><td><code>chat</code> s2</td><td>5</td><td><strong>158</strong></td></tr><tr><td><code>chatday</code> s1</td><td>1</td><td><strong>49</strong></td></tr><tr><td><code>chatday</code> s2</td><td>4</td><td><strong>78</strong></td></tr></tbody></table></div>
+<p>A pass rate that moved while the naming did not would have been a different result from the one this arm asked for. It moved together, which is what makes the reading the intended one.</p>
+<h3 id="capacity-was-making-it-worse-which-is-why-this-mattered">Capacity was making it worse, which is why this mattered</h3>
+<p>The bug is not a missing capability and no amount of temporal data addresses it. <code>daycross</code> read −126 at 29.6M and <strong>−150 at 91.6M</strong> — a bigger model read the spurious cue <em>harder</em>. That is the signature of a correlation in the corpus rather than a limit of the model, and it is why the fix had to be corpus-side and why "it will wash out at scale" was never available as an answer.</p>
+<h3 id="what-this-does-not-settle">What this does not settle</h3>
+<ul><li><strong>The residue is still −29 to −63.</strong> Half the effect at best. 5% of the budget carrying a header on half its transcripts is up against a temporal slice where the header sits above every transcript, and nothing here says where the remaining cost lives. The obvious next dose is the share; the obvious next axis is headers on the tools slice, which the config names as out of scope for one-variable-at-a-time reasons.</li><li><strong><code>chat.abstain_oos</code> rose from [7, 29] to [26, 39] and that is not claimed as a second result.</strong> The config asked only that it not fall. The ranges overlap at 26–29, it is one row, and nothing in the arm's design predicts it.</li><li><strong><code>chat.engage</code> fell by 1 item on both seeds.</strong> Reported because it is a control and controls get reported, not because 1 of 100 means anything.</li><li><strong>Two seeds</strong>, and <code>daycross</code> had no measured floor before this arm. What licenses the size claim is that the two ranges do not overlap and the gap is roughly three times the wider within-arm spread — not that either spread is known.</li><li><strong>Nothing here is measured above 29.6M.</strong> The bug is known to be <em>worse</em> at 91.6M, so the fix surviving scale is exactly the thing this cannot assume. Re-reading <code>daycross</code> on a 91.6M <code>chatday</code> checkpoint is the cheapest thing that would settle it.</li></ul></div>
+  </section>
+
+  <section class="grid refs">
+    <div class="body two-even">
+      <div>
+        <h2 class="small">It cites</h2>
+        <p class="aside">No other finding by number.</p>
+      </div>
+      <div>
+        <h2 class="small">Cited by</h2>
+        <p class="aside">No later finding yet.</p>
+      </div>
+    </div>
+    <p class="body source">docs/findings/40-decorrelating-the-day-header-recovers-ninety-of-the-hundred-and-twenty-six-it-was-costing.md</p>
+  </section>
+</article>
+
+  
+<footer class="turn">
+  <div><span class="sc">previous</span><a href="/Corn-Jr-Public/finding/27.html">27 · The first data mix with every share measured, not guessed</a></div>
+  <div class="r"><span class="sc">next</span><a href="/Corn-Jr-Public/finding/44.html">44 · The last unmeasured data share costs nothing; web gains are linear</a></div>
+  <p class="keys"><kbd>←</kbd> <kbd>→</kbd> turn the page · <kbd>/</kbd> find</p>
+</footer>
+<p class="bynumber">Previous and next in <a href="/Corn-Jr-Public/thread/corpus-mix.html">The corpus mix</a>. By number:
+  <a href="/Corn-Jr-Public/finding/39.html">39</a> · <a href="/Corn-Jr-Public/finding/41.html">41</a></p>
+
+</div>
+</body>
+</html>

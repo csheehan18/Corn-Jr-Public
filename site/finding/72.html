@@ -1,0 +1,96 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>72 · Search returned &#39;capital punishment&#39; for &#39;capital of Mongolia&#39;; fixed · Corn-Jr</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600&family=IBM+Plex+Mono:wght@400;500&family=Spectral:ital,wght@0,400;0,500;0,600;1,400&family=Spectral+SC:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/Corn-Jr-Public/static/library.css">
+<script defer src="/Corn-Jr-Public/static/library.js"></script>
+<script type="speculationrules">
+{"prerender": [{"where": {"and": [{"href_matches": "/Corn-Jr-Public/*"}, {"not": {"href_matches": "/Corn-Jr-Public/random.html"}}, {"not": {"href_matches": "/Corn-Jr-Public/static/*"}}]}, "eagerness": "moderate"}]}
+</script>
+
+</head>
+<body>
+<div class="page">
+  <header class="running">
+    <a class="book" href="/Corn-Jr-Public/">Corn-Jr · The Record</a>
+    <nav>
+      <a href="/Corn-Jr-Public/" data-key="shelf">Shelf</a><a href="/Corn-Jr-Public/findings.html" data-key="findings" class="here">Findings</a><a href="/Corn-Jr-Public/doc/VISION.html" data-key="VISION">Vision</a><a href="/Corn-Jr-Public/doc/GLOSSARY.html" data-key="GLOSSARY">Glossary</a>
+      <a href="https://github.com/csheehan18/Corn-Jr-Public">Source</a>
+    </nav>
+  </header>
+  
+
+<article class="sheet" style="--c:var(--c2)">
+  <div class="progress" aria-hidden="true"></div>
+  <section class="grid chapter-open finding-open">
+    <a class="tab" href="/Corn-Jr-Public/thread/search.html" title="Web search"><small>Part</small><span>II</span></a>
+    <p class="cn">72</p>
+    <p class="partline"><a href="/Corn-Jr-Public/thread/search.html">Web search</a> · 27 August 2026</p>
+    <h1>Search returned &#39;capital punishment&#39; for &#39;capital of Mongolia&#39;; fixed</h1>
+  </section>
+
+  <section class="grid">
+    <p class="marginal">The result, as the finding states it</p><div class="prose"><p class="lead">"capital of Mongolia" means capital punishment until the sort stops helping, and a surname counts toward its whole name</p></div>
+    <p class="marginal">What it cost</p><div class="prose"><p class="cost">0 s of new scoring on record; it reads 1 card scored for an earlier finding (<code>corn_jr_260m_ftextract</code>). Backfilled 2026-09-26 from the cards' <code>seconds</code>; training and probe time were never recorded, so this is a floor.</p></div>
+  </section>
+
+  
+
+  <section class="grid">
+    <div class="prose doc"><p>The first live <code>--extract</code> session, 2026-08-27, and the two runtime repairs it priced. <code>corn_jr_260m_ftextract</code> behind <code>harness.server --search --extract</code>, real Wikipedia, four turns. No training run, no eval change: both defects and both fixes live in <code>harness/backends/search.py</code> and <code>corn/extract.py</code>, which no frozen scorecard reads.</p>
+<h3 id="what-the-live-session-found-the-failure-is-one-link-upstream">What the live session found: the failure is one link upstream of everything finding <a class="fref" href="/Corn-Jr-Public/finding/65.html">65</a> measured</h3>
+<p>All four turns routed correctly — including the bare proper name that used to degenerate into a run-on query — and none produced garbage. Two of them answered the wrong page:</p>
+<p>what is the capital of Mongolia   -&gt;  "Capital punishment, according to wikipedia.org." what is the capital of France     -&gt;  the Capital punishment in France lead, deferred verbatim</p>
+<p>Extraction never had a chance: the wrong <em>passage</em> arrived. Findings <a class="fref" href="/Corn-Jr-Public/finding/55.html">55</a>-<a class="fref" href="/Corn-Jr-Public/finding/65.html">65</a> are all about link four; this is link two handing link four the wrong document, which no amount of extraction quality can repair.</p>
+<h3 id="the-sort-was-the-bug-measured-at-the-api">The sort was the bug, measured at the API</h3>
+<p><code>_wiki_search</code> ranked candidate titles by shared-term count, written for "the boiling point of water" ranking High-altitude cooking first. Probed live against the MediaWiki API on the four session queries, <strong>the engine's own first result was the right page four times out of four</strong> — Ulaanbaatar, List of capitals of France (Paris at rank 4), Icelandic króna, Boiling point — and the shared-term sort is what inverted it:</p>
+<p>query                       engine rank 1        sort promoted the capital of Mongolia     Ulaanbaatar (0 shared)   Capital punishment in Mongolia (2 shared) the currency of Iceland     Icelandic króna (0)      Economy of Iceland / Crown (currency) (1)</p>
+<p>"Icelandic króna" shares <em>zero</em> terms with "the currency of Iceland" under exact set intersection — the answer page is routinely titled by the answer, which the query's words cannot contain. And the coverage gate cannot save the wrong page, because "capital" prefix-covers "Capital punishment".</p>
+<p><strong>The repair is a demotion, not a smarter sort.</strong> What separates the wrong pages is not missing query words but <em>extra</em> ones: a title mixing the query's terms with content words the query never said (Capital punishment in Mongolia, Economy of Iceland, List of capitals of France) names a compound subject that merely contains the asked-about words. Mixed titles go to the back of the engine's own order; everything else stays where the engine put it. Demoted rather than dropped, so a mixed title still answers when nothing cleaner passes the lead gate — <code>scripts/check_search.py</code> asserts both directions. The High-altitude cooking case needs no sort at all now: the lead-sentence gate added since rejects it on its own. <code>srlimit</code> rises 3 → <code>MAX_RESULTS</code> (5) because Paris is the engine's <em>fourth</em> result for "the capital of France", behind three mixed titles.</p>
+<p>After the change, live: <strong>Ulaanbaatar. / Paris, according to wikipedia.org. / The króna or krona is the currency of Iceland.</strong> — all three property questions correct on the same checkpoint, same day.</p>
+<h3 id="the-tally-now-knows-a-surname-is-its-whole-name-and-what-tha">The tally now knows a surname is its whole name, and what that cost was measured at zero</h3>
+<p>The handoff had already flagged <code>reduce</code>'s disagreement rule discarding a correct extraction, and the live session reproduced the shape on its first proper-name question. The specific defect: a reply "Alexander Fleming." keys <code>alexander fleming</code> and a reply "Fleming." keys <code>fleming</code>, and the tally read one fact as two — the exact whole-name-against-surname reading <code>corn/extract.py</code>'s <code>_overlaps</code> documents, unused by the tally.</p>
+<p><code>_canonical</code> merges a key into the one maximal key that word-contains it. The instrument is the <code>_span_key</code> docstring's, rebuilt over <code>data/raw/nq-dev.jsonl</code> (721 answerable passages, replies in the corpus's own <code>SAY_ANSWER</code> framings), merge off against merge on in one process:</p>
+<p>same fact framed differently agrees      131/343  -&gt;  131/343   unchanged gold against a same-type rival agrees      0/606  -&gt;    0/606   unchanged whole in one window, tail in another       4/206  -&gt;   83/206   the buy</p>
+<p>Of the 85 part-against-whole cases the locality gate admits at all, the merge delivers 83; the other 121 fail identically with the merge off — they are <code>property_local</code> (finding <a class="fref" href="/Corn-Jr-Public/finding/66.html">66</a>'s rule) holding, not this change failing. The answer returned carries the whole statement in every merged case, whichever window said it. (The 131/343 same-fact rate is not comparable to the <code>_span_key</code> docstring's 678/678: that measurement predates <code>property_local</code> sitting in the reduce path, and the rate is identical in both arms here.)</p>
+<p><strong>Two rules keep it honest, and the guard caught the first draft violating one.</strong> A key may only merge when every reply carrying it asserted exactly that key — <code>_span_key</code> keys a truncated reply by the longest run a window actually contains, so "It's the AFC NFL." over windows that only say "NFC NFL" keys down to <code>nfl</code>, and the first draft merged it into <code>nfc nfl</code>, counting a contradiction toward the fact it contradicts. <code>check_extract.py</code>'s NFC/AFC case went red before the code ever ran live. And a part contained in two different maximal keys — <code>fleming</code> against both <code>alexander fleming</code> and <code>fleming institute</code> — stays its own group rather than guessing.</p>
+<h3 id="what-stands-deliberately">What stands, deliberately</h3>
+<p>The live Ada Lovelace turn still falls back with <code>4 windows disagree (augusta ada, lord byron, lovelace, ockham)</code> — <code>augusta ada</code> and <code>lovelace</code> share no run, and merging them needs entity knowledge the conservative rule refuses; the guard pins that as correct. For a bare "look up X" turn the lead sentence <em>is</em> the right answer anyway; that the model then cut it to "Looks like Augusta Ada." is a weights matter, not a runtime one. And <code>property_local</code> treating question stopwords as pointing terms — "the" beside "Nobel Prize" rejecting <code>alexander fleming</code>, hit while building the fixture — is measured machinery (finding <a class="fref" href="/Corn-Jr-Public/finding/70.html">70</a> scored with it) and is left for its own measured cell.</p>
+<h3 id="artefacts">Artefacts</h3>
+<p>The guard additions are <code>scripts/check_search.py</code> (the Mongolia inversion and the demoted-not-dropped case) and <code>scripts/check_extract.py</code> (the surname merge, both reply orders, the no-shared-run abstention, the two-wholes ambiguity, and the NFC/AFC truncation case). Both green, and the full sweep with them. Session log rows for the before and after turns are in <code>Saved Sessions/turns.jsonl</code>, 2026-08-27.</p></div>
+  </section>
+
+  <section class="grid refs">
+    <div class="body two-even">
+      <div>
+        <h2 class="small">It cites</h2>
+        <ul class="reflist"><li style="--c:var(--c2)"><a href="/Corn-Jr-Public/finding/55.html"><span class="fn">55</span>Four hundred passages show he writes his own answer instead of copying</a></li><li style="--c:var(--c2)"><a href="/Corn-Jr-Public/finding/56.html"><span class="fn">56</span>The official split overlaps documents: 14% of the eval leaked into training</a></li><li style="--c:var(--c2)"><a href="/Corn-Jr-Public/finding/57.html"><span class="fn">57</span>Extraction training works, mostly by declining answerable questions</a></li><li style="--c:var(--c1)"><a href="/Corn-Jr-Public/finding/58.html"><span class="fn">58</span>Tripling a fact type in training left his declines unchanged</a></li><li style="--c:var(--c2)"><a href="/Corn-Jr-Public/finding/59.html"><span class="fn">59</span>No declines hide in unscored wording; the rest looks like salience</a></li><li style="--c:var(--c1)"><a href="/Corn-Jr-Public/finding/60.html"><span class="fn">60</span>Fine-tuning costs nothing but delivers three fifths of pretraining&#39;s gain</a></li><li style="--c:var(--c1)"><a href="/Corn-Jr-Public/finding/61.html"><span class="fn">61</span>The phrasing test itself has noise of sixty items</a></li><li style="--c:var(--c1)"><a href="/Corn-Jr-Public/finding/62.html"><span class="fn">62</span>The call grammar fixes 44% of bytes; the tokenizer blocks using it</a></li><li style="--c:var(--c2)"><a href="/Corn-Jr-Public/finding/63.html"><span class="fn">63</span>Fresh tool training, not new phrasings, fixed search routing</a></li><li style="--c:var(--c1)"><a href="/Corn-Jr-Public/finding/64.html"><span class="fn">64</span>Re-reading the prompt each round costs launches, not tokens: 0.22 ms</a></li><li style="--c:var(--c2)"><a href="/Corn-Jr-Public/finding/65.html"><span class="fn">65</span>Fine-tuning installs extraction at 260M from zero</a></li><li style="--c:var(--c2)"><a href="/Corn-Jr-Public/finding/66.html"><span class="fn">66</span>The extractor takes the first value of the right type</a></li><li style="--c:var(--c2)"><a href="/Corn-Jr-Public/finding/70.html"><span class="fn">70</span>The first-value rule holds on a new fixed test set</a></li></ul>
+        
+      </div>
+      <div>
+        <h2 class="small">Cited by</h2>
+        <ul class="reflist"><li style="--c:var(--c2)"><a href="/Corn-Jr-Public/finding/79.html"><span class="fn">79</span>A quarter of search results pass the relevance check on one letter</a></li></ul>
+        
+      </div>
+    </div>
+    <p class="body source">docs/findings/72-capital-of-mongolia-means-capital-punishment-until-the-sort-stops-helping-and-a-surname-counts-toward-its-whole-name.md</p>
+  </section>
+</article>
+
+  
+<footer class="turn">
+  <div><span class="sc">previous</span><a href="/Corn-Jr-Public/finding/63.html">63 · Fresh tool training, not new phrasings, fixed search routing</a></div>
+  <div class="r"><span class="sc">next</span><a href="/Corn-Jr-Public/finding/79.html">79 · A quarter of search results pass the relevance check on one letter</a></div>
+  <p class="keys"><kbd>←</kbd> <kbd>→</kbd> turn the page · <kbd>/</kbd> find</p>
+</footer>
+<p class="bynumber">Previous and next in <a href="/Corn-Jr-Public/thread/search.html">Web search</a>. By number:
+  <a href="/Corn-Jr-Public/finding/71.html">71</a> · <a href="/Corn-Jr-Public/finding/73.html">73</a></p>
+
+</div>
+</body>
+</html>

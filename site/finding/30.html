@@ -1,0 +1,96 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>30 · Noise levels belong to a training setup, not to a test · Corn-Jr</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600&family=IBM+Plex+Mono:wght@400;500&family=Spectral:ital,wght@0,400;0,500;0,600;1,400&family=Spectral+SC:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/Corn-Jr-Public/static/library.css">
+<script defer src="/Corn-Jr-Public/static/library.js"></script>
+<script type="speculationrules">
+{"prerender": [{"where": {"and": [{"href_matches": "/Corn-Jr-Public/*"}, {"not": {"href_matches": "/Corn-Jr-Public/random.html"}}, {"not": {"href_matches": "/Corn-Jr-Public/static/*"}}]}, "eagerness": "moderate"}]}
+</script>
+
+</head>
+<body>
+<div class="page">
+  <header class="running">
+    <a class="book" href="/Corn-Jr-Public/">Corn-Jr · The Record</a>
+    <nav>
+      <a href="/Corn-Jr-Public/" data-key="shelf">Shelf</a><a href="/Corn-Jr-Public/findings.html" data-key="findings" class="here">Findings</a><a href="/Corn-Jr-Public/doc/VISION.html" data-key="VISION">Vision</a><a href="/Corn-Jr-Public/doc/GLOSSARY.html" data-key="GLOSSARY">Glossary</a>
+      <a href="https://github.com/csheehan18/Corn-Jr-Public">Source</a>
+    </nav>
+  </header>
+  
+
+<article class="sheet" style="--c:var(--c1)">
+  <div class="progress" aria-hidden="true"></div>
+  <section class="grid chapter-open finding-open">
+    <a class="tab" href="/Corn-Jr-Public/thread/measurement.html" title="Measurement and noise"><small>Part</small><span>I</span></a>
+    <p class="cn">30</p>
+    <p class="partline"><a href="/Corn-Jr-Public/thread/measurement.html">Measurement and noise</a> · 17 August 2026</p>
+    <h1>Noise levels belong to a training setup, not to a test</h1>
+  </section>
+
+  <section class="grid">
+    <p class="marginal">The result, as the finding states it</p><div class="prose"><p class="lead">A floor is a property of the arm, not of the row</p></div>
+    <p class="marginal">What it cost</p><div class="prose"><p class="cost">0 s of new scoring on record; it reads 3 cards scored for an earlier finding (<code>nano20m_balanced</code>, <code>nano20m_v1</code>, <code>nano20m_v1_wide</code>). Backfilled 2026-09-26 from the cards' <code>seconds</code>; training and probe time were never recorded, so this is a floor.</p></div>
+  </section>
+
+  
+
+  <section class="grid">
+    <div class="prose doc"><p>The nineteenth finding measured nine noise floors on four seeds of <code>nano20m_balanced</code> and warned that all of it is specific to that corpus, size and budget. It was right and it did not go far enough. Every one of those floors was measured on the <strong>frozen set</strong>, where most rows sit near ceiling and have nowhere to vary, and every comparison in the twenty-eighth and twenty-ninth findings is an <em>arm</em> comparison read against them.</p>
+<p><code>nano20m_v1_wide</code> at seeds 1337/1338/1339/1340 — same corpus, same bins, same budget, two differing fields of 30 — scored on all three arms. <code>scripts/floors.py</code> prints it.</p>
+<div class="tablewrap"><table><thead><tr><th>row</th><th>frozen</th><th>paraphrase</th><th>held-out</th><th>19th finding</th></tr></thead><tbody><tr><td><code>temporal.route</code></td><td>3</td><td><strong>22</strong></td><td><strong>45</strong></td><td>2</td></tr><tr><td><code>temporal.copy</code></td><td><strong>1</strong></td><td>0</td><td>0</td><td>0</td></tr><tr><td><code>refusal.clarify</code> / <code>refusal.no_guess</code></td><td>0</td><td>0</td><td>0</td><td>0</td></tr><tr><td><code>tool.selection</code></td><td><strong>36</strong></td><td><strong>62</strong></td><td><strong>62</strong></td><td>8</td></tr><tr><td><code>tool.validity</code></td><td>13</td><td><strong>24</strong></td><td><strong>24</strong></td><td>13</td></tr><tr><td><code>tool.copy_wide</code></td><td>28</td><td>24</td><td>24</td><td>29</td></tr><tr><td><code>tool.copy</code></td><td>28</td><td>28</td><td>28</td><td>18</td></tr><tr><td><code>schema.conform</code></td><td><strong>8</strong></td><td>8</td><td>8</td><td>2</td></tr></tbody></table></div>
+<p><strong>The same row, the same four checkpoints, and <code>temporal.route</code> moves 3, 22 and 45 depending only on which items it is scored over.</strong> The frozen arm sits at 396–399 of 400; there is no room in it for a seed to show. The harder the arm, the more the seed can move — which means the floors this project has been quoting are lower bounds for the one regime where a floor matters least.</p>
+<p>Three rows come out materially wider than recorded, on this corpus family:</p>
+<ul><li><strong><code>tool.selection</code> 36 frozen and 62 on an arm, against 8</strong> — and <strong>44</strong> frozen on <code>mix_v1</code>, which is the number the back catalogue has to be read against. The row is not readable on a paraphrase arm at all and barely readable on the frozen one, which makes it the most expensive correction here: the twenty-eighth finding's 22-item fall is inside it, and so are the nineteenth's 34, the twentieth's "+34 for tools at 15%", and <em>both</em> halves of the twenty-fourth's 34-against-+5 contrast.</li><li><strong><code>schema.conform</code> 8, against 2.</strong> The twentieth finding priced structured at 10% on "+22 at a floor of 2" and the twenty-seventh on "+15". Both survive 8 — at 2.75x and 1.9x — and neither survives it comfortably, and both were stated as an order of magnitude clear of noise. The twenty-fourth finding's "+6 at a floor of 2 is real and unexplained" does <strong>not</strong> survive.</li><li><strong><code>tool.copy</code> 28, against 18</strong> — the six-answer row, still behaving as the eighteenth finding said it would.</li></ul>
+<p>Two hold exactly: <code>tool.copy_wide</code> at 28 against 29, and <code>tool.validity</code> at 13 against 13 on the frozen arm. So this is not a claim that the nineteenth finding was wrong; it measured what it measured, correctly, in one regime.</p>
+<p><strong>And the floors do not travel between corpus families either.</strong> Four seeds of <code>nano20m_v1</code> give a second column, and it disagrees with the first as much as either disagrees with the nineteenth finding: <code>tool.copy_wide</code> spreads <strong>41</strong> here against 28 on <code>mix_v1_wide</code> and 29 on <code>mix_v1_wide</code>'s predecessor, with one seed reading 238/300 where its three siblings read 276–279. <code>schema.conform</code> spreads <strong>4</strong> here against <strong>8</strong> there. <code>tool.selection</code> <strong>44</strong> here against 36. A floor is a property of the arm <em>and</em> the corpus, which means the only honest use of any of these numbers is as a worst case over everything measured — the table in the twenty-ninth finding's closing caveats — and even that is a lower bound.</p>
+<h4 id="the-back-catalogue-re-read">The back catalogue, re-read</h4>
+<p>Nothing was re-run: every number below was already on disk, and the pass is a reading of it against the worst case over both families instead of the nineteenth finding's column. Each row is annotated in place at the finding it belongs to.</p>
+<div class="tablewrap"><table><thead><tr><th>claim</th><th>finding</th><th>size</th><th>as read</th><th>worst frozen</th><th>now</th></tr></thead><tbody><tr><td><code>schema.conform</code> 0 → 194</td><td>14th</td><td>194</td><td>2</td><td>8</td><td>stands, 24x</td></tr><tr><td><code>tool.copy</code> 27 → 120</td><td>13th</td><td>93</td><td>18</td><td>28</td><td>stands, 3.3x</td></tr><tr><td><code>tool.selection</code> 0 → 146</td><td>11th</td><td>146</td><td>8</td><td>44</td><td>stands, 3.3x</td></tr><tr><td><code>tool.validity</code> 112 → 167</td><td>11th</td><td>55</td><td>13</td><td>18</td><td>stands, 3.1x</td></tr><tr><td>structured 10% vs 2.5% on <code>schema.conform</code></td><td>19th, 20th</td><td>22</td><td>2</td><td>8</td><td>real at <strong>2.75x</strong>, not 11x</td></tr><tr><td>structured 10% given conversational</td><td>27th</td><td>15</td><td>2</td><td>8</td><td>real at <strong>1.9x</strong></td></tr><tr><td>structured 10% → 2.5% buys <code>tool.copy</code></td><td>19th</td><td>21</td><td>18</td><td>28</td><td><strong>withdrawn</strong></td></tr><tr><td><code>tool.selection</code> 150 → 116 across the narrative cut</td><td>19th</td><td>34</td><td>8</td><td>44</td><td><strong>withdrawn</strong></td></tr><tr><td>tools at 15% buys <code>tool.selection</code></td><td>20th</td><td>34</td><td>8</td><td>44</td><td><strong>withdrawn</strong></td></tr><tr><td>the 34-against-+5 narrative contrast</td><td>24th</td><td>34, 5</td><td>8</td><td>44</td><td><strong>withdrawn — both legs inside</strong></td></tr><tr><td>conversational buys <code>schema.conform</code></td><td>24th</td><td>6</td><td>2</td><td>8</td><td><strong>withdrawn</strong></td></tr></tbody></table></div>
+<p><strong>Every presence claim survives and every attempt to price a share on <code>tool.selection</code> does not.</strong> The four that stand are all step-change results — a slice existing rather than a slice being resized — and they clear even the widened floors by more than three times. Everything withdrawn is a share comparison read off a generation-scored row, which is precisely what this finding says the harness cannot currently do. The lm rows are untouched throughout.</p>
+<p><strong>Two of the withdrawals are the nineteenth finding's own corrections to the catalogue</strong>, which is the uncomfortable half. That finding removed several claims from the record and added two; the two it added are the two a wider floor does not support. And the "~35 is unreadable" rule it demolished sits between the 36 and 44 measured since — derived from the wrong quantity, as it said, and closer to right than the 8 that replaced it.</p>
+<h4 id="temporal-copy-is-not-a-floor-of-zero"><code>temporal.copy</code> is not a floor of zero</h4>
+<p>Seed 1339 reads <strong>352 of 353</strong>, and so does one <code>mix_v1</code> seed under paraphrase — two of eight checkpoints across two corpus families, one item each. That row has read 353/353 on every checkpoint in this project's history — four seeds of <code>nano20m_balanced</code>, every mix since the pilot, both 0%-tools arms, all three paraphrase arms of five checkpoints — and the sixth finding's central claim, that deference installs in pretraining and does not fine-tune in, is 353/353 against 48–92%.</p>
+<p>One item does not touch that. A 353-to-48 gap is not in danger from a row whose floor turns out to be 1 rather than 0. What it does end is the habit of treating the row as <em>definitionally</em> invariant: it has been used as a control on the reasoning that any movement at all would be meaningful, and that reasoning now needs a number in it like every other row.</p>
+<h4 id="the-language-rows-reproduce-and-that-is-the-other-half">The language rows reproduce, and that is the other half</h4>
+<div class="tablewrap"><table><thead><tr><th></th><th>spread over four seeds</th></tr></thead><tbody><tr><td><code>lm temporal</code></td><td>0.0009</td></tr><tr><td><code>lm narrative</code></td><td>0.0016</td></tr><tr><td><code>lm web</code></td><td>0.0019</td></tr><tr><td><code>lm conversational</code></td><td>0.0047</td></tr></tbody></table></div>
+<p>Four models whose <code>tool.selection</code> spans 119 to 155 agree on narrative to 0.0016 nats/byte. That is the nineteenth finding's sharpest observation reproduced on a second corpus family — <strong>the language rows are share-determined and the generation-scored rows are not</strong> — and it is the reason a corpus comparison should be argued on the lm rows first and the behaviour rows only where the delta clears a floor measured on the right arm.</p>
+<h4 id="what-this-does-not-settle">What this does not settle</h4>
+<ul><li><strong>Four points are a spread, not a standard deviation</strong>, and a spread only grows. These are lower bounds exactly as the nineteenth finding's were.</li><li><strong>One corpus family.</strong> These floors are <code>mix_v1_wide</code>'s. That the same row reads 8 on one family and 36 on another is the whole point, and it applies to this table too.</li><li><p>~~<strong>The baseline has no replicate.</strong>~~ <strong>Run — four seeds of <code>nano20m_v1</code>, and the baseline half is the more alarming one.</strong> <code>tool.copy_wide</code> spreads <strong>41</strong> on the frozen arm against a recorded 29, with one seed reading 238/300 where the others read 276–279. <code>tool.selection</code> spreads <strong>44</strong> frozen and <strong>50</strong> on an arm. <code>tool.validity</code> <strong>18</strong> frozen and <strong>34</strong> on an arm, against 13. And <code>schema.conform</code> spreads <strong>4</strong> here where it spreads <strong>8</strong> on <code>mix_v1_wide</code> — so the floors do not travel between <em>corpus families</em> either, which is this finding's own lesson arriving one level up. The combined picture, worst case over both families:</p>
+<div class="tablewrap"><table><thead><tr><th>row</th><th>frozen</th><th>paraphrase</th><th>held-out</th><th>19th finding</th></tr></thead><tbody><tr><td><code>temporal.route</code></td><td>3</td><td>24</td><td>45</td><td>2</td></tr><tr><td><code>temporal.copy</code></td><td>1</td><td>1</td><td>0</td><td>0</td></tr><tr><td><code>tool.selection</code></td><td>44</td><td>62</td><td>62</td><td>8</td></tr><tr><td><code>tool.validity</code></td><td>18</td><td>34</td><td>34</td><td>13</td></tr><tr><td><code>tool.copy</code></td><td>28</td><td>28</td><td>28</td><td>18</td></tr><tr><td><code>tool.copy_wide</code></td><td>41</td><td>39</td><td>39</td><td>29</td></tr><tr><td><code>schema.conform</code></td><td>8</td><td>8</td><td>8</td><td>2</td></tr></tbody></table></div>
+<p><code>temporal.copy</code> has now moved on both families — 352/353 on one <code>mix_v1_wide</code> seed frozen and one <code>mix_v1</code> seed under paraphrase. Two of eight checkpoints, one item each.</p></li><li><strong>It does not explain the mechanism.</strong> "More room below ceiling means more seed variance" is a description. Whether the floor scales with distance from ceiling, with item difficulty, or with something else would need a row measured at several points on its own range.</li></ul></div>
+  </section>
+
+  <section class="grid refs">
+    <div class="body two-even">
+      <div>
+        <h2 class="small">It cites</h2>
+        <p class="aside">No other finding by number.</p>
+      </div>
+      <div>
+        <h2 class="small">Cited by</h2>
+        <p class="aside">No later finding yet.</p>
+      </div>
+    </div>
+    <p class="body source">docs/findings/30-a-floor-is-a-property-of-the-arm-not-of-the-row.md</p>
+  </section>
+</article>
+
+  
+<footer class="turn">
+  <div><span class="sc">previous</span><a href="/Corn-Jr-Public/finding/19.html">19 · The noise floor across four seeds, and which past readings it erases</a></div>
+  <div class="r"><span class="sc">next</span><a href="/Corn-Jr-Public/finding/43.html">43 · Two extra seeds already on disk retire three earlier readings</a></div>
+  <p class="keys"><kbd>←</kbd> <kbd>→</kbd> turn the page · <kbd>/</kbd> find</p>
+</footer>
+<p class="bynumber">Previous and next in <a href="/Corn-Jr-Public/thread/measurement.html">Measurement and noise</a>. By number:
+  <a href="/Corn-Jr-Public/finding/29.html">29</a> · <a href="/Corn-Jr-Public/finding/31.html">31</a></p>
+
+</div>
+</body>
+</html>

@@ -1,0 +1,102 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>118 · The reader survives the base model being fine-tuned underneath it · Corn-Jr</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600&family=IBM+Plex+Mono:wght@400;500&family=Spectral:ital,wght@0,400;0,500;0,600;1,400&family=Spectral+SC:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/Corn-Jr-Public/static/library.css">
+<script defer src="/Corn-Jr-Public/static/library.js"></script>
+<script type="speculationrules">
+{"prerender": [{"where": {"and": [{"href_matches": "/Corn-Jr-Public/*"}, {"not": {"href_matches": "/Corn-Jr-Public/random.html"}}, {"not": {"href_matches": "/Corn-Jr-Public/static/*"}}]}, "eagerness": "moderate"}]}
+</script>
+
+</head>
+<body>
+<div class="page">
+  <header class="running">
+    <a class="book" href="/Corn-Jr-Public/">Corn-Jr · The Record</a>
+    <nav>
+      <a href="/Corn-Jr-Public/" data-key="shelf">Shelf</a><a href="/Corn-Jr-Public/findings.html" data-key="findings" class="here">Findings</a><a href="/Corn-Jr-Public/doc/VISION.html" data-key="VISION">Vision</a><a href="/Corn-Jr-Public/doc/GLOSSARY.html" data-key="GLOSSARY">Glossary</a>
+      <a href="https://github.com/csheehan18/Corn-Jr-Public">Source</a>
+    </nav>
+  </header>
+  
+
+<article class="sheet" style="--c:var(--c2)">
+  <div class="progress" aria-hidden="true"></div>
+  <section class="grid chapter-open finding-open">
+    <a class="tab" href="/Corn-Jr-Public/thread/reading.html" title="Reading documents"><small>Part</small><span>II</span></a>
+    <p class="cn">118</p>
+    <p class="partline"><a href="/Corn-Jr-Public/thread/reading.html">Reading documents</a> · 5 September 2026</p>
+    <h1>The reader survives the base model being fine-tuned underneath it</h1>
+  </section>
+
+  <section class="grid">
+    <p class="marginal">The result, as the finding states it</p><div class="prose"><p class="lead">The shipped reading adapter survives the trunk moving under it: fitted to ft4g, it reads 521 of 721 at 196 correct silences on arm 3 (ft4g fine-tuned once) and 524 at 199 on arm 2 (a sibling trunk from the base), against 526 at 199 on its own trunk, with 27 and 9 passages moving and nothing paired significant</p></div>
+    <p class="marginal">What it cost</p><div class="prose"><p class="cost">16.0 min of scoring on the 2 cards first cited here (<code>corn_jr_260m_v4_ft_social2</code>, <code>corn_jr_260m_v4_ft_social3</code>); it also reads 1 card scored for an earlier finding (<code>corn_jr_260m_v4_ft4g</code>). Backfilled 2026-09-26 from the cards' <code>seconds</code>; training and probe time were never recorded, so this is a floor.</p></div>
+  </section>
+
+  
+
+  <section class="grid">
+    <div class="prose doc"><p><strong>Run 2026-09-05, <code>docs/PLAN-CONVERSATION.md</code> §4i, pre-registered the same day before the number existed. Nothing trained. Two reads of Population A through the real runtime, ~23 s of card each, plus the pairing off the JSONs on the CPU. The adapter is <code>checkpoints/reader_whole_causal_s1.pt</code> exactly as finding <a class="fref" href="/Corn-Jr-Public/finding/117.html">117</a> shipped it; the trunks it is read on are <code>corn_jr_260m_v4_ft_social3</code> (ft4g init, one 1,200-iteration fine-tune) and <code>corn_jr_260m_v4_ft_social2</code> (v4-base init, ft4g's recipe with one source swapped). <code>corn/</code>, the server, every scorer and every frozen row are untouched; the runtime still refuses this pairing by hash.</strong></p>
+<h3 id="0-the-question-and-why-it-is-a-one-minute-question-now">0. The question, and why it is a one-minute question now</h3>
+<p>PLAN-SOCIAL-SLICE's 2026-09-03 section called head portability "the number nobody has": no measurement existed of how far a reader fitted on ft4g's states degrades when the trunk beneath it moves by one fine-tune, and every reader result on disk was ft4g and only ft4g. It priced the number at a harvest and a re-fit. Finding <a class="fref" href="/Corn-Jr-Public/finding/117.html">117</a> changed the price: the reader is now a delta keyed to the trunk's sha256, <code>scripts/probe_reader_runtime.py</code> reads Population A through the real <code>read_passage</code> in 23 s, and arm 3 — ft4g moved by exactly one fine-tune of arm 4's shape — is already on disk.</p>
+<p>The social plan's join turns on this number. If the delta survives a trunk move, arms 4-8 can be <em>read</em> with the shipped adapter as a proxy and the ~55 min re-fit is paid once, on the trunk that ships. If it does not, every arm that wants a reader number pays the re-fit, and the social plan's "under an hour of card" an arm becomes about two.</p>
+<h3 id="1-the-instrument-and-the-one-flag-it-needed">1. The instrument, and the one flag it needed</h3>
+<p><code>corn.model.load_adapter</code> refuses a trunk the adapter file did not name, and <code>harness/backends/read.py</code> always hands it the served <code>--ckpt</code>, so there was no way to put the ft4g delta on another trunk without either editing the fingerprint or bypassing the check. Neither was done. The probe gained <code>--adapter-trunk &lt;path&gt;</code>: the checkpoint the adapter's hash is checked <em>against</em>, defaulting to <code>--ckpt</code>. Passing ft4g there while <code>--ckpt</code> is arm 3 loads the adapter with the fingerprint check passing against the trunk it names, prints both hashes, and records <code>adapter_trunk</code> in the JSON. The mismatch is declared on the command line rather than hidden. <strong>The runtime has no such flag</strong>, and <code>scripts/check_model.py</code> — which drives <code>load_adapter</code> against a different trunk and asserts the refusal — is green after the change.</p>
+<p>trunk                                sha256          init          what it is corn_jr_260m_v4_ft4g                 985240095e80    v4 base       the trunk the adapter names; server.json corn_jr_260m_v4_ft_social3           7b5edfaa78bc    ft4g          ft4g + one fine-tune (arm 4's shape) corn_jr_260m_v4_ft_social2           02e5d681e7cd    v4 base       ft4g's recipe, one source swapped: a sibling</p>
+<p>Everything else is finding <a class="fref" href="/Corn-Jr-Public/finding/117.html">117</a> (a) verbatim: <code>--reader head_whole</code> at the shipped <code>-1.174</code>, extent d = 2.0 radius 3, fp32, the same 1,003 passages, <code>probe_reader_passages.judge</code> on <code>reduce</code>'s output. <strong>The threshold is held at ft4g's constant on purpose.</strong> A re-derived threshold would be the re-fit's protocol; the question here is whether the file that ships reads on a trunk it was not fitted to, and that is a fixed-threshold question — so the attempt rate is reported beside every <code>right</code>, as §4i required.</p>
+<h3 id="2-the-read">2. The read</h3>
+<p>answerable 721            unanswerable 282 trunk under the ft4g adapter    right  wrong  silent      silent  wrong    attempt   acc|att  precision ft4g (finding <a class="fref" href="/Corn-Jr-Public/finding/117.html">117</a>, its own)      526    122     73         199     83      89.9%     0.812    72.0% arm 3 (ft4g + one fine-tune)     521    130     70         196     86      90.3%     0.800    70.7% arm 2 (sibling from the base)    524    128     69         199     83      90.4%     0.804    71.3%</p>
+<p><strong>Pre-registered reading one fires on both trunks</strong>: "arm 3 within ~10 right of 526 with correct silence within ~5 of 199". Arm 3 is 5 right and 3 silences under; arm 2 is 2 right under and level on silence. The attempt rate moves by half a point — the fixed threshold is very slightly more willing on a moved trunk, which is the direction a margin perturbation shows when the constant was fitted elsewhere, and it is inside what finding <a class="fref" href="/Corn-Jr-Public/finding/117.html">117</a> (b) measured between the harvest's bf16 trunk and the runtime's fp32 one. Latency is the same 23 ms a passage; the hybrid fallback fired on 0.</p>
+<h3 id="3-paired-by-passage">3. Paired, by passage</h3>
+<p>Verdicts paired against finding <a class="fref" href="/Corn-Jr-Public/finding/117.html">117</a>'s per-passage record (<code>reader_runtime_whole_s1.json</code>), exact two-sided binomial:</p>
+<p>against ft4g's own read         moved     right lost/won   p       silence lost/won   p       joint lost/won   p arm 3                          27/1003        8 / 3       0.227        6 / 3        0.508       14 / 6       0.115 arm 2                           9/1003        2 / 0       0.500        1 / 1        1.000        3 / 1       0.625</p>
+<p>Nothing is significant and nothing is close to it. <strong>27 passages of 1,003 move under a one-fine-tune trunk move, and 9 under the sibling.</strong> For scale, finding <a class="fref" href="/Corn-Jr-Public/finding/117.html">117</a> (b) measured 17 spans differing between the harvest's trunk and the runtime's <em>identical weights</em> under a different autocast; a whole fine-tune moves 9 to 27.</p>
+<p><strong>The species of the movement, arm 3:</strong></p>
+<p>answerable    right -&gt; silent 4    right -&gt; wrong 4    silent -&gt; right 2 silent -&gt; wrong 6    wrong -&gt; right 1    wrong -&gt; silent 1 unanswerable  silent -&gt; wrong 6    wrong -&gt; silent 3</p>
+<p>Eleven of the 27 are a silence becoming speech or the reverse — margins on either side of a constant fitted on another trunk — and the rest are the head's pick moving on a passage it speaks on either way. That is the same two-species shape finding <a class="fref" href="/Corn-Jr-Public/finding/117.html">117</a> (b) traced to a small perturbation of the head's inputs, and no third species appears. Arm 2's nine are five <code>silent -&gt; wrong</code> on answerable passages and four singletons.</p>
+<h3 id="4-what-this-says-and-what-it-licenses">4. What this says, and what it licenses</h3>
+<p><strong>The delta is portable across the trunk moves this project actually makes.</strong> A rank-32 adapter and a 6.3M-parameter head fitted to ft4g's layers {8, 12, 16} read within the seed spread (finding <a class="fref" href="/Corn-Jr-Public/finding/112.html">112</a> put it at ~5 passages) on a trunk ft4g was fine-tuned into and on a trunk that shares ft4g's recipe but not its init. The states the reader depends on are a property of the family's training rather than of one checkpoint's last 1,200 iterations.</p>
+<p>So the join in PLAN-CONVERSATION's seventh section takes its cheap branch:</p>
+<ul><li><strong>Arms 4-8 are read with the ft4g adapter as a proxy</strong> — probe only, through <code>--adapter-trunk</code>, never served — and a reader number on an arm costs 23 s rather than 55 min. The number is a proxy in exactly the sense measured here: within a handful of passages at a fixed threshold, attempt rate reported beside it.</li><li><strong>The re-fit is reserved for the trunk that ships.</strong> It still runs, once, at that trunk's own CV'd threshold, with whatever recipe PLAN-READER-WHOLE-NEXT §2 settles; nothing here replaces it, because a fixed threshold is not the bar protocol and 3 silences is not 0.</li><li><strong>Packs and every later trunk inherit the same expectation</strong>, stated as an expectation: a one-fine-tune move on this recipe costs the reader single digits of passages.</li><li><strong>The conversation-as-adapter alternative</strong> the seventh section named — the social class as a second delta on a frozen ft4g, so the fingerprint never breaks — is not worth pricing on this evidence. It would buy protection against a cost that reads as 2 to 5 passages.</li></ul>
+<p><strong>Not licensed:</strong> serving the ft4g adapter on a moved trunk. The fingerprint stays, the server has no override, and this finding is the reason the override lives in a probe: the number is small <em>because it was measured</em>, and a trunk that moves further than one fine-tune of this recipe has not been measured at all.</p>
+<h3 id="5-limits">5. Limits</h3>
+<p>One adapter seed, one population, fp32, a fixed threshold. Two trunks, both one recipe step from ft4g in different directions; a trunk two or three social arms downstream is a different distance and is the next place to read this, for 23 s, when arm 5 exists. The arm 3 versus arm 2 ordering (the descendant reads slightly worse than the sibling) is 3 passages and is not a result. The moved passages were read by verdict transition and not by margin; the JSONs carry no margins, and a margin-level account of the 27 would need the probe to write them. Nothing here is a live session and nothing measures packs.</p>
+<h3 id="on-disk">On disk</h3>
+<p><code>evals/results/reader_runtime_whole_s1_on_social3.json</code> and <code>reader_runtime_whole_s1_on_social2.json</code> (per passage, with <code>adapter_trunk</code> recorded), paired here against <code>evals/results/reader_runtime_whole_s1.json</code> (finding <a class="fref" href="/Corn-Jr-Public/finding/117.html">117</a>). <code>scripts/probe_reader_runtime.py</code> carries the flag.</p></div>
+  </section>
+
+  <section class="grid refs">
+    <div class="body two-even">
+      <div>
+        <h2 class="small">It cites</h2>
+        <ul class="reflist"><li style="--c:var(--c2)"><a href="/Corn-Jr-Public/finding/112.html"><span class="fn">112</span>Training on whole passages lifts extraction from 54% to 71%</a></li><li style="--c:var(--c2)"><a href="/Corn-Jr-Public/finding/117.html"><span class="fn">117</span>The whole-passage reader ships: 526 of 721 at runtime</a></li></ul>
+        
+      </div>
+      <div>
+        <h2 class="small">Cited by</h2>
+        <ul class="reflist"><li style="--c:var(--c3)"><a href="/Corn-Jr-Public/finding/119.html"><span class="fn">119</span>Fine-tuning from the shipped base: frozen scores hold, small social costs</a></li><li style="--c:var(--c3)"><a href="/Corn-Jr-Public/finding/120.html"><span class="fn">120</span>Consolation replies barely move and cost tool routing</a></li><li style="--c:var(--c2)"><a href="/Corn-Jr-Public/finding/124.html"><span class="fn">124</span>Refitting the reader on the social model reads 517 at runtime</a></li></ul>
+        
+      </div>
+    </div>
+    <p class="body source">docs/findings/118-the-shipped-adapter-survives-the-trunk-moving-under-it-reading-521-and-524-of-721-on-two-social-trunks-against-526-on-its-own.md</p>
+  </section>
+</article>
+
+  
+<footer class="turn">
+  <div><span class="sc">previous</span><a href="/Corn-Jr-Public/finding/117.html">117 · The whole-passage reader ships: 526 of 721 at runtime</a></div>
+  <div class="r"><span class="sc">next</span><a href="/Corn-Jr-Public/finding/124.html">124 · Refitting the reader on the social model reads 517 at runtime</a></div>
+  <p class="keys"><kbd>←</kbd> <kbd>→</kbd> turn the page · <kbd>/</kbd> find</p>
+</footer>
+<p class="bynumber">Previous and next in <a href="/Corn-Jr-Public/thread/reading.html">Reading documents</a>. By number:
+  <a href="/Corn-Jr-Public/finding/117.html">117</a> · <a href="/Corn-Jr-Public/finding/119.html">119</a></p>
+
+</div>
+</body>
+</html>

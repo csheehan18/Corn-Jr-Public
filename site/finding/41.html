@@ -1,0 +1,89 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>41 · Too noisy to read; underneath, wrong contact names fell 19 to 2 · Corn-Jr</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600&family=IBM+Plex+Mono:wght@400;500&family=Spectral:ital,wght@0,400;0,500;0,600;1,400&family=Spectral+SC:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/Corn-Jr-Public/static/library.css">
+<script defer src="/Corn-Jr-Public/static/library.js"></script>
+<script type="speculationrules">
+{"prerender": [{"where": {"and": [{"href_matches": "/Corn-Jr-Public/*"}, {"not": {"href_matches": "/Corn-Jr-Public/random.html"}}, {"not": {"href_matches": "/Corn-Jr-Public/static/*"}}]}, "eagerness": "moderate"}]}
+</script>
+
+</head>
+<body>
+<div class="page">
+  <header class="running">
+    <a class="book" href="/Corn-Jr-Public/">Corn-Jr · The Record</a>
+    <nav>
+      <a href="/Corn-Jr-Public/" data-key="shelf">Shelf</a><a href="/Corn-Jr-Public/findings.html" data-key="findings" class="here">Findings</a><a href="/Corn-Jr-Public/doc/VISION.html" data-key="VISION">Vision</a><a href="/Corn-Jr-Public/doc/GLOSSARY.html" data-key="GLOSSARY">Glossary</a>
+      <a href="https://github.com/csheehan18/Corn-Jr-Public">Source</a>
+    </nav>
+  </header>
+  
+
+<article class="sheet" style="--c:var(--c1)">
+  <div class="progress" aria-hidden="true"></div>
+  <section class="grid chapter-open finding-open">
+    <a class="tab" href="/Corn-Jr-Public/thread/routing.html" title="Routing and declining"><small>Part</small><span>I</span></a>
+    <p class="cn">41</p>
+    <p class="partline"><a href="/Corn-Jr-Public/thread/routing.html">Routing and declining</a> · 19 August 2026</p>
+    <h1>Too noisy to read; underneath, wrong contact names fell 19 to 2</h1>
+  </section>
+
+  <section class="grid">
+    <p class="marginal">The result, as the finding states it</p><div class="prose"><p class="lead">The row cannot read this arm, and underneath it the substitution fell from 19 to 2</p></div>
+    <p class="marginal">What it cost</p><div class="prose"><p class="cost">4.4 min of scoring on the 1 card first cited here (<code>nano20m_v1_seed3</code>). Backfilled 2026-09-26 from the cards' <code>seconds</code>; training and probe time were never recorded, so this is a floor.</p></div>
+  </section>
+
+  
+
+  <section class="grid">
+    <div class="prose doc"><p><code>configs/mix_v1_toolnames.py</code> ×2 against <code>mix_v1</code> ×2. One file swapped in a 0.62% slice: <code>tools.txt</code> → <code>tools_names.txt</code>, same weight to the token, contact book 28 hand-written names → 4,000 composed ones at 1.81 uses each.</p>
+<h3 id="the-row-is-a-null-and-the-reason-is-the-baseline-rather-than">The row is a null, and the reason is the baseline rather than the arm</h3>
+<div class="tablewrap"><table><thead><tr><th></th><th>mix_v1 s1</th><th>mix_v1 s2</th><th>toolnames s1</th><th>toolnames s2</th></tr></thead><tbody><tr><td><code>tool.name_fidelity</code> /120</td><td>64</td><td><strong>33</strong></td><td>53</td><td>39</td></tr></tbody></table></div>
+<p>Baseline [33, 64], arm [39, 53]. Fully overlapping, and the arm's range sits <em>inside</em> the baseline's.</p>
+<p><strong>The baseline's own two-seed spread is 31 of 120.</strong> That is wider than any effect this arm could plausibly have had, so the row cannot read it — this is the thirtieth finding's rule arriving on a new row: a floor is a property of the arm, not of the row, and nobody had measured one here. The plan quoted "56/120 wrong at 29.6M" from a single seed. The second seed reads 87/120 wrong. <strong>That number should not have been quoted without an interval and this finding is the correction.</strong></p>
+<p>The controls are no better behaved: <code>tool.copy</code> reads [100, 100] baseline against [77, 100] arm, and <code>tool.copy_wide</code> [276, 279] against [252, 289]. One arm seed dips on each, different seeds each time. Nothing here supports the pre-registered "bought fidelity with copy discipline" trade, and nothing here rules it out either.</p>
+<h3 id="underneath-the-row-the-mechanism-moved-and-is-measurable">Underneath the row, the mechanism moved and is measurable</h3>
+<p><code>score_name_fidelity</code>'s failure buckets are defined against <code>corn/tools.py</code>'s <code>CONTACTS</code>, which is the <em>training</em> book for <code>mix_v1</code> and <strong>not</strong> the training book for this arm. So a substitution out of the composed book lands in <code>wrong_name</code> and the buckets are not comparable across the two corpora. Re-running the 120 items and classifying each emitted contact against both books directly:</p>
+<div class="tablewrap"><table><thead><tr><th>checkpoint</th><th>correct</th><th><strong>named a real trained contact</strong></th><th>a string from neither book</th><th>no readable call</th></tr></thead><tbody><tr><td><code>mix_v1</code> s1</td><td>64</td><td><strong>19</strong></td><td>27</td><td>10</td></tr><tr><td><code>toolnames</code> s1</td><td>53</td><td><strong>2</strong></td><td>54</td><td>11</td></tr><tr><td><code>toolnames</code> s2</td><td>39</td><td><strong>10</strong></td><td>53</td><td>18</td></tr></tbody></table></div>
+<p><strong>19 → 2 and 10.</strong> That is the failure the eval exists for, and it is the dangerous one: the runtime texted Omar Silva and reported success. Fluent, schema-valid, wrong person. <code>tool.selection</code> and <code>tool.validity</code> both pass it.</p>
+<p>What replaced it is <code>neither book</code>, 27 → 54 and 53 — strings that are nobody. Those fail visibly, and <code>CopySpec</code> blocks them at inference. So the arm <strong>changed which way he is wrong</strong> without changing how often, and the direction of that change is the operationally useful one.</p>
+<h3 id="the-honest-position">The honest position</h3>
+<ul><li><strong>The pre-registered question reads null</strong> and is reported as null. The arm did not move <code>tool.name_fidelity</code>.</li><li><strong>The mechanism it was aimed at moved by an order of magnitude</strong>, on a row the pass rate cannot see, in a bucket the frozen scorer cannot separate for this corpus.</li><li>Both statements are true at once, and the second does not rescue the first.</li></ul>
+<p>This is the same shape as <code>temporal.outcome</code>: a row that sums outcomes with opposite operational meanings reports a wash, and the split is where the result is. The difference is that <code>temporal.outcome</code> is now a first-class row and this is a script run by hand.</p>
+<h3 id="what-this-does-not-settle">What this does not settle</h3>
+<ul><li><strong>Whether it is a cardinality effect at all.</strong> The plan pre-registered an unmoved row as "the fourth test of the fourteenth finding's rule and the first to fail it". That reading is <em>not</em> available, because the substitution count did move — what failed is the row, not the rule.</li><li>~~<strong>Two seeds against a baseline whose spread is 31.</strong> More baseline seeds are the only thing that makes <code>tool.name_fidelity</code> quotable at all, and they cost 17 minutes each. Nothing on this row should be quoted until they exist.~~ <strong>Done, and they cost nothing</strong> — the forty-third finding. <code>nano20m_v1_seed3</code> and <code>_seed4</code> were already trained and had simply never been scored on the frozen set with the three <code>--add</code> files present. At four seeds the baseline reads <strong>33, 37, 44, 64</strong>, spread still 31, and the arm's [39, 53] is still strictly inside it. This finding's conclusion is unchanged and is now measured rather than inferred from two points.</li><li><strong>The scorer's buckets are corpus-relative and silently so.</strong> <code>substituted_nearest</code> and <code>substituted_other</code> mean "a name from <code>CONTACTS</code>", which stops being the training book the moment an arm changes it. A row whose failure labels depend on a table the arm is allowed to move is a row that will mislead again. Fixing it means a new bucket rather than a redefinition, on the <code>--add</code> terms, and it is not done here.</li><li><strong>The <code>neither book</code> strings were not inspected.</strong> Whether they are near-misses of the asked-for name, garbled composed names, or something else is a question this data can answer and nobody has asked.</li></ul></div>
+  </section>
+
+  <section class="grid refs">
+    <div class="body two-even">
+      <div>
+        <h2 class="small">It cites</h2>
+        <p class="aside">No other finding by number.</p>
+      </div>
+      <div>
+        <h2 class="small">Cited by</h2>
+        <p class="aside">No later finding yet.</p>
+      </div>
+    </div>
+    <p class="body source">docs/findings/41-the-row-cannot-read-it-and-the-substitution-fell-from-nineteen-to-two.md</p>
+  </section>
+</article>
+
+  
+<footer class="turn">
+  <div><span class="sc">previous</span><a href="/Corn-Jr-Public/finding/39.html">39 · Restricting names to declared tools fixes routing, not refusal</a></div>
+  <div class="r"><span class="sc">next</span><a href="/Corn-Jr-Public/finding/42.html">42 · He now declines 118 times, with routing untouched</a></div>
+  <p class="keys"><kbd>←</kbd> <kbd>→</kbd> turn the page · <kbd>/</kbd> find</p>
+</footer>
+<p class="bynumber">Previous and next in <a href="/Corn-Jr-Public/thread/routing.html">Routing and declining</a>. By number:
+  <a href="/Corn-Jr-Public/finding/40.html">40</a> · <a href="/Corn-Jr-Public/finding/42.html">42</a></p>
+
+</div>
+</body>
+</html>

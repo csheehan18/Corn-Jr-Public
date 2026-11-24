@@ -1,0 +1,195 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Tool calls and copying · Corn-Jr</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600&family=IBM+Plex+Mono:wght@400;500&family=Spectral:ital,wght@0,400;0,500;0,600;1,400&family=Spectral+SC:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/Corn-Jr-Public/static/library.css">
+<script defer src="/Corn-Jr-Public/static/library.js"></script>
+<script type="speculationrules">
+{"prerender": [{"where": {"and": [{"href_matches": "/Corn-Jr-Public/*"}, {"not": {"href_matches": "/Corn-Jr-Public/random.html"}}, {"not": {"href_matches": "/Corn-Jr-Public/static/*"}}]}, "eagerness": "moderate"}]}
+</script>
+<script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.14.1/dist/cdn.min.js"></script>
+</head>
+<body>
+<div class="page">
+  <header class="running">
+    <a class="book" href="/Corn-Jr-Public/">Corn-Jr · The Record</a>
+    <nav>
+      <a href="/Corn-Jr-Public/" data-key="shelf" class="here">Shelf</a><a href="/Corn-Jr-Public/findings.html" data-key="findings">Findings</a><a href="/Corn-Jr-Public/doc/VISION.html" data-key="VISION">Vision</a><a href="/Corn-Jr-Public/doc/GLOSSARY.html" data-key="GLOSSARY">Glossary</a>
+      <a href="https://github.com/csheehan18/Corn-Jr-Public">Source</a>
+    </nav>
+  </header>
+  
+<article class="sheet" style="--c:var(--c1)" x-data="{ all: false }">
+  <div class="progress" aria-hidden="true"></div>
+  <section class="grid chapter-open">
+    <a class="tab" href="/Corn-Jr-Public/part/I.html"><small>Part</small><span>I</span></a>
+    <p class="partline"><a href="/Corn-Jr-Public/part/I.html">The base and its tools</a></p>
+    <h1 class="vt-title">Tool calls and copying</h1>
+    <p class="subtitle">Getting the call format in, and getting him to copy the tool&#39;s answer back out.</p>
+    <div class="status"><svg class="strip" viewBox="0 0 260 12" width="260" height="12" aria-hidden="true">
+  <line x1="0" y1="11.5" x2="260" y2="11.5" class="base"/>
+  <line x1="5.9" y1="2" x2="5.9" y2="11"/><line x1="7.0" y1="2" x2="7.0" y2="11"/><line x1="11.3" y1="2" x2="11.3" y2="11"/><line x1="12.4" y1="2" x2="12.4" y2="11"/><line x1="13.5" y1="2" x2="13.5" y2="11"/><line x1="14.5" y1="2" x2="14.5" y2="11"/><line x1="15.6" y1="2" x2="15.6" y2="11"/><line x1="22.1" y1="2" x2="22.1" y2="11"/><line x1="23.2" y1="2" x2="23.2" y2="11"/><line x1="36.1" y1="2" x2="36.1" y2="11"/><line x1="52.3" y1="2" x2="52.3" y2="11"/><line x1="54.5" y1="2" x2="54.5" y2="11"/><line x1="67.4" y1="2" x2="67.4" y2="11"/><line x1="77.1" y1="2" x2="77.1" y2="11"/><line x1="137.6" y1="2" x2="137.6" y2="11"/>
+</svg><span>15 findings, 5 to 127, filed 17 August 2026 to 7 September 2026</span></div>
+  </section>
+
+  
+
+  <section class="grid">
+    <h2 class="sec">The findings, in order</h2>
+    <p class="hint"><button type="button" @click="all = !all" x-text="all ? 'Hide the full results' : 'Show every full result'">Show every full result</button></p>
+    <ol class="entries">
+      
+      <li x-data="{ open: false }">
+        <span class="fn"><a href="/Corn-Jr-Public/finding/5.html">5</a></span>
+        <div>
+          <a class="et" href="/Corn-Jr-Public/finding/5.html">The tool-call format must be in pretraining, and costs about 3%</a>
+          <span class="ed">17 August 2026 · <button type="button" class="more" @click="open = !open" x-text="(open || all) ? 'less' : 'more'">more</button></span>
+          <div class="fold" :class="(open || all) && 'open'"><div><p class="efull">The format has to be in pretraining, and it costs about 3%</p></div></div>
+        </div>
+      </li>
+      
+      <li x-data="{ open: false }">
+        <span class="fn"><a href="/Corn-Jr-Public/finding/6.html">6</a></span>
+        <div>
+          <a class="et" href="/Corn-Jr-Public/finding/6.html">Fine-tuning installs the tool format but not using the tool&#39;s answer</a>
+          <span class="ed">17 August 2026 · <button type="button" class="more" @click="open = !open" x-text="(open || all) ? 'less' : 'more'">more</button></span>
+          <div class="fold" :class="(open || all) && 'open'"><div><p class="efull">The format fine-tunes in fine; deferring to the tool does not</p></div></div>
+        </div>
+      </li>
+      
+      <li x-data="{ open: false }">
+        <span class="fn"><a href="/Corn-Jr-Public/finding/10.html">10</a></span>
+        <div>
+          <a class="et" href="/Corn-Jr-Public/finding/10.html">A generated tool dataset caps at 2.3 MB of distinct examples</a>
+          <span class="ed">17 August 2026 · <button type="button" class="more" @click="open = !open" x-text="(open || all) ? 'less' : 'more'">more</button></span>
+          <div class="fold" :class="(open || all) && 'open'"><div><p class="efull">The tool slice, and what a generator cannot buy</p></div></div>
+        </div>
+      </li>
+      
+      <li x-data="{ open: false }">
+        <span class="fn"><a href="/Corn-Jr-Public/finding/11.html">11</a></span>
+        <div>
+          <a class="et" href="/Corn-Jr-Public/finding/11.html">A twenty-fifth of the planned tool data buys most of the behaviour</a>
+          <span class="ed">17 August 2026 · <button type="button" class="more" @click="open = !open" x-text="(open || all) ? 'less' : 'more'">more</button></span>
+          <div class="fold" :class="(open || all) && 'open'"><div><p class="efull">A 25th of the declared share buys most of the behaviour</p></div></div>
+        </div>
+      </li>
+      
+      <li x-data="{ open: false }">
+        <span class="fn"><a href="/Corn-Jr-Public/finding/12.html">12</a></span>
+        <div>
+          <a class="et" href="/Corn-Jr-Public/finding/12.html">Copying fails to generalise because the training facts were memorisable</a>
+          <span class="ed">17 August 2026 · <button type="button" class="more" @click="open = !open" x-text="(open || all) ? 'less' : 'more'">more</button></span>
+          <div class="fold" :class="(open || all) && 'open'"><div><p class="efull">The copy discipline does not generalise, and the corpus is why</p></div></div>
+        </div>
+      </li>
+      
+      <li x-data="{ open: false }">
+        <span class="fn"><a href="/Corn-Jr-Public/finding/13.html">13</a></span>
+        <div>
+          <a class="et" href="/Corn-Jr-Public/finding/13.html">Inventing the fact database makes him copy tool answers perfectly</a>
+          <span class="ed">17 August 2026 · <button type="button" class="more" @click="open = !open" x-text="(open || all) ? 'less' : 'more'">more</button></span>
+          <div class="fold" :class="(open || all) && 'open'"><div><p class="efull">Invent the world, and the copy discipline generalises</p></div></div>
+        </div>
+      </li>
+      
+      <li x-data="{ open: false }">
+        <span class="fn"><a href="/Corn-Jr-Public/finding/14.html">14</a></span>
+        <div>
+          <a class="et" href="/Corn-Jr-Public/finding/14.html">The JSON data taught the format but not copying field names</a>
+          <span class="ed">17 August 2026 · <button type="button" class="more" @click="open = !open" x-text="(open || all) ? 'less' : 'more'">more</button></span>
+          <div class="fold" :class="(open || all) && 'open'"><div><p class="efull">The same bug, a third time, and the rule it settles into</p></div></div>
+        </div>
+      </li>
+      
+      <li x-data="{ open: false }">
+        <span class="fn"><a href="/Corn-Jr-Public/finding/20.html">20</a></span>
+        <div>
+          <a class="et" href="/Corn-Jr-Public/finding/20.html">No data share moves copying above noise</a>
+          <span class="ed">17 August 2026 · <button type="button" class="more" @click="open = !open" x-text="(open || all) ? 'less' : 'more'">more</button></span>
+          <div class="fold" :class="(open || all) && 'open'"><div><p class="efull">Copy discipline is not a lever any share moves</p></div></div>
+        </div>
+      </li>
+      
+      <li x-data="{ open: false }">
+        <span class="fn"><a href="/Corn-Jr-Public/finding/21.html">21</a></span>
+        <div>
+          <a class="et" href="/Corn-Jr-Public/finding/21.html">Copying is a step: it appears once any tool data exists</a>
+          <span class="ed">17 August 2026 · <button type="button" class="more" @click="open = !open" x-text="(open || all) ? 'less' : 'more'">more</button></span>
+          <div class="fold" :class="(open || all) && 'open'"><div><p class="efull">Copy discipline is a step, and the step is the slice existing</p></div></div>
+        </div>
+      </li>
+      
+      <li x-data="{ open: false }">
+        <span class="fn"><a href="/Corn-Jr-Public/finding/33.html">33</a></span>
+        <div>
+          <a class="et" href="/Corn-Jr-Public/finding/33.html">Copying depends on the tool output&#39;s shape and nothing else</a>
+          <span class="ed">17 August 2026 · <button type="button" class="more" @click="open = !open" x-text="(open || all) ? 'less' : 'more'">more</button></span>
+          <div class="fold" :class="(open || all) && 'open'"><div><p class="efull">The copy behaviour is keyed to the payload's shape, and to nothing else</p></div></div>
+        </div>
+      </li>
+      
+      <li x-data="{ open: false }">
+        <span class="fn"><a href="/Corn-Jr-Public/finding/48.html">48</a></span>
+        <div>
+          <a class="et" href="/Corn-Jr-Public/finding/48.html">Four bugs let decoding escape the call grammar mid-call</a>
+          <span class="ed">22 August 2026 · <button type="button" class="more" @click="open = !open" x-text="(open || all) ? 'less' : 'more'">more</button></span>
+          <div class="fold" :class="(open || all) && 'open'"><div><p class="efull">Four ways the constraint could not finish a call, and the mask that costs most when it forbids least</p></div></div>
+        </div>
+      </li>
+      
+      <li x-data="{ open: false }">
+        <span class="fn"><a href="/Corn-Jr-Public/finding/50.html">50</a></span>
+        <div>
+          <a class="et" href="/Corn-Jr-Public/finding/50.html">Invented facts make him copy; a real name brings memory back</a>
+          <span class="ed">23 August 2026 · <button type="button" class="more" @click="open = !open" x-text="(open || all) ? 'less' : 'more'">more</button></span>
+          <div class="fold" :class="(open || all) && 'open'"><div><p class="efull">The index was invented and the world is not, so a real name reopens the weights</p></div></div>
+        </div>
+      </li>
+      
+      <li x-data="{ open: false }">
+        <span class="fn"><a href="/Corn-Jr-Public/finding/62.html">62</a></span>
+        <div>
+          <a class="et" href="/Corn-Jr-Public/finding/62.html">The call grammar fixes 44% of bytes; the tokenizer blocks using it</a>
+          <span class="ed">26 August 2026 · <button type="button" class="more" @click="open = !open" x-text="(open || all) ? 'less' : 'more'">more</button></span>
+          <div class="fold" :class="(open || all) && 'open'"><div><p class="efull">The grammar knows the next 44% of the bytes, and the tokenizer is what stops it saying so</p></div></div>
+        </div>
+      </li>
+      
+      <li x-data="{ open: false }">
+        <span class="fn"><a href="/Corn-Jr-Public/finding/71.html">71</a></span>
+        <div>
+          <a class="et" href="/Corn-Jr-Public/finding/71.html">Giving memory-lookup calls real results turns silence into recitation</a>
+          <span class="ed">27 August 2026 · <button type="button" class="more" @click="open = !open" x-text="(open || all) ? 'less' : 'more'">more</button></span>
+          <div class="fold" :class="(open || all) && 'open'"><div><p class="efull">Finishing the chain converts silence into recitation, and the hard zero that held at every size goes to 26 of 26</p></div></div>
+        </div>
+      </li>
+      
+      <li x-data="{ open: false }">
+        <span class="fn"><a href="/Corn-Jr-Public/finding/127.html">127</a></span>
+        <div>
+          <a class="et" href="/Corn-Jr-Public/finding/127.html">Two thirds of one dataset&#39;s tool calls were invalid JSON</a>
+          <span class="ed">7 September 2026 · <button type="button" class="more" @click="open = !open" x-text="(open || all) ? 'less' : 'more'">more</button></span>
+          <div class="fold" :class="(open || all) && 'open'"><div><p class="efull">The copy audit called a sound slice memorisable because its own value class stops at an escaped quote, and underneath that false positive two thirds of <code>relpairs.txt</code>'s tool calls are not valid JSON, written past the slice's own guard because that guard parsed the observation and threw the call away</p></div></div>
+        </div>
+      </li>
+      
+    </ol>
+  </section>
+
+  
+</article>
+
+  <footer class="turn">
+  <div><span class="sc">previous</span><a href="/Corn-Jr-Public/thread/corpus-mix.html">The corpus mix</a></div>
+  <div class="r"><span class="sc">next</span><a href="/Corn-Jr-Public/thread/routing.html">Routing and declining</a></div>
+  <p class="keys"><kbd>←</kbd> <kbd>→</kbd> turn the page · <kbd>/</kbd> find</p>
+</footer>
+</div>
+</body>
+</html>

@@ -1,0 +1,108 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>58 · Tripling a fact type in training left his declines unchanged · Corn-Jr</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600&family=IBM+Plex+Mono:wght@400;500&family=Spectral:ital,wght@0,400;0,500;0,600;1,400&family=Spectral+SC:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/Corn-Jr-Public/static/library.css">
+<script defer src="/Corn-Jr-Public/static/library.js"></script>
+<script type="speculationrules">
+{"prerender": [{"where": {"and": [{"href_matches": "/Corn-Jr-Public/*"}, {"not": {"href_matches": "/Corn-Jr-Public/random.html"}}, {"not": {"href_matches": "/Corn-Jr-Public/static/*"}}]}, "eagerness": "moderate"}]}
+</script>
+
+</head>
+<body>
+<div class="page">
+  <header class="running">
+    <a class="book" href="/Corn-Jr-Public/">Corn-Jr · The Record</a>
+    <nav>
+      <a href="/Corn-Jr-Public/" data-key="shelf">Shelf</a><a href="/Corn-Jr-Public/findings.html" data-key="findings" class="here">Findings</a><a href="/Corn-Jr-Public/doc/VISION.html" data-key="VISION">Vision</a><a href="/Corn-Jr-Public/doc/GLOSSARY.html" data-key="GLOSSARY">Glossary</a>
+      <a href="https://github.com/csheehan18/Corn-Jr-Public">Source</a>
+    </nav>
+  </header>
+  
+
+<article class="sheet" style="--c:var(--c1)">
+  <div class="progress" aria-hidden="true"></div>
+  <section class="grid chapter-open finding-open">
+    <a class="tab" href="/Corn-Jr-Public/thread/routing.html" title="Routing and declining"><small>Part</small><span>I</span></a>
+    <p class="cn">58</p>
+    <p class="partline"><a href="/Corn-Jr-Public/thread/routing.html">Routing and declining</a> · 25 August 2026</p>
+    <h1>Tripling a fact type in training left his declines unchanged</h1>
+  </section>
+
+  <section class="grid">
+    <p class="marginal">The result, as the finding states it</p><div class="prose"><p class="lead">The corpus was not the prior, and tripling the type share moved it by nothing</p></div>
+    <p class="marginal">What it cost</p><div class="prose"><p class="cost">7.0 min of scoring on the 2 cards first cited here (<code>nano20m_v3_extract_narrowtype</code>, <code>nano20m_v3_extract_widetype</code>); it also reads 1 card scored for an earlier finding (<code>nano20m_v3_extract</code>). Backfilled 2026-09-26 from the cards' <code>seconds</code>; training and probe time were never recorded, so this is a floor.</p></div>
+  </section>
+
+  
+
+  <section class="grid">
+    <div class="prose doc"><p><code>configs/nano20m_v3_extract_widetype.py</code> ×2 against <code>configs/nano20m_v3_extract_narrowtype.py</code> ×2. One variable: <code>corn/tools.py</code>'s <code>FACTS</code> gains 3,000 composed <code>other</code>-typed facts, and the tools slice is regenerated from it. Every other share is <code>mix_v3_extract</code> verbatim to the token. Trained 2026-08-25, 1,136s per seed, four runs.</p>
+<p><strong>This is a pre-registered null and the threshold was written down before the numbers existed.</strong> <code>docs/PLAN-WEB-SEARCH.md</code> §WS-E, registered before the corpora were built: primary read is the <code>other</code> decline rate, 91.7% → 70% or below; honest null is <strong>still at or above 85% ⇒ corpus type-frequency is not the cause and the line retires</strong>.</p>
+<h3 id="the-dose">The dose</h3>
+<p>The fifty-seventh finding's probe found the arm declining on 91.7% of the answerable windows whose gold is an <code>other</code> — no digit, no leading capital — against about half of names and numbers, identically across both seeds and flat in gold position. The extraction slice was not the suspect: it carries <code>other</code> at 20.6% against the eval's 18.0%. <code>FACTS</code> was, at 89.7% name-or-number, being what follows a <code>web_search</code> <code>answer</code> field everywhere else in the corpus.</p>
+<p>FACTS            before  8,697   name 27.6%  number 62.1%  other 10.3% after  11,697   name 20.5%  number 46.1%  other 33.3%</p>
+<p>as it lands in   narrow          name 28.4%  number 61.3%  other 10.3% the corpus       wide            name 20.9%  number 45.8%  other 33.2%</p>
+<p>A 3.2× dose, confirmed on the artefact rather than on the table it came from.</p>
+<h3 id="the-null">The null</h3>
+<p>Decline rate on the answerable half, by gold answer type, <code>corn.evals._is_miss</code> on the retained reply:</p>
+<div class="tablewrap"><table><thead><tr><th>type</th><th>ctl s1</th><th>ctl s2</th><th>arm s1</th><th>arm s2</th></tr></thead><tbody><tr><td><code>other</code></td><td>86.1% (31/36)</td><td>86.1% (31/36)</td><td><strong>88.9% (32/36)</strong></td><td><strong>91.7% (33/36)</strong></td></tr><tr><td><code>number</code></td><td>56.8%</td><td>77.3%</td><td>68.2%</td><td>45.5%</td></tr><tr><td><code>name</code></td><td>56.7%</td><td>64.2%</td><td>63.3%</td><td>40.0%</td></tr></tbody></table></div>
+<p><strong>Both arm seeds sit above the 85% null line, and the arm is not lower than the control — it is marginally higher.</strong> Tripling the share of <code>other</code> answers in the corpus moved the rate the intervention was aimed at by nothing.</p>
+<h3 id="what-replicates-is-the-phenomenon-not-the-explanation">What replicates is the phenomenon, not the explanation</h3>
+<p>Across all six runs on this eval — the two WS-B pilots and these four — <code>other</code> decline never leaves the 86–92% band:</p>
+<p>PILOT s1  91.7%   PILOT s2  91.7% ctl s1    86.1%   ctl s2    86.1% arm s1    88.9%   arm s2    91.7%</p>
+<p>while <code>name</code> and <code>number</code> swing between 40.0% and 77.3% on the seed alone. So the type asymmetry is about as stable as anything measured in this project, and it is <strong>not driven by the answer-type frequency of the corpus it was trained on</strong>. The seventeenth finding's warning applies to the other two types rather than to this one: the rows that move on the seed are the ones that look responsive.</p>
+<h3 id="the-aggregate-rows-do-not-separate-and-could-not-have">The aggregate rows do not separate, and could not have</h3>
+<div class="tablewrap"><table><thead><tr><th>row</th><th>ctl ×2</th><th>arm ×2</th><th></th></tr></thead><tbody><tr><td><code>extract.span</code></td><td>25-33/200</td><td>23-35/200</td><td>overlapping</td></tr><tr><td><code>extract.abstain</code></td><td>152-156/200</td><td>130-172/200</td><td>arm encloses control</td></tr><tr><td><code>extract.brevity</code></td><td>397-399/400</td><td>393-399/400</td><td>overlapping</td></tr></tbody></table></div>
+<p><strong>On every extraction row the within-arm seed spread exceeds any arm-control gap</strong> — the arm's two seeds differ by 12 items on <code>extract.span</code> and 42 on <code>extract.abstain</code>. Ground rule 6 says quote directions and not sizes unless the ranges separate by more than the within-arm spread, and they do not, so nothing further is readable here. This is the thirtieth finding's rule doing the work it exists for: a shared floor would have made one of these four look like a result.</p>
+<h3 id="the-regression-watch-is-clean">The regression watch is clean</h3>
+<div class="tablewrap"><table><thead><tr><th>row</th><th>ctl ×2</th><th>arm ×2</th></tr></thead><tbody><tr><td><code>tool.copy</code></td><td>120-120/120</td><td>118-120/120</td></tr><tr><td><code>tool.copy_wide</code></td><td>275-297/300</td><td>289-297/300</td></tr><tr><td><code>temporal.copy</code></td><td>352-353/353</td><td>353-353/353</td></tr></tbody></table></div>
+<p><code>FACTS</code> is the table <code>tool.copy</code> copies from and it grew by 3,000 rows, so this row was the change's registered risk. It did not fall: the one 118 is two items on a row whose effective resolution is about twenty, and the lowest <code>tool.copy_wide</code> in the set belongs to a <strong>control</strong> seed.</p>
+<p><strong>And the fifty-seventh finding's unresolved 20-item <code>tool.copy</code> fall did not reproduce.</strong> The pilot read 100/120 on one seed and 120/120 on the other, which two seeds could not separate into wobble or trend. Four further runs on the same row read 118-120. That is weak evidence for wobble, not proof, and it is worth exactly what four more seeds are worth on a row with six effective facts in it.</p>
+<h3 id="what-this-retires-and-what-it-leaves-standing">What this retires, and what it leaves standing</h3>
+<p><strong>Retired:</strong> the hypothesis that the <code>other</code> prior comes from the answer-type frequency of the corpus. A 3.2× dose on the largest carrier of that frequency is a strong enough test that a second, larger dose is not the next move. The sibling proposal — oversampling <code>other</code> inside the extraction slice — is retired with it and for the same reason: it was the twenty-third finding's shape even before this, and now there is no mechanism for it to act through.</p>
+<p><strong>Standing:</strong> <code>extract.abstain</code>'s vocabulary gate, the fifty-sixth finding's third premise — the eval row bounds what the slice is allowed to teach. That is a slice-side and scorer-side hypothesis rather than a corpus-side one, and it is where WS-E's failure points.</p>
+<p><strong>The 260M stays gated</strong>, and for a better reason than before. The execution order said not to spend 2.5 days until the abstention question had an answer. It has one: not the corpus. Seventy-seven minutes of nano time retired a hypothesis that would otherwise have been carried into a run measured in days.</p>
+<h3 id="two-things-about-the-method-which-cost-more-than-the-result-">Two things about the method, which cost more than the result did</h3>
+<p><strong>The pilot could not be reused as the control, and finding that out was the expensive part.</strong> The first design read the arm against <code>nano20m_v3_extract</code> ×2 on the grounds that it differs only in the fact table. It does not: <code>data/raw/tools_names.txt</code> was built 2026-08-18, before the escalation tool existed, and carries <strong>zero</strong> escalation transcripts against the ~605 today's generator emits — 6% of the slice. An arm read against it would have varied the fact table and the tool inventory together and separated neither. The check that caught it is cheap and belongs on any reused corpus: <strong>regenerate the file from <code>HEAD</code> and compare it to the copy on disk.</strong> It did not reproduce, and the reason was not the seed.</p>
+<p><strong>The isolation was verified on the artefact, not argued from the config.</strong> The two mixes were compared stream by stream after <code>prepare_mix</code>:</p>
+<p>val_chat, conversational, extract, narrative, structured, temporal, toolspace, web          8 byte-identical val_tools                                     1 differing</p>
+<p>Eight of nine validation streams hash the same across the pair. Whatever these four runs read, it is not a share that drifted somewhere else.</p>
+<h3 id="a-denominator-this-arm-s-own-pre-registration-got-wrong">A denominator this arm's own pre-registration got wrong</h3>
+<p><code>extract.abstain</code> is scored out of <strong>200</strong>, not 400; <code>extract.brevity</code> is the /400 row. <strong>The fifty-seventh finding and the handoff both had it right</strong> — the error was introduced when WS-E was registered, and it propagated to <code>PLAN-WEB-SEARCH.md</code>, <code>HANDOFF.md</code> and both mix configs as <code>140-158/400</code> with a guard at <code>120/400</code>. Corrected in all four places.</p>
+<p>No reading changes, which is the only reason this is a footnote rather than a retraction: the guard was an absolute count either way and the arm's 130-172 clears it. Worth recording because a wrong denominator in a <em>pre-registration</em> is the kind of error that is invisible until the result arrives and then looks like a moved goalpost.</p></div>
+  </section>
+
+  <section class="grid refs">
+    <div class="body two-even">
+      <div>
+        <h2 class="small">It cites</h2>
+        <p class="aside">No other finding by number.</p>
+      </div>
+      <div>
+        <h2 class="small">Cited by</h2>
+        <ul class="reflist"><li style="--c:var(--c1)"><a href="/Corn-Jr-Public/finding/127.html"><span class="fn">127</span>Two thirds of one dataset&#39;s tool calls were invalid JSON</a></li><li style="--c:var(--c2)"><a href="/Corn-Jr-Public/finding/65.html"><span class="fn">65</span>Fine-tuning installs extraction at 260M from zero</a></li><li style="--c:var(--c2)"><a href="/Corn-Jr-Public/finding/72.html"><span class="fn">72</span>Search returned &#39;capital punishment&#39; for &#39;capital of Mongolia&#39;; fixed</a></li></ul>
+        
+      </div>
+    </div>
+    <p class="body source">docs/findings/58-the-corpus-was-not-the-prior-and-tripling-the-type-share-moved-it-by-nothing.md</p>
+  </section>
+</article>
+
+  
+<footer class="turn">
+  <div><span class="sc">previous</span><a href="/Corn-Jr-Public/finding/42.html">42 · He now declines 118 times, with routing untouched</a></div>
+  <div class="r"><span class="sc">next</span><a href="/Corn-Jr-Public/finding/67.html">67 · The best tool-router never declines; the best decliner never serves</a></div>
+  <p class="keys"><kbd>←</kbd> <kbd>→</kbd> turn the page · <kbd>/</kbd> find</p>
+</footer>
+<p class="bynumber">Previous and next in <a href="/Corn-Jr-Public/thread/routing.html">Routing and declining</a>. By number:
+  <a href="/Corn-Jr-Public/finding/57.html">57</a> · <a href="/Corn-Jr-Public/finding/59.html">59</a></p>
+
+</div>
+</body>
+</html>

@@ -1,0 +1,98 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>130 · A label in the text is a hint, never the decision · Corn-Jr</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600&family=IBM+Plex+Mono:wght@400;500&family=Spectral:ital,wght@0,400;0,500;0,600;1,400&family=Spectral+SC:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/Corn-Jr-Public/static/library.css">
+<script defer src="/Corn-Jr-Public/static/library.js"></script>
+<script type="speculationrules">
+{"prerender": [{"where": {"and": [{"href_matches": "/Corn-Jr-Public/*"}, {"not": {"href_matches": "/Corn-Jr-Public/random.html"}}, {"not": {"href_matches": "/Corn-Jr-Public/static/*"}}]}, "eagerness": "moderate"}]}
+</script>
+
+</head>
+<body>
+<div class="page">
+  <header class="running">
+    <a class="book" href="/Corn-Jr-Public/">Corn-Jr · The Record</a>
+    <nav>
+      <a href="/Corn-Jr-Public/" data-key="shelf">Shelf</a><a href="/Corn-Jr-Public/findings.html" data-key="findings" class="here">Findings</a><a href="/Corn-Jr-Public/doc/VISION.html" data-key="VISION">Vision</a><a href="/Corn-Jr-Public/doc/GLOSSARY.html" data-key="GLOSSARY">Glossary</a>
+      <a href="https://github.com/csheehan18/Corn-Jr-Public">Source</a>
+    </nav>
+  </header>
+  
+
+<article class="sheet" style="--c:var(--c4)">
+  <div class="progress" aria-hidden="true"></div>
+  <section class="grid chapter-open finding-open">
+    <a class="tab" href="/Corn-Jr-Public/thread/tag-spine.html" title="The tag spine"><small>Part</small><span>IV</span></a>
+    <p class="cn">130</p>
+    <p class="partline"><a href="/Corn-Jr-Public/thread/tag-spine.html">The tag spine</a> · 12 September 2026</p>
+    <h1>A label in the text is a hint, never the decision</h1>
+  </section>
+
+  <section class="grid">
+    <p class="marginal">The result, as the finding states it</p><div class="prose"><p class="lead">The tag in the stream is read as a prior and never as the decision: zero of seven hundred and twenty forged maps at the embedding and at block 2, with and without the request under loss, while the pass schedule costs a fifth of the parse rows and the map gives none of it back</p></div>
+    <p class="marginal">What it cost</p><div class="prose"><p class="cost">0 s of new scoring on record; it reads 1 card scored for an earlier finding (<code>nano20m_v3</code>). Backfilled 2026-09-26 from the cards' <code>seconds</code>; training and probe time were never recorded, so this is a floor.</p></div>
+  </section>
+
+  
+
+  <section class="grid">
+    <div class="prose doc"><p>Eight nano arms trained 2026-09-12 to <code>docs/PLAN-LOOP.md</code>: F (the tag map added to the embedding), G (the same loss schedule with no map), H (the map added to the residual entering block 2), two seeds each and pre-registered in <code>configs/mix_v3_decomp_f.py</code> before a byte trained; and F2, a <strong>post-hoc</strong> arm designed after F was read, two seeds, registered as post hoc in the same file and in PLAN-LOOP §5. All four read arm B's file <code>data/raw/decomp_b.txt</code> byte for byte (rule 1) under a new loss policy; all compiled; B's own cards (finding <a class="fref" href="/Corn-Jr-Public/finding/129.html">129</a>) are the untouched comparison. Nothing else retrained. Scored under <code>--decomp-arm F</code> (one prefill per level with the map the prompt's parse lines imply) for F, H and F2, and under B's protocol for G.</p>
+<h3 id="the-question-and-the-read-that-set-it-up">The question, and the read that set it up</h3>
+<p>Finding <a class="fref" href="/Corn-Jr-Public/finding/129.html">129</a> read five text-tag arms at 0 of 60 on every forced probe, and the repair arm E — position no longer predicting execution order — read the same zero on the label forgery at both seeds. Before this run, <code>scripts/probe_taglayer.py</code> read the residual stream directly: <strong>a linear probe reads each request token's part label at 0.82 on unseen strings in <code>nano20m_v3</code>, a checkpoint that never saw a <code>parts:</code> line</strong>, peaking at blocks 2-3 and holding within two points through block 7; the parse arms sit 1-4 points above the world-only arm A. So the acting layers already have a label for every token by block 2, computed from the words, and a text line forty tokens later is a second copy of it. <strong>Does the same tag, moved onto the tokens it labels and added to the stream, get read by the layers that act?</strong></p>
+<h3 id="the-gate-no">The gate: no</h3>
+<p><code>scripts/probe_depth.py --probe forced --forge label</code>, greedy, the spans kept and the labels swapped, scored on the argument. <code>--inject both</code> prefills the forged prompt with the map its forged line implies; <code>--inject map</code> prefills the <em>gold</em> prompt with the <em>forged</em> map, so text and stream disagree and the argument says which he reads.</p>
+<p>label forgery, 60 cases       text     line+map    map only    gold cell F      seed 1                 0/60       0/60        0/60       38-39 F      seed 2                 0/60       0/60        0/60       36 H      seed 1                 0/60       0/60        0/60       38-39 H      seed 2                 0/60       0/60        0/60       37-38 F2     seed 1                 0/60       0/60        0/60       35-36 F2     seed 2                 0/60       0/60        0/60       36-37 G      seed 1 / seed 2        0/60       —          —         39 / 35 B, D, E (finding <a class="fref" href="/Corn-Jr-Public/finding/129.html">129</a>)         0/60       —          —         36-45</p>
+<p><strong>0 of 720 injected forged maps</strong> on six checkpoints, and 0 of 480 text forgeries on the eight new ones, with every gold cell where B's is. The control is not at ceiling on this forgery — it requires the exact subject string — and it is the same 36-39 on every arm, so the zeros are read against a working instrument.</p>
+<h3 id="the-map-is-read-as-a-prior-at-the-wrong-place">The map is read — as a prior, at the wrong place</h3>
+<p>The tag table trained: row norms 0.47-0.68 (F), 1.11-2.34 (H), 0.59-1.07 (F2) against an init of 0.45. On the payload's own validation split, the true map lowers the loss and a label-permuted map raises it, and the per-kind split says which tokens are doing the reading:</p>
+<p>val:decomp loss by target, loss-bearing targets      true map   no map   permuted F    utterance words                                   1.237     1.263     1.466 parse lines                                       0.065     0.069     0.071 call lines                                        0.128     0.129     0.134 H    utterance words                                   1.228     1.238     1.264 call lines                                        0.130     0.130     0.131 F2   parse lines                                       0.072     0.084     0.106 call lines                                        0.122     0.129     0.147 say                                               0.433     0.451     0.467</p>
+<p>Under F the map's content is read strongly at the request's own words, where a label predicts the next word of its span (<code>B-find</code> -&gt; "look up"), and the call lines move a thousandth of a nat. The utterance loss that the "pass" policy kept to bound the loss-free run was where the table's gradient came from. <strong>F2 removed it</strong> (context loss on the <code>tools:</code> declaration instead, <code>loss=&quot;pass_decl&quot;</code>, same draws and same map): the calls then read the map three times as much — a permuted map costs 0.019 nats there — and still not one of 120 forged maps changed an argument. Teacher-forced on the forgery cases, the gold argument's NLL under F is 0.0191 with no map, 0.0162 with the gold map and <strong>0.0164 with the forged map</strong>: any map makes the right argument likelier by the same amount, and which labels it carries is worth two ten-thousandths. H, at the layer where the internal feature forms, reads it less than F everywhere.</p>
+<p>The mechanism is finding <a class="fref" href="/Corn-Jr-Public/finding/129.html">129</a>'s, one level down: the words already determine the call, so no loss ever has to prefer the tag, and what he learns is a prior that the words override. Adding the signal at the layer that computes the feature does not change that; removing the competing gradient triples a number that was a thousandth.</p>
+<h3 id="the-behaviour-rows-f-equals-g-and-the-schedule-costs">The behaviour rows: F equals G, and the schedule costs</h3>
+<p>row                B       B s2     F       F s2     G       G s2     H       H s2     F2      F2 s2 parse.span        77/120  78/120   60/120  66/120   59/120  59/120   59/120  57/120   59/120  60/120 parse.entity      71/120  77/120   49/120  51/120   49/120  51/120   48/120  55/120   45/120  54/120 parse.heldout      0       0        0       0        0       0        0       0        0       0 parse.depth3       0       0        0       0        0       0        0       0        0       0 move.next         96/120  97/120   95/120  94/120   95/120  92/120   92/120  91/120   98/120  93/120 move.args        120/120 115/120  113/120 113/120  116/120 118/120  116/120 116/120  115/120 113/120 e2e.tree          18/60   24/60    11/60   14/60     9/60   15/60    11/60   12/60    14/60   12/60 e2e.rebind        48/50   49/50    46/50   46/50    49/50   49/50    47/50   47/50    48/50   45/50</p>
+<p><strong>The map changes nothing behavioural</strong>: F, G, H and F2 sit inside each other's seed spread on every row. <strong>The pass schedule costs against B</strong>: about 18 of 120 on trained parse shapes, 22 on unseen entities and 8 of 60 on the full tree, on every scheduled arm alike — the price of loss on 29% of the payload's tokens where B bears it on all of them, declared in advance as G's job to measure. The rows are far from zero, so the pre-registered "unreadable" clause does not apply and the fallback (the payload doubled) was not needed. <code>parse.depth3</code> read through F's third prefill is zero like everything else, as PLAN-LOOP §3 said it would be: pass 1 is the same parser.</p>
+<h3 id="the-band">The band</h3>
+<p><code>tool.selection</code> reads 123/128 (F), 104/139 (G), 118/146 (H), 114/140 (F2) against B's 128/118, with seed spreads up to 35 — finding <a class="fref" href="/Corn-Jr-Public/finding/129.html">129</a>'s sentence again: the direction is the world's 5% declared-tools slice and the size is not readable at two seeds. <code>tool.copy</code> dips to 108-109 on one seed each of F, G and F2 while H holds 119/120 and the other seeds hold 118-120; the dips land on the map-less arm as readily as the mapped ones, so they are not the map, and finding <a class="fref" href="/Corn-Jr-Public/finding/129.html">129</a>'s compiled control already read 103 on the same row. <code>tool.copy_wide</code> 289-300, <code>temporal.route</code> 394-399, <code>temporal.copy</code> 353/353 everywhere. No arm fails the copy band relative to G.</p>
+<h3 id="what-this-licenses">What this licenses</h3>
+<p>PLAN-LOOP §6's pre-registered third row: <strong>"an additive tag is not read at this scale either; position iv (attention structure) is the next arm, or stop."</strong> With F2, the one confound the table did not anticipate is closed too. The map's content is demonstrably in the stream and demonstrably readable — the permuted map costs a tenth of the payload's loss — and it is never what decides a call. A tag that is to govern what he does has to be the door the decision goes through, not a signal beside it: <code>docs/PLAN-TAG-SPINE.md</code> is that design, and the owner's direction of the same day.</p>
+<h3 id="instruments-and-what-was-caught-before-it-could-count">Instruments, and what was caught before it could count</h3>
+<ul><li><strong>The id scheme changed while building, and the plan says so.</strong> A label-only map makes <code>ask[...] ask[...]</code> one region; the map went to begin/inside pairs (17 ids) before any arm trained.</li><li><strong>The batcher's per-source glob took the new tag files for token streams.</strong> Found by a six-iteration smoke run of the real trainer before the arms, not by a guard, and fixed in <code>corn/data.py</code>.</li><li><strong>The trunk init would have differed between a tagged and an untagged config at one seed</strong> because the table's construction consumed the global generator. Caught by <code>scripts/check_model.py</code>'s first run; the table is drawn off a forked generator, and the guard now holds the trunk equal.</li><li><strong>The scorer's map is the build's map by construction and by guard.</strong> One parser in <code>corn/tagmap.py</code> cuts both; <code>scripts/check_decomp_scorer.py</code> re-derives forty rendered documents to one (turn, level) draw each and <code>scripts/check_decompose.py</code> re-derives 400 documents of each built mix off the bytes, both green before training.</li><li><strong>The utterance-loss confound was not pre-registered.</strong> It was found by a diagnostic after F read zero, and F2 was designed to close it. F2 is reported as post hoc and its result changes no pre-registered reading.</li></ul>
+<h3 id="limits">Limits</h3>
+<p>Two seeds per arm, so directions (rule 6); the band's sizes are not readable. Nano readings of a dummy world, and PLAN-LOOP §3 says which literature lesson does and does not transfer. The forgery tests one axis — two labels swapped on a two-child <code>do</code> — and the per-kind losses are read on 96 windows of the payload's validation split with one permutation. The diagnostics separate "read" from "decides" by loss and by argument; they do not say what the acting layers <em>would</em> read if the words were taken away, which is PLAN-TAG-SPINE rung 1's question and not this finding's.</p></div>
+  </section>
+
+  <section class="grid refs">
+    <div class="body two-even">
+      <div>
+        <h2 class="small">It cites</h2>
+        <ul class="reflist"><li style="--c:var(--c4)"><a href="/Corn-Jr-Public/finding/129.html"><span class="fn">129</span>He learns to label his own request; forcing labels doesn&#39;t change calls</a></li></ul>
+        
+      </div>
+      <div>
+        <h2 class="small">Cited by</h2>
+        <ul class="reflist"><li style="--c:var(--c4)"><a href="/Corn-Jr-Public/finding/131.html"><span class="fn">131</span>Once the runtime enforces the label, a forged one is obeyed 36/36</a></li><li style="--c:var(--c4)"><a href="/Corn-Jr-Public/finding/132.html"><span class="fn">132</span>Rotary position embeddings beat learned positions on most tests</a></li><li style="--c:var(--c4)"><a href="/Corn-Jr-Public/finding/133.html"><span class="fn">133</span>On a synthetic world he generalises labels but not one level deeper</a></li><li style="--c:var(--c4)"><a href="/Corn-Jr-Public/finding/134.html"><span class="fn">134</span>He learns to write a summary line of conversation state</a></li><li style="--c:var(--c4)"><a href="/Corn-Jr-Public/finding/149.html"><span class="fn">149</span>With checkable rules filtered, he picks the template matching the request</a></li></ul>
+        
+      </div>
+    </div>
+    <p class="body source">docs/findings/130-the-tag-in-the-stream-is-read-as-a-prior-and-never-as-the-decision-zero-of-seven-hundred-and-twenty-forged-maps-at-two-layers-with-and-without-the-request-under-loss.md</p>
+  </section>
+</article>
+
+  
+<footer class="turn">
+  <div><span class="sc">previous</span><a href="/Corn-Jr-Public/finding/129.html">129 · He learns to label his own request; forcing labels doesn&#39;t change calls</a></div>
+  <div class="r"><span class="sc">next</span><a href="/Corn-Jr-Public/finding/131.html">131 · Once the runtime enforces the label, a forged one is obeyed 36/36</a></div>
+  <p class="keys"><kbd>←</kbd> <kbd>→</kbd> turn the page · <kbd>/</kbd> find</p>
+</footer>
+<p class="bynumber">Previous and next in <a href="/Corn-Jr-Public/thread/tag-spine.html">The tag spine</a>. By number:
+  <a href="/Corn-Jr-Public/finding/129.html">129</a> · <a href="/Corn-Jr-Public/finding/131.html">131</a></p>
+
+</div>
+</body>
+</html>

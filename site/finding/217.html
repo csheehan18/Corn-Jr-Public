@@ -1,0 +1,89 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>217 · A judge built into the 5M learns, is ignored, and costs him · Corn-Jr</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600&family=IBM+Plex+Mono:wght@400;500&family=Spectral:ital,wght@0,400;0,500;0,600;1,400&family=Spectral+SC:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/Corn-Jr-Public/static/library.css">
+<script defer src="/Corn-Jr-Public/static/library.js"></script>
+<script type="speculationrules">
+{"prerender": [{"where": {"and": [{"href_matches": "/Corn-Jr-Public/*"}, {"not": {"href_matches": "/Corn-Jr-Public/random.html"}}, {"not": {"href_matches": "/Corn-Jr-Public/static/*"}}]}, "eagerness": "moderate"}]}
+</script>
+
+</head>
+<body>
+<div class="page">
+  <header class="running">
+    <a class="book" href="/Corn-Jr-Public/">Corn-Jr · The Record</a>
+    <nav>
+      <a href="/Corn-Jr-Public/" data-key="shelf">Shelf</a><a href="/Corn-Jr-Public/findings.html" data-key="findings" class="here">Findings</a><a href="/Corn-Jr-Public/doc/VISION.html" data-key="VISION">Vision</a><a href="/Corn-Jr-Public/doc/GLOSSARY.html" data-key="GLOSSARY">Glossary</a>
+      <a href="https://github.com/csheehan18/Corn-Jr-Public">Source</a>
+    </nav>
+  </header>
+  
+
+<article class="sheet" style="--c:var(--c5)">
+  <div class="progress" aria-hidden="true"></div>
+  <section class="grid chapter-open finding-open">
+    <a class="tab" href="/Corn-Jr-Public/thread/reply-judge.html" title="The reply judge"><small>Part</small><span>V</span></a>
+    <p class="cn">217</p>
+    <p class="partline"><a href="/Corn-Jr-Public/thread/reply-judge.html">The reply judge</a> · 24 October 2026</p>
+    <h1>A judge built into the 5M learns, is ignored, and costs him</h1>
+  </section>
+
+  <section class="grid">
+    <p class="marginal">The result, as the finding states it</p><div class="prose"><p class="lead">A reply judge built into the 5M from the first step — one block inside the model, taught on swapped replies with its gradient reaching every layer, its fit for every word added to the word scores at a weight the model learns — learns its lesson (0.90 and 0.89 of its training quads right at the end, from chance) and is switched off by the model it sits in: the learned weight falls from 1 to about 0.2 by iteration 750 and stays near zero from 1,500 on (0.007 at the end, both seeds). The lesson costs language at both seeds — narrative / web / conversational 0.5156 / 0.9862 / 0.6040 and 0.5141 / 0.9817 / 0.6009 against lines of 0.4913 / 0.9552 / 0.5629, the pre-registered row (d), as predicted — and replies far more: on the practice set 21 and 6 of 100 answer the message against the plain 5M's 31 and 33 (12 replies pass only under the arm, 49 only under the control), and its own beam reads 26 and 12 against the plain look-ahead's 39 and 39. Decoding with the weight forced to 0 changes 0 and 1 replies of 100: the damage is in the trunk, not the vote</p></div>
+    <p class="marginal">What it cost</p><div class="prose"><p class="cost"><code>CornModel.judge_bias</code>, <code>JudgeExercise</code>, the train hook, <code>check_judge.py</code> 8 (34 checks), four 1,000-iteration settings runs, the pre-registration 16:05-16:25 on 2026-10-24 (48f3fb0); the chain 16:25-16:45, 19.6 min (two runs 548 and 546 s, 1.0x the control's wall clock, contended at 40%, a bound); the blind hand read of 800 practice replies ~12 min; the cause probes 1 min. ETA ~2 h, actual ~1.3 h.</p></div>
+  </section>
+
+  
+
+  <section class="grid">
+    <div class="prose doc"><p><strong>The question</strong> (owner, 2026-10-24: "Why can't the judge just be a layer in the model itself?" ... "Let's do 3 now"). Findings <a class="fref" href="/Corn-Jr-Public/finding/214.html">214</a>-<a class="fref" href="/Corn-Jr-Public/finding/216.html">216</a>: a judge fitted beside a frozen 5M reads mood weakly and votes too softly; a frozen trunk holds only what next-word reading needed. Built in, its lesson could teach the trunk to keep fit, and the model could learn how much to use its vote (<code>docs/PLAN-REPLY-JUDGE.md</code> Phase 3, version 3; the config docstring <code>configs/nano5m_v3_webblend_judge.py</code> is the pre-registration).</p>
+<p><strong>One design fix before the runs</strong> (settings check, probe only — not on disk): with next-word loss reaching the judge, the 12,288 reading tokens a micro-batch turned it into a second word head and its lesson stayed at chance (0.50-0.57); the fit was detached from next-word loss so the judge learns only its lesson and reading trains only the weight. The check also showed the lesson's cost: 0.06 nats a token at 1,000 iterations, the same with the weight started at 0 — so the cost is the lesson's gradient in the trunk.</p>
+<h3 id="the-read">The read</h3>
+<p>read                                          arm s1    arm s2    control s1  control s2 lm narrative                                  0.5156    0.5141    0.4864      0.4883     line 0.4913 lm web                                        0.9862    0.9817    0.9512      0.9522     line 0.9552 lm conversational                             0.6040    0.6009    0.5579      0.5599     line 0.5629 final val (training log)                      2.7187    2.7405    2.608       2.641 lesson, training quads right (judge_log)      0.900     0.886 (4,500) learned weight alpha: start / 750 / end       1 / 0.196 / 0.007   1 / 0.175 / 0.007 practice set, blind hand read (of 100) greedy on its own scores                    21        6         31          33 beam on its own scores (look0)              26        12        —          — plain look-ahead, fitted judge (216)        —        —        39          39 loops (V row): greedy / beam                  4 / 3     14 / 9    —          — greedy with alpha forced to 0: replies changed  0 of 100  1 of 100</p>
+<p>(<code>evals/results/reply_inmodel__*</code>: replies, the blind file, its key, the hand labels, the language rows, the alpha-0 decode; <code>checkpoints/*_judge*/judge_log.jsonl</code>. The control's 400 replies are finding <a class="fref" href="/Corn-Jr-Public/finding/216.html">216</a>'s, mixed into this blind file; their labels agree with 216's on all 400.)</p>
+<p><strong>The gates, as registered.</strong> Fluency: every row past its line at both seeds — <strong>(d), the built-in lesson costs language at this weight</strong>, the predicted row. The reply read, beside it: arm greedy against control greedy 12 : 49 pooled.</p>
+<h3 id="read-by-hand">Read by hand</h3>
+<p>Seed 2's replies break: an opening loses its first word ("a great, I'm so happy to be able to help you out.", "'s a great bike."), numbers and punctuation run on ("will be up to 1000000...", "::::"), and 19 of 100 are loops or junk. Seed 1 keeps its sentences more often but fails the same way less. Where both arms pass they write the control's kind of reply ("Me too! I've been looking forward to it for weeks.", "What kind of bike?").</p>
+<h3 id="the-cause">The cause</h3>
+<ol><li><strong>The vote did nothing.</strong> Next-word reading turned the weight down to 0.007 by the end: on real conversation the next word nearly always belongs to a fitting reply, so a fit score rarely changes which word is likeliest, and reading pays nothing for it. The judge's job — breaking ties at a reply's opening among fluent candidates — is one reading does not reward. Forcing the weight to 0 changes 1 reply of 200.</li><li><strong>The lesson broke the trunk, and the shared word table is the likely channel.</strong> The judge scores a token by its state against the token's embedding, and the embedding table is also the output layer (tied). Its lesson therefore moves the output rows of the words it judges — reply openers most. Read against the same-seed control (same initial weights, same batches), the reply openers' rows moved furthest: cosine with the control's row 0.719 and 0.723 for the 30 commonest openers against 0.758 and 0.766 for everything else (probe only — not on disk). That is a hint, not a measurement of the channel; the opening words lost in seed 2's replies are what it predicts.</li></ol>
+<p><strong>Corrected by finding <a class="fref" href="/Corn-Jr-Public/finding/218.html">218</a> (2026-10-24).</strong> Cause 2's channel is withdrawn: with the lesson kept out of the word table at both ends the cost is the same to the third decimal, so the openers' drift was a symptom; the damage is the lesson's gradient in the blocks.</p>
+<h3 id="what-it-licenses">What it licenses</h3>
+<ul><li><strong>Version 3 as built is dropped</strong>: it costs language and replies at both seeds, and the model refuses the vote.</li><li><strong>The probe the cause names</strong>: the same arm with the lesson kept out of the word table (the judge scores against a detached embedding, or a table of its own) — one variable, one seed first. If language and replies come back near the control, the shared table was the channel and the question of a trunk taught by the judge is open again; if not, the lesson's gradient in the trunk is the cost at any route.</li><li><strong>The vote has to be set, not learned from reading.</strong> Reading never rewards it, so a built-in judge can only steer if its weight is fixed at decode — which is the fitted judge's picker again (findings <a class="fref" href="/Corn-Jr-Public/finding/214.html">214</a>-<a class="fref" href="/Corn-Jr-Public/finding/216.html">216</a>).</li><li><strong>The 5M's best decoder stays the look-ahead with a judge fitted beside the frozen model</strong> (findings <a class="fref" href="/Corn-Jr-Public/finding/215.html">215</a>-<a class="fref" href="/Corn-Jr-Public/finding/216.html">216</a>).</li></ul>
+<p><strong>What it does not settle.</strong> A lighter lesson weight; versions 1 and 2 of Phase 3; the lesson kept out of the word table; any size above 5M.</p></div>
+  </section>
+
+  <section class="grid refs">
+    <div class="body two-even">
+      <div>
+        <h2 class="small">It cites</h2>
+        <ul class="reflist"><li style="--c:var(--c5)"><a href="/Corn-Jr-Public/finding/214.html"><span class="fn">214</span>A reply judge beside the 5M moves his replies level</a></li><li style="--c:var(--c5)"><a href="/Corn-Jr-Public/finding/215.html"><span class="fn">215</span>Looking a few words ahead with the judge lifts his replies</a></li><li style="--c:var(--c5)"><a href="/Corn-Jr-Public/finding/216.html"><span class="fn">216</span>The look-ahead holds on new messages; finishing and penalties add nothing</a></li><li style="--c:var(--c5)"><a href="/Corn-Jr-Public/finding/218.html"><span class="fn">218</span>The built-in judge&#39;s cost is not the word table</a></li></ul>
+        
+      </div>
+      <div>
+        <h2 class="small">Cited by</h2>
+        <ul class="reflist"><li style="--c:var(--c5)"><a href="/Corn-Jr-Public/finding/218.html"><span class="fn">218</span>The built-in judge&#39;s cost is not the word table</a></li><li style="--c:var(--c5)"><a href="/Corn-Jr-Public/finding/219.html"><span class="fn">219</span>A 5M reading only conversation answers far more messages</a></li><li style="--c:var(--c5)"><a href="/Corn-Jr-Public/finding/226.html"><span class="fn">226</span>Kept presses last, but break the text and churn the words</a></li><li style="--c:var(--c5)"><a href="/Corn-Jr-Public/finding/229.html"><span class="fn">229</span>Asked from afar, a step writes a pair the next-piece question misses</a></li></ul>
+        
+      </div>
+    </div>
+    <p class="body source">docs/findings/217-a-reply-judge-built-into-the-5m-learns-its-lesson-to-0-90-is-switched-off-by-the-model-and-costs-language-and-replies-21-and-6-against-31-and-33.md</p>
+  </section>
+</article>
+
+  
+<footer class="turn">
+  <div><span class="sc">previous</span><a href="/Corn-Jr-Public/finding/216.html">216 · The look-ahead holds on new messages; finishing and penalties add nothing</a></div>
+  <div class="r"><span class="sc">next</span><a href="/Corn-Jr-Public/finding/218.html">218 · The built-in judge&#39;s cost is not the word table</a></div>
+  <p class="keys"><kbd>←</kbd> <kbd>→</kbd> turn the page · <kbd>/</kbd> find</p>
+</footer>
+<p class="bynumber">Previous and next in <a href="/Corn-Jr-Public/thread/reply-judge.html">The reply judge</a>. By number:
+  <a href="/Corn-Jr-Public/finding/216.html">216</a> · <a href="/Corn-Jr-Public/finding/218.html">218</a></p>
+
+</div>
+</body>
+</html>

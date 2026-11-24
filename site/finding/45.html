@@ -1,0 +1,103 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>45 · The first full data mix keeps every separately measured effect · Corn-Jr</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600&family=IBM+Plex+Mono:wght@400;500&family=Spectral:ital,wght@0,400;0,500;0,600;1,400&family=Spectral+SC:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/Corn-Jr-Public/static/library.css">
+<script defer src="/Corn-Jr-Public/static/library.js"></script>
+<script type="speculationrules">
+{"prerender": [{"where": {"and": [{"href_matches": "/Corn-Jr-Public/*"}, {"not": {"href_matches": "/Corn-Jr-Public/random.html"}}, {"not": {"href_matches": "/Corn-Jr-Public/static/*"}}]}, "eagerness": "moderate"}]}
+</script>
+
+</head>
+<body>
+<div class="page">
+  <header class="running">
+    <a class="book" href="/Corn-Jr-Public/">Corn-Jr · The Record</a>
+    <nav>
+      <a href="/Corn-Jr-Public/" data-key="shelf">Shelf</a><a href="/Corn-Jr-Public/findings.html" data-key="findings" class="here">Findings</a><a href="/Corn-Jr-Public/doc/VISION.html" data-key="VISION">Vision</a><a href="/Corn-Jr-Public/doc/GLOSSARY.html" data-key="GLOSSARY">Glossary</a>
+      <a href="https://github.com/csheehan18/Corn-Jr-Public">Source</a>
+    </nav>
+  </header>
+  
+
+<article class="sheet" style="--c:var(--c1)">
+  <div class="progress" aria-hidden="true"></div>
+  <section class="grid chapter-open finding-open">
+    <a class="tab" href="/Corn-Jr-Public/thread/corpus-mix.html" title="The corpus mix"><small>Part</small><span>I</span></a>
+    <p class="cn">45</p>
+    <p class="partline"><a href="/Corn-Jr-Public/thread/corpus-mix.html">The corpus mix</a> · 19 August 2026</p>
+    <h1>The first full data mix keeps every separately measured effect</h1>
+  </section>
+
+  <section class="grid">
+    <p class="marginal">The result, as the finding states it</p><div class="prose"><p class="lead">The Phase 1 corpus assembles, and every separately measured effect survives it</p></div>
+    
+  </section>
+
+  
+
+  <section class="grid">
+    <div class="prose doc"><p><code>configs/mix_v2.py</code> ×2. Eight sources, six shares each priced by an earlier run, two behavioural repairs that had never been in the same corpus as each other, and web moved from shard 000 to the decontaminated shards 001-013.</p>
+<p><strong>This is a build, not an arm.</strong> Eight things change at once by design, so nothing here attributes and nothing here sizes an effect. The only question a combined corpus can ask that its parts cannot is whether the parts still work once assembled, and that is what was pre-registered.</p>
+<h3 id="q1-the-two-repairs-compose">Q1 — the two repairs compose</h3>
+<p><code>daycross</code> delta, <code>with_day</code> minus <code>no_day</code>:</p>
+<div class="tablewrap"><table><thead><tr><th>corpus</th><th>delta</th><th>what it is</th></tr></thead><tbody><tr><td><code>mix_v1_chat</code> ×2</td><td>-155, -120</td><td>untreated</td></tr><tr><td><code>mix_v1_chatday</code> ×2</td><td>-63, -29</td><td>WS-C alone</td></tr><tr><td><strong><code>mix_v2</code> ×2</strong></td><td><strong>-55, -53</strong></td><td><strong>WS-C beside WS-E</strong></td></tr></tbody></table></div>
+<p><code>mix_v2</code> sits <strong>inside WS-C's own range</strong> and clears the untreated baseline by 65 against a floor of 34 (forty-third finding). On the raw cell, <code>daycross.with_day</code> reads <strong>74, 64</strong> against a four-seed <code>mix_v1</code> baseline of 1-30.</p>
+<p>The spread is 2, against WS-C's own 34. Two seeds are not a distribution and that is very likely luck, but it is the tightest cell in the run.</p>
+<h3 id="q2-the-interpolation-was-right-and-the-shard-swap-cost-nothi">Q2 — the interpolation was right, and the shard swap cost nothing</h3>
+<p>Web's share here was <strong>set by interpolation rather than measured</strong> — 49.3772%, between the two doses the forty-fourth finding read. The bracket that licensed it was pre-registered as [0.8829, 0.8848].</p>
+<p><strong><code>lm web</code> reads 0.8840 and 0.8840.</strong> Mid-bracket, and the two seeds agree to four decimals.</p>
+<p>That settles two things at once, which is why the bracket was written before the run. The linearity claim holds at a third point. And the shard swap — the only change here touching web's <em>content</em> rather than its size — was the alternative explanation for a miss, so a hit exonerates it without needing its own arm.</p>
+<h3 id="q3-the-decline-route-survives-and-so-does-its-calibration-pr">Q3 — the decline route survives, and so does its calibration problem</h3>
+<p>Scored <code>--narrow decline</code>, n=200 per level, 221 <code>absent</code> items per checkpoint, matching the forty-second finding's method exactly.</p>
+<div class="tablewrap"><table><thead><tr><th>corpus</th><th><code>absent</code> /221</th><th>over-declines /379</th></tr></thead><tbody><tr><td><code>mix_v1_toolspace</code> ×2</td><td>0, 3</td><td>—</td></tr><tr><td><code>mix_v1_toolspace_decline</code> ×2</td><td>118, 101</td><td>98, 70</td></tr><tr><td><strong><code>mix_v2</code> ×2</strong></td><td><strong>111, 107</strong></td><td><strong>116, 101</strong></td></tr></tbody></table></div>
+<p><code>absent</code> lands <strong>inside the WS-E arm's own range</strong>, and every pass is <code>pass_declined</code> — not one is "he stopped calling", the distinction the bucket exists to preserve.</p>
+<p><strong>The over-declining reproduced, and it is not readable as worse.</strong> [101, 116] against [70, 98] is a gap of <strong>3</strong>, against an arm spread of 28 and a <code>mix_v2</code> spread of 15. The config pre-registered "an over-decline count inside that range is not a regression of this build"; the range is strictly above rather than inside, and the gap is far enough inside the noise that the honest verdict is <em>reproduced, no demonstrable change</em>. <code>ABSENT_SHARE</code> is still 0.35 and still untuned, and the repair is still a bracket rather than a corpus.</p>
+<h3 id="q4-contamination-clean-on-the-new-shards">Q4 — contamination clean on the new shards</h3>
+<p>Both seeds, web: 16 probes, 16 discriminating, <strong>0 in train and 0 in val</strong>, source checked.</p>
+<p>This matters more here than on any previous corpus because <code>reserve_tail</code> is 0 for web — the tail scheme protects a region of shard 000 and the eval text was never in the b shards at all, so decontamination is the only guard standing where reservation used to. <strong>It is also the weaker of the two guards</strong>: 16 probes against <code>decontaminate.py</code>'s 204-document pass, which is what actually produced the file at 0 of 204. This is independent confirmation, not a second proof, and that script's own docstring is explicit that it reduces contamination rather than proving its absence.</p>
+<h3 id="what-moved-that-nobody-asked-for">What moved that nobody asked for</h3>
+<div class="tablewrap"><table><thead><tr><th>row</th><th><code>mix_v1</code> ×4</th><th><code>mix_v2</code> ×2</th></tr></thead><tbody><tr><td><code>chat.abstain_greet</code></td><td>3-20</td><td><strong>28, 39</strong></td></tr><tr><td><code>chat.abstain_talk</code></td><td>93-99</td><td><strong>100, 100</strong></td></tr><tr><td><code>register.conv</code></td><td>78-81</td><td>81, 84 (holds, as pre-registered)</td></tr></tbody></table></div>
+<p>Both abstention gains are consistent with WS-C's slice — <code>chat_day.txt</code> is marked transcripts that do not call — but this corpus cannot attribute them, and <code>chat.abstain_talk</code> at 100/100 is touching a ceiling the thirty-fifth finding already described as unreadable.</p>
+<h3 id="the-one-row-pointing-down">The one row pointing down</h3>
+<p><code>tool.validity</code> reads <strong>153, 137</strong> against a baseline of 157-175. <code>effect.py</code>: <strong>separated by 4 (lower), churn unmeasured.</strong></p>
+<p>That is the verdict to quote. The gap is 4; the baseline's own spread is 18 and the arm's is 16. It is not a demonstrated regression. It is also the row a corpus carrying two new tool-adjacent slices is most likely to damage, and it is the only row in the run pointing the wrong way, so it should not be waved off either. More seeds or a churn measurement, before anyone quotes it in either direction.</p>
+<p>Everything else on the frozen set reads OVERLAP, including <code>temporal.route</code> at 396-398 against 398-400 with a floor of 3, and <code>temporal.copy</code> at 352-353.</p>
+<h3 id="one-number-that-will-be-misread-if-it-is-not-stated">One number that will be misread if it is not stated</h3>
+<p><strong><code>val</code> is 2.4202 and 2.4154 here against <code>mix_v1</code>'s 2.2516, and that is not a regression.</strong> <code>val</code> is computed over each corpus's own held-out split, so a corpus at 49% web and 10% narrative is being scored on harder text than one at 40% and 19.58%. Cross-corpus <code>val</code> has never been comparable in this project — the seventh finding is where a blended <code>val</code> selected the <em>worse</em> of a run's two checkpoints. The rows that compare are the <code>lm</code> ones, whose inputs are frozen bytes identical for every corpus, and the behaviour rows.</p>
+<h3 id="what-this-does-not-settle">What this does not settle</h3>
+<ul><li><strong>Two seeds.</strong> The forty-third finding widened <code>refusal.say</code> from 10 to 42 when two more seeds arrived on a corpus that already had two. Every range here is a lower bound.</li><li><strong>Nothing here attributes.</strong> Eight changes at once. <code>chat.abstain_greet</code> moving 3-20 to 28, 39 is consistent with WS-C and equally consistent with three other things in this file.</li><li><strong>It is 29.6M.</strong> Every number behind every share in this corpus is nano-scale, and the thirtieth finding's rule about floors being properties of arms has a scale version nobody has measured.</li><li><strong>The corpus does not exist at Phase 2 scale.</strong> This is a <em>recipe</em> validated at 131M tokens. Re- instantiated at 5B under these shares, five of eight slices exceed 7 passes over their pool and three exceed 27 — <code>tools</code> at 38, <code>structured</code> at 34, <code>chat</code> at 27, <code>temporal</code> at 14 — against a repetition arm that measured 15.21 passes as expensive. Web is fine at 1.58. Nobody had done this arithmetic for the generated slices, and <code>gen_tools.py</code> is already documented as cardinality-bound about 28x short of what §4 wants.</li></ul></div>
+  </section>
+
+  <section class="grid refs">
+    <div class="body two-even">
+      <div>
+        <h2 class="small">It cites</h2>
+        <p class="aside">No other finding by number.</p>
+      </div>
+      <div>
+        <h2 class="small">Cited by</h2>
+        <p class="aside">No later finding yet.</p>
+      </div>
+    </div>
+    <p class="body source">docs/findings/45-the-phase-one-corpus-assembles-and-every-separately-measured-effect-survives-it.md</p>
+  </section>
+</article>
+
+  
+<footer class="turn">
+  <div><span class="sc">previous</span><a href="/Corn-Jr-Public/finding/44.html">44 · The last unmeasured data share costs nothing; web gains are linear</a></div>
+  <div class="r"><span class="sc">next</span><a href="/Corn-Jr-Public/finding/51.html">51 · At 260M the date header helps where at 30M it hurt</a></div>
+  <p class="keys"><kbd>←</kbd> <kbd>→</kbd> turn the page · <kbd>/</kbd> find</p>
+</footer>
+<p class="bynumber">Previous and next in <a href="/Corn-Jr-Public/thread/corpus-mix.html">The corpus mix</a>. By number:
+  <a href="/Corn-Jr-Public/finding/44.html">44</a> · <a href="/Corn-Jr-Public/finding/46.html">46</a></p>
+
+</div>
+</body>
+</html>

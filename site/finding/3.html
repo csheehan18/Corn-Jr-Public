@@ -1,0 +1,82 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>3 · Training and validation loss never separate on one pass of data · Corn-Jr</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600&family=IBM+Plex+Mono:wght@400;500&family=Spectral:ital,wght@0,400;0,500;0,600;1,400&family=Spectral+SC:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/Corn-Jr-Public/static/library.css">
+<script defer src="/Corn-Jr-Public/static/library.js"></script>
+<script type="speculationrules">
+{"prerender": [{"where": {"and": [{"href_matches": "/Corn-Jr-Public/*"}, {"not": {"href_matches": "/Corn-Jr-Public/random.html"}}, {"not": {"href_matches": "/Corn-Jr-Public/static/*"}}]}, "eagerness": "moderate"}]}
+</script>
+
+</head>
+<body>
+<div class="page">
+  <header class="running">
+    <a class="book" href="/Corn-Jr-Public/">Corn-Jr · The Record</a>
+    <nav>
+      <a href="/Corn-Jr-Public/" data-key="shelf">Shelf</a><a href="/Corn-Jr-Public/findings.html" data-key="findings" class="here">Findings</a><a href="/Corn-Jr-Public/doc/VISION.html" data-key="VISION">Vision</a><a href="/Corn-Jr-Public/doc/GLOSSARY.html" data-key="GLOSSARY">Glossary</a>
+      <a href="https://github.com/csheehan18/Corn-Jr-Public">Source</a>
+    </nav>
+  </header>
+  
+
+<article class="sheet" style="--c:var(--c1)">
+  <div class="progress" aria-hidden="true"></div>
+  <section class="grid chapter-open finding-open">
+    <a class="tab" href="/Corn-Jr-Public/thread/foundations.html" title="Foundations"><small>Part</small><span>I</span></a>
+    <p class="cn">3</p>
+    <p class="partline"><a href="/Corn-Jr-Public/thread/foundations.html">Foundations</a> · 17 August 2026</p>
+    <h1>Training and validation loss never separate on one pass of data</h1>
+  </section>
+
+  <section class="grid">
+    <p class="marginal">The result, as the finding states it</p><div class="prose"><p class="lead">What a clean loss curve is worth</p></div>
+    <p class="marginal">What it cost</p><div class="prose"><p class="cost">0 s of new scoring on record; it reads 1 card scored for an earlier finding (<code>nano20m</code>). Backfilled 2026-09-26 from the cards' <code>seconds</code>; training and probe time were never recorded, so this is a floor.</p></div>
+  </section>
+
+  
+
+  <section class="grid">
+    <div class="prose doc"><p><code>nano20m</code> was run on the 2.2B-token TinyStories <em>train</em> split rather than the 22MB valid split, which turns a 13.2-pass run into a 0.13-pass one. That choice paid for itself in the only instrument a training run has:</p>
+<div class="tablewrap"><table><thead><tr><th>iter</th><th>train</th><th>val</th></tr></thead><tbody><tr><td>500</td><td>1.0301</td><td>1.0252</td></tr><tr><td>2000</td><td>0.6030</td><td>0.5977</td></tr><tr><td>4000</td><td>0.5269</td><td>0.5297</td></tr><tr><td>8000</td><td>0.4570</td><td>0.4606</td></tr><tr><td>11500</td><td>0.4329</td><td><strong>0.4265</strong></td></tr></tbody></table></div>
+<p><strong>Train and val never separate.</strong> Val sits below train about as often as above, right to the last iteration, so there is no overfitting signal anywhere in the budget — the model was still improving when the tokens ran out. The run was bounded by token budget, not by capacity.</p>
+<p>On the valid split that conclusion would have been unavailable: 13.2 passes puts a divergence in the curve regardless of cause, and nothing distinguishes "the schedule is wrong at this shape" from "it has memorised a 22MB corpus". Every later nano-scale experiment inherits the hyperparameters this run appears to validate, which is what made it worth paying for.</p>
+<p>A caveat for anyone comparing numbers: 0.4265 against <code>nano</code>'s 0.6104 confounds three changes at once — 4.9M → 25.6M params, 65M → 295M tokens, and a different corpus with a different val set. It is not a clean read on any one of them. DATA.md §7's fixed eval set is the fix.</p>
+<h4 id="an-open-discrepancy-in-throughput">An open discrepancy in throughput</h4>
+<p>Worth recording because the number feeds every Phase 2 estimate. <code>trainbench</code> measured 196k tok/s at this shape in the afternoon; the training run opened at ~197k and fell to ~162–170k past iter 7,000. Two hypotheses, both since ruled out:</p>
+<ul><li><strong>Not the data path.</strong> <code>trainbench</code> uses synthetic data and never touches the 4.4GB memmap, and it now reports 173k.</li><li><strong>Not thermal.</strong> 173.1k on a hot card, 173.2k on a cooled one, and <code>nvidia-smi</code> reports <strong>0 µs</strong> of thermal slowdown across the whole run against 1.06s of power capping.</li></ul>
+<p>So today's reproducible number for this shape is 173k (30.9 TFLOP/s, still inside VISION §8's assumed 25–30 band), and this afternoon's was 196k. Something about machine state changed — the GPU was sitting at 22% utilisation and P3 with 1.2GB allocated by background applications when this was checked. Untested and cheap: bench from a clean boot.</p></div>
+  </section>
+
+  <section class="grid refs">
+    <div class="body two-even">
+      <div>
+        <h2 class="small">It cites</h2>
+        <p class="aside">No other finding by number.</p>
+      </div>
+      <div>
+        <h2 class="small">Cited by</h2>
+        <p class="aside">No later finding yet.</p>
+      </div>
+    </div>
+    <p class="body source">docs/findings/03-what-a-clean-loss-curve-is-worth.md</p>
+  </section>
+</article>
+
+  
+<footer class="turn">
+  <div><span class="sc">previous</span><a href="/Corn-Jr-Public/finding/2.html">2 · Decode speed is launch overhead per layer; CUDA graphs remove most</a></div>
+  <div class="r"><span class="sc">next</span><a href="/Corn-Jr-Public/finding/47.html">47 · The leading learning rate finished last; 3e-4 stays</a></div>
+  <p class="keys"><kbd>←</kbd> <kbd>→</kbd> turn the page · <kbd>/</kbd> find</p>
+</footer>
+<p class="bynumber">Previous and next in <a href="/Corn-Jr-Public/thread/foundations.html">Foundations</a>. By number:
+  <a href="/Corn-Jr-Public/finding/2.html">2</a> · <a href="/Corn-Jr-Public/finding/4.html">4</a></p>
+
+</div>
+</body>
+</html>

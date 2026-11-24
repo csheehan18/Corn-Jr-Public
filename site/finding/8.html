@@ -1,0 +1,91 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>8 · An 8k BPE tokenizer reads 3.8x more text per token · Corn-Jr</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600&family=IBM+Plex+Mono:wght@400;500&family=Spectral:ital,wght@0,400;0,500;0,600;1,400&family=Spectral+SC:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/Corn-Jr-Public/static/library.css">
+<script defer src="/Corn-Jr-Public/static/library.js"></script>
+<script type="speculationrules">
+{"prerender": [{"where": {"and": [{"href_matches": "/Corn-Jr-Public/*"}, {"not": {"href_matches": "/Corn-Jr-Public/random.html"}}, {"not": {"href_matches": "/Corn-Jr-Public/static/*"}}]}, "eagerness": "moderate"}]}
+</script>
+
+</head>
+<body>
+<div class="page">
+  <header class="running">
+    <a class="book" href="/Corn-Jr-Public/">Corn-Jr · The Record</a>
+    <nav>
+      <a href="/Corn-Jr-Public/" data-key="shelf">Shelf</a><a href="/Corn-Jr-Public/findings.html" data-key="findings" class="here">Findings</a><a href="/Corn-Jr-Public/doc/VISION.html" data-key="VISION">Vision</a><a href="/Corn-Jr-Public/doc/GLOSSARY.html" data-key="GLOSSARY">Glossary</a>
+      <a href="https://github.com/csheehan18/Corn-Jr-Public">Source</a>
+    </nav>
+  </header>
+  
+
+<article class="sheet" style="--c:var(--c1)">
+  <div class="progress" aria-hidden="true"></div>
+  <section class="grid chapter-open finding-open">
+    <a class="tab" href="/Corn-Jr-Public/thread/corpus-mix.html" title="The corpus mix"><small>Part</small><span>I</span></a>
+    <p class="cn">8</p>
+    <p class="partline"><a href="/Corn-Jr-Public/thread/corpus-mix.html">The corpus mix</a> · 17 August 2026</p>
+    <h1>An 8k BPE tokenizer reads 3.8x more text per token</h1>
+  </section>
+
+  <section class="grid">
+    <p class="marginal">The result, as the finding states it</p><div class="prose"><p class="lead">The tokenizer is worth 3.8x, and the reason to fear it isn't real</p></div>
+    <p class="marginal">What it cost</p><div class="prose"><p class="cost">0 s of new scoring on record; it reads 1 card scored for an earlier finding (<code>nano20m</code>). Backfilled 2026-09-26 from the cards' <code>seconds</code>; training and probe time were never recorded, so this is a floor.</p></div>
+  </section>
+
+  
+
+  <section class="grid">
+    <div class="prose doc"><p>DATA.md §2 calls the tokenizer a ~4x lever on effective corpus size at fixed wall clock, puts an estimated chars/token column in a table, and notes that measuring it properly is "the cheapest measurement in this entire document." It also raises the one argument for staying at byte level that isn't sentimental: a BPE trained on clean prose should fragment on the misspelled, run-together text a speech recogniser actually emits, and Corn-Jr's primary interface is a voice conversation.</p>
+<p><code>corn/bpe.py</code> is a byte-level BPE trainer written from scratch — no BPE library is installed on this machine and none was added — and <code>scripts/train_bpe.py</code> trains the three candidates on a 100MB sample of the corpus at <code>mix_web</code>'s 40/51/9 proportions. All three take <strong>50 seconds together</strong>. Measured on the frozen <code>evals/</code> texts, which are cut from each source's tail while the training sample is drawn from the head:</p>
+<div class="tablewrap"><table><thead><tr><th></th><th>web</th><th>narrative</th><th>temporal</th><th><strong>mix-weighted</strong></th><th>embeddings @ n_embd 1280</th></tr></thead><tbody><tr><td>byte</td><td>0.996</td><td>1.000</td><td>1.000</td><td><strong>0.998</strong></td><td>0.3M (0.1%)</td></tr><tr><td>BPE 4k</td><td>3.360</td><td>3.822</td><td>2.976</td><td><strong>3.537</strong></td><td>5.2M (2.1%)</td></tr><tr><td>BPE 8k</td><td>3.825</td><td>4.014</td><td>2.991</td><td><strong>3.821</strong></td><td>10.5M (4.2%)</td></tr><tr><td>BPE 16k</td><td>4.265</td><td>4.080</td><td>2.996</td><td><strong>4.019</strong></td><td>21.0M (8.4%)</td></tr></tbody></table></div>
+<p>§2's estimates were ~3.2 and ~3.5 for 4k and 8k, so the shape was right and the level was low — 8k alone beats what §2 guessed a 32k vocab would reach. The mix-weighted column is a weighted <em>harmonic</em> mean, because a corpus split by characters spends <code>1/cpt</code> tokens per character in each slice; averaging the per-slice figures arithmetically would flatter the slices that compress well, which are not the ones setting the bill.</p>
+<p><strong>8k is the knee, not a compromise.</strong> It buys 8.0% more compression than 4k for 2.1 more points of the parameter budget; 16k buys a further 5.2% for a further 4.2 points. Almost all of the gain past 8k is web — narrative saturates at ~4.08 because TinyStories has a deliberately small vocabulary, and temporal is flat at ~2.99 across a 4x vocab range. §1's 11 h/GB becomes 2.88.</p>
+<h4 id="the-stt-objection-does-not-survive-contact-with-a-measuremen">The STT objection does not survive contact with a measurement</h4>
+<p>§2's worry bundles two things a recogniser does, and they pull in opposite directions. Holding content constant and varying only the surface of the held-out web text, at 8k:</p>
+<div class="tablewrap"><table><thead><tr><th></th><th>chars/token</th><th>vs clean</th></tr></thead><tbody><tr><td>clean</td><td>3.825</td><td>—</td></tr><tr><td>+ misspellings, disfluencies, run-together words</td><td>3.806</td><td><strong>−0.5%</strong></td></tr><tr><td>lowercased, depunctuated</td><td>4.383</td><td>+14.6%</td></tr><tr><td>both ("STT-like")</td><td>4.224</td><td>+10.4%</td></tr></tbody></table></div>
+<p><strong>Transcription noise costs half a percent.</strong> A byte-level BPE handles a misspelling by splitting it into a few subwords, which is exactly the graceful degradation byte level was supposed to be needed for — it is a property of having all 256 bytes in the vocabulary, not of refusing to merge them. Meanwhile the <em>other</em> half of what STT does, dropping case and punctuation, helps by 14.6%, because capitals and punctuation are the expensive part of clean prose. The bundled effect is that STT-like text compresses <strong>better</strong> than the clean text it came from. The probe is manufactured and says so: it is a seeded transform of real text, not a recording, so what it can show is how much compression is surface-dependent rather than what a particular recogniser emits.</p>
+<h4 id="two-choices-that-are-corn-jr-s-rather-than-gpt-2-s">Two choices that are Corn-Jr's rather than GPT-2's</h4>
+<p><strong>The seven markers are atomic.</strong> <code>&lt;|call|&gt;</code>, <code>&lt;|obs|&gt;</code>, <code>&lt;|say|&gt;</code>, <code>&lt;|day|&gt;</code>, <code>&lt;|user|&gt;</code>, <code>&lt;|end|&gt;</code> and <code>&lt;|endoftext|&gt;</code> get reserved ids and are split out before BPE sees the text. Otherwise they would fragment differently in every context, and every behaviour row in the fifth and sixth findings is measured through them — a marker that tokenizes one way after <code>&lt;|obs|&gt;</code> and another way after a newline is a format the model has to learn twice.</p>
+<p><strong>Digits split one at a time</strong>, so <code>2028</code> is four tokens. This is the single biggest giveback in the table: 11.1% on the temporal slice and 1.6% of the corpus overall. It is chosen anyway because of the sixth finding — all 330 <code>temporal.copy</code> failures had the right month and day and a year clamped to <code>ANCHOR_END</code>. If a year is one token, copying it is one lookup against a prior over ~30 year-tokens; if it is four digits, three are shared with every other year and only one discriminates. Which is easier to copy is genuinely unknown, and 1.6% is a cheap price for not letting the vocabulary settle it silently. <code>--digits group</code> measures the other side and is now a two-run experiment rather than an argument.</p>
+<h4 id="the-600mb-of-fixed-overhead-was-488mb-of-import-torch">The 600MB of "fixed overhead" was 488MB of <code>import torch</code></h4>
+<p>DATA.md §9 recorded that <code>prepare</code> peaks at ~635MB regardless of corpus size and attributed it to <code>Tokenizer.encode</code> returning <code>list[int]</code> — boxing an 8M-char chunk into 8M Python ints before numpy sees it. It concluded that fixing this meant changing the tokenizer contract, and deferred that to the BPE work.</p>
+<p>The BPE is what falsified it. Its list is ~4x shorter for the same chunk and it peaks in the <strong>same place</strong>: 652MB against byte level's 635MB. Instrumented properly, the breakdown is 488MB of <code>import torch</code>, 71MB of chunk, <strong>33MB of <code>encode</code>'s list</strong>, and change. <code>encode</code> was 5% of the thing named as the cause.</p>
+<p><code>corn/data.py</code> imported torch at module scope for one method, <code>Batcher.get_batch</code>, that no offline consumer ever calls — so <code>prepare</code>, <code>prepare_mix</code>, <code>prepare_fineweb</code>, <code>make_evals</code> and <code>train_bpe</code> were each paying half a gigabyte for a tensor they never construct. Deferring that import takes the same build from <strong>635MB to 163MB</strong>, with output byte-identical (<code>data/tinystories</code> rebuilt and sha256-compared on both bins). A training run pays exactly what it always did. The contract change is no longer worth making, which is a rarer outcome than fixing it would have been: a planned piece of work deleted by measuring the thing it was justified by.</p>
+<p><strong>What this does not show:</strong> every number here is compression, not loss. Nothing yet says a model trained on 8k tokens is <em>better</em> than one trained on bytes at equal wall clock — only that it reads 3.8x more text for it.</p>
+<p>And the nano-scale test of that will be biased <strong>against</strong> the BPE, which is worth knowing before reading its result. The embedding table is <code>vocab x n_embd</code>, so an 8k vocab costs 4.19M parameters at <code>nano20m</code>'s width of 512 and 10.5M at the 250M shape's width of 1280 — but as a <em>share</em> that is <strong>14.2% of a 25M model against 4.2% of a 250M one</strong>. The tax is 3.4x heavier at nano scale, because the vocabulary does not shrink when the model does. A nano-scale win for the BPE therefore understates the 250M case; a narrow nano-scale loss would not settle it.</p></div>
+  </section>
+
+  <section class="grid refs">
+    <div class="body two-even">
+      <div>
+        <h2 class="small">It cites</h2>
+        <p class="aside">No other finding by number.</p>
+      </div>
+      <div>
+        <h2 class="small">Cited by</h2>
+        <p class="aside">No later finding yet.</p>
+      </div>
+    </div>
+    <p class="body source">docs/findings/08-the-tokenizer-is-worth-3-8x-and-the-reason-to-fear-it-isnt-real.md</p>
+  </section>
+</article>
+
+  
+<footer class="turn">
+  <div><span class="sc">previous</span><a href="/Corn-Jr-Public/finding/7.html">7 · Real web text improves prose but not using the tool&#39;s answer</a></div>
+  <div class="r"><span class="sc">next</span><a href="/Corn-Jr-Public/finding/9.html">9 · BPE&#39;s compression becomes a better model; a fifth comes from context</a></div>
+  <p class="keys"><kbd>←</kbd> <kbd>→</kbd> turn the page · <kbd>/</kbd> find</p>
+</footer>
+<p class="bynumber">Previous and next in <a href="/Corn-Jr-Public/thread/corpus-mix.html">The corpus mix</a>. By number:
+  <a href="/Corn-Jr-Public/finding/7.html">7</a> · <a href="/Corn-Jr-Public/finding/9.html">9</a></p>
+
+</div>
+</body>
+</html>

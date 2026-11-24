@@ -1,0 +1,100 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>53 · Two of my checks were scoring the harness, not the model · Corn-Jr</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600&family=IBM+Plex+Mono:wght@400;500&family=Spectral:ital,wght@0,400;0,500;0,600;1,400&family=Spectral+SC:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/Corn-Jr-Public/static/library.css">
+<script defer src="/Corn-Jr-Public/static/library.js"></script>
+<script type="speculationrules">
+{"prerender": [{"where": {"and": [{"href_matches": "/Corn-Jr-Public/*"}, {"not": {"href_matches": "/Corn-Jr-Public/random.html"}}, {"not": {"href_matches": "/Corn-Jr-Public/static/*"}}]}, "eagerness": "moderate"}]}
+</script>
+
+</head>
+<body>
+<div class="page">
+  <header class="running">
+    <a class="book" href="/Corn-Jr-Public/">Corn-Jr · The Record</a>
+    <nav>
+      <a href="/Corn-Jr-Public/" data-key="shelf">Shelf</a><a href="/Corn-Jr-Public/findings.html" data-key="findings" class="here">Findings</a><a href="/Corn-Jr-Public/doc/VISION.html" data-key="VISION">Vision</a><a href="/Corn-Jr-Public/doc/GLOSSARY.html" data-key="GLOSSARY">Glossary</a>
+      <a href="https://github.com/csheehan18/Corn-Jr-Public">Source</a>
+    </nav>
+  </header>
+  
+
+<article class="sheet" style="--c:var(--c1)">
+  <div class="progress" aria-hidden="true"></div>
+  <section class="grid chapter-open finding-open">
+    <a class="tab" href="/Corn-Jr-Public/thread/measurement.html" title="Measurement and noise"><small>Part</small><span>I</span></a>
+    <p class="cn">53</p>
+    <p class="partline"><a href="/Corn-Jr-Public/thread/measurement.html">Measurement and noise</a> · 24 August 2026</p>
+    <h1>Two of my checks were scoring the harness, not the model</h1>
+  </section>
+
+  <section class="grid">
+    <p class="marginal">The result, as the finding states it</p><div class="prose"><p class="lead">The envelope decides the output too, and two of my checks were reading the harness as the model</p></div>
+    <p class="marginal">What it cost</p><div class="prose"><p class="cost">0 s of new scoring on record; it reads 1 card scored for an earlier finding (<code>corn_jr_260m</code>). Backfilled 2026-09-26 from the cards' <code>seconds</code>; training and probe time were never recorded, so this is a floor.</p></div>
+  </section>
+
+  
+
+  <section class="grid">
+    <div class="prose doc"><p><code>corn/extract.py</code> wired into a turn, run 2026-08-24 against <code>corn_jr_260m</code> on the 3080 with a stubbed search backend, no network and nothing trained. The work was plumbing — <code>World.reader</code>, the chunk-and-reduce in the <code>web_search</code> executor, <code>fell_back</code> carrying the reduce reason. It was expected to yield nothing and it produced two instrument defects, both of which had already consumed published numbers.</p>
+<p><strong>Both are the same mistake in two places, and the fifty-second finding's neighbour explains why.</strong> The previous session established that this model is sensitive at the <em>marker</em> level on the way in: the same window as bare prose, as a JSON payload, and as a whole <code>&lt;|call|&gt;</code> → payload → <code>&lt;|say|&gt;</code> transcript gives conversational drift, an invented number and a correct extraction. What this finding adds is that the same is true on the way <strong>out</strong> — his reply is drawn from the corpus's own sentence templates, and a check written from taste rather than from the corpus refuses it.</p>
+<h3 id="the-frame-vocabulary-was-written-from-three-of-four-template">The frame vocabulary was written from three of four templates</h3>
+<p><code>corn/toolgen.py</code>'s <code>SAY_ANSWER</code> is the complete set of sentences the corpus ever wraps a search answer in:</p>
+<p>{a}.        It's {a}.        {a}, according to {s}.        Looks like {a}.</p>
+<p><code>grounded</code>'s <code>FRAME</code> — the closed set of words a reply may add that came from neither the window nor the question — covered the first three. It had <code>it</code>, <code>s</code>, <code>according</code>, <code>to</code>. It did not have <code>looks</code> or <code>like</code>.</p>
+<p>Over a six-sentence iron abstract, three windows:</p>
+<div class="tablewrap"><table><thead><tr><th>window</th><th>reply</th><th>verdict</th></tr></thead><tbody><tr><td>1</td><td><code>Iron is a chemical element … a soft, silvery-white metal …</code></td><td>refused, correctly — <code>soft</code>, <code>silvery</code>, <code>white</code> are not in the passage</td></tr><tr><td>2</td><td><code>Looks like 1538 degrees Celsius.</code></td><td><strong>refused, wrongly</strong> — on <code>looks</code> and <code>like</code></td></tr><tr><td>3</td><td><code>Looks like 1538 degrees Celsius.</code></td><td><strong>refused, wrongly</strong> — same</td></tr></tbody></table></div>
+<p>Two of three windows produced the correct answer and the acceptance test called both inventions. With the two words added, the same run reads <code>2 of 3 windows agree on &#x27;1538 degrees celsius&#x27;</code> and the user hears the melting point instead of the atomic number, in 465 ms.</p>
+<p><strong>The fix that generalises is not the two words.</strong> <code>scripts/check_extract.py</code> now asserts <code>FRAME ⊇ SAY_ANSWER</code>'s framing words, so a fifth template added to the corpus fails a guard rather than silently costing an extraction rate. The class of defect — a runtime rule about what the model may say, written without consulting the corpus that taught it — has now cost four checks in two sessions.</p>
+<h3 id="four-of-five-windows-never-stop-and-that-was-being-reported-">Four of five windows never stop, and that was being reported as "nothing found"</h3>
+<p>The previous session had already found this and separated it: an unfinished reply is withheld rather than allowed to vote, "otherwise the token budget decides the answer". <strong>That separation lived in its probe script and not in <code>corn/extract.py</code></strong>, and the three files it committed did not carry it. Wiring the chain into a turn therefore reproduced the bug one commit after it was fixed.</p>
+<p><code>BatchedReader</code> runs the full budget for every row deliberately. A reply that reached no marker used all 32 tokens and gave the <em>opening of a long answer</em>, not a short one — and handed to <code>grounded</code> its cut-off last word reads as an invention. Live, on the first three passages:</p>
+<p>the melting point of iron   1 of 3 windows never finished the capital of Laos         1 of 1 never finished the population of Laos      1 of 1 never finished</p>
+<p>All three had been reported as <code>no window extracted an answer</code>. Four of five windows across the run, against 5 of 12 in the offline probe. The reason strings now carry the count on both arms, so the untrained failure mode is a live number on every turn rather than something someone has to go and measure.</p>
+<p><strong>It is not "wrong", it is "unfinished", and the distinction sets the corpus target.</strong> <code>grounded</code> already enforces the safety half — nothing ungrounded has ever reached the reduce, including the distractor case. What is missing is <em>stop when the answer is out</em>, which is not a property a runtime can fake, and which <code>MAX_NEW</code> is deliberately not raised to hide: the corpus's post-observation say is at most 79 characters over 1,629,766 of them, so 32 tokens is already generous against the distribution being asked for.</p>
+<h3 id="what-this-retires">What this retires</h3>
+<p><strong><code>0/6</code> and <code>1/12</code> are lower bounds with a known bias, not measurements.</strong> Both published extraction baselines were taken through a <code>FRAME</code> that refused the reply form this model prefers; the windowed one also predates the truncation separation reaching the runtime. Marked as bounds in <code>docs/PLAN-WEB-SEARCH.md</code> and <code>docs/EXTERNAL-RESEARCH.md</code>. Nothing here says the untrained rate is good — it says it has not been measured, and that both numbers were partly measuring the instrument.</p>
+<h3 id="what-this-cannot-say">What this cannot say</h3>
+<p><strong>Three passages, one checkpoint, no seeds.</strong> The 2-of-3 result is one abstract of one subject shape, and <code>the melting point of …</code> is the <em>worst</em> shape in the fifty-second finding's grid at 1/25 on real subjects. A better rate on an easier shape would not be a surprise and would not be a measurement either.</p>
+<p><strong>Nothing about the chain.</strong> Of five phrasings of the same question, one routed to <code>web_search</code> and four declined. The extraction path runs on the turns that reach it, and most turns do not — link 1 is unchanged and is still where the loss is.</p>
+<p><strong>Nothing about abstention.</strong> Every fallback here was an unfinished worker. Whether he can report a genuine absence is untested, and it is the one output <code>grounded</code> cannot verify.</p>
+<h3 id="what-follows">What follows</h3>
+<p>The transferable form of the envelope claim is a <strong>method</strong>, not an inspection. "Check that the markers are on-distribution" is only actionable for someone who owns the corpus, which is what <code>EXTERNAL-RESEARCH.md</code> §8's papers do not:</p>
+<blockquote><p>Hold the content fixed, vary the structural envelope, and see whether the answer changes. If it does, the number was never a capability measurement.</p></blockquote>
+<p>That runs against any black-box model, it is what the call-line probe actually did, and no entry in §8 reports having tried it before concluding that utilization is a capability problem. Given §8's SmolLM2-360M at 100% and Qwen2.5-7B at 85.4% under an <em>oracle</em> passage, it is worth someone running.</p>
+<p>Two conventions in <code>docs/HACKING.md</code> §4 came out of this and are the durable part: a number in a commit message says whether it was committed or probe-only, and a measurement made through an unguarded check measures the check.</p></div>
+  </section>
+
+  <section class="grid refs">
+    <div class="body two-even">
+      <div>
+        <h2 class="small">It cites</h2>
+        <p class="aside">No other finding by number.</p>
+      </div>
+      <div>
+        <h2 class="small">Cited by</h2>
+        <p class="aside">No later finding yet.</p>
+      </div>
+    </div>
+    <p class="body source">docs/findings/53-the-envelope-decides-the-output-too-and-two-of-my-checks-were-reading-the-harness-as-the-model.md</p>
+  </section>
+</article>
+
+  
+<footer class="turn">
+  <div><span class="sc">previous</span><a href="/Corn-Jr-Public/finding/46.html">46 · A dataset was missing a class; one test passed by reciting</a></div>
+  <div class="r"><span class="sc">next</span><a href="/Corn-Jr-Public/finding/61.html">61 · The phrasing test itself has noise of sixty items</a></div>
+  <p class="keys"><kbd>←</kbd> <kbd>→</kbd> turn the page · <kbd>/</kbd> find</p>
+</footer>
+<p class="bynumber">Previous and next in <a href="/Corn-Jr-Public/thread/measurement.html">Measurement and noise</a>. By number:
+  <a href="/Corn-Jr-Public/finding/52.html">52</a> · <a href="/Corn-Jr-Public/finding/54.html">54</a></p>
+
+</div>
+</body>
+</html>

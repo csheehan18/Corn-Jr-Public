@@ -1,0 +1,97 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>229 · Asked from afar, a step writes a pair the next-piece question misses · Corn-Jr</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600&family=IBM+Plex+Mono:wght@400;500&family=Spectral:ital,wght@0,400;0,500;0,600;1,400&family=Spectral+SC:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/Corn-Jr-Public/static/library.css">
+<script defer src="/Corn-Jr-Public/static/library.js"></script>
+<script type="speculationrules">
+{"prerender": [{"where": {"and": [{"href_matches": "/Corn-Jr-Public/*"}, {"not": {"href_matches": "/Corn-Jr-Public/random.html"}}, {"not": {"href_matches": "/Corn-Jr-Public/static/*"}}]}, "eagerness": "moderate"}]}
+</script>
+
+</head>
+<body>
+<div class="page">
+  <header class="running">
+    <a class="book" href="/Corn-Jr-Public/">Corn-Jr · The Record</a>
+    <nav>
+      <a href="/Corn-Jr-Public/" data-key="shelf">Shelf</a><a href="/Corn-Jr-Public/findings.html" data-key="findings" class="here">Findings</a><a href="/Corn-Jr-Public/doc/VISION.html" data-key="VISION">Vision</a><a href="/Corn-Jr-Public/doc/GLOSSARY.html" data-key="GLOSSARY">Glossary</a>
+      <a href="https://github.com/csheehan18/Corn-Jr-Public">Source</a>
+    </nav>
+  </header>
+  
+
+<article class="sheet" style="--c:var(--c5)">
+  <div class="progress" aria-hidden="true"></div>
+  <section class="grid chapter-open finding-open">
+    <a class="tab" href="/Corn-Jr-Public/thread/understanding.html" title="Understanding at small scale"><small>Part</small><span>V</span></a>
+    <p class="cn">229</p>
+    <p class="partline"><a href="/Corn-Jr-Public/thread/understanding.html">Understanding at small scale</a> · 13 November 2026</p>
+    <h1>Asked from afar, a step writes a pair the next-piece question misses</h1>
+  </section>
+
+  <section class="grid">
+    <p class="marginal">The result, as the finding states it</p><div class="prose"><p class="lead">One step on the far cost — what a word's first piece costs him at every position from its neighbour's last piece to two before the word — writes the word's likelihood, like a press on the next piece: the drop where the book is silent is 80% and 84% of the drop at the pair's other meeting, and B - Bx is 0.00. Holding the word's commonness at eight random windows leaves no pair either (B - Bx +0.01 at both seeds, 3% of the drop at B): Q1 fails, as finding <a class="fref" href="/Corn-Jr-Public/finding/225.html">225</a>'s hold Q did at the next piece. Held against the pressed sentence with the neighbour swapped out, the far step does write the pair — <strong>as read from afar</strong>: B - Bx +0.40 at both seeds, with the swapped meeting moving 0.08. Read as the next piece, the way he is asked, the same step reads +0.05 and +0.06, under the next-piece step's +0.24 and +0.20 (the anchor, reproducing finding <a class="fref" href="/Corn-Jr-Public/finding/225.html">225</a>): Q2 fails, by -0.19 and -0.14. Each question writes what the other does not read. The exception is the two words' own word-table rows: there the far step reads +0.98 and +1.03 from afar and +0.21 and +0.18 as the next piece, the next-piece step +0.46 and +0.34 and +0.33 and +0.25 from afar, each at under 0.001 nats a token of damage.</p></div>
+    <p class="marginal">What it cost</p><div class="prose"><p class="cost">probe and pre-registration committed at 15:00 on 2026-11-13 (acde9d5), after a 12-pair smoke of the instrument (144.0 s) that changed nothing in the docstring; the read 994.2 s of card for two checkpoints, 134 and 133 pairs, 40 press-and-measure rounds a pair. ETA about twenty minutes of card; 16.6.</p></div>
+  </section>
+
+  
+
+  <section class="grid">
+    <div class="prose doc"><p><strong>The question</strong> (owner, 2026-11-13: "No context is the wrong angle. Elaborate on the distance and try to connect ideas we've done and seen", then "Test it"). Finding <a class="fref" href="/Corn-Jr-Public/finding/228.html">228</a> left distance as the clue under the fields stall: a count answers more the further it looks, and he is asked one question a word, the next piece. The owner's reading: the distance that matters is where the lesson is on offer in the training text. Findings <a class="fref" href="/Corn-Jr-Public/finding/224.html">224</a> and <a class="fref" href="/Corn-Jr-Public/finding/225.html">225</a> pressed at one place only, the piece before the word. This asks from where the neighbour stands. The pre-registration is <code>scripts/probe_far_press.py</code>'s docstring.</p>
+<h3 id="the-read">The read</h3>
+<p>Finding <a class="fref" href="/Corn-Jr-Public/finding/225.html">225</a>'s pairs (<code>b</code> after an earlier word <code>a</code> within ten words, the book's line 3 nats over <code>b</code>'s usual pull, met two to four times); 140 of its 199 have two or more far positions at both meetings (median 8, the most 28), 134 and 133 with room. A is the meeting stepped on, B the other meeting, Bx the other meeting with <code>a</code> swapped for another pair's, C an occurrence of <code>b</code> where the book is silent. Each step is sized to take 2 nats off its own cost at A; medians over pairs of the nats taken off, both seeds.</p>
+<p>every weight, 2 nats       as the next piece                        asked from afar          held-out step                       off B        off Bx       off C         B - Bx        B - Bx       nats a token next                       0.47, 0.39   0.43, 0.38   0.49, 0.44    +0.01, +0.01  +0.00, +0.00  0.00018 next | hold swap           0.38, 0.30   0.06, 0.07   0.17, 0.16    +0.24, +0.20  +0.04, +0.04  0.0025, 0.0022 far                        0.58, 0.57   0.57, 0.55   0.47, 0.48    +0.00, +0.00  +0.03, +0.04  0.0011 far | hold usual           0.31, 0.33   0.29, 0.29   0.18, 0.17    +0.01, +0.01  +0.06, +0.06  0.0008 far | hold swap            0.36, 0.33   0.22, 0.23   0.16, 0.14    +0.05, +0.06  +0.40, +0.40  0.0036, 0.0032</p>
+<p>the two words' rows, 2 nats next | hold swap           0.41, 0.51   0.00, 0.02   0.00, 0.00    +0.46, +0.34  +0.33, +0.25  0.0009, 0.0005 far | hold swap            0.66, 0.51   0.18, 0.07   0.03, 0.02    +0.21, +0.18  +0.98, +1.03  0.0004, 0.0004</p>
+<p>Before any step the neighbour is worth 0.09 nats to him at the next piece (B against Bx, cheaper with <code>a</code> there in 62% and 65% of pairs) and 0.02 and 0.05 from afar (52% and 54%): what little he holds of these pairs he holds where he is asked.</p>
+<h3 id="the-pre-registered-rows">The pre-registered rows</h3>
+<p>Each step at its reference strength, the smallest that takes a quarter nat off <code>b</code> as the next piece at B; place <code>all</code>.</p>
+<ul><li><strong>Q1 fails at both seeds.</strong> <code>far | hold usual</code> at 2 nats: 0.31 and 0.33 off B, B - Bx +0.01 (3%), and the drop at C 58% and 52% of the drop at B. Predicted. With commonness held what is left is still not the pair; it was not at the next piece (finding <a class="fref" href="/Corn-Jr-Public/finding/225.html">225</a>'s hold Q, +0.01) and it is not from afar.</li><li><strong>Q2 fails.</strong> <code>far | hold swap</code> less <code>next | hold swap</code>: -0.19 and -0.14 at 1.4 and 1.5 times the damage. Predicted a direction the other way (+0.03 to +0.12): wrong. Asking from afar does not add to what the next-piece question reads; it takes most of it away.</li><li><strong>N holds.</strong> <code>next | hold swap</code> at 2 nats reads +0.24 and +0.20; finding <a class="fref" href="/Corn-Jr-Public/finding/225.html">225</a> read +0.24 and +0.21 on 199 pairs.</li><li><strong><code>far</code> alone writes the word</strong>, as predicted: at its reference (1 nat) the drop at C is 80% and 84% of the drop at B and B - Bx is 0.00. Asking in more places is more of the cheap answer.</li><li><strong>D.</strong> Little for <code>next</code>, <code>far</code> and <code>far | hold usual</code>; between for the two swap holds in every weight (0.002 to 0.004); little in the rows.</li></ul>
+<h3 id="what-the-two-reads-show-together-read-after-not-gated">What the two reads show together (read after, not gated)</h3>
+<p>B - Bx at 2 nats           read as the next piece   read from afar every weight stepped at the next piece    +0.24, +0.20             +0.04, +0.04 stepped from afar            +0.05, +0.06             +0.40, +0.40 the two words' rows stepped at the next piece    +0.46, +0.34             +0.33, +0.25 stepped from afar            +0.21, +0.18             +0.98, +1.03</p>
+<ul><li><strong>Two questions, two stores.</strong> In every weight a pair written by one question is a fifth to an eighth as large when the other question reads it. From afar the step lifts 66% and 65% of pairs by a quarter nat on its own read and 16% and 17% on the next-piece read; the next-piece step, 46% and 47% on its own and 10% and 8% from afar. The pair is real both times — the swapped meeting moves 0.06 to 0.09 — and it is written where the question was asked from.</li><li><strong>The word table is where they meet.</strong> Confined to the rows of <code>a</code>'s and <code>b</code>'s pieces, a far step carries a fifth of its own read across to the next piece (+0.21 and +0.18 beside +0.98 and +1.03) and a next-piece step carries most of its own across to the far read. The rows are read at every position, so a line there serves both questions. The predicted shape, and the size of the far read was not predicted: a whole nat off the other meeting from one step, the swapped meeting unmoved (0.00) and the word where the book is silent unmoved (0.03 and 0.02), at 0.0004 nats a token.</li><li><strong>Per nat of damage the two steps are level in the rows on the next-piece read</strong> (+0.46 at 0.0009 and +0.21 at 0.0004; +0.34 at 0.0005 and +0.18 at 0.0004). The far step buys the far read beside it.</li></ul>
+<h3 id="read-by-hand-fourteen-pairs-at-seed-1337">Read by hand: fourteen pairs at seed 1337</h3>
+<p>The far span is what it should be — <code>orbit {{ the Sun (a Saturnian year), and}} [[Saturn&#x27;s]]</code>, <code>Canal {{ fever swept across the country after the}} [[Erie]]</code>, <code>antibiotics {{? Do the}} [[microbial]]</code>. Under <code>far | hold swap</code> the far read falls at B and not at Bx on the pairs a person would call pairs (<code>orbit</code> to <code>saturn&#x27;s</code>: 10.84 to 9.23 at B, 11.00 to 11.32 at Bx; <code>grounds</code> to <code>feeding</code>; <code>canal</code> to <code>erie</code>; <code>opinions</code> to <code>valued</code>) and on neither where the pair is an accident of the page (<code>place</code> to <code>newcastle</code>, <code>poetry</code> to <code>patriotic</code>, where the far step makes the next piece at A dearer). <code>spicy</code> to <code>soup</code> moves nothing anywhere at B: the word stands earlier in its own context and he copies it.</p>
+<h3 id="what-it-licenses">What it licenses</h3>
+<p>By the pre-registration, its third outcome: both rows fail. <strong>Where a pair is asked from does not change what one step writes for the next-piece question.</strong> Three things stand beside that:</p>
+<ul><li><strong>Free commonness is not the comparison.</strong> Held at the next piece (finding <a class="fref" href="/Corn-Jr-Public/finding/225.html">225</a>) and held from afar, it leaves no pair. The comparison that writes one is the neighbour swapped out — the book's "more than usual" is not enough for him, though it is enough for a count.</li><li><strong>A lesson asked from afar would teach a store the ruler does not read.</strong> The ruler asks by the next piece. A far side-lesson in every weight would learn and not be used, the shape finding <a class="fref" href="/Corn-Jr-Public/finding/217.html">217</a> saw with a built-in judge. This is the first measurement under finding <a class="fref" href="/Corn-Jr-Public/finding/228.html">228</a>'s distance, and it cuts against the simple form of the idea: he is not short of far knowledge because nobody asked from afar; asking from afar fills a different shelf.</li><li><strong>The word table is the shared shelf, and it takes a far line cleanly.</strong> One row against another is what the book's line is, and finding <a class="fref" href="/Corn-Jr-Public/finding/228.html">228</a>'s counted table of that shape reads 83 fields where his reads 58 to 61. A far, swapped lesson written only into the word table is the form of the owner's idea that this read leaves standing — against finding <a class="fref" href="/Corn-Jr-Public/finding/226.html">226</a>'s caution that kept presses in shared rows churn.</li></ul>
+<p><strong>What it does not settle.</strong> Many steps: finding <a class="fref" href="/Corn-Jr-Public/finding/226.html">226</a> kept 150 next-piece presses and the damage added up; nothing here was kept. Pairs met often and far apart, which is what the fields are — these pairs are rare and within ten words. Whether a trunk trained from the start with a far lesson learns to carry it to the next piece; one step on a trained trunk cannot say.</p>
+<h3 id="amended-2026-11-13-the-rows-cross-read-against-a-stand-in-no">Amended 2026-11-13 — the rows' cross-read, against a stand-in no hold saw</h3>
+<p>The table above reads the pair as B - Bx, and Bx carries the stand-in the hold itself used. Finding <a class="fref" href="/Corn-Jr-Public/finding/230.html">230</a> kept 100 far steps in the rows and read every pair against a second stand-in (By) as well:</p>
+<p>far | hold swap, the two words' rows   against Bx (as above)   against By asked from afar                        +0.89 and +1.02         +0.44 and +0.46 as the next piece                      +0.17 and +0.18         +0.04 and +0.07</p>
+<p>So "a far step carries a fifth of its own read across to the next piece" holds against the hold's own stand-in and not against a fresh one: there the cross-read is about a twentieth of a nat. The word table is the one place a far line shows at the next piece at all, and it shows very little. The third licence above ("the shared shelf") is weaker than written; "two questions, two stores" stands, in the rows as well.</p></div>
+  </section>
+
+  <section class="grid refs">
+    <div class="body two-even">
+      <div>
+        <h2 class="small">It cites</h2>
+        <ul class="reflist"><li style="--c:var(--c5)"><a href="/Corn-Jr-Public/finding/217.html"><span class="fn">217</span>A judge built into the 5M learns, is ignored, and costs him</a></li><li style="--c:var(--c5)"><a href="/Corn-Jr-Public/finding/224.html"><span class="fn">224</span>One hard press makes the word likelier everywhere, and writes no line</a></li><li style="--c:var(--c5)"><a href="/Corn-Jr-Public/finding/225.html"><span class="fn">225</span>Pressing the difference a neighbour makes writes some of the pair</a></li><li style="--c:var(--c5)"><a href="/Corn-Jr-Public/finding/226.html"><span class="fn">226</span>Kept presses last, but break the text and churn the words</a></li><li style="--c:var(--c5)"><a href="/Corn-Jr-Public/finding/228.html"><span class="fn">228</span>The fields stall is not the word-pieces, and not hidden in him</a></li><li style="--c:var(--c5)"><a href="/Corn-Jr-Public/finding/230.html"><span class="fn">230</span>Kept far lines add up from afar, not for the next piece</a></li></ul>
+        
+      </div>
+      <div>
+        <h2 class="small">Cited by</h2>
+        <ul class="reflist"><li style="--c:var(--c5)"><a href="/Corn-Jr-Public/finding/230.html"><span class="fn">230</span>Kept far lines add up from afar, not for the next piece</a></li><li style="--c:var(--c5)"><a href="/Corn-Jr-Public/finding/231.html"><span class="fn">231</span>A far lesson in training takes, costs reading, and lifts nothing clearly</a></li><li style="--c:var(--c5)"><a href="/Corn-Jr-Public/finding/232.html"><span class="fn">232</span>He uses far words like the 260M; his gap is close in</a></li><li style="--c:var(--c5)"><a href="/Corn-Jr-Public/finding/233.html"><span class="fn">233</span>A left-to-right count still beats him, so order is not it</a></li><li style="--c:var(--c5)"><a href="/Corn-Jr-Public/finding/234.html"><span class="fn">234</span>Given the count&#39;s word summaries, he leans on them and gains nothing</a></li><li style="--c:var(--c5)"><a href="/Corn-Jr-Public/finding/235.html"><span class="fn">235</span>A counted starting table helps early and is erased by the end</a></li></ul>
+        
+      </div>
+    </div>
+    <p class="body source">docs/findings/229-asked-from-afar-one-step-writes-a-pair-that-shows-from-afar-and-not-at-the-next-piece-except-in-the-two-words-own-rows-and-free-commonness-writes-no-pair-at-any-distance.md</p>
+  </section>
+</article>
+
+  
+<footer class="turn">
+  <div><span class="sc">previous</span><a href="/Corn-Jr-Public/finding/228.html">228 · The fields stall is not the word-pieces, and not hidden in him</a></div>
+  <div class="r"><span class="sc">next</span><a href="/Corn-Jr-Public/finding/230.html">230 · Kept far lines add up from afar, not for the next piece</a></div>
+  <p class="keys"><kbd>←</kbd> <kbd>→</kbd> turn the page · <kbd>/</kbd> find</p>
+</footer>
+<p class="bynumber">Previous and next in <a href="/Corn-Jr-Public/thread/understanding.html">Understanding at small scale</a>. By number:
+  <a href="/Corn-Jr-Public/finding/228.html">228</a> · <a href="/Corn-Jr-Public/finding/230.html">230</a></p>
+
+</div>
+</body>
+</html>

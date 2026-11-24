@@ -1,0 +1,127 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>51 · At 260M the date header helps where at 30M it hurt · Corn-Jr</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600&family=IBM+Plex+Mono:wght@400;500&family=Spectral:ital,wght@0,400;0,500;0,600;1,400&family=Spectral+SC:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/Corn-Jr-Public/static/library.css">
+<script defer src="/Corn-Jr-Public/static/library.js"></script>
+<script type="speculationrules">
+{"prerender": [{"where": {"and": [{"href_matches": "/Corn-Jr-Public/*"}, {"not": {"href_matches": "/Corn-Jr-Public/random.html"}}, {"not": {"href_matches": "/Corn-Jr-Public/static/*"}}]}, "eagerness": "moderate"}]}
+</script>
+
+</head>
+<body>
+<div class="page">
+  <header class="running">
+    <a class="book" href="/Corn-Jr-Public/">Corn-Jr · The Record</a>
+    <nav>
+      <a href="/Corn-Jr-Public/" data-key="shelf">Shelf</a><a href="/Corn-Jr-Public/findings.html" data-key="findings" class="here">Findings</a><a href="/Corn-Jr-Public/doc/VISION.html" data-key="VISION">Vision</a><a href="/Corn-Jr-Public/doc/GLOSSARY.html" data-key="GLOSSARY">Glossary</a>
+      <a href="https://github.com/csheehan18/Corn-Jr-Public">Source</a>
+    </nav>
+  </header>
+  
+
+<article class="sheet" style="--c:var(--c1)">
+  <div class="progress" aria-hidden="true"></div>
+  <section class="grid chapter-open finding-open">
+    <a class="tab" href="/Corn-Jr-Public/thread/corpus-mix.html" title="The corpus mix"><small>Part</small><span>I</span></a>
+    <p class="cn">51</p>
+    <p class="partline"><a href="/Corn-Jr-Public/thread/corpus-mix.html">The corpus mix</a> · 24 August 2026</p>
+    <h1>At 260M the date header helps where at 30M it hurt</h1>
+  </section>
+
+  <section class="grid">
+    <p class="marginal">The result, as the finding states it</p><div class="prose"><p class="lead">The header that cost ninety-nine items now buys seventeen, and the scorecard and the runtime disagree by forty-eight points</p></div>
+    <p class="marginal">What it cost</p><div class="prose"><p class="cost">3.5 min of scoring on the 1 card first cited here (<code>nano20m_v3</code>); it also reads 2 cards scored for an earlier finding (<code>corn_jr_260m</code>, <code>nano100m_v1</code>). Backfilled 2026-09-26 from the cards' <code>seconds</code>; training and probe time were never recorded, so this is a floor.</p></div>
+  </section>
+
+  <div class="grid"><figure class="specimen">
+  <div class="slip">
+    <span class="k">to him</span><span class="m">note down pick up the dry cleaning</span>
+    <span class="k">he wrote</span><span class="a">Nothing I&#39;ve got covers that.</span>
+  </div>
+  <figcaption><a href="/Corn-Jr-Public/finding/51.html">Finding 51.</a> One turn run twice on byte-identical input: offered a decline, he took it and said this; with the decline withheld, the same request became a saved note.</figcaption>
+</figure></div>
+
+  <section class="grid">
+    <div class="prose doc"><p>No training. <code>checkpoints/corn_jr_260m</code> as it stands, scored 2026-08-24 on the 3080 through <code>python -m corn.evals</code>, 10 m 50 s wall clock — 416 s of behaviour generation and 71 s of variety. Written to <code>evals/results/corn_jr_260m.json</code>. Two live arms alongside it, <code>harness/checkup.py</code> against the same weights at temperature 0 without <code>--multi</code>, differing only in whether <code>decline</code> was offered.</p>
+<p><strong>This is the first scorecard the 260M has ever had.</strong> There were 222 in <code>evals/results/</code> before it and not one of them was this checkpoint: findings <a class="fref" href="/Corn-Jr-Public/finding/48.html">48</a>, <a class="fref" href="/Corn-Jr-Public/finding/49.html">49</a> and <a class="fref" href="/Corn-Jr-Public/finding/50.html">50</a> all drove <code>corn_jr_260m</code> through <code>harness/</code>, which reports rates over sixteen or twenty hand-written sentences, and the frozen 400-item instrument the rest of the project is built on had never been pointed at it. <code>260M Run Data/RUN-NOTES.md</code> closes on exactly this — <em>"Whether the nano-scale findings — 34 and 39 above all — reproduce at 260M is the first question the scorecard should answer."</em></p>
+<h3 id="the-comparison-that-is-legitimate-and-the-one-that-is-not">The comparison that is legitimate, and the one that is not</h3>
+<p>The clean scale contrast is <code>nano20m_v3</code> -&gt; <code>corn_jr_260m</code>: same corpus recipe (<code>mix_v3</code>, <code>mix_v3_5b</code>), 29.6M -&gt; 260.6M, 8.8x the parameters.</p>
+<p><strong><code>nano100m_v1</code> is not part of it, and the row it flatters is the one someone will quote.</strong> It reads <code>tool.selection</code> 181/200 against the 260M's 171/200 — the smaller model apparently winning at eight times fewer parameters. It trained on <code>mix_v1</code>. <code>mix_v3</code> folds in WS-E, and the forty-second finding measured what that does: offered an escape he over-uses it. The pair differs by corpus and by policy, not by scale, and it is not a reading.</p>
+<h3 id="daycross-reverses-which-the-record-predicted-the-opposite-of"><code>daycross</code> reverses, which the record predicted the opposite of</h3>
+<div class="tablewrap"><table><thead><tr><th>row</th><th><code>20m_v3</code></th><th><code>20m_v3_seed2</code></th><th><strong>260m</strong></th></tr></thead><tbody><tr><td><code>daycross.no_day</code></td><td>128/200</td><td>129/200</td><td><strong>171/200</strong></td></tr><tr><td><code>daycross.with_day</code></td><td>29/200</td><td>62/200</td><td><strong>188/200</strong></td></tr><tr><td>delta</td><td><strong>-99</strong></td><td><strong>-67</strong></td><td><strong>+17</strong></td></tr></tbody></table></div>
+<p>At nano the <code>&lt;|day|&gt;</code> header costs 99 and 67 items. At 260M it <strong>buys 17</strong>.</p>
+<p>The fortieth finding recovered 90 of the 126 the header was costing and recorded that the residue was "still -29 to -63, so this is about half the effect", with the next doses named. The residue does not shrink at scale — it changes sign, and no further dose was spent.</p>
+<p>This is the row <code>HANDOFF.md</code> (now <code>docs/SESSION-ARCHIVE.md</code>) singles out as the reason to distrust scale transfer: <em>"<code>daycross</code> is worse at 91.6M than at 29.6M, so scale transfer is exactly what none of this assumes."</em> That caution was correct as stated and correct to hold; it is now measured wrong at 260M, in the favourable direction, which is the less common way for a caution to fail.</p>
+<h3 id="four-rows-come-off-the-floor-and-one-becomes-readable-for-th">Four rows come off the floor, and one becomes readable for the first time</h3>
+<div class="tablewrap"><table><thead><tr><th>row</th><th><code>20m_v3</code></th><th><code>20m_v3_seed2</code></th><th><strong>260m</strong></th></tr></thead><tbody><tr><td><code>tool.name_fidelity</code></td><td>46/120</td><td>56/120</td><td><strong>106/120</strong></td></tr><tr><td><code>tool.note_fidelity</code></td><td>18/120</td><td>11/120</td><td><strong>74/120</strong></td></tr><tr><td><code>chat.abstain_greet</code></td><td>34/100</td><td>31/100</td><td><strong>67/100</strong></td></tr><tr><td><code>chat.abstain_oos</code></td><td>6/100</td><td>0/100</td><td><strong>33/100</strong></td></tr></tbody></table></div>
+<p>The forty-first finding could not read its arm because <code>tool.name_fidelity</code>'s own baseline spread was 31 of 120, wider than any plausible effect. 106 is outside that band by more than twice its width.</p>
+<p><strong><code>notefid</code> is the one worth the space, because the question it asks was unaskable at nano.</strong> The row pairs an identical note body asked in a trained phrasing against an untrained one:</p>
+<div class="tablewrap"><table><thead><tr><th>cell</th><th><code>20m_v3</code></th><th><code>20m_v3_seed2</code></th><th><strong>260m</strong></th></tr></thead><tbody><tr><td><code>notefid.trained_phrasing</code></td><td>18/120</td><td>11/120</td><td><strong>74/120</strong></td></tr><tr><td><code>notefid.novel_phrasing</code></td><td>19/120</td><td>11/120</td><td><strong>66/120</strong></td></tr></tbody></table></div>
+<p>At nano both cells sit on the floor and the gap is 1 and 0 — not a null result, an unmeasurable one, and the thirty-first finding's complaint about a bucket whose untreated range touches its own ceiling, committed at the other end. At 260M the gap is <strong>-8 of 120</strong> and the failure mass is <code>wrong_tool</code> (26 trained, 31 untrained) rather than a wrong body. The twenty-eighth finding's phrasing effect is legible on this row for the first time, and it is a routing effect.</p>
+<h3 id="five-rulers-are-at-ceiling">Five rulers are at ceiling</h3>
+<p><code>temporal.route</code> 400/400, <code>temporal.copy</code> 353/353, <code>tool.copy</code> 120/120, <code>tool.copy_wide</code> 300/300, <code>refusal.say</code> 270/270, <code>refusal.say_unechoed</code> 55/55. Decontamination reads clean on all four sources against <code>mix_v3_5b</code>'s <code>train.bin</code> and <code>val.bin</code>, which matters because the corpus was rebuilt at 5B after the eval set was frozen on 2026-08-10.</p>
+<p>The forty-sixth finding's caveat on <code>say_unechoed</code> carries over unchanged: 55/55 is two sentences seen 902 times, not a capability. The fiftieth finding's is sharper and applies to the whole block — <code>tool.copy</code> draws from an invented index, so every deference row in the project is measured in the one regime where nothing in the weights competes with the observation.</p>
+<h3 id="daylog-does-not-move-and-the-failure-is-silence"><code>daylog</code> does not move, and the failure is silence</h3>
+<div class="tablewrap"><table><thead><tr><th>row</th><th><code>20m_v3</code></th><th><code>20m_v3_seed2</code></th><th><strong>260m</strong></th><th>breakdown at 260M</th></tr></thead><tbody><tr><td><code>daylog.open</code></td><td>0/90</td><td>14/90</td><td><strong>4/90</strong></td><td><code>no_say</code> 63, <code>confabulated</code> 23</td></tr><tr><td><code>daylog.targeted</code></td><td>—</td><td>—</td><td><strong>4/84</strong></td><td><code>no_say</code> 48, <code>confabulated</code> 31</td></tr><tr><td><code>daylog.empty</code></td><td>0/26</td><td>0/26</td><td><strong>0/26</strong></td><td><code>no_say</code> 26</td></tr></tbody></table></div>
+<p>Scale bought nothing here, and <code>daylog.empty</code> is a hard zero at every size this project has trained. The breakdown is the part that was not known: it is dominated by <strong>silence</strong>, not by invention. He emits the call, receives the observation, and says nothing.</p>
+<p>That is precisely the class <code>corn/agent.py</code>'s fallback exists for — <code>scripts/check_agent.py</code> asserts <em>"a day he failed to read back is read back rather than dropped"</em> — so these rows should understate the assembled system. <strong>This run could not confirm that</strong>; see below.</p>
+<h3 id="the-scorecard-says-85-5-and-the-runtime-says-37-5">The scorecard says 85.5% and the runtime says 37.5%</h3>
+<p><code>harness/checkup.py</code> against the same weights, temperature 0, <strong>without <code>--multi</code></strong>:</p>
+<div class="tablewrap"><table><thead><tr><th>row</th><th>live</th></tr></thead><tbody><tr><td>routed</td><td><strong>6/16 (37.5%)</strong></td></tr><tr><td>executed</td><td>6/11</td></tr><tr><td>spoke_from_tool</td><td>10/10</td></tr><tr><td>held_back</td><td>3/5</td></tr></tbody></table></div>
+<p>Against <code>tool.selection</code> 171/200 (85.5%) and <code>temporal.route</code> 400/400 on the frozen set. Ten of sixteen live turns went to <code>decline</code>, including three plain <code>save_note</code> requests, one <code>resolve_date</code>, both <code>recall_day</code> turns and both <code>ask_claude</code> turns.</p>
+<p><strong>The live number is not new and should not be reported as a discovery.</strong> The forty-eighth finding published <code>routed</code> 4/16 -&gt; 5/16 across its own fixes and wrote the honest headline itself: <em>"the fixes did not teach him to route."</em> <code>executed</code> 6/11 and <code>spoke_from_tool</code> 10/10 reproduce that run exactly. The 6/16 here is <strong>not</strong> an improvement on its 5/16 — that run used <code>--multi</code> and this one did not, so the two differ by a flag and the difference is one turn.</p>
+<p>What is new is the other half of the pair. Until today there was a live rate and no scorecard on the same weights, so the gap could not be stated as a quantity. <strong>It is 48 points.</strong></p>
+<p>Two explanations were already in the file:</p>
+<ul><li><strong>The twenty-eighth finding.</strong> Routing collapses on wording no generator emits. <code>checkup.py</code>'s cases are hand-written sentences; <code>evals/</code>'s 200 are generated. The <code>notefid</code> cross above shows the same effect, same direction, on a frozen set — -8 of 120 there against -48 points here.</li><li><strong>The forty-second finding.</strong> Offered <code>decline</code> he over-uses it, and <code>ABSENT_SHARE</code> is 35% and was never tuned.</li></ul>
+<h3 id="withholding-the-escape-buys-back-five-of-the-sixteen">Withholding the escape buys back five of the sixteen</h3>
+<p>The same sixteen cases, same weights, same temperature, <code>--no-decline</code>:</p>
+<div class="tablewrap"><table><thead><tr><th>row</th><th><code>decline</code> offered</th><th><strong>withheld</strong></th></tr></thead><tbody><tr><td>routed</td><td>6/16 (37.5%)</td><td><strong>11/16 (68.8%)</strong></td></tr><tr><td>executed</td><td>6/11</td><td><strong>11/11 (100%)</strong></td></tr><tr><td>spoke_from_tool</td><td>10/10</td><td>4/5</td></tr><tr><td>held_back</td><td>3/5</td><td><strong>4/5</strong></td></tr></tbody></table></div>
+<p><strong>The forty-second finding's over-declining dominates the live gap, and the twenty-eighth's phrasing effect is at most the remainder.</strong> The single clearest receipt is one turn run twice, byte-identical input:</p>
+<p>decline offered   note down pick up the dry cleaning -&gt; {"name": "decline", "arguments": {}} -&gt; "Nothing I've got covers that."</p>
+<p>withheld          note down pick up the dry cleaning -&gt; {"name": "save_note", "arguments": {"text": "pick up the dry cleaning"}} -&gt; {"status": "saved", "chars": 24}   "Noted."</p>
+<p><code>ABSENT_SHARE</code> at 35%, never tuned, is now the highest-value untuned number in the project, and the bracket <code>HANDOFF.md</code> (now <code>docs/SESSION-ARCHIVE.md</code>) has carried as open item 2 since the forty-second finding has a 260M receipt rather than a nano one.</p>
+<p><strong>What it costs is visible in the same table.</strong> <code>spoke_from_tool</code> falls from 10/10 to 4/5, and the misses change shape: with no escape he routes to the wrong tool rather than to none, and <code>save_note</code> is the sink — <code>resolve_date</code> -&gt; <code>save_note</code>, <code>ask_claude</code> -&gt; <code>save_note</code>, and "turn the heating up" -&gt; <code>save_note</code>, answered "Noted." This is a policy trade, not a repair, and <code>--no-decline</code>'s docstring already says what it is: a measurement, not a setting.</p>
+<h3 id="what-neither-run-could-settle-and-the-sharper-reason-why">What neither run could settle, and the sharper reason why</h3>
+<p>Both were started to test whether <code>corn/agent.py</code>'s fallback rescues the <code>no_say</code> rows above. <strong>Neither answers it</strong>, and the second failed for a more interesting reason than the first.</p>
+<div class="tablewrap"><table><thead><tr><th>policy</th><th><code>what did I note down today</code></th><th><code>what was I doing on the 14th</code></th></tr></thead><tbody><tr><td><code>decline</code> offered</td><td>-&gt; <code>decline</code></td><td>-&gt; <code>decline</code></td></tr><tr><td>withheld</td><td>-&gt; <code>resolve_date</code></td><td>-&gt; <code>web_search</code></td></tr></tbody></table></div>
+<p><strong><code>recall_day</code> is never selected live, under either policy</strong> — four attempts, four different wrong destinations. The fallback needs an observation to speak from, and no observation ever arrives.</p>
+<p>That makes the <code>daylog</code> block above sharper than it first reads. Those rows score <code>prompt_after</code>: the call and the observation are supplied, and what is measured is the speech that follows. <strong>So the scorecard measures a stage the runtime never reaches for that tool</strong>, and its 4/90 is an upper bound on a capability whose live rate is zero for a reason the scorecard cannot see. It is the forty-eighth finding's lesson once more — a scorecard that starts after the call cannot see a call that is never made.</p>
+<h3 id="one-number-in-passing">One number in passing</h3>
+<p>Latency over the sixteen turns: median <strong>351 ms</strong> / p90 542 ms with <code>decline</code> offered, median <strong>384 ms</strong> / p90 570 ms without. VISION §3 budgets the whole round trip at 500 ms. It holds at the median in both arms and at p90 in neither, on a checkpoint whose constraint costs were fixed in the forty-eighth finding — and the arm that routes more is the slower one, because a turn that declines is a turn that does no work.</p></div>
+  </section>
+
+  <section class="grid refs">
+    <div class="body two-even">
+      <div>
+        <h2 class="small">It cites</h2>
+        <ul class="reflist"><li style="--c:var(--c1)"><a href="/Corn-Jr-Public/finding/48.html"><span class="fn">48</span>Four bugs let decoding escape the call grammar mid-call</a></li><li style="--c:var(--c3)"><a href="/Corn-Jr-Public/finding/49.html"><span class="fn">49</span>Second-turn data teaches him to talk, at a cost to deferring</a></li><li style="--c:var(--c1)"><a href="/Corn-Jr-Public/finding/50.html"><span class="fn">50</span>Invented facts make him copy; a real name brings memory back</a></li></ul>
+        
+      </div>
+      <div>
+        <h2 class="small">Cited by</h2>
+        <ul class="reflist"><li style="--c:var(--c4)"><a href="/Corn-Jr-Public/finding/129.html"><span class="fn">129</span>He learns to label his own request; forcing labels doesn&#39;t change calls</a></li><li style="--c:var(--c3)"><a href="/Corn-Jr-Public/finding/157.html"><span class="fn">157</span>Writing his move first steers the reply and beats the old regex</a></li><li style="--c:var(--c3)"><a href="/Corn-Jr-Public/finding/159.html"><span class="fn">159</span>More ways to phrase each move helps unseen phrasings modestly</a></li><li style="--c:var(--c3)"><a href="/Corn-Jr-Public/finding/161.html"><span class="fn">161</span>His internal state knows more than he writes about move choice</a></li><li style="--c:var(--c5)"><a href="/Corn-Jr-Public/finding/166.html"><span class="fn">166</span>Halving the tool data leaves tool use intact</a></li><li style="--c:var(--c1)"><a href="/Corn-Jr-Public/finding/71.html"><span class="fn">71</span>Giving memory-lookup calls real results turns silence into recitation</a></li></ul>
+        
+      </div>
+    </div>
+    <p class="body source">docs/findings/51-the-header-that-cost-ninety-nine-items-now-buys-seventeen-and-the-scorecard-and-the-runtime-disagree.md</p>
+  </section>
+</article>
+
+  
+<footer class="turn">
+  <div><span class="sc">previous</span><a href="/Corn-Jr-Public/finding/45.html">45 · The first full data mix keeps every separately measured effect</a></div>
+  <div class="r"><span class="sc">next</span><a href="/Corn-Jr-Public/finding/76.html">76 · A single-request control removes the compound requests&#39; copying cost</a></div>
+  <p class="keys"><kbd>←</kbd> <kbd>→</kbd> turn the page · <kbd>/</kbd> find</p>
+</footer>
+<p class="bynumber">Previous and next in <a href="/Corn-Jr-Public/thread/corpus-mix.html">The corpus mix</a>. By number:
+  <a href="/Corn-Jr-Public/finding/50.html">50</a> · <a href="/Corn-Jr-Public/finding/52.html">52</a></p>
+
+</div>
+</body>
+</html>

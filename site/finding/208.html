@@ -1,0 +1,84 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>208 · The shipped model answers most one-off messages coherently · Corn-Jr</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600&family=IBM+Plex+Mono:wght@400;500&family=Spectral:ital,wght@0,400;0,500;0,600;1,400&family=Spectral+SC:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/Corn-Jr-Public/static/library.css">
+<script defer src="/Corn-Jr-Public/static/library.js"></script>
+<script type="speculationrules">
+{"prerender": [{"where": {"and": [{"href_matches": "/Corn-Jr-Public/*"}, {"not": {"href_matches": "/Corn-Jr-Public/random.html"}}, {"not": {"href_matches": "/Corn-Jr-Public/static/*"}}]}, "eagerness": "moderate"}]}
+</script>
+
+</head>
+<body>
+<div class="page">
+  <header class="running">
+    <a class="book" href="/Corn-Jr-Public/">Corn-Jr · The Record</a>
+    <nav>
+      <a href="/Corn-Jr-Public/" data-key="shelf">Shelf</a><a href="/Corn-Jr-Public/findings.html" data-key="findings" class="here">Findings</a><a href="/Corn-Jr-Public/doc/VISION.html" data-key="VISION">Vision</a><a href="/Corn-Jr-Public/doc/GLOSSARY.html" data-key="GLOSSARY">Glossary</a>
+      <a href="https://github.com/csheehan18/Corn-Jr-Public">Source</a>
+    </nav>
+  </header>
+  
+
+<article class="sheet" style="--c:var(--c5)">
+  <div class="progress" aria-hidden="true"></div>
+  <section class="grid chapter-open finding-open">
+    <a class="tab" href="/Corn-Jr-Public/thread/reply-judge.html" title="The reply judge"><small>Part</small><span>V</span></a>
+    <p class="cn">208</p>
+    <p class="partline"><a href="/Corn-Jr-Public/thread/reply-judge.html">The reply judge</a> · 22 October 2026</p>
+    <h1>The shipped model answers most one-off messages coherently</h1>
+  </section>
+
+  <section class="grid">
+    <p class="marginal">The result, as the finding states it</p><div class="prose"><p class="lead">Asked the 148 everyday messages of <code>probe_reply.py</code> one at a time, greedy, in the plain chat frame, the shipped 260M (<code>corn_jr_260m_v4_ft_social8</code>, server.json's checkpoint) answers 123 coherently by a blind hand read against the plain 5M's 70 (read beside it, blind; the 5M's labels came out at 70 for the fourth time) — 11 of 12 on good news, 16 of 18 on bad, 17 of 18 small talk, 13 of 18 advice, 15 of 15 feelings, 12 of 12 plans — and is weakest on the short and vague ("Hmm.", "Maybe.", "Never mind.": 11 of 20, below the 5M's 14). On the swap test it prefers the fitting reply in 99-100% of pairs (margins 20.6 within a category and 26.1 across, against the 5M's 8.3 and 11.5). The 5M's coherence problem, which findings <a class="fref" href="/Corn-Jr-Public/finding/202.html">202</a>-<a class="fref" href="/Corn-Jr-Public/finding/207.html">207</a> could not move by shape, decoding or a matching lesson, is mostly absent at the size and reading that ship</p></div>
+    <p class="marginal">What it cost</p><div class="prose"><p class="cost">the reply read on the two checkpoints 14:39-14:41 on 2026-10-22 (90 s, contended), the swap test (seconds), the blind hand read of 296 replies ~10 min. ETA 10 min of card plus the read, actual ~2 plus ~10.</p></div>
+  </section>
+
+  
+
+  <section class="grid">
+    <div class="prose doc"><p><strong>The question</strong> (owner, 2026-10-22: "for me I was referring to just a one off — you ask him something and his reply is coherent to it. Have we achieved that?"). Every reply read today was on 5M research checkpoints; the shipped model had never been read on these messages.</p>
+<p><strong>The read</strong> (<code>evals/results/reply_260m__*</code>, <code>replyswap__2runs_*</code>):</p>
+<p>read                                    plain 5M (s1)   shipped 260M blind hand read (of 148)                70              123 good news / bad news                  7/12  7/18      11/12  16/18 small talk / about him                10/18  5/12     17/18  9/12 advice / feelings                     2/18  12/15     13/18  15/15 plans / opinions                      7/12  2/10      12/12  8/10 short and vague / odd                 14/20  4/13     11/20  11/13 swap test, within: right / margin       0.91 / 8.27     0.99 / 20.63 swap test, across: right / margin       0.96 / 11.48    1.00 / 26.10 lm narrative / web / conversational     0.4864/0.9512/0.5579   0.2759/0.6315/0.2988 knowing, matcher: admits unk / answerable  7 / 11        7 / 3 distinct three-word openings (of 148)   88              96</p>
+<p><strong>Caveats.</strong> The plain frame (<code>&lt;|user|&gt;message\n&lt;|say|&gt;</code>), not the app's full prompt with its date and tool declarations — in the app some of these messages are routed to tools or the runtime first; greedy, one reader, one checkpoint (the shipped one; there is no second seed of it).</p>
+<h3 id="read-by-hand">Read by hand</h3>
+<p>The 260M answers news with the right mood and a follow-up that uses the message: "Oh my gosh, congratulations! How are you feeling?" to a baby, "Oh no, that's not good. What are your symptoms?" to a cold, "I'm sorry to hear that. What was in it?" to a lost wallet, "Well, you could try setting a timer for yourself" to procrastinating, "Well, it depends. What are your goals?" to the job choice. Its failures are the 5M's habits, rarer: "That's great! I'm sure you'll do great." to a raffle win, "I'm sorry, I didn't mean to" to "Wait, what?", "You're not going to be able to do it." to "I don't know.", a dispatcher's "we'll send someone over right away" to a spider in the bath, and a stock opening ("I'm sorry to hear that", 9 times) where the 5M's was "What? Why?". On the short and vague it most often misses: "It's about 5,000." to "Maybe.", "You're really good at it." to "Yeah, I guess."</p>
+<h3 id="what-it-licenses">What it licenses</h3>
+<ul><li><strong>The owner's one-off target is mostly met by the model that ships</strong>: about five replies in six answer the message. The 5M is not a picture of what he talks to; its coherence failures at 47% were a size-and-reading limit, and today's 5M arms were working well below where the shipped model already is.</li><li><strong>What is left at 260M is narrow and nameable</strong>: the short and vague message (11 of 20), a handful of stock lines, a misplaced role. Those are the items for the 1.0 corpus and for a reply read on every 1.0 candidate.</li><li><strong>The 5M stays the cheap place to test mechanisms</strong> — but a mechanism's value for coherence is read at the size that ships, or on the swap and reply reads at 20M and up.</li></ul>
+<p><strong>What it does not settle.</strong> The app's full prompt; multi-turn coherence (finding <a class="fref" href="/Corn-Jr-Public/finding/207.html">207</a>'s thread); any 1.0 checkpoint.</p></div>
+  </section>
+
+  <section class="grid refs">
+    <div class="body two-even">
+      <div>
+        <h2 class="small">It cites</h2>
+        <ul class="reflist"><li style="--c:var(--c5)"><a href="/Corn-Jr-Public/finding/202.html"><span class="fn">202</span>A shape built for small models cost language and taught only spelling</a></li><li style="--c:var(--c5)"><a href="/Corn-Jr-Public/finding/203.html"><span class="fn">203</span>His surprise flags unfamiliar names, not questions he cannot answer</a></li><li style="--c:var(--c5)"><a href="/Corn-Jr-Public/finding/204.html"><span class="fn">204</span>Running the same layers twice moves nothing measurable at 5M</a></li><li style="--c:var(--c5)"><a href="/Corn-Jr-Public/finding/205.html"><span class="fn">205</span>Choosing replies by what the message raises varies them, not their fit</a></li><li style="--c:var(--c5)"><a href="/Corn-Jr-Public/finding/206.html"><span class="fn">206</span>A matching lesson at a tenth of conversation reading did not take</a></li><li style="--c:var(--c5)"><a href="/Corn-Jr-Public/finding/207.html"><span class="fn">207</span>The pairs he fails are mostly decidable: he loses the conversation&#39;s thread</a></li></ul>
+        
+      </div>
+      <div>
+        <h2 class="small">Cited by</h2>
+        <ul class="reflist"><li style="--c:var(--c5)"><a href="/Corn-Jr-Public/finding/209.html"><span class="fn">209</span>The small model answers half of even its own style&#39;s openers</a></li><li style="--c:var(--c5)"><a href="/Corn-Jr-Public/finding/211.html"><span class="fn">211</span>Real everyday dialogue moves him toward how the owner talks</a></li><li style="--c:var(--c5)"><a href="/Corn-Jr-Public/finding/213.html"><span class="fn">213</span>A small dose matching how the owner talks moves him furthest</a></li><li style="--c:var(--c5)"><a href="/Corn-Jr-Public/finding/214.html"><span class="fn">214</span>A reply judge beside the 5M moves his replies level</a></li><li style="--c:var(--c5)"><a href="/Corn-Jr-Public/finding/219.html"><span class="fn">219</span>A 5M reading only conversation answers far more messages</a></li><li style="--c:var(--c5)"><a href="/Corn-Jr-Public/finding/220.html"><span class="fn">220</span>Judging his own drafts does not help; plain beam search might</a></li><li style="--c:var(--c5)"><a href="/Corn-Jr-Public/finding/238.html"><span class="fn">238</span>He writes worst exactly where he reads worst, message by message</a></li></ul>
+        
+      </div>
+    </div>
+    <p class="body source">docs/findings/208-the-shipped-260m-answers-123-of-148-one-off-messages-coherently-against-the-5m-s-70-and-recognises-the-fitting-reply-in-99-of-swapped-pairs-the-gap-is-size-and-reading.md</p>
+  </section>
+</article>
+
+  
+<footer class="turn">
+  <div><span class="sc">previous</span><a href="/Corn-Jr-Public/finding/207.html">207 · The pairs he fails are mostly decidable: he loses the conversation&#39;s thread</a></div>
+  <div class="r"><span class="sc">next</span><a href="/Corn-Jr-Public/finding/209.html">209 · The small model answers half of even its own style&#39;s openers</a></div>
+  <p class="keys"><kbd>←</kbd> <kbd>→</kbd> turn the page · <kbd>/</kbd> find</p>
+</footer>
+<p class="bynumber">Previous and next in <a href="/Corn-Jr-Public/thread/reply-judge.html">The reply judge</a>. By number:
+  <a href="/Corn-Jr-Public/finding/207.html">207</a> · <a href="/Corn-Jr-Public/finding/209.html">209</a></p>
+
+</div>
+</body>
+</html>

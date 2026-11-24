@@ -1,0 +1,106 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>48 · Four bugs let decoding escape the call grammar mid-call · Corn-Jr</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600&family=IBM+Plex+Mono:wght@400;500&family=Spectral:ital,wght@0,400;0,500;0,600;1,400&family=Spectral+SC:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/Corn-Jr-Public/static/library.css">
+<script defer src="/Corn-Jr-Public/static/library.js"></script>
+<script type="speculationrules">
+{"prerender": [{"where": {"and": [{"href_matches": "/Corn-Jr-Public/*"}, {"not": {"href_matches": "/Corn-Jr-Public/random.html"}}, {"not": {"href_matches": "/Corn-Jr-Public/static/*"}}]}, "eagerness": "moderate"}]}
+</script>
+
+</head>
+<body>
+<div class="page">
+  <header class="running">
+    <a class="book" href="/Corn-Jr-Public/">Corn-Jr · The Record</a>
+    <nav>
+      <a href="/Corn-Jr-Public/" data-key="shelf">Shelf</a><a href="/Corn-Jr-Public/findings.html" data-key="findings" class="here">Findings</a><a href="/Corn-Jr-Public/doc/VISION.html" data-key="VISION">Vision</a><a href="/Corn-Jr-Public/doc/GLOSSARY.html" data-key="GLOSSARY">Glossary</a>
+      <a href="https://github.com/csheehan18/Corn-Jr-Public">Source</a>
+    </nav>
+  </header>
+  
+
+<article class="sheet" style="--c:var(--c1)">
+  <div class="progress" aria-hidden="true"></div>
+  <section class="grid chapter-open finding-open">
+    <a class="tab" href="/Corn-Jr-Public/thread/tool-calls.html" title="Tool calls and copying"><small>Part</small><span>I</span></a>
+    <p class="cn">48</p>
+    <p class="partline"><a href="/Corn-Jr-Public/thread/tool-calls.html">Tool calls and copying</a> · 22 August 2026</p>
+    <h1>Four bugs let decoding escape the call grammar mid-call</h1>
+  </section>
+
+  <section class="grid">
+    <p class="marginal">The result, as the finding states it</p><div class="prose"><p class="lead">Four ways the constraint could not finish a call, and the mask that costs most when it forbids least</p></div>
+    <p class="marginal">What it cost</p><div class="prose"><p class="cost">0 s of new scoring on record; it reads 1 card scored for an earlier finding (<code>corn_jr_260m</code>). Backfilled 2026-09-26 from the cards' <code>seconds</code>; training and probe time were never recorded, so this is a floor.</p></div>
+  </section>
+
+  
+
+  <section class="grid">
+    <div class="prose doc"><p>Found 2026-08-22 while building the first instrument that holds a <em>conversation</em> with a running instance rather than scoring one turn at a time. None of the four is a model failure. All four were invisible to <code>evals/</code>, to <code>scripts/check_grammar.py</code> as it then stood, and to <code>harness/checkup.py</code> — and together they were costing the 260M roughly half of its routing.</p>
+<p>The instrument is <code>harness/converse.py</code>; what it found on its first run had nothing to do with the question it was built to ask.</p>
+<h3 id="the-class-a-grammar-that-dead-ends-is-worse-than-no-grammar">The class: a grammar that dead-ends is worse than no grammar</h3>
+<p><code>corn/grammar.py</code> masks every token that cannot lead to a call <code>validate_call</code> would accept. When the mask comes back empty it <em>releases</em> — the constraint disarms mid-object and an unconstrained model finishes the call. That path was written as a safety valve for something that should never happen. It turned out to be reachable four ways, and every one of them ends the same: <code>not_json</code>, nothing executes, and the turn is lost with the transcript looking like the model's fault.</p>
+<div class="tablewrap"><table><thead><tr><th>#</th><th>where</th><th>what reached it</th><th>receipt at 260M</th></tr></thead><tbody><tr><td>1</td><td>a key opened for a tool with no parameters</td><td><code>{&quot;</code> is one BPE merge</td><td><code>{&quot;name&quot;: &quot;decline&quot;, &quot;arguments&quot; : {&quot;declare&quot;, &quot;declare&quot;, …</code></td></tr><tr><td>2</td><td>unbounded insignificant whitespace</td><td>the mask's best legal token is a space, forever</td><td><code>{&quot;name&quot;: &quot;place_call&quot;, &quot;arguments&quot;  :</code> and 200 tokens of nothing</td></tr><tr><td>3</td><td>a <code>\uXXXX</code> escape in a copy slot</td><td>the codepoint is unknown until the fourth digit</td><td><code>{&quot;contact&quot;: &quot;: က000000000…</code></td></tr><tr><td>4</td><td>generation past the closing brace</td><td>the grammar disarms at the close and nothing stops the model</td><td>a valid <code>place_call</code> followed by 36 more <code>}</code></td></tr></tbody></table></div>
+<p><strong>The second is the one worth internalising.</strong> At temperature 0 an unbounded legal token that does not advance the machine is an <em>absorbing state</em>: the model wants a byte the grammar forbids, <code>_mask</code> leaves it the best legal token instead, a space is among the most probable tokens in any vocabulary, and nothing about the context changes when it is taken — so the next step re-runs the same argmax over the same mask and takes a space again. The constraint never releases and never errors. It quietly spends the whole budget on whitespace. Two spaces before a colon, in an emission no generator ever wrote, is the only trace it leaves.</p>
+<p><strong>The first was created by a corpus decision, one arm earlier.</strong> <code>decline</code> has <code>params=()</code>, and the branch that lets a zero-parameter tool close on <code>{}</code> carried the comment "No tool in the registry is like this today". WS-E made that false and nobody re-read the comment. So the tool the forty-second finding added was <strong>100% broken at runtime whenever the model reached for it through <code>{&quot;</code></strong> — and WS-E made the model reach for it constantly.</p>
+<p><strong>The third could not simply be banned.</strong> 49 calls in <code>data/raw/tools.txt</code> use a <code>\u</code> escape, all of them in <code>place_call.contact</code> or <code>send_text.contact</code>, all of them accented names like <code>Ben Traoré</code>. Refusing the escape would refuse the corpus and, worse, refuse a real contact. It is pruned per digit against the characters the source could actually continue with — at most as many candidates as there are occurrences of the value so far, against the 65,536 a codepoint could otherwise be.</p>
+<p>The general property is now a guard rather than four fixes: <code>scripts/check_grammar.py</code> group 8 walks one canonical call per registry tool and asserts that <strong>no reachable state has an empty legal-byte set</strong>.</p>
+<h3 id="what-it-was-worth-measured-on-the-same-sixteen-turns">What it was worth, measured on the same sixteen turns</h3>
+<p><code>harness/checkup.py</code> against <code>checkpoints/corn_jr_260m</code>, <code>--multi</code>, temperature 0, the same cases throughout:</p>
+<div class="tablewrap"><table><thead><tr><th>row</th><th>before</th><th>after</th></tr></thead><tbody><tr><td>routed</td><td>4/16</td><td>5/16</td></tr><tr><td>executed</td><td>4/11</td><td><strong>6/11</strong></td></tr><tr><td>spoke_from_tool</td><td>4/4</td><td><strong>10/10</strong></td></tr><tr><td>malformed calls</td><td><strong>7</strong></td><td><strong>0</strong></td></tr></tbody></table></div>
+<p><code>routed</code> barely moves, and that is the honest headline: the fixes did not teach him to route. They stopped the runtime from destroying calls he had already written correctly. What they bought is that <em>every</em> call now completes and executes — and, more importantly, that the next measurement is readable at all. With seven of sixteen turns dying inside the constraint, nothing about the model's actual policy could be seen.</p>
+<h3 id="a-fifth-defect-in-the-instrument-rather-than-the-runtime">A fifth defect, in the instrument rather than the runtime</h3>
+<p><code>harness/checkup.py</code> did not reset the session between cases. Against a <code>--multi</code> instance every case after the first opened on the tail of the one before — twenty unrelated sentences stacked into one conversation, scored as though each stood alone. The rows still printed. Median turn time fell from 680 ms to 341 ms once the reset went in, which is the size of the context that had been silently accumulating.</p>
+<p>It did <strong>not</strong> move <code>routed</code>, so no published number was wrong because of it. That is luck, not design.</p>
+<h3 id="the-mask-costs-the-most-exactly-when-it-forbids-the-least">The mask costs the most exactly when it forbids the least</h3>
+<p>Profiled on <code>bpe8k</code>, 8,192 tokens, one mask build per state:</p>
+<div class="tablewrap"><table><thead><tr><th>state</th><th>tokens allowed</th><th>ms to build</th></tr></thead><tbody><tr><td><code>name_body</code></td><td>1</td><td>2.6</td></tr><tr><td>copy slot, typed</td><td>2</td><td>0.7</td></tr><tr><td><code>args_open</code></td><td>4</td><td>38.6</td></tr><tr><td>copy slot, empty</td><td>47</td><td>44.5</td></tr><tr><td><strong>unconstrained string body</strong></td><td><strong>8,147</strong></td><td><strong>174–230</strong></td></tr></tbody></table></div>
+<p>The general path discovers that almost everything is legal by calling <code>_allows</code> on almost everything — stepping every byte of every token, in Python. And the cache key carries <code>copy.source</code>, which <code>set_source</code> re-points every round with a growing context, so the work is redone from scratch for every round of every turn.</p>
+<p>Two rounds of a <code>save_note</code> turn were spending ~400 ms of a 612 ms turn there. <strong>It was never the model.</strong> VISION §3's 500 ms budget was being missed by the constraint's bookkeeping.</p>
+<p>The fix is that legality in that state is a property of the <em>token</em>: every byte from 0x20 up that is not a quote or a backslash keeps the machine in <code>arg_str</code>, whatever the state's history and whatever the source. 8,134 of 8,192 tokens qualify and the set is built once, in the constructor.</p>
+<div class="tablewrap"><table><thead><tr><th>state</th><th>before</th><th>after</th><th>speedup</th></tr></thead><tbody><tr><td>empty text body</td><td>230 ms</td><td>0.7 ms</td><td><strong>308×</strong></td></tr><tr><td>mid query body</td><td>212 ms</td><td>0.8 ms</td><td><strong>265×</strong></td></tr><tr><td>mid text body</td><td>174 ms</td><td>3.6 ms</td><td><strong>49×</strong></td></tr><tr><td>copy slot, <code>args_open</code>, <code>name_body</code></td><td>—</td><td>unchanged</td><td>1×</td></tr></tbody></table></div>
+<p><strong>It is a fast path and not an approximation</strong>, and the 51 remaining tokens are why: a quote can close the string and the rest of the token can walk anywhere after that, possibly into a copy-constrained slot, and only the general path knows whether that is legal. <code>check_grammar</code> group 7b differences the two paths token-for-token across eight states — including two copy-slot states that must <em>not</em> take the fast path — and all eight agree exactly.</p>
+<h3 id="two-more-from-the-same-run">Two more, from the same run</h3>
+<p><strong>The copy source included the prompt.</strong> Gap 3's rule is that a contact must be a span of something <em>actually said</em>; <code>set_source(ctx)</code> passed the whole context, and <code>ctx</code> opens with the tool declaration. So <code>&quot;dial a contact&quot;</code>, <code>&quot;send an SMS to a contact&quot;</code> and <code>&quot;place_call&quot;</code> were all legal contact names — and two of them reached a user: <code>morning</code> produced <code>place_call{&quot;contact&quot;: &quot;dial a contact&quot;}</code> and the reply <em>"I don't have a contact called dial a contact."</em> The head is now excluded and the conversation is not, because the clarify path depends on copying a name out of an earlier observation.</p>
+<p><strong><code>resolve_date</code> asked a question it could not read the answer to.</strong> Two of the seven <code>RANGE_EXPRESSIONS</code> clarify with "Saturday or Sunday?" and three more with "Which day last week?", and a bare weekday matched no branch in the resolver — every weekday form requires a lead word. Live, that produced a correct clarify, a refused answer, and a retry with an ordinal that resolved to the wrong day and was read out with confidence.</p>
+<p>The first fix for it was also wrong, and measuring it is what caught that: resolving a bare weekday to its most recent occurrence is right for the two weekend questions and lands a week or two outside the span on four of the others — trading <code>unrecognised</code> for a confidently wrong date, which is the one trade that tool's docstring forbids. The resolver is stateless and structurally cannot answer "Saturday"; the span is now remembered in <code>corn/agent.py</code>, where a process can hold state, and dropped as soon as it is used. Six of the seven questions are answerable; <code>last month</code> still refuses, correctly, because a weekday name has five candidates in a month.</p>
+<p><code>scripts/check_temporal.py</code> holds the general property — every clarify question is answerable — across a year of anchors rather than one, because the broken fix passed at a single anchor.</p>
+<h3 id="what-this-changes-about-how-the-project-is-measured">What this changes about how the project is measured</h3>
+<p>Every one of these was found by <strong>running the assembled thing and reading the transcript</strong>, not by a scorecard. <code>evals/</code> scores a prompt against a gold string and stops before the observation; it cannot see a constraint that dead-ends because it never decodes that far. <code>check_grammar</code> asserted that the corpus is accepted and that malformed calls are refused — both true throughout, and neither of them the question. The gap was that nothing asserted the machine could always <em>finish</em>.</p>
+<p>The lesson is the forty-sixth finding's, one level up: a guard that reads the generator cannot see a stale artefact, and a guard that reads only accept/reject cannot see a machine that accepts and then cannot proceed.</p></div>
+  </section>
+
+  <section class="grid refs">
+    <div class="body two-even">
+      <div>
+        <h2 class="small">It cites</h2>
+        <p class="aside">No other finding by number.</p>
+      </div>
+      <div>
+        <h2 class="small">Cited by</h2>
+        <ul class="reflist"><li style="--c:var(--c1)"><a href="/Corn-Jr-Public/finding/51.html"><span class="fn">51</span>At 260M the date header helps where at 30M it hurt</a></li></ul>
+        
+      </div>
+    </div>
+    <p class="body source">docs/findings/48-four-ways-the-constraint-could-not-finish-a-call-and-the-mask-that-costs-most-when-it-forbids-least.md</p>
+  </section>
+</article>
+
+  
+<footer class="turn">
+  <div><span class="sc">previous</span><a href="/Corn-Jr-Public/finding/33.html">33 · Copying depends on the tool output&#39;s shape and nothing else</a></div>
+  <div class="r"><span class="sc">next</span><a href="/Corn-Jr-Public/finding/50.html">50 · Invented facts make him copy; a real name brings memory back</a></div>
+  <p class="keys"><kbd>←</kbd> <kbd>→</kbd> turn the page · <kbd>/</kbd> find</p>
+</footer>
+<p class="bynumber">Previous and next in <a href="/Corn-Jr-Public/thread/tool-calls.html">Tool calls and copying</a>. By number:
+  <a href="/Corn-Jr-Public/finding/47.html">47</a> · <a href="/Corn-Jr-Public/finding/49.html">49</a></p>
+
+</div>
+</body>
+</html>

@@ -1,0 +1,94 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>9 · BPE&#39;s compression becomes a better model; a fifth comes from context · Corn-Jr</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600&family=IBM+Plex+Mono:wght@400;500&family=Spectral:ital,wght@0,400;0,500;0,600;1,400&family=Spectral+SC:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/Corn-Jr-Public/static/library.css">
+<script defer src="/Corn-Jr-Public/static/library.js"></script>
+<script type="speculationrules">
+{"prerender": [{"where": {"and": [{"href_matches": "/Corn-Jr-Public/*"}, {"not": {"href_matches": "/Corn-Jr-Public/random.html"}}, {"not": {"href_matches": "/Corn-Jr-Public/static/*"}}]}, "eagerness": "moderate"}]}
+</script>
+
+</head>
+<body>
+<div class="page">
+  <header class="running">
+    <a class="book" href="/Corn-Jr-Public/">Corn-Jr · The Record</a>
+    <nav>
+      <a href="/Corn-Jr-Public/" data-key="shelf">Shelf</a><a href="/Corn-Jr-Public/findings.html" data-key="findings" class="here">Findings</a><a href="/Corn-Jr-Public/doc/VISION.html" data-key="VISION">Vision</a><a href="/Corn-Jr-Public/doc/GLOSSARY.html" data-key="GLOSSARY">Glossary</a>
+      <a href="https://github.com/csheehan18/Corn-Jr-Public">Source</a>
+    </nav>
+  </header>
+  
+
+<article class="sheet" style="--c:var(--c1)">
+  <div class="progress" aria-hidden="true"></div>
+  <section class="grid chapter-open finding-open">
+    <a class="tab" href="/Corn-Jr-Public/thread/corpus-mix.html" title="The corpus mix"><small>Part</small><span>I</span></a>
+    <p class="cn">9</p>
+    <p class="partline"><a href="/Corn-Jr-Public/thread/corpus-mix.html">The corpus mix</a> · 17 August 2026</p>
+    <h1>BPE&#39;s compression becomes a better model; a fifth comes from context</h1>
+  </section>
+
+  <section class="grid">
+    <p class="marginal">The result, as the finding states it</p><div class="prose"><p class="lead">The compression converts, and about a fifth of it is context</p></div>
+    <p class="marginal">What it cost</p><div class="prose"><p class="cost">4.0 min of scoring on the 1 card first cited here (<code>nano20m_web_bpe</code>); it also reads 2 cards scored for an earlier finding (<code>nano20m</code>, <code>nano20m_web</code>). Backfilled 2026-09-26 from the cards' <code>seconds</code>; training and probe time were never recorded, so this is a floor.</p></div>
+  </section>
+
+  
+
+  <section class="grid">
+    <div class="prose doc"><p>The eighth finding measured that BPE 8k reads 3.8x more text per token and stopped there, because no chars/token table can say whether a model trained on those tokens is any good. <code>nano20m_web_bpe</code> is that run, built to make the comparison as narrow as possible: <code>data/mix_web_bpe</code> is <code>data/mix_web</code>'s <strong>bytes exactly</strong> — the same 200M/255M/45M prefixes of the same three files — so both arms read identical text, 0.9879 of a pass each.</p>
+<div class="tablewrap"><table><thead><tr><th>row</th><th><code>nano20m_web</code> (byte)</th><th><code>nano20m_web_bpe</code></th><th></th></tr></thead><tbody><tr><td><code>narrative</code> nats/byte</td><td>0.4174</td><td><strong>0.3666</strong></td><td>−12.2%</td></tr><tr><td><code>temporal</code> nats/byte</td><td>0.1010</td><td><strong>0.0967</strong></td><td>−4.3%</td></tr><tr><td><code>web</code> nats/byte</td><td>0.9434</td><td><strong>0.9104</strong></td><td>−3.5%</td></tr><tr><td><code>temporal.route</code></td><td>398/400</td><td>398/400</td><td></td></tr><tr><td><code>temporal.copy</code></td><td>353/353</td><td><strong>353/353</strong></td><td></td></tr><tr><td><code>refusal.clarify</code></td><td>47/47</td><td>47/47</td><td></td></tr><tr><td><code>refusal.no_guess</code></td><td>47/47</td><td>47/47</td><td></td></tr><tr><td>wall clock</td><td>2,885.9s</td><td><strong>992.4s</strong></td><td>2.9x</td></tr><tr><td>params</td><td>25.6M</td><td>29.6M</td><td>+16%</td></tr></tbody></table></div>
+<p><strong>Better on every language-modelling row, in a third of the time, on the same text.</strong> And 0.3666 narrative beats not just the web-bearing byte run but <code>nano20m</code> itself (0.3974), which saw nothing but TinyStories — so the seventh finding's prose regression from adding web text is more than repaid by changing the tokenizer.</p>
+<h4 id="about-a-fifth-of-that-is-more-context-not-better-tokenizatio">About a fifth of that is more context, not better tokenization</h4>
+<p><code>corn/evals.py</code> guarantees every scored token <code>WARMUP = 128</code> <strong>tokens</strong> of context. That was the right constant when there was one tokenizer and it is a subtle asymmetry now that there are two: 128 bpe8k tokens is ~490 bytes of context where 128 byte tokens is 128 bytes. §7 chose nats/<em>byte</em> precisely so results survive a tokenizer swap, and then fixed the context in tokens, which partly undoes it.</p>
+<p>That is measurable rather than arguable. Re-scoring the byte checkpoint at the warmup that gives it the same number of <em>bytes</em> of context the BPE arm had:</p>
+<div class="tablewrap"><table><thead><tr><th>byte arm, warmup</th><th>128</th><th>256</th><th>384</th><th>480</th><th>bpe8k @128 tok</th><th>bytes it had</th></tr></thead><tbody><tr><td><code>narrative</code></td><td>0.4174</td><td>0.4103</td><td>0.4077</td><td>0.4072</td><td><strong>0.3666</strong></td><td>~515</td></tr><tr><td><code>temporal</code></td><td>0.1010</td><td>0.0974</td><td>0.0969</td><td>0.0966</td><td><strong>0.0967</strong></td><td>~382</td></tr><tr><td><code>web</code></td><td>0.9434</td><td>0.9338</td><td>0.9287</td><td>0.9263</td><td><strong>0.9104</strong></td><td>~486</td></tr></tbody></table></div>
+<p>At matched byte-context the gains become <strong>narrative −10.0%, web −1.7%, and temporal nothing at all</strong> — 0.0967 against 0.0969. The entire temporal improvement was context, which is unsurprising once stated: that slice is templated and already at 0.097 nats/byte, so there is almost no headroom for a vocabulary to find.</p>
+<p>Both framings are true and they answer different questions. At a fixed <code>block_size</code> of 512 a BPE model genuinely does attend over 3.8x more text, and that is a free benefit of the swap, not an artifact — the 12.2% is what you actually get. The 10.0% is what the tokenizer contributes with context held equal. The honest headline is that the compression converts, the largest single effect is on narrative, and the temporal row's apparent gain does not survive the control.</p>
+<h4 id="three-things-worth-recording">Three things worth recording</h4>
+<p><strong>The real speedup is 3.3x, not 3.8x.</strong> The BPE model trains at ~155k tok/s against byte level's 178–180k, because the embedding table adds 16% to the parameters and the output projection is 32x wider. Text throughput is 155k × 3.819 = <strong>592k chars/s against 179k</strong>, so 12% of the compression is handed back to the larger model. §1's wall-clock table should use 3.3x, not the raw compression ratio — and the giveback should shrink at 250M, where an 8k vocabulary is 4.2% of the model rather than 14.2%.</p>
+<p><strong><code>temporal.copy</code> survived being retokenized</strong>, 353/353, which is the third distribution it has now held under and the first where the format itself changed representation. The seven markers being reserved atomic ids is the design intended to protect exactly this, and it is the reason to keep paying for it.</p>
+<p><strong>Checkpoint selection had nothing to disagree about.</strong> Best-val and final were both iter 5,237 — the mean-of-logs score improved monotonically to the end — so <code>ckpt.pt</code> and <code>last.pt</code> are the same 52 tensors. That is a second data point for the rule and a benign one: it cannot distinguish a good rule from a lucky one, and the evidence base is still essentially the one run from the seventh finding.</p>
+<p><strong>What this does not settle:</strong> it is 25M parameters, where an 8k vocabulary costs 14.2% of the model against 4.2% at the 250M shape — so the tax is 3.4x heavier here and the result understates the Phase 2 case. And the arms differ in optimizer steps (5,237 against 20,000) as well as tokenizer, because holding both the text and the step count fixed is not possible when the token count moves by 3.8x. Exposure to text is what was held equal, which is the property §1's argument is about.</p>
+<h4 id="the-decontamination-check-cannot-see-a-bpe-corpus-fixed">~~The decontamination check cannot see a BPE corpus~~ — fixed</h4>
+<p><code>corn.evals</code> scanned the training stream for eval-text probes as <strong>bytes</strong>, so on a non-byte corpus it returned <code>skipped -- non-byte tokenizer</code> for every text. It said so rather than claiming <code>clean</code>, which is the right failure mode and was clearly anticipated — but §7's decontamination is one of this project's two durable guarantees, and it had just gone silent on every corpus the project intends to build.</p>
+<p>This run was checkable only by an accident of construction: <code>reserve_tail</code> is denominated in bytes and so is tokenizer-independent, and <code>data/mix_web_bpe</code> read byte-identical prefixes to <code>data/mix_web</code>, so pointing the check at that corpus is a statement about the same bytes. No future corpus will have a byte-level twin.</p>
+<p><strong>The fix is to decode the stream rather than encode the probes</strong>, which is the opposite of the obvious approach and the reason it works. Encoding a probe and searching token space looks cheaper and is wrong: BPE is context-dependent at pre-token boundaries, so a probe cut at an arbitrary offset and encoded on its own need not produce the tokens that same text produced inside the corpus — and the search would miss real leaks while looking like it worked. Bytes are bytes in every vocabulary. <code>scan_stream</code> now turns each chunk back into bytes through a new <code>Tokenizer.decode_bytes</code>, and every probe, every population, and every check guarding them is untouched.</p>
+<p><code>decode_bytes</code> rather than <code>decode</code> because merges are over bytes, so a token can hold a <em>fragment</em> of a multi-byte character — decoding a slice of a stream through <code>str</code> puts U+FFFD where the character was cut and the bytes stop matching. <code>check_evals.py</code> constructs that case rather than hoping for it.</p>
+<p>Two things had to be proved and are: on a planted leak, the BPE path and the byte path find <strong>identical probes</strong> (15 of 16 in train, 1 in val, both tokenizers), and <code>data/mix_web_bpe</code> reads <strong>clean on all three texts</strong> scanned directly, agreeing with the indirect evidence including the 6 format-only hits on temporal. <code>contamination</code> also now decodes each <code>.bin</code> once for all texts rather than once per text, which at 130M tokens is the difference between seconds and minutes. A corpus whose vocabulary is no longer on disk reads <code>unavailable</code>, never <code>clean</code> — the same principle as the missing-parent case in the sixth finding.</p>
+<p>63 checks across ten groups, up from 48 across nine — 86 across eleven once the tenth finding added the tool rows. <code>HARNESS_VERSION</code> stays 1: no scored quantity changed, and <code>nano20m_web</code> re-scored identical across the fix.</p></div>
+  </section>
+
+  <section class="grid refs">
+    <div class="body two-even">
+      <div>
+        <h2 class="small">It cites</h2>
+        <p class="aside">No other finding by number.</p>
+      </div>
+      <div>
+        <h2 class="small">Cited by</h2>
+        <p class="aside">No later finding yet.</p>
+      </div>
+    </div>
+    <p class="body source">docs/findings/09-the-compression-converts-and-about-a-fifth-of-it-is-context.md</p>
+  </section>
+</article>
+
+  
+<footer class="turn">
+  <div><span class="sc">previous</span><a href="/Corn-Jr-Public/finding/8.html">8 · An 8k BPE tokenizer reads 3.8x more text per token</a></div>
+  <div class="r"><span class="sc">next</span><a href="/Corn-Jr-Public/finding/15.html">15 · The two measured data shares were 4 to 25 times too large</a></div>
+  <p class="keys"><kbd>←</kbd> <kbd>→</kbd> turn the page · <kbd>/</kbd> find</p>
+</footer>
+<p class="bynumber">Previous and next in <a href="/Corn-Jr-Public/thread/corpus-mix.html">The corpus mix</a>. By number:
+  <a href="/Corn-Jr-Public/finding/8.html">8</a> · <a href="/Corn-Jr-Public/finding/10.html">10</a></p>
+
+</div>
+</body>
+</html>

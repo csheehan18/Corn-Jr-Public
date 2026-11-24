@@ -1,0 +1,84 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>212 · People asking an assistant fits the owner best; the answers do not · Corn-Jr</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600&family=IBM+Plex+Mono:wght@400;500&family=Spectral:ital,wght@0,400;0,500;0,600;1,400&family=Spectral+SC:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/Corn-Jr-Public/static/library.css">
+<script defer src="/Corn-Jr-Public/static/library.js"></script>
+<script type="speculationrules">
+{"prerender": [{"where": {"and": [{"href_matches": "/Corn-Jr-Public/*"}, {"not": {"href_matches": "/Corn-Jr-Public/random.html"}}, {"not": {"href_matches": "/Corn-Jr-Public/static/*"}}]}, "eagerness": "moderate"}]}
+</script>
+
+</head>
+<body>
+<div class="page">
+  <header class="running">
+    <a class="book" href="/Corn-Jr-Public/">Corn-Jr · The Record</a>
+    <nav>
+      <a href="/Corn-Jr-Public/" data-key="shelf">Shelf</a><a href="/Corn-Jr-Public/findings.html" data-key="findings" class="here">Findings</a><a href="/Corn-Jr-Public/doc/VISION.html" data-key="VISION">Vision</a><a href="/Corn-Jr-Public/doc/GLOSSARY.html" data-key="GLOSSARY">Glossary</a>
+      <a href="https://github.com/csheehan18/Corn-Jr-Public">Source</a>
+    </nav>
+  </header>
+  
+
+<article class="sheet" style="--c:var(--c5)">
+  <div class="progress" aria-hidden="true"></div>
+  <section class="grid chapter-open finding-open">
+    <a class="tab" href="/Corn-Jr-Public/thread/reply-judge.html" title="The reply judge"><small>Part</small><span>V</span></a>
+    <p class="cn">212</p>
+    <p class="partline"><a href="/Corn-Jr-Public/thread/reply-judge.html">The reply judge</a> · 22 October 2026</p>
+    <h1>People asking an assistant fits the owner best; the answers do not</h1>
+  </section>
+
+  <section class="grid">
+    <p class="marginal">The result, as the finding states it</p><div class="prose"><p class="lead">After the owner kept Apache 2.0 for the weights and left the non-commercial EmpatheticDialogues out (2026-10-22), two permissively licensed real-dialogue sources were read the same way as finding <a class="fref" href="/Corn-Jr-Public/finding/210.html">210</a>. OpenAssistant OASST1 (Apache 2.0, human-written; English: 15,979 prompts and 25,326 replies, 3.6M words) fits the owner's own typed messages best of any source read — bigram perplexity 426 against Taskmaster's 648, EmpatheticDialogues' 718 and SODA's 938 — because its prompts are people asking an assistant things, which is how he writes to Corn-Jr. Its replies are the problem: median 93 words, list-heavy and encyclopedic, some in a model's voice ("As a language model AI..."), one confidently wrong. Google's Taskmaster (CC BY 4.0, verified in the official README) is short task talk ("I need a seafood place.", "Make it a medium.") but narrow and the most formulaic source read (perplexity 55 on its own held-out messages, under SODA's 86)</p></div>
+    <p class="marginal">What it cost</p><div class="prose"><p class="cost">licence checks, downloads (34 MB, 66 MB, 37 MB, 21 MB to <code>F:/corn-jr-data/convcand/</code>), the read (<code>scripts/probe_conv_sources.py</code>, <code>scripts/probe_owner_register.py</code>) and the hand read of 40 pairs, 16:12-16:30 on 2026-10-22. No card. ETA 30 min, actual ~18.</p></div>
+  </section>
+
+  
+
+  <section class="grid">
+    <div class="prose doc"><p><strong>The question</strong> (owner, 2026-10-22: route (a) — keep Apache, leave ED out; find a permissive source). Finding <a class="fref" href="/Corn-Jr-Public/finding/210.html">210</a>: the owner writes to Corn-Jr as to an assistant — 69 messages, median 6 words, 0.38 short, 0.38 questions, 0.06 first person (counts only).</p>
+<p><strong>Licences.</strong> OASST1: Apache 2.0 on the HF dataset card, no message flagged synthetic in the ready set. Taskmaster: "made available under the Creative Commons Attribution 4.0 License" — Google's README, the same terms as SODA. PersonaChat: no licence found, not read.</p>
+<h3 id="the-read-evals-results-conv-sources-read2-txt">The read (<code>evals/results/conv_sources__read2.txt</code>)</h3>
+<p>source   pairs     median words   &lt;=4 words   question   first person   ppl stand-in   ppl own   ppl owner (69, counts only) soda     408,399   16             0.03        0.31       0.66           180            86        938 ed       58,829    14             0.04        0.21       0.66           142            171       718 oasst    25,243    15             0.04        0.67       0.41           427            186       426 tm       352,784   8              0.21        0.34       0.32           379            55        648 (pec 1,099, subs 954, dclm 1,386 on the owner's messages, finding <a class="fref" href="/Corn-Jr-Public/finding/210.html">210</a>)</p>
+<h3 id="read-by-hand-20-pairs-each">Read by hand (20 pairs each)</h3>
+<ul><li><strong>OASST prompts</strong> are the owner's register: questions and requests to an assistant, typos kept ("What isbthe best programing language for 2023", "How can i Build myself", "Can I make it bigger?").</li><li><strong>OASST replies</strong> are another thing: median 93 words (37% are 60 or fewer), numbered lists, encyclopedic answers on chemistry, git and relativity, a model's voice in places, and a confident wrong fact (Satoshi Nakamoto as the century's most influential mathematician). Trained on, they teach reciting knowledge — against the north star (navigate, not know) and Corn-Jr's short replies.</li><li><strong>Taskmaster</strong> is short, real-sounding task talk — bookings, orders, car repair — with a fifth of its messages four words or fewer, but its domains are few and its phrasing repeats.</li></ul>
+<h3 id="what-it-licenses">What it licenses</h3>
+<ul><li><strong>OASST's prompt side is the closest text to the owner's own messages in any source read</strong>, under a licence the weights can carry. How to use it without its answers' habits is the open question: threads whose replies are short (37% of replies), or the prompts with replies he would write.</li><li><strong>Taskmaster at most as a small share</strong>, for short requests, under a cap: its repetition is a shortcut risk.</li><li><strong>A 5M arm is the next read</strong>, pre-registered like finding <a class="fref" href="/Corn-Jr-Public/finding/211.html">211</a>, on the same register gate (the owner's messages, counts only).</li></ul>
+<p><strong>What it does not settle.</strong> Whether short-reply OASST threads move his register; any size above 5M; the owner's register beyond 69 messages.</p></div>
+  </section>
+
+  <section class="grid refs">
+    <div class="body two-even">
+      <div>
+        <h2 class="small">It cites</h2>
+        <ul class="reflist"><li style="--c:var(--c5)"><a href="/Corn-Jr-Public/finding/210.html"><span class="fn">210</span>Real everyday dialogue fits the owner&#39;s messages best; Reddit worst</a></li><li style="--c:var(--c5)"><a href="/Corn-Jr-Public/finding/211.html"><span class="fn">211</span>Real everyday dialogue moves him toward how the owner talks</a></li></ul>
+        
+      </div>
+      <div>
+        <h2 class="small">Cited by</h2>
+        <ul class="reflist"><li style="--c:var(--c5)"><a href="/Corn-Jr-Public/finding/214.html"><span class="fn">214</span>A reply judge beside the 5M moves his replies level</a></li><li style="--c:var(--c5)"><a href="/Corn-Jr-Public/finding/219.html"><span class="fn">219</span>A 5M reading only conversation answers far more messages</a></li></ul>
+        
+      </div>
+    </div>
+    <p class="body source">docs/findings/212-of-permissive-sources-openassistant-fits-the-owners-own-messages-best-bigram-426-against-sodas-938-but-its-answers-are-long-and-encyclopedic-and-taskmaster-is-the-most-formulaic.md</p>
+  </section>
+</article>
+
+  
+<footer class="turn">
+  <div><span class="sc">previous</span><a href="/Corn-Jr-Public/finding/211.html">211 · Real everyday dialogue moves him toward how the owner talks</a></div>
+  <div class="r"><span class="sc">next</span><a href="/Corn-Jr-Public/finding/213.html">213 · A small dose matching how the owner talks moves him furthest</a></div>
+  <p class="keys"><kbd>←</kbd> <kbd>→</kbd> turn the page · <kbd>/</kbd> find</p>
+</footer>
+<p class="bynumber">Previous and next in <a href="/Corn-Jr-Public/thread/reply-judge.html">The reply judge</a>. By number:
+  <a href="/Corn-Jr-Public/finding/211.html">211</a> · <a href="/Corn-Jr-Public/finding/213.html">213</a></p>
+
+</div>
+</body>
+</html>

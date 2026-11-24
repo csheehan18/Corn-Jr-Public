@@ -1,0 +1,98 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>71 · Giving memory-lookup calls real results turns silence into recitation · Corn-Jr</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600&family=IBM+Plex+Mono:wght@400;500&family=Spectral:ital,wght@0,400;0,500;0,600;1,400&family=Spectral+SC:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/Corn-Jr-Public/static/library.css">
+<script defer src="/Corn-Jr-Public/static/library.js"></script>
+<script type="speculationrules">
+{"prerender": [{"where": {"and": [{"href_matches": "/Corn-Jr-Public/*"}, {"not": {"href_matches": "/Corn-Jr-Public/random.html"}}, {"not": {"href_matches": "/Corn-Jr-Public/static/*"}}]}, "eagerness": "moderate"}]}
+</script>
+
+</head>
+<body>
+<div class="page">
+  <header class="running">
+    <a class="book" href="/Corn-Jr-Public/">Corn-Jr · The Record</a>
+    <nav>
+      <a href="/Corn-Jr-Public/" data-key="shelf">Shelf</a><a href="/Corn-Jr-Public/findings.html" data-key="findings" class="here">Findings</a><a href="/Corn-Jr-Public/doc/VISION.html" data-key="VISION">Vision</a><a href="/Corn-Jr-Public/doc/GLOSSARY.html" data-key="GLOSSARY">Glossary</a>
+      <a href="https://github.com/csheehan18/Corn-Jr-Public">Source</a>
+    </nav>
+  </header>
+  
+
+<article class="sheet" style="--c:var(--c1)">
+  <div class="progress" aria-hidden="true"></div>
+  <section class="grid chapter-open finding-open">
+    <a class="tab" href="/Corn-Jr-Public/thread/tool-calls.html" title="Tool calls and copying"><small>Part</small><span>I</span></a>
+    <p class="cn">71</p>
+    <p class="partline"><a href="/Corn-Jr-Public/thread/tool-calls.html">Tool calls and copying</a> · 27 August 2026</p>
+    <h1>Giving memory-lookup calls real results turns silence into recitation</h1>
+  </section>
+
+  <section class="grid">
+    <p class="marginal">The result, as the finding states it</p><div class="prose"><p class="lead">Finishing the chain converts silence into recitation, and the hard zero that held at every size goes to 26 of 26</p></div>
+    <p class="marginal">What it cost</p><div class="prose"><p class="cost">8.5 min of scoring on the 2 cards first cited here (<code>nano20m_v1_daylog</code>, <code>nano20m_v1_daylog_seed2</code>); it also reads 1 card scored for an earlier finding (<code>nano20m_v1</code>). Backfilled 2026-09-26 from the cards' <code>seconds</code>; training and probe time were never recorded, so this is a floor.</p></div>
+  </section>
+
+  
+
+  <section class="grid">
+    <div class="prose doc"><p><code>nano20m_v1_daylog</code> and <code>nano20m_v1_daylog_seed2</code>, 2026-08-26. R5 of <code>docs/PLAN-P3-RULERS.md</code> — the one training run in that plan, pre-registered in <code>configs/mix_v1_daylog.py</code> on 2026-08-18 and never run until now. Two nano seeds, one source path changed, every weight identical, scored against the frozen <code>evals/</code> set. The control is <code>nano20m_v1</code> at four seeds.</p>
+<h3 id="what-the-arm-changes-and-it-is-one-line">What the arm changes, and it is one line</h3>
+<p>temporal   data/raw/temporal.txt  -&gt;  data/raw/temporal_daylog.txt</p>
+<p>The corpus contains <strong>90,293 <code>recall_day</code> calls and zero observations for any of them</strong> — 55% of the largest generated slice stops mid-chain, and no other slice carries one either. So the only thing the corpus had ever taught about the day log was how to <em>ask</em> for it, and <code>temporal.route</code> at 398/400 was scoring exactly that. <code>--daylog</code> finishes the chain: the tool answers and the model says the answer back.</p>
+<h3 id="the-hard-zero">The hard zero</h3>
+<p>row              260M (finding <a class="fref" href="/Corn-Jr-Public/finding/51.html">51</a>)   control, 4 seeds        arm, 2 seeds daylog.open           4/90            0, 9, 3, 0 / 90         25, 16 / 90 daylog.targeted       4/84            0, 7, 0, 0 / 84         12,  7 / 84 daylog.empty          0/26            0, 0, 0, 0 / 26        <strong>26, 26 / 26</strong></p>
+<p><strong><code>daylog.empty</code> has been 0/26 on every scorecard this project has ever written</strong> — 58 cards on disk carry the row, across nano and 260M, treated and untreated, and not one of them passed a single item. Both arm seeds score <strong>26 of 26</strong>. Finding <a class="fref" href="/Corn-Jr-Public/finding/51.html">51</a>'s sentence was "<code>daylog.empty</code> is a hard zero at every size this project has trained"; it was a corpus absence, and one file closes it completely.</p>
+<p><code>daylog.open</code> clears the control's four-seed range on both seeds (arm 16-25 against control 0-9). <code>daylog.targeted</code> does <strong>not</strong>: the arm's weaker seed reads 7/84 and the control's best seed also reads 7/84, so on the row that requires picking the <em>right</em> entry out of several, this arm is inside its own floor and cannot be said to have moved it.</p>
+<h3 id="the-failure-changed-species-exactly-as-the-config-predicted">The failure changed species, exactly as the config predicted</h3>
+<p>checkpoint                daylog.open failure vocabulary 260M (finding <a class="fref" href="/Corn-Jr-Public/finding/51.html">51</a>)         no_say 63, confabulated 23 control seed 1            empty 90 control seed 2            confabulated 81 arm seed 1                trained_topic 48, confabulated 17 arm seed 2                trained_topic 67, confabulated 7</p>
+<p><strong>Silence is gone.</strong> The untreated failure was an empty continuation — he emits the call, receives the observation, and says nothing — and there is not one such item on either arm seed. What replaced it is <code>trained_topic</code>: a well-formed read-back carrying a topic from the <strong>training</strong> pool instead of the one in the payload.</p>
+<p>got   "You got me to set a reminder to pay the gas bill, mid-morning." want  "That was the day you got me to set up the push develop."</p>
+<p>That is the limit <code>configs/mix_v1_daylog.py</code> pre-registered before the run, in those words: the slice carries 67 distinct topics over 132,628 entry uses — 1,980 uses each — and DATA.md §11 puts the failing regime at 2,096 uses per carrier. The prediction was that this corpus would teach the <em>shape</em> of a reply and not the reading of a topic out of a payload, that <code>trained_topic</code> would dominate if so, and that <strong>the fix is composing the topic space rather than abandoning the slice</strong>. All three hold. Confabulation — inventing a topic in neither pool — falls to 17 and 7.</p>
+<p>So the arm bought the half nothing taught (that a <code>&lt;|say|&gt;</code> follows a log at all, and that an empty day is said to be empty) and did not buy the half its own topic cardinality made unlearnable. Both halves were named in advance.</p>
+<h3 id="everything-pre-registered-as-holding-holds">Everything pre-registered as holding, holds</h3>
+<p>row                control, 4 seeds        arm, 2 seeds     pre-registered temporal.route     398, 398, 398, 400      397, 397         hold, floor 3 temporal.copy      353/353 x4              353, 353         hold, floor 1 schema.conform     189-193 / 200           193, 193         hold tool.selection     112-156 / 200           156, 164         hold tool.validity      157-175 / 181           169, 167         hold register.conv      78-81 / 200             86, 86           hold</p>
+<p><strong><code>temporal.route</code> holding is the informative one.</strong> The swap costs a <strong>46% cut in routing examples at equal tokens</strong> (the answered chain is longer: 91,613 transcripts against 164,263), and the config registered that as a confound in advance — a fall would not have been attributable to the day log. It did not fall. 397/400 on both seeds says routing is bought well below 121,318 examples, which is a supply fact worth more than the row it came from.</p>
+<p>One row sits outside its control range on one seed: <code>tool.copy</code> reads 92 and 100 of 120 against a control of 100, 100, 120, 114. The arm's second seed lands on the control's own minimum, and nothing in this swap touches the tool slice, so the honest reading is that four control seeds spanning 20 items is too wide a floor to call an 8-item difference with — the nineteenth and forty-third findings' lesson, arriving on a new row.</p>
+<p><strong><code>lm.temporal</code> is not comparable here and must not be quoted as a regression.</strong> It reads 0.0940-0.0973 on the control and 0.1267-0.1342 on the arm, because the arm is scored against a <em>different temporal text</em> — the answered chains are the file. A source swap moves its own <code>lm</code> row by construction.</p>
+<h3 id="what-it-settles-for-the-freeze">What it settles for the freeze</h3>
+<p><code>docs/PLAN-5B-SUPPLY.md</code> §7 listed daylog completion as the cheapest open question before <code>mix_v4_5b</code>, and it is now read rather than open: <strong>the line delivers a real behaviour at the share it already has</strong>, with the residue named and cheap (compose the topic space, <code>corn/daylog.py</code>'s only structural change, no new markers). What it does not settle is whether one file can carry both the sayvar and daylog repairs — they are one generator with two flags and that combination is still unmeasured — nor whether the line is worth its share, which was never this arm's question.</p>
+<h3 id="limits">Limits</h3>
+<p>Two seeds against a four-seed control, at nano. The 260M numbers in the first table are finding <a class="fref" href="/Corn-Jr-Public/finding/51.html">51</a>'s and are <strong>not</strong> a treated/untreated pair with this arm — they are the untreated baseline at a different size. <code>daylog.targeted</code> is inside its floor and is reported as such. And the arm's own topic pool is the thing its dominant failure is made of, so the next reading of these rows should come from a composed-topic slice rather than from another seed of this one.</p></div>
+  </section>
+
+  <section class="grid refs">
+    <div class="body two-even">
+      <div>
+        <h2 class="small">It cites</h2>
+        <ul class="reflist"><li style="--c:var(--c1)"><a href="/Corn-Jr-Public/finding/51.html"><span class="fn">51</span>At 260M the date header helps where at 30M it hurt</a></li></ul>
+        
+      </div>
+      <div>
+        <h2 class="small">Cited by</h2>
+        <ul class="reflist"><li style="--c:var(--c1)"><a href="/Corn-Jr-Public/finding/73.html"><span class="fn">73</span>Training both answers on one phrasing breaks the serve/decline trade-off</a></li><li style="--c:var(--c3)"><a href="/Corn-Jr-Public/finding/74.html"><span class="fn">74</span>Second-turn behaviour installs; compound requests forget how to stop</a></li></ul>
+        
+      </div>
+    </div>
+    <p class="body source">docs/findings/71-finishing-the-chain-converts-silence-into-recitation-and-the-hard-zero-that-held-at-every-size-goes-to-twenty-six-of-twenty-six.md</p>
+  </section>
+</article>
+
+  
+<footer class="turn">
+  <div><span class="sc">previous</span><a href="/Corn-Jr-Public/finding/62.html">62 · The call grammar fixes 44% of bytes; the tokenizer blocks using it</a></div>
+  <div class="r"><span class="sc">next</span><a href="/Corn-Jr-Public/finding/127.html">127 · Two thirds of one dataset&#39;s tool calls were invalid JSON</a></div>
+  <p class="keys"><kbd>←</kbd> <kbd>→</kbd> turn the page · <kbd>/</kbd> find</p>
+</footer>
+<p class="bynumber">Previous and next in <a href="/Corn-Jr-Public/thread/tool-calls.html">Tool calls and copying</a>. By number:
+  <a href="/Corn-Jr-Public/finding/70.html">70</a> · <a href="/Corn-Jr-Public/finding/72.html">72</a></p>
+
+</div>
+</body>
+</html>

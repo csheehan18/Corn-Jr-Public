@@ -1,0 +1,123 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>89 · Wrong rival answers are mostly about position on the shipped checker · Corn-Jr</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600&family=IBM+Plex+Mono:wght@400;500&family=Spectral:ital,wght@0,400;0,500;0,600;1,400&family=Spectral+SC:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/Corn-Jr-Public/static/library.css">
+<script defer src="/Corn-Jr-Public/static/library.js"></script>
+<script type="speculationrules">
+{"prerender": [{"where": {"and": [{"href_matches": "/Corn-Jr-Public/*"}, {"not": {"href_matches": "/Corn-Jr-Public/random.html"}}, {"not": {"href_matches": "/Corn-Jr-Public/static/*"}}]}, "eagerness": "moderate"}]}
+</script>
+
+</head>
+<body>
+<div class="page">
+  <header class="running">
+    <a class="book" href="/Corn-Jr-Public/">Corn-Jr · The Record</a>
+    <nav>
+      <a href="/Corn-Jr-Public/" data-key="shelf">Shelf</a><a href="/Corn-Jr-Public/findings.html" data-key="findings" class="here">Findings</a><a href="/Corn-Jr-Public/doc/VISION.html" data-key="VISION">Vision</a><a href="/Corn-Jr-Public/doc/GLOSSARY.html" data-key="GLOSSARY">Glossary</a>
+      <a href="https://github.com/csheehan18/Corn-Jr-Public">Source</a>
+    </nav>
+  </header>
+  
+
+<article class="sheet" style="--c:var(--c2)">
+  <div class="progress" aria-hidden="true"></div>
+  <section class="grid chapter-open finding-open">
+    <a class="tab" href="/Corn-Jr-Public/thread/reading.html" title="Reading documents"><small>Part</small><span>II</span></a>
+    <p class="cn">89</p>
+    <p class="partline"><a href="/Corn-Jr-Public/thread/reading.html">Reading documents</a> · 3 September 2026</p>
+    <h1>Wrong rival answers are mostly about position on the shipped checker</h1>
+  </section>
+
+  <section class="grid">
+    <p class="marginal">The result, as the finding states it</p><div class="prose"><p class="lead">The rival is positional on the shipped verifier, §6.3's premise fails there and holds only on the head it was written from, and the position prior is earned</p></div>
+    
+  </section>
+
+  
+
+  <section class="grid">
+    <div class="prose doc"><p><code>scripts/probe_reader_position.py</code> and <code>scripts/probe_verifier_position.py</code>, 2026-09-03. <strong>Replay only</strong> — no GPU, no decode, no weight read, no tokenizer — over two harvests: <code>evals/results/nullpr_s{1,2}_popa.json</code>, the <strong>shipped</strong> pair-rows verifier A1 settled on, and <code>evals/results/null_s{1,2}_popa.json</code>, the presence-label head <code>probe_reader_species.py</code> was run on. The baselines reproduce §6.1b to the passage: joint-protocol <strong>367 / 233 (joint 600)</strong> and <strong>368 / 207 (joint 575)</strong>.</p>
+<p><strong>Reading it on the wrong one of those two harvests inverts two of the three results, and that is the first thing this finding has to say.</strong></p>
+<h3 id="where-it-came-from-and-the-defect-it-found-on-the-way">Where it came from, and the defect it found on the way</h3>
+<p><code>PLAN-READER-RESIDUE.md</code> §6.3 aims A4 at "<code>RIVAL</code> 80 / 85 <strong>plus</strong> the 51 / 52 of <code>REFUSED_WRONG</code> whose top refused gold window reads <code>wrong_span</code> — the same failure behind a refusal", and A4's ceiling arithmetic takes up to 52 passages from that clause. Two things were unmeasured under it: whether <code>RIVAL</code> is the sixty-sixth finding's <em>positional</em> rule or merely a same-type competitor (<code>rival_ty</code> records type and no offset), and whether "the same failure" is true.</p>
+<p><strong>But §6.3's counts are the superseded head's.</strong> <code>probe_reader_species.py</code> reads <code>null_s{1,2}_popa.json</code>, and §6.1b had already moved <code>RIVAL</code> to 42 / 47 on the pair-rows verifier that ships. The species table §6.3 quotes describes a head <code>corn/reader.py</code> does not load. Measured here, on the shipped harvest:</p>
+<p>species                        null_s* (quoted by §6.3)   nullpr_s* (ships) RIVAL                                   80 / 85                42 / 47 REFUSED_WRONG, all                      82 / 86              136 / 139 REFUSED_WRONG, <code>wrong_span</code> only        51 / 52                81 / 82</p>
+<p>So A4's stated target of 131 / 137 is, on the head it would run against, 123 / 129 — and split differently, which §1 shows matters more than the count.</p>
+<h3 id="the-statistic-and-the-null-that-had-to-be-measured-first">The statistic, and the null that had to be measured first</h3>
+<p>Position is in <strong>content-word index space</strong>, <code>content_words(window)</code>, because <code>span_of</code> and <code>longest_span</code> define a gold-bearing window as one where the gold's content words are a contiguous run. Per window: <code>gi</code> the gold's run index, <code>si</code> the spoken span's, verdict <code>EARLIER</code> / <code>LATER</code> / <code>SAME</code> / <code>UNLOCATABLE</code>.</p>
+<p><strong>The 50/50 null is wrong.</strong> A span start drawn with no positional preference falls before a <em>late</em> gold most of the time, because there is more window in front of a late gold. The honest null is <code>gi / (L - 1)</code> per window, tested with a Poisson-binomial z since every window carries its own probability. It measures 52-53% on <code>RIVAL</code>'s windows and 46-47% on <code>REFUSED_WRONG</code>'s — <strong>the two species do not even share a null</strong>, which is by itself a reason not to have pooled them on a raw share.</p>
+<h3 id="1-on-the-shipped-verifier-6-3-s-premise-fails-and-on-the-hea">1. On the shipped verifier §6.3's premise fails, and on the head it was written from it holds</h3>
+<p>shipped (nullpr)      seed 1              seed 2            pooled RIVAL             36/48   75.0%      46/62   74.2%     82/110  74.5%  p=2.5e-07 REFUSED_WRONG     46/81   56.8%      43/82   52.4%     89/163  54.6%  p=0.27 Fisher, the two     p = 0.0401         p = 0.00945       p = 0.00090</p>
+<p>superseded (null)     seed 1              seed 2            pooled RIVAL             66/101  65.3%      68/115  59.1%    134/216  62.0%  p=0.0005 REFUSED_WRONG     31/51   60.8%      29/52   55.8%     60/103  58.3%  p=0.11 Fisher, the two     p = 0.596          p = 0.736         p = 0.541</p>
+<p><strong>Two sets that were indistinguishable on the presence-label head separate on the shipped one, at both seeds and pooled.</strong> A4 may not treat its target as one thing, and its bar (a) — <em><code>RIVAL</code> halved by type</em> — reads the <code>RIVAL</code> half only, so the 81 / 82 <code>wrong_span</code> refusals would ride along unmeasured. That is exactly the failure mode the premise existed to rule out.</p>
+<p><strong>The mechanism is legible.</strong> The pair-rows verifier reads the argmax pair's own rows, so it is equipped to catch a span that does not answer the question — and <code>RIVAL</code> 80 → 42 is it doing so. What it removes preferentially is the <em>semantic</em> rival; what it leaves is enriched for the positional one. The residue got smaller and its character changed, which is why a species count quoted from a superseded head is not a safe input to an arm's arithmetic.</p>
+<h3 id="2-on-the-shipped-verifier-the-rival-is-substantially-positio">2. On the shipped verifier the rival is substantially positional</h3>
+<p>species          seed 1 obs/null      seed 2 obs/null RIVAL          75.0% / 53.3%  +21.7  74.2% / 52.1%  +22.1   z 3.69 / 4.26 REFUSED_WRONG  56.8% / 47.2%   +9.5  52.4% / 46.5%   +5.9   z 2.12 / 1.35</p>
+<p><code>RIVAL</code>'s lift is <strong>+22 points on both seeds</strong>, p = 2.3e-04 and 2.1e-05, and its pooled sign test is p = 2.5e-07. On the superseded head the same quantity read +14.1 / +10.7. <strong>So the conclusion drawn from <code>null_s*</code> — that the rival is semantic and the sixty-sixth finding's runtime repair is not its lever — is wrong about the head that ships.</strong></p>
+<p>It is still not the sixty-sixth finding's <em>rule</em>: that was 20 of 21 = 95.2% against the same kind of null, and 74.5% leaves a quarter of these windows choosing a span that comes <em>after</em> the gold. <code>SAME</code> is empty on every harvest and <code>UNLOCATABLE</code> is one window in 449. But +22 against a measured null is a different object from +12, and it is enough to make the locality rule worth pricing on <code>RIVAL</code> specifically.</p>
+<p><code>REFUSED_WRONG</code>/<code>wrong_span</code> is the opposite: <strong>not positional</strong>, pooled 54.6% at p = 0.27, and seed 2 alone does not clear 0.05 on the lift either (p = 0.18). Its 81 / 82 passages need a different lever from <code>RIVAL</code>'s 42 / 47, and no lever in the plan is currently named for them.</p>
+<h3 id="3-the-verifier-s-position-prior-is-real-strong-and-earned-on">3. The verifier's position prior is real, strong, and earned — on both heads</h3>
+<p>Over every gold-bearing window where the span head's top pair <strong>is</strong> the gold — 803 and 779 windows, so admitting is the only correct action — the shipped verifier's margin falls as the gold sits later:</p>
+<p>seed 1   admitted 540 / refused 263   rel. position 0.294 adm / 0.394 ref seed 2   admitted 550 / refused 229                 0.322 adm / 0.379 ref</p>
+<p>Spearman rho(position, margin)   -0.165  z = -4.68  p = 2.8e-06 -0.212  z = -5.91  p = 3.4e-09 (on the superseded head, -0.249 and -0.245 at p ~1e-12)</p>
+<p>margin by gold-position quintile, early -&gt; late s1   +0.122  -0.806  -0.879  -0.824  -0.903 s2   +0.094  -0.746  -0.760  -0.801  -0.986</p>
+<p><strong>It is not a window-edge effect and that was the hypothesis.</strong> Words to the nearest edge read median 7.0 admitted against 8.0 refused on all four harvests. The effect is monotone in <em>linear position</em> and concentrated in a first quintile that is the only one above zero.</p>
+<p><code>span_features</code> feeds the verifier three scalars — top pair's score, margin over the runner-up, length — and <strong>no position</strong>, so this looked like a free feature and a bug. <strong>It is neither, and the arm that assumed so loses.</strong> Slope fit on the training fold's gold labels, applied to the test fold through the <em>spoken</em> span's position, threshold swept on the training fold's corrected margins:</p>
+<p>seed 1  baseline   right 367  unans silent 233  joint 600  acc|att 0.730 de-biased  right 357  unans silent 230  joint 587  acc|att 0.704 seed 2  baseline   right 368  unans silent 207  joint 575  acc|att 0.701 de-biased  right 351  unans silent 225  joint 576  acc|att 0.716</p>
+<p>-10 right / -13 joint  and  -17 right / +1 joint</p>
+<p><strong>Because the prior is earned.</strong> Position genuinely predicts presence:</p>
+<p>P(window carries the gold), by quartile of position within the passage first  606 of 969 = 62.5%      third  292 of 813 = 35.9% second 203 of 613 = 33.1%      fourth 110 of 399 = 27.6%</p>
+<p>the gold's relative position inside gold-bearing windows: median 0.356, mean 0.394   (uniform would be 0.5)</p>
+<p>These are Wikipedia passages and the answer lives near the lead. Conditioning on tight gold-bearing windows makes the prior <em>look</em> like bias because presence is held fixed inside that set; the verifier is scored over the whole population, where the same trend is calibration. This is the one result that does not move between the two harvests.</p>
+<h3 id="what-this-cannot-say">What this cannot say</h3>
+<p><strong>Nothing here is causal.</strong> The sixty-sixth finding could speak to cause because it controlled the passage — the same fixtures with the clause flipped answered differently. This is observational over NQ, where gold position and every semantic property vary together. §2 establishes that <code>RIVAL</code>'s spoken span is the earlier one about twenty-two points more often than indifference predicts; it does not establish that position is why, and the clause-flip control on <code>--reader head</code> is what would.</p>
+<p><strong>§1's separation is a difference in one statistic</strong>, not a demonstration that the two species have unrelated causes. It is enough to forbid one bar reading both; it is not a mechanism for either.</p>
+<p><strong>§3's de-bias arm tests one correction and it is linear.</strong> The quintile table — one first quintile above zero and four flat below it — is not a shape a slope models well, and that is the likeliest reason a linear removal overshoots. What it establishes is that the obvious repair fails, not that none could. Its <code>right</code> column is also unstable: an earlier implementation that swept over a hand-built candidate list rather than <code>probe_reader_passages.candidates</code> read -5 / -9 on the superseded head where the corrected run reads -4 / +3. <code>joint</code> was negative in every version, which is why the claim rests on <code>joint</code>.</p>
+<p><strong>§3's control is about this population.</strong> A corpus whose answers were positioned uniformly would make the prior bias again.</p>
+<h3 id="what-follows">What follows</h3>
+<p><strong>Re-state A4 before running it.</strong> Its target is 42 / 47 plus 81 / 82 on the head it would run against, not 80 / 85 plus 51 / 52; the two halves separate at p = 0.0009; and its bar reads only the first. As written it would spend ~1 h of GPU a seed and be unable to say what it bought on two thirds of its passages.</p>
+<p><strong>Price the sixty-sixth finding's locality repair on <code>RIVAL</code> after all.</strong> At +22 points against a measured null it is a live candidate for those 42 / 47, which is the reverse of what the superseded harvest said. It stays precision-only — it declines rather than corrects — and a quarter of <code>RIVAL</code> picks late, so its ceiling is well under 42.</p>
+<p><strong>The owner has taken that trade in advance</strong> (2026-09-03): a precision-only arm is worth running and a flat <code>right</code> column is not a reason to drop one, so long as the attempt rate is reported beside it. So this arm is not blocked on its shape, only on the design question §4 leaves open.</p>
+<p><strong>Name a lever for <code>REFUSED_WRONG</code>/<code>wrong_span</code>.</strong> 81 and 82 passages, not positional, and no arm in either plan is aimed at them. §2 of the residue plan already called <code>REFUSED_WRONG</code> "the only species here that is a plain reading failure with no cheap lever named for it"; this finding says its <code>wrong_span</code> majority is not the positional failure <code>RIVAL</code> is, so it cannot borrow one.</p>
+<p><strong>And re-run <code>probe_reader_species.py</code> on <code>nullpr_s{1,2}_popa.json</code>.</strong> Every species count in <code>PLAN-READER-RESIDUE.md</code> is the presence-label head's. The plan's arithmetic, its four arms' sizes and §2's 69% ceiling are all computed from them.</p>
+<h3 id="4-the-one-thing-the-locality-arm-needs-settled-before-it-can">4. The one thing the locality arm needs settled before it can be priced</h3>
+<p>The sixty-sixth finding names the rule as "reject an extraction whose span is not local to the question's distinguishing term" and <strong>does not define the distinguishing term</strong>, which is the whole content of the rule. Three readings are available and they are not equivalent:</p>
+<p>the question's content words absent from the gold      — "boiling" in "the boiling point of iron", once "iron" is discounted as shared the question's head noun                               — "point" every question content word, distance to the nearest    — degenerate on long questions, where some word is always adjacent</p>
+<p><code>corn.extract.grounded</code> already computes the question's content-word set for the anti-restatement rule, so the first reading is the cheapest to build and is the one the sixty-sixth finding's own example fits. <strong>A price quoted before this is chosen is a price for an unspecified rule</strong>, and the 22 <code>ECHO_BLOCKED</code> passages are the standing reminder of what happens when a question-overlap rule is defined loosely.</p>
+<p><strong>Left unexplained:</strong> the shipped verifier's first quintile is the only one above zero and the gap to the second is 0.93 and 0.84, where the passage-position gradient it would be calibrated to — 62.5% falling to 27.6% — is graded. The step is steeper than the thing it tracks, on both heads.</p></div>
+  </section>
+
+  <section class="grid refs">
+    <div class="body two-even">
+      <div>
+        <h2 class="small">It cites</h2>
+        <p class="aside">No other finding by number.</p>
+      </div>
+      <div>
+        <h2 class="small">Cited by</h2>
+        <ul class="reflist"><li style="--c:var(--c2)"><a href="/Corn-Jr-Public/finding/112.html"><span class="fn">112</span>Training on whole passages lifts extraction from 54% to 71%</a></li></ul>
+        
+      </div>
+    </div>
+    <p class="body source">docs/findings/89-the-rival-is-positional-on-the-shipped-verifier-and-the-plans-premise-holds-only-on-the-head-it-was-written-from.md</p>
+  </section>
+</article>
+
+  
+<footer class="turn">
+  <div><span class="sc">previous</span><a href="/Corn-Jr-Public/finding/87.html">87 · The passage reader ships: 389 of 721 right, up 107</a></div>
+  <div class="r"><span class="sc">next</span><a href="/Corn-Jr-Public/finding/90.html">90 · A nearby-words rule can&#39;t tell a rival answer from the right one</a></div>
+  <p class="keys"><kbd>←</kbd> <kbd>→</kbd> turn the page · <kbd>/</kbd> find</p>
+</footer>
+<p class="bynumber">Previous and next in <a href="/Corn-Jr-Public/thread/reading.html">Reading documents</a>. By number:
+  <a href="/Corn-Jr-Public/finding/88.html">88</a> · <a href="/Corn-Jr-Public/finding/90.html">90</a></p>
+
+</div>
+</body>
+</html>

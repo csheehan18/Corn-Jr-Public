@@ -1,0 +1,88 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>165 · The cap costs greetings in what he writes, not what he knows · Corn-Jr</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600&family=IBM+Plex+Mono:wght@400;500&family=Spectral:ital,wght@0,400;0,500;0,600;1,400&family=Spectral+SC:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/Corn-Jr-Public/static/library.css">
+<script defer src="/Corn-Jr-Public/static/library.js"></script>
+<script type="speculationrules">
+{"prerender": [{"where": {"and": [{"href_matches": "/Corn-Jr-Public/*"}, {"not": {"href_matches": "/Corn-Jr-Public/random.html"}}, {"not": {"href_matches": "/Corn-Jr-Public/static/*"}}]}, "eagerness": "moderate"}]}
+</script>
+
+</head>
+<body>
+<div class="page">
+  <header class="running">
+    <a class="book" href="/Corn-Jr-Public/">Corn-Jr · The Record</a>
+    <nav>
+      <a href="/Corn-Jr-Public/" data-key="shelf">Shelf</a><a href="/Corn-Jr-Public/findings.html" data-key="findings" class="here">Findings</a><a href="/Corn-Jr-Public/doc/VISION.html" data-key="VISION">Vision</a><a href="/Corn-Jr-Public/doc/GLOSSARY.html" data-key="GLOSSARY">Glossary</a>
+      <a href="https://github.com/csheehan18/Corn-Jr-Public">Source</a>
+    </nav>
+  </header>
+  
+
+<article class="sheet" style="--c:var(--c3)">
+  <div class="progress" aria-hidden="true"></div>
+  <section class="grid chapter-open finding-open">
+    <a class="tab" href="/Corn-Jr-Public/thread/social.html" title="Social replies"><small>Part</small><span>III</span></a>
+    <p class="cn">165</p>
+    <p class="partline"><a href="/Corn-Jr-Public/thread/social.html">Social replies</a> · 11 October 2026</p>
+    <h1>The cap costs greetings in what he writes, not what he knows</h1>
+  </section>
+
+  <section class="grid">
+    <p class="marginal">The result, as the finding states it</p><div class="prose"><p class="lead">The wide greeting read: the cap costs greeting in what he writes and not in what he holds — on 161 hand-written greeting phrasings the four mix checkpoints write 58, 71, 59 and 108 against 83-106 without the cap (means 74 and 94, twelve points), "costs greeting" by the table, while the inside read is level (130-148 against 138-148); "hello again", "hi mate" and "just popping in to say hello" go to <code>ack</code>, <code>open</code> and <code>farewell</code> with greeting in the state, and two training seeds of identical data write 59 and 108</p></div>
+    <p class="marginal">What it cost</p><div class="prose"><p class="cost">98 s on the card (eight checkpoints, 161 phrasings scored over eight moves and the inside read; contended — the card at 39%, a bound); no training; 17:07-17:14 on 2026-10-11 end to end, build and pre-registration commit included.</p></div>
+  </section>
+
+  
+
+  <section class="grid">
+    <div class="prose doc"><p>Pre-registered in <code>scripts/probe_greeting_wide.py</code>'s docstring and committed at b0cc2a1 before any item was read. Findings <a class="fref" href="/Corn-Jr-Public/finding/163.html">163</a> and <a class="fref" href="/Corn-Jr-Public/finding/164.html">164</a> read greeting on twenty phrasings and could not settle whether capping the real openings costs it (5, 6, 4 and 12 on the four mix checkpoints against 11, 15, 10 and 9; 4 against 12 on two seeds of one draw). This reads <strong>every hand-written greeting carrier the slices draw from</strong> — <code>CARRIER_POOLS</code> and <code>move_carriers.txt</code>, 186, less the held-out sets and the twenty already read: 161, none drawn — on the eight checkpoints on disk. No training.</p>
+<h3 id="the-registered-read">The registered read</h3>
+<p>checkpoint        written (of 161)   inside (of 161)   writes instead A3b      1337      87                138               ack 24, farewell 18, consolation 15 A3b      2337     100                148               ack 26, farewell 20, open 8 real     1337      83                142               farewell 43, ack 19, wellbeing 8 real     2337     106                142               farewell 24, ack 18, wellbeing 8 mix50    1337      58                130               ack 29, farewell 27, wellbeing 25 mix50    2337      71                148               ack 33, farewell 21, open 21 mix50d2  1337      59                142               open 26, ack 22, share 19 mix50d2  2337     108                145               ack 22, farewell 15, wellbeing 13</p>
+<p><strong>Costs greeting, by the table</strong>: the four mix checkpoints' mean is 74 of 161 (46%) against the other four's 94 (58%) — 12.4 points, past the bar of 8 — and three of the four (58, 71, 59) sit under the lowest of the others (83). My written guess was "costs greeting, about ten points".</p>
+<p><strong>Not greeting's own real openings</strong>: the real arm, whose greeting deal is the mix arms' (29-32% SODA's), writes 94.5 on average against A3b's 93.5. The cost comes with the mix — consolation and share half hand-written and half real — and not with real text in greeting.</p>
+<h3 id="inside-level-the-cost-is-the-readout-s">Inside, level — the cost is the readout's</h3>
+<p>Finding <a class="fref" href="/Corn-Jr-Public/finding/161.html">161</a>'s reader at each checkpoint's registered place reads greeting on 130-148 of 161 with the cap and 138-148 without (means 141.25 and 142.5). On the three low mix checkpoints it reads greeting on all three for 124 of the 161. Read by hand, the phrasings the cap loses — written right on three or more of the four without it, wrong on all three low mix checkpoints — are twelve, and they are plain greetings: "hello again", "hi mate", "hello from the couch", "just popping in to say hello", "happy monday", "hey, you free", "what's cooking". He writes <code>ack</code>, <code>open</code>, <code>farewell</code>, <code>thanks</code>, <code>share</code> — a different wrong label at each checkpoint — and the reader reads <code>greeting</code> in his state on ten of the twelve at all three (the other two, "hello" and "what are we getting into today", it reads <code>ack</code> or <code>wellbeing</code> at one or two).</p>
+<p>So the third time in three slice changes (findings <a class="fref" href="/Corn-Jr-Public/finding/161.html">161</a>, <a class="fref" href="/Corn-Jr-Public/finding/162.html">162</a> and this): the data moved what he writes and left what he holds. Here the readout loses a family the cap did not touch, and loses it to no single default.</p>
+<h3 id="two-seeds-of-identical-data-59-and-108">Two seeds of identical data: 59 and 108</h3>
+<p><code>mix50d2</code>'s two training seeds share every byte of their data and write 59 and 108 of 161 — thirty points — while the inside read on the same checkpoints is 142 and 145. On 161 items that is not sampling: finding <a class="fref" href="/Corn-Jr-Public/finding/164.html">164</a>'s eight-item swing on twenty was the same thing, smaller. <strong>The written readout of a family carries a large component set by the training seed, which the state does not share.</strong> Finding <a class="fref" href="/Corn-Jr-Public/finding/161.html">161</a> saw the inside read agree across seeds where the label split; this is the cleanest case of it.</p>
+<h3 id="what-it-licenses">What it licenses</h3>
+<ul><li><strong>For C5 and D1</strong>: at nano, one pass, the half cap keeps both kinds of consolation (findings <a class="fref" href="/Corn-Jr-Public/finding/163.html">163</a>, <a class="fref" href="/Corn-Jr-Public/finding/164.html">164</a>) and costs greeting's readout about twelve points at three checkpoints of four, with greeting held in the state at every one. The real arm's deal costs greeting nothing and costs the hand-written consolation everything. Neither deal is free; which cost 1.0 carries is the owner's call. What 1.0 does after the run — fine-tunes that amplify what the state holds (PLAN-1-0) — is the place a readout cost is cheapest to repair, and no arm here tested that.</li><li><strong>For the method</strong>: a gate on a written family row is a gate on the training seed's readout. Gates on what the corpus <em>teaches</em> belong on the inside read, or on many seeds.</li><li><strong>For finding <a class="fref" href="/Corn-Jr-Public/finding/161.html">161</a>'s question</strong>: the state holds greeting whatever the mix; the label is where mixes cost. Size, the open lever on the state, is the 260M pilot's (D11).</li></ul>
+<h3 id="what-it-does-not-say">What it does not say</h3>
+<p>That the cost is twelve points everywhere — one checkpoint of four has none. That it holds at 260M or after a fine-tune. Plain carriers, not the dressed forms the slices train; trained phrasings, the recall-and-near regime of finding <a class="fref" href="/Corn-Jr-Public/finding/159.html">159</a>. One floor seed, a linear reader — every number a bound.</p></div>
+  </section>
+
+  <section class="grid refs">
+    <div class="body two-even">
+      <div>
+        <h2 class="small">It cites</h2>
+        <ul class="reflist"><li style="--c:var(--c3)"><a href="/Corn-Jr-Public/finding/159.html"><span class="fn">159</span>More ways to phrase each move helps unseen phrasings modestly</a></li><li style="--c:var(--c3)"><a href="/Corn-Jr-Public/finding/161.html"><span class="fn">161</span>His internal state knows more than he writes about move choice</a></li><li style="--c:var(--c3)"><a href="/Corn-Jr-Public/finding/162.html"><span class="fn">162</span>Real dialogue openings replaced the hand-written ones rather than adding to them</a></li><li style="--c:var(--c3)"><a href="/Corn-Jr-Public/finding/163.html"><span class="fn">163</span>Capping real openings at half keeps both consolation styles; greetings drop</a></li><li style="--c:var(--c3)"><a href="/Corn-Jr-Public/finding/164.html"><span class="fn">164</span>Greeting accuracy swings eight items on identical data</a></li></ul>
+        
+      </div>
+      <div>
+        <h2 class="small">Cited by</h2>
+        <p class="aside">No later finding yet.</p>
+      </div>
+    </div>
+    <p class="body source">docs/findings/165-the-cap-costs-greeting-in-what-he-writes-and-not-in-what-he-holds.md</p>
+  </section>
+</article>
+
+  
+<footer class="turn">
+  <div><span class="sc">previous</span><a href="/Corn-Jr-Public/finding/164.html">164 · Greeting accuracy swings eight items on identical data</a></div>
+  <div class="r"></div>
+  <p class="keys"><kbd>←</kbd> <kbd>→</kbd> turn the page · <kbd>/</kbd> find</p>
+</footer>
+<p class="bynumber">Previous and next in <a href="/Corn-Jr-Public/thread/social.html">Social replies</a>. By number:
+  <a href="/Corn-Jr-Public/finding/164.html">164</a> · <a href="/Corn-Jr-Public/finding/166.html">166</a></p>
+
+</div>
+</body>
+</html>

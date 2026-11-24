@@ -1,0 +1,94 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>151 · Ignoring groups he closes too early lets the interpreter pass · Corn-Jr</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600&family=IBM+Plex+Mono:wght@400;500&family=Spectral:ital,wght@0,400;0,500;0,600;1,400&family=Spectral+SC:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/Corn-Jr-Public/static/library.css">
+<script defer src="/Corn-Jr-Public/static/library.js"></script>
+<script type="speculationrules">
+{"prerender": [{"where": {"and": [{"href_matches": "/Corn-Jr-Public/*"}, {"not": {"href_matches": "/Corn-Jr-Public/random.html"}}, {"not": {"href_matches": "/Corn-Jr-Public/static/*"}}]}, "eagerness": "moderate"}]}
+</script>
+
+</head>
+<body>
+<div class="page">
+  <header class="running">
+    <a class="book" href="/Corn-Jr-Public/">Corn-Jr · The Record</a>
+    <nav>
+      <a href="/Corn-Jr-Public/" data-key="shelf">Shelf</a><a href="/Corn-Jr-Public/findings.html" data-key="findings" class="here">Findings</a><a href="/Corn-Jr-Public/doc/VISION.html" data-key="VISION">Vision</a><a href="/Corn-Jr-Public/doc/GLOSSARY.html" data-key="GLOSSARY">Glossary</a>
+      <a href="https://github.com/csheehan18/Corn-Jr-Public">Source</a>
+    </nav>
+  </header>
+  
+
+<article class="sheet" style="--c:var(--c4)">
+  <div class="progress" aria-hidden="true"></div>
+  <section class="grid chapter-open finding-open">
+    <a class="tab" href="/Corn-Jr-Public/thread/tag-language.html" title="The tag language"><small>Part</small><span>IV</span></a>
+    <p class="cn">151</p>
+    <p class="partline"><a href="/Corn-Jr-Public/thread/tag-language.html">The tag language</a> · 7 October 2026</p>
+    <h1>Ignoring groups he closes too early lets the interpreter pass</h1>
+  </section>
+
+  <section class="grid">
+    <p class="marginal">The result, as the finding states it</p><div class="prose"><p class="lead">The windowed interpreter passes G1 once a close he writes early in a cut view is no longer believed: arity 30 of 30 on both arm F seeds, depth 131 and 265 against the committed 77 and 128, arm S 0.87 and 0.87 against a bar of 0.85 — where the first read, believing those closes, failed two of three</p></div>
+    <p class="marginal">What it cost</p><div class="prose"><p class="cost">four <code>probe_window.py</code> sweeps' worth of the 3080, about 50 min in all: the first read 13 min (07:57-08:10 on 2026-10-07, against a registered 20-25), the item-by-item re-decode of arm S seed 1 both ways about 4 min, a sweep that ran across the module's edits and was discarded 13 min, the read of record 11.5 min (09:45-09:56), and the residual re-decode about 2.5 min. The fix and its guard section were CPU, about 30 min.</p></div>
+  </section>
+
+  
+
+  <section class="grid">
+    <div class="prose doc"><p>ROADMAP G1, PLAN-TAG-LANGUAGE §6 rung 1, gate pre-registered in <code>scripts/probe_window.py</code> before a line was decoded (e478ba2): the windowed interpreter (<code>corn/window.py</code>, built d0f693d) on the probes' own items, on arm F (<code>nano20m_v3_fw_armf</code>, both seeds) and arm S (<code>nano20m_v3_fw_steps</code>, both seeds), every prompt decoded once through <code>probe_fast.FastLine</code>. <strong>Cards of record</strong> (on 6b8626f): <code>evals/results/nano20m_v3_fw_{armf,armf_seed2, steps,steps_seed2}__window.json</code> and <code>__window_items.jsonl</code>. The probe is a hand-built instrument; the guard (<code>scripts/check_window.py</code>) pins the interpreter, not the scorer, so <strong>every number here is a bound</strong> (rule 28).</p>
+<h3 id="the-reproductions-held-both-times">The reproductions held, both times</h3>
+<p>Every sweep first re-runs the committed instruments on the same items: depth base 77, 128, 123, 124 of 420 and arity 30 at 29, 30, 29, 27 of 30, all four exact, in both the first read and the read of record. So what moved between them is the module, not the instrument.</p>
+<h3 id="the-first-read-failed-two-of-three">The first read failed two of three</h3>
+<p>gate                               bar     F s1   F s2   S s1   S s2 G1a arity 30, "all N"              &gt;= 29     30     28 G1b depth 6-15, levels right       &gt;= band   94    265            (77, 128) G1c depth 6-15, gap rule on        &gt;= 0.85                 0.65   0.75</p>
+<p>The same sitting's diagnostic loop (<code>probe_depth_diag --mode gapc</code>, finding <a class="fref" href="/Corn-Jr-Public/finding/145.html">145</a>'s) read arm S at 0.95 and 0.89 on the same decodes. The registered table says what that licenses: compare item by item and name the departure; a module fault is fixed with a guard group and re-read, never by moving the bar.</p>
+<p><strong>Read by hand, arm S seed 1 re-decoded both ways</strong> (same prompts, greedy, so the first line of every item is byte-identical): the module was worse on 22 items of 48 and better on none, 275 against 399 levels. Every miss was one shape: <strong>he closes a group early in a view the window cut, and the module believed the close.</strong> Two forms:</p>
+<ul><li><strong>Depth.</strong> On the first view he writes <code>ask[the pair, ask[the capital of Nyrirthfell] and two things] ask[the chief export of Drounndholm]]</code> — the next carrier, "two things", written flat and the group closed after it. The module read "and two things" as the group's trailing words, trusted the close because the next part was found, and resumed two levels up; the levels under "the pair" were never asked about again. The diagnostic never trusts a close at the edge of a cut view: it re-asks from the group's carrier, and on that view he writes <code>ask[the pair, ask[...] and two things, ask[...]]</code>, which the gap rule nests.</li><li><strong>Arity.</strong> On arm F seed 2's second view of the thirty-member list he writes four members, closes the group, and starts <code>ask[the chief export of</code> — a member the window cut. That fragment was found in the request and vouched for the close, so the group ended at its eighth member and the other twenty-two were read as loose parts at the top (two lost on the way).</li></ul>
+<h3 id="the-fix-6b8626f-held-by-the-gold-proof">The fix (6b8626f), held by the gold proof</h3>
+<p>In <code>corn/window.py</code>'s close rule (its docstring now says this): a part the window cut is a fragment and vouches for no close in a group view, unless the close was marked by its own trailing words; trailing words that a comma follows, on a lookup group with a carrier, in a cut view, are a flat carrier, and the group is asked again from its carrier; and a flat carrier right after a close not yet trusted re-asks the closed group rather than re-showing the gap one level too high.</p>
+<p><code>check_window.py</code> section 10 replays both real lines inside an otherwise gold run: the module as built reads 2 of 7 levels and 8 of 30 members, the fixed one 7 and 30. <strong>The gold proof still holds everywhere</strong> — a writer who writes every view's gold parse gets every tree back, on all 20,370 arm F corpus turns and 450 fresh requests at window 50 and the other four settings. Two drafts failed it and were dropped: never trusting any close in a cut view (the diagnostic's rule taken whole) lost 74 of 450 fresh requests, and holding the fragment rule in every view lost one arm F turn in 5,000 at window 24, a close a gold writer marks with its trailing words (<code>ask[ask[X] on the other] ask[the river through</code>) — which the marked-close exception returns.</p>
+<h3 id="the-read-of-record-passes-all-three">The read of record passes all three</h3>
+<p>gate                               bar     F s1   F s2   S s1   S s2 G1a arity 30, "all N"              &gt;= 29     30     30 G1b depth 6-15, levels right       &gt;= band  131    265            (77, 128) G1c depth 6-15, gap rule on        &gt;= 0.85                 0.87   0.87</p>
+<p>Beside it, recorded and not gated: on arm F the module now reads <em>above</em> the diagnostic (131 against 78, 265 against 156); with the gap rule off it reads 79, 110, 102 and 107 — so the gap rule is still where the depth is. On arm S seed 1 the module still trails the diagnostic, 365 against 399.</p>
+<p><strong>The residual is one shape, read by hand on all six items</strong> where the module reads less (S s1, re-decoded both ways on 6b8626f; better on none): he fuses the carrier "twice over" into a member — <code>ask[twice over, the river through Fenunthholm]</code> — and the module keeps it as one member of the group above, so the chain breaks there (34 levels across the six). That is finding <a class="fref" href="/Corn-Jr-Public/finding/145.html">145</a>'s wall, the carrier word: "twice over" and "two things" are the carriers he does not read as groups. The diagnostic gets past it only because it never trusts the close that follows. A gap rule inside a member would be the next repair; it is not needed for the gate and is not made here.</p>
+<h3 id="what-it-licenses">What it licenses</h3>
+<ul><li><strong>G1 is done</strong>: the module carries what the probes measured, the gate passes on all four checkpoints with the reproductions held, and it is the interpreter H3 serves if D7 takes views. G5 (workers and composition) no longer waits on it.</li><li><strong>A close he writes at the edge of a cut view is not his word</strong> — the rule the diagnostic had implicitly, now explicit, with the gold writer's marked closes as the one exception.</li></ul>
+<h3 id="what-it-does-not-say">What it does not say</h3>
+<p>That the interpreter is right on real requests: these are the probes' synthetic chains and lists, and finding <a class="fref" href="/Corn-Jr-Public/finding/146.html">146</a>'s misfire read (the gap rule on 450 fresh requests, 0 broken) was made on the module before this fix — the gold proof says the fix refuses nothing legal, not that he writes what it needs on fresh text. Anything at 260M. Anything about <code>twice over</code> beyond the six items read.</p></div>
+  </section>
+
+  <section class="grid refs">
+    <div class="body two-even">
+      <div>
+        <h2 class="small">It cites</h2>
+        <ul class="reflist"><li style="--c:var(--c4)"><a href="/Corn-Jr-Public/finding/145.html"><span class="fn">145</span>The depth limit is the linking word; re-showing uncovered text fixes it</a></li><li style="--c:var(--c4)"><a href="/Corn-Jr-Public/finding/146.html"><span class="fn">146</span>A runtime gap-filling rule breaks nothing but fixes little on real requests</a></li></ul>
+        
+      </div>
+      <div>
+        <h2 class="small">Cited by</h2>
+        <ul class="reflist"><li style="--c:var(--c4)"><a href="/Corn-Jr-Public/finding/172.html"><span class="fn">172</span>The starting model, not the trace format, makes branching reliable</a></li><li style="--c:var(--c4)"><a href="/Corn-Jr-Public/finding/173.html"><span class="fn">173</span>Branch choice falls to chance when condition words flip the meaning</a></li></ul>
+        
+      </div>
+    </div>
+    <p class="body source">docs/findings/151-the-windowed-interpreter-passes-g1-once-a-close-he-writes-early-in-a-cut-view-is-not-believed.md</p>
+  </section>
+</article>
+
+  
+<footer class="turn">
+  <div><span class="sc">previous</span><a href="/Corn-Jr-Public/finding/149.html">149 · With checkable rules filtered, he picks the template matching the request</a></div>
+  <div class="r"><span class="sc">next</span><a href="/Corn-Jr-Public/finding/152.html">152 · What each layer of the tag language costs in tokens</a></div>
+  <p class="keys"><kbd>←</kbd> <kbd>→</kbd> turn the page · <kbd>/</kbd> find</p>
+</footer>
+<p class="bynumber">Previous and next in <a href="/Corn-Jr-Public/thread/tag-language.html">The tag language</a>. By number:
+  <a href="/Corn-Jr-Public/finding/150.html">150</a> · <a href="/Corn-Jr-Public/finding/152.html">152</a></p>
+
+</div>
+</body>
+</html>

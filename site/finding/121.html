@@ -1,0 +1,91 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>121 · Cutting mood-prefixed search calls removes the whole cost · Corn-Jr</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600&family=IBM+Plex+Mono:wght@400;500&family=Spectral:ital,wght@0,400;0,500;0,600;1,400&family=Spectral+SC:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/Corn-Jr-Public/static/library.css">
+<script defer src="/Corn-Jr-Public/static/library.js"></script>
+<script type="speculationrules">
+{"prerender": [{"where": {"and": [{"href_matches": "/Corn-Jr-Public/*"}, {"not": {"href_matches": "/Corn-Jr-Public/random.html"}}, {"not": {"href_matches": "/Corn-Jr-Public/static/*"}}]}, "eagerness": "moderate"}]}
+</script>
+
+</head>
+<body>
+<div class="page">
+  <header class="running">
+    <a class="book" href="/Corn-Jr-Public/">Corn-Jr · The Record</a>
+    <nav>
+      <a href="/Corn-Jr-Public/" data-key="shelf">Shelf</a><a href="/Corn-Jr-Public/findings.html" data-key="findings" class="here">Findings</a><a href="/Corn-Jr-Public/doc/VISION.html" data-key="VISION">Vision</a><a href="/Corn-Jr-Public/doc/GLOSSARY.html" data-key="GLOSSARY">Glossary</a>
+      <a href="https://github.com/csheehan18/Corn-Jr-Public">Source</a>
+    </nav>
+  </header>
+  
+
+<article class="sheet" style="--c:var(--c3)">
+  <div class="progress" aria-hidden="true"></div>
+  <section class="grid chapter-open finding-open">
+    <a class="tab" href="/Corn-Jr-Public/thread/conversation.html" title="Conversation and the second turn"><small>Part</small><span>III</span></a>
+    <p class="cn">121</p>
+    <p class="partline"><a href="/Corn-Jr-Public/thread/conversation.html">Conversation and the second turn</a> · 5 September 2026</p>
+    <h1>Cutting mood-prefixed search calls removes the whole cost</h1>
+  </section>
+
+  <section class="grid">
+    <p class="marginal">The result, as the finding states it</p><div class="prose"><p class="lead">With the mood-prefixed calls cut, the routing pair returns to arm 4's band and the consolation row holds at 7 of 28, novel decline reads 31 of 32, and the class was the whole cost</p></div>
+    <p class="marginal">What it cost</p><div class="prose"><p class="cost">9.7 min of scoring on the 3 cards first cited here (<code>corn_jr_260m_v4_ft_social5b</code>, <code>corn_jr_260m_v4_ft_social5b__historygrid-0905ctl</code>, <code>corn_jr_260m_v4_ft_social5b__toolgrid</code>). Backfilled 2026-09-26 from the cards' <code>seconds</code>; training and probe time were never recorded, so this is a floor.</p></div>
+  </section>
+
+  
+
+  <section class="grid">
+    <div class="prose doc"><p><strong><code>corn_jr_260m_v4_ft_social5b</code>, 2026-09-05. Arm 5's generator, replies and seed with one switch flipped — <code>corn.socialgen.MOOD_BALANCE</code> off — so the 31 "mood, then a request -&gt; call" transcripts are gone and the 52 consolation moves ride with the plain balance every family has. <code>init_from</code> ft4g, arm 2's share, 1,200 iterations in 1,505 s, best at 1,000 (val 0.5875). Full batched card, grid A, historygrid depth 1, the ft4g adapter as a proxy. Pre-registered in <code>configs/mix_v4_ft_social5b.py</code> before the run.</strong></p>
+<h3 id="1-the-rows-against-arm-4-the-bar-and-arm-5-the-one-file-diff">1. The rows, against arm 4 (the bar) and arm 5 (the one-file difference)</h3>
+<p>row                        arm 4     arm 5    arm 5b   5b-arm4   5b-arm5 social.bare_nocall        99/112    93/112    97/112     -2        +4 social.declared_nocall    97/112    91/112    97/112      0        +6 social.voice              90/112    85/112    90/112      0        +5 social.family             69/112    68/112    67/112     -2        -1 social.farewell            14/20     13/20     14/20      0        +1 social.heldout_carrier     10/12     10/12      9/12     -1        -1 social.self               16/47     10/47     13/47     -3        +3 social.self_heldout         8/16      7/16      7/16     -1         0 social.low_family          1/28      6/28      7/28     +6        +1 social.low_voice          23/28     24/28     25/28     +2        +1 social.low_declared       16/28     16/28     17/28     +1        +1 social.low_heldout          0/4       1/4       1/4      +1         0</p>
+<p>declared_nocall why    arm 4  web 6  decline 9 | arm 5  web 12  decline 9 | arm 5b  web 6  decline 9 social.self why        arm 4  web 27           | arm 5  web 34           | arm 5b  web 31</p>
+<p><strong>The first pre-registered reading fires.</strong> The routing pair is back inside arm 4's band (the bar was declared &gt;= 95, bare &gt;= 97; it reads 97 and 97), <code>voice</code> is back to 90, and <code>low_family</code> holds at 7 — one above arm 5 — with one of the four held-out forms still answered. The <code>web_search</code> column on the declared row is arm 4's exact 6. <strong>The class was the whole cost</strong>: one switch, and every item arm 5 paid comes back while the row the class was built to buy does not fall.</p>
+<p><code>social.self</code> at 13 is one item outside the bar's 16 +/- 2, its <code>web_search</code> 31 sitting between arm 4's 27 and arm 5's 34. It is recorded rather than absorbed: the consolation moves alone lean the router a little on questions about his life, which is the same boundary as always and three items at n = 47.</p>
+<h3 id="2-the-gates-against-ft4g">2. The gates, against ft4g</h3>
+<p>row                     ft4g     arm 4    arm 5b   5b-ft4g tool.copy            120/120   120/120   120/120      0 tool.copy_wide       300/300   300/300   300/300      0 temporal.copy        353/353   353/353   353/353      0 refusal.say          270/270   270/270   270/270      0 tool.selection       198/200   198/200   197/200     -1 tool.name_fidelity   109/120   109/120   109/120      0 temporal.route       398/400   398/400   398/400      0 search.route_*       200/200   200/200   200/200      0   x3 chat.abstain_talk    100/100   100/100   100/100      0 chat.engage          100/100   100/100   100/100      0 chat.abstain_oos      11/100    13/100    11/100      0 chat.abstain_greet    83/100    93/100    91/100     +8 tool.note_fidelity   100/120    96/120    97/120     -3 extract.span          97/200    92/200    93/200     -4 extract.abstain      111/200   116/200   113/200     +2 turn2.react          118/120   117/120   116/120     -2 turn2.reask            66/96     75/96     78/96    +12 compound.pipe          39/48     41/48     41/48     +2</p>
+<p>grid A, decline            ft4g     arm 2     arm 4     arm 5    arm 5b pooled trained         174/176   176/176   176/176   174/176   176/176 pooled novel             32/32     31/32     29/32     30/32     31/32 historygrid depth 1, social after a tool turn (control excluded) 21/36     26/36     19/36     22/36     22/36 reissued / frame kept    0 / all   0 / all   0 / all   0 / all   0 / all reader proxy (ft4g adapter, fixed t) right / u.silent         526/199  524/199   522/196   524/197   524/197 moved 27, right 9 lost / 4 won</p>
+<p>Every frozen copy row at its ceiling and <code>refusal.say</code> unmoved, a sixth time. <strong>Grid A reads arm 2's numbers on the ft4g init</strong> — trained 176/176, novel 31/32, the one miss <code>commerce</code>'s "return the boots" that every arm has missed — which arm 4 (29/32) did not; whether that is the consolation moves helping the boundary or n = 32 wobbling is a second-seed question, and it is the right direction either way. The post-history social probe is arm 5's 22/36, three above arm 4.</p>
+<h3 id="3-reading">3. Reading</h3>
+<p>Arm 5b is the base arm 7 stacks on, and it is the best ft4g-lineage checkpoint on the record: arm 4's rows with the consolation family added (1 -&gt; 7 of 28), arm 2's grid A, every gate inside its floor. The consolation family is still supply-limited — seven of twenty-eight from a twenty-line pool at two uses each — and the row that would move it is the rated pool's 54 lines (finding <a class="fref" href="/Corn-Jr-Public/finding/120.html">120</a> §4), which is a share question for a later arm and not this one.</p>
+<h3 id="limits">Limits</h3>
+<p>One seed. The rows that decide this reading moved by 4-6 items of 112 against arm 5 and by 0-3 against arm 4; <code>social.self</code> by 3 of 47. Grid A's novel column is 32 items. The reader proxy is at a fixed threshold.</p>
+<h3 id="on-disk">On disk</h3>
+<p><code>evals/results/corn_jr_260m_v4_ft_social5b.json</code>, <code>harness/results/corn_jr_260m_v4_ft_social5b__toolgrid.json</code>, <code>harness/results/corn_jr_260m_v4_ft_social5b__historygrid-0905ctl.json</code>, <code>evals/results/reader_runtime_whole_s1_on_social5b.json</code>; <code>checkpoints/corn_jr_260m_v4_ft_social5b/</code> (gitignored).</p></div>
+  </section>
+
+  <section class="grid refs">
+    <div class="body two-even">
+      <div>
+        <h2 class="small">It cites</h2>
+        <ul class="reflist"><li style="--c:var(--c3)"><a href="/Corn-Jr-Public/finding/120.html"><span class="fn">120</span>Consolation replies barely move and cost tool routing</a></li></ul>
+        
+      </div>
+      <div>
+        <h2 class="small">Cited by</h2>
+        <ul class="reflist"><li style="--c:var(--c2)"><a href="/Corn-Jr-Public/finding/124.html"><span class="fn">124</span>Refitting the reader on the social model reads 517 at runtime</a></li></ul>
+        
+      </div>
+    </div>
+    <p class="body source">docs/findings/121-with-the-mood-prefixed-calls-cut-the-routing-pair-returns-to-arm-four-and-the-consolation-row-holds-so-the-class-was-the-whole-cost.md</p>
+  </section>
+</article>
+
+  
+<footer class="turn">
+  <div><span class="sc">previous</span><a href="/Corn-Jr-Public/finding/119.html">119 · Fine-tuning from the shipped base: frozen scores hold, small social costs</a></div>
+  <div class="r"><span class="sc">next</span><a href="/Corn-Jr-Public/finding/123.html">123 · One unrelated exchange in history stops repeated calls</a></div>
+  <p class="keys"><kbd>←</kbd> <kbd>→</kbd> turn the page · <kbd>/</kbd> find</p>
+</footer>
+<p class="bynumber">Previous and next in <a href="/Corn-Jr-Public/thread/conversation.html">Conversation and the second turn</a>. By number:
+  <a href="/Corn-Jr-Public/finding/120.html">120</a> · <a href="/Corn-Jr-Public/finding/122.html">122</a></p>
+
+</div>
+</body>
+</html>

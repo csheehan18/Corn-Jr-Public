@@ -1,0 +1,101 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>35 · One percent of non-tool turns teaches him when not to call · Corn-Jr</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600&family=IBM+Plex+Mono:wght@400;500&family=Spectral:ital,wght@0,400;0,500;0,600;1,400&family=Spectral+SC:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/Corn-Jr-Public/static/library.css">
+<script defer src="/Corn-Jr-Public/static/library.js"></script>
+<script type="speculationrules">
+{"prerender": [{"where": {"and": [{"href_matches": "/Corn-Jr-Public/*"}, {"not": {"href_matches": "/Corn-Jr-Public/random.html"}}, {"not": {"href_matches": "/Corn-Jr-Public/static/*"}}]}, "eagerness": "moderate"}]}
+</script>
+
+</head>
+<body>
+<div class="page">
+  <header class="running">
+    <a class="book" href="/Corn-Jr-Public/">Corn-Jr · The Record</a>
+    <nav>
+      <a href="/Corn-Jr-Public/" data-key="shelf">Shelf</a><a href="/Corn-Jr-Public/findings.html" data-key="findings" class="here">Findings</a><a href="/Corn-Jr-Public/doc/VISION.html" data-key="VISION">Vision</a><a href="/Corn-Jr-Public/doc/GLOSSARY.html" data-key="GLOSSARY">Glossary</a>
+      <a href="https://github.com/csheehan18/Corn-Jr-Public">Source</a>
+    </nav>
+  </header>
+  
+
+<article class="sheet" style="--c:var(--c1)">
+  <div class="progress" aria-hidden="true"></div>
+  <section class="grid chapter-open finding-open">
+    <a class="tab" href="/Corn-Jr-Public/thread/routing.html" title="Routing and declining"><small>Part</small><span>I</span></a>
+    <p class="cn">35</p>
+    <p class="partline"><a href="/Corn-Jr-Public/thread/routing.html">Routing and declining</a> · 17 August 2026</p>
+    <h1>One percent of non-tool turns teaches him when not to call</h1>
+  </section>
+
+  <section class="grid">
+    <p class="marginal">The result, as the finding states it</p><div class="prose"><p class="lead">The corpus never showed him a turn that does not call, and one per cent was the whole of it</p></div>
+    <p class="marginal">What it cost</p><div class="prose"><p class="cost">4.0 min of scoring on the 1 card first cited here (<code>nano20m_v1_chat</code>); it also reads 2 cards scored for an earlier finding (<code>nano100m_v1</code>, <code>nano20m_v1</code>). Backfilled 2026-09-26 from the cards' <code>seconds</code>; training and probe time were never recorded, so this is a floor.</p></div>
+  </section>
+
+  
+
+  <section class="grid">
+    <div class="prose doc"><p>The thirty-fourth finding left declining as the gap a runtime has to close elsewhere. This asks the neighbouring question — not <em>is this request covered</em>, but <em>is this a request at all</em> — and answers it with a corpus class that has never existed. Two seeds trained against two baseline seeds; <code>configs/mix_v1_chat.py</code>.</p>
+<blockquote><p><strong>Read the ranges, not the cells.</strong> Two of the readings written from the first seed were wrong in opposite directions and are withdrawn at the end of this file. A single cell of this arm supports neither of the things it appears to say.</p></blockquote>
+<h3 id="the-corpus-counted-before-anything-was-built">The corpus, counted before anything was built</h3>
+<div class="tablewrap"><table><thead><tr><th>slice</th><th>share of <code>mix_v1</code></th><th>markers</th><th>transcripts that do not call</th></tr></thead><tbody><tr><td><code>conversational.txt</code></td><td>20%</td><td><strong>none at all</strong></td><td>n/a — 781 MB, not one <code>&lt;\|user\|&gt;</code></td></tr><tr><td><code>temporal.txt</code></td><td>9.79%</td><td>yes</td><td><strong>0</strong> of 164,263</td></tr><tr><td><code>structured.txt</code></td><td>10%</td><td>no <code>&lt;\|user\|&gt;</code></td><td>—</td></tr><tr><td><code>tools.txt</code></td><td>0.6228%</td><td>yes</td><td>1,000 of 10,000</td></tr></tbody></table></div>
+<p>Weighted by what the model reads: ~99,000 marked-up transcripts, <strong>~1,000 of them no-call — 1%, at one pass.</strong> The 20% of the budget that makes him conversational carries no markers, so dialogue is learned as unmarked continuation and <code>&lt;|user|&gt;</code> is learned as a cue to emit a call. The two halves of what §3 wants are learned in disjoint universes.</p>
+<p>The 1,000 that exist are not badly built — 132 refusal sentences at 7.6 uses each, which is not the recitation regime. They still mostly do not survive. Three utterances <strong>verbatim from that training pool</strong>, through <code>corn/agent.py</code> at temperature 0: <code>put the radio on</code> refuses cleanly; <code>book me a flight</code> and <code>please delete my emails</code> both call a tool.</p>
+<h3 id="the-quantity-was-already-in-every-scorecard-unpooled-by-nobo">The quantity was already in every scorecard, unpooled by nobody</h3>
+<p><code>score_selection</code> has scored abstention since it was written — <code>item[&quot;tool&quot;]</code> is <code>None</code> for a request no tool covers and <code>called_anyway</code> is its failure reason. Read out of <code>evals/results/</code>, it is at floor on <strong>every checkpoint in the project</strong>: 13 to 19 of the 19 out-of-scope items, across four seeds, two model sizes and nine corpora including one with no tool slice at all. On <code>nano100m_v1</code>, <strong>18 of the 19 items <code>tool.selection</code> fails are that one failure</strong>, so its 181/200 has been read as tool competence when almost all of its error mass is a single behaviour.</p>
+<p>Nothing was wrong with the measurement. It was pooled with a six-way tool choice, it had 19 items, and all 19 asked for an uncovered capability — none was ordinary conversation. <code>evals/chat.jsonl</code> unpools it into three cells of 100, and the third is a control rather than a measurement: without items that <em>want</em> a call, a model that never calls scores 100%.</p>
+<h3 id="the-result">The result</h3>
+<p>Ranges over two arm seeds and two baseline seeds. The thirtieth finding's standard: the two ranges either overlap or they do not.</p>
+<div class="tablewrap"><table><thead><tr><th>row</th><th><code>nano20m_v1</code> ×2</th><th><code>nano20m_v1_chat</code> ×2</th><th>separated?</th></tr></thead><tbody><tr><td><strong><code>chat.abstain_oos</code></strong></td><td>0, 5</td><td><strong>7, 29</strong></td><td><strong>yes</strong></td></tr><tr><td><code>chat.abstain_talk</code></td><td>95, 99</td><td>100, 100</td><td>by one item</td></tr><tr><td><code>chat.engage</code> — the control</td><td>100, 100</td><td>100, 100</td><td>no, and must not</td></tr><tr><td><strong><code>refusal.say</code></strong> /270</td><td>162, 172</td><td><strong>188, 196</strong></td><td><strong>yes</strong></td></tr><tr><td><strong>reply median words</strong></td><td>8, 8</td><td><strong>10, 11</strong></td><td><strong>yes</strong> (corpus 11)</td></tr><tr><td>reply distinct-3</td><td>.8754, .8814</td><td>.8726, .9052</td><td>no — straddles</td></tr><tr><td><code>register.conv</code> dialogue</td><td>81, 76</td><td>81, 77</td><td>no — <strong>the control held</strong></td></tr><tr><td><code>tool.selection</code></td><td>112, 156</td><td>159, 160</td><td>base spread is 44</td></tr><tr><td><code>tool.copy</code></td><td>100, 100</td><td>85, 100</td><td>no</td></tr><tr><td><code>tool.copy_wide</code></td><td>276, 279</td><td>263, 283</td><td>no</td></tr><tr><td><code>temporal.route</code></td><td>398, 398</td><td>398, 400</td><td>no</td></tr></tbody></table></div>
+<p><strong>The control first, as pre-registered.</strong> Conversational went 20% → 15% unmarked plus 5% marked, and <code>register.conv</code> on the dialogue half reads 81/76 against 81/77. The twenty-fifth finding priced that row at exactly this share against a 1.0-point floor, the tightest in the project. It did not move, so the arm is readable. The donor was chosen for this: the new slice is <em>made of</em> the old one, so total dialogue exposure is 20% in both corpora and the only thing that changes is whether some of those sentences sit behind <code>&lt;|user|&gt;</code>.</p>
+<p><strong><code>chat.abstain_oos</code> is the result and its size is not readable.</strong> [0, 5] against [7, 29] does not overlap, so the direction survives. 7 and 29 is a fourfold spread and no interval can be quoted from it. More seeds are the one thing that prices this.</p>
+<p><strong>The replies got longer, not more varied.</strong> Median words 8 → 10 and 11 against the corpus's 11 separates cleanly. Pooled distinct-3 does not: the arm's range straddles the baseline's entirely, and arm seed 2 reads <em>below</em> both baselines.</p>
+<p><strong>Cardinality was necessary and was not sufficient.</strong> The slice's replies are cut from SODA rather than written, at <strong>1.19 uses per distinct reply over 163,287 of them</strong> — <code>answer</code>'s regime (1.2) and the wide toolspace arm's (1.0), not <code>clarify</code>'s 2,096. That is the mechanism the thirty-fourth finding generalised, and it bought a real move on <code>oos</code> and on reply length. It did not buy reply <em>variety</em>, which is the first time in this project that getting the cardinality right has not moved the row it was aimed at.</p>
+<h3 id="the-instrument-has-a-ceiling-on-one-class-and-it-was-built-t">The instrument has a ceiling on one class, and it was built to avoid exactly that</h3>
+<p><code>chat.abstain_talk</code> reads 95 and 99 in the <strong>baseline</strong>. Five items of headroom — which is the thirty-first finding's complaint about <code>evals_wideonly</code> ("twelve items whose untreated range touches its own ceiling, which answers nothing at any seed count") committed again, by the file written to prevent it.</p>
+<p>The cause is legible in the items. <code>talk</code> prompts are long SODA openings ("Mom, what's going on? Why is the school closing for a week?") and those already read as conversation to an untreated model. The failures visible in <code>corn/agent.py</code> — <code>good morning</code>, <code>did you sleep well?</code> — are <strong>short</strong> greetings, and <code>MIN_USER = 16</code> plus SODA's opener distribution keeps them nearly out of the pool. <strong>The row measures the easy end of its class.</strong> Fixing it means a hand-written short-greeting pool, which is quantised by construction; that is a trade to decide rather than assume.</p>
+<h3 id="what-this-does-not-settle">What this does not settle</h3>
+<ul><li><strong>Two seeds</strong>, and <code>oos</code>'s spread of 7-to-29 means the effect exists and has no interval.</li><li><strong><code>absent</code> is a different question and this does not transfer to it.</strong> The thirty-fourth finding's <code>absent</code> asks whether a request is covered by a <em>declared list</em> and fails because he invents a tool name rather than running a membership test. This asks whether an utterance is a request. Both being no-call classes does not make them one question.</li><li><strong><code>refusal.say</code> moved and nothing here asked it to</strong> — 162/172 → 188/196, no overlap, ~25 items, unexplained. It is the loose end most likely to be a real finding.</li><li><strong><code>refusal.say_unechoed</code> is 0/55 in all four cells</strong>, unmoved, as everywhere.</li><li><strong>The tool-word screen is a heuristic.</strong> <code>corn/chatgen.py</code>'s <code>TOOL_WORDS</code> drops any dialogue opening that looks like a request a tool covers, because teaching <code>&lt;|say|&gt;</code> on "remind me on Friday" would train against eleven findings of tool behaviour. It cannot catch a request phrased without any of its words, and those transcripts are in the slice.</li><li><strong>5% is unpriced.</strong> The first point, chosen to make a null readable. The thirty-first finding's warning applies in full: interventions here keep turning out cheaper than the arm that found them.</li><li><strong>Multi-turn is untouched.</strong> The new slice is single-turn like every other; no transcript in the corpus has a second <code>&lt;|user|&gt;</code>.</li></ul>
+<h3 id="two-readings-from-seed-1-withdrawn">Two readings from seed 1, withdrawn</h3>
+<ul><li>~~"He learned that ordinary conversation isn't a request; he did not learn that an uncovered request is uncovered."~~ <strong>Backwards.</strong> Seed 1 read <code>oos</code> at 7 and <code>talk</code> at 100/100, which looked decisive until the baseline arrived at 95 and 99 on <code>talk</code> — near ceiling all along — and arm seed 2 read <code>oos</code> at 29.</li><li>~~"The arm closes 80% of the gap to the corpus on reply variety."~~ <strong>Does not replicate.</strong> Read off seed 1's 0.9052 against a 0.9130 corpus reference before a second seed existed.</li></ul>
+<p><strong>And <code>tool.copy</code>'s −15 on seed 1 was seed noise.</strong> Seed 2 reads 100/120, identical to both baselines. The nineteenth finding says that row moves 15.0 points on the seed alone; it did exactly that, and one cell nearly bought a regression that is not there.</p>
+<h3 id="a-separate-thing-this-cost-and-it-was-free-to-fix">A separate thing this cost, and it was free to fix</h3>
+<p><code>_invent_held_out_facts</code> compiled a fresh regex on each of <strong>5,004,876</strong> iterations — 600 candidates × 8,697 train answers × two directions — thrashing <code>re</code>'s 512-entry cache against 8,697 distinct patterns. <code>import corn.tools</code> took <strong>87.5 seconds</strong>, paid by <code>corn/agent.py</code>, <code>corn/evals.py</code>, <code>corn/chat.py</code> and all fourteen guard scripts before any of them printed a character. Compiling once outside the loop takes it to <strong>2.7s</strong>, and the agent from cold start to two answers from 91.1s to 6.3s.</p>
+<p><code>FACTS</code> is in every mix and therefore every checkpoint; <code>HELD_OUT_FACTS_WIDE</code> is in <code>evals/tool_copy_wide.jsonl</code>, which fourteen scorecards read. Both are now pinned by sha256 in <code>check_tools.py</code> group 10, against hashes captured <strong>before</strong> the change and verified identical after. Nothing stood between a well-meaning edit to that generator and every number in the project quietly ceasing to be comparable.</p></div>
+  </section>
+
+  <section class="grid refs">
+    <div class="body two-even">
+      <div>
+        <h2 class="small">It cites</h2>
+        <p class="aside">No other finding by number.</p>
+      </div>
+      <div>
+        <h2 class="small">Cited by</h2>
+        <ul class="reflist"><li style="--c:var(--c3)"><a href="/Corn-Jr-Public/finding/128.html"><span class="fn">128</span>Questions about his life go to the web six times in ten</a></li><li style="--c:var(--c4)"><a href="/Corn-Jr-Public/finding/134.html"><span class="fn">134</span>He learns to write a summary line of conversation state</a></li></ul>
+        
+      </div>
+    </div>
+    <p class="body source">docs/findings/35-the-corpus-never-showed-him-a-turn-that-does-not-call.md</p>
+  </section>
+</article>
+
+  
+<footer class="turn">
+  <div><span class="sc">previous</span><a href="/Corn-Jr-Public/finding/34.html">34 · He picks tools he never saw in training, but can&#39;t say no</a></div>
+  <div class="r"><span class="sc">next</span><a href="/Corn-Jr-Public/finding/37.html">37 · Training second-turn declines changed nothing and cost tool choice</a></div>
+  <p class="keys"><kbd>←</kbd> <kbd>→</kbd> turn the page · <kbd>/</kbd> find</p>
+</footer>
+<p class="bynumber">Previous and next in <a href="/Corn-Jr-Public/thread/routing.html">Routing and declining</a>. By number:
+  <a href="/Corn-Jr-Public/finding/34.html">34</a> · <a href="/Corn-Jr-Public/finding/36.html">36</a></p>
+
+</div>
+</body>
+</html>

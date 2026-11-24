@@ -1,0 +1,94 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>181 · Mixed sentence shapes: he reads each option&#39;s own condition, loses &#39;otherwise&#39; · Corn-Jr</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600&family=IBM+Plex+Mono:wght@400;500&family=Spectral:ital,wght@0,400;0,500;0,600;1,400&family=Spectral+SC:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/Corn-Jr-Public/static/library.css">
+<script defer src="/Corn-Jr-Public/static/library.js"></script>
+<script type="speculationrules">
+{"prerender": [{"where": {"and": [{"href_matches": "/Corn-Jr-Public/*"}, {"not": {"href_matches": "/Corn-Jr-Public/random.html"}}, {"not": {"href_matches": "/Corn-Jr-Public/static/*"}}]}, "eagerness": "moderate"}]}
+</script>
+
+</head>
+<body>
+<div class="page">
+  <header class="running">
+    <a class="book" href="/Corn-Jr-Public/">Corn-Jr · The Record</a>
+    <nav>
+      <a href="/Corn-Jr-Public/" data-key="shelf">Shelf</a><a href="/Corn-Jr-Public/findings.html" data-key="findings" class="here">Findings</a><a href="/Corn-Jr-Public/doc/VISION.html" data-key="VISION">Vision</a><a href="/Corn-Jr-Public/doc/GLOSSARY.html" data-key="GLOSSARY">Glossary</a>
+      <a href="https://github.com/csheehan18/Corn-Jr-Public">Source</a>
+    </nav>
+  </header>
+  
+
+<article class="sheet" style="--c:var(--c4)">
+  <div class="progress" aria-hidden="true"></div>
+  <section class="grid chapter-open finding-open">
+    <a class="tab" href="/Corn-Jr-Public/thread/tag-language.html" title="The tag language"><small>Part</small><span>IV</span></a>
+    <p class="cn">181</p>
+    <p class="partline"><a href="/Corn-Jr-Public/thread/tag-language.html">The tag language</a> · 20 October 2026</p>
+    <h1>Mixed sentence shapes: he reads each option&#39;s own condition, loses &#39;otherwise&#39;</h1>
+  </section>
+
+  <section class="grid">
+    <p class="marginal">The result, as the finding states it</p><div class="prose"><p class="lead">Composed clause structures do not install by fine-tune — every gate fails at all three starts; he reads a conditional where each continuation has a condition clause of its own (0.86-0.98 on his training traces, and a question form no cell contains 0 to 6 of 6 on the hand-written probe) and loses "otherwise", trailing tails and the default-then-late-switch order (chance or below), and with them the eight structures A2 read at ceiling (0.99 to 0.47-0.50)</p></div>
+    <p class="marginal">What it cost</p><div class="prose"><p class="cost">three fine-tunes of 650 iterations at 20M (158, 143, 143 s, contended — the card at 36%, a bound), three three-way reads at 87-89 s and three structure-row reads at 61 s, three slot reads and copy cards at 7-8 s, the real-wording probe: one chain of 956.2 s, 09:34-09:50 on 2026-10-20, registered ~18 min; the zero-training control 194 s and the per-cell training-trace read 24.7 s; the build 09:05-09:34 on CPU. The pre-registration's Cost line says the build ran to 10:30 — written before the clock was read; 09:34 is the launch log's stamp.</p></div>
+  </section>
+
+  
+
+  <section class="grid">
+    <div class="prose doc"><p><strong>The owner's go, 2026-10-20</strong>: "let's do A2 and structures". Finding <a class="fref" href="/Corn-Jr-Public/finding/179.html">179</a>'s limit, unchanged under A2 (finding <a class="fref" href="/Corn-Jr-Public/finding/180.html">180</a>): his binding line reads new words in the eight trained clause structures and fails new structures. GENERATORS §2 says he memorises whatever layer is held fixed, so the structure was <strong>composed from parts</strong> rather than listed (<code>corn/branchstructgen.py</code>): four clause orders, three polarities, five ways of introducing the other continuation, hedges, separators, sentence breaks, openers, preambles and afterthoughts — 23 trained cells, 5 held by combination, 5,839 structures none seen more than 10 times. One variable against A2: the payload. Everything else is A2's — the replay, 650 iterations, the pick under loss, the runtime's menu in his line's order, arm E2's three starts. Pre-registered at cf24839 (<code>configs/mix_v3_bind_ft_struct.py</code>) after a zero-training control read and before a byte trained; <code>check_branch.py</code> section 16 holds the payload, with a second reader re-deriving every gold and cell from the words.</p>
+<h3 id="the-registered-read">The registered read</h3>
+<p>His line exact (<code>probe_branch_bind.py --line-order</code>; the structure rows <code>evals/funcworld_branchstruct.jsonl</code>, finding <a class="fref" href="/Corn-Jr-Public/finding/180.html">180</a>'s rows <code>evals/funcworld_branchflip_bind_order.jsonl</code>); far probe pairs right of 58 (<code>probe_bind_real.py</code>):</p>
+<p>run          struct rows       held rows         finding <a class="fref" href="/Corn-Jr-Public/finding/180.html">180</a>'s rows   far probe (gate 0.94)       (gate 0.90)       (gate 0.97)          (gate 48) A2 ev2       328/720 0.46      324/480 0.68      1,714+ (finding <a class="fref" href="/Corn-Jr-Public/finding/180.html">180</a>)    40 A2 ev2s2     328/720 0.46      292/480 0.61                              34 A2 ev2s3     320/720 0.44      328/480 0.68                              38 struct ev2   504/720 0.70      302/480 0.63        816/1,728 0.47        23 struct ev2s2 490/720 0.68      296/480 0.62        824/1,728 0.48        26 struct ev2s3 516/720 0.72      306/480 0.64        858/1,728 0.50        29</p>
+<p><strong>Every gate fails at every start.</strong> The prediction (installs and transfers at 3 of 3, the far probe at 2 of 3) was wrong on all four. The pick half is untouched: the gold-line pick on unmet reads 864 of 864 at every start, and the forged line is followed on every prompt — the runtime's menu still turns "the other one" into a position.</p>
+<h3 id="read-by-cell-on-his-own-training-traces">Read by cell, on his own training traces</h3>
+<p>The pre-registered row for a missed install says read the training traces by cell before more dose. The first slot, both continuations scored, on the first 1,500 payload traces (trained; scratch <code>slot_by_cell.py</code>, probe only — not on disk), two starts:</p>
+<p>reads (0.86-0.98 at both)                   at chance or below CXY pos CLAUSE  if it's v, X; if not, Y     XCY pos TRAIL   X if it's v, Y if it isn't    0.21 / 0.33 CXY neg CLAUSE  if it isn't v, X; if it     XCY neg LEAD    X if it isn't v, otherwise Y  0.40 / 0.25 is, Y                       XCY neg TRAIL                                0.53 / 0.28 XCY neg CLAUSE  X if it isn't v — and if   XCY pos LEAD    X if it's v, otherwise Y      0.49 / 0.49 it is, Y                    YXC (all four)  Y, but X instead if it's v    0.49-0.67 XCY unl CLAUSE  X unless v, in which case Y XCY unl TRAIL   X unless v; Y if it is CXY unl CLAUSE                              between: CXY LEAD and TRAIL 0.59-0.84, YCX 0.69-0.88</p>
+<p><strong>The split is whether each continuation carries a condition clause of its own.</strong> Where Y is introduced by "if not", "if it is", "in which case", he reads it — either side's clause gives the answer. Where Y has only "otherwise", "else", or a tail after it, he must attach the one condition to the right continuation and take the other one for Y, and that does not form. The old eight families are mostly of the second kind (P1, P1n, P3, P3n), and A2 held them as a table; with their share cut from all of the payload to a quarter, the table went and nothing general replaced it.</p>
+<h3 id="read-by-hand-and-the-rule-it-points-at">Read by hand, and the rule it points at</h3>
+<p>The three-way probe prints his line beside the gold. On finding <a class="fref" href="/Corn-Jr-Public/finding/180.html">180</a>'s rows, "I'd like a spot for a pint as long as it's quiet — else a place for dinner" gets <code>if: quiet -&gt; a place for dinner</code>, and its twin with the two continuations swapped gets the other one: he named <strong>the continuation after the condition</strong> on both orders. Tested over every prompt (scratch <code>forward_rule.py</code>): on the 1,032 prompts of finding <a class="fref" href="/Corn-Jr-Public/finding/180.html">180</a>'s rows where attaching the condition to the continuation after it gives the wrong answer, the structures arm follows that rule on 0.63-0.65 and the gold on 0.35-0.37 (A2: the gold on 1.00). On the structure rows the same split reads 0.65-0.73 on both sides — <strong>a lean toward forward attachment, not a rule he follows everywhere.</strong></p>
+<h3 id="the-far-probe-by-shape">The far probe, by shape</h3>
+<p>Pooled over the three starts (6 a shape). What reads 5-6 of 6 is the own-clause kind, in words and shapes no cell holds: "when it's not v, A; when it is, B", "assuming it's not v, A; if it is, B instead", "unless it's v I'd like A; if it is, then B", "if by chance it's v, A; if not, B" (A2: 1 of 6), and <strong>"is it v? then A. if not, B" — a question, pre-registered as beyond every cell — 6 of 6 (A2: 0 of 6).</strong> What falls to 0 of 6 is the else-word and tail kind A2 read: "should it be v, A — B otherwise" (A2 6), "A when it's v, B the rest of the time" (A2 6), "B if it's v, A if it's not" (A2 6), "A if it isn't v at all, otherwise B" (A2 6). Of the five shapes pre-registered as covered, "go for B, but if it's not v, A" rose 0 to 4 of 6 and the other four read 0-2.</p>
+<p><strong>The vocabulary column fell</strong>: 0 / 0 / 1 of 6 against A2's 5 of 6 — on its near-trained shapes, all of the else-word kind.</p>
+<h3 id="the-copy-row-a-side-column">The copy row, a side column</h3>
+<p><code>tool.copy_wide</code> 294, 283, 293 against the starts' 298, 295, 293 — not readable by finding <a class="fref" href="/Corn-Jr-Public/finding/170.html">170</a>'s rule. The second start falls again, by 12 where A2 fell by 47; its digit species (finding <a class="fref" href="/Corn-Jr-Public/finding/180.html">180</a>) still owes a cause.</p>
+<h3 id="what-it-licenses">What it licenses</h3>
+<ul><li><strong>Composing the structure took the table away and the general read did not form in its place</strong> — finding <a class="fref" href="/Corn-Jr-Public/finding/173.html">173</a> one layer up (the flip words took away the wording table and nothing formed until the binding line put the hop in the bytes, finding <a class="fref" href="/Corn-Jr-Public/finding/175.html">175</a>). GENERATORS §2's "a low lookup route is necessary and not sufficient" holds at the structure layer.</li><li><strong>The hop he does not make is "otherwise means the other one"</strong> — the complement findings <a class="fref" href="/Corn-Jr-Public/finding/175.html">175</a>-<a class="fref" href="/Corn-Jr-Public/finding/179.html">179</a> could not form at the pick and finding <a class="fref" href="/Corn-Jr-Public/finding/180.html">180</a> gave to the runtime as a menu position. At the line it is the same operation, and the eight families had held it only as eight memorised shapes. Where the request itself states the complement ("if not, Y"), the line reads structures it never saw, a question form included.</li><li><strong>For the 1.0 branch slice</strong>: composed structures alone are not enough at this dose; the else-word and tail kinds need the complement made visible — in the bytes he trains on, or by the runtime — before variety can teach them. Which of those is the owner's.</li><li><strong>More dose is not indicated</strong>: two passes left the else-word cells at chance on their own training traces, not near a ceiling a third pass would reach (GENERATORS: dose amplifies a step, it does not create one).</li></ul>
+<p><strong>What it does not settle.</strong> Whether pretraining on the composed payload (a fresh start rather than a fine-tune over A2's table) forms the else-word read; whether a mix keeping the eight families at full share beside the composed cells holds both; what in the bytes would make "otherwise" visible; and the second start's copy species.</p></div>
+  </section>
+
+  <section class="grid refs">
+    <div class="body two-even">
+      <div>
+        <h2 class="small">It cites</h2>
+        <ul class="reflist"><li style="--c:var(--c4)"><a href="/Corn-Jr-Public/finding/170.html"><span class="fn">170</span>The copy test&#39;s failure threshold was measuring seed noise</a></li><li style="--c:var(--c4)"><a href="/Corn-Jr-Public/finding/173.html"><span class="fn">173</span>Branch choice falls to chance when condition words flip the meaning</a></li><li style="--c:var(--c4)"><a href="/Corn-Jr-Public/finding/175.html"><span class="fn">175</span>He names the chosen branch, but can&#39;t combine it with the result</a></li><li style="--c:var(--c4)"><a href="/Corn-Jr-Public/finding/176.html"><span class="fn">176</span>Naming both branches fixes the pick but blurs &#39;not&#39;</a></li><li style="--c:var(--c4)"><a href="/Corn-Jr-Public/finding/177.html"><span class="fn">177</span>Leaving the second slot out of training doesn&#39;t restore &#39;not&#39;</a></li><li style="--c:var(--c4)"><a href="/Corn-Jr-Public/finding/178.html"><span class="fn">178</span>Naming a second branch blinds him to &#39;not&#39;</a></li><li style="--c:var(--c4)"><a href="/Corn-Jr-Public/finding/179.html"><span class="fn">179</span>Fine-tuned, he reads every condition word like &#39;not&#39; and &#39;unless&#39;</a></li><li style="--c:var(--c4)"><a href="/Corn-Jr-Public/finding/180.html"><span class="fn">180</span>When the runtime orders the menu, &#39;the other one&#39; is perfect</a></li></ul>
+        
+      </div>
+      <div>
+        <h2 class="small">Cited by</h2>
+        <ul class="reflist"><li style="--c:var(--c4)"><a href="/Corn-Jr-Public/finding/182.html"><span class="fn">182</span>Copying the condition&#39;s clause first: new sentence shapes read, new words don&#39;t</a></li><li style="--c:var(--c4)"><a href="/Corn-Jr-Public/finding/184.html"><span class="fn">184</span>Looping until it sounds right: he learns to always keep looking</a></li></ul>
+        
+      </div>
+    </div>
+    <p class="body source">docs/findings/181-composed-clause-structures-do-not-install-by-fine-tune-he-reads-a-condition-clause-beside-each-continuation-and-loses-otherwise-and-the-eight-trained-structures.md</p>
+  </section>
+</article>
+
+  
+<footer class="turn">
+  <div><span class="sc">previous</span><a href="/Corn-Jr-Public/finding/180.html">180 · When the runtime orders the menu, &#39;the other one&#39; is perfect</a></div>
+  <div class="r"><span class="sc">next</span><a href="/Corn-Jr-Public/finding/182.html">182 · Copying the condition&#39;s clause first: new sentence shapes read, new words don&#39;t</a></div>
+  <p class="keys"><kbd>←</kbd> <kbd>→</kbd> turn the page · <kbd>/</kbd> find</p>
+</footer>
+<p class="bynumber">Previous and next in <a href="/Corn-Jr-Public/thread/tag-language.html">The tag language</a>. By number:
+  <a href="/Corn-Jr-Public/finding/180.html">180</a> · <a href="/Corn-Jr-Public/finding/182.html">182</a></p>
+
+</div>
+</body>
+</html>

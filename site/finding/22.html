@@ -1,0 +1,91 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>22 · Every conversation dataset fails a vocabulary test built from web text · Corn-Jr</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600&family=IBM+Plex+Mono:wght@400;500&family=Spectral:ital,wght@0,400;0,500;0,600;1,400&family=Spectral+SC:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/Corn-Jr-Public/static/library.css">
+<script defer src="/Corn-Jr-Public/static/library.js"></script>
+<script type="speculationrules">
+{"prerender": [{"where": {"and": [{"href_matches": "/Corn-Jr-Public/*"}, {"not": {"href_matches": "/Corn-Jr-Public/random.html"}}, {"not": {"href_matches": "/Corn-Jr-Public/static/*"}}]}, "eagerness": "moderate"}]}
+</script>
+
+</head>
+<body>
+<div class="page">
+  <header class="running">
+    <a class="book" href="/Corn-Jr-Public/">Corn-Jr · The Record</a>
+    <nav>
+      <a href="/Corn-Jr-Public/" data-key="shelf">Shelf</a><a href="/Corn-Jr-Public/findings.html" data-key="findings" class="here">Findings</a><a href="/Corn-Jr-Public/doc/VISION.html" data-key="VISION">Vision</a><a href="/Corn-Jr-Public/doc/GLOSSARY.html" data-key="GLOSSARY">Glossary</a>
+      <a href="https://github.com/csheehan18/Corn-Jr-Public">Source</a>
+    </nav>
+  </header>
+  
+
+<article class="sheet" style="--c:var(--c1)">
+  <div class="progress" aria-hidden="true"></div>
+  <section class="grid chapter-open finding-open">
+    <a class="tab" href="/Corn-Jr-Public/thread/corpus-mix.html" title="The corpus mix"><small>Part</small><span>I</span></a>
+    <p class="cn">22</p>
+    <p class="partline"><a href="/Corn-Jr-Public/thread/corpus-mix.html">The corpus mix</a> · 17 August 2026</p>
+    <h1>Every conversation dataset fails a vocabulary test built from web text</h1>
+  </section>
+
+  <section class="grid">
+    <p class="marginal">The result, as the finding states it</p><div class="prose"><p class="lead">Everything that sounds right fails the ruler, and the ruler came from web text</p></div>
+    
+  </section>
+
+  
+
+  <section class="grid">
+    <div class="prose doc"><p>A fourth conversational candidate, measured the way the other three were: a million words at three offsets, <code>scripts/vocab.py</code>'s word rule, turn length beside the two vocabulary numbers. No GPU, no download into <code>data/raw</code> — a 40 MB range request against a 9.5 GB gzip stream, decompressed to 127 MB in the scratchpad and thrown away.</p>
+<h4 id="the-licence-was-answered-before-the-vocabulary-and-it-is-a-n">The licence was answered before the vocabulary, and it is a no</h4>
+<p><code>DATA.md</code> §11 recorded OpenSubtitles as licence "unknown", which read like a gap in the mirror. It is not. OPUS's own corpus metadata carries a <code>license</code> field and other corpora use it:</p>
+<div class="tablewrap"><table><thead><tr><th>corpus</th><th><code>license</code></th></tr></thead><tbody><tr><td><code>Tatoeba</code></td><td>CC BY 2.0 FR</td></tr><tr><td><code>WikiMatrix</code></td><td>CC-BY-SA 4.0</td></tr><tr><td><code>TED2020</code></td><td>a pointer to the TED Talks usage policy</td></tr><tr><td><strong><code>OpenSubtitles</code></strong></td><td><strong>absent — no <code>license</code>, no <code>copyright</code></strong></td></tr></tbody></table></div>
+<p>Eight top-level keys and neither is a licence. What it carries instead is a request — "Please, add a link to http://www.opensubtitles.org/ to your website" — with the note "I promised this when I got the data from the providers of that website". That is a personal undertaking passed downstream rather than a grant of rights, and the "unknown" is faithful to upstream.</p>
+<p>The two apparent escape hatches both close. <code>Helsinki-NLP/OpenSubtitles2024</code> is ODC-BY but is the <em>benchmark</em> release: dev/test only, 2,022 bilingual pairs, no monolingual English, and its own card says not to train on it. META-SHARE's CC-BY-NC-SA 3.0 record is NonCommercial plus ShareAlike — a different class from every slice in the corpus today — and could not be verified directly.</p>
+<h4 id="it-has-the-best-register-of-any-candidate-and-the-vocabulary">It has the best register of any candidate and the vocabulary still fails</h4>
+<div class="tablewrap"><table><thead><tr><th>candidate</th><th>licence</th><th>distinct</th><th>top-100</th><th>median turn</th><th>p90 turn</th></tr></thead><tbody><tr><td>web (FineWeb-Edu) — the bar</td><td>ODC-By</td><td><strong>42,755</strong></td><td><strong>43.2%</strong></td><td>—</td><td>—</td></tr><tr><td><code>oasst1</code> (en)</td><td>Apache-2.0</td><td>31,693</td><td>45.2%</td><td>11</td><td>50</td></tr><tr><td><code>ultrachat_200k</code></td><td>MIT</td><td>29,213</td><td>43.9%</td><td>19</td><td><strong>62</strong></td></tr><tr><td>OpenSubtitles v2024 en — 0 MB</td><td><strong>none</strong></td><td>27,927</td><td>52.2%</td><td><strong>5</strong></td><td><strong>12</strong></td></tr><tr><td>OpenSubtitles v2024 en — 60 MB</td><td><strong>none</strong></td><td>18,766</td><td>56.0%</td><td><strong>5</strong></td><td><strong>11</strong></td></tr><tr><td>OpenSubtitles v2024 en — 100 MB</td><td><strong>none</strong></td><td>17,623</td><td>55.1%</td><td><strong>5</strong></td><td><strong>11</strong></td></tr><tr><td><code>soda</code></td><td>CC BY 4.0</td><td><strong>15,942</strong></td><td><strong>64.2%</strong></td><td>14</td><td>31</td></tr><tr><td>narrative (TinyStories) — rejected at 47%</td><td>—</td><td>6,863</td><td>63.1%</td><td>—</td><td>—</td></tr></tbody></table></div>
+<p>Target was &gt;30,000 distinct at ≤50% top-100. It misses both at every offset. Stripping the bracketed production cues (<code>[laughing]</code>, <code>[Amy]</code>) moves distinct by 0.4% and top-100 by 0.6 points, so that judgement call is not carrying the result.</p>
+<p>Two things worth recording that were not the question. <strong>It is not stable across offsets and SODA was</strong> — 27,927 / 18,766 / 17,623 against SODA's 15,669 / 15,942 / 16,318 — and the text says why: offset 0 is contemporary reality television and 60/100/120 MB are all classic-era film, so era varies with position and no single sample characterises the corpus. Running the three-offset protocol is what turned that up. And <strong>turn length is the best of any candidate by a factor of three</strong>, median 5 against SODA's 14 and UltraChat's 19, with the caveat that an OPUS mono line is a subtitle <em>cue</em> and part of that 5 is display segmentation.</p>
+<h4 id="four-candidates-now-and-they-are-ordered-rather-than-scatter">Four candidates now, and they are ordered rather than scattered</h4>
+<ul><li><strong>Written assistant prose</strong> — oasst1, UltraChat — passes vocabulary, fails register.</li><li><strong>Model-generated dialogue</strong> — SODA — fails both.</li><li><strong>Scripted speech</strong> — OpenSubtitles — best register of the four, fails vocabulary.</li></ul>
+<p><strong>The closer a candidate gets to real speech, the worse it does on §5.0's ruler.</strong> Three candidates made that look like bad luck; the fourth makes it look like a property of speech. And it is a prediction about where §11 has been pointing: Switchboard, Fisher and CALLHOME are <em>spontaneous</em> speech, and spontaneous speech has a smaller vocabulary than scripted speech, not a larger one. <strong>The LDC-paid route is now predicted to fail the same bar and to fail it harder</strong> — so buying it on the argument currently recorded would be paying for a corpus this project's own ruler rejects. That is worth knowing for the price of a 40 MB range request.</p>
+<h4 id="so-the-next-question-is-about-the-ruler">So the next question is about the ruler</h4>
+<p>§5.0's bar was read off written web text and applied unchanged to a slice whose job is register. If every source with spoken register fails it and every source that passes it is written prose, the ruler is a candidate for being wrong before the search is. Three checks, none needing new data: restate the bar <strong>per share</strong> rather than per slice, since TinyStories was rejected at 47% of the corpus and a 20% slice at 55% top-100 beside a 40% web slice at 43.2% has never been arithmetic anyone did; point <code>vocab.py</code> at a <strong>blend</strong> rather than a slice, since the number the model actually sees is unmeasured for every corpus in the project; and check whether the two numbers <strong>predict anything downstream</strong>, where the sixteenth finding's "corpus diversity does not predict <code>variety.distinct3</code>" is the only evidence either way and points at no.</p>
+<p>If the bar does not survive being restated, the conversational search is unblocked without sourcing anything — and SODA, which is right-register, freely licensed under CC BY 4.0 and was rejected on this bar alone, becomes the cheapest arm available.</p>
+<h4 id="what-this-does-not-say">What this does not say</h4>
+<p>It does not say OpenSubtitles would train badly; nothing here is a training run, and §5.0's numbers have never been shown to predict a model result. It says the corpus cannot be used — that part is the licence and is not a judgement call — and that the <em>measurement</em> which would have justified pursuing it fails too, in a direction that generalises to the sources behind it. And it is scripted speech, so the ASR-shape question is still untouched: nothing measured so far is spontaneous or disfluent.</p></div>
+  </section>
+
+  <section class="grid refs">
+    <div class="body two-even">
+      <div>
+        <h2 class="small">It cites</h2>
+        <p class="aside">No other finding by number.</p>
+      </div>
+      <div>
+        <h2 class="small">Cited by</h2>
+        <p class="aside">No later finding yet.</p>
+      </div>
+    </div>
+    <p class="body source">docs/findings/22-everything-that-sounds-right-fails-the-ruler.md</p>
+  </section>
+</article>
+
+  
+<footer class="turn">
+  <div><span class="sc">previous</span><a href="/Corn-Jr-Public/finding/15.html">15 · The two measured data shares were 4 to 25 times too large</a></div>
+  <div class="r"><span class="sc">next</span><a href="/Corn-Jr-Public/finding/23.html">23 · The vocabulary test really measures how much web text is mixed in</a></div>
+  <p class="keys"><kbd>←</kbd> <kbd>→</kbd> turn the page · <kbd>/</kbd> find</p>
+</footer>
+<p class="bynumber">Previous and next in <a href="/Corn-Jr-Public/thread/corpus-mix.html">The corpus mix</a>. By number:
+  <a href="/Corn-Jr-Public/finding/21.html">21</a> · <a href="/Corn-Jr-Public/finding/23.html">23</a></p>
+
+</div>
+</body>
+</html>

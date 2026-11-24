@@ -1,0 +1,110 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>78 · Forcing copied search queries breaks follow-ups; keyword shortcuts catch few chats · Corn-Jr</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600&family=IBM+Plex+Mono:wght@400;500&family=Spectral:ital,wght@0,400;0,500;0,600;1,400&family=Spectral+SC:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/Corn-Jr-Public/static/library.css">
+<script defer src="/Corn-Jr-Public/static/library.js"></script>
+<script type="speculationrules">
+{"prerender": [{"where": {"and": [{"href_matches": "/Corn-Jr-Public/*"}, {"not": {"href_matches": "/Corn-Jr-Public/random.html"}}, {"not": {"href_matches": "/Corn-Jr-Public/static/*"}}]}, "eagerness": "moderate"}]}
+</script>
+
+</head>
+<body>
+<div class="page">
+  <header class="running">
+    <a class="book" href="/Corn-Jr-Public/">Corn-Jr · The Record</a>
+    <nav>
+      <a href="/Corn-Jr-Public/" data-key="shelf">Shelf</a><a href="/Corn-Jr-Public/findings.html" data-key="findings" class="here">Findings</a><a href="/Corn-Jr-Public/doc/VISION.html" data-key="VISION">Vision</a><a href="/Corn-Jr-Public/doc/GLOSSARY.html" data-key="GLOSSARY">Glossary</a>
+      <a href="https://github.com/csheehan18/Corn-Jr-Public">Source</a>
+    </nav>
+  </header>
+  
+
+<article class="sheet" style="--c:var(--c3)">
+  <div class="progress" aria-hidden="true"></div>
+  <section class="grid chapter-open finding-open">
+    <a class="tab" href="/Corn-Jr-Public/thread/follow-ups.html" title="Follow-ups"><small>Part</small><span>III</span></a>
+    <p class="cn">78</p>
+    <p class="partline"><a href="/Corn-Jr-Public/thread/follow-ups.html">Follow-ups</a> · 29 August 2026</p>
+    <h1>Forcing copied search queries breaks follow-ups; keyword shortcuts catch few chats</h1>
+  </section>
+
+  <section class="grid">
+    <p class="marginal">The result, as the finding states it</p><div class="prose"><p class="lead">The query slot buys nothing on this base and costs three chain follow-ups in four, and the social hatch catches five utterances in thirty</p></div>
+    <p class="marginal">What it cost</p><div class="prose"><p class="cost">0 s of new scoring on record; it reads 2 cards scored for an earlier finding (<code>corn_jr_260m</code>, <code>corn_jr_260m_v4</code>). Backfilled 2026-09-26 from the cards' <code>seconds</code>; training and probe time were never recorded, so this is a floor.</p></div>
+  </section>
+
+  
+
+  <section class="grid">
+    <div class="prose doc"><p>A harness audit rather than a training run: <code>checkpoints/corn_jr_260m_v4/ckpt.pt</code> driven live on 2026-08-29 from a working tree carrying session 12's uncommitted repairs (<code>framed</code> and the frame-loss floor in <code>corn/agent.py</code>, the ASCII fold in <code>corn/grammar.py</code>). 140 logged turns on the primary server (<code>--all</code>, rows in <code>Saved Sessions/turns.jsonl</code>, sessions <code>20260829T19*</code>–<code>T2*</code>) plus two unlogged controls on the same weights and the same flags: <code>--no-grammar</code> on port 8766, and port 8767 with <strong>only</strong> <code>(&quot;web_search&quot;, &quot;query&quot;)</code> removed from <code>RUNTIME_COPY_SLOTS</code> — schema, enum narrowing and both contact slots left armed. The isolated control is what makes this a finding rather than session 12's observation: <code>--no-grammar</code> moves the schema and the copy slots together, and they turn out to have opposite signs.</p>
+<p>The question the audit was asked was whether the harness is holding the model back. <strong>It is, in exactly one place, and everywhere else it is the only thing between the user and the pretraining register.</strong> Three layers intervene between the weights and the user, and they need separating before either half can be read:</p>
+<div class="tablewrap"><table><thead><tr><th>layer</th><th>what it does</th><th>controlled by</th></tr></thead><tbody><tr><td>A. the grammar</td><td>constrains what he <em>may</em> emit — schema, enum narrowing, copy slots</td><td><code>--no-grammar</code>, <code>RUNTIME_COPY_SLOTS</code></td></tr><tr><td>B. the guards</td><td>discards what he <em>did</em> emit — <code>social_rejection</code>, <code>recall_rejection</code>, <code>search_rejection</code>, the frame-loss floor</td><td>nothing; always on</td></tr><tr><td>C. the hatches</td><td>decide the turn <strong>before he runs</strong> — <code>conversational_reply</code>, <code>identity_reply</code>, <code>temporal_request</code>, <code>recheck_request</code></td><td><code>--restrict</code>, which adds rather than removes</td></tr></tbody></table></div>
+<p>Layer C is why the authorship columns read as they do. Over the whole 151-row log as it stands: the model authored the spoken words on <strong>60 turns, the tool's <code>say</code> on 70, the runtime's own sentence on 21</strong>, and 10 of 109 tool calls were written by the runtime rather than decoded.</p>
+<h3 id="a-the-query-copy-slot-forbids-the-composition-the-same-corpu">A: the query copy slot forbids the composition the same corpus teaches</h3>
+<p>Four chain follow-ups, each the second turn of its own conversation, armed against the isolated control:</p>
+<div class="tablewrap"><table><thead><tr><th></th><th>query slot armed</th><th>query slot off</th></tr></thead><tbody><tr><td><code>what about Sweden?</code> after Norway</td><td><code>the capital of Norway</code> ~~masked 2</td><td><code>the capital of Sweden</code></td></tr><tr><td><code>what about Brazil?</code> after Japan</td><td><code>the population of japan</code> ~~masked 1</td><td><code>the population of brazil</code></td></tr><tr><td><code>and Hungary?</code> after Poland</td><td><code>the currency of poland</code> ~~masked 2</td><td><code>the currency of poland</code></td></tr><tr><td><code>what about Chile?</code> after Peru</td><td><code>the capital of Peru</code> ~~masked 2</td><td><code>the capital of chile</code></td></tr></tbody></table></div>
+<p><strong>0 of 4 armed, 3 of 4 off.</strong> The Hungary row fails identically on both sides and is therefore the weights, not the slot — which is the control doing its job, because without it all four would have been charged to the grammar.</p>
+<p><strong>The mechanism is contiguity, and it is structural rather than tunable.</strong> <code>span_ok</code> requires the value to occur as a contiguous run of the source, and <code>corn/agent.py</code>'s <code>set_source</code> binds that source to the whole conversation below the declaration ("prior turns stay in, deliberately"). A chain query is by construction <em>not</em> contiguous anywhere: <code>the capital of</code> comes from the previous turn, <code>Sweden</code> from this one, and no span of either contains both. So no composed query can ever be legal, the slot bites at the join, and greedy after the bite lands on the one string that <em>is</em> a span — the previous query sitting in the history. Session 12 read this as a case-folding bug and fixed a real one; the fold changed which carrier reproduces it, not whether it reproduces.</p>
+<p><strong>And the rescue it was added for does not reproduce on this base.</strong> The slot's justification is <code>harness/server.py</code>'s own note: <code>corn_jr_260m</code> handed <code>look up Ada Lovelace</code> wrote <code>{&quot;query&quot;: &quot;ada-lovelace-definition-definition-…</code> until the budget ran out. Eleven degenerate queries — five bare proper names including Vercingetorix and Zbigniew Brzezinski, a colon syntax, two vocative-prefixed requests, an embedded <code>the thing about the Antikythera mechanism</code>, and <code>I want you to search Rachmaninoff</code> — are <strong>byte-identical armed and unarmed</strong>. The slot never bit once. Its documented cost was measured on the v3 base and the v4 base does not need it.</p>
+<p><strong>The schema half is pure rescue and the same controls say so.</strong> Unarmed, <code>--no-grammar</code> produced <code>{&quot;query&quot;: &quot;the capital of Finland&quot;}</code> with no closing brace and a <code>&lt;|say|&gt;</code> spliced inside the call, and <code>{&quot;query&quot;: &quot;and Hungary?&quot;&quot;}</code> — both <code>not_json</code>, both executing nothing. Layer A is not one decision; it is a schema that pays for itself and one slot that is now paying only costs.</p>
+<h3 id="c-the-hatches-are-exact-match-and-the-misses-are-the-dangero">C: the hatches are exact-match, and the misses are the dangerous part</h3>
+<p><code>conversational_reply</code>, <code>identity_reply</code> and <code>temporal_request</code> all test whole normalised utterances against frozen sets. Coverage over a battery of phrasings a live user produces:</p>
+<p>social    5 of 30      identity   11 of 15      temporal   9 of 16</p>
+<p><strong>The dominant social miss is saying his name</strong>, and the guard turns it from an example into a property. <code>morning</code> and <code>good night</code> are both <em>in</em> the pools; <code>morning corn</code> and <code>good night corn</code> are not. Over <strong>all 275 phrases in the five pools, 0 survive being addressed by name, and a trailing-vocative strip recovers all 275</strong> (<code>scripts/check_hatches.py</code> §3). On the battery that is 13 of the 25 social misses, taking coverage from 5/30 to 18/30 — but the pool-wide number is the one that says how much one strip in <code>_normalised</code> is worth.</p>
+<p><strong>The vocative is not only a social problem — it poisons <code>web_search</code> and nothing else.</strong></p>
+<p>look up the capital of Iceland         -&gt; "the capital of Iceland" corn look up the capital of Iceland    -&gt; "corn look up the capital of Iceland" corn, look up the capital of Iceland   -&gt; "corn, look up the capital of Iceland" text Grace Kim that I'm on my way      -&gt; correct with and without the vocative note down that the bins go out tonight -&gt; correct with and without the vocative</p>
+<p><code>send_text</code> and <code>save_note</code> extract a bounded entity and are immune; <code>web_search</code>'s query copies a run of the sentence and the vocative is sitting at its front. <code>strip_affixes</code> carries <code>&quot;look &quot;</code> and cannot see it behind a name.</p>
+<p><strong>What a miss costs, over all 34 of them run live.</strong> Fifteen of the 25 social misses routed to <code>decline</code> — <code>hey corn</code> answered "Nothing I've got covers that." Seven produced ungated speech, of which three were unusable: <code>bye corn</code> gave a repetition loop with <code>&lt;|endoftext|&gt;</code> in the transcript and the say tripled, and <code>hope you&#x27;re well</code> gave <strong>"You're not well. You need to see a doctor."</strong> The remaining <strong>8 of 34 reached the live search provider</strong>, and 4 of those 8 came back with a confident irrelevant page served as the answer: <code>thanks corn</code> → Food Network's Thanksgiving corn recipes, <code>thank you corn</code> → "It's Corn" thank-you cards, <code>what happened on Wednesday</code> → the plot of Netflix's <em>Wednesday</em> season 2, <code>what did I do on Friday</code> → Marvel trivia about a character called Friday (and, on an earlier run of the same turn, a Reddit post about what people do on Friday nights — the wrong answer is not even stable). The other four searched honestly and returned <code>no_results</code>.</p>
+<p>That is the shape worth naming: <strong>a hatch miss is not a degraded answer, it is a private or self-referential question leaving the machine.</strong> <code>who made you</code>, <code>how do you work</code> and <code>can you tell me what you can do</code> all went to the internet.</p>
+<p><strong>The counter-finding, which the same battery produced and which matters for what the hatches are for.</strong> <code>remind me what I did yesterday</code> misses <code>temporal_request</code>, falls through to the router, and <strong>the model chains <code>resolve_date</code> → <code>recall_day</code> correctly on its own.</strong> The hatch is not purely a crutch and the weights are not empty behind it; its coverage is a floor that is in places below what he can already do.</p>
+<h3 id="b-the-guard-fires-three-times-in-twenty-and-only-inside-c-s-">B: the guard fires three times in twenty, and only inside C's coverage</h3>
+<p>Twenty hatch-caught social turns (<code>hey</code>, <code>how&#x27;s it going</code>, <code>thanks</code>, <code>bye</code>, <code>morning</code>, four draws each):</p>
+<p>guard fired            3 / 20   — 2x "tool register: find anything", 1x "names Lynn" his own words served  17 / 20</p>
+<p>By reading rather than by ruler, about 13 of those 17 are not usable: <code>hey</code> → "I'm sorry, but I don't have any questions."; <code>bye</code> → "Ah, that's a beautiful song."; <code>how&#x27;s it going</code> → "Pretty good. I'm just getting ready for my next class."; <code>thanks</code> → "You're welcome. I'm glad you enjoyed it." That is a judgement and is marked as one; the 3/20 is not.</p>
+<p>One of the leaks is a single missing entry rather than a class:</p>
+<p>social_rejection("I don't have anything useful on morning.")  -&gt;  None</p>
+<p><code>TOOL_REGISTER</code> carries <code>&quot;find anything&quot;</code> and not <code>&quot;have anything&quot;</code>, so <code>web_search</code>'s empty-result sentence reaches the user as a reply to a greeting — the exact family the constant's own docstring says it exists to catch, one phrasing further out.</p>
+<p><strong>And the structural point, which no entry fixes.</strong> <code>social_rejection</code> is called only from inside the social hatch. Outside it there is no guard on speech at all, which is why <code>rough week, honestly</code> came back as invented personal history ("I've been having a lot of personal issues and I haven't been able to focus on work") and <code>do you ever get tired?</code> as "sometimes I get tired". <strong>Guard coverage is exactly pool coverage</strong>, so layer B can never be better than layer C, and widening C is what widens B.</p>
+<h3 id="what-this-corrects">What this corrects</h3>
+<ul><li><strong>Session 11's and session 13's reading of the temporal chain.</strong> <code>what did I do yesterday</code> completing <code>resolve_date</code> → <code>recall_day</code> in 9 ms with 0 ms to first token was <code>temporal_request</code>, runtime-authored, no decode. Any live read of the chain has to check the <code>author</code> column before crediting the weights — though see the counter-finding above, which credits them on a turn the hatch missed.</li><li><strong>Session 13's first-pass reading of the greetings.</strong> <code>hey</code> and <code>morning</code> both hit the hatch. <code>hey</code>'s good reply was the <em>pool</em> after the guard rejected his attempt (<code>fell_back: unfinished</code>); <code>morning</code>'s bad reply was the guard leaking. Opposite mechanisms, and neither is coverage.</li><li><strong>Session 12's sticky-query attribution.</strong> The fold was a real repair to a real carrier and is not withdrawn; it is not the whole mechanism, and the contiguity argument above says no fold could have been.</li></ul>
+<h3 id="instrument-facts-found-while-auditing">Instrument facts found while auditing</h3>
+<ul><li><strong>The session log cannot price any of this.</strong> <code>turn_record</code>'s <code>transcript</code> holds what was <em>served</em>, so on a runtime-authored turn the model's own emission is discarded unrecorded. <code>author: &quot;runtime&quot;</code> says an intervention happened and never what it cost — every number above had to come from an A/B against a second server. A <code>model_draft</code> column would make these rates countable from the rows, which is the argument <code>frame_loss</code> already won.</li><li><strong>The cp1252 guard is in the wrong scope.</strong> <code>harness/client.py</code> reconfigures stdout inside <code>main()</code>, so anything importing <code>Client</code>/<code>run_turn</code> inherits the <code>UnicodeEncodeError</code> that guard exists to prevent — hit here on <code>złoty</code>. The CLI is fine; embedders are not.</li><li><code>strip_affixes</code> carries <code>&quot;look &quot;</code> but not <code>&quot;search for &quot;</code>, so <code>search for Nikola Tesla</code> reaches the provider with its verb attached, on both sides of the grammar A/B.</li></ul>
+<h3 id="limits">Limits</h3>
+<p>n=1 on every live cell — one checkpoint, greedy tool decode, no seed spread, and the social pools sample at <code>speech_temperature=0.3</code> so the 20-turn guard battery is four draws of five utterances rather than twenty independent ones. The three coverage numbers are properties of frozen sets and a hand-written battery: they are exact for that battery and say nothing about the true distribution of what the owner types. The 3-of-4 chain recovery and the 0-of-11 rescue are the two numbers this finding actually rests on, and both are byte-comparisons against a control that differs by one slot.</p>
+<p>Nothing here licenses a corpus change. The vocative, the missing <code>TOOL_REGISTER</code> entry, the hatch widths and the query slot's removal are all runtime decisions and all the owner's; <code>scripts/check_hatches.py</code> and <code>check_grammar.py</code> §9 record the present numbers so that a repair moves a guard rather than moving silently.</p></div>
+  </section>
+
+  <section class="grid refs">
+    <div class="body two-even">
+      <div>
+        <h2 class="small">It cites</h2>
+        <p class="aside">No other finding by number.</p>
+      </div>
+      <div>
+        <h2 class="small">Cited by</h2>
+        <ul class="reflist"><li style="--c:var(--c3)"><a href="/Corn-Jr-Public/finding/128.html"><span class="fn">128</span>Questions about his life go to the web six times in ten</a></li><li style="--c:var(--c2)"><a href="/Corn-Jr-Public/finding/79.html"><span class="fn">79</span>A quarter of search results pass the relevance check on one letter</a></li></ul>
+        
+      </div>
+    </div>
+    <p class="body source">docs/findings/78-the-query-slot-buys-nothing-on-this-base-and-the-social-hatch-catches-five-in-thirty.md</p>
+  </section>
+</article>
+
+  
+<footer class="turn">
+  <div></div>
+  <div class="r"><span class="sc">next</span><a href="/Corn-Jr-Public/finding/155.html">155 · A new fine-tune recipe keeps follow-ups but &#39;what about X?&#39; still fails</a></div>
+  <p class="keys"><kbd>←</kbd> <kbd>→</kbd> turn the page · <kbd>/</kbd> find</p>
+</footer>
+<p class="bynumber">Previous and next in <a href="/Corn-Jr-Public/thread/follow-ups.html">Follow-ups</a>. By number:
+  <a href="/Corn-Jr-Public/finding/77.html">77</a> · <a href="/Corn-Jr-Public/finding/79.html">79</a></p>
+
+</div>
+</body>
+</html>

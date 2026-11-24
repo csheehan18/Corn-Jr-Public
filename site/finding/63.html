@@ -1,0 +1,107 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>63 · Fresh tool training, not new phrasings, fixed search routing · Corn-Jr</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600&family=IBM+Plex+Mono:wght@400;500&family=Spectral:ital,wght@0,400;0,500;0,600;1,400&family=Spectral+SC:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/Corn-Jr-Public/static/library.css">
+<script defer src="/Corn-Jr-Public/static/library.js"></script>
+<script type="speculationrules">
+{"prerender": [{"where": {"and": [{"href_matches": "/Corn-Jr-Public/*"}, {"not": {"href_matches": "/Corn-Jr-Public/random.html"}}, {"not": {"href_matches": "/Corn-Jr-Public/static/*"}}]}, "eagerness": "moderate"}]}
+</script>
+
+</head>
+<body>
+<div class="page">
+  <header class="running">
+    <a class="book" href="/Corn-Jr-Public/">Corn-Jr · The Record</a>
+    <nav>
+      <a href="/Corn-Jr-Public/" data-key="shelf">Shelf</a><a href="/Corn-Jr-Public/findings.html" data-key="findings" class="here">Findings</a><a href="/Corn-Jr-Public/doc/VISION.html" data-key="VISION">Vision</a><a href="/Corn-Jr-Public/doc/GLOSSARY.html" data-key="GLOSSARY">Glossary</a>
+      <a href="https://github.com/csheehan18/Corn-Jr-Public">Source</a>
+    </nav>
+  </header>
+  
+
+<article class="sheet" style="--c:var(--c2)">
+  <div class="progress" aria-hidden="true"></div>
+  <section class="grid chapter-open finding-open">
+    <a class="tab" href="/Corn-Jr-Public/thread/search.html" title="Web search"><small>Part</small><span>II</span></a>
+    <p class="cn">63</p>
+    <p class="partline"><a href="/Corn-Jr-Public/thread/search.html">Web search</a> · 26 August 2026</p>
+    <h1>Fresh tool training, not new phrasings, fixed search routing</h1>
+  </section>
+
+  <section class="grid">
+    <p class="marginal">The result, as the finding states it</p><div class="prose"><p class="lead">The phrasings were never the problem, and the arm without them fixed all twenty-five</p></div>
+    <p class="marginal">What it cost</p><div class="prose"><p class="cost">12.5 min of scoring on the 1 card first cited here (<code>corn_jr_260m_ftwide_seed2</code>); it also reads 1 card scored for an earlier finding (<code>corn_jr_260m</code>). Backfilled 2026-09-26 from the cards' <code>seconds</code>; training and probe time were never recorded, so this is a floor.</p></div>
+  </section>
+
+  
+
+  <section class="grid">
+    <div class="prose doc"><p>P3-B2, run 2026-08-26 on <code>corn_jr_260m</code>. Two fine-tunes from the identical frozen base, 786 iterations each, ~15 minutes a run. <code>configs/mix_p3b2_ft_wide.py</code> carries the pre-registration. <strong>It lands on outcome 2 of its own table, and outcome 2 was the one the control existed to make sayable.</strong></p>
+<h3 id="the-question-and-why-the-pair-was-built">The question, and why the pair was built</h3>
+<p>The fifty-second finding measured a phrasing defect on this checkpoint: the corpus offers 25 search phrasings and the weights keep about four. <code>google {q}</code> routed 8/8; <code>see if you can find {q}</code> routed 0/8. The reading that followed — in that finding, in DATA.md and in <code>PLAN-PHASE-3.md</code>'s whole P3-B section — was <strong>supply</strong>: the corpus needs more distinct sentences, and the open question is where another 60 MB of them come from.</p>
+<p>P3-B1 tested that at nano and could not read its own instrument (sixty-first finding). So it moved here, where the defect was measured and is large.</p>
+<p><strong>A fine-tune on fresh tool transcripts changes two things at once</strong> — the model sees more tool data, and it sees whatever carriers that data uses. So both arms fine-tune on the <em>same</em> 30 MB payload, and the wide arm's copy is the narrow one after <code>gen_tools_p3b1.py</code> swaps only the carrier line: 85 phrasings instead of 25, 31,350 transcripts differing, every other byte identical. <code>check_p3b2.py</code> reads that off the bytes.</p>
+<h3 id="the-defect-is-real-it-reproduces-and-both-arms-remove-it">The defect is real, it reproduces, and both arms remove it</h3>
+<p><code>harness/searchgrid.py</code>, 400 turns per checkpoint, <code>decline</code> offered, nothing leaving the machine.</p>
+<p>routed          invented      real     kept_subject base             94/200     72/200        166/400 FT-narrow       200/200    198/200        398/400 FT-wide         194/200    192/200        386/400</p>
+<p>The base reproduces the fifty-second finding (that run read 87/200 and 53/200 on a different subject draw). <strong>Real-world subjects go from 72/200 to 198/200</strong> — the column every question a user actually asks lands in, and the one that finding called the one nothing had measured.</p>
+<p>Per template, which is where the original claim lived:</p>
+<p>template                    base   narrow     wide have a look for {q}         0/16    16/16    16/16 see if you can find {q}     0/16    14/16     7/16 any idea what {q} is        1/16    16/16    16/16 quick, {q}                  1/16    16/16    16/16 look {q} up for me          2/16    16/16    12/16 ... could you look up {q}      14/16    16/16    16/16 google {q}                 15/16    16/16    16/16</p>
+<p>never-route   at-ceiling   of 25 base                       2            0 FT-narrow                  0           24 FT-wide                    0           22</p>
+<h3 id="the-result-the-extra-sentences-bought-nothing-and-the-contro">The result: the extra sentences bought nothing, and the control is the only reason that is sayable</h3>
+<p><strong>The narrow arm carries not one new phrasing and brings 24 of 25 templates to ceiling</strong>, including the two the base never routed at all. The wide arm, with 60 hand-written phrasings added, reaches 22.</p>
+<p>On the frozen eval rows the two arms are indistinguishable:</p>
+<p>row                     base    narrow      wide    wide-narrow search.route_base    199/200   200/200   200/200         +0 search.route_wide    192/200   199/200   200/200         +1 search.route_heldout 187/200   200/200   200/200         +0 tool.validity        170/181   181/181   181/181         +0 tool.selection       171/200   187/200   188/200         +1</p>
+<p><code>search.route_heldout</code> is the sharpest of these. Its fifteen carriers are held out of <strong>both</strong> payloads and trained nowhere, ever — and the narrow arm takes them 187 -&gt; 200. A model given no new sentences became perfect on sentences it has never seen.</p>
+<p><strong>So phrasing generalisation was never supply-limited.</strong> What the model needed was more, fresher tool-calling exposure. The fifty-second finding's own closing sentence — "the corpus does not need more search transcripts, it needs the ones it has to stop being concentrated in four phrasings" — has the diagnosis backwards: more search transcripts is exactly what it needed, and the concentration resolved itself.</p>
+<p><strong>Had only the wide arm been run, this would have been written up as a clean win for the 60 templates.</strong> That is what the pair was for, and it is the second time in two days a single-arm reading would have been wrong — the sixty-first finding's <code>route_wide</code> 4-of-4 sign was the first.</p>
+<p><strong>Do not read the wide arm as a cost.</strong> It is 22 of 25 against 24, and <code>see if you can find {q}</code> reads 7/16 against 14/16, at one seed with no floor measured. The honest claim is that the widened pool is <strong>not better</strong>, not that it is worse.</p>
+<h3 id="what-was-measured-on-the-other-side-because-a-fix-like-this-">What was measured on the other side, because a fix like this is usually a trade</h3>
+<p>The base declined 232 of its 400 misses. The arms decline almost never, which is exactly the shape of the forty-second finding's over-declining being converted into wrong tools rather than right ones. It was not:</p>
+<p>row                     base    narrow      wide chat.abstain_oos      33/100    38/100    47/100 chat.abstain_talk    100/100   100/100   100/100 chat.abstain_greet    67/100    77/100    81/100 refusal.no_guess       47/47     47/47     47/47 refusal.clarify        47/47     47/47     47/47 refusal.say          270/270   270/270   270/270</p>
+<p>Every dedicated abstention row held or improved. <code>tool.selection</code>'s base failure mass included <code>declined: 9</code> — refusing items that wanted a call — and that class is <strong>gone</strong> in both arms. The one movement the other way is <code>called_anyway</code>, 8 -&gt; 13 and 11, so a few items now get a call that should not: small, real, and worth watching rather than dismissing.</p>
+<p><strong>Rule 10's watch is clean at the ceiling</strong>, which is the strongest form this project can run it. <code>tool.copy</code> 120/120, <code>tool.copy_wide</code> 300/300, <code>temporal.copy</code> 353/353, <code>temporal.route</code> 400/400 — unchanged on both arms. The sixtieth finding licensed a fine-tune adding register over an installed capability; this extends that licence to adding <em>exposure</em>, at 260M, where nothing had tested it.</p>
+<h3 id="what-this-cannot-say">What this cannot say</h3>
+<p><strong>One seed.</strong> The scored comparison is seed 1337. <code>corn_jr_260m_ftwide_seed2</code> and <code>_ftnarrow_seed2</code> are trained and unscored. Nobody has ever measured seed variance at 260M, so no spread here has a floor under it — the sixty-first finding's whole subject. The routing effect is 126 items of 200 and is not plausibly noise; the <strong>wide-versus-narrow</strong> difference is a handful of items and is not readable at all.</p>
+<p><strong>One grid per checkpoint.</strong> <code>searchgrid</code> has no measured floor at this size either (the sixtieth finding established it has none at nano). Same argument: the base-to-arm gap dwarfs anything a floor could be, the arm-to-arm gap does not.</p>
+<p><strong>The eval rows were at the ceiling before the experiment started.</strong> The base reads 93.5% on <code>search.route_heldout</code>, because those prompts are cut at <code>&lt;|call|&gt;</code> and ask <em>which</em> tool given that one is being called. <code>configs/mix_p3b2_ft_wide.py</code> registered that limitation before anything ran, and it turned out to be the whole story: <strong>the defect is not in recognising a lookup, it is in deciding to reach for a tool at all.</strong> Given the call, the base already picked <code>web_search</code> correctly for 93.5% of phrasings it had never seen.</p>
+<p><strong>And nothing here says a 5B pretraining mix would behave the same way.</strong> This is a fine-tune result. The sixtieth finding measured the fine-tune vehicle delivering 61% of a mix's effect on a different payload; no such ratio is established for exposure.</p>
+<h3 id="what-follows">What follows</h3>
+<p><strong>P3-B's supply premise is retired.</strong> Options 2 and 3 of <code>PLAN-PHASE-3.md</code> §P3-B — mine a corpus for utterances, have a larger model paraphrase — were both answers to "where do more sentences come from", and that is no longer the question. <strong>P3-B3 should not run.</strong> The 60 templates cost a morning, are on disk, and are not worth a corpus decision either way.</p>
+<p>The live question this opens is narrower and better: <strong>what does "fresher tool exposure" mean, and how much is needed?</strong> The payload here is 30 MB of newly generated transcripts at ~1 pass against a base that read <code>tools_names.txt</code> at ~35 passes in <code>mix_v3_5b</code>. Repetition is the obvious suspect — arm 2's own measurement and the fifteenth finding both price it — and this experiment cannot separate "new data" from "less-repeated data", because it changed both.</p></div>
+  </section>
+
+  <section class="grid refs">
+    <div class="body two-even">
+      <div>
+        <h2 class="small">It cites</h2>
+        <p class="aside">No other finding by number.</p>
+      </div>
+      <div>
+        <h2 class="small">Cited by</h2>
+        <ul class="reflist"><li style="--c:var(--c1)"><a href="/Corn-Jr-Public/finding/68.html"><span class="fn">68</span>At 260M the seed barely moves scores, measured for the first time</a></li><li style="--c:var(--c2)"><a href="/Corn-Jr-Public/finding/72.html"><span class="fn">72</span>Search returned &#39;capital punishment&#39; for &#39;capital of Mongolia&#39;; fixed</a></li></ul>
+        
+      </div>
+    </div>
+    <p class="body source">docs/findings/63-the-phrasings-were-never-the-problem-and-the-arm-without-them-fixed-all-twenty-five.md</p>
+  </section>
+</article>
+
+  
+<footer class="turn">
+  <div><span class="sc">previous</span><a href="/Corn-Jr-Public/finding/52.html">52 · Of 25 search phrasings taught, he kept about four</a></div>
+  <div class="r"><span class="sc">next</span><a href="/Corn-Jr-Public/finding/72.html">72 · Search returned &#39;capital punishment&#39; for &#39;capital of Mongolia&#39;; fixed</a></div>
+  <p class="keys"><kbd>←</kbd> <kbd>→</kbd> turn the page · <kbd>/</kbd> find</p>
+</footer>
+<p class="bynumber">Previous and next in <a href="/Corn-Jr-Public/thread/search.html">Web search</a>. By number:
+  <a href="/Corn-Jr-Public/finding/62.html">62</a> · <a href="/Corn-Jr-Public/finding/64.html">64</a></p>
+
+</div>
+</body>
+</html>

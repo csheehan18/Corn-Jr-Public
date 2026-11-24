@@ -1,0 +1,86 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>5 · The tool-call format must be in pretraining, and costs about 3% · Corn-Jr</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600&family=IBM+Plex+Mono:wght@400;500&family=Spectral:ital,wght@0,400;0,500;0,600;1,400&family=Spectral+SC:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/Corn-Jr-Public/static/library.css">
+<script defer src="/Corn-Jr-Public/static/library.js"></script>
+<script type="speculationrules">
+{"prerender": [{"where": {"and": [{"href_matches": "/Corn-Jr-Public/*"}, {"not": {"href_matches": "/Corn-Jr-Public/random.html"}}, {"not": {"href_matches": "/Corn-Jr-Public/static/*"}}]}, "eagerness": "moderate"}]}
+</script>
+
+</head>
+<body>
+<div class="page">
+  <header class="running">
+    <a class="book" href="/Corn-Jr-Public/">Corn-Jr · The Record</a>
+    <nav>
+      <a href="/Corn-Jr-Public/" data-key="shelf">Shelf</a><a href="/Corn-Jr-Public/findings.html" data-key="findings" class="here">Findings</a><a href="/Corn-Jr-Public/doc/VISION.html" data-key="VISION">Vision</a><a href="/Corn-Jr-Public/doc/GLOSSARY.html" data-key="GLOSSARY">Glossary</a>
+      <a href="https://github.com/csheehan18/Corn-Jr-Public">Source</a>
+    </nav>
+  </header>
+  
+
+<article class="sheet" style="--c:var(--c1)">
+  <div class="progress" aria-hidden="true"></div>
+  <section class="grid chapter-open finding-open">
+    <a class="tab" href="/Corn-Jr-Public/thread/tool-calls.html" title="Tool calls and copying"><small>Part</small><span>I</span></a>
+    <p class="cn">5</p>
+    <p class="partline"><a href="/Corn-Jr-Public/thread/tool-calls.html">Tool calls and copying</a> · 17 August 2026</p>
+    <h1>The tool-call format must be in pretraining, and costs about 3%</h1>
+  </section>
+
+  <section class="grid">
+    <p class="marginal">The result, as the finding states it</p><div class="prose"><p class="lead">The format has to be in pretraining, and it costs about 3%</p></div>
+    <p class="marginal">What it cost</p><div class="prose"><p class="cost">69 s of scoring on the 1 card first cited here (<code>nano20m_pilot</code>); it also reads 1 card scored for an earlier finding (<code>nano20m</code>). Backfilled 2026-09-26 from the cards' <code>seconds</code>; training and probe time were never recorded, so this is a floor.</p></div>
+  </section>
+
+  
+
+  <section class="grid">
+    <div class="prose doc"><p>DATA.md §4 makes a bet most small-model recipes don't: put the tool-call format in <em>pretraining</em> at 15% of the budget, rather than fine-tuning it in afterward. The argument is that at 250M there isn't capacity for a light fine-tune to install a format the base model has never encountered. <code>nano20m_pilot</code> is that bet at nano scale — the same 25.6M shape and the same 12,000 iterations as <code>nano20m</code>, differing in one field, <code>data_dir</code>. It reads <code>data/mix_pilot</code> (85% TinyStories, 15% generated temporal) instead of TinyStories alone.</p>
+<p>28.7 minutes, best val 0.3881 at iter 11,500. Against the frozen ruler:</p>
+<div class="tablewrap"><table><thead><tr><th>row</th><th><code>nano20m</code></th><th><code>nano20m_pilot</code></th><th>n</th></tr></thead><tbody><tr><td><code>narrative</code> nats/byte</td><td>0.3974</td><td>0.4117</td><td>1.1MB</td></tr><tr><td><code>temporal</code> nats/byte</td><td>3.8911</td><td><strong>0.1000</strong></td><td>1.0MB</td></tr><tr><td><code>temporal.route</code></td><td>0.0%</td><td><strong>99.8%</strong></td><td>400</td></tr><tr><td><code>temporal.copy</code></td><td>0.0%</td><td><strong>100.0%</strong></td><td>353</td></tr><tr><td><code>refusal.clarify</code></td><td>0.0%</td><td><strong>100.0%</strong></td><td>47</td></tr><tr><td><code>refusal.no_guess</code></td><td>— of 0</td><td><strong>100.0%</strong></td><td>47</td></tr></tbody></table></div>
+<p><strong>Every behaviour row went from zero to approximately one</strong>, and <code>temporal.copy</code> is the one that matters most. It scores the turn <em>after</em> the tool answers, and a date that is not the tool's fails even when it is correct — so 100% says he is carrying the tool's answer rather than doing date arithmetic in the weights, which is the single behaviour VISION §5.2 is built around. <code>refusal.no_guess</code> reading 47 items rather than <code>--</code> of 0 is the gated denominator working: nothing the old checkpoint emitted was in-format enough to score.</p>
+<p><strong>The narrative row is the price tag, and it is the useful number.</strong> 0.3974 → 0.4117 is what spending 15% of a fixed budget on temporal costs the other 85% — the first measured point on DATA.md §1's claim that quality per token is the only lever. The true cost is smaller than the 3.6% it looks like, because <code>nano20m</code>'s 0.3974 was mildly flattered: 16 of 16 narrative probes were in its val split, so it was selected on the text it was then scored on. <code>mix_pilot</code> reserves those bytes, and the pilot's number is clean on both splits. Format exposure for under 3.6% of general fluency is cheap for what it buys.</p>
+<p><strong>A val figure would have told you the opposite, and this is the clearest example yet of why <code>evals/</code> exists.</strong> The pilot's blended val is 0.3881 against <code>nano20m</code>'s 0.4265 — apparently a 9% improvement, entirely an artefact. Per-source val at the same checkpoint reads narrative 0.4487, temporal <strong>0.0946</strong>: the temporal slice is templated and trivially predictable, so mixing 15% of it into the validation set drags the blend down while general fluency <em>regressed</em>. Two runs' val figures are not on one scale, the blended number moved the wrong way, and only the fixed ruler caught it.</p>
+<p><strong>What this does not show</strong>, in descending order of how much it should temper the result:</p>
+<ul><li>~~<strong>The bet is half-tested.</strong>~~ The control arms have since run — the sixth finding below. The short version: "fine-tuning it wouldn't" is false for three of the four behaviour rows and true for the one that matters.</li><li><strong>99.8% is format compliance, not generalization.</strong> The eval items are drawn from the same 334 expressions the training slice was generated from. Anchor dates are structurally held out, so this is not memorized answers — but it says nothing about a phrasing the generator has never emitted, and real speech is full of those. The surface-variety floor in <code>check_temporal.py</code> is the instrument for that; the eval set cannot be. <strong>Tested at last — the twenty-eighth finding, and it was right.</strong> On carriers no generator emits the row falls 398 → 348 of 400 — against the thirtieth finding's paraphrase-arm floor of 24 rather than the frozen 2 this originally quoted, still 2.1x — every failure a <code>wrong_expression</code>. What it was wrong about is scope: the same arm leaves <code>temporal.copy</code> at 353/353, so the caveat applies to recognising the request and not to deferring to the tool.</li><li>~~<strong><code>tool.validity</code> and <code>tool.selection</code> are still <code>--</code>.</strong>~~ Both are live as of the tenth finding, and on a checkpoint that has seen one tool they read 61.9% and 0.0%. The caveat underneath survives unchanged: what has been demonstrated is <strong>one tool, generated by one program</strong>, and no model has yet been trained on the other four.</li></ul>
+<h4 id="the-decontamination-flag-no-longer-cries-wolf">The decontamination flag no longer cries wolf</h4>
+<p>The temporal row of the probe search read <code>CONTAMINATED</code> on a corpus that was provably clean: 6 of 16 probes turned up in <code>train.bin</code>, and they were exactly the windows containing no date. Every probe carrying a held-out <code>2029-</code> date was absent. The search was finding shared <em>format</em> — the <code>&lt;|call|&gt;</code> envelope and the templated utterances the slice exists to teach — which no amount of n-gram decontamination could remove without destroying what the row measures.</p>
+<p>That was going to read <code>contaminated</code> by design on every future mix, and a status field that fails on every run is one everybody learns to ignore. So probes now come in two populations: a <strong>bearing</strong> probe is cut from a window carrying a date in the eval text's own anchor year or later, which the generator stops a full year short of and cannot reach; a <strong>format</strong> probe is a uniform window. Only bearing probes set the status. Format hits are reported as context and can never fail a run. Both <code>mix_pilot</code> slices now read <code>clean</code>.</p>
+<p>Bearing probes are <em>selected</em> rather than filtered, so all 16 carry a date instead of the 9 that happened to — the fix roughly doubles the test's power rather than just quieting it. And a text that yields no bearing probe reads <code>indeterminate</code>, never <code>clean</code>, because a check that cannot fail is the thing this harness was written to prevent. <code>check_evals.py</code> carries the false positive as a regression test alongside the true positive it must not cost.</p>
+<p><code>HARNESS_VERSION</code> stays at 1: no scored quantity changed meaning, and every row above came back byte-identical after the fix.</p></div>
+  </section>
+
+  <section class="grid refs">
+    <div class="body two-even">
+      <div>
+        <h2 class="small">It cites</h2>
+        <p class="aside">No other finding by number.</p>
+      </div>
+      <div>
+        <h2 class="small">Cited by</h2>
+        <p class="aside">No later finding yet.</p>
+      </div>
+    </div>
+    <p class="body source">docs/findings/05-the-format-has-to-be-in-pretraining-and-it-costs-about-3.md</p>
+  </section>
+</article>
+
+  
+<footer class="turn">
+  <div></div>
+  <div class="r"><span class="sc">next</span><a href="/Corn-Jr-Public/finding/6.html">6 · Fine-tuning installs the tool format but not using the tool&#39;s answer</a></div>
+  <p class="keys"><kbd>←</kbd> <kbd>→</kbd> turn the page · <kbd>/</kbd> find</p>
+</footer>
+<p class="bynumber">Previous and next in <a href="/Corn-Jr-Public/thread/tool-calls.html">Tool calls and copying</a>. By number:
+  <a href="/Corn-Jr-Public/finding/4.html">4</a> · <a href="/Corn-Jr-Public/finding/6.html">6</a></p>
+
+</div>
+</body>
+</html>

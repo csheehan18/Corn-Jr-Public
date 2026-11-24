@@ -1,0 +1,113 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>104 · Under the owner&#39;s rules, a fifth of &#39;wrong&#39; answers are right · Corn-Jr</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600&family=IBM+Plex+Mono:wght@400;500&family=Spectral:ital,wght@0,400;0,500;0,600;1,400&family=Spectral+SC:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/Corn-Jr-Public/static/library.css">
+<script defer src="/Corn-Jr-Public/static/library.js"></script>
+<script type="speculationrules">
+{"prerender": [{"where": {"and": [{"href_matches": "/Corn-Jr-Public/*"}, {"not": {"href_matches": "/Corn-Jr-Public/random.html"}}, {"not": {"href_matches": "/Corn-Jr-Public/static/*"}}]}, "eagerness": "moderate"}]}
+</script>
+
+</head>
+<body>
+<div class="page">
+  <header class="running">
+    <a class="book" href="/Corn-Jr-Public/">Corn-Jr · The Record</a>
+    <nav>
+      <a href="/Corn-Jr-Public/" data-key="shelf">Shelf</a><a href="/Corn-Jr-Public/findings.html" data-key="findings" class="here">Findings</a><a href="/Corn-Jr-Public/doc/VISION.html" data-key="VISION">Vision</a><a href="/Corn-Jr-Public/doc/GLOSSARY.html" data-key="GLOSSARY">Glossary</a>
+      <a href="https://github.com/csheehan18/Corn-Jr-Public">Source</a>
+    </nav>
+  </header>
+  
+
+<article class="sheet" style="--c:var(--c2)">
+  <div class="progress" aria-hidden="true"></div>
+  <section class="grid chapter-open finding-open">
+    <a class="tab" href="/Corn-Jr-Public/thread/reading.html" title="Reading documents"><small>Part</small><span>II</span></a>
+    <p class="cn">104</p>
+    <p class="partline"><a href="/Corn-Jr-Public/thread/reading.html">Reading documents</a> · 4 September 2026</p>
+    <h1>Under the owner&#39;s rules, a fifth of &#39;wrong&#39; answers are right</h1>
+  </section>
+
+  <section class="grid">
+    <p class="marginal">The result, as the finding states it</p><div class="prose"><p class="lead">Under the owner's three rules about a fifth of the reader's wrong answers are right on every seed, so the lenient column reads 423, 430 and 442 beside the strict 389, 388 and 400, and a quarter of every refused-wrong gold is not the unique correct span</p></div>
+    
+  </section>
+
+  
+
+  <section class="grid">
+    <div class="prose doc"><p><code>scripts/lenient_column.py</code>, 2026-09-04. No head was trained and no reader was run: the three shipped harvests (<code>nullpr_s{1,2,3}_popa.json</code>) read at the bar protocol, extent on, hybrid reduce, each seed at its own CV'd threshold, and every answerable passage the strict ruler did not score <code>right</code> re-judged by hand against the passage. 332 + 333 + 321 residue passages, 986 judgements, 674 of them distinct (a passage the reader answered identically on two seeds carries one judgement). <code>evals/results/lenient_s{1,2,3}_labels.json</code>, <code>lenient_s{1,2,3}.jsonl</code>, and the <code>lenient_s{1,2,3}_emit.md</code> files the judgements were read against. <code>corn/reader.py</code> is untouched.</p>
+<p><strong>Read by the owner the same day (§7): eighteen of twenty credits stand, two rules were sharpened, and the column is 421 / 428 / 439.</strong> §§1–4 are the numbers as first labelled and are left as written.</p>
+<h3 id="0-why-a-second-column-and-what-it-is-not">0. Why a second column, and what it is not</h3>
+<p>The reader is scored by <code>score_extract_tight</code> against one NQ annotator's span. Finding <a class="fref" href="/Corn-Jr-Public/finding/95.html">95</a> §6 audited 100 refused-wrong passages and found the gold was not the unique correct span on 23; the owner's spot check of 2026-09-04 (<code>docs/SPOT-CHECK-REFUSED-WRONG.md</code>) confirmed that as a floor and set three rules for what counts as correct: <strong>recency</strong> (a present-tense question wants the passage's current answer), <strong>a year is enough</strong> (a <code>when</code> question is answered by the year, and a gold that adds a season, a range or a leading word is an extent case), and <strong>a different quantity is wrong</strong>. The audit's lever L6 named the build: a lenient column beside the strict one, "credits, not passages".</p>
+<p><strong>The strict column stays the record.</strong> Nothing closed reopens on this column, no threshold was tuned on it, and no arm is selected on it. It exists to say how much of the residue is the ruler and how much is the reader.</p>
+<p>Two credits are kept apart because they answer different questions:</p>
+<p>spoken_ok   the reader spoke and what it said is acceptable under the rules — the reader being right where the ruler said wrong; the only credit that moves <code>right</code> pick_ok     the reader refused, and the span head's pick on the best gold window is acceptable — the gold was not unique; moves nothing</p>
+<h3 id="1-the-three-seeds">1. The three seeds</h3>
+<p>right  wrong  silent  attempt  acc|att      credits s1 strict          389    188     144    0.800    0.674 s1 lenient         423    154     144    0.800    0.733    34 (18.1% of wrong) s2 strict          388    172     161    0.777    0.693 s2 lenient         430    130     161    0.777    0.768    42 (24.4%) s3 strict          400    178     143    0.802    0.692 s3 lenient         442    136     143    0.802    0.765    42 (23.6%)</p>
+<p><strong>+34 / +42 / +42 right at an unchanged attempt rate</strong> — the attempt rate cannot move, because a credit turns a wrong answer into a right one and touches no refusal. <code>acc | att</code> rises 5.9, 7.5 and 7.3 points. In the owner's terms: on roughly one wrong answer in five the reader was right and the ruler was not.</p>
+<p>By rule, the 118 spoken credits split 58 <code>extent</code>, 50 <code>equivalent</code>, 9 <code>year</code>, 1 <code>quantity</code>. The <code>extent</code> half is the reader saying <code>London</code> for <code>London, United Kingdom</code>, <code>Chernobyl</code> for <code>Chernobyl Nuclear Power Plant</code>, <code>Edward IV</code> for <code>Edward IV of England</code>, <code>7.6%</code> for <code>7.6% Per Annum</code>, <code>Nickelback</code> for <code>Canadian rock band Nickelback</code>: answers no reader would call wrong. The <code>equivalent</code> half is the reader naming another member of a set the question asked for (<code>Auburn</code> for a two-team championship game, <code>Jacques Cousteau</code> for a two-man invention, <code>2015</code> for one of five championship years, <code>wool</code> for "two fibres made of proteins", <code>Archaea</code> for "what types of cells"). The one <code>quantity</code> credit is the owner's own ruling: <code>216</code> countries have Scouts, the gold <code>169</code> counts organisations, and the reader said 216.</p>
+<p>By species:</p>
+<p>spoken_ok / n        s1         s2         s3 RIVAL              8 / 63    10 / 59     8 / 49 CLIPPED           13 / 18    16 / 23    18 / 25 AGGREGATION        5 / 64     7 / 50     7 / 64 UNGROUNDED         1 / 16     0 / 11     0 / 13 REFUSED_*          7 / 171    9 / 190    9 / 170</p>
+<p><strong><code>CLIPPED</code> is three quarters ruler.</strong> 47 of its 66 passages across the three seeds are the reader saying the answer without the annotator's padding, which is what the strict <code>EXTENT</code> category was always suspected of being. <code>RIVAL</code> is one sixth ruler (26 of 171), and those are the <code>EQUIVALENT</code> set-member cases finding <a class="fref" href="/Corn-Jr-Public/finding/95.html">95</a> named. <code>AGGREGATION</code> is one ninth (19 of 178) — the vote outvoting a pick that was in fact also right. <code>UNGROUNDED</code> is the reader's own, one in forty.</p>
+<h3 id="2-the-refusals-the-gold-is-not-unique-on-a-quarter-of-refuse">2. The refusals: the gold is not unique on a quarter of <code>REFUSED_WRONG</code></h3>
+<p>On the passages the reader refused, the span head's pick on the best gold window was acceptable on</p>
+<p>pick_ok / refusals in residue    s1   93 / 144     s2   100 / 161     s3   90 / 143</p>
+<p>of which REFUSED_RIGHT (right by construction on the strict ruler's own tight test)                       59 / 78          65 / 80            59 / 71 REFUSED_WRONG                     28 / 93          26 / 110           21 / 99</p>
+<p><strong>28 / 93, 26 / 110 and 21 / 99 — 24.8% pooled — of the passages in the strict species <code>REFUSED_WRONG</code> hold a pick that is right under the owner's rules.</strong> That is finding <a class="fref" href="/Corn-Jr-Public/finding/95.html">95</a>'s 23% read again on the whole species on three seeds, and it holds. (The species also holds passages where the reader spoke wrongly from another window; among the 69 / 82 / 66 that actually refused, the pick was acceptable on 41% / 32% / 32%.) Two of those are golds the passage itself contradicts: the Charles Bridge "was built as a bow bridge" and the gold <code>Stone</code> is lifted from the Regensburg bridge it was modelled on; the theory of possibilism is "by Strabo" and the gold is Sahlins, who used it.</p>
+<h3 id="3-what-the-column-says-about-the-target">3. What the column says about the target</h3>
+<p>The owner's 85% is 613 of 721. Under the strict ruler the reader is 224, 225 and 213 short. Under the lenient ruler it is 190, 183 and 171 short. <strong>The ruler accounts for about one sixth of the distance to the target and the reader for five sixths.</strong> The 93% ceiling of finding <a class="fref" href="/Corn-Jr-Public/finding/96.html">96</a> (672 / 670, the gold in the head's ten and admitted alone) is a strict-ruler number and would read higher on this column; the lenient ceiling was not computed.</p>
+<p>So the residue is real. What changes is its composition: the strict species table overstates <code>CLIPPED</code> by three quarters and <code>RIVAL</code> by a sixth, and an arm that "fixes" those is partly fixing the ruler. The window-features verifier of finding <a class="fref" href="/Corn-Jr-Public/finding/101.html">101</a> moved <code>RIVAL</code> +11 and <code>REFUSED_WRONG</code> −9 on seed 1; on this column some of that trade is between two classes that are both partly right, which is one more reason its +4 / +3 / −2 on <code>right</code> was noise.</p>
+<h3 id="4-who-labelled-and-the-second-twenty">4. Who labelled, and the second twenty</h3>
+<p>The labeller is this session, a model, as finding <a class="fref" href="/Corn-Jr-Public/finding/95.html">95</a>'s auditor was. The owner ruled on five passages and those rulings were applied verbatim (169 → <code>WRONG</code> and 216 credited; the FBI Director's superior is the DNI and <code>the President</code> is not credited; <code>1952</code> and <code>1979</code> credited on the two <code>when</code> golds the owner ruled on). Thirty-six credits are marked <code>borderline</code> in their notes (9 / 12 / 15 by seed) and lean toward credit; the largest class is a reader naming one member of a pair (<code>James Watson</code> for Watson and Crick, <code>phencyclidine</code> for a mixture of two). <strong>If the owner reverses every borderline credit the seeds still read 414 / 418 / 427</strong>, +25 / +30 / +27 over strict.</p>
+<p><strong><code>docs/SPOT-CHECK-LENIENT.md</code></strong> holds twenty credited spoken answers drawn at random across the three seeds, with question, gold, passage, what the reader said, the rule applied and a line for the owner. Disagreement on more than four of twenty would send the column back for a stricter pass.</p>
+<h3 id="5-on-disk">5. On disk</h3>
+<p><code>scripts/lenient_column.py</code>: <code>--emit</code> writes one seed's residue with the reader's spoken answer or the head's pick; <code>--labels</code> consumes per-passage judgements and writes <code>lenient_s{seed}.jsonl</code>; <code>--report</code> prints strict and lenient side by side. Labels are reused across seeds only where passage, spoken answer and pick are identical (134 and 137 of seeds 2 and 3's residue), so a reader that said something different on another seed was judged again.</p>
+<h3 id="6-limits">6. Limits</h3>
+<p>One labeller, and a model; the owner's twenty is the check. The rules were applied to Population A only; the training labels are untouched and the head that ships was trained against the strict gold. The <code>accept</code> lists are what the labeller saw in the passage and are not exhaustive. Truncated picks (<code>Cozon</code>, <code>uln</code>, <code>The Buckwheat</code>) were not credited and a clipped surname (<code>Elizabeth Dean</code>) was not either, while a clipped particle (<code>Gabrielle-Suzanne Barbot</code>) was; that line is a judgement. <code>AGGREGATION</code> and <code>REFUSED_*</code> picks were judged on the best gold window's pick only, not on every admitted window.</p>
+<h3 id="7-the-owner-s-read-the-same-day-eighteen-of-twenty-stand-and">7. The owner's read, the same day: eighteen of twenty stand, and the column is 421 / 428 / 439</h3>
+<p>The owner read the twenty in <code>docs/SPOT-CHECK-LENIENT.md</code> and agreed on eighteen. Two were reversed, and each reversal is a rule made sharper:</p>
+<ul><li><strong>A date inside the right year is not the year.</strong> <code>October 12, 1979</code> for "when did the NBA create the 3 point line" was credited under the year rule because the owner had ruled <code>1979</code> the answer; the owner's reading is that the answer <em>is</em> 1979 and a different date in it is not. Applied to every seed carrying that credit: four reversals (two passages, seeds 1, 2 and 3).</li><li><strong>A different author's clipped name is wrong.</strong> <code>Jeanne-Marie Leprince</code> for "who is Beauty and the Beast written by" was credited as the author of the retold version; the owner: "it has to be Gabrielle-Suzanne Barbot de Villeneuve". One reversal (seed 3). The clipped <em>right</em> name (<code>Gabrielle-Suzanne Barbot</code>, seeds 1 and 2) the owner accepted with "extend the name to cover it fully", so those credits stand.</li></ul>
+<p>With the seven reversals applied and the column re-read:</p>
+<p>right  wrong  silent  attempt  acc|att   credits s1 lenient         421    156     144    0.800    0.730    32 (17.0% of wrong) s2 lenient         428    132     161    0.777    0.764    40 (23.3%) s3 lenient         439    139     143    0.802    0.760    39 (21.9%)</p>
+<p>The 111 credits split 58 <code>extent</code>, 49 <code>equivalent</code>, 3 <code>year</code>, 1 <code>quantity</code>. Against 613 the lenient reader is 192 / 185 / 174 short; §3's sixth stands. Thirty-five credits remain marked borderline (9 / 12 / 14); reversing every one would read 412 / 416 / 425.</p>
+<p><strong>Four preferences fell out of the eighteen agreements and are recorded as targets for the reader's extent and speech, not as correctness rules</strong>, because the owner marked each answer right and then said what he would rather hear:</p>
+<p>say the whole name           "extend the name to cover it fully" extend the answer            "It occurred in Gilbert Inlet in Alaska", not "It's Gilbert Inlet" (four of the twenty) both names on "who ... and"  "ideally we get both" for Watson and Crick no "the" before a proper     "It's Chernobyl"; "adding the word 'the' is noun                         weird to say"</p>
+<p>The first two point at the extent rule and the reader's span width; the fourth at <code>SAY</code>'s template and the natural-speech goal. None changes a verdict in this column.</p></div>
+  </section>
+
+  <section class="grid refs">
+    <div class="body two-even">
+      <div>
+        <h2 class="small">It cites</h2>
+        <ul class="reflist"><li style="--c:var(--c2)"><a href="/Corn-Jr-Public/finding/95.html"><span class="fn">95</span>The right answer is among the top ten on 90% of misses</a></li><li style="--c:var(--c2)"><a href="/Corn-Jr-Public/finding/96.html"><span class="fn">96</span>Given only the right window, the reader reaches 93%</a></li><li style="--c:var(--c2)"><a href="/Corn-Jr-Public/finding/101.html"><span class="fn">101</span>Reading question fit improves refusals but not right answers</a></li></ul>
+        
+      </div>
+      <div>
+        <h2 class="small">Cited by</h2>
+        <ul class="reflist"><li style="--c:var(--c2)"><a href="/Corn-Jr-Public/finding/105.html"><span class="fn">105</span>The answer-length rule is already at its best setting</a></li><li style="--c:var(--c2)"><a href="/Corn-Jr-Public/finding/112.html"><span class="fn">112</span>Training on whole passages lifts extraction from 54% to 71%</a></li><li style="--c:var(--c3)"><a href="/Corn-Jr-Public/finding/158.html"><span class="fn">158</span>Wordings seen over ten times get memorised; key phrases become lists</a></li></ul>
+        
+      </div>
+    </div>
+    <p class="body source">docs/findings/104-under-the-owners-rules-a-fifth-of-the-readers-wrong-answers-are-right-on-every-seed-so-the-lenient-column-reads-423-430-and-442-beside-the-strict-record.md</p>
+  </section>
+</article>
+
+  
+<footer class="turn">
+  <div><span class="sc">previous</span><a href="/Corn-Jr-Public/finding/103.html">103 · Averaging three seeds&#39; readers barely helps</a></div>
+  <div class="r"><span class="sc">next</span><a href="/Corn-Jr-Public/finding/105.html">105 · The answer-length rule is already at its best setting</a></div>
+  <p class="keys"><kbd>←</kbd> <kbd>→</kbd> turn the page · <kbd>/</kbd> find</p>
+</footer>
+<p class="bynumber">Previous and next in <a href="/Corn-Jr-Public/thread/reading.html">Reading documents</a>. By number:
+  <a href="/Corn-Jr-Public/finding/103.html">103</a> · <a href="/Corn-Jr-Public/finding/105.html">105</a></p>
+
+</div>
+</body>
+</html>

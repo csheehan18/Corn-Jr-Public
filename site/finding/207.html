@@ -1,0 +1,87 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>207 · The pairs he fails are mostly decidable: he loses the conversation&#39;s thread · Corn-Jr</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600&family=IBM+Plex+Mono:wght@400;500&family=Spectral:ital,wght@0,400;0,500;0,600;1,400&family=Spectral+SC:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/Corn-Jr-Public/static/library.css">
+<script defer src="/Corn-Jr-Public/static/library.js"></script>
+<script type="speculationrules">
+{"prerender": [{"where": {"and": [{"href_matches": "/Corn-Jr-Public/*"}, {"not": {"href_matches": "/Corn-Jr-Public/random.html"}}, {"not": {"href_matches": "/Corn-Jr-Public/static/*"}}]}, "eagerness": "moderate"}]}
+</script>
+
+</head>
+<body>
+<div class="page">
+  <header class="running">
+    <a class="book" href="/Corn-Jr-Public/">Corn-Jr · The Record</a>
+    <nav>
+      <a href="/Corn-Jr-Public/" data-key="shelf">Shelf</a><a href="/Corn-Jr-Public/findings.html" data-key="findings" class="here">Findings</a><a href="/Corn-Jr-Public/doc/VISION.html" data-key="VISION">Vision</a><a href="/Corn-Jr-Public/doc/GLOSSARY.html" data-key="GLOSSARY">Glossary</a>
+      <a href="https://github.com/csheehan18/Corn-Jr-Public">Source</a>
+    </nav>
+  </header>
+  
+
+<article class="sheet" style="--c:var(--c5)">
+  <div class="progress" aria-hidden="true"></div>
+  <section class="grid chapter-open finding-open">
+    <a class="tab" href="/Corn-Jr-Public/thread/reply-judge.html" title="The reply judge"><small>Part</small><span>V</span></a>
+    <p class="cn">207</p>
+    <p class="partline"><a href="/Corn-Jr-Public/thread/reply-judge.html">The reply judge</a> · 22 October 2026</p>
+    <h1>The pairs he fails are mostly decidable: he loses the conversation&#39;s thread</h1>
+  </section>
+
+  <section class="grid">
+    <p class="marginal">The result, as the finding states it</p><div class="prose"><p class="lead">Matching blind — two messages from one conversation, their two replies shuffled, the answer key closed — a person decides 42 of 50 same-dialogue quads the plain 5M (seed 1) gets wrong, and 38 of those correctly; on 25 random quads (which the model mostly gets right) 23 decided, 23 correct. So three quarters of the model's same-dialogue failures (38 of 50) are pairs a reader can settle, and only 8 have nothing that decides them — the opposite of finding <a class="fref" href="/Corn-Jr-Public/finding/206.html">206</a>'s hand read of six quads, which is corrected here. What decides the quads the model fails is mostly the conversation's order (20 of 38: which reply sets up which message — "Why did you choose Max as your new name?" is what "I don't really know, it just felt right" answers), then a picked-up detail (10), then a direct question answered (7); what decides the ones it gets right is mostly a direct question answered (16 of 23)</p></div>
+    <p class="marginal">What it cost</p><div class="prose"><p class="cost"><code>scripts/probe_quad_handcount.py</code>, the draw (2,000 quads on both control seeds, 1 min of card, contended) and the blind read of 75 quads, 14:15-14:35 on 2026-10-22. ETA 20 min, actual ~20.</p></div>
+  </section>
+
+  
+
+  <section class="grid">
+    <div class="prose doc"><p><strong>The question</strong> (finding <a class="fref" href="/Corn-Jr-Public/finding/206.html">206</a>'s licence, the owner: "hand count, really see what you can learn"). The matching exercise did not take at a tenth of the conversational reading, and six hand-read quads suggested much of the control's error has no right answer. If so, a heavier weight would train on noise. This counts it properly: blind, with a baseline.</p>
+<p><strong>The draw.</strong> 2,000 same-dialogue quads (seed 7, used by no training run); the seed-1 control gets 286 wrong (14.3%). Fifty of those and 25 random quads, shuffled together; per quad the two messages under A and B and the two replies under 1 and 2 in a coin-flipped order. The reader writes which reply answers A (or <code>?</code>) and what decided it, before the key is opened (<code>evals/results/quadcount__*</code>).</p>
+<h3 id="the-read">The read</h3>
+<p>quads                        decided   right of decided   right of all   seed 2 also wrong control wrong (seed 1), 50   42        38                 0.76           26 random, 25                   23        23                 0.92           1</p>
+<p>what decided a correct call      control wrong   random conversation order               20              0 picks up a detail                10              7 answers a direct question         7              16 who is speaking                   1              0</p>
+<h3 id="read-by-hand">Read by hand</h3>
+<p><strong>Conversation order</strong> is the large class: a reply that the <em>other</em> message goes on to answer or follow. <em>A: "I used them this morning ... can't remember where." B: "I checked my room and they're not there."</em> — "Okay, so we know you had them this morning. Where did you go after you left your room?" answers A, and "When was the last time you remember using them?" is what A itself answers. <em>A: "Okay, bye." B: "Aww, I missed you too. I'm almost home."</em> — "Bye." and "Great! I can't wait to see you." Each needs the turn's place in the exchange, not just its topic. The model handles the question-and-answer kind (the random quads it gets right are mostly that) and loses the thread.</p>
+<p><strong>The undecidable eight</strong> are real: two "you're welcome" turns against two thank-yous, two agreeing turns in a debate, two congratulations on a win — the pattern finding <a class="fref" href="/Corn-Jr-Public/finding/206.html">206</a> saw, at a sixth of the failures, not most of them.</p>
+<p><strong>Four calls were wrong</strong> — order cases where both sequences read plausibly; a person's ceiling on these quads is below 100%.</p>
+<h3 id="what-it-licenses">What it licenses</h3>
+<ul><li><strong>The exercise has headroom</strong>: about three quarters of the control's same-dialogue misses are decidable, so a heavier weight trains mostly on signal, not noise. Finding <a class="fref" href="/Corn-Jr-Public/finding/206.html">206</a>'s "(u) at this weight" stands; its reason does not.</li><li><strong>What to aim it at is the thread of a conversation</strong>, not its topic: the failures are about where a turn sits, which is the owner's coherence target in miniature — answering <em>this</em> message, not the conversation.</li><li><strong>Next by this count</strong>: the exercise at a heavier weight, same-dialogue quads only, read by the same take read, the swap test beside, and the blind reply read.</li></ul>
+<p><strong>What it does not settle.</strong> One reader, one seed's failures; whether a lesson on the thread carries into writing.</p></div>
+  </section>
+
+  <section class="grid refs">
+    <div class="body two-even">
+      <div>
+        <h2 class="small">It cites</h2>
+        <ul class="reflist"><li style="--c:var(--c5)"><a href="/Corn-Jr-Public/finding/206.html"><span class="fn">206</span>A matching lesson at a tenth of conversation reading did not take</a></li></ul>
+        
+      </div>
+      <div>
+        <h2 class="small">Cited by</h2>
+        <ul class="reflist"><li style="--c:var(--c5)"><a href="/Corn-Jr-Public/finding/206.html"><span class="fn">206</span>A matching lesson at a tenth of conversation reading did not take</a></li><li style="--c:var(--c5)"><a href="/Corn-Jr-Public/finding/208.html"><span class="fn">208</span>The shipped model answers most one-off messages coherently</a></li><li style="--c:var(--c5)"><a href="/Corn-Jr-Public/finding/214.html"><span class="fn">214</span>A reply judge beside the 5M moves his replies level</a></li><li style="--c:var(--c5)"><a href="/Corn-Jr-Public/finding/219.html"><span class="fn">219</span>A 5M reading only conversation answers far more messages</a></li></ul>
+        
+      </div>
+    </div>
+    <p class="body source">docs/findings/207-a-person-decides-42-of-50-same-dialogue-quads-the-plain-5m-gets-wrong-and-38-of-them-correctly-so-the-matching-exercise-has-real-headroom-and-the-failures-are-conversation-order.md</p>
+  </section>
+</article>
+
+  
+<footer class="turn">
+  <div><span class="sc">previous</span><a href="/Corn-Jr-Public/finding/206.html">206 · A matching lesson at a tenth of conversation reading did not take</a></div>
+  <div class="r"><span class="sc">next</span><a href="/Corn-Jr-Public/finding/208.html">208 · The shipped model answers most one-off messages coherently</a></div>
+  <p class="keys"><kbd>←</kbd> <kbd>→</kbd> turn the page · <kbd>/</kbd> find</p>
+</footer>
+<p class="bynumber">Previous and next in <a href="/Corn-Jr-Public/thread/reply-judge.html">The reply judge</a>. By number:
+  <a href="/Corn-Jr-Public/finding/206.html">206</a> · <a href="/Corn-Jr-Public/finding/208.html">208</a></p>
+
+</div>
+</body>
+</html>

@@ -1,0 +1,114 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>56 · The official split overlaps documents: 14% of the eval leaked into training · Corn-Jr</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600&family=IBM+Plex+Mono:wght@400;500&family=Spectral:ital,wght@0,400;0,500;0,600;1,400&family=Spectral+SC:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/Corn-Jr-Public/static/library.css">
+<script defer src="/Corn-Jr-Public/static/library.js"></script>
+<script type="speculationrules">
+{"prerender": [{"where": {"and": [{"href_matches": "/Corn-Jr-Public/*"}, {"not": {"href_matches": "/Corn-Jr-Public/random.html"}}, {"not": {"href_matches": "/Corn-Jr-Public/static/*"}}]}, "eagerness": "moderate"}]}
+</script>
+
+</head>
+<body>
+<div class="page">
+  <header class="running">
+    <a class="book" href="/Corn-Jr-Public/">Corn-Jr · The Record</a>
+    <nav>
+      <a href="/Corn-Jr-Public/" data-key="shelf">Shelf</a><a href="/Corn-Jr-Public/findings.html" data-key="findings" class="here">Findings</a><a href="/Corn-Jr-Public/doc/VISION.html" data-key="VISION">Vision</a><a href="/Corn-Jr-Public/doc/GLOSSARY.html" data-key="GLOSSARY">Glossary</a>
+      <a href="https://github.com/csheehan18/Corn-Jr-Public">Source</a>
+    </nav>
+  </header>
+  
+
+<article class="sheet" style="--c:var(--c2)">
+  <div class="progress" aria-hidden="true"></div>
+  <section class="grid chapter-open finding-open">
+    <a class="tab" href="/Corn-Jr-Public/thread/reading.html" title="Reading documents"><small>Part</small><span>II</span></a>
+    <p class="cn">56</p>
+    <p class="partline"><a href="/Corn-Jr-Public/thread/reading.html">Reading documents</a> · 24 August 2026</p>
+    <h1>The official split overlaps documents: 14% of the eval leaked into training</h1>
+  </section>
+
+  <section class="grid">
+    <p class="marginal">The result, as the finding states it</p><div class="prose"><p class="lead">The official split guarantees questions and not documents, so 14% of the eval was in the slice, and the training half cannot be read by the code that reads the eval half</p></div>
+    <p class="marginal">What it cost</p><div class="prose"><p class="cost">0 s of new scoring on record; it reads 2 cards scored for an earlier finding (<code>nano20m</code>, <code>nano20m_v3</code>). Backfilled 2026-09-26 from the cards' <code>seconds</code>; training and probe time were never recorded, so this is a floor.</p></div>
+  </section>
+
+  
+
+  <section class="grid">
+    <div class="prose doc"><p><code>docs/PLAN-WEB-SEARCH.md</code>'s WS-B, built on 2026-08-24: <code>corn/extractgen.py</code>, <code>scripts/gen_extract.py</code>, <code>scripts/check_extract_slice.py</code>, <code>configs/mix_v3_extract.py</code> and two nano configs. <strong>Nothing has trained.</strong> No weights changed at any point, and every number here is a property of a corpus file or of the code that reads one.</p>
+<p>The slice itself came out where the pre-registration said it should — balanced 50/50, one pass at 5%, no <code>repeat</code>:</p>
+<p>NQ train rows        19,920      65 shards, 14,096 answerable / 5,824 not dropped, article        409      2.05%, decontamination — see below transcripts          48,478      24,239 answerable / 24,239 absent tokens            8,168,451      1.25x the 6,546,719 pledged at 5% distinct windows     44,855      1.08 uses each distinct replies     31,699      1.53 uses each</p>
+<p>1.08 uses per window is the number that matters for the thirty-fourth finding's rule: the two slots that taught reading sat at 1.0 and 1.2 uses and the three that taught recitation sat at 2,096, 2,130 and 48,088. Nothing here is close to the bad end.</p>
+<p>What is worth recording is that <strong>three of the premises the slice was built on were false, and two of them were the kind that pass their own guard.</strong></p>
+<h3 id="1-the-split-is-annotated-to-two-different-depths-and-every-f">1. The split is annotated to two different depths, and every filter read the wrong one</h3>
+<p><code>prepare_nq.py</code> was written against NQ <code>dev</code> and its filters all turn on annotator agreement — "is this paragraph even on topic should not be one annotator's opinion" is the docstring's own argument. Measured directly rather than taken from the card:</p>
+<p>dev     len(annotations["long_answer"]) == 5   on every row train   len(annotations["long_answer"]) == 1   on every row</p>
+<p>So on <code>train</code>:</p>
+<p>agreed = [c for c, n in picked.items() if n &gt;= 2]</p>
+<p>is unsatisfiable, and one shard read <strong>1,071 rows and kept 0</strong> — 1,061 dropped as "no agreed long answer". That is the loud failure and it cost one 192 MB shard to find instead of the 13 GB a full pull would have been.</p>
+<p><strong>The quiet one is worse and would not have failed anything.</strong> The unanswerable arm read</p>
+<p>elif 5 - n_with &gt;= 4:</p>
+<p>with the 5 hardcoded. On train <code>n_with</code> is 0 or 1, so <code>5 - 1 = 4</code> passes too: the filter <strong>fails open</strong> and labels a row <em>whose annotator did answer</em> as having no answer. Those rows would have gone straight into the abstention class — the class that exists to teach an honest miss, and the one the plan already names as having no runtime floor, so nothing downstream could have caught it.</p>
+<p><code>prepare_nq.agreement(n_ann)</code> now returns both thresholds from the split's depth: <code>min_agree</code> is 2 at five annotators and 1 at one, <code>min_silent</code> is <code>max(1, n_ann - 1)</code> — 4 of 5 on dev, 1 of 1 on train. Written as <code>n_ann - 1</code> it would have been 0 on train and admitted everything, which is the same defect one layer along.</p>
+<p><strong><code>data/raw/nq-dev.jsonl</code> regenerates byte-identically</strong>, sha256 <code>1f92680e...</code>, 721 answerable and 282 unanswerable unchanged — asserted twice, once after the annotator change and once after the HTML filter below. The frozen <code>extract.*</code> rows cut from it did not move.</p>
+<h3 id="2-decontamination-by-construction-passes-its-own-check-and-i">2. "Decontamination by construction" passes its own check and is not true</h3>
+<p>This is the one to remember. Both <code>prepare_nq.py</code> and <code>PLAN-WEB-SEARCH.md</code> argue that cutting the eval from <code>dev</code> and the slice from <code>train</code> means the two never touch, and <code>check_nq.py</code> §7 asserts it — no shared id, no shared question — and <strong>passes</strong>.</p>
+<p>The first build of the slice then contained:</p>
+<p>56 of the frozen eval's 396 windows        14.1% 0  shared ids 0  shared questions</p>
+<p>NQ annotates the same Wikipedia paragraph against different queries in both splits. <strong>65 dev passages used by the eval appear verbatim in train</strong>, carrying 113 train rows, and the queries are near-paraphrases of each other:</p>
+<p>eval   where is the inscription on the statue of liberty train  who wrote the message on the statue of liberty train  when was the statue of liberty poem written</p>
+<p>One paragraph, three questions, two splits. 409 train rows share a Wikipedia <em>article</em> with an eval item.</p>
+<p><strong>An official split is a statement about questions, not about documents.</strong> That sentence is the finding. The dataset's guarantee is exactly the one it advertises and it is not the guarantee an extraction eval needs, because the eval scores a model on a <em>window of text</em> and the leak is in the text.</p>
+<p>The exclusion is therefore by <strong>article</strong>, not by window and not by passage. A window match catches only the exact 64 tokens and <code>STRIDE</code> is 32, so a window offset by one stride leaks half its text and matches nothing; a passage match catches the paragraph but not the adjacent paragraph of the same article that some other question selected. The article closes both. It costs <strong>2.05% of the train rows</strong>, which is cheap against a row this is the before-number for, and it is read out of the frozen eval's own <code>url</code> field rather than out of gitignored <code>nq-dev.jsonl</code> — a decontamination step should not depend on a file that can be regenerated differently.</p>
+<p>This is the second time this project's hygiene has needed a boundary its source did not supply, and it lands the same way as <code>gen_tools.py</code>'s rule that a shared <em>first name</em> between the composed book and the holdout fails the build.</p>
+<h3 id="3-the-row-bounds-the-vocabulary-the-slice-can-teach">3. The row bounds the vocabulary the slice can teach</h3>
+<p><code>extract.abstain</code> passes a reply only if it contains a phrase from <code>MISS_MARKERS</code> <strong>and</strong> carries no content word outside <code>_MISS_VOCAB</code>, the question and <code>FRAME</code>. Three of the first nine abstention phrasings written for the slice read as perfectly good abstentions and scored as failures:</p>
+<p>Nothing useful about {q}, I'm afraid.   hedged_answer — the <code>m</code> that an apostrophe leaves behind This doesn't say anything about {q}.    hedged_answer — <code>this</code>; FRAME carries <code>that</code> and not <code>this</code> There's nothing here about {q}.         no_miss — <code>nothing about</code> is a marker, <code>nothing here about</code> is not</p>
+<p>The phrasings were changed rather than the scorer, and that direction is forced: <code>extract.abstain</code> is frozen at 0/200 and widening <code>_is_miss</code> would make the baseline the pilot is read against incomparable. But the cost is real and worth naming — <strong>the abstention vocabulary this slice can teach is bounded by the row that scores it</strong>, so the cardinality argument that carried <code>sayvar</code> is weaker here, and a model abstaining in words the row does not credit will read as a failure it is not.</p>
+<p>A fourth constraint appeared at the same place. <code>score_extract_abstain</code> runs <code>_length_verdict</code> first, so a long question echoed into a reply is long against a short window and reads <code>wrote_own</code> whatever it says. That is why five of the fourteen phrasings do not name the query back: they are a length budget, not a style. Twelve transcripts in the first build tripped it.</p>
+<h3 id="4-the-rule-that-falls-out-never-train-a-target-its-own-row-s">4. The rule that falls out: never train a target its own row scores wrong</h3>
+<p>Those twelve are a small number attached to a large rule, now enforced in <code>corn/extractgen.scores_as_target</code>: <strong>every transcript in the slice is a target its own eval row would score as a pass</strong>, checked at generation by calling the scorer, and re-checked by the guard on the file.</p>
+<p>It matters more than the twelve. The pilot reads movement on <code>extract.span</code> and <code>extract.abstain</code>, so a slice teaching replies those rows refuse would depress the very numbers it was built to move — and the arm would read as a failed intervention rather than as a mislabelled corpus. That is the thirty-seventh finding's shape (an arm that cost a run and taught nothing) with a cause nobody would have looked for.</p>
+<h3 id="5-two-smaller-things">5. Two smaller things</h3>
+<p><strong>BPE decode → encode is not the identity, and the runtime batches on the assumption that it is.</strong> <code>windows()</code> cuts equal <code>WIDTH</code>-token slices and returns them <em>decoded</em>; re-encoding those strings gives 65–68 tokens for 7 of 1,197 dev windows, so <strong>4 of 300 passages produce prompts of unequal length</strong>. <code>BatchedReader</code> raises <code>ValueError</code> on those deliberately rather than padding (<code>StaticCache.pos</code> is one shared scalar and <code>corn/model.py</code> uses learned absolute positions, so neither padding direction is available). So <code>read_passage</code> will throw on ~1.3% of passages. It cannot be fixed in <code>windows()</code> — <code>make_evals.py</code> calls it, and changing its output would move the frozen eval windows — so it belongs at the <code>read_passage</code>/<code>BatchedReader</code> seam and is tracked separately. The slice is unaffected; it only embeds the string.</p>
+<p><strong>One row in 19,921 carried a leftover HTML tag</strong>, <code>&lt;/ref &gt;</code> — a wiki citation closer that NQ tokenises with a space, so <code>is_html</code> never flags it and it survives into the passage. None in dev, which is why it took a slice-sized source to surface. Now a counted drop rather than a scrub, on the same terms as the U+FFFD check beside it.</p>
+<h3 id="what-this-does-not-say">What this does not say</h3>
+<p>Nothing here is a claim about a trained model. The slice is built, guarded and unread by any optimiser. The pilot — <code>nano20m</code> at 5%, two seeds against a two-seed <code>nano20m_v3</code> control, read as range against range — is what turns any of it into a result, and the pre-registered quantities are unchanged: <code>extract.span</code> from 9/200, <code>extract.abstain</code> from 0/200, <code>continued_payload</code> from 69/400 as the falsifiable one, with <code>tool.copy</code> 120/120 and <code>tool.copy_wide</code> 300/300 as the regression watch.</p>
+<p><code>lm web</code> is <strong>expected to move</strong> and is not a regression: web is the donor at 49.3773% → 44.3773%, and the forty-fourth finding measured that response as linear over two doses with no behaviour row moving.</p></div>
+  </section>
+
+  <section class="grid refs">
+    <div class="body two-even">
+      <div>
+        <h2 class="small">It cites</h2>
+        <p class="aside">No other finding by number.</p>
+      </div>
+      <div>
+        <h2 class="small">Cited by</h2>
+        <ul class="reflist"><li style="--c:var(--c2)"><a href="/Corn-Jr-Public/finding/72.html"><span class="fn">72</span>Search returned &#39;capital punishment&#39; for &#39;capital of Mongolia&#39;; fixed</a></li></ul>
+        
+      </div>
+    </div>
+    <p class="body source">docs/findings/56-the-official-split-guarantees-questions-not-documents-and-fourteen-per-cent-of-the-eval-was-in-the-slice.md</p>
+  </section>
+</article>
+
+  
+<footer class="turn">
+  <div><span class="sc">previous</span><a href="/Corn-Jr-Public/finding/55.html">55 · Four hundred passages show he writes his own answer instead of copying</a></div>
+  <div class="r"><span class="sc">next</span><a href="/Corn-Jr-Public/finding/57.html">57 · Extraction training works, mostly by declining answerable questions</a></div>
+  <p class="keys"><kbd>←</kbd> <kbd>→</kbd> turn the page · <kbd>/</kbd> find</p>
+</footer>
+<p class="bynumber">Previous and next in <a href="/Corn-Jr-Public/thread/reading.html">Reading documents</a>. By number:
+  <a href="/Corn-Jr-Public/finding/55.html">55</a> · <a href="/Corn-Jr-Public/finding/57.html">57</a></p>
+
+</div>
+</body>
+</html>

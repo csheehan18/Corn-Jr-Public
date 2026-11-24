@@ -1,0 +1,102 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>236 · Eight times the nudges reads worse; the short test had misled · Corn-Jr</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600&family=IBM+Plex+Mono:wght@400;500&family=Spectral:ital,wght@0,400;0,500;0,600;1,400&family=Spectral+SC:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/Corn-Jr-Public/static/library.css">
+<script defer src="/Corn-Jr-Public/static/library.js"></script>
+<script type="speculationrules">
+{"prerender": [{"where": {"and": [{"href_matches": "/Corn-Jr-Public/*"}, {"not": {"href_matches": "/Corn-Jr-Public/random.html"}}, {"not": {"href_matches": "/Corn-Jr-Public/static/*"}}]}, "eagerness": "moderate"}]}
+</script>
+
+</head>
+<body>
+<div class="page">
+  <header class="running">
+    <a class="book" href="/Corn-Jr-Public/">Corn-Jr · The Record</a>
+    <nav>
+      <a href="/Corn-Jr-Public/" data-key="shelf">Shelf</a><a href="/Corn-Jr-Public/findings.html" data-key="findings" class="here">Findings</a><a href="/Corn-Jr-Public/doc/VISION.html" data-key="VISION">Vision</a><a href="/Corn-Jr-Public/doc/GLOSSARY.html" data-key="GLOSSARY">Glossary</a>
+      <a href="https://github.com/csheehan18/Corn-Jr-Public">Source</a>
+    </nav>
+  </header>
+  
+
+<article class="sheet" style="--c:var(--c5)">
+  <div class="progress" aria-hidden="true"></div>
+  <section class="grid chapter-open finding-open">
+    <a class="tab" href="/Corn-Jr-Public/thread/understanding.html" title="Understanding at small scale"><small>Part</small><span>V</span></a>
+    <p class="cn">236</p>
+    <p class="partline"><a href="/Corn-Jr-Public/thread/understanding.html">Understanding at small scale</a> · 14 November 2026</p>
+    <h1>Eight times the nudges reads worse; the short test had misled</h1>
+  </section>
+
+  <section class="grid">
+    <p class="marginal">The result, as the finding states it</p><div class="prose"><p class="lead">A 5M that reads the control's 128.7M tokens in one pass at 6 rows a step instead of 48 — 41,896 updates for 5,237 — ends reading held-out text 0.193 nats a token <em>worse</em> than the two controls (3.235 against 3.041), where a fifth-of-a-run smoke of the same recipe had read 0.15 better. R was predicted "better" at nine in ten and is on the wrong side of level. The ruler's lift falls with it: 0.39 on the fields and 0.26 on the wishes, under every one of twelve ordinary 5Ms (0.43 to 0.59 and 0.30 to 0.39). U is down. Fields right 72 and wishes 60. Read by hand with the writers hidden, 24 of the ruler's sentences draw the same stock openings from this run and from the control on 22. One seed, one run, on the owner's terms.</p></div>
+    <p class="marginal">What it cost</p><div class="prose"><p class="cost">config and reader committed with the pre-registration at 23:29 on 2026-11-14 (fbaa3e1), after five smokes of a fifth of a run (366.4 s of card) and their read (47.5 s); the run trained 359.4 s (the controls 350.0 and 353.9, contended), 549.2 s for the chain with a read that re-read twelve runs (175.9 s); the cause reads 44.4 s. ETA about seven minutes of training; 6.0.</p></div>
+  </section>
+
+  
+
+  <section class="grid">
+    <div class="prose doc"><p><strong>The question</strong> (owner, 2026-11-14: "you're right that our models are not being nudged enough", then "Yes let's do it"). Every small run takes 5,237 updates; the 260M took 203,451; nothing in the record had varied the count. Two explanations of why he lacks what a count of his text knows were to be told apart: next-piece reading does not pay for it (A), or it does, late, and 5,237 updates stop short (B). The pre-registration is <code>configs/nano5m_v3_webblend_nudge.py</code>'s docstring.</p>
+<h3 id="the-read">The read</h3>
+<p>held-out text is the mean of four sources on fixed windows; lift is how far the phrase moves the right label past the other offered labels, nats a frame</p>
+<p>held-out text   fields: right  lift    wishes: right  lift twelve 5Ms with no lesson         3.025-3.107        65-84   0.43-0.59      61-72   0.30-0.39 the two controls                3.036, 3.047       79, 75  0.50, 0.51     68, 62  0.37, 0.30 8x the updates, seed 1337         3.235                 72   0.39              60   0.26</p>
+<ul><li><strong>R: worse.</strong> +0.193 nats a token. The row's lines were "better", "level" and "between"; this is past all three on the other side. Predicted 0.06 to 0.12 better.</li><li><strong>U: down.</strong> Both lifts are under every ordinary run. Predicted flat.</li><li><strong>C.</strong> 72 fields, inside the twelve's 65 to 84; 60 wishes, one under their lowest.</li><li><strong>S.</strong> His first word is the same with and without the phrase on 93 of 141 fields; the controls 108 and 84.</li><li><strong>H.</strong> Marks written before the key was opened: 2 of 24 continuations carry what the phrase means for this run and 1 of 24 for the control ("a beautiful day" from both for a cheerful tune about sunshine; "a very difficult one" from this run for the detective's race). The other 45 are "best way to make it", "most important thing to do", "a great place to go", or the phrase's own noun.</li></ul>
+<h3 id="why-the-smoke-read-the-other-way-cause-reads-not-registered">Why the smoke read the other way (cause reads, not registered)</h3>
+<p>Validation loss at the same tokens read, this run beside a run of the control's recipe (finding <a class="fref" href="/Corn-Jr-Public/finding/235.html">235</a>'s seed 1337, whose curve was on disk):</p>
+<p>tokens read      25M     49M     74M     98M     123M    129M 6 rows a step    3.33    3.22    3.08    2.86    2.85    2.79   (step size 1.9e-3 falling to 2e-4) 48 rows a step   3.30    2.98    2.84    2.71    2.64    2.60   (2.8e-3 falling to 3e-4)</p>
+<p>In the full schedule the small step is never ahead, not even at 25M tokens, where the smoke had it 0.15 ahead. The smoke was a whole schedule squeezed into a fifth of the tokens: its step size had already fallen to its floor by 25M, and at the floor a run with 8,000 updates behind it beats one with 1,000. Stretched to the full budget the step size stays high for most of the run, and a small batch at a high step size sits on the noise of its own steps. <strong>The loss follows the step size down; it does not follow the count of updates.</strong></p>
+<p>That the end state is noise can be read off the two iterates the run saved, 896 updates apart:</p>
+<p>iterate 41,000          held-out text 3.2347   lift 0.39 and 0.26 iterate 41,896                        3.2346        0.44 and 0.27 their weights averaged                3.1893        0.42 and 0.26</p>
+<p>Averaging two sets of weights takes 0.045 nats off. Neither iterate is where the run is; both are scattered round somewhere better.</p>
+<p>Reading and lift, every size, on the same windows: the 5Ms 3.04 and 0.52 / 0.35; this run 3.23 and 0.39 / 0.26; the 20Ms 2.88 and 0.54 / 0.42; the 260M 2.00 and 1.23 / 1.18.</p>
+<h3 id="what-it-licenses">What it licenses</h3>
+<p>By the pre-registration, its third outcome: <strong>R is not better, so nothing is concluded about A against B.</strong></p>
+<ul><li><strong>"Starved of updates" was wrong as put.</strong> The control's batch is not wasting tokens over a full run: cut eight ways at a step size the smokes chose, the same tokens read worse. What limits a small step is its noise.</li><li><strong>A short test flatters more updates, as it flatters a high step size.</strong> The smokes were run to choose a step size and I read a result off them and gave nine-in-ten odds on it. A recipe read on a squeezed schedule is a read of the squeeze.</li><li><strong>Where reading fell the lift fell with it.</strong> Not evidence that better reading would raise it — no 5M on these tokens has yet read clearly better than the controls, so that side is unread — but the one run that moved reading moved the lift the same way.</li><li><strong>Averaging is what this points at.</strong> Two iterates averaged recover a quarter of the loss. Keeping a running average of the weights is the standard answer to noisy steps and costs no tokens, no pass and almost no time; whether many small steps with an average beat the control is untested, and needs a change to the training loop.</li><li><strong>The hand read stands apart from the scores.</strong> Whatever the recipe, a 5M continues the ruler's sentences with the same few stock openings; the phrase reaches what he writes in 1 or 2 of 24.</li><li><strong>Unguarded read.</strong> No guard pins <code>scripts/read_nudge_arm.py</code>; its own check is the two controls' saved counts. The lift is a new instrument, bounded by twelve runs' spread and by nothing else.</li></ul>
+<p><strong>What it does not settle.</strong> The same cut at a lower step size, or with the step size taken to zero. A running average of the weights, at either batch. Whether a 5M that does read clearly better on the same tokens has more lift — the question this run was built to ask and did not reach.</p>
+<h3 id="amended-2026-11-14-the-run-changed-two-things-and-the-cause-">Amended 2026-11-14 — the run changed two things, and the cause above is not shown</h3>
+<p>The owner asked whether the failure had been investigated before it was explained ("Did you investigate the failures first? To verify yourself?"). It had not been, beyond the curve and the two iterates. Checked afterwards (probe only — not on disk):</p>
+<p><strong>Weight decay is applied a step, so eight times the steps is far more of it.</strong> Both runs set it to 0.1. Summed over the schedule the step sizes come to 8.61 for the control and 45.93 here: a weight nothing else touched would end at 0.42 of itself in the control and 0.010 of itself in this run. The control's whole run is shorter than one decay time (6,080 steps at its mean step size, of 5,237); this run is four and a half of them (9,122 of 41,896).</p>
+<p><strong>The weights show it.</strong> Root-mean-square size, this run beside six runs of the control's recipe (the two controls and finding <a class="fref" href="/Corn-Jr-Public/finding/235.html">235</a>'s four):</p>
+<p>group                this run    six ordinary runs word table           0.054       0.082 to 0.087 position table       0.014       0.043 to 0.061 attention weights    0.062       0.074 to 0.077 mlp weights          0.059       0.084 norm gains           1.51        1.00 to 1.05     (not decayed; grown to make up)</p>
+<p>So the run cut the batch <strong>and</strong> regularised the model about five times as hard, and ended with weights 20% to 75% smaller. The pre-registration called it one variable and it was two.</p>
+<p><strong>What this withdraws.</strong> "What limits a small step is its noise" and "the control's batch is not wasting tokens over a full run" are not shown: the worse reading may be the decay, the noise, or both. The two-iterate average (0.045 nats) shows some of it is noise and says nothing about the rest. "The loss follows the step size down" described the curve and was offered as the cause without a test.</p>
+<p><strong>What stands.</strong> The numbers of the read. That a squeezed smoke is not a read of a recipe — here for a second reason too: the smokes at 6 rows had a full control's worth of decay behind them (a step-size sum near 8.8) and the smoke at 48 rows almost none (1.6).</p>
+<p><strong>The run that would say:</strong> this recipe with the weight decay set so the whole run applies what the control's does — 0.1 x 8.61 / 45.93, about 0.019. Six minutes, config only. Until it is read, nothing is concluded about more updates, in either direction.</p>
+<p><strong>Read 2026-11-15: finding <a class="fref" href="/Corn-Jr-Public/finding/237.html">237</a>.</strong> The rerun at 0.0188 overshot (weights twice ordinary size) and reads 3.224: the decay was not the cause. Cooling the end state recovers 0.03: nor was end noise.</p></div>
+  </section>
+
+  <section class="grid refs">
+    <div class="body two-even">
+      <div>
+        <h2 class="small">It cites</h2>
+        <ul class="reflist"><li style="--c:var(--c5)"><a href="/Corn-Jr-Public/finding/235.html"><span class="fn">235</span>A counted starting table helps early and is erased by the end</a></li><li style="--c:var(--c5)"><a href="/Corn-Jr-Public/finding/237.html"><span class="fn">237</span>Decay and end noise both cleared: the small-step run just learned less</a></li></ul>
+        
+      </div>
+      <div>
+        <h2 class="small">Cited by</h2>
+        <ul class="reflist"><li style="--c:var(--c5)"><a href="/Corn-Jr-Public/finding/237.html"><span class="fn">237</span>Decay and end noise both cleared: the small-step run just learned less</a></li></ul>
+        
+      </div>
+    </div>
+    <p class="body source">docs/findings/236-eight-times-the-updates-from-the-same-tokens-reads-held-out-text-0-19-nats-worse-at-5m-and-the-lift-falls-under-every-ordinary-run-though-a-fifth-of-a-run-had-read-0-15-better.md</p>
+  </section>
+</article>
+
+  
+<footer class="turn">
+  <div><span class="sc">previous</span><a href="/Corn-Jr-Public/finding/235.html">235 · A counted starting table helps early and is erased by the end</a></div>
+  <div class="r"><span class="sc">next</span><a href="/Corn-Jr-Public/finding/237.html">237 · Decay and end noise both cleared: the small-step run just learned less</a></div>
+  <p class="keys"><kbd>←</kbd> <kbd>→</kbd> turn the page · <kbd>/</kbd> find</p>
+</footer>
+<p class="bynumber">Previous and next in <a href="/Corn-Jr-Public/thread/understanding.html">Understanding at small scale</a>. By number:
+  <a href="/Corn-Jr-Public/finding/235.html">235</a> · <a href="/Corn-Jr-Public/finding/237.html">237</a></p>
+
+</div>
+</body>
+</html>

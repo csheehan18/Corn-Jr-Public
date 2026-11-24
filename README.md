@@ -18,6 +18,12 @@ headline, a finding is a working record written in the project's own
 vocabulary; [GLOSSARY.md](GLOSSARY.md) explains every in-house word in one
 sentence.
 
+To browse them as a book instead, open
+**[The Record](https://csheehan18.github.io/Corn-Jr-Public/)**. It shelves the
+findings in nineteen threads, by subject, and links each one to the findings it
+cites and the ones that cite it. It is built from this repo's own files, in
+[site/](site/).
+
 ## Start here
 
 You don't need to read 241 findings. These are the ones I'd point anyone to

@@ -1,0 +1,102 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>70 · The first-value rule holds on a new fixed test set · Corn-Jr</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600&family=IBM+Plex+Mono:wght@400;500&family=Spectral:ital,wght@0,400;0,500;0,600;1,400&family=Spectral+SC:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/Corn-Jr-Public/static/library.css">
+<script defer src="/Corn-Jr-Public/static/library.js"></script>
+<script type="speculationrules">
+{"prerender": [{"where": {"and": [{"href_matches": "/Corn-Jr-Public/*"}, {"not": {"href_matches": "/Corn-Jr-Public/random.html"}}, {"not": {"href_matches": "/Corn-Jr-Public/static/*"}}]}, "eagerness": "moderate"}]}
+</script>
+
+</head>
+<body>
+<div class="page">
+  <header class="running">
+    <a class="book" href="/Corn-Jr-Public/">Corn-Jr · The Record</a>
+    <nav>
+      <a href="/Corn-Jr-Public/" data-key="shelf">Shelf</a><a href="/Corn-Jr-Public/findings.html" data-key="findings" class="here">Findings</a><a href="/Corn-Jr-Public/doc/VISION.html" data-key="VISION">Vision</a><a href="/Corn-Jr-Public/doc/GLOSSARY.html" data-key="GLOSSARY">Glossary</a>
+      <a href="https://github.com/csheehan18/Corn-Jr-Public">Source</a>
+    </nav>
+  </header>
+  
+
+<article class="sheet" style="--c:var(--c2)">
+  <div class="progress" aria-hidden="true"></div>
+  <section class="grid chapter-open finding-open">
+    <a class="tab" href="/Corn-Jr-Public/thread/reading.html" title="Reading documents"><small>Part</small><span>II</span></a>
+    <p class="cn">70</p>
+    <p class="partline"><a href="/Corn-Jr-Public/thread/reading.html">Reading documents</a> · 26 August 2026</p>
+    <h1>The first-value rule holds on a new fixed test set</h1>
+  </section>
+
+  <section class="grid">
+    <p class="marginal">The result, as the finding states it</p><div class="prose"><p class="lead">The paired-property row exists, and the first-taker rule survives being put on a frozen file</p></div>
+    <p class="marginal">What it cost</p><div class="prose"><p class="cost">0 s of new scoring on record; it reads 1 card scored for an earlier finding (<code>corn_jr_260m</code>). Backfilled 2026-09-26 from the cards' <code>seconds</code>; training and probe time were never recorded, so this is a floor.</p></div>
+  </section>
+
+  <div class="grid"><figure class="specimen">
+  <div class="slip">
+    <span class="k">to him</span><span class="m">the melting point of Quessalite, over &#34;It boils at 2604 degrees Celsius and melts at 1385&#34;</span>
+    <span class="k">he wrote</span><span class="a">It&#39;s 2604 degrees Celsius.</span>
+  </div>
+  <figcaption><a href="/Corn-Jr-Public/finding/70.html">Finding 70.</a> Of the extractor&#39;s 34 wrong answers that took a value, 31 took the first value stated, whatever the question asked for.</figcaption>
+</figure></div>
+
+  <section class="grid">
+    <div class="prose doc"><p><code>evals/paired.jsonl</code>, added 2026-08-26 by <code>scripts/make_evals.py --add</code> and scored on six checkpoints. R3 of <code>docs/PLAN-P3-RULERS.md</code>, specified by <code>docs/PLAN-CORPUS-GAPS.md</code> §1, and built for the sixty-sixth finding — which measured a <em>rule</em> on a hand-run probe of six substances and had no instrument to carry it. No training; the row is a ruler.</p>
+<h3 id="what-the-row-is">What the row is</h3>
+<p>128 items over four shapes — <code>melt_boil</code>, <code>born_died</code>, <code>capital_largest</code>, <code>length_width</code> — each a written passage where <strong>two same-type values share a clause under different property labels</strong>. Every fill appears in both clause orders and both questions, <code>daycross.jsonl</code>'s construction extended by the flip finding <a class="fref" href="/Corn-Jr-Public/finding/66.html">66</a> used as its control, so the gold sits second in <strong>exactly half</strong> the items by construction rather than by a sampled balance. The fills are invented: <code>scripts/check_paired.py</code> asserts every entity and place name against <code>corn.tools.FACTS</code>, <code>data/raw/extract.txt</code> (27MB) and all twenty other eval files, because a gold the weights could recall is a gold that never tested whether the window was read.</p>
+<p><strong>The guard earned its place before the file was frozen.</strong> The first build wrote "born in A and died in B", which puts <code>died</code> two words from <em>both</em> values — <code>property_local</code> accepted 40 siblings and rejected 24 golds, and the items were ordinary distractor items wearing the shape of paired ones. The check caught it at build. The shipped passages put each label beside its own value and no nearer the rival.</p>
+<h3 id="the-read-before-any-treatment">The read, before any treatment</h3>
+<p>checkpoint          paired   gold first   gold second   first-taker corn_jr_260m        11/128      9/64          2/64          4 of 7 ftextract           50/128     43/64          7/64         31 of 34 ftwide              23/128     16/64          7/64         15 of 23 ftnarrow            27/128     19/64          8/64         16 of 22 ftwide_seed2        25/128     18/64          7/64         15 of 22 ftnarrow_seed2      20/128     14/64          6/64         15 of 23</p>
+<p><strong>Finding <a class="fref" href="/Corn-Jr-Public/finding/66.html">66</a> reproduces on a frozen file and is not an artefact of its probe.</strong> <code>ftextract</code> — the only checkpoint that extracts at all — scores 43/64 when the answer is stated first and 7/64 when the same fact is stated second: a <strong>56-point positional split on items whose only difference is clause order</strong>. Of its 34 wrong answers that took a value, <strong>31 took the first-stated one (91%)</strong>, against the probe's 20 of 21. The retained generations say it plainly: asked for the melting point of Quessalite, over "It boils at 2604 degrees Celsius and melts at 1385", it answers <em>"It's 2604 degrees Celsius."</em></p>
+<p><strong>The total is the number that means least, which is why §1 asked for two.</strong> 50/128 is 39%, and a checkpoint that read no property term at all and took the first value every time would score close to it by construction. The split and the first-taker rate are what separate them, and on this row they say the property term is not being read.</p>
+<p><strong>The four p3b2 arms confirm the row is measuring extraction and not something else.</strong> They never saw an extraction transcript, they score 20-27 of 128, and their dominant failure is <code>invented</code> (77-78 of 128) rather than a taken value — the base is the same at 11/128 with 64 inventions. The plan's expectation was "<code>ftextract</code> reproduces finding <a class="fref" href="/Corn-Jr-Public/finding/66.html">66</a>'s rule; the base declines or invents", and that is what the row reads. Their first-taker rates (65-73%) are computed over 22-23 valued errors and are not comparable to <code>ftextract</code>'s: a checkpoint that mostly invents is not choosing between the two candidates at all.</p>
+<p><strong>One thing the seed does not do here.</strong> The paired totals move 23 → 25 and 27 → 20 across the seed — inside the ±8-of-120 spread the sixty-eighth finding measured on the frozen rows the same day, and nowhere near the 26-55 turns the sixty-ninth found on the live grid. The row behaves like the frozen set it lives in.</p>
+<h3 id="the-four-shapes-fail-in-three-different-ways-and-the-pooled-">The four shapes fail in three different ways, and the pooled <code>why</code> hid it</h3>
+<p>The retained generations raised a question the first six scorecards could not answer, so <code>by_shape</code> was added and all six re-scored. On <code>ftextract</code>:</p>
+<p>shape             pass    how the rest failed length_width     20/32    took_first 10, took_second 2 — no abstentions capital_largest  13/32    took_first 10, invented 5, abstained 4 melt_boil        12/32    took_first 11, abstained 7, invented 1 born_died         5/32    <strong>abstained 23</strong>, invented 4</p>
+<p><strong><code>born_died</code> does not get the answer wrong. It declines to answer.</strong> Twenty- three of its 32 items come back as an honest miss, and it contributes almost nothing to the first-taker count that the other three shapes fill. So the pooled 50/128 is two unrelated defects added together: a positional rule on temperatures, dimensions and place names, and a refusal to read years out of a window at all. A corpus arm graded on the total would be treating them as one thing, and could move the total by fixing either.</p>
+<p>The p3b2 arms inverse it, which is consistent with them never having seen an extraction transcript: <code>ftwide_seed2</code> reads <code>born_died</code> 13/32 — its best shape — while <code>melt_boil</code> is 1/32 with 29 inventions. A checkpoint that invents freely scores best where the answer space is narrow (a four-digit year beside another four-digit year) and worst where it is wide.</p>
+<h3 id="what-it-cost-and-what-it-did-not-disturb">What it cost, and what it did not disturb</h3>
+<p><code>--add</code> wrote one file and touched nothing else: 24 existing files verified and left alone, <code>evals/manifest.json</code> the only tracked file to change. The base's re-score reproduces <strong>55 of 55</strong> shared quantities against its committed scorecard, so adding the row moved no number that existed before it.</p>
+<h3 id="what-it-licenses">What it licenses</h3>
+<p>The corpus arm §1 specifies — paired-property windows with the gold second half the time — is now gradable on the quantity it exists to move, and the grading rule is written down before the arm: <strong>a treatment that halves the span error and leaves the first-taker rate at ceiling has not treated the rule.</strong> The runtime repair (<code>corn.extract.property_local</code>) can only turn wrong answers into declines, so it can move <code>abstained</code> and never the hit rate; on this row it would convert <code>ftextract</code>'s 31 <code>took_first</code> into declines and leave 43/64 → 7/64 exactly where it is.</p>
+<h3 id="limits">Limits</h3>
+<p>The passages are written, not found, and they are deliberately regular — one lead sentence, one paired clause, one tail — so the row measures the rule under clean conditions rather than under the noise of real prose. The source field reads <code>example.org</code> rather than <code>wikipedia.org</code>, honest for invented text and a token the extraction corpus never carried; it is constant across every item and both gold positions, so it cannot move the within-item contrast, but it is not nothing on the totals. Four shapes and 32 items each, so the per-shape column above is thin — 23 abstentions of 32 is not thin, but a 2-item difference between two shapes is. Every card here was re-scored after <code>by_shape</code> was added and all six reproduced their totals, splits and first-taker counts to the item, so the breakdown cost nothing but card time; what it does not buy is a second seed on <code>ftextract</code>, which has none, and it is the only checkpoint whose numbers here are about extraction rather than about invention.</p></div>
+  </section>
+
+  <section class="grid refs">
+    <div class="body two-even">
+      <div>
+        <h2 class="small">It cites</h2>
+        <ul class="reflist"><li style="--c:var(--c2)"><a href="/Corn-Jr-Public/finding/66.html"><span class="fn">66</span>The extractor takes the first value of the right type</a></li></ul>
+        
+      </div>
+      <div>
+        <h2 class="small">Cited by</h2>
+        <ul class="reflist"><li style="--c:var(--c2)"><a href="/Corn-Jr-Public/finding/72.html"><span class="fn">72</span>Search returned &#39;capital punishment&#39; for &#39;capital of Mongolia&#39;; fixed</a></li><li style="--c:var(--c1)"><a href="/Corn-Jr-Public/finding/77.html"><span class="fn">77</span>At 5B tokens, fresh text is no worse than re-reading text</a></li></ul>
+        
+      </div>
+    </div>
+    <p class="body source">docs/findings/70-the-paired-property-row-exists-and-the-first-taker-rule-survives-being-put-on-a-frozen-file.md</p>
+  </section>
+</article>
+
+  
+<footer class="turn">
+  <div><span class="sc">previous</span><a href="/Corn-Jr-Public/finding/66.html">66 · The extractor takes the first value of the right type</a></div>
+  <div class="r"><span class="sc">next</span><a href="/Corn-Jr-Public/finding/81.html">81 · The answer score measures willingness to answer, not confidence</a></div>
+  <p class="keys"><kbd>←</kbd> <kbd>→</kbd> turn the page · <kbd>/</kbd> find</p>
+</footer>
+<p class="bynumber">Previous and next in <a href="/Corn-Jr-Public/thread/reading.html">Reading documents</a>. By number:
+  <a href="/Corn-Jr-Public/finding/69.html">69</a> · <a href="/Corn-Jr-Public/finding/71.html">71</a></p>
+
+</div>
+</body>
+</html>

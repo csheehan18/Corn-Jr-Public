@@ -1,0 +1,109 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>57 · Extraction training works, mostly by declining answerable questions · Corn-Jr</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600&family=IBM+Plex+Mono:wght@400;500&family=Spectral:ital,wght@0,400;0,500;0,600;1,400&family=Spectral+SC:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/Corn-Jr-Public/static/library.css">
+<script defer src="/Corn-Jr-Public/static/library.js"></script>
+<script type="speculationrules">
+{"prerender": [{"where": {"and": [{"href_matches": "/Corn-Jr-Public/*"}, {"not": {"href_matches": "/Corn-Jr-Public/random.html"}}, {"not": {"href_matches": "/Corn-Jr-Public/static/*"}}]}, "eagerness": "moderate"}]}
+</script>
+
+</head>
+<body>
+<div class="page">
+  <header class="running">
+    <a class="book" href="/Corn-Jr-Public/">Corn-Jr · The Record</a>
+    <nav>
+      <a href="/Corn-Jr-Public/" data-key="shelf">Shelf</a><a href="/Corn-Jr-Public/findings.html" data-key="findings" class="here">Findings</a><a href="/Corn-Jr-Public/doc/VISION.html" data-key="VISION">Vision</a><a href="/Corn-Jr-Public/doc/GLOSSARY.html" data-key="GLOSSARY">Glossary</a>
+      <a href="https://github.com/csheehan18/Corn-Jr-Public">Source</a>
+    </nav>
+  </header>
+  
+
+<article class="sheet" style="--c:var(--c2)">
+  <div class="progress" aria-hidden="true"></div>
+  <section class="grid chapter-open finding-open">
+    <a class="tab" href="/Corn-Jr-Public/thread/reading.html" title="Reading documents"><small>Part</small><span>II</span></a>
+    <p class="cn">57</p>
+    <p class="partline"><a href="/Corn-Jr-Public/thread/reading.html">Reading documents</a> · 25 August 2026</p>
+    <h1>Extraction training works, mostly by declining answerable questions</h1>
+  </section>
+
+  <section class="grid">
+    <p class="marginal">The result, as the finding states it</p><div class="prose"><p class="lead">The slice separates on all three rows, and he bought it by declining three fifths of the answerable half</p></div>
+    <p class="marginal">What it cost</p><div class="prose"><p class="cost">3.5 min of scoring on the 1 card first cited here (<code>nano20m_v3_extract</code>); it also reads 2 cards scored for an earlier finding (<code>corn_jr_260m</code>, <code>nano20m_v3</code>). Backfilled 2026-09-26 from the cards' <code>seconds</code>; training and probe time were never recorded, so this is a floor.</p></div>
+  </section>
+
+  
+
+  <section class="grid">
+    <div class="prose doc"><p><code>configs/nano20m_v3_extract.py</code> ×2 against <code>nano20m_v3</code> ×2. One source changes: the extraction slice enters at 5% and web donates it, 49.3773% → 44.3773%. Every other source is <code>mix_v3</code> verbatim, total held at 130,934,381, no <code>repeat</code> anywhere. Trained 2026-08-24/25, ~1,160s per seed.</p>
+<p><strong>27 of 27 pre-existing rows reproduced identically on both control seeds before anything was read.</strong> The control checkpoints are from 2026-08-19 and were re-scored rather than retrained, so that check is what makes the comparison a comparison; it is reported first here because it was run first.</p>
+<h3 id="the-three-rows-separate">The three rows separate</h3>
+<div class="tablewrap"><table><thead><tr><th>row</th><th>control ×2</th><th>arm ×2</th><th></th></tr></thead><tbody><tr><td><code>extract.span</code></td><td>8-10/200</td><td><strong>34-39/200</strong></td><td>disjoint</td></tr><tr><td><code>extract.abstain</code></td><td>0-0/200</td><td><strong>140-158/200</strong></td><td>disjoint</td></tr><tr><td><code>extract.brevity</code></td><td>275-295/400</td><td><strong>395-398/400</strong></td><td>disjoint</td></tr></tbody></table></div>
+<p>Read as range against range, two seeds a side, which is the thirtieth finding's rule and was pre-registered for this arm.</p>
+<h3 id="the-result-that-is-not-in-doubt-confabulation-is-gone">The result that is not in doubt: confabulation is gone</h3>
+<p>extract.span failures      control        arm invented                     105    -&gt;    7 / 12 wrote_own                     55    -&gt;    3 / 4</p>
+<p>That is the fifty-fifth finding's defect answered. The window said "19-year-old Jourdan Miller" and the untrained model said "<strong>21</strong>-year-old Jourdan Miller" — composing over a topic and supplying the number itself. 105 of 200 replies were that. Now 7. <code>extract.brevity</code> at 395-398/400 says the same thing from the other side: the replies became answers rather than paragraphs.</p>
+<blockquote><p><strong>The <code>12</code> reads <code>13</code> under today's scorer</strong> (added 2026-09-07, finding <a class="fref" href="/Corn-Jr-Public/finding/127.html">127</a> §4). The grounding rule changed at <code>e46ac9ee</code> and <code>invented</code> <em>is</em> "failed <code>grounded</code>", so one seed-2 reply moved out of <code>wrong_span</code> and into <code>invented</code> when the cards were re-derived from their saved generations. No verdict changed side and the pass count is untouched; the numbers above are what the scorer of the day said, and the claim they support — 105 to single figures — does not depend on the item.</p></blockquote>
+<p><strong>Nothing about that is explained by the caveat below.</strong> An abstention and an invention are both failures on <code>extract.span</code>, so trading one for the other moves the row by zero. The row moved by 25-31 items, and <code>invented</code> fell by 98.</p>
+<h3 id="the-caveat-he-abstains-on-three-fifths-of-the-answerable-hal">The caveat: he abstains on three fifths of the answerable half</h3>
+<p>extract.span failures, arm      abstained = 117-120 of 200</p>
+<p>So on windows that <strong>do</strong> contain the gold, the commonest reply is "I couldn't find anything useful." The plan pre-registered exactly this as the failure mode with no runtime floor:</p>
+<blockquote><p>A model that abstains on everything passes WS-C one hundred per cent of the time. Abstention is the incentive-compatible cheat, and no runtime check will catch it — only <code>extract.abstain</code> scored against <code>extract.span</code> will.</p></blockquote>
+<p>It is not the pure cheat. The degenerate case is 100% abstention on both halves, scoring 0/200 and 200/200; this model discriminates:</p>
+<p>P(abstain | unanswerable)     70-79% P(abstain | answerable)       59-60% ~15-19 points</p>
+<p>Real signal, and weak. <strong>Pooled into one number these two rows read 174-197/400 and look like a triumph</strong>, which is why the plan said they must never be pooled and why that instruction turned out to be worth having.</p>
+<p>The honest summary of the behaviour change is that the failure mode moved from <em>inventing a fluent wrong answer</em> to <em>declining to answer</em>. That is a large safety improvement and a modest capability one, and the slice's balance is the first suspect: <code>answerable</code> and <code>absent</code> went in 50/50, and 24,239 of the 48,478 transcripts teach that the correct reply to a window is a miss sentence.</p>
+<h3 id="the-falsifiable-prediction-could-not-be-tested-here">The falsifiable prediction could not be tested here</h3>
+<p><code>continued_payload</code> was pre-registered as the cheap falsification — 69/400 on the frozen <code>corn_jr_260m</code>, and the claim was that a corpus containing the shape for the first time should collapse it.</p>
+<p>control seeds     0  and  24 arm seeds         0  and   0</p>
+<p><strong>The two control seeds disagree by more than the whole effect.</strong> The row has no stable baseline at nano and the arm's range sits inside the control's, so by the rule this arm is read under, it does not separate. The 69/400 was a 260M number and a 20M control does not reproduce the regime. <strong>The envelope hypothesis is untested, not confirmed</strong> — it needs the 260M, where the failure actually exists at a readable rate.</p>
+<p>This is the thirtieth finding's lesson arriving on a new row: a floor is a property of the arm it is scored on, and a prediction inherited from a different model size is not pre-registered, it is transplanted.</p>
+<h3 id="the-regression-watch-caught-something-on-one-seed">The regression watch caught something on one seed</h3>
+<p>tool.copy        control 118-120/120     arm  100/120  and  120/120 tool.copy_wide   control 281-291/300     arm  293-297/300   (UP)</p>
+<p>Seed 1 lost 20 items to <code>wrong_answer</code>; seed 2 was perfect. The ranges overlap at 120 so the rule says no separation, but the arm's floor is 18 items below the control's and this is precisely the trade the arm pre-registered as its risk — "a slice that teaches the model to <em>select</em> from an observation operates on exactly the machinery that makes it <em>copy</em> one", the conversational slice having taken <code>refusal.say</code> from 172/162 to 30 of 270.</p>
+<p><code>tool.copy_wide</code> rising argues against a general collapse of deference, so this reads as one seed rather than a trend. It is not clean, and at 260M it is the first thing to look at. Two seeds cannot tell a wobble from a trend, which is the twenty-third finding's shape and is a limit of this arm rather than a result from it.</p>
+<h3 id="everything-else-held">Everything else held</h3>
+<p><code>temporal.copy</code> 353/353, <code>temporal.route</code> 399/400, <code>schema.conform</code> 191-195/200, <code>refusal.say</code> 267-268/270, <code>chat.engage</code> 100/100, <code>tool.selection</code>, <code>turn2.first</code> and <code>turn2.second</code> all overlapping. <code>tool.validity</code> rose 143-152 → 158-159.</p>
+<p><code>lm web</code> moved 0.8839-0.8867 → 0.8902-0.8923, about +0.006. <strong>Pre-registered as the donation being paid for rather than as a regression</strong>, and it landed under the +0.010 the forty-fourth finding's linear reading predicted from a 5-point cut.</p>
+<h3 id="what-this-does-and-does-not-license">What this does and does not license</h3>
+<p>The execution order says "260M only after the pilot separates from its control". It separated, on all three rows, with the corpus's largest single behavioural defect collapsing. That is the bar.</p>
+<p>What it does not license is reading 34-39/200 as an extraction rate. The row is an <strong>upper bound</strong> and says so in its own docstring; three tightenings were tried against it and rejected in the fifty-fifth finding. What moved is movement.</p>
+<p>The open question this arm creates rather than answers: <strong>is the abstention rate a property of the class balance or of the model?</strong> The balance was pre-registered at 50/50 before the slice existed, so changing it is a decision to be taken out loud rather than a knob to turn after seeing a scorecard.</p></div>
+  </section>
+
+  <section class="grid refs">
+    <div class="body two-even">
+      <div>
+        <h2 class="small">It cites</h2>
+        <ul class="reflist"><li style="--c:var(--c1)"><a href="/Corn-Jr-Public/finding/127.html"><span class="fn">127</span>Two thirds of one dataset&#39;s tool calls were invalid JSON</a></li></ul>
+        
+      </div>
+      <div>
+        <h2 class="small">Cited by</h2>
+        <ul class="reflist"><li style="--c:var(--c1)"><a href="/Corn-Jr-Public/finding/67.html"><span class="fn">67</span>The best tool-router never declines; the best decliner never serves</a></li><li style="--c:var(--c2)"><a href="/Corn-Jr-Public/finding/72.html"><span class="fn">72</span>Search returned &#39;capital punishment&#39; for &#39;capital of Mongolia&#39;; fixed</a></li></ul>
+        
+      </div>
+    </div>
+    <p class="body source">docs/findings/57-the-slice-separates-on-all-three-rows-and-he-bought-it-by-declining-three-fifths-of-the-answerable-half.md</p>
+  </section>
+</article>
+
+  
+<footer class="turn">
+  <div><span class="sc">previous</span><a href="/Corn-Jr-Public/finding/56.html">56 · The official split overlaps documents: 14% of the eval leaked into training</a></div>
+  <div class="r"><span class="sc">next</span><a href="/Corn-Jr-Public/finding/59.html">59 · No declines hide in unscored wording; the rest looks like salience</a></div>
+  <p class="keys"><kbd>←</kbd> <kbd>→</kbd> turn the page · <kbd>/</kbd> find</p>
+</footer>
+<p class="bynumber">Previous and next in <a href="/Corn-Jr-Public/thread/reading.html">Reading documents</a>. By number:
+  <a href="/Corn-Jr-Public/finding/56.html">56</a> · <a href="/Corn-Jr-Public/finding/58.html">58</a></p>
+
+</div>
+</body>
+</html>

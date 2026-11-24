@@ -1,0 +1,114 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>92 · Reading the whole passage tells the checker nothing new · Corn-Jr</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600&family=IBM+Plex+Mono:wght@400;500&family=Spectral:ital,wght@0,400;0,500;0,600;1,400&family=Spectral+SC:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/Corn-Jr-Public/static/library.css">
+<script defer src="/Corn-Jr-Public/static/library.js"></script>
+<script type="speculationrules">
+{"prerender": [{"where": {"and": [{"href_matches": "/Corn-Jr-Public/*"}, {"not": {"href_matches": "/Corn-Jr-Public/random.html"}}, {"not": {"href_matches": "/Corn-Jr-Public/static/*"}}]}, "eagerness": "moderate"}]}
+</script>
+
+</head>
+<body>
+<div class="page">
+  <header class="running">
+    <a class="book" href="/Corn-Jr-Public/">Corn-Jr · The Record</a>
+    <nav>
+      <a href="/Corn-Jr-Public/" data-key="shelf">Shelf</a><a href="/Corn-Jr-Public/findings.html" data-key="findings" class="here">Findings</a><a href="/Corn-Jr-Public/doc/VISION.html" data-key="VISION">Vision</a><a href="/Corn-Jr-Public/doc/GLOSSARY.html" data-key="GLOSSARY">Glossary</a>
+      <a href="https://github.com/csheehan18/Corn-Jr-Public">Source</a>
+    </nav>
+  </header>
+  
+
+<article class="sheet" style="--c:var(--c2)">
+  <div class="progress" aria-hidden="true"></div>
+  <section class="grid chapter-open finding-open">
+    <a class="tab" href="/Corn-Jr-Public/thread/reading.html" title="Reading documents"><small>Part</small><span>II</span></a>
+    <p class="cn">92</p>
+    <p class="partline"><a href="/Corn-Jr-Public/thread/reading.html">Reading documents</a> · 3 September 2026</p>
+    <h1>Reading the whole passage tells the checker nothing new</h1>
+  </section>
+
+  <section class="grid">
+    <p class="marginal">The result, as the finding states it</p><div class="prose"><p class="lead">The passage tells the verifier nothing the window has not already said, cross-window agreement is at chance, and the six arms that assume otherwise flip sign between seeds inside the threshold's own fold noise</p></div>
+    
+  </section>
+
+  
+
+  <section class="grid">
+    <div class="prose doc"><p><code>scripts/probe_passage_features.py</code>, 2026-09-03. <strong>Replay only</strong> — no GPU, no decode, no weight read, no head retrained — over <code>evals/results/nullpr_s{1,2}_popa.json</code> at each fold's own cross-validated threshold under <code>hybrid</code>. Baselines 367 right / joint 600 and 368 / 575.</p>
+<p>The shipped reader decides one window at a time: score it, take <code>best - null</code>, compare to <strong>a constant</strong>. <code>reduce</code> then votes among whatever cleared it. So every cross-window fact — that this margin is the best of eight or the worst of two, that three windows agree on the span and two do not — reaches the decision <strong>only after</strong> the threshold has thrown windows away. Seventy per cent of the residue is that one binary decision (<code>REFUSED_RIGHT</code> 113/91 plus <code>REFUSED_WRONG</code> 136/139 of 354/353), and four findings have gone into choosing the constant while none has asked whether the scalar is the right scalar.</p>
+<p><strong>It is. The passage has nothing to add.</strong></p>
+<h3 id="1-the-information-is-not-there-read-a">1. The information is not there — read (a)</h3>
+<p>Two targets, a cross-fitted logistic, AUC against the single-feature baseline <code>max_p</code>. A logistic on one feature is a threshold on it, so the baseline AUC <strong>is</strong> the shipped decision's own separability stated per passage.</p>
+<p>delta AUC over <code>max_p</code> alone        seed 1      seed 2      bar SPEAK   (the passage is answerable) -0.0012     -0.0061    +0.02 HAS_IT  (gold at the argmax window) +0.0097     +0.0025    +0.02</p>
+<p>Eight passage-level features — window count, mean, spread, top-two gap, three agreement measures — and on the target a speak/stay-silent decision is actually predicting, they make it <strong>worse</strong> on both seeds.</p>
+<p><strong>The feature the idea rested on is at chance.</strong> <code>agree_top</code>, how many windows produced the same span — the signal <code>reduce</code> already uses downstream, moved upstream of the threshold — reads:</p>
+<p>agree_top   AUC 0.4937 / 0.4863 (seed 1)   0.4815 / 0.4906 (seed 2) agree_frac      0.5093 / 0.5416                0.4777 / 0.5365 distinct        0.5356 / 0.5238                0.5278 / 0.5013 n_win           0.4819 / 0.5498                0.4819 / 0.5534</p>
+<p>Below 0.5 in three of four cells for <code>agree_top</code>. Agreement does not predict whether the passage is answerable, and it does not predict whether the head has the answer.</p>
+<h3 id="2-and-not-where-it-would-decide-something-read-a2">2. And not where it would decide something — read (a2)</h3>
+<p>A whole-population AUC dilutes: most passages are not close calls. So (a2) restricts to passages the reader was <strong>silent</strong> on and separates the ones he should have spoken on — answerable, gold at the top of some window — from the ones he correctly refused. That is <code>REFUSED_RIGHT</code> against correct silence, which is the exact trade a better presence decision would move.</p>
+<p>seed 1: 76 should have spoken, 233 correctly silent seed 2: 68 should have spoken, 207 correctly silent</p>
+<p>max          0.7212 / 0.7764     &lt;- the margin, already in the runtime mean         0.6763 / 0.7352     &lt;- a monotone shadow of the same thing sd           0.5176 / 0.4599 agree_frac   0.5283 / 0.5026 agree_top    0.5124 / 0.5029 distinct     0.4885 / 0.4293 gap12        0.4831 / 0.4576 n_win        0.4792 / 0.4875</p>
+<p><strong>Every feature that is about the passage's shape rather than its margin sits inside 0.43–0.53.</strong> The margin separates at 0.72 and 0.78 on exactly the population where the residue lives.</p>
+<h3 id="3-six-arms-twelve-measurements-no-arm-positive-twice">3. Six arms, twelve measurements, no arm positive twice</h3>
+<p>Read (e) holds <code>t</code> at the baseline's own cross-validated value and changes nothing else, so what it reports is the rule and only the rule, paired passage by passage. (Read (b) re-fits <code>t</code> under each rule, which is correct but mixes the rule with a different operating point.)</p>
+<p>rule                    seed 1              seed 2            sign gap 0.5             -2  p = 0.75        +7  p = 0.12         flips gap 1.0             -1  p = 1           +5  p = 0.18         flips gap 2.0             -1  p = 1           +2  p = 0.63         flips boost 0.5           -7  p = 0.32        +4  p = 0.64         flips boost 1.0          -20  p = 0.031      -12  p = 0.22         both - gap 1.0 + boost 1.0 -5  p = 0.61        -4  p = 0.71         both -</p>
+<p><strong>The only two rules that agree with themselves across seeds are the two that lose</strong>, and the only cell reaching p = 0.1 is a loss. <code>GAP</code> on seed 2 looks like a real precision gain — 375 right against 368, precision 61.3% → 62.8%, <code>acc | att</code> 0.701 → 0.718, attempt rate flat at 72.4% — and on seed 1 the same rule is −2.</p>
+<p><strong>Read (c) supplies the scale that makes that unremarkable, and it takes the scale from the baseline rather than from an arm.</strong> At its own silence cost the <em>baseline</em> sits <strong>+1 above</strong> the plain rule's trade curve on seed 1 and <strong>−7 below</strong> it on seed 2. That spread is the cross-validated threshold choice wandering between folds; it is ±7 wide; and every arm effect above fits inside it. Read (d) flips the same way — best joint anywhere on the curve is plain 600 against <code>gap 0.5</code>'s 598 on seed 1, and plain 588 against 593 on seed 2.</p>
+<p><code>GAP</code> is also narrower than it sounds: it can never silence a passage entirely, because the argmax window always satisfies <code>m_i &gt;= max_p - g</code>. At the seed-1 threshold it removes a window on 75 of 1,003 passages and changes the verdict on about seven.</p>
+<h3 id="what-this-cannot-say">What this cannot say</h3>
+<p><strong>It does not test a retrained verifier.</strong> These are mask rules over a head that was trained without passage features. A head <em>trained</em> on them could in principle find structure a hand-written rule and a nine-feature logistic cannot. What §1 and §2 establish is that the features carry almost no univariate or linear signal about the two targets a presence head is trained against — which is the cheap evidence that would have justified the GPU, and it does not.</p>
+<p><strong>One trunk, two seeds, one population</strong>, Population A at the CV'd threshold under <code>hybrid</code>. The <code>g</code> and <code>b</code> grids are declared, not fitted, and every value is printed.</p>
+<p><strong>The lexicon of features is not exhaustive.</strong> Nine were chosen because they are free from the harvest. A feature requiring a second forward pass — the question re-encoded against the whole passage, say — is not tested and is not free.</p>
+<h3 id="two-things-worth-keeping-that-are-not-the-result">Two things worth keeping that are not the result</h3>
+<p><strong>The trade curve is an arch, not a slope.</strong> Sweeping <code>t</code> on seed 1: 364 right at 13 correct silences, rising to <strong>417 at 114</strong>, back to 366 at 234. Admitting more windows makes <code>reduce</code> disagree more, so over most of the range speaking <em>less</em> buys right answers. An intermediate version of read (c) interpolated between bracketing grid points — which averages across the arch and means nothing — and reported a spurious +43. The committed form is a dominance test: the most right the plain rule reaches while conceding at least as much silence, which is generous to the plain rule and so conservative for a claim that an arm is worth having.</p>
+<p><strong>The <code>null</code> column is dead and has been all along.</strong> <code>s_max</code> and <code>max</code> returned identical AUCs to four decimals because <code>null</code> is <strong>identically zero across all 3,893 windows in both <code>nullpr_*</code> and <code>null_*</code></strong> — one distinct value — so <code>load_reader_harvest</code>'s <code>best - null</code> has been returning <code>best</code>. Nothing downstream is wrong and no number moves, but a documented per-window field carries no information and every "margin" in this workstream is the raw score under another name.</p>
+<h3 id="what-follows">What follows</h3>
+<p><strong>Do not retrain the verifier with passage features.</strong> That was the arm this probe existed to price and §1 is the reason not to spend the GPU.</p>
+<p><strong>The cheap side of the reader is now closed.</strong> Three ideas were live at the start of the day and all three are measured and dead: the sixty-sixth finding's locality rejection (ninetieth), a corpus arm teaching question-constraint discrimination (ninety-first, which found the constraint classes are the ones he is <em>best</em> at), and passage-level verification (here). None cost GPU and none bought a passage.</p>
+<p><strong>What is left that is not the trunk is one decode pass.</strong> No one has measured <code>right(head) ∪ right(generate)</code> on Population A. The eighty-seventh finding checked fourteen questions live and saw no disagreement, which settles nothing; <code>corn/evals.py</code> never builds a <code>Reader</code> at all, so no card can see it. If the two arms fail on different passages a router beats both and it is nearly free; if they fail on the same ones, that is itself the strongest statement yet that the limit is the representation.</p>
+<p><strong>Otherwise <code>PLAN-EXTRACTION-READER.md</code> §7's trunk levers are the only route named to the rest</strong>, and after three negative results in one day the honest question for the owner is whether 85% is a requirement or an aspiration — the measured ceiling of the current architecture is 65.5%/65.3%, and that number was computed before any of today's three arms failed.</p>
+<p><strong>Left unexplained, and stated here with the whole trade rather than half of it.</strong> The arch's peak replicates across seeds:</p>
+<p>seed 1   417 right at 114 correct silences   (CV point 366 at 232) seed 2   415 right at 119 correct silences   (CV point 339 at 233)</p>
+<p><strong>The first draft of this section quoted that <code>right</code> column and the silence cost and stopped there, which is the error this repo's own reporting rule exists to prevent.</strong> Here is the rest of it, seed 1:</p>
+<p>t         right  a-wrong  a-silent | u-silent  u-WRONG | wrong  prec -1.420      366      138       217 |      232       50 |   188  66.1% -2.022      381      196       144 |      200       82 |   278  57.8% -2.713      408      225        88 |      150      132 |   357  53.3% -3.375      417      253        51 |      114      168 |   421  49.8%</p>
+<p>Moving from the shipped floor of 200 correct silences to the arch's peak buys <strong>+36 right answers and costs +143 wrong ones</strong> — 82 to 168 confident false claims on passages that do not contain the answer, and 196 to 253 wrong answers on passages that do. Precision falls 57.8% to 49.8%: <strong>at the peak he is wrong more often than he is right.</strong> Seed 2 agrees, 50.1% at its own peak.</p>
+<p>So the honest statement is not that the floor stands between the reader and its best rate. It is that <strong><code>joint</code> cannot referee this at all</strong>, because it scores a right answer and a correct silence as equal and a wrong answer as zero rather than as a cost — and every threshold protocol in the record optimises <code>joint</code>. The floor is doing the work the metric will not do. Whether 200 is the right floor is an owner question; whether it should be decided by <code>joint</code> is not.</p>
+<p><strong>And the threshold's own ceiling is worth quoting against the target.</strong> The best <code>right</code> any threshold reaches on this head is <strong>417 and 415 of 721 — 57.8% and 57.6%</strong> — against an owner target of 85%. Roughly twenty-seven points of that gap cannot be bought at any operating point and have to come from reading.</p></div>
+  </section>
+
+  <section class="grid refs">
+    <div class="body two-even">
+      <div>
+        <h2 class="small">It cites</h2>
+        <p class="aside">No other finding by number.</p>
+      </div>
+      <div>
+        <h2 class="small">Cited by</h2>
+        <ul class="reflist"><li style="--c:var(--c2)"><a href="/Corn-Jr-Public/finding/110.html"><span class="fn">110</span>Of four cheap rescoring ideas, only one vote per mention helps</a></li><li style="--c:var(--c2)"><a href="/Corn-Jr-Public/finding/112.html"><span class="fn">112</span>Training on whole passages lifts extraction from 54% to 71%</a></li></ul>
+        
+      </div>
+    </div>
+    <p class="body source">docs/findings/92-the-passage-tells-the-verifier-nothing-the-window-has-not-already-said-and-the-arms-that-assume-otherwise-flip-sign-between-seeds.md</p>
+  </section>
+</article>
+
+  
+<footer class="turn">
+  <div><span class="sc">previous</span><a href="/Corn-Jr-Public/finding/91.html">91 · The hard questions are those with nothing nameable in them</a></div>
+  <div class="r"><span class="sc">next</span><a href="/Corn-Jr-Public/finding/93.html">93 · A perfect sentence finder would be worth only 15-38 passages</a></div>
+  <p class="keys"><kbd>←</kbd> <kbd>→</kbd> turn the page · <kbd>/</kbd> find</p>
+</footer>
+<p class="bynumber">Previous and next in <a href="/Corn-Jr-Public/thread/reading.html">Reading documents</a>. By number:
+  <a href="/Corn-Jr-Public/finding/91.html">91</a> · <a href="/Corn-Jr-Public/finding/93.html">93</a></p>
+
+</div>
+</body>
+</html>

@@ -1,0 +1,86 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>210 · Real everyday dialogue fits the owner&#39;s messages best; Reddit worst · Corn-Jr</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600&family=IBM+Plex+Mono:wght@400;500&family=Spectral:ital,wght@0,400;0,500;0,600;1,400&family=Spectral+SC:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/Corn-Jr-Public/static/library.css">
+<script defer src="/Corn-Jr-Public/static/library.js"></script>
+<script type="speculationrules">
+{"prerender": [{"where": {"and": [{"href_matches": "/Corn-Jr-Public/*"}, {"not": {"href_matches": "/Corn-Jr-Public/random.html"}}, {"not": {"href_matches": "/Corn-Jr-Public/static/*"}}]}, "eagerness": "moderate"}]}
+</script>
+
+</head>
+<body>
+<div class="page">
+  <header class="running">
+    <a class="book" href="/Corn-Jr-Public/">Corn-Jr · The Record</a>
+    <nav>
+      <a href="/Corn-Jr-Public/" data-key="shelf">Shelf</a><a href="/Corn-Jr-Public/findings.html" data-key="findings" class="here">Findings</a><a href="/Corn-Jr-Public/doc/VISION.html" data-key="VISION">Vision</a><a href="/Corn-Jr-Public/doc/GLOSSARY.html" data-key="GLOSSARY">Glossary</a>
+      <a href="https://github.com/csheehan18/Corn-Jr-Public">Source</a>
+    </nav>
+  </header>
+  
+
+<article class="sheet" style="--c:var(--c5)">
+  <div class="progress" aria-hidden="true"></div>
+  <section class="grid chapter-open finding-open">
+    <a class="tab" href="/Corn-Jr-Public/thread/reply-judge.html" title="The reply judge"><small>Part</small><span>V</span></a>
+    <p class="cn">210</p>
+    <p class="partline"><a href="/Corn-Jr-Public/thread/reply-judge.html">The reply judge</a> · 22 October 2026</p>
+    <h1>Real everyday dialogue fits the owner&#39;s messages best; Reddit worst</h1>
+  </section>
+
+  <section class="grid">
+    <p class="marginal">The result, as the finding states it</p><div class="prose"><p class="lead">Of four conversational sources read on CPU, EmpatheticDialogues talks most like the 148 everyday messages of the reply read: a word-bigram model fitted on a million words of each source's messages scores those messages at perplexity 142, against 180 for SODA (what the mix reads now), 288 for OpenSubtitles and 359 for PEC (Reddit r/happy and r/offmychest) — and it is twice as varied as SODA on its own held-out messages (171 against 86; SODA is the most formulaic of the four). By hand it reads as real people texting about their day ("Oh man I hate when that happens...did you dry it off or change to a new pair?"). PEC is long, confessional, often off-thread, carries slurs, and was lowercased and tokenised by its authors, so it is unusable as text; subtitle lines that follow each other are rarely a message and its reply. EmpatheticDialogues is small (17,844 training dialogues, 1.26M words) and CC BY-NC 4.0</p></div>
+    <p class="marginal">What it cost</p><div class="prose"><p class="cost">licence and source search, downloads (28 MB, 252 MB and a 100 MB prefix of 3.7 GB, to <code>F:/corn-jr-data/convcand/</code>), <code>scripts/probe_conv_sources.py</code> and the hand read of 80 pairs, 15:15-15:30 on 2026-10-22. No card. ETA 45 min, actual ~25.</p></div>
+  </section>
+
+  
+
+  <section class="grid">
+    <div class="prose doc"><p><strong>The question</strong> (owner, 2026-10-22: avoid SODA's style; find a source in his register). Finding <a class="fref" href="/Corn-Jr-Public/finding/209.html">209</a>: the 5M finds the owner-register messages far more surprising than its own openers, and the conversation it learns from is scripted, name-heavy SODA.</p>
+<h3 id="the-read-evals-results-conv-sources-read-txt">The read (<code>evals/results/conv_sources__read.txt</code>)</h3>
+<p>source    pairs        median words   &lt;=4 words   question   first person   ppl owner   ppl own soda      408,399      16             0.03        0.31       0.66           180         86 ed        58,829       14             0.04        0.21       0.66           142         171 pec       378,139      26             0.03        0.12       0.77           359         206 subs      11,660,725   6              0.35        0.18       0.26           288         197 owner     148          8              0.11        0.32       0.61           —          --</p>
+<p>(<em>ppl owner</em>: add-0.1 bigram over lowercased words, fitted on 1M words of the source's messages, on the 148 messages; <em>ppl own</em>: the same model on 148 of the source's held-out messages — how predictable the source is to itself. Lowercased so PEC compares fairly.)</p>
+<h3 id="read-by-hand-20-pairs-a-source">Read by hand (20 pairs a source)</h3>
+<ul><li><strong>EmpatheticDialogues</strong>: first-person everyday moments — a drink spilled before work, a baby's shots, waiting for a friend at the airport — and replies that answer them with a follow-up ("Where are you going?", "How nice! Are you going out or are you going to have a nice night in?"). Typos, lowercase, "haha"; real crowdworkers, not a model. Some heavy topics (a partner's affair).</li><li><strong>SODA</strong>: polished and earnest ("I'm just concentrating on staying calm and relaxed. It's helping me to stay focused"), set roles (professor, fortune teller), names in the lines.</li><li><strong>PEC</strong>: casual Reddit, but posts run long, replies drift off the post, and it carries slurs and politics; lowercased and tokenised ("i 'm", "do n't") beyond repair.</li><li><strong>OpenSubtitles</strong>: the only source rich in short lines (35% four words or fewer), but consecutive lines are usually one speaker or a cut ("It'll give 'em a little scare." -&gt; "I am Father."); without speaker turns it is not conversation.</li></ul>
+<h3 id="what-it-licenses">What it licenses</h3>
+<ul><li><strong>EmpatheticDialogues is the first candidate for the owner's register</strong>, as a share beside SODA, not in place of it: ~1.7M tokens against SODA's 19.5M in the mix. Its licence is non-commercial; the owner does not plan to monetise Corn-Jr (2026-10-22), and RELEASE must list it with its terms if it enters the corpus.</li><li><strong>Pass on Reddit as read here</strong> (PEC; other subreddits through the raw dumps are untested, and nothing here argues for chasing them) <strong>and on subtitles as conversation</strong>.</li><li><strong>The target itself is a stand-in</strong>: the 148 messages are written in the owner's register by the assistant, not by him. A sharper read needs messages the owner writes himself.</li></ul>
+<p><strong>DCLM, read beside (owner question, 2026-10-22).</strong> The same bigram read on 1M words of sentences (3-40 words) from the DCLM shards on disk (finding <a class="fref" href="/Corn-Jr-Public/finding/190.html">190</a>'s): ppl owner 606, ppl own 2,075; median 14 words, 0.06 with a question mark, 0.16 first person. Web pages — install notes, product descriptions, fan fiction — the furthest of any source from the owner's register; a knowledge-side source (where finding <a class="fref" href="/Corn-Jr-Public/finding/190.html">190</a> found it adds nothing measurable), not a conversational one.</p>
+<p><strong>The owner's own messages, counts only (2026-10-22).</strong> The owner offered his sessions; under his counts-only rule (2026-10-09) <code>scripts/probe_owner_register.py</code> reads the typed <code>&gt; </code> lines of <code>Saved Sessions/*.txt</code> and prints only totals — no message was read or written. 69 unique messages: median 6 words, 0.38 four words or fewer, 0.38 with a question mark, <strong>0.06 first person</strong> — against the stand-in set's 8, 0.11, 0.32 and 0.61. He writes to Corn-Jr as to an assistant, short questions and requests, not personal news; the 148 stand-ins over-represent the latter. Bigram perplexity of his messages: ED 718, SODA 938, subtitles 954, PEC 1,099, DCLM 1,386 — no source fits closely, ED still best. Sixty-nine messages from sessions that were largely testing him; a bound, not a portrait.</p>
+<p><strong>What it does not settle.</strong> Whether an EmpatheticDialogues share moves the reply read (a 5M arm); other real sources; the owner's own register.</p></div>
+  </section>
+
+  <section class="grid refs">
+    <div class="body two-even">
+      <div>
+        <h2 class="small">It cites</h2>
+        <ul class="reflist"><li style="--c:var(--c5)"><a href="/Corn-Jr-Public/finding/190.html"><span class="fn">190</span>A third web source, DCLM, splits its seeds and adds nothing measurable</a></li><li style="--c:var(--c5)"><a href="/Corn-Jr-Public/finding/209.html"><span class="fn">209</span>The small model answers half of even its own style&#39;s openers</a></li></ul>
+        
+      </div>
+      <div>
+        <h2 class="small">Cited by</h2>
+        <ul class="reflist"><li style="--c:var(--c5)"><a href="/Corn-Jr-Public/finding/211.html"><span class="fn">211</span>Real everyday dialogue moves him toward how the owner talks</a></li><li style="--c:var(--c5)"><a href="/Corn-Jr-Public/finding/212.html"><span class="fn">212</span>People asking an assistant fits the owner best; the answers do not</a></li><li style="--c:var(--c5)"><a href="/Corn-Jr-Public/finding/214.html"><span class="fn">214</span>A reply judge beside the 5M moves his replies level</a></li><li style="--c:var(--c5)"><a href="/Corn-Jr-Public/finding/219.html"><span class="fn">219</span>A 5M reading only conversation answers far more messages</a></li></ul>
+        
+      </div>
+    </div>
+    <p class="body source">docs/findings/210-of-four-conversational-sources-empatheticdialogues-talks-most-like-the-owners-messages-bigram-perplexity-142-against-sodas-180-and-reddit-pecs-359-and-soda-is-the-most-formulaic.md</p>
+  </section>
+</article>
+
+  
+<footer class="turn">
+  <div><span class="sc">previous</span><a href="/Corn-Jr-Public/finding/209.html">209 · The small model answers half of even its own style&#39;s openers</a></div>
+  <div class="r"><span class="sc">next</span><a href="/Corn-Jr-Public/finding/211.html">211 · Real everyday dialogue moves him toward how the owner talks</a></div>
+  <p class="keys"><kbd>←</kbd> <kbd>→</kbd> turn the page · <kbd>/</kbd> find</p>
+</footer>
+<p class="bynumber">Previous and next in <a href="/Corn-Jr-Public/thread/reply-judge.html">The reply judge</a>. By number:
+  <a href="/Corn-Jr-Public/finding/209.html">209</a> · <a href="/Corn-Jr-Public/finding/211.html">211</a></p>
+
+</div>
+</body>
+</html>

@@ -1,0 +1,93 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>214 · A reply judge beside the 5M moves his replies level · Corn-Jr</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600&family=IBM+Plex+Mono:wght@400;500&family=Spectral:ital,wght@0,400;0,500;0,600;1,400&family=Spectral+SC:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/Corn-Jr-Public/static/library.css">
+<script defer src="/Corn-Jr-Public/static/library.js"></script>
+<script type="speculationrules">
+{"prerender": [{"where": {"and": [{"href_matches": "/Corn-Jr-Public/*"}, {"not": {"href_matches": "/Corn-Jr-Public/random.html"}}, {"not": {"href_matches": "/Corn-Jr-Public/static/*"}}]}, "eagerness": "moderate"}]}
+</script>
+
+</head>
+<body>
+<div class="page">
+  <header class="running">
+    <a class="book" href="/Corn-Jr-Public/">Corn-Jr · The Record</a>
+    <nav>
+      <a href="/Corn-Jr-Public/" data-key="shelf">Shelf</a><a href="/Corn-Jr-Public/findings.html" data-key="findings" class="here">Findings</a><a href="/Corn-Jr-Public/doc/VISION.html" data-key="VISION">Vision</a><a href="/Corn-Jr-Public/doc/GLOSSARY.html" data-key="GLOSSARY">Glossary</a>
+      <a href="https://github.com/csheehan18/Corn-Jr-Public">Source</a>
+    </nav>
+  </header>
+  
+
+<article class="sheet" style="--c:var(--c5)">
+  <div class="progress" aria-hidden="true"></div>
+  <section class="grid chapter-open finding-open">
+    <a class="tab" href="/Corn-Jr-Public/thread/reply-judge.html" title="The reply judge"><small>Part</small><span>V</span></a>
+    <p class="cn">214</p>
+    <p class="partline"><a href="/Corn-Jr-Public/thread/reply-judge.html">The reply judge</a> · 24 October 2026</p>
+    <h1>A reply judge beside the 5M moves his replies level</h1>
+  </section>
+
+  <section class="grid">
+    <p class="marginal">The result, as the finding states it</p><div class="prose"><p class="lead">A judge block fitted beside the frozen plain 5M on swapped replies — 853k parameters, 20,000 steps on 702,653 pairs of his own conversational reading — recognises held-out conversation as well as he does or better (same-dialogue quads right at the end of the reply 0.913 and 0.912 against his own 0.904 and 0.881; on the first word 0.793 and 0.785 against 0.792 and 0.760), and re-ranking his top 20 words by it moves the blind hand read level: 55 and 51 of 148 replies answer the message against greedy's 53 and 46 on the same checkpoints (the gate was +7 at both seeds), the pre-registered row (b), as predicted. On the 148 hand-written everyday messages the judge is far weaker than he is — swap pairs within a category right 0.73 and 0.75 at the end of the reply against his 0.91, 0.58 and 0.64 on the first word — and its fit on the words that decide a reply ranges only 0.45-0.9, about 0.7 nats of push against LM gaps of one to two: where it is wrong it does no harm, and where it is right it is outvoted. The free control, sixteen samples re-ranked by his own whole-reply score, reads 54 and 56, also level</p></div>
+    <p class="marginal">What it cost</p><div class="prose"><p class="cost"><code>corn/judge.py</code>, <code>scripts/train_judge.py</code>, <code>scripts/check_judge.py</code> (104 guards), <code>scripts/probe_reply_judge.py</code>, a settings check and the pre-registration 14:28-14:45 on 2026-10-24 (e69cf43); the chain 14:46-15:00, 13.97 min (judge fits 354 and 343 s, contended at 38%, a bound); the blind hand read of 888 replies ~10 min; the hand look at the judge's scores 2 min. ETA ~1.5 h, actual ~50 min.</p></div>
+  </section>
+
+  
+
+  <section class="grid">
+    <div class="prose doc"><p><strong>The question</strong> (owner, 2026-10-24: "one is evaluating how well the predicted token fits and another layer that pushes a successful token forward to generate and show", inside the model). <code>docs/PLAN-REPLY-JUDGE.md</code> Phase 1: findings <a class="fref" href="/Corn-Jr-Public/finding/204.html">204</a>-<a class="fref" href="/Corn-Jr-Public/finding/208.html">208</a> show the 5M recognises a fitting reply in 91-96% of swapped pairs and writes one about half the time. A part whose only job is recognition, voting on every word — does it close that gap?</p>
+<p><strong>What was built</strong> (<code>corn/judge.py</code> argues each choice). One transformer block reads the trunk's last states over the message and the reply so far and scores every next token against its embedding; it trains on <code>corn/contrast.py</code>'s pairs, each reply shown once after its own message (<em>fits</em>) and once after another's (<em>does not</em>), at every reply position, so a reply's general likelihood cannot predict the label. The picker adds lam * log sigmoid(fit) to the LM's log-probability over its top 20 and takes the argmax, lam 1 by Bayes' rule. The trunk never changes.</p>
+<h3 id="the-read">The read</h3>
+<p>read                                          seed 1            seed 2 J1 held-out same-dialogue, judge | LM first word                                  0.793 | 0.792     0.785 | 0.760 second / fifth word                         0.855 / 0.900     0.849 / 0.891 | 0.835 / 0.889   | 0.823 / 0.880 end of reply                                0.913 | 0.904     0.912 | 0.881 J1 held-out cross-dialogue, end               0.966 | 0.989     0.960 | 0.989 J2 the 148 swap pairs, judge (first / third / end) | LM across categories                           0.74/0.86/0.88 | 0.96   0.73/0.84/0.87 | 0.95 within a category                           0.58/0.73/0.73 | 0.91   0.64/0.68/0.75 | 0.91 blind hand read (of 148) G greedy                                    53                46 P judge + picker                            55                51 F 16 samples, best by his own score         54                56 passes under P only / G only                  7 / 5             10 / 5 replies the picker changed (first word)       61 (36)           60 (43) distinct three-word openings G / P / F        86 / 91 / 97      82 / 85 / 105 commonest opening G / P                       'what why' x7 / 'what do you' x7   'what why' x15 / x9 loops                                         0 / 0 / 0         0 / 0 / 0 judge training loss at 20,000                 0.409             0.418</p>
+<p>(<code>evals/results/judge__*.json</code>, <code>reply_judge__*</code>: replies, F's candidates, J2 margins, the blind file, its key and the hand labels.)</p>
+<p><strong>The gate, as registered.</strong> +2 and +5 against +7 at both: <strong>(b), level</strong>, the predicted row. F is level too (+1, +10).</p>
+<p><strong>The reader.</strong> This read's greedy counts, 53 and 46, sit under the 70 and 58 earlier sessions gave the same greedy replies: a different reader, stricter on a reply whose second sentence breaks the fit ("That's great! I'm sure you'll do great." to a raffle win, "Yes, I am. I'm just about to go to the movies."). The comparison within the read is paired and blind; the absolute count is this reader's, not comparable with findings <a class="fref" href="/Corn-Jr-Public/finding/202.html">202</a>-<a class="fref" href="/Corn-Jr-Public/finding/213.html">213</a>.</p>
+<h3 id="read-by-hand">Read by hand</h3>
+<p><strong>The replies.</strong> The picker changes 60 of 148 replies at each seed and mostly swaps one failure for another: "What? Why?" to a baby stays at seed 1; "Oh, that's great!" to a spilled coffee becomes "Oh, wow! That's great! How did you get it?". Its gains are the small talk and plans where any address to the person beats a self-statement ("What kind of party?", "That's great! What are you going to do?" to camping), and seed 2's odd messages (3 to 6). No category moves by more than a seed's spread.</p>
+<p><strong>The judge's scores</strong>, read at the first and second words on six messages the greedy replies fail (seed 1's judge, a scratchpad read; probe only — not on disk):</p>
+<p>message                       candidate        p(LM)   fit spilled coffee on keyboard    That's great     0.66    0.72   (good 0.72, okay 0.76) someone scratched my car      That's great     0.30    0.51   (okay 0.72) Oh, no           0.16    0.47   — wrong toaster caught fire           That's great     0.14    0.46   (so 0.81) dog ate a birthday cake       Oh, thank        0.20    0.86   — wrong having a baby                 That's great     0.29    0.54   (so 0.83) — wrong got the job                   That's great     0.68    0.85 first word, any message       I / Y / It       —      0.08-0.39  (self-statements low)</p>
+<p>What the judge reliably knows at the start of a reply is <em>whether it addresses the other person</em>: openings that begin a self-statement ("I", "It") score 0.08-0.39 on every message. Mood it reads weakly and sometimes backwards on these messages — "Oh, no" to a scratched car under "That's great". And its scores are compressed: sigmoid 0.45-0.9 is at most ~0.7 nats of difference, so even where it is right ("That's great" 0.51 against "okay" 0.72 for the scratched car) the LM's 0.30 against 0.08 wins.</p>
+<h3 id="the-cause">The cause</h3>
+<p>Two, both read above, neither a fault of the build (<code>check_judge.py</code> holds the trunk, the symmetry and the top-K bound):</p>
+<ol><li><strong>The judge does not carry to the everyday messages.</strong> It is trained on SODA turns, and on SODA it matches or beats his recognition; on the 148 hand-written messages it falls well under him (within 0.73-0.75 against 0.91). Finding <a class="fref" href="/Corn-Jr-Public/finding/209.html">209</a> measured the gap it crosses: everyday messages are far more surprising to the 5M than SODA's openers (3.91 against 2.25 nats a token). His recognition on the 148 is the LM's whole conditional; the judge's is one block fitted to one source.</li><li><strong>One word is too early, and the push is too small.</strong> The words that decide a reply come second or third ("That's <em>great</em>"), the judge's accuracy rises with every word read (J1), and its fit spans too little to overturn an LM gap of two to four times.</li></ol>
+<h3 id="what-it-licenses">What it licenses</h3>
+<ul><li><strong>A judge trained on swapped SODA turns, re-ranking one word at a time, is not the lever at 5M.</strong> The recognition it learns is real on held-out conversation and does not reach the messages the owner sends.</li><li><strong>The probe the cause names, before any heavier version:</strong> fit the judge on pairs in the owner's register — short-reply OpenAssistant and EmpatheticDialogues (findings <a class="fref" href="/Corn-Jr-Public/finding/211.html">211</a>-<a class="fref" href="/Corn-Jr-Public/finding/213.html">213</a> found them closest) — and read J2 first, seconds of card: if within-category J2 does not pass his own 0.91, the picker has nothing to add and nothing more is run. Only if it does, the look-ahead picker (the owner's suggestion, 2026-10-24: try a few openings a few words deep, keep what the judge likes) addresses cause 2. A larger lam alone would amplify a judge that is wrong on mood.</li><li><strong>Phase 2 is not opened</strong> (its condition was (a)). At 260M his own recognition is 99-100% (finding <a class="fref" href="/Corn-Jr-Public/finding/208.html">208</a>), so a judge there has a much higher bar to pass, not a lower one.</li></ul>
+<p><strong>What it does not settle.</strong> Any judge trained off SODA; more than one block; the look-ahead picker; lam other than 1; any size above 5M; Phase 3.</p></div>
+  </section>
+
+  <section class="grid refs">
+    <div class="body two-even">
+      <div>
+        <h2 class="small">It cites</h2>
+        <ul class="reflist"><li style="--c:var(--c5)"><a href="/Corn-Jr-Public/finding/202.html"><span class="fn">202</span>A shape built for small models cost language and taught only spelling</a></li><li style="--c:var(--c5)"><a href="/Corn-Jr-Public/finding/203.html"><span class="fn">203</span>His surprise flags unfamiliar names, not questions he cannot answer</a></li><li style="--c:var(--c5)"><a href="/Corn-Jr-Public/finding/204.html"><span class="fn">204</span>Running the same layers twice moves nothing measurable at 5M</a></li><li style="--c:var(--c5)"><a href="/Corn-Jr-Public/finding/205.html"><span class="fn">205</span>Choosing replies by what the message raises varies them, not their fit</a></li><li style="--c:var(--c5)"><a href="/Corn-Jr-Public/finding/206.html"><span class="fn">206</span>A matching lesson at a tenth of conversation reading did not take</a></li><li style="--c:var(--c5)"><a href="/Corn-Jr-Public/finding/207.html"><span class="fn">207</span>The pairs he fails are mostly decidable: he loses the conversation&#39;s thread</a></li><li style="--c:var(--c5)"><a href="/Corn-Jr-Public/finding/208.html"><span class="fn">208</span>The shipped model answers most one-off messages coherently</a></li><li style="--c:var(--c5)"><a href="/Corn-Jr-Public/finding/209.html"><span class="fn">209</span>The small model answers half of even its own style&#39;s openers</a></li><li style="--c:var(--c5)"><a href="/Corn-Jr-Public/finding/210.html"><span class="fn">210</span>Real everyday dialogue fits the owner&#39;s messages best; Reddit worst</a></li><li style="--c:var(--c5)"><a href="/Corn-Jr-Public/finding/211.html"><span class="fn">211</span>Real everyday dialogue moves him toward how the owner talks</a></li><li style="--c:var(--c5)"><a href="/Corn-Jr-Public/finding/212.html"><span class="fn">212</span>People asking an assistant fits the owner best; the answers do not</a></li><li style="--c:var(--c5)"><a href="/Corn-Jr-Public/finding/213.html"><span class="fn">213</span>A small dose matching how the owner talks moves him furthest</a></li></ul>
+        
+      </div>
+      <div>
+        <h2 class="small">Cited by</h2>
+        <ul class="reflist"><li style="--c:var(--c5)"><a href="/Corn-Jr-Public/finding/215.html"><span class="fn">215</span>Looking a few words ahead with the judge lifts his replies</a></li><li style="--c:var(--c5)"><a href="/Corn-Jr-Public/finding/216.html"><span class="fn">216</span>The look-ahead holds on new messages; finishing and penalties add nothing</a></li><li style="--c:var(--c5)"><a href="/Corn-Jr-Public/finding/217.html"><span class="fn">217</span>A judge built into the 5M learns, is ignored, and costs him</a></li><li style="--c:var(--c5)"><a href="/Corn-Jr-Public/finding/219.html"><span class="fn">219</span>A 5M reading only conversation answers far more messages</a></li><li style="--c:var(--c5)"><a href="/Corn-Jr-Public/finding/238.html"><span class="fn">238</span>He writes worst exactly where he reads worst, message by message</a></li><li style="--c:var(--c5)"><a href="/Corn-Jr-Public/finding/239.html"><span class="fn">239</span>The count book judges replies a little, and picks no better</a></li></ul>
+        
+      </div>
+    </div>
+    <p class="body source">docs/findings/214-a-reply-judge-beside-the-5m-recognises-held-out-conversation-as-well-as-he-does-and-moves-his-replies-level-55-and-51-against-53-and-46-it-reads-the-everyday-messages-weakly.md</p>
+  </section>
+</article>
+
+  
+<footer class="turn">
+  <div><span class="sc">previous</span><a href="/Corn-Jr-Public/finding/213.html">213 · A small dose matching how the owner talks moves him furthest</a></div>
+  <div class="r"><span class="sc">next</span><a href="/Corn-Jr-Public/finding/215.html">215 · Looking a few words ahead with the judge lifts his replies</a></div>
+  <p class="keys"><kbd>←</kbd> <kbd>→</kbd> turn the page · <kbd>/</kbd> find</p>
+</footer>
+<p class="bynumber">Previous and next in <a href="/Corn-Jr-Public/thread/reply-judge.html">The reply judge</a>. By number:
+  <a href="/Corn-Jr-Public/finding/213.html">213</a> · <a href="/Corn-Jr-Public/finding/215.html">215</a></p>
+
+</div>
+</body>
+</html>

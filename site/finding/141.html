@@ -1,0 +1,95 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>141 · Written as one nested line, he builds a structure never trained · Corn-Jr</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600&family=IBM+Plex+Mono:wght@400;500&family=Spectral:ital,wght@0,400;0,500;0,600;1,400&family=Spectral+SC:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/Corn-Jr-Public/static/library.css">
+<script defer src="/Corn-Jr-Public/static/library.js"></script>
+<script type="speculationrules">
+{"prerender": [{"where": {"and": [{"href_matches": "/Corn-Jr-Public/*"}, {"not": {"href_matches": "/Corn-Jr-Public/random.html"}}, {"not": {"href_matches": "/Corn-Jr-Public/static/*"}}]}, "eagerness": "moderate"}]}
+</script>
+
+</head>
+<body>
+<div class="page">
+  <header class="running">
+    <a class="book" href="/Corn-Jr-Public/">Corn-Jr · The Record</a>
+    <nav>
+      <a href="/Corn-Jr-Public/" data-key="shelf">Shelf</a><a href="/Corn-Jr-Public/findings.html" data-key="findings" class="here">Findings</a><a href="/Corn-Jr-Public/doc/VISION.html" data-key="VISION">Vision</a><a href="/Corn-Jr-Public/doc/GLOSSARY.html" data-key="GLOSSARY">Glossary</a>
+      <a href="https://github.com/csheehan18/Corn-Jr-Public">Source</a>
+    </nav>
+  </header>
+  
+
+<article class="sheet" style="--c:var(--c4)">
+  <div class="progress" aria-hidden="true"></div>
+  <section class="grid chapter-open finding-open">
+    <a class="tab" href="/Corn-Jr-Public/thread/parse-depth.html" title="The parse and depth"><small>Part</small><span>IV</span></a>
+    <p class="cn">141</p>
+    <p class="partline"><a href="/Corn-Jr-Public/thread/parse-depth.html">The parse and depth</a> · 16 September 2026</p>
+    <h1>Written as one nested line, he builds a structure never trained</h1>
+  </section>
+
+  <section class="grid">
+    <p class="marginal">The result, as the finding states it</p><div class="prose"><p class="lead">With the parse written as one nested line he writes a three-member group inside a group, a structure the corpus never contains, eighteen times across two seeds and 5.8 times more often where the gold calls for one than where it does not, on the leg that had never given anything</p></div>
+    <p class="marginal">What it cost</p><div class="prose"><p class="cost">14.7 min of scoring on the 2 cards first cited here (<code>nano20m_v3_fw_armf</code>, <code>nano20m_v3_fw_armf_lines</code>). Backfilled 2026-09-26 from the cards' <code>seconds</code>; training and probe time were never recorded, so this is a floor.</p></div>
+  </section>
+
+  
+
+  <section class="grid">
+    <div class="prose doc"><p>PLAN-PARSE-WEIGHTS arm F, read 2026-09-16. Two nano cells on the nested format (<code>nano20m_v3_fw_armf</code>, seeds 1337 and 2337) against a line-format control at the same depth profile (<code>nano20m_v3_fw_armf_lines</code>), all three token- and step-matched to arm W under the C6 protocol. <code>scripts/probe_nestgen.py</code>, <code>scripts/probe_nestfork.py</code>, <code>corn.evals</code>. <strong>The gate is a within-checkpoint comparison and the two instruments before it could not make one; that is most of this finding's story.</strong></p>
+<h3 id="the-result">The result</h3>
+<p>A three-member group <strong>nested inside a group</strong> appears nowhere in the corpus: it is <code>nest_three</code>, the holdout <code>parse.w_pairing</code> is cut from, and a group has only ever nested two. Decoded greedily and scored structurally — did he nest, and with how many members — against <code>w_nest_seen</code>, a trained two-member nesting cut at the same fork depth from the same generator:</p>
+<p>seed    row            nested   wrote a three   rate 1337    w_nest_seen       17           1        0.059 1337    w_pairing         25           9        0.360 2337    w_nest_seen       17           1        0.059 2337    w_pairing         28           9        0.321</p>
+<p>both    w_nest_seen     2/34 = 0.059 both    w_pairing      18/53 = 0.340        5.8x</p>
+<p>Both seeds land within 0.04 of each other on the held-out row and identically — 1 of 17, twice — on the trained one. Rule 6 is met: two seeds, one direction, one magnitude.</p>
+<p><strong>The mechanism is the thesis's own.</strong> A three-member carrier (<code>three things: {a}, {b}, {c}</code>) is trained at the <em>outer</em> level, where <code>GROUP_SIZE</code> puts it at 0.30; nesting is trained with two-member groups. Neither piece is new and the combination is. He reads a known carrier's arity and applies it at a position where he has only ever seen arity two, which is what THESIS section 1 means by recombination over a closed set.</p>
+<h3 id="why-it-took-a-third-instrument-and-why-the-first-two-were-wr">Why it took a third instrument, and why the first two were wrong</h3>
+<p><code>parse.w_pairing</code> reads 0 to 1 of 96 on every cell in the line-per-level format — W, both doses, <code>b1024</code>, <code>wide1024</code> — and C6 widened the nesting inventory from 10 branching structures to 53 and moved it on none of three instruments, two of which bypass copy. The leg had never given anything.</p>
+<p><strong>The fork.</strong> <code>probe_nestfork.py</code> reads the one token where a bracket opens. Its own docstring says the rows are not comparable to each other, only the column is, because the token before the fork and the tokenisation of the gold token differ between them — 79 of 96 <code>w_nest_seen</code> forks sit immediately after <code>[</code> and take <code>&#x27;ask&#x27;</code>, while <code>w_pairing</code> splits 48/48 and takes <code>&#x27; ask&#x27;</code> or <code>&#x27;ask&#x27;</code>. A gate was nonetheless built on comparing two rows there. It read <strong>70 against 67</strong> on one cut of the rows and <strong>22 against 55</strong> on the next, and both were artifacts of the comparison rather than readings of anything.</p>
+<p><strong>The first cut of the comparison row was wrong too</strong>, and in the way this phase keeps being wrong: <code>w_nest_seen</code> was cut with a <code>deepest_group</code> that counted a <code>do</code>'s lookup group as a nesting. A <code>do</code> composes a lookup with its consumers and is not a group, so on most items the row forked at a structurally different place; only 18 of its 96 items carried a true nesting at all. <strong>That is the fourth wrong number in this phase from the same distinction</strong> — a 455-span leak, 1,160 false positives in <code>check_funcworld.py</code>, "a group of one" on 216 turns, and this — and it should be one function every tree-walker calls.</p>
+<p><strong>What works</strong> is <code>probe_nestgen.py</code>: decode the parse, parse it back with the guard's bracket reader, ask only how many members he gave the nesting. One checkpoint, one scoring rule, no local-token term, exact-match not used because half of <code>wrong_arity</code> on the line format was an invented span (FAILURES-PARSE section 1) and a copy slip would swamp a structural signal it has nothing to do with.</p>
+<h3 id="the-format-and-what-it-is-not-evidence-for">The format, and what it is not evidence for</h3>
+<p>The arm acquires the format: on the fork it reads 22 and 55 of 96 where every line-format checkpoint reads <strong>0 of 96</strong> and the never-saw-a-parse cell reads 3 and 4. That is a model that opens nested brackets, which none before it would, and it says nothing about shape — both rows need a bracket opened in a format only the arm trains. The nested form is also <strong>56.5%</strong> of the line form's parse tokens on the 632 frozen items, so it should lift trained rows for length reasons alone; the control exists for that and the parse rows are not compared across formats, because they cannot be.</p>
+<h3 id="the-kill-did-not-fire-and-a-pattern-worth-recording">The kill did not fire, and a pattern worth recording</h3>
+<p>row              W b1024   armf LINES   NEST s1   NEST s2 tool.copy        120/120     120/120    102/120   120/120 tool.copy_wide   290/300     269/300    280/300   288/300 temporal.copy    353/353     353/353    353/353   353/353</p>
+<p>Seed 1's 102 is an excursion. <strong>This is the second single-seed <code>tool.copy</code> dip in this phase that did not replicate</strong> — arm A read 100 of 120 and recovered to 119 (finding <a class="fref" href="/Corn-Jr-Public/finding/139.html">139</a>, amended) — so a copy-band kill wants its second seed before it is called, and twice now the first seed would have killed a live arm.</p>
+<h3 id="what-it-does-not-say">What it does not say</h3>
+<p>Eighteen productions across two seeds, 0.340 against 0.059, is a <strong>signal and not a capability</strong> — the same caliber as <code>parse.w_heldout</code>'s 10 to 17 of 140. Between 12 and 21 of 96 emissions a row do not parse at all, so the denominators are partial. It is nano, one synthetic world, and rung 4 on real carriers is untouched. <code>parse.w_d5</code> is unchanged and unread: it forks at bracket depth 4, where this corpus has a node with children in 0 of 3,602 cases, so finding <a class="fref" href="/Corn-Jr-Public/finding/136.html">136</a>'s zero-support result holds in this format too and only a positive there could have counted.</p>
+<p>And the reading is contestable in one specific place, which is better argued than assumed: following a trained carrier's arity to an untrained position may be called carrier-following rather than structural generalisation. The answer here is that a carrier <em>is</em> a member of the closed set section 1 describes and its arity at a new position is exactly the recombination claimed — but anyone quoting this should quote that sentence with it.</p>
+<p><strong>Licenses</strong> the arity ladder as the next arm: four-member carriers already exist (<code>GROUP_CORES_MARKED_4</code>, unused under <code>base</code> shapes), so a profile training arities 2, 3 and 4 at the outer level while nesting only 2 puts rung 3 and rung 4 in one corpus, each with the rung below as its floor and the whole comparison inside one checkpoint. One rung can be a fluke of one carrier; three in order is systematic. Five is not available — the carrier pools stop at <code>{d}</code>.</p></div>
+  </section>
+
+  <section class="grid refs">
+    <div class="body two-even">
+      <div>
+        <h2 class="small">It cites</h2>
+        <ul class="reflist"><li style="--c:var(--c4)"><a href="/Corn-Jr-Public/finding/136.html"><span class="fn">136</span>The depth-4 failure is a position never seen, not missing recursion</a></li><li style="--c:var(--c4)"><a href="/Corn-Jr-Public/finding/139.html"><span class="fn">139</span>Aligning training blocks to transcript starts helps parsing, short of target</a></li></ul>
+        
+      </div>
+      <div>
+        <h2 class="small">Cited by</h2>
+        <p class="aside">No later finding yet.</p>
+      </div>
+    </div>
+    <p class="body source">docs/findings/141-he-writes-a-nesting-the-corpus-never-contains-eighteen-times-across-two-seeds-and-nearly-six-times-more-often-when-called-for.md</p>
+  </section>
+</article>
+
+  
+<footer class="turn">
+  <div><span class="sc">previous</span><a href="/Corn-Jr-Public/finding/140.html">140 · Depth-4 failure is position alone; moved to line one it works</a></div>
+  <div class="r"><span class="sc">next</span><a href="/Corn-Jr-Public/finding/142.html">142 · Removing four-member groups from training broke nesting another way</a></div>
+  <p class="keys"><kbd>←</kbd> <kbd>→</kbd> turn the page · <kbd>/</kbd> find</p>
+</footer>
+<p class="bynumber">Previous and next in <a href="/Corn-Jr-Public/thread/parse-depth.html">The parse and depth</a>. By number:
+  <a href="/Corn-Jr-Public/finding/140.html">140</a> · <a href="/Corn-Jr-Public/finding/142.html">142</a></p>
+
+</div>
+</body>
+</html>

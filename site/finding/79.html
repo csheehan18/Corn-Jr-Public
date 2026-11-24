@@ -1,0 +1,125 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>79 · A quarter of search results pass the relevance check on one letter · Corn-Jr</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600&family=IBM+Plex+Mono:wght@400;500&family=Spectral:ital,wght@0,400;0,500;0,600;1,400&family=Spectral+SC:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/Corn-Jr-Public/static/library.css">
+<script defer src="/Corn-Jr-Public/static/library.js"></script>
+<script type="speculationrules">
+{"prerender": [{"where": {"and": [{"href_matches": "/Corn-Jr-Public/*"}, {"not": {"href_matches": "/Corn-Jr-Public/random.html"}}, {"not": {"href_matches": "/Corn-Jr-Public/static/*"}}]}, "eagerness": "moderate"}]}
+</script>
+
+</head>
+<body>
+<div class="page">
+  <header class="running">
+    <a class="book" href="/Corn-Jr-Public/">Corn-Jr · The Record</a>
+    <nav>
+      <a href="/Corn-Jr-Public/" data-key="shelf">Shelf</a><a href="/Corn-Jr-Public/findings.html" data-key="findings" class="here">Findings</a><a href="/Corn-Jr-Public/doc/VISION.html" data-key="VISION">Vision</a><a href="/Corn-Jr-Public/doc/GLOSSARY.html" data-key="GLOSSARY">Glossary</a>
+      <a href="https://github.com/csheehan18/Corn-Jr-Public">Source</a>
+    </nav>
+  </header>
+  
+
+<article class="sheet" style="--c:var(--c2)">
+  <div class="progress" aria-hidden="true"></div>
+  <section class="grid chapter-open finding-open">
+    <a class="tab" href="/Corn-Jr-Public/thread/search.html" title="Web search"><small>Part</small><span>II</span></a>
+    <p class="cn">79</p>
+    <p class="partline"><a href="/Corn-Jr-Public/thread/search.html">Web search</a> · 29 August 2026</p>
+    <h1>A quarter of search results pass the relevance check on one letter</h1>
+  </section>
+
+  <section class="grid">
+    <p class="marginal">The result, as the finding states it</p><div class="prose"><p class="lead">A quarter of what clears the coverage bar clears it on a first letter, and the path that runs first has no bar at all</p></div>
+    
+  </section>
+
+  
+
+  <section class="grid">
+    <div class="prose doc"><p>A reduction-path audit rather than a training run, and it started from one question a user asked and Corn-Jr could not answer: <strong>"who won the 2026 super bowl?"</strong> Everything below is <code>harness/backends/search.py</code> measured on 2026-08-29 against the live providers, plus offline pricing over NQ dev; the weights are not involved anywhere in it and were never run. Four results, two repaired here, two characterised and left for the owner because they are decisions rather than defects.</p>
+<p>The finding under all four: <strong><code>_covers</code> measures term <em>presence</em>, not answerhood</strong>, and every guard in the file is a hand-written rejection of one more shape that mentions the subject without answering. Findings <a class="fref" href="/Corn-Jr-Public/finding/72.html">72</a> and <a class="fref" href="/Corn-Jr-Public/finding/78.html">78</a> each added one. This adds two more and then finds the bar itself leaking.</p>
+<hr>
+<h3 id="1-the-phrasing-gap-has-a-second-half-and-it-is-the-scorer-ra">1. The phrasing gap has a second half, and it is the scorer rather than the provider</h3>
+<p>Finding <a class="fref" href="/Corn-Jr-Public/finding/78.html">78</a> measured natural question 1 of 8 against noun phrase 5 of 8 and concluded the <em>provider</em> wants a noun phrase. On the Super Bowl question the provider wanted nothing of the kind: the results page returned ten results and the rank-1 result <strong>was</strong> the answer —</p>
+<p>The Seattle Seahawks defeated the New England Patriots Sunday to win the 2026 Super Bowl.</p>
+<p>— which passes <code>_answers</code> and <code>_prose</code> and then scores <strong>0.75</strong>. <code>MIN_COVER</code> is 1.0, so the right answer at rank 1 was discarded and the user was told nothing was found. The missing term is <code>won</code>: the snippet says "to win", and the four-character prefix rule cannot bridge <code>won</code> to <code>win</code>. Asked as <em>the winner of the 2026 super bowl</em> the same snippet scores <strong>1.00</strong> — <code>winner</code> reaches <code>win</code> through the rule's other side — and the same second returns the same sentence.</p>
+<p>So the reformulation is not only about what the provider will match. It has to produce a query whose terms <strong>the answer sentence will contain</strong>, and those are two different objectives that happen to have agreed until now. Repaired as one <code>_REPHRASE</code> row, <code>who won X</code> to <code>the winner of X</code>, because that is the shape every row above it already has.</p>
+<p><strong>And the bar is not what is wrong.</strong> <code>MIN_COVER</code> at 1.0 is what stopped him inventing a height for Everest out of a snippet that mentioned neither; lowering it to 0.75 would have bought this one query by loosening every query on the machine.</p>
+<h3 id="2-the-teaser-wearing-a-noun-phrase-and-the-tie-the-scorer-ca">2. The teaser wearing a noun phrase, and the tie the scorer cannot break</h3>
+<p>The rewrite fixed the query and immediately exposed the next shape. Re-measured an hour later, with the ranking moved, <code>the winner of the 2026 super bowl</code> returned an index page's own title at rank 1 and the real answer at rank 2:</p>
+<div class="tablewrap"><table><thead><tr><th>rank</th><th>cover</th><th>snippet</th></tr></thead><tbody><tr><td>1</td><td><strong>1.00</strong></td><td>Complete list of Super Bowl winners 1967- 2026.</td></tr><tr><td>2</td><td><strong>1.00</strong></td><td>The Seattle Seahawks defeated the New England Patriots Sunday to win the 2026 Super Bowl.</td></tr></tbody></table></div>
+<p>A list page is titled with the thing it lists, so it covers every term asked about and carries no fact. <code>_covers</code> cannot separate the two, <code>_ddg_html</code> keeps a candidate on strictly-greater, and the tie therefore goes to the engine's ordering — the promise beat the fact, and the runtime would have read a table of contents out loud. <code>_prose</code> does not catch it (<code>of</code> is a stop word inside the first ten tokens) and it has no finite verb, which is the signal that would catch it in general and a larger claim than one measurement supports.</p>
+<p>Repaired as a branch of <code>_TEASER</code>, which is already the home for "a promise that the page will answer". Anchored, so the prose that <em>introduces</em> a list survives — "This is a list of the senators…" is a real sentence and is NQ dev's own shape. <strong>Priced the way <code>_prose</code> was, over every sentence of every NQ dev passage (3,615 sentences, <code>_sentences</code>' own cut): 0 refused (0.00%)</strong>, no overlap with the openers already there. The honest limit on that number: NQ dev is Wikipedia prose, the population this branch is least likely to fire on, so it bounds the false-positive cost and does not measure how much furniture the branch catches.</p>
+<h3 id="3-the-bar-clears-a-quarter-of-its-traffic-on-a-first-letter">3. The bar clears a quarter of its traffic on a first letter</h3>
+<p><code>_terms</code> glues a lone character onto the term in front of it — the sixth saved session's <code>space x</code> repair — so <strong>no query term is ever shorter than two characters</strong>. <code>_covers</code> built the other side with a bare regex and no such treatment, which makes <code>w.startswith(h[:4])</code> with a one-character <code>h</code> mean nothing more than "same first letter". English writes those constantly: the possessive <code>s</code>, the article <code>a</code>.</p>
+<p>Live, <code>what does DNA stand for</code> scored a perfect <strong>1.00</strong> against</p>
+<p>DNA profiling is the process of determining an individual's deoxyribonucleic acid (DNA) characteristics.</p>
+<p>where <code>stand</code> was matched by the <code>s</code> of "individual's". Any query term beginning with <code>a</code> was effectively free.</p>
+<p><strong>Priced over NQ dev's answerable half:</strong> 721 items, 2,581 question/sentence pairs, <strong>89 of which clear <code>MIN_COVER</code> today. 23 stop clearing it (25.8%), and 12 of those carry the gold answer.</strong> The twelve look like a cost and are not: every one of the 23 was passing on a first-letter coincidence —</p>
+<div class="tablewrap"><table><thead><tr><th>query term</th><th>rescued by</th></tr></thead><tbody><tr><td><code>author</code>, <code>arrived</code>, <code>about</code>, <code>architecture</code>, <code>add</code></td><td><code>a</code></td></tr><tr><td><code>sang</code>, <code>said</code>, <code>separate</code>, <code>spelling</code>, <code>south</code></td><td><code>s</code></td></tr><tr><td><code>meninges</code></td><td><code>m</code></td></tr><tr><td><code>name</code></td><td><code>n</code></td></tr></tbody></table></div>
+<p>— so the twelve were answer-bearing sentences that <strong>do not mention what was asked about</strong>, which is exactly the text the Everest comment refuses to serve. Losing them is the bar working; keeping them was luck. Repaired by dropping one-character tokens from the snippet side. Gluing them the way <code>_terms</code> does is the symmetric alternative and was measured too — it rejects 3 more and bundles stop-word removal on that side, which nothing motivates. <code>_covers_exact</code> needs no change: it tests membership, so a one-character token can only match a one-character term and there are none.</p>
+<h3 id="4-characterised-not-repaired-the-guards-are-all-on-the-door-">4. Characterised, not repaired: the guards are all on the door that runs second</h3>
+<p><code>_answers</code>, <code>_prose</code> and <code>MIN_COVER</code> are scoped to <code>_ddg_html</code>. The abstract providers — <code>_ddg</code>, <code>_wiki</code>, <code>_wiki_search</code>, which run <strong>first</strong> — have no bar at all: <code>_best_answer</code> keeps the best-covering sentence it can find <em>within the abstract</em> and floors to the lead when nothing covers, and it never rejects. The file's header argues the abstract is "closer to what the model was trained to read back", and that is true of an <strong>entity</strong> query. A question-shaped query that merely names an entity gets that entity's lead regardless of whether the lead answers the question.</p>
+<p>Eight ordinary questions, live, one run:</p>
+<div class="tablewrap"><table><thead><tr><th>query</th><th>outcome</th><th>cover</th></tr></thead><tbody><tr><td>when did Elvis Presley die</td><td>correct</td><td>—</td></tr><tr><td>who owns Twitter</td><td>Jack Dorsey's lead, served as the answer</td><td>0.50</td></tr><tr><td>what does DNA stand for</td><td>"DNA profiling is the process of…"</td><td>1.00 (§3's leak)</td></tr><tr><td>why is the sky blue</td><td>a diffuse-sky-radiation fragment</td><td>0.50</td></tr><tr><td>how many people live in Tokyo</td><td>an urban-sprawl sentence, no number</td><td>0.25</td></tr><tr><td>what team does Lionel Messi play for</td><td><code>no_results</code></td><td>—</td></tr><tr><td>how much is a Tesla Model 3</td><td><code>no_results</code></td><td>—</td></tr><tr><td>who plays Hermione in Harry Potter</td><td><code>no_results</code></td><td>—</td></tr></tbody></table></div>
+<p><strong>One right, three honest misses, four confident non-answers.</strong> Three of the four would have been rejected as <code>no_results</code> had they arrived one provider later, and <code>no_results</code> is the trained shape he says perfectly. This is VISION §9's failure with the guard on the wrong door, and the repair — applying <code>MIN_COVER</code> to the abstract path — is a behaviour change with a scorecard cost rather than a bug fix, so it is the owner's and is not taken here.</p>
+<h3 id="5-characterised-not-repaired-the-rewrite-table-fails-its-own">5. Characterised, not repaired: the rewrite table fails its own answers</h3>
+<p>§1's mechanism is general. A <code>_REPHRASE</code> row turns an interrogative <em>verb</em> into a <em>noun</em>, and the answer sentence uses the verb. Against a plausible answer sentence for each, <strong>8 of 9 rows produce a query that would be rejected</strong>:</p>
+<div class="tablewrap"><table><thead><tr><th>rewritten to</th><th>cover</th><th>why</th></tr></thead><tbody><tr><td>the birth date of ada lovelace</td><td>0.50</td><td><code>birth</code> does not reach <code>born</code>; <code>date</code> is not in the sentence</td></tr><tr><td>the height of mount everest</td><td>0.67</td><td><code>heig</code> against <code>high</code></td></tr><tr><td>the author of pride and prejudice</td><td>0.67</td><td><code>author</code> does not reach <code>written</code></td></tr><tr><td>the depth of the mariana trench</td><td>0.67</td><td><code>dept</code> against <code>deep</code></td></tr><tr><td>the location of machu picchu</td><td>0.67</td><td><code>location</code> does not reach <code>sits</code></td></tr><tr><td>the inventor of the telephone</td><td>1.00</td><td>the only row that survives</td></tr></tbody></table></div>
+<p>The <code>_WHEN_EVENT</code> rows are worse than the rest because they <em>introduce</em> a term: "the date X was built" asks for <code>date</code>, which the sentence stating the date usually does not contain.</p>
+<p>This is latent today only because §4's abstract path floors instead of rejecting. It goes live the moment a query falls through to snippets — recent and non-encyclopedic facts, which is precisely where search earns its keep, because the weights have nothing there. Repairing it means either bridging inflection in <code>_covers</code> (a stemmer this file will not carry a dependency for) or choosing rewrite targets by what answers look like rather than by what reads as a noun phrase. Both are corpus-free and neither is obvious.</p>
+<h3 id="6-the-tail-and-one-row-that-is-simply-wrong">6. The tail, and one row that is simply wrong</h3>
+<p>Sixteen ordinary openers put at <code>strip_affixes</code> and <code>_rephrased</code>: <strong>14 reach the provider unchanged and still a question</strong> — <code>when did X die</code>, <code>who plays X</code>, <code>how much is X</code>, <code>what team does X play for</code>, <code>who owns X</code>, <code>when is the next X</code>, <code>what does X stand for</code>, <code>why is X</code>. Three of §4's live misses are exactly these. The table is a table and the file says so; this measures how long the tail is.</p>
+<p>And one existing row is producing ungrammatical output:</p>
+<p>how many people live in Tokyo  -&gt;  "the number of people live in tokyo"</p>
+<p>because <code>^how many (.+?) (?:are there )?in (.+)$</code> stops its non-greedy group at the first " in ".</p>
+<h3 id="limits">Limits</h3>
+<p>n=8 on the live battery, one run, and <strong>DuckDuckGo's ranking moved under this audit within an hour</strong> — §2 exists because the same query returned a different rank-1 between two measurements. Those are directions, not rates. The NQ dev pricing is Wikipedia prose and answerable items only. "Carries the gold answer" in §3 is a proxy for "would have answered" and conflates a sentence that answers with a sentence that merely contains the string. Nothing here was measured against the model: every number is the backend's, and what the 260M does with a better or worse payload is finding <a class="fref" href="/Corn-Jr-Public/finding/77.html">77</a>'s scorecard and not this.</p>
+<h3 id="what-moved">What moved</h3>
+<p><code>harness/backends/search.py</code>: one <code>_REPHRASE</code> row (§1), one <code>_TEASER</code> branch (§2), one-character tokens dropped from <code>_covers</code>' snippet side (§3). <code>scripts/check_search.py</code> carries nine new rows, including the ordering assertion for §2 written in rank order because the ordering is the claim. <code>scripts/check_all.py</code>: 49 ran, 0 failed, 0 skipped.</p>
+<h3 id="4-is-repaired-2026-08-31-and-the-repair-is-a-hold-because-th">§4 is repaired, 2026-08-31 — and the repair is a hold, because the bar was priced and refused</h3>
+<p><strong>The owner took the decision §4 left, and the pricing overturned the repair §4 assumed.</strong> Applying the snippet bar to the abstract path was simulated over NQ dev (1,003 rows: 721 answerable, 282 unanswerable; passage standing in for the abstract, question through <code>strip_affixes</code>, <code>_best_answer</code> picking):</p>
+<p>gate                          kept  spent  served_non  refused_non status quo (floor to lead)     620      0         383            0 <code>_answers</code> only                619      1         383            0 <code>_answers</code> + covers &gt;= 0.5     493    127         295           88 the full snippet bar (1.0)      92    528          42          341</p>
+<p><strong>The full bar spends 528 of 620 true answers to refuse 341 of 383 non-answers.</strong> Abstract prose answers questions without echoing them — "The United States Senate consists of 100 members" fails full coverage for "how many senators are there" — so the 2026-08-26 reversion in <code>_ddg</code> was this same fact met live, and no rejecting threshold prices acceptably.</p>
+<p><strong>What shipped instead: hold-and-continue</strong> (<code>HOLD_COVER = 0.5</code>, <code>_lookup</code>). An abstract pick that fails <code>_answers</code> or covers half the query or less is <em>held</em> — the barred providers behind get their chance, then the reformulation retry gets its chance — and served untouched when nothing clears. Nothing is ever discarded, so the spent column is zero by construction; the cost is extra fetches (212 of 620 true abstract answers would be held-and-still-served on NQ) and the gain is a second chance for 112 of 282 unanswerable picks. The three scored non-answers in §4's battery sat at 0.50, 0.50 and 0.25, which is why the line is ≤ 0.5.</p>
+<p><strong>The battery, re-run live under the hold (n=1, same drift caveat):</strong></p>
+<p>old:  1 right, 3 honest misses, 4 confident non-answers new:  3 right, 4 honest misses, 1 held floor</p>
+<p>Tokyo is the compound win — the hold plus §5's <code>population</code> row lands "Tokyo's 2026 population is now estimated at 10,316,210" where the old read served a sprawl sentence with no number. Messi answers from the lead. DNA and sky-blue fall to honest <code>no_results</code>. "Who owns Twitter" is the named residual: the Dorsey lead is held, nothing behind it clears, and the floor serves it — a suspected non-answer, served last instead of first, which is the exact trade the pricing bought. The full-coverage wrong-subject shape (§3's DNA case) remains the residual no coverage signal can catch.</p>
+<p><strong>§5's general repair is still open, and it now has a named direction.</strong> The Tokyo row shipped (<code>how many people live in X</code> → <code>the population of X</code>, placed above the count row that rode the verb into the noun slot). The other eight rows still produce queries their own answer sentences fail, and the direction worth pricing next is <em>either-phrasing coverage</em> — scoring a candidate against the original query's terms as well as the rewrite's, since the two are the same question and the original's verbs (<code>born</code>, <code>wrote</code>, <code>won</code>) are often exactly what the answer sentence carries. That changes scoring plumbing inside the providers and wants its own NQ pricing before it ships; nothing here licenses it.</p>
+<p><code>scripts/check_search.py</code> §4b holds the hold's four properties (a weak abstract lets a covering snippet answer; with nothing behind it is served, not spent; a covering abstract answers immediately with no extra fetches; a question-shaped abstract is held whatever it covers), and §8b gained the weak-hit-lets-the-retry-improve-it row beside the covering-hit-answers- without-reformulating one.</p></div>
+  </section>
+
+  <section class="grid refs">
+    <div class="body two-even">
+      <div>
+        <h2 class="small">It cites</h2>
+        <ul class="reflist"><li style="--c:var(--c2)"><a href="/Corn-Jr-Public/finding/72.html"><span class="fn">72</span>Search returned &#39;capital punishment&#39; for &#39;capital of Mongolia&#39;; fixed</a></li><li style="--c:var(--c1)"><a href="/Corn-Jr-Public/finding/77.html"><span class="fn">77</span>At 5B tokens, fresh text is no worse than re-reading text</a></li><li style="--c:var(--c3)"><a href="/Corn-Jr-Public/finding/78.html"><span class="fn">78</span>Forcing copied search queries breaks follow-ups; keyword shortcuts catch few chats</a></li></ul>
+        
+      </div>
+      <div>
+        <h2 class="small">Cited by</h2>
+        <p class="aside">No later finding yet.</p>
+      </div>
+    </div>
+    <p class="body source">docs/findings/79-a-quarter-of-what-clears-the-coverage-bar-clears-it-on-a-first-letter-and-the-abstract-path-has-no-bar-at-all.md</p>
+  </section>
+</article>
+
+  
+<footer class="turn">
+  <div><span class="sc">previous</span><a href="/Corn-Jr-Public/finding/72.html">72 · Search returned &#39;capital punishment&#39; for &#39;capital of Mongolia&#39;; fixed</a></div>
+  <div class="r"></div>
+  <p class="keys"><kbd>←</kbd> <kbd>→</kbd> turn the page · <kbd>/</kbd> find</p>
+</footer>
+<p class="bynumber">Previous and next in <a href="/Corn-Jr-Public/thread/search.html">Web search</a>. By number:
+  <a href="/Corn-Jr-Public/finding/78.html">78</a> · <a href="/Corn-Jr-Public/finding/80.html">80</a></p>
+
+</div>
+</body>
+</html>

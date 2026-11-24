@@ -1,0 +1,97 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>177 · Leaving the second slot out of training doesn&#39;t restore &#39;not&#39; · Corn-Jr</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600&family=IBM+Plex+Mono:wght@400;500&family=Spectral:ital,wght@0,400;0,500;0,600;1,400&family=Spectral+SC:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/Corn-Jr-Public/static/library.css">
+<script defer src="/Corn-Jr-Public/static/library.js"></script>
+<script type="speculationrules">
+{"prerender": [{"where": {"and": [{"href_matches": "/Corn-Jr-Public/*"}, {"not": {"href_matches": "/Corn-Jr-Public/random.html"}}, {"not": {"href_matches": "/Corn-Jr-Public/static/*"}}]}, "eagerness": "moderate"}]}
+</script>
+
+</head>
+<body>
+<div class="page">
+  <header class="running">
+    <a class="book" href="/Corn-Jr-Public/">Corn-Jr · The Record</a>
+    <nav>
+      <a href="/Corn-Jr-Public/" data-key="shelf">Shelf</a><a href="/Corn-Jr-Public/findings.html" data-key="findings" class="here">Findings</a><a href="/Corn-Jr-Public/doc/VISION.html" data-key="VISION">Vision</a><a href="/Corn-Jr-Public/doc/GLOSSARY.html" data-key="GLOSSARY">Glossary</a>
+      <a href="https://github.com/csheehan18/Corn-Jr-Public">Source</a>
+    </nav>
+  </header>
+  
+
+<article class="sheet" style="--c:var(--c4)">
+  <div class="progress" aria-hidden="true"></div>
+  <section class="grid chapter-open finding-open">
+    <a class="tab" href="/Corn-Jr-Public/thread/tag-language.html" title="The tag language"><small>Part</small><span>IV</span></a>
+    <p class="cn">177</p>
+    <p class="partline"><a href="/Corn-Jr-Public/thread/tag-language.html">The tag language</a> · 17 October 2026</p>
+    <h1>Leaving the second slot out of training doesn&#39;t restore &#39;not&#39;</h1>
+  </section>
+
+  <section class="grid">
+    <p class="marginal">The result, as the finding states it</p><div class="prose"><p class="lead">Taking the else slot out of the loss does not bring the negation read back: with the runtime writing <code>| else -&gt; &lt;the other option&gt;</code>, his first slot reads 0.68 (the negated families 0.53) against the one-slot line's 0.94 (0.97), the pick from a right line slips from every quad to 0.95, and the gate still passes on all three cells (81, 42, 58) — so the one-slot line is the best binding on record and the second slot's cost comes through training, not the context</p></div>
+    <p class="marginal">What it cost</p><div class="prose"><p class="cost">19.8 min of training one nano run (1,187 s, contended — the card at 36-37%, a bound), two bound three-way reads (138 s, and 176's checkpoint again), the first unbound read 125 s, one gold-line read 15 s, one copy card 9 s and the own-trace read ~7 s on the card; the build 12:20-12:25 on 2026-10-17, the chain 12:25-12:45, the reads 12:45-12:56.</p></div>
+  </section>
+
+  
+
+  <section class="grid">
+    <div class="prose doc"><p>Finding <a class="fref" href="/Corn-Jr-Public/finding/176.html">176</a>'s arm with one change, at the owner's go, pre-registered in <code>configs/mix_v3_funcworld_branchflip_rtelse.py</code> at 0609693 before a byte trained. <strong>The same payload, with the else slot of every binding line out of the loss</strong> — a new loss policy, <code>corn.data.runtime_else_mask</code> / <code>loss=&quot;runtime_else&quot;</code>, masking <code> | else -&gt; &lt;the other option&gt;</code> and its newline (7,391 slots, 70,582 tokens). The else slot is the other menu option, which the runtime knows (D-A1.8: a line the runtime can compute is the runtime's). So his training signal on the line was meant to be finding <a class="fref" href="/Corn-Jr-Public/finding/175.html">175</a>'s one slot, while the pick still read two. <code>check_branch.py</code> section 12 holds the mask to exactly the else slot, the first slot under loss, on 400 traces; a mask that masks nothing fails it. One seed. <strong>Cards:</strong> <code>evals/results/nano20m_v3_fw_branchflip_rtelse__bind{,_items}.json*</code>, <code>__branchflip_rtelse.json</code>, <code>__copywide.json</code>.</p>
+<h3 id="an-instrument-hole-first">An instrument hole first</h3>
+<p>The first read (<code>probe_branch_bind.py --runtime-else</code> as committed) took his free decode of the line and cut it at the runtime's separator. A model never trained on what follows its slot does not know where the slot ends: every free decode ran on — <code>if: snowing -&gt; a spot for a pint] next[somewhere for lunch]</code>, <code>if: quiet -&gt; a spot for a pint as long as it&#x27;s quiet -- else a place for dinner]</code> — so every slot read off-menu (576 of 576 a cell), and every own quad was void. In serving the runtime's bind holds the slot to a menu option and closes the line (SPEC §9's decode-time bind). The read now does that: he chooses which menu option opens the line, both scored in full, and the runtime writes the rest. His free decode is still printed for the hand read. On finding <a class="fref" href="/Corn-Jr-Public/finding/176.html">176</a>'s checkpoint the bound read reproduces the free one (first slot 476, 328, 414 against 474, 328, 414; quads 100, 58, 63). Every number below is the bound read.</p>
+<h3 id="the-registered-read">The registered read</h3>
+<p>cell              first slot right   quads: own line   gold line   forged line followed held-out first       438 / 576         81 / 144        132 / 144       548 / 576 held-out second      326 / 576         42 / 144        118 / 144       562 / 576 flip pairs           416 / 576         58 / 144        120 / 144       546 / 576</p>
+<p><strong>The gate passes on all three cells.</strong> The prediction on the record failed on its two other clauses — the first slot back to 0.90 (it reads 0.68), and own quads above finding <a class="fref" href="/Corn-Jr-Public/finding/176.html">176</a>'s bound read on every cell (81/42/58 against 100/58/63) — and so did "gold stays at 144 x 3". The registered row is "first slot below 0.90, the negated families still low — the second slot's presence, not writing it, costs the negation read".</p>
+<h3 id="read-by-hand">Read by hand</h3>
+<p>His free lines, printed beside the gold on eight quads: <strong>the slot he opens is usually a menu option, and often the right one</strong> (<code>snowing -&gt; a spot for a pint</code>, <code>closed -&gt; a spot for a pint</code>, <code>quiet -&gt; a place for drinks</code>). He then does not stop. The bound read takes the option. By family, against the two arms before it (the same rows, the same flip words):</p>
+<p>first slot right        one-slot line (175)   two-slot (176)   two-slot, runtime else (177) plain                     0.91                  0.83             0.79 negated ("isn't")         0.97                  0.45             0.53 "unless"                  0.98                  0.91             0.72</p>
+<p>pick from the gold line, by result:   met 824 / 864 (0.95)   unmet 831 / 864 (0.96)</p>
+<p><strong>The negated families stay near chance with the second slot's bytes off his loss.</strong> The context at the first slot is the same in all three arms: the prefix up to <code>if: &lt;value&gt; -&gt; </code> is byte for byte identical, and in a model that reads only backwards nothing after the slot can reach it. The difference between 175 and 176/177 is therefore not what he sees when he writes the slot. It is what the rest of the trace trained into the weights that write it. In 175 the pick could get its answer from the first slot alone, so the pick's loss reached the binding read only through that slot. With two slots the pick can copy either slot by the result, and the first slot's selection no longer carries the pick. That is a candidate, not a reading.</p>
+<h3 id="on-its-own-training-traces">On its own training traces</h3>
+<p>400 payload traces (<code>own_traces.py</code>, scratch, probe only — not on disk; the gold line in each): <strong>380 right, median margin +4.01 nats</strong> (finding <a class="fref" href="/Corn-Jr-Public/finding/176.html">176</a>: 400, +7.51). Masking the else slot loosened the pick's read of it.</p>
+<p><strong>The copy row, a side column</strong>: <code>tool.copy_wide</code> 278 of 300, the low end of the 20M family's spread (242-300, finding <a class="fref" href="/Corn-Jr-Public/finding/170.html">170</a>). One seed, no reading.</p>
+<h3 id="what-it-licenses">What it licenses</h3>
+<ul><li><strong>The one-slot line is the best binding on record</strong>: 0.94 overall, 0.97 on the negated families (finding <a class="fref" href="/Corn-Jr-Public/finding/175.html">175</a>). Neither two-slot form approaches it, and the runtime writing the else slot does not restore it.</li><li><p><strong>What remains of the pick is mechanical.</strong> Given his binding (<code>if: raining -&gt; X</code>) and the runtime's <code>check:</code> result, the move is fixed: met takes X, unmet takes the other option — a rule the runtime can compute from two lines it already holds. Two shapes stand on the record:</p>
+<ul><li><strong>His binding, the runtime's move</strong>: he writes the one-slot line (0.94), the runtime resolves the pick from it and the result. Branch's judgment — reading the request's flip words — is his. The mechanics are D-A1.8's, the runtime's. Predicted accuracy is his line's, ~0.94 a prompt.</li><li><strong>His pick from the two-slot line</strong> (finding <a class="fref" href="/Corn-Jr-Public/finding/176.html">176</a>): the pick his, the gate passed, the line weaker (0.70). Which one branch takes is the owner's call. The record now favours the first on accuracy, and it keeps the part he is good at.</li></ul></li><li><strong>Why a second slot costs the negation read</strong> is open.</li></ul>
+<h3 id="his-binding-the-runtime-s-move-a-zero-training-read-on-findi">His binding, the runtime's move — a zero-training read on finding <a class="fref" href="/Corn-Jr-Public/finding/175.html">175</a></h3>
+<p>With the move resolved by rule from his line and the result, a quad is right exactly when all four of his lines are. Read off finding <a class="fref" href="/Corn-Jr-Public/finding/175.html">175</a>'s items (no training, no GPU; <code>nano20m_v3_fw_branchflip_bind__bind_items.jsonl</code>, probe only — not on disk):</p>
+<p>cell              his one-slot line right   quads, the runtime resolving the move held-out first        530 / 576                  127 / 144 held-out second       568 / 576                  140 / 144 flip pairs            532 / 576                  122 / 144</p>
+<p>against his own pick from the two-slot line: 82/49/49 (finding <a class="fref" href="/Corn-Jr-Public/finding/176.html">176</a>) and 81/42/58 (here). <strong>The best branch read on record, by a wide margin, is his binding with the runtime's move.</strong> It assumes the runtime's move is right, which it is by construction: met takes the line's continuation, unmet the other menu option.</p>
+<p><strong>What it does not settle.</strong> One seed; the mechanism above; real wordings.</p></div>
+  </section>
+
+  <section class="grid refs">
+    <div class="body two-even">
+      <div>
+        <h2 class="small">It cites</h2>
+        <ul class="reflist"><li style="--c:var(--c4)"><a href="/Corn-Jr-Public/finding/170.html"><span class="fn">170</span>The copy test&#39;s failure threshold was measuring seed noise</a></li><li style="--c:var(--c4)"><a href="/Corn-Jr-Public/finding/175.html"><span class="fn">175</span>He names the chosen branch, but can&#39;t combine it with the result</a></li><li style="--c:var(--c4)"><a href="/Corn-Jr-Public/finding/176.html"><span class="fn">176</span>Naming both branches fixes the pick but blurs &#39;not&#39;</a></li></ul>
+        
+      </div>
+      <div>
+        <h2 class="small">Cited by</h2>
+        <ul class="reflist"><li style="--c:var(--c4)"><a href="/Corn-Jr-Public/finding/178.html"><span class="fn">178</span>Naming a second branch blinds him to &#39;not&#39;</a></li><li style="--c:var(--c4)"><a href="/Corn-Jr-Public/finding/181.html"><span class="fn">181</span>Mixed sentence shapes: he reads each option&#39;s own condition, loses &#39;otherwise&#39;</a></li></ul>
+        
+      </div>
+    </div>
+    <p class="body source">docs/findings/177-the-runtimes-else-slot-does-not-bring-the-negation-read-back-the-first-slot-stays-at-0-68-and-the-one-slot-lines-0-94-is-the-best-binding-on-record.md</p>
+  </section>
+</article>
+
+  
+<footer class="turn">
+  <div><span class="sc">previous</span><a href="/Corn-Jr-Public/finding/176.html">176 · Naming both branches fixes the pick but blurs &#39;not&#39;</a></div>
+  <div class="r"><span class="sc">next</span><a href="/Corn-Jr-Public/finding/178.html">178 · Naming a second branch blinds him to &#39;not&#39;</a></div>
+  <p class="keys"><kbd>←</kbd> <kbd>→</kbd> turn the page · <kbd>/</kbd> find</p>
+</footer>
+<p class="bynumber">Previous and next in <a href="/Corn-Jr-Public/thread/tag-language.html">The tag language</a>. By number:
+  <a href="/Corn-Jr-Public/finding/176.html">176</a> · <a href="/Corn-Jr-Public/finding/178.html">178</a></p>
+
+</div>
+</body>
+</html>

@@ -1,0 +1,132 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>The 1.0 corpus · Corn-Jr</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600&family=IBM+Plex+Mono:wght@400;500&family=Spectral:ital,wght@0,400;0,500;0,600;1,400&family=Spectral+SC:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/Corn-Jr-Public/static/library.css">
+<script defer src="/Corn-Jr-Public/static/library.js"></script>
+<script type="speculationrules">
+{"prerender": [{"where": {"and": [{"href_matches": "/Corn-Jr-Public/*"}, {"not": {"href_matches": "/Corn-Jr-Public/random.html"}}, {"not": {"href_matches": "/Corn-Jr-Public/static/*"}}]}, "eagerness": "moderate"}]}
+</script>
+<script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.14.1/dist/cdn.min.js"></script>
+</head>
+<body>
+<div class="page">
+  <header class="running">
+    <a class="book" href="/Corn-Jr-Public/">Corn-Jr · The Record</a>
+    <nav>
+      <a href="/Corn-Jr-Public/" data-key="shelf" class="here">Shelf</a><a href="/Corn-Jr-Public/findings.html" data-key="findings">Findings</a><a href="/Corn-Jr-Public/doc/VISION.html" data-key="VISION">Vision</a><a href="/Corn-Jr-Public/doc/GLOSSARY.html" data-key="GLOSSARY">Glossary</a>
+      <a href="https://github.com/csheehan18/Corn-Jr-Public">Source</a>
+    </nav>
+  </header>
+  
+<article class="sheet" style="--c:var(--c5)" x-data="{ all: false }">
+  <div class="progress" aria-hidden="true"></div>
+  <section class="grid chapter-open">
+    <a class="tab" href="/Corn-Jr-Public/part/V.html"><small>Part</small><span>V</span></a>
+    <p class="partline"><a href="/Corn-Jr-Public/part/V.html">The 1.0 run and small-scale arcs</a></p>
+    <h1 class="vt-title">The 1.0 corpus</h1>
+    <p class="subtitle">What the one pretraining run&#39;s corpus has to contain, and what each choice costs.</p>
+    <div class="status"><svg class="strip" viewBox="0 0 260 12" width="260" height="12" aria-hidden="true">
+  <line x1="0" y1="11.5" x2="260" y2="11.5" class="base"/>
+  <line x1="173.2" y1="2" x2="173.2" y2="11"/><line x1="179.6" y1="2" x2="179.6" y2="11"/><line x1="200.1" y1="2" x2="200.1" y2="11"/><line x1="204.5" y1="2" x2="204.5" y2="11"/><line x1="205.5" y1="2" x2="205.5" y2="11"/><line x1="206.6" y1="2" x2="206.6" y2="11"/><line x1="207.7" y1="2" x2="207.7" y2="11"/><line x1="208.8" y1="2" x2="208.8" y2="11"/>
+</svg><span>8 findings, 160 to 193, filed 10 October 2026 to 21 October 2026</span></div>
+  </section>
+
+  
+
+  <section class="grid">
+    <h2 class="sec">The findings, in order</h2>
+    <p class="hint"><button type="button" @click="all = !all" x-text="all ? 'Hide the full results' : 'Show every full result'">Show every full result</button></p>
+    <ol class="entries">
+      
+      <li x-data="{ open: false }">
+        <span class="fn"><a href="/Corn-Jr-Public/finding/160.html">160</a></span>
+        <div>
+          <a class="et" href="/Corn-Jr-Public/finding/160.html">2048-token blocks cost 1.2x training time and fit in memory</a>
+          <span class="ed">10 October 2026 · <button type="button" class="more" @click="open = !open" x-text="(open || all) ? 'less' : 'more'">more</button></span>
+          <div class="fold" :class="(open || all) && 'open'"><div><p class="efull">The block's costs: at the 260M step 2048 trains at 1.20x the 512 wall clock and 1024 at 1.06x, a fine-tune fits at 2048 in the memory it uses at 512, decode is free on a short turn and 100 tok/s deep in a full window as shipped, and a 2048 window holds ten documents with a third of its attention inside one</p></div></div>
+        </div>
+      </li>
+      
+      <li x-data="{ open: false }">
+        <span class="fn"><a href="/Corn-Jr-Public/finding/166.html">166</a></span>
+        <div>
+          <a class="et" href="/Corn-Jr-Public/finding/166.html">Halving the tool data leaves tool use intact</a>
+          <span class="ed">13 October 2026 · <button type="button" class="more" @click="open = !open" x-text="(open || all) ? 'less' : 'more'">more</button></span>
+          <div class="fold" :class="(open || all) && 'open'"><div><p class="efull">The tool share (ROADMAP TS): with <code>tools</code> and <code>toolspace</code> at half their share the call surface holds under the door at both seeds — <code>tool.selection</code> 190 and 180 against 186 and 182, the routing rows 199-200 against 188-200 — and nothing is a kill; the one registered cost is <code>refusal.say</code> at both seeds, read by hand as the relayed refusal cutting the copied query's last words short on four of the row's six strings; a quarter splits on <code>search.route_heldout</code> and is a direction</p></div></div>
+        </div>
+      </li>
+      
+      <li x-data="{ open: false }">
+        <span class="fn"><a href="/Corn-Jr-Public/finding/185.html">185</a></span>
+        <div>
+          <a class="et" href="/Corn-Jr-Public/finding/185.html">Everyday web text taught him more word meanings at little cost</a>
+          <span class="ed">20 October 2026 · <button type="button" class="more" @click="open = !open" x-text="(open || all) ? 'less' : 'more'">more</button></span>
+          <div class="fold" :class="(open || all) && 'open'"><div><p class="efull">At nano, swapping the web share from FineWeb-Edu at score 4 (about the most textbook-like 1% of the web) to plain FineWeb raises the understanding ruler — description to wish 0.40 against the controls' 0.28-0.32, past its gate; phrase to field 0.58 against 0.50-0.54, two items short of its gate — with 81 of 88 behaviour rows in the three controls' band, four above and three below (two of those on rows of 12 and 20), and loss on Edu's own held-out text worse, 0.963 against 0.884-0.887 nats per byte; one seed, a direction</p></div></div>
+        </div>
+      </li>
+      
+      <li x-data="{ open: false }">
+        <span class="fn"><a href="/Corn-Jr-Public/finding/189.html">189</a></span>
+        <div>
+          <a class="et" href="/Corn-Jr-Public/finding/189.html">Half textbook, half everyday web keeps the word gain at lower cost</a>
+          <span class="ed">21 October 2026 · <button type="button" class="more" @click="open = !open" x-text="(open || all) ? 'less' : 'more'">more</button></span>
+          <div class="fold" :class="(open || all) && 'open'"><div><p class="efull">At 20M, a web share half FineWeb-Edu and half plain FineWeb with the junk out reads the understanding ruler's wishes 0.38 at both seeds against the Edu band's 0.28-0.32 and Edu's held-out text at 0.906 and 0.907 nats per byte against 0.884-0.887 (the all-plain web costs 0.963) — keeps and recovers, the pre-registered blend outcome; the all-plain filtered cell misses its wish gate at both seeds (0.35, 0.33 against 0.36) and the filter is not why: the pages it dropped hold 2.35% of every wish word, their share of the text; on 40 hard everyday words no 20M checkpoint answers one in its own words</p></div></div>
+        </div>
+      </li>
+      
+      <li x-data="{ open: false }">
+        <span class="fn"><a href="/Corn-Jr-Public/finding/190.html">190</a></span>
+        <div>
+          <a class="et" href="/Corn-Jr-Public/finding/190.html">A third web source, DCLM, splits its seeds and adds nothing measurable</a>
+          <span class="ed">21 October 2026 · <button type="button" class="more" @click="open = !open" x-text="(open || all) ? 'less' : 'more'">more</button></span>
+          <div class="fold" :class="(open || all) && 'open'"><div><p class="efull">At 20M, mix_v3's web share in thirds — FineWeb-Edu, the filtered plain FineWeb and DCLM-baseline — reads wishes 0.39 and 0.33 and fields 0.54 and 0.51 against finding <a class="fref" href="/Corn-Jr-Public/finding/189.html">189</a>'s blend at 0.38 and 0.38, 0.55 and 0.54, so the second seed misses the holds gate and the pre-registered reading is that the blend stands; Edu's held-out text recovers (0.919, 0.920 against the gate's 0.925 and the blend's 0.906); one small row falls at both seeds (<code>social.heldout_carrier</code> 7 and 6 of 12 against 8-10) while five tool and turn rows rise at both, unexplained; no 20M answers one of the 40 hard words</p></div></div>
+        </div>
+      </li>
+      
+      <li x-data="{ open: false }">
+        <span class="fn"><a href="/Corn-Jr-Public/finding/191.html">191</a></span>
+        <div>
+          <a class="et" href="/Corn-Jr-Public/finding/191.html">Doubled wish test: the blend holds, DCLM&#39;s second seed falls back</a>
+          <span class="ed">21 October 2026 · <button type="button" class="more" @click="open = !open" x-text="(open || all) ? 'less' : 'more'">more</button></span>
+          <div class="fold" :class="(open || all) && 'open'"><div><p class="efull">With the understanding ruler's wish read doubled to 192 items (96 new, hand-written to the same rule), the 20M web mixes order cleanly — Edu 0.29-0.32, the filtered plain web 0.34-0.35, half Edu and half plain 0.37 and 0.38 — each pair of seeds within 0.03; the thirds with DCLM read 0.37 and 0.31, and the second seed's low read repeats on the new 96 alone (0.29), so it is the run and not the instrument: one of DCLM's two seeds lost the everyday web's gain; the blend stands on a read that can now separate it from Edu</p></div></div>
+        </div>
+      </li>
+      
+      <li x-data="{ open: false }">
+        <span class="fn"><a href="/Corn-Jr-Public/finding/192.html">192</a></span>
+        <div>
+          <a class="et" href="/Corn-Jr-Public/finding/192.html">With DCLM mixed in, he leans harder on one stock answer</a>
+          <span class="ed">21 October 2026 · <button type="button" class="more" @click="open = !open" x-text="(open || all) ? 'less' : 'more'">more</button></span>
+          <div class="fold" :class="(open || all) && 'open'"><div><p class="efull">The thirds' low seed (finding <a class="fref" href="/Corn-Jr-Public/finding/191.html">191</a>: wishes 0.31 on 192 items against its twin's 0.37) did not learn less — its checkpoint is the last iteration, its validation loss the lowest of the four web runs (2.407), its loss on every web source lower than its twin's, its misses spread over seven of eight kinds; what moved is the default: asked with descriptions that answer none of the options, every 20M falls back on a stock label, and his real misses follow those defaults label for label (r = 0.62-0.91 over the 36 labels); both DCLM seeds lean on their defaults hardest of any mix (top two labels 0.36 and 0.39 of no-answer picks, <em>relaxing</em> 47 and 56 of 192, misses r = 0.91 and 0.89) and the blend least (0.25, 0.29; r = 0.62, 0.68); the label frequencies of DCLM's text do not explain it</p></div></div>
+        </div>
+      </li>
+      
+      <li x-data="{ open: false }">
+        <span class="fn"><a href="/Corn-Jr-Public/finding/193.html">193</a></span>
+        <div>
+          <a class="et" href="/Corn-Jr-Public/finding/193.html">DCLM&#39;s stronger stock answer is not in its text</a>
+          <span class="ed">21 October 2026 · <button type="button" class="more" @click="open = !open" x-text="(open || all) ? 'less' : 'more'">more</button></span>
+          <div class="fold" :class="(open || all) && 'open'"><div><p class="efull">The thirds' stronger pull toward a stock wish label (finding <a class="fref" href="/Corn-Jr-Public/finding/192.html">192</a>) is in all three of the ruler's phrasings — top-two default share 0.31-0.42 against the blend's 0.25-0.32, frame by frame — and not in DCLM's words: the label it favours, <em>relaxing</em>, sits in the answer slot (after feels, is, so, very, pretty, really, call it) 0.5 times per million words in DCLM against 0.9 in plain FineWeb, 0.2% of all slot uses against 0.5%, while DCLM carries more "so funny" and "so sad" (10.1 and 10.5 against 6.0 and 6.2) and the thirds do not favour either; both registered predictions failed, so the cause is not a text pattern and two seeds cannot name it</p></div></div>
+        </div>
+      </li>
+      
+    </ol>
+  </section>
+
+  
+</article>
+
+  <footer class="turn">
+  <div><span class="sc">previous</span><a href="/Corn-Jr-Public/thread/tag-language.html">The tag language</a></div>
+  <div class="r"><span class="sc">next</span><a href="/Corn-Jr-Public/thread/understanding.html">Understanding at small scale</a></div>
+  <p class="keys"><kbd>←</kbd> <kbd>→</kbd> turn the page · <kbd>/</kbd> find</p>
+</footer>
+</div>
+</body>
+</html>

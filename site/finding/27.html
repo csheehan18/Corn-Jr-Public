@@ -1,0 +1,98 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>27 · The first data mix with every share measured, not guessed · Corn-Jr</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600&family=IBM+Plex+Mono:wght@400;500&family=Spectral:ital,wght@0,400;0,500;0,600;1,400&family=Spectral+SC:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/Corn-Jr-Public/static/library.css">
+<script defer src="/Corn-Jr-Public/static/library.js"></script>
+<script type="speculationrules">
+{"prerender": [{"where": {"and": [{"href_matches": "/Corn-Jr-Public/*"}, {"not": {"href_matches": "/Corn-Jr-Public/random.html"}}, {"not": {"href_matches": "/Corn-Jr-Public/static/*"}}]}, "eagerness": "moderate"}]}
+</script>
+
+</head>
+<body>
+<div class="page">
+  <header class="running">
+    <a class="book" href="/Corn-Jr-Public/">Corn-Jr · The Record</a>
+    <nav>
+      <a href="/Corn-Jr-Public/" data-key="shelf">Shelf</a><a href="/Corn-Jr-Public/findings.html" data-key="findings" class="here">Findings</a><a href="/Corn-Jr-Public/doc/VISION.html" data-key="VISION">Vision</a><a href="/Corn-Jr-Public/doc/GLOSSARY.html" data-key="GLOSSARY">Glossary</a>
+      <a href="https://github.com/csheehan18/Corn-Jr-Public">Source</a>
+    </nav>
+  </header>
+  
+
+<article class="sheet" style="--c:var(--c1)">
+  <div class="progress" aria-hidden="true"></div>
+  <section class="grid chapter-open finding-open">
+    <a class="tab" href="/Corn-Jr-Public/thread/corpus-mix.html" title="The corpus mix"><small>Part</small><span>I</span></a>
+    <p class="cn">27</p>
+    <p class="partline"><a href="/Corn-Jr-Public/thread/corpus-mix.html">The corpus mix</a> · 17 August 2026</p>
+    <h1>The first data mix with every share measured, not guessed</h1>
+  </section>
+
+  <section class="grid">
+    <p class="marginal">The result, as the finding states it</p><div class="prose"><p class="lead">The first corpus nobody inherited, and a row that prices the mix rather than its slice</p></div>
+    <p class="marginal">What it cost</p><div class="prose"><p class="cost">0 s of new scoring on record; it reads 2 cards scored for an earlier finding (<code>nano20m_narrative10</code>, <code>nano20m_struct</code>). Backfilled 2026-09-26 from the cards' <code>seconds</code>; training and probe time were never recorded, so this is a floor.</p></div>
+  </section>
+
+  
+
+  <section class="grid">
+    <div class="prose doc"><p>Every corpus before this one carried a number it had not chosen. <code>mix_pilot</code> guessed narrative and temporal; the seven after it moved one slice each and left the rest where the pilot put them. <code>mix_v1</code> starts from §11's prices instead — web 40%, conversational 20%, structured 10%, tools 0.6228%, all four at their measured values <strong>simultaneously for the first time</strong> — and lets narrative and temporal take the remainder at §4's declared 2:1.</p>
+<div class="tablewrap"><table><thead><tr><th>slice</th><th><code>mix_conv20</code></th><th><code>mix_v1</code></th><th>why this value</th></tr></thead><tbody><tr><td>web</td><td>38.9462%</td><td><strong>40.0000%</strong></td><td>§4's declared share; no arm has argued with it</td></tr><tr><td>conversational</td><td>20.0000%</td><td>20.0000%</td><td>priced — <code>register.conv</code> 23% → 76%</td></tr><tr><td>narrative</td><td>26.8026%</td><td><strong>19.5848%</strong></td><td>remainder, 2:1 against temporal</td></tr><tr><td>structured</td><td>2.5000%</td><td><strong>10.0000%</strong></td><td>priced — 194/200 against 2.5%'s 178</td></tr><tr><td>temporal</td><td>11.1283%</td><td><strong>9.7924%</strong></td><td>remainder, 1:2 against narrative</td></tr><tr><td>tools</td><td>0.6228%</td><td>0.6228%</td><td>priced — 0.61% buys all the copy discipline 15% does</td></tr></tbody></table></div>
+<p>Four slices move at once, so this is a corpus <em>choice</em> and not a controlled arm. It is reported as one, and the two results below are the ones that survive that caveat.</p>
+<h4 id="the-structured-share-pays-out-and-the-two-gains-turn-out-to-">The structured share pays out, and the two gains turn out to be the same gain</h4>
+<div class="tablewrap"><table><thead><tr><th>corpus</th><th>structured</th><th>conversational</th><th><code>schema.conform</code></th><th>failure modes</th></tr></thead><tbody><tr><td><code>balanced</code></td><td>2.5%</td><td>—</td><td>172/200</td><td><code>missing_key</code> 18, <code>wrong_value</code> 7, <code>not_json</code> 3</td></tr><tr><td><code>conv20</code></td><td>2.5%</td><td>20%</td><td>178/200</td><td><code>missing_key</code> 18, <code>wrong_value</code> 3, <code>wrong_type</code> 1</td></tr><tr><td><code>struct</code></td><td>10%</td><td>—</td><td>194/200</td><td><code>missing_key</code> 5, <code>wrong_value</code> 1</td></tr><tr><td><strong><code>v1</code></strong></td><td><strong>10%</strong></td><td><strong>20%</strong></td><td><strong>193/200</strong></td><td><code>missing_key</code> 6, <code>wrong_value</code> 1</td></tr></tbody></table></div>
+<p>Against a floor of 2, structured at 10% is worth +15 here and was worth +22 alone. The two effects sum to +28 and deliver +21, which reads like a ceiling until the failure modes are broken out — and then it is not a ceiling at all. <strong>The conversational slice fixes <code>wrong_value</code> and <code>not_json</code> and never touches <code>missing_key</code>; the structured slice fixes all three.</strong> So the +6 conversational buys at 2.5% structured is a subset of the +22 structured buys on its own, and adding both gets the larger one rather than the sum. Nothing was lost to saturation; the second slice was repairing failures the first had already repaired.</p>
+<p><em>(Annotated after the thirtieth finding: the floor is <strong>8</strong>, and the arithmetic above needs re-reading even though the mechanism does not. Structured's <strong>+22</strong> alone and <strong>+21</strong> with conversational present are both real, at 2.75x and 2.6x; structured's <strong>+15 given conversational</strong> is 1.9x and only just outside. But the conversational leg — 172 → 178, <strong>+6</strong> — is *inside</em> the floor, so "the two effects sum to +28" adds a readable number to an unreadable one. The simplest reading the sizes support is that structured moves this row by about 22 and conversational does not move it at all, which needs no subset argument to explain the shortfall. What survives independently of any floor is the failure-mode pattern, because it is an invariance within the row rather than a difference of totals: <code>missing_key</code> reads <strong>18 / 18 / 5 / 6</strong> — exactly flat across the conversational change and down 13 across the structured one. The mechanism claim is intact. The size decomposition built on top of it is withdrawn.)*</p>
+<p>That is only readable because the row reports <em>why</em> it failed. Scored as four bare numbers, 172 / 178 / 194 / 193 looks like a ceiling effect and would have been written down as one.</p>
+<h4 id="register-conv-moves-2-5-points-with-its-own-slice-held-byte-"><code>register.conv</code> moves 2.5 points with its own slice held byte-identical</h4>
+<p><code>data/raw/conversational.txt</code> is the same file, at the same 26,186,876 tokens, one pass, in both corpora — the share matches to four decimal places. The row still moves.</p>
+<div class="tablewrap"><table><thead><tr><th></th><th><code>conv20</code></th><th><code>v1</code></th><th>floor</th></tr></thead><tbody><tr><td><code>register.conv</code></td><td>76/200 (38.0%)</td><td><strong>81/200 (40.5%)</strong></td><td><strong>1.0 pt</strong></td></tr><tr><td>failed as narrative</td><td>108</td><td><strong>95</strong></td><td></td></tr><tr><td>failed as web</td><td>16</td><td><strong>24</strong></td><td></td></tr><tr><td>conversational <code>median_turn</code></td><td>14.0</td><td><strong>13.0</strong></td><td>corpus anchor 13.275</td></tr></tbody></table></div>
+<p>2.5 points against the tightest floor in the harness, and the failure modes moved <em>coherently</em>: narrative-register failures fell as the narrative share fell, web-register failures rose as the web share rose. That is a mechanism, not noise. <strong>The row measures the register the model settles into given everything it read — the other slices compete for it — and not a property of the conversational slice in isolation.</strong></p>
+<p>This does not touch the twenty-fifth finding's conclusion: a 53-point move dwarfs a 2.5-point one, and the slice plainly buys dialogue register. What it removes is the right to carry the <em>level</em> forward. 76/200 was never a constant of the source, and quoting it at 250M — where every share will differ again — would be quoting a number that has now been shown to depend on the company it keeps.</p>
+<h4 id="the-narrative-cut-is-where-the-bill-landed-and-the-web-gain-">The narrative cut is where the bill landed, and the web gain bought nothing</h4>
+<div class="tablewrap"><table><thead><tr><th>row</th><th><code>conv20</code></th><th><code>v1</code></th><th>Δ</th><th>floor</th></tr></thead><tbody><tr><td><code>lm narrative</code></td><td>0.3949</td><td><strong>0.4128</strong></td><td>+0.0179</td><td>0.0012</td></tr><tr><td><code>lm web</code></td><td>0.9051</td><td>0.9020</td><td>−0.0031</td><td>0.0038</td></tr><tr><td><code>lm conversational</code></td><td>0.5073</td><td>0.5079</td><td>+0.0006</td><td>0.0009</td></tr><tr><td><code>lm temporal</code></td><td>0.0962</td><td>0.0945</td><td>−0.0017</td><td>0.0009</td></tr></tbody></table></div>
+<p>Narrative gives up 7.2 points of share and pays ~15x its floor for it. Web <em>gains</em> 1.05 points and lands inside its floor — so the two directions are not symmetric at these magnitudes, and web is the cheaper slice to have been wrong about. <code>lm conversational</code> sitting inside its floor while <code>register.conv</code> moved outside its own is the sharpest form of the point above: the modelling of dialogue did not change, the disposition toward it did.</p>
+<h4 id="the-row-that-looked-like-it-moved-and-did-not">The row that looked like it moved, and did not</h4>
+<p><code>tool.selection</code> was the pre-registered risk. <code>nano20m_narrative10</code> cut narrative 36.8 points and the row fell 150 → 116, so a proportional response to this 7.2-point cut would have been ~7 items against a floor of 8 — unreadable either way. It moved <strong>+1</strong>. The extrapolation does not scale down, and quadrupling structured cost it nothing.</p>
+<p><em>(Annotated after the thirtieth finding. The <strong>+1</strong> reading is unaffected — it is inside 8 and inside 44, and "the pre-registered risk did not fire" stands. What does not survive is the extrapolation it is measured against: the 150 → 116 it scales down from is itself inside the row's frozen floor of 44 and is withdrawn, so there is no linear baseline here to fail to scale. The correct statement is narrower and still useful — <strong>this cut moved <code>tool.selection</code> by nothing measurable, and neither did the one it was extrapolated from.</strong>)</em></p>
+<div class="tablewrap"><table><thead><tr><th>row</th><th><code>conv20</code></th><th><code>v1</code></th><th>floor</th><th>reading</th></tr></thead><tbody><tr><td><code>tool.selection</code></td><td>155/200</td><td>156/200</td><td>8</td><td>inside</td></tr><tr><td><code>tool.validity</code></td><td>173/181</td><td>175/181</td><td>13</td><td>inside</td></tr><tr><td><code>tool.copy_wide</code></td><td>269/300</td><td>276/300</td><td>29</td><td>inside</td></tr><tr><td><code>tool.copy</code></td><td>78/120</td><td><strong>100/120</strong></td><td>18</td><td><strong>ignore — see below</strong></td></tr><tr><td><code>temporal.copy</code></td><td>353/353</td><td>353/353</td><td>0</td><td>control held</td></tr><tr><td><code>temporal.route</code></td><td>399/400</td><td>398/400</td><td>2</td><td>inside</td></tr><tr><td><code>refusal.clarify</code> / <code>no_guess</code></td><td>47/47</td><td>47/47</td><td>0</td><td>control held</td></tr><tr><td><code>variety.distinct3</code></td><td>0.8861</td><td>0.8771</td><td>1.85 pt</td><td>inside</td></tr></tbody></table></div>
+<p><strong><code>tool.copy</code> +22 is the eighteenth finding arriving on schedule.</strong> It clears its own floor of 18 and means nothing: it is the six-answer row, and <code>tool.copy_wide</code> asks the same question over 232 answers and moves +7 against a floor of 29. Copy discipline did not change. The row is still on the scorecard only because twelve earlier scorecards carry it, and this is the fourth time it has produced a number that would have been a finding if read alone.</p>
+<h4 id="what-this-does-not-say">What this does not say</h4>
+<p>Narrative and temporal are still not chosen. They sit at 19.58% and 9.79% because four other shares are fixed by evidence and something had to absorb the remainder — roughly twice §4's declared 10% and 5%, and the ratio between them is the only part of the pair with an argument behind it. Nothing here prices either one.</p>
+<p>Nor does a four-slice move attribute anything to a single share. The two results above survive because each has a control that pins it: the structured claim is bracketed by <code>nano20m_struct</code> at the same share, and the register claim rests on its slice being <em>byte-identical</em> across the comparison, which is the one thing four simultaneous moves cannot confound.</p>
+<p>And all of it is 25M params on a 130M-token budget. The point of building this corpus was to have something worth spending the 100M check on — validating an inherited recipe would have been four hours confirming numbers nobody chose.</p></div>
+  </section>
+
+  <section class="grid refs">
+    <div class="body two-even">
+      <div>
+        <h2 class="small">It cites</h2>
+        <p class="aside">No other finding by number.</p>
+      </div>
+      <div>
+        <h2 class="small">Cited by</h2>
+        <p class="aside">No later finding yet.</p>
+      </div>
+    </div>
+    <p class="body source">docs/findings/27-the-first-corpus-nobody-inherited.md</p>
+  </section>
+</article>
+
+  
+<footer class="turn">
+  <div><span class="sc">previous</span><a href="/Corn-Jr-Public/finding/25.html">25 · Dialogue data buys conversational vocabulary, not conversational style</a></div>
+  <div class="r"><span class="sc">next</span><a href="/Corn-Jr-Public/finding/40.html">40 · Moving the date header recovers about ninety items it was costing</a></div>
+  <p class="keys"><kbd>←</kbd> <kbd>→</kbd> turn the page · <kbd>/</kbd> find</p>
+</footer>
+<p class="bynumber">Previous and next in <a href="/Corn-Jr-Public/thread/corpus-mix.html">The corpus mix</a>. By number:
+  <a href="/Corn-Jr-Public/finding/26.html">26</a> · <a href="/Corn-Jr-Public/finding/28.html">28</a></p>
+
+</div>
+</body>
+</html>

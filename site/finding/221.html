@@ -1,0 +1,100 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>221 · A book of tallies, no weights, beats the 20M on word meaning · Corn-Jr</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600&family=IBM+Plex+Mono:wght@400;500&family=Spectral:ital,wght@0,400;0,500;0,600;1,400&family=Spectral+SC:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/Corn-Jr-Public/static/library.css">
+<script defer src="/Corn-Jr-Public/static/library.js"></script>
+<script type="speculationrules">
+{"prerender": [{"where": {"and": [{"href_matches": "/Corn-Jr-Public/*"}, {"not": {"href_matches": "/Corn-Jr-Public/random.html"}}, {"not": {"href_matches": "/Corn-Jr-Public/static/*"}}]}, "eagerness": "moderate"}]}
+</script>
+
+</head>
+<body>
+<div class="page">
+  <header class="running">
+    <a class="book" href="/Corn-Jr-Public/">Corn-Jr · The Record</a>
+    <nav>
+      <a href="/Corn-Jr-Public/" data-key="shelf">Shelf</a><a href="/Corn-Jr-Public/findings.html" data-key="findings" class="here">Findings</a><a href="/Corn-Jr-Public/doc/VISION.html" data-key="VISION">Vision</a><a href="/Corn-Jr-Public/doc/GLOSSARY.html" data-key="GLOSSARY">Glossary</a>
+      <a href="https://github.com/csheehan18/Corn-Jr-Public">Source</a>
+    </nav>
+  </header>
+  
+
+<article class="sheet" style="--c:var(--c6)">
+  <div class="progress" aria-hidden="true"></div>
+  <section class="grid chapter-open finding-open">
+    <a class="tab" href="/Corn-Jr-Public/thread/book-lab.html" title="The book lab"><small>Part</small><span>VI</span></a>
+    <p class="cn">221</p>
+    <p class="partline"><a href="/Corn-Jr-Public/thread/book-lab.html">The book lab</a> · 11 November 2026</p>
+    <h1>A book of tallies, no weights, beats the 20M on word meaning</h1>
+  </section>
+
+  <section class="grid">
+    <p class="marginal">The result, as the finding states it</p><div class="prose"><p class="lead">A book written in one pass over <code>data/mix_v3_webblend/train.bin</code> — one page a word, each line "met near that word" with a tally, no gradient and nothing tuned — reads the understanding ruler at 51 of the second 96 wishes (0.53) and 97 of 141 fields (0.69). The two 20M controls that trained on the same 130,279,713 tokens read 35 and 37 (0.36, 0.39) and 78 and 76 (0.55, 0.54); paired, the book is ahead 32 : 16 and 27 : 13 on the wishes (p 0.029, 0.038) and 37 : 18 and 39 : 18 on the fields (p 0.014, 0.008). It sits level with the 260M pretrain, which read other tokens: 50 of 96 and 101 of 141 (17 : 16, 21 : 25). Its margin tells right from wrong (AUC 0.67 against the controls' 0.51 and 0.52), so scored right +1, pass 0, wrong -1 it reads +0.17 answering half the items, where the controls read -0.03 and -0.02. Two things it does not have: on the wishes the lead rests on lines met once or twice (drop them and 51 becomes 37, the controls' level), and it has stock answers of its own (<code>sad</code> picked 17 times for 8 asked, <code>long</code> 17 for 4), which is why counting the meetings behind an answer reads <em>backwards</em> as confidence (AUC 0.35). The knowledge the 20M lacks (finding <a class="fref" href="/Corn-Jr-Public/finding/196.html">196</a>) is in its own corpus; one pass of gradient descent at 20M does not pick it up, and a count does.</p></div>
+    <p class="marginal">What it cost</p><div class="prose"><p class="cost">16:05-16:21 on 2026-11-11 (the last three minutes the guard sweep), pre-registered at 327ee9f before the second 96 wishes or a field was scored. Word stream 42 s on CPU, once; the tally 1.3-1.4 s of card for 2,572,068,769 meetings; card time under the lock 7.6 s (settings half), 86.1 s (the read, four checkpoints through the ruler), 11.6 s (cause reads), 4.6 s (fields hand read) — contended at 32%, so every timing is a bound. ETA ~45 min all in and under 5 min of card; it took 16 min and 110 s.</p></div>
+  </section>
+
+  
+
+  <section class="grid">
+    <div class="prose doc"><p><strong>The question</strong> (owner, 2026-11-11: "I don't think millions of knobs are the future for it", then "Okay let's do this experiment"). <code>docs/IDEAS-UNDERSTANDING.md</code> §7 keeps returning to words with homes: an explicit entry a word, written rather than tuned, so that one meeting leaves a mark and "do I know this?" can be looked up. The plainest form of that is a count. The kill line was set before anything ran: if a book with no weights cannot beat the 20M on the wishes, reading the same tokens, the idea is not worth a second step. The pre-registration is <code>scripts/probe_book.py</code>'s docstring.</p>
+<h3 id="the-book">The book</h3>
+<p>Words are runs of letters over the decoded, lower-cased stream: 74,727,866 words, 393,826 distinct. A page has one kind of line — "this word was met within ten words of that word" — and a tally. A line's weight is how much more often the two met than their counts alone would give (PPMI, the neighbour's count smoothed to the 0.75 power). An item is answered by adding up, over every word of the description, that word's line to each candidate label; the heaviest label wins. No frame, no stop list. The tally is checked cell for cell against a plain loop on the first 200,000 words every run.</p>
+<p>The cell — window 10, PPMI, direct — was chosen on the first 96 wishes (0.55 there) out of sixteen, and then the second 96 and the fields were read once.</p>
+<h3 id="the-read">The read</h3>
+<p>read                              wishes, 2nd 96   1st 96   fields (141)   margin AUC   card (attempted) book, window 10 ppmi direct       51  (0.53)       0.55     97  (0.69)     0.67         +0.17 (0.52) nano20m_v3_webblend               35  (0.36)       0.38     78  (0.55)     0.51         -0.03 (0.18) nano20m_v3_webblend_seed2         37  (0.39)       0.38     76  (0.54)     0.52         -0.02 (0.10) nano100m_v1          (reference)  37  (0.39)       0.44     80  (0.57)     0.62         +0.01 (0.41) corn_jr_260m         (reference)  50  (0.52)       0.56     101 (0.72)     0.70         +0.17 (0.40) chance                            0.17                      0.23           0.50</p>
+<p>paired, second 96 wishes          book only : model only against the 20M, seed 1337      32 : 16   p 0.029 against the 20M, seed 1338      27 : 13   p 0.038 against the 260M                17 : 16   p 1.0 paired, fields against the 20M, seed 1337      37 : 18   p 0.014 against the 20M, seed 1338      39 : 18   p 0.008 against the 260M                21 : 25   p 0.66</p>
+<p>The models were read through the ruler's own <code>score</code>; the controls' totals reproduce the committed 0.37 / 0.55 and 0.38 / 0.54 (asserted). The card is right +1, pass 0, wrong -1 over the second 96, passing below a margin set on the first 96; answering everything, the book reads +0.06 and the controls -0.27 and -0.23. Per-item picks and margins are in <code>evals/results/book__ruler_mix_v3_webblend.json</code>.</p>
+<h3 id="the-pre-registered-rows">The pre-registered rows</h3>
+<ul><li><strong>W holds.</strong> 51 against 35 and 37: above both seeds by 14 and 16 items, where 5 was asked. Predicted 0.45-0.60; read 0.53.</li><li><strong>F: the prediction failed, upward.</strong> Predicted below the controls (0.40-0.50) because field phrases lean on word order, which the book has no line for. It read 0.69. The cause, from the hand read: the phrase's one content word sits beside the field's name in ordinary text — <code>cheap</code> beside <code>price</code> (52 meetings), <code>midnight</code> beside <code>hours</code>, <code>yoga</code> beside <code>classes</code>, <code>writer</code> beside <code>author</code> — and the labels are common words with thick pages, so this half does not lean on thin lines (0.67 with every line met under three times dropped).</li><li><strong>A holds.</strong> Margin AUC 0.67 against 0.51 and 0.52. The controls came in under the predicted 0.55-0.65: a 20M's margin on this ruler says nothing about whether it is right. <strong>The second footing reads backwards:</strong> the number of meetings behind the winning lines has AUC 0.35 — more meetings, more often wrong. See the stock answers below.</li><li><strong>C holds.</strong> +0.17 at 0.52 attempted against -0.03 and -0.02; the 260M reads the same +0.17 at 0.40 attempted.</li></ul>
+<h3 id="what-the-number-rests-on-read-after-not-gated">What the number rests on (read after, not gated)</h3>
+<p>who votes, on how many meetings            wishes, 2nd 96   fields   margin AUC as registered                              51  (0.53)       0.69     0.67 lines met under 3 times dropped            37  (0.39)       0.67     0.68 the 200 commonest words silent             53  (0.55)       0.67     0.69 both                                       41  (0.43)       0.65     0.69</p>
+<ul><li><strong>It is not the function words.</strong> Hand-reading the lines showed <code>a</code>, <code>she</code>, <code>the</code> voting (<code>she</code> to <code>sad</code>, 9,279 meetings — the story slice). Silencing the 200 commonest words moves 51 to 53.</li><li><strong>On the wishes it is lines met once or twice.</strong> <code>snug</code> met <code>cosy</code> once in the whole stream and that line answers "a snug corner booth beside a wood stove"; <code>scree</code> met <code>challenging</code> once; <code>sweethearts</code> met <code>romantic</code> once. Fourteen of the 51 go when such lines are dropped, and the book is then level with the controls. This is the idea's claim seen from both sides: one meeting writes a usable line, which the 20M's weights do not hold — and one meeting is also <code>ballad</code> beside <code>upbeat</code>, which answers a funeral song wrongly.</li><li><strong>It has stock answers.</strong> Over the 192 wishes it picks <code>sad</code> 17 times for 8 asked and <code>long</code> 17 for 4, and never picks <code>easy</code> or <code>wholesome</code>; the share of misses going to its two commonest picks is 0.27, the same as the first control. A label met 50,759 times has some line to nearly every word, and a weight clipped at zero lets those add up. That is the cause of the backwards evidence read: how often the picked label was met has AUC 0.34 for being right, the same as the evidence's 0.35.</li></ul>
+<h3 id="read-by-hand-all-96-second-half-wishes-every-field-miss-a-qu">Read by hand: all 96 second-half wishes, every field miss, a quarter of the field hits</h3>
+<p>Right for the reason a person would give: <code>hammock</code> to relaxing, <code>pines</code> to shady, <code>couples</code>, <code>roses</code> and <code>wedding</code> to romantic, <code>dark</code> to scary (197 meetings), <code>shouted</code> to angry (184), <code>teaching</code> to educational, <code>coffee</code>, <code>price</code> and <code>pasta</code> to cheap, <code>views</code> to scenic.</p>
+<p>Wrong in three ways, each one a dimension of <code>IDEAS-UNDERSTANDING.md</code> §2 that a "goes with" line cannot hold:</p>
+<ul><li><strong>Senses and set phrases.</strong> <code>getaway</code> to romantic (a getaway driver), <code>hopeless</code> to romantic, <code>visits</code> to educational, <code>spacious</code> to bedrooms (property listings), <code>foam</code> to firmness. The line is real; it belongs to another sense.</li><li><strong>Opposites meet.</strong> "a short level loop a toddler could manage" reads <code>long</code> on <code>short</code> (1,405 meetings). A word and its opposite keep the same company.</li><li><strong>No "is a kind of".</strong> "a film that's scary" asks for <code>genre</code>; <code>scary</code> has no line to it. "a pokemon that's a fire one" reads <code>attack</code>.</li></ul>
+<p>Two ruler words were never met (<code>handclaps</code>, <code>vicar&#x27;s</code>). The page for <code>cosy</code> (101 meetings; the web writes <code>cozy</code>, 1,201) reads spacious, comfy, armchair, fireplace, den, warm (18), cottage — and negligible (1), decks (1): a rough sketch with pencil marks in it.</p>
+<h3 id="what-it-licenses">What it licenses</h3>
+<ul><li><strong>The kill line is passed, so the idea earns a second step.</strong> The knowledge the ruler asks for is in the 130M tokens the 20M read; what the 20M lacks is a way to keep it at one pass. Finding <a class="fref" href="/Corn-Jr-Public/finding/196.html">196</a> placed the loss in knowledge rather than format and found it growing with size; this places it one step further back, in how the knowledge is held.</li><li><strong>Speed, as a bound.</strong> Reading the stream is 42 s of CPU once and the tally 1.4 s of card, contended. Nothing is retrained to add text or a word.</li><li><strong>The margin is a usable "not sure"; the raw tally is not.</strong> Footing has to be how far the winner is ahead, not how much was met.</li><li><strong>Three next reads, each one variable on this book:</strong> take each label's own average weight off its lines (the ruler's with-and-without step, and the fix the stock answers name); a second kind of line for opposites and kinds ("X and Y", "X but Y", "X is a Y"); and the step the design turns on — put a word's heaviest lines in the 260M's context and read whether he uses them.</li></ul>
+<p><strong>What it does not settle.</strong> Whether he can read a page: the book answers a forced choice and cannot say a sentence. Anything beyond association — the ruler is description to label, the shape a count is best at, so this is the book's best case and dimensions 4 to 9 of the word card are unread. A like-for-like row at 100M and 260M: those two read other tokens and are reference lines only. Whether the wishes lead survives a second corpus, since it rests on lines met once or twice. The cell was chosen from sixteen on 96 items; the second 96 and the fields are clean of that choice, and the other fifteen cells are printed by the probe (direct PPMI reads 0.47-0.55 on the second 96 at every window). <strong>Tally overlap reads chance (0.17) at every window</strong> and was not diagnosed: treat it as a broken cell, not as a result about comparing pages.</p>
+<h3 id="amended-2026-11-13-who-had-a-page-and-the-read-with-the-rule">Amended 2026-11-13 — who had a page, and the read with the ruler unseen</h3>
+<p>The book above gave a page to the 5,000 commonest words <strong>and to every word of the ruler</strong> (336 more pages, 5,336 in all), and a column to the 20,000 commonest and to every ruler label (6 more), because it had to answer the ruler; "The book" section does not say so. Finding <a class="fref" href="/Corn-Jr-Public/finding/227.html">227</a> read the book again with the ruler never shown to it (<code>scripts/probe_read_homes.py --book-only</code>, the same read):</p>
+<p>who has a page                                 wishes (192)   2nd 96   fields (141) as above (5,000 and every ruler word)          104            51       97 the 5,000 commonest only                       71             36       88 the 20,000 commonest only                      91             42       95 the 20M controls                               71 and 73      35, 37   78 and 76</p>
+<p>The result stands in its general form — a count that never saw the ruler leads the 20M by 18 to 20 wishes and 17 to 19 fields at 20,000 pages — and the wishes lead above (31 to 33) was partly the ruler's own rarer words having pages. At 5,000 pages and none of them the book reads the wishes at the 20M's level. "Level with the 260M" holds for the book as built; the ruler-blind 20,000-page book reads 91 and 95 beside the 260M's 104 and 101.</p></div>
+  </section>
+
+  <section class="grid refs">
+    <div class="body two-even">
+      <div>
+        <h2 class="small">It cites</h2>
+        <ul class="reflist"><li style="--c:var(--c5)"><a href="/Corn-Jr-Public/finding/196.html"><span class="fn">196</span>Loop fails because the small model lacks the knowledge, not the format</a></li><li style="--c:var(--c5)"><a href="/Corn-Jr-Public/finding/227.html"><span class="fn">227</span>A short word vector holds field knowledge; frozen, he cannot read it</a></li></ul>
+        
+      </div>
+      <div>
+        <h2 class="small">Cited by</h2>
+        <ul class="reflist"><li style="--c:var(--c5)"><a href="/Corn-Jr-Public/finding/222.html"><span class="fn">222</span>Pressing harder where the book points taught the 20M nothing more</a></li><li style="--c:var(--c5)"><a href="/Corn-Jr-Public/finding/223.html"><span class="fn">223</span>His word vectors hold less than his framed answers do</a></li><li style="--c:var(--c5)"><a href="/Corn-Jr-Public/finding/227.html"><span class="fn">227</span>A short word vector holds field knowledge; frozen, he cannot read it</a></li><li style="--c:var(--c5)"><a href="/Corn-Jr-Public/finding/228.html"><span class="fn">228</span>The fields stall is not the word-pieces, and not hidden in him</a></li><li style="--c:var(--c5)"><a href="/Corn-Jr-Public/finding/231.html"><span class="fn">231</span>A far lesson in training takes, costs reading, and lifts nothing clearly</a></li><li style="--c:var(--c5)"><a href="/Corn-Jr-Public/finding/232.html"><span class="fn">232</span>He uses far words like the 260M; his gap is close in</a></li><li style="--c:var(--c5)"><a href="/Corn-Jr-Public/finding/233.html"><span class="fn">233</span>A left-to-right count still beats him, so order is not it</a></li><li style="--c:var(--c5)"><a href="/Corn-Jr-Public/finding/239.html"><span class="fn">239</span>The count book judges replies a little, and picks no better</a></li></ul>
+        
+      </div>
+    </div>
+    <p class="body source">docs/findings/221-a-book-of-tallied-lines-reads-the-understanding-ruler-above-the-20m-on-the-same-tokens-and-level-with-the-260m.md</p>
+  </section>
+</article>
+
+  
+<footer class="turn">
+  <div></div>
+  <div class="r"></div>
+  
+</footer>
+<p class="bynumber">Previous and next in <a href="/Corn-Jr-Public/thread/book-lab.html">The book lab</a>. By number:
+  <a href="/Corn-Jr-Public/finding/220.html">220</a> · <a href="/Corn-Jr-Public/finding/222.html">222</a></p>
+
+</div>
+</body>
+</html>

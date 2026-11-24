@@ -1,0 +1,96 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>172 · The starting model, not the trace format, makes branching reliable · Corn-Jr</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600&family=IBM+Plex+Mono:wght@400;500&family=Spectral:ital,wght@0,400;0,500;0,600;1,400&family=Spectral+SC:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/Corn-Jr-Public/static/library.css">
+<script defer src="/Corn-Jr-Public/static/library.js"></script>
+<script type="speculationrules">
+{"prerender": [{"where": {"and": [{"href_matches": "/Corn-Jr-Public/*"}, {"not": {"href_matches": "/Corn-Jr-Public/random.html"}}, {"not": {"href_matches": "/Corn-Jr-Public/static/*"}}]}, "eagerness": "moderate"}]}
+</script>
+
+</head>
+<body>
+<div class="page">
+  <header class="running">
+    <a class="book" href="/Corn-Jr-Public/">Corn-Jr · The Record</a>
+    <nav>
+      <a href="/Corn-Jr-Public/" data-key="shelf">Shelf</a><a href="/Corn-Jr-Public/findings.html" data-key="findings" class="here">Findings</a><a href="/Corn-Jr-Public/doc/VISION.html" data-key="VISION">Vision</a><a href="/Corn-Jr-Public/doc/GLOSSARY.html" data-key="GLOSSARY">Glossary</a>
+      <a href="https://github.com/csheehan18/Corn-Jr-Public">Source</a>
+    </nav>
+  </header>
+  
+
+<article class="sheet" style="--c:var(--c4)">
+  <div class="progress" aria-hidden="true"></div>
+  <section class="grid chapter-open finding-open">
+    <a class="tab" href="/Corn-Jr-Public/thread/tag-language.html" title="The tag language"><small>Part</small><span>IV</span></a>
+    <p class="cn">172</p>
+    <p class="partline"><a href="/Corn-Jr-Public/thread/tag-language.html">The tag language</a> · 14 October 2026</p>
+    <h1>The starting model, not the trace format, makes branching reliable</h1>
+  </section>
+
+  <section class="grid">
+    <p class="marginal">The result, as the finding states it</p><div class="prose"><p class="lead">The worker frame does not make branch reliable, and neither does what follows the pick; the starting model does: by fine-tune, arm E2's three starts install the binding on 11 of 12 runs across four trace forms and arm V's three on 4 of 12, while the forms read 3 to 5 of 6 each, inside their own noise</p></div>
+    <p class="marginal">What it cost</p><div class="prose"><p class="cost">24 fine-tunes of 650 iterations at 20M (143-144 s each, contended — the card at 38-40%, a bound), the 12 start reads and 30 run reads at ~18 s, 24 <code>tool_copy_wide</code> cards at ~10 s, and a terminator re-score of the six worker runs (147 s): two chains, 11:35-12:12 and 12:20-13:00 on 2026-10-14, with ~35 min of CPU build beside them (11:31-11:35, 12:12-12:20).</p></div>
+  </section>
+
+  
+
+  <section class="grid">
+    <div class="prose doc"><p><strong>The owner's architecture, read cheaply.</strong> After findings <a class="fref" href="/Corn-Jr-Public/finding/169.html">169</a> and <a class="fref" href="/Corn-Jr-Public/finding/171.html">171</a> (branch installs in two pretraining runs of four, at 20M and 50M, each all or nothing), the owner proposed that the main instance only speak and that decomposing, calling and picking go to scoped workers, each in a fresh short context (SPEC-LANGUAGE §8's frames, taken further). Its central claim, read here: <strong>a decision made in a short frame installs where the same decision at the end of a long turn is a coin.</strong></p>
+<p><strong>Two pre-registrations, both committed before a byte trained.</strong> The worker-frame test (<code>configs/mix_v3_branch_ft_worker.py</code>, 240c0b1): the same 7,424 branch decisions in a full turn (~431 tokens, the pick ~400 after the frame's wording) against a worker frame (~147 tokens: the conditional part, the runtime's lookup and result, the check, the menu, the pick). Each arm is read twice over by fine-tune (650 iterations, the rest arm E2's mix as replay, <code>lr</code> 2e-4) from six starts that never saw a branch — arm E2 and arm V (<code>filter_view</code>) at three seeds each. A run installs when its held-out quads clear 14 of 144 on each side (finding <a class="fref" href="/Corn-Jr-Public/finding/169.html">169</a>'s gate). Then the cause arms (<code>configs/mix_v3_branch_ft_worker_conseq.py</code>, 96a52a5): the worker frame followed by the full turn's lines after the pick (<code>worker_conseq</code>), and the full turn cut at the pick (<code>full_cut</code>). <code>check_branch.py</code> sections 6 and 7 hold every form trace for trace against its parents. <strong>Cards:</strong> <code>evals/results/nano20m_ft_branch_{full,worker,worker_conseq,full_cut}_{ev2,ev2s2,ev2s3,view,views2,views3}__branch*.json</code>, <code>__copywide.json</code>; the starts' reads on each row file.</p>
+<h3 id="an-instrument-hole-first">An instrument hole first</h3>
+<p><code>probe_branch.py</code> scored each option as <code>pick: next[X]</code> plus a newline. In the full turn a newline does follow the pick; in a worker frame the pick is followed by <code>&lt;|end|&gt;</code> in training and a newline never. On the worker arm that unseen token moved more quads than the choice did: the worker arm read <strong>1 of 6</strong> with the newline and <strong>3 of 6</strong> with <code>&lt;|end|&gt;</code> (scored with no terminator, identical to <code>&lt;|end|&gt;</code>, since <code>&lt;|end|&gt;</code> costs both options the same). Fixed and guarded the same day: every row carries <code>after</code>, what follows a pick in its form; the probe scores with it; <code>check_branch.py</code> sections 6 and 7 hold it against each payload. Every number below is on the fixed scoring. The starts read 0-3 quads on every form's rows (readable).</p>
+<h3 id="the-registered-reads">The registered reads</h3>
+<p>held-out quads (first side / second side, of 144); a run installs above 14 on both start          full        worker      worker_conseq   full_cut E2  1337      68  91 ✓    27  27 ✓     70  31 ✓        67  70 ✓ E2  2337      84 108 ✓    56  14       58  41 ✓        90  65 ✓ E2  3337      70  65 ✓    29  16 ✓     27  17 ✓        75  42 ✓ V   1337      62  81 ✓    56   7       64  10          73  53 ✓ V   2337       2   1       0   1        4   2           6   1 V   3337     106 135 ✓    40  17 ✓      6  15          21  12 installs       5 of 6      3 of 6       3 of 6          4 of 6</p>
+<p><strong>The worker-frame test lands on its rows "worker 4 or fewer — the frame is not enough" and "full above worker by 2 or more — read by hand".</strong> The prediction on the record (worker 6 of 6, full 2 to 4) failed both ways. <strong>The cause arms land on no row</strong>: the table asked for 5+ against 3 or fewer, and 3 and 4 are neither. The prediction (what follows the pick is the cause) is not supported.</p>
+<p><strong>And none of the form differences is readable.</strong> At six runs an arm, 5 of 6 against 3 of 6 is about an even chance by Fisher's exact test (two-sided p ≈ 0.55). Pooled, the forms with the declaration and status ask before the conditional (full, full_cut) install 9 of 12 and those without (worker, worker_conseq) 6 of 12. The forms with the consequence (full, worker_conseq) install 8 of 12 and those without 7 of 12. Neither split is readable either.</p>
+<h3 id="what-the-table-does-say-the-start">What the table does say: the start</h3>
+<p>installs by start, over the four forms E2  1337   4 of 4        V  1337   2 of 4 E2  2337   3 of 4        V  2337   0 of 4 E2  3337   4 of 4        V  3337   2 of 4 E2 starts  11 of 12      V starts  4 of 12        (Fisher p ≈ 0.01)</p>
+<p><strong>Which model the fine-tune starts from decides whether the binding forms, far more than which frame it is taught in.</strong> Arm E2's three starts take branch in 11 of 12 runs across all four forms. Arm V's take it in 4 of 12, and its seed 2337 in none of four, every form reading 0-6 quads. Within E2 the forms read 3, 2, 3 and 3 of 3. Within V they read 2, 1, 0 and 1 of 3. Arm V is arm E2 plus the runtime's item view after every observation in the filter payload (finding <a class="fref" href="/Corn-Jr-Public/finding/151.html">151</a>'s views) — one rendering difference, and the start that has it learns a menu pick after an observation a third as often. Why is not read here.</p>
+<p>Two further things in the rows, side columns:</p>
+<ul><li><strong>The short forms are weaker on the second side</strong> — "find me {b}, but if {c}, {a}", where the conditional continuation comes second. V-1337 reads 56/7 in the worker frame and 64/10 with its consequence, against 62/81 in the full turn and 73/53 cut. With the status ask in front, the conditional continuation is further from the user line's start in every frame. Read only that far.</li><li><strong>No form reads a wording it never trained</strong>, beyond scattered single cells (worker_conseq E2-2337 29 of 48 on the first side; the full turn 16-31 of 48 on the second side, five runs). Finding <a class="fref" href="/Corn-Jr-Public/finding/169.html">169</a>'s "a table of eight wordings" holds by fine-tune too.</li></ul>
+<p><strong>The copy row, a side column</strong>: 279-298 of 300 over the fine-tunes, inside the 20M family's spread (finding <a class="fref" href="/Corn-Jr-Public/finding/170.html">170</a>); nothing is readable as a cost.</p>
+<h3 id="what-it-licenses">What it licenses</h3>
+<ul><li><strong>The worker architecture's central claim is not supported on branch.</strong> A short frame does not make the pick reliable here, and it is not shown to hurt beyond noise. The case for workers has to rest on what they were also proposed for — keeping tool output out of the main window, one job per frame, results checked before the main instance speaks — and not on making a 20M pick steadier.</li><li><strong>By fine-tune from the right start, branch installs reliably</strong>: 11 of 12 on E2, every form. Findings <a class="fref" href="/Corn-Jr-Public/finding/169.html">169</a> and <a class="fref" href="/Corn-Jr-Public/finding/171.html">171</a>'s coin was pretraining from scratch at one pass and 2% of the mix. <strong>One run, then amplify</strong> (PLAN-1-0) is the route the record supports: the format in the corpus, and a fine-tune that drives it. What makes a start receptive (arm V's views, or something they stand for) is the open question, and it matters more for the ladder than the frame does.</li><li><strong>For recover</strong>: the same fine-tune from E2 starts is the cheap read of whether it can be his. Combine and recover were read only from scratch at one pass.</li></ul>
+<p><strong>What it does not settle.</strong> The forms against each other at any useful precision — that needs about 15 runs an arm; why arm V's starts resist; and whether a fine-tuned binding survives the next fine-tune.</p>
+<h3 id="amended-2026-10-14-the-payload-broke-generators-d8-finding-1">Amended 2026-10-14 — the payload broke GENERATORS D8 (finding <a class="fref" href="/Corn-Jr-Public/finding/173.html">173</a>)</h3>
+<p>This arm trained <code>corn/branchgen.py</code>'s payload: "if" in eight wordings, each seen ~928 times, and its own guard showed (wording, result) settling every gold — the lookup route GENERATORS §4 names as the sign of a list, and D8's "near or under ten sightings" missed by two orders of magnitude. What it measured is a memorisable slice: the "table of eight wordings" and the zero on a ninth are what that slice predicts, and the seed, size and frame comparisons here vary everything except the flaw. The rebuild to GENERATORS is finding <a class="fref" href="/Corn-Jr-Public/finding/173.html">173</a>.</p>
+<h3 id="amended-2026-10-14-the-start-s-p-value-was-overstated">Amended 2026-10-14 — the start's p-value was overstated</h3>
+<p>"E2 starts 11 of 12, V starts 4 of 12 (Fisher p ≈ 0.01)" counts the twelve runs as independent; they are four runs from each of three starts, and runs from one start share it. Counted by start, every E2 start takes the binding in three or four forms of four and no V start does in more than two — three against three, one-sided Fisher p = 0.05. Suggestive, not established. And the fine-tune gave the payload ~40% of 650 iterations against pretraining's 2.2% of one pass, so "by fine-tune it installs" is not separated from "with far more of it, it installs".</p></div>
+  </section>
+
+  <section class="grid refs">
+    <div class="body two-even">
+      <div>
+        <h2 class="small">It cites</h2>
+        <ul class="reflist"><li style="--c:var(--c4)"><a href="/Corn-Jr-Public/finding/151.html"><span class="fn">151</span>Ignoring groups he closes too early lets the interpreter pass</a></li><li style="--c:var(--c4)"><a href="/Corn-Jr-Public/finding/169.html"><span class="fn">169</span>Choosing a branch from a checked condition: seeds split</a></li><li style="--c:var(--c4)"><a href="/Corn-Jr-Public/finding/170.html"><span class="fn">170</span>The copy test&#39;s failure threshold was measuring seed noise</a></li><li style="--c:var(--c4)"><a href="/Corn-Jr-Public/finding/171.html"><span class="fn">171</span>At 50M, branch choice still splits across seeds</a></li><li style="--c:var(--c4)"><a href="/Corn-Jr-Public/finding/173.html"><span class="fn">173</span>Branch choice falls to chance when condition words flip the meaning</a></li></ul>
+        
+      </div>
+      <div>
+        <h2 class="small">Cited by</h2>
+        <ul class="reflist"><li style="--c:var(--c4)"><a href="/Corn-Jr-Public/finding/176.html"><span class="fn">176</span>Naming both branches fixes the pick but blurs &#39;not&#39;</a></li><li style="--c:var(--c4)"><a href="/Corn-Jr-Public/finding/179.html"><span class="fn">179</span>Fine-tuned, he reads every condition word like &#39;not&#39; and &#39;unless&#39;</a></li></ul>
+        
+      </div>
+    </div>
+    <p class="body source">docs/findings/172-the-worker-frame-does-not-steady-branch-the-starting-model-does-e2-starts-install-11-of-12-across-four-forms-and-v-starts-4-of-12.md</p>
+  </section>
+</article>
+
+  
+<footer class="turn">
+  <div><span class="sc">previous</span><a href="/Corn-Jr-Public/finding/171.html">171 · At 50M, branch choice still splits across seeds</a></div>
+  <div class="r"><span class="sc">next</span><a href="/Corn-Jr-Public/finding/173.html">173 · Branch choice falls to chance when condition words flip the meaning</a></div>
+  <p class="keys"><kbd>←</kbd> <kbd>→</kbd> turn the page · <kbd>/</kbd> find</p>
+</footer>
+<p class="bynumber">Previous and next in <a href="/Corn-Jr-Public/thread/tag-language.html">The tag language</a>. By number:
+  <a href="/Corn-Jr-Public/finding/171.html">171</a> · <a href="/Corn-Jr-Public/finding/173.html">173</a></p>
+
+</div>
+</body>
+</html>

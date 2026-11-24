@@ -1,0 +1,101 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>159 · More ways to phrase each move helps unseen phrasings modestly · Corn-Jr</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600&family=IBM+Plex+Mono:wght@400;500&family=Spectral:ital,wght@0,400;0,500;0,600;1,400&family=Spectral+SC:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/Corn-Jr-Public/static/library.css">
+<script defer src="/Corn-Jr-Public/static/library.js"></script>
+<script type="speculationrules">
+{"prerender": [{"where": {"and": [{"href_matches": "/Corn-Jr-Public/*"}, {"not": {"href_matches": "/Corn-Jr-Public/random.html"}}, {"not": {"href_matches": "/Corn-Jr-Public/static/*"}}]}, "eagerness": "moderate"}]}
+</script>
+
+</head>
+<body>
+<div class="page">
+  <header class="running">
+    <a class="book" href="/Corn-Jr-Public/">Corn-Jr · The Record</a>
+    <nav>
+      <a href="/Corn-Jr-Public/" data-key="shelf">Shelf</a><a href="/Corn-Jr-Public/findings.html" data-key="findings" class="here">Findings</a><a href="/Corn-Jr-Public/doc/VISION.html" data-key="VISION">Vision</a><a href="/Corn-Jr-Public/doc/GLOSSARY.html" data-key="GLOSSARY">Glossary</a>
+      <a href="https://github.com/csheehan18/Corn-Jr-Public">Source</a>
+    </nav>
+  </header>
+  
+
+<article class="sheet" style="--c:var(--c3)">
+  <div class="progress" aria-hidden="true"></div>
+  <section class="grid chapter-open finding-open">
+    <a class="tab" href="/Corn-Jr-Public/thread/social.html" title="Social replies"><small>Part</small><span>III</span></a>
+    <p class="cn">159</p>
+    <p class="partline"><a href="/Corn-Jr-Public/thread/social.html">Social replies</a> · 10 October 2026</p>
+    <h1>More ways to phrase each move helps unseen phrasings modestly</h1>
+  </section>
+
+  <section class="grid">
+    <p class="marginal">The result, as the finding states it</p><div class="prose"><p class="lead">A3b and finding <a class="fref" href="/Corn-Jr-Public/finding/158.html">158</a>'s pair: more ways of saying each move holds unseen phrasings at 40 and 38 of 100 at both seeds (A3: 32 and 20) and installs at both, a direction by A3b's table; capping how often any wording is seen buys nothing on far phrasings — level at one seed, unreadable at the other, both arms running on the seed's default label — so finding <a class="fref" href="/Corn-Jr-Public/finding/158.html">158</a>'s lever is not shown at nano, no guard is built, and its family contrast fails</p></div>
+    <p class="marginal">What it cost</p><div class="prose"><p class="cost">93.9 min of training six nano runs (15.1-16.5 min each, contended — the card sat at 35% before the chain, so a bound); 7.4 min of scoring two standard cards; <code>probe_move.py</code> 6.4 min, the tag scorings 1 min and the repeat probe 0.5 min over the six; the chain 11:27-13:17 on 2026-10-10 end to end, against a registered ~45 + ~65 min of card.</p></div>
+  </section>
+
+  
+
+  <section class="grid">
+    <div class="prose doc"><p>Two pre-registrations read together because one chain ran them: A3b's (<code>configs/mix_v3_a3b.py</code>, finding <a class="fref" href="/Corn-Jr-Public/finding/157.html">157</a>'s experiment B — the move line over 1,021 hand-written phrasings, <code>share</code>, a trained goodbye, a funded consolation), whose first two attempts died on 2026-10-09 with no finished checkpoint; and finding <a class="fref" href="/Corn-Jr-Public/finding/158.html">158</a>'s one-variable pair (<code>configs/mix_v3_a3b_cap.py</code>, committed at fd71ddd before a byte trained): A3b's slice cut two ways at the same size move for move, <strong>cap</strong> with no wording seen more than five times and <strong>rep</strong> keeping the transcripts whose wordings A3b repeats most — a whole-line table over 0% of the move lines against 38%, read alike by a word counter (53 and 53 of 100 unseen). Every run resumable (<code>--resume-every 500</code>), both seeds (1337, 2337). Readers committed before any result (ead7e93): <code>probe_move.py --read-b</code>, <code>--read-pair</code>, <code>--read-contrast</code>.</p>
+<h3 id="a3b-by-its-registered-table">A3b, by its registered table</h3>
+<p>gate                      seed 1337                  seed 2337 unseen (of 100)           40 against A3's 32: +8 fail   38 against 20: +18 PASS goodbyes (of 20)          8 fail                     11 PASS natural (of 62)           37 against 33: +4 fail     35 against 28: +7 PASS installs (of 104)         86 PASS                    89 PASS routing                   route.social 93 vs 101 FALLS    tool.selection 76 vs 106 FALLS (the rest hold)            (the rest hold) beside, unseen + goodbyes per-token mean          51 (A3 37)                 57 (A3 26) first token             49 (A3 36)                 49 (A3 19)</p>
+<p><strong>By the table: seeds split on three gates — a direction; no third seed.</strong> <code>installs</code> passes at both seeds: the funded <code>consolation</code> is what A3's split lacked. <strong>No routing kill</strong>: the kill needs one row below its half-width at both seeds, and the two falls are different rows — <code>tool.selection</code> is the row finding <a class="fref" href="/Corn-Jr-Public/finding/157.html">157</a> recorded at 46 and 90 across two off cells, so a 30-item swing on it is its own seed noise. <strong>The split on <code>unseen</code> is the control's, not A3b's</strong>: A3b reads 40 and 38 at the two seeds; A3 read 32 and 20. Under both other scorings A3b is up 13-31 at both seeds. The registered prediction — unseen fails, goodbyes and natural pass, installs passes, no routing kill — holds on installs and routing and splits on the rest.</p>
+<h3 id="the-pair-by-its-registered-table">The pair, by its registered table</h3>
+<p>gate                      seed 1337                  seed 2337 lever (of 120 unseen)     cap 25, rep 31: -6 level   cap 24, rep 16: +8 (unreadable) signature (trained/unseen gap)   cap 0.51, rep 0.39: fail   cap 0.24, rep 0.42: pass curve (rep, seen &gt;10x)    21 of 28 (75%): fail       20 of 28 (71%): fail trained (of 104)          cap 75, rep 67             cap 46, rep 58 unseen five (of 100)      cap 24, rep 22             cap 15, rep 12 commonest unseen label    cap open 41, rep open 44   cap open 69, rep share 57</p>
+<p><strong>Seed 2337 is unreadable by the registered bar</strong> — both arms at or under 20 of 100 on the unseen five (15, 12): nothing learned either way. <strong>At the readable seed the lever is level, the wrong way by six.</strong> By the table that is "taking the table away does not make him learn the move at nano: the binding limit is the model or the evidence, and no guard is built on this rule" — read on one seed, because the other could not be. The registered prediction (the lever passes at both seeds) is not borne out.</p>
+<h3 id="finding-158-s-family-contrast-fails">Finding <a class="fref" href="/Corn-Jr-Public/finding/158.html">158</a>'s family contrast fails</h3>
+<p>seed     consolation + farewell   wellbeing + thanks   the seed's default, and where it fell 1337     21 / 40                  16 / 40: +5          <code>consolation</code> (36 of 120): 23 in the low pool, 5 in the high 2337     17 / 40                  15 / 40: +2 fail     <code>farewell</code> (23 of 120): 13 low, 1 high</p>
+<p>The registered bar was +5 at both seeds. The one pass sits on the confound the registration named: the default label landed in the pool it lifts. Per family, unseen accuracy follows the seed's default, not the lookup mass.</p>
+<h3 id="why-read-by-hand">Why, read by hand</h3>
+<p><strong>On far phrasings every arm runs on a default.</strong> The unseen probe was filtered against every trained carrier by exact match, containment and letter-trigram similarity (<code>check_moveline.py</code> section 8), so it measures reach to phrasings <em>unlike</em> anything trained. There, each checkpoint writes one or two labels for most items — cap <code>open</code> 41 and 69 of 120, rep <code>open</code> 44 and <code>share</code> 57 — and what reads as accuracy is which family those defaults happen to match: cap's +8 at seed 2337 is its second default, <code>farewell</code>, written 20 times, scoring 9 of the 20 goodbyes. Side by side at seed 1337 the arms differ item by item ("that adds up", "duly noted": cap <code>open</code>, rep <code>ack</code>; "I'm running on empty", "it's all a bit much": cap <code>consolation</code>, rep <code>share</code> / <code>open</code>) in the direction of each one's defaults.</p>
+<p><strong>Near phrasings are a third regime, and the cap bought it at one seed.</strong> On the 104 trained phrasings — stock forms, close kin of lines both arms trained on — cap at seed 1337 labels a phrase contained in ten or fewer of its lines right 47 of 67 times (70%), where finding <a class="fref" href="/Corn-Jr-Public/finding/158.html">158</a>'s curve puts a wording seen ten or fewer times near the unseen rate. It did not memorise them (no wording past five sightings); it labelled near variants. At seed 2337 the same cell reads 33 of 67 and cap wrote <code>open</code> on 69 of 120 unseen: that checkpoint installed less of everything. So there are three regimes, not two — exact recall past about ten sightings, interpolation to near variants, and reach to far phrasings — and <strong>finding <a class="fref" href="/Corn-Jr-Public/finding/158.html">158</a> read "not memorised" as "learned the idea"; capping repetition moves the second, not the third.</strong></p>
+<p><strong>The curve's misses sit at its line.</strong> Every miss is a wording seen 11-16 times (rep's most is 25, where A3's top bucket was 61+ at 98-100%), and the two repeated at both seeds are <code>ack</code> phrasings with a thanks word in them ("that's perfect", "that's helpful", 14 sightings each, labelled <code>thanks</code>).</p>
+<h3 id="what-it-licenses">What it licenses</h3>
+<ul><li><strong>For D7 and the move line</strong>: A3b's direction — the wider user side holds the unseen five at 38-40 of 100 where A3 read 20-32, installs at both seeds, no routing kill. It is a bundle (variety, <code>share</code>, a trained goodbye, a funded consolation) and the read names the arm. It is still under the word counter on its own slice (53), and on natural openings under the first token it is mixed (44 and 38 of 62 against A3's 48 and 30).</li><li><strong>For finding <a class="fref" href="/Corn-Jr-Public/finding/158.html">158</a></strong>: capping repetition is not a lever for reach at nano. What survives is a description, not a recipe: a decision whose wording recurs past about ten sightings in a nano pass is labelled from memory, and a slice that removes those recurrences loses nothing measurable here (cap's trained cell ties or beats rep's at one seed, falls at the other; routing holds in both). <strong>No guard is built.</strong></li><li><strong>Where the limit is not</strong>: the table (this pair), the word evidence (the word counter reads both arms at 53), and same-sentence rivals for extraction (finding <a class="fref" href="/Corn-Jr-Public/finding/158.html">158</a>'s amendment). Where it might be, untested: the model's size (D11's pilot at 260M), and whether a move's idioms ("consider it heard", "running on empty") need meaning a nano pass over this mix does not carry.</li></ul>
+<h3 id="what-it-does-not-say">What it does not say</h3>
+<p>That variety is the cause of A3b's lift — the arm is a bundle. Anything at 260M (finding <a class="fref" href="/Corn-Jr-Public/finding/51.html">51</a>: nano flips sign there). That the pair's level reading holds at a second seed — the second was unreadable. That near-variant interpolation is a stable property of a capped slice — one seed showed it. <code>harness/results/nano20m_v3_a3b{,_seed2}__depth.json</code> (the repeat probe) and the standard cards' social rows are on disk and not read here.</p>
+<h3 id="amended-2026-10-10-on-far-phrasings-the-words-are-there-and-">Amended 2026-10-10: on far phrasings the words are there and he does not use them — size more than meaning (probe only)</h3>
+<p>Asked by the owner: is the far-phrasing limit meaning (the words do not carry the move) or size (the net does not use word evidence that is there)? <code>scripts/probe_move_cues.py</code> (card <code>evals/results/move_cues__159.json</code>), CPU, on the eight checkpoints' committed items, with the two readings written down before the first run: meaning predicts right where a training cue word points to the gold and lost where none does; size predicts poor even on cue-covered items, well under the word counter there.</p>
+<p>checkpoint (default)        a cue word points to the gold      no cue word points to it he          word counter           he          word counter A3 on    1337 (greeting)    15/28 54%   21/28 75%              17/92 18%   27/92 29% 2337 (open)        13/28 46%   21/28 75%               7/92  8%   27/92 29% A3b      1337 (consolation) 30/60 50%   48/60 80%              18/60 30%   22/60 37% 2337 (farewell)    28/60 47%   48/60 80%              21/60 35%   22/60 37% cap      1337 (open)        16/58 28%   46/58 79%               9/62 15%   24/62 39% 2337 (open)        18/58 31%   46/58 79%               6/62 10%   24/62 39% rep      1337 (open)        19/51 37%   42/51 82%              12/69 17%   27/69 39% 2337 (share)       13/51 25%   42/51 82%               3/69  4%   27/69 39%</p>
+<p><strong>By the readings written first: size.</strong> Where a cue word carries the move the word counter is right on 75-82% and he is right on 25-54% — at every checkpoint, 25 to 55 points under it. Meaning is the smaller part: without a cue the word counter itself falls to 29-39%. By hand (A3b, 1337): "i'm logging off" — <code>off</code> sits in 121 farewell lines — he writes <code>consolation</code>; "i'm done for the night" — <code>night</code> in 98 — <code>share</code>.</p>
+<p><strong>Not the opening either</strong> (the guess the hand read prompted, checked and dropped): on items whose first word opens five or more lines his label is the opening's move on 22-38% and the word counter's on 25-44%, and where the two disagree he follows the words a little more often at six of eight checkpoints (rep's two the exceptions); his default is the largest single share, 20-73%. He mostly commits to no evidence, and when he does it is weakly the words.</p>
+<p><strong>The one ordering in it</strong>: cue use tracks how many lines the slice has — A3 (16,586 move lines) and A3b (15,352) read 46-54% on covered items, cap and rep (8,733 and 9,383) 25-37%. Read with finding <a class="fref" href="/Corn-Jr-Public/finding/159.html">159</a>'s pair, the next lever is exposure to each cue with its move — more distinct lines — or a model that takes word evidence from fewer of them (D11's 260M pilot), not the table. Untested, both.</p>
+<h3 id="amended-2026-10-11-read-from-inside-finding-161">Amended 2026-10-11: read from inside — finding <a class="fref" href="/Corn-Jr-Public/finding/161.html">161</a></h3>
+<p>Probe C read the far-phrasing limit at his decision point on the same eight checkpoints. A linear reader on his own state reads 46-55 of 100, at the word counter's level and well over an untrained net of his shape, in every arm; what differs between arms is how much of it the written label uses (A3b 32 of 47-48, the others 11-27). So this finding's "size more than meaning" has two layers: a readout that writes a default over a move the state holds (A3, cap, rep), and, at A3b, a state that does not hold the move on about 45 of 100 far phrasings. A3b's lift above is the first layer closing.</p></div>
+  </section>
+
+  <section class="grid refs">
+    <div class="body two-even">
+      <div>
+        <h2 class="small">It cites</h2>
+        <ul class="reflist"><li style="--c:var(--c1)"><a href="/Corn-Jr-Public/finding/51.html"><span class="fn">51</span>At 260M the date header helps where at 30M it hurt</a></li><li style="--c:var(--c3)"><a href="/Corn-Jr-Public/finding/157.html"><span class="fn">157</span>Writing his move first steers the reply and beats the old regex</a></li><li style="--c:var(--c3)"><a href="/Corn-Jr-Public/finding/158.html"><span class="fn">158</span>Wordings seen over ten times get memorised; key phrases become lists</a></li><li style="--c:var(--c3)"><a href="/Corn-Jr-Public/finding/161.html"><span class="fn">161</span>His internal state knows more than he writes about move choice</a></li></ul>
+        
+      </div>
+      <div>
+        <h2 class="small">Cited by</h2>
+        <ul class="reflist"><li style="--c:var(--c3)"><a href="/Corn-Jr-Public/finding/158.html"><span class="fn">158</span>Wordings seen over ten times get memorised; key phrases become lists</a></li><li style="--c:var(--c3)"><a href="/Corn-Jr-Public/finding/161.html"><span class="fn">161</span>His internal state knows more than he writes about move choice</a></li><li style="--c:var(--c3)"><a href="/Corn-Jr-Public/finding/162.html"><span class="fn">162</span>Real dialogue openings replaced the hand-written ones rather than adding to them</a></li><li style="--c:var(--c3)"><a href="/Corn-Jr-Public/finding/165.html"><span class="fn">165</span>The cap costs greetings in what he writes, not what he knows</a></li><li style="--c:var(--c4)"><a href="/Corn-Jr-Public/finding/168.html"><span class="fn">168</span>Naming the flexible limit outright splits the seeds</a></li><li style="--c:var(--c4)"><a href="/Corn-Jr-Public/finding/173.html"><span class="fn">173</span>Branch choice falls to chance when condition words flip the meaning</a></li></ul>
+        
+      </div>
+    </div>
+    <p class="body source">docs/findings/159-a3b-lifts-unseen-phrasings-at-both-seeds-and-capping-repetition-buys-nothing-on-far-phrasings-finding-158s-lever-is-not-shown-at-nano.md</p>
+  </section>
+</article>
+
+  
+<footer class="turn">
+  <div><span class="sc">previous</span><a href="/Corn-Jr-Public/finding/157.html">157 · Writing his move first steers the reply and beats the old regex</a></div>
+  <div class="r"><span class="sc">next</span><a href="/Corn-Jr-Public/finding/161.html">161 · His internal state knows more than he writes about move choice</a></div>
+  <p class="keys"><kbd>←</kbd> <kbd>→</kbd> turn the page · <kbd>/</kbd> find</p>
+</footer>
+<p class="bynumber">Previous and next in <a href="/Corn-Jr-Public/thread/social.html">Social replies</a>. By number:
+  <a href="/Corn-Jr-Public/finding/158.html">158</a> · <a href="/Corn-Jr-Public/finding/160.html">160</a></p>
+
+</div>
+</body>
+</html>

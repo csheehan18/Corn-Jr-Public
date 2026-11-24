@@ -1,0 +1,85 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>186 · He knows roughly what descriptions mean but ignores a described menu · Corn-Jr</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600&family=IBM+Plex+Mono:wght@400;500&family=Spectral:ital,wght@0,400;0,500;0,600;1,400&family=Spectral+SC:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/Corn-Jr-Public/static/library.css">
+<script defer src="/Corn-Jr-Public/static/library.js"></script>
+<script type="speculationrules">
+{"prerender": [{"where": {"and": [{"href_matches": "/Corn-Jr-Public/*"}, {"not": {"href_matches": "/Corn-Jr-Public/random.html"}}, {"not": {"href_matches": "/Corn-Jr-Public/static/*"}}]}, "eagerness": "moderate"}]}
+</script>
+
+</head>
+<body>
+<div class="page">
+  <header class="running">
+    <a class="book" href="/Corn-Jr-Public/">Corn-Jr · The Record</a>
+    <nav>
+      <a href="/Corn-Jr-Public/" data-key="shelf">Shelf</a><a href="/Corn-Jr-Public/findings.html" data-key="findings" class="here">Findings</a><a href="/Corn-Jr-Public/doc/VISION.html" data-key="VISION">Vision</a><a href="/Corn-Jr-Public/doc/GLOSSARY.html" data-key="GLOSSARY">Glossary</a>
+      <a href="https://github.com/csheehan18/Corn-Jr-Public">Source</a>
+    </nav>
+  </header>
+  
+
+<article class="sheet" style="--c:var(--c5)">
+  <div class="progress" aria-hidden="true"></div>
+  <section class="grid chapter-open finding-open">
+    <a class="tab" href="/Corn-Jr-Public/thread/understanding.html" title="Understanding at small scale"><small>Part</small><span>V</span></a>
+    <p class="cn">186</p>
+    <p class="partline"><a href="/Corn-Jr-Public/thread/understanding.html">Understanding at small scale</a> · 20 October 2026</p>
+    <h1>He knows roughly what descriptions mean but ignores a described menu</h1>
+  </section>
+
+  <section class="grid">
+    <p class="marginal">The result, as the finding states it</p><div class="prose"><p class="lead">At 20M, a one-line description beside each field moves the phrase -&gt; field read by -0.04 to +0.03 on four checkpoints, the same menu with its descriptions rotated onto the wrong names reads within 0.03 of it on all four, and greedy decodes with and without the rotation open with the same words on nine of ten — he does not read the menu — while the descriptions alone, with no names, pick the right field 0.43-0.49 against a chance of 0.24; prediction held on the menu, missed high on descriptions alone</p></div>
+    <p class="marginal">What it cost</p><div class="prose"><p class="cost">writing <code>scripts/probe_described.py</code> and its 66 descriptions 18:34-18:36 on 2026-10-20 (2d9e61f); the four reads 74.3 s and ten hand decodes 5.3 s on the card, both contended (the card at 38-40%, a bound).</p></div>
+  </section>
+
+  
+
+  <section class="grid">
+    <div class="prose doc"><p><strong>The owner's question, 2026-10-20.</strong> The meaning hop is the wall findings <a class="fref" href="/Corn-Jr-Public/finding/148.html">148</a>, <a class="fref" href="/Corn-Jr-Public/finding/156.html">156</a>, <a class="fref" href="/Corn-Jr-Public/finding/167.html">167</a>-<a class="fref" href="/Corn-Jr-Public/finding/168.html">168</a>, <a class="fref" href="/Corn-Jr-Public/finding/183.html">183</a> and <a class="fref" href="/Corn-Jr-Public/finding/184.html">184</a> each stopped at, and GENERATORS.md D5 says there are two ways round it: put the hop in the bytes, or give it to the runtime. Finding <a class="fref" href="/Corn-Jr-Public/finding/34.html">34</a> has him picking a tool he never saw from its description. Can he do the same for a <em>field</em> — read "battery (how many hours it keeps going between plugging in)" off the page and match "lasts all day unplugged" to it? If he can, the runtime can supply meaning the weights lack; if he cannot, that is the skill a generator built on our principles would have to teach. Asked at 20M "to keep this small and a proof of the concept".</p>
+<p><strong>The probe</strong> (registered at 2d9e61f before any read). The understanding ruler's 141 phrase -&gt; field items over 30 kinds, scored exactly as the ruler scores (what the phrase adds, three frames), four ways: <code>names</code> (the ruler); <code>described</code> (a menu above the frame — "Ways to compare a laptop: price (the money you pay to buy it), weight (how heavy it is), ..."); <code>shuffled</code> (the same menu with the descriptions rotated one place, so each name carries another field's description — the twin); <code>desc-only</code> (no names; the descriptions are the candidates). No description shares a content stem with any phrase of its kind (<code>check_desc</code>), so a copied word cannot vote.</p>
+<h3 id="the-read">The read</h3>
+<p>run                    names   described   shuffled   desc-only   (chance 0.24) nano20m_v3             0.54    0.55        0.58       0.49 nano20m_v3_seed2       0.50    0.53        0.50       0.43 nano20m_v3_compiled    0.54    0.55        0.54       0.49 nano20m_v3_plainweb    0.58    0.54        0.52       0.49</p>
+<p><code>names</code> reproduces the ruler on all four. <strong>The menu does nothing a reader of it would do.</strong> If he read the descriptions, <code>shuffled</code> would fall below <code>names</code>, because the rotated description points at a wrong name; it sits at or above <code>names</code> on three of four. On the plain-web checkpoint both menus read <em>below</em> <code>names</code> (0.54 and 0.52 against 0.58): there the extra text costs a little and the rotation costs nothing further. The prediction (<code>described</code> within +0.05 of <code>names</code>, <code>shuffled</code> within 0.03 of <code>described</code>) held on all four.</p>
+<p><strong>The hand read agrees and says more.</strong> Greedy decodes of ten items after "..., so what matters most is the" on <code>nano20m_v3_compiled</code>: with or without the rotation the continuation opens with the same words on nine of ten and is word-for-word the same on six ("the same? | The laptop is a laptop"), and none of the 30 decodes writes a field name — the bare frame reads as a question ("the best?", "the difference?"). The menu moves only the register, toward comparing ("the difference between the two? | The first headphones are"). So the scored read is the only place a field choice exists at 20M at all, and there the menu's content is unread.</p>
+<p><strong>Descriptions alone carry most of what names carry.</strong> <code>desc-only</code> reads 0.43-0.49, twice chance and 0.05-0.09 under <code>names</code>, above the registered band of 0.30-0.45 on three of four. So the meaning is partly in him: "lasts all day unplugged" sits nearer "how many hours it keeps going between plugging in" than nearer "how many files it holds" with no word in common. What is missing is the <em>link on the page</em> — "this name goes with this description" — which is a binding he would have to read and carry to the answer, the shape of skill findings <a class="fref" href="/Corn-Jr-Public/finding/13.html">13</a> and <a class="fref" href="/Corn-Jr-Public/finding/34.html">34</a> installed by training.</p>
+<h3 id="what-it-licenses">What it licenses</h3>
+<ul><li><strong>At 20M, a described menu cannot carry meaning to him today</strong>: the runtime supplying descriptions buys nothing without training, so the "give it to the runtime" half of D5 is not free here.</li><li><strong>The proof-of-concept is a training question with a clean gate.</strong> A slice where the only route to the right name is through its description — invented names (D3), the same description under different names across lines (D2), real or hand-written phrasings under ten sightings (D8, D9) — read on this probe with the names replaced by invented ones, where <code>names</code> is chance by construction and any rise is reading.</li><li><strong>Not a capacity floor</strong>: twice-chance matching with no shared words says the meaning the link would need is already partly there.</li></ul>
+<p><strong>What it does not settle.</strong> Any size above 20M (finding <a class="fref" href="/Corn-Jr-Public/finding/34.html">34</a>'s tool reading was trained, at larger sizes); the wish read (description -&gt; wish), not probed; whether a menu written in the corpus's own format, rather than prose, reads differently; one prompt wording for the menu.</p></div>
+  </section>
+
+  <section class="grid refs">
+    <div class="body two-even">
+      <div>
+        <h2 class="small">It cites</h2>
+        <ul class="reflist"><li style="--c:var(--c1)"><a href="/Corn-Jr-Public/finding/13.html"><span class="fn">13</span>Inventing the fact database makes him copy tool answers perfectly</a></li><li style="--c:var(--c1)"><a href="/Corn-Jr-Public/finding/34.html"><span class="fn">34</span>He picks tools he never saw in training, but can&#39;t say no</a></li></ul>
+        
+      </div>
+      <div>
+        <h2 class="small">Cited by</h2>
+        <ul class="reflist"><li style="--c:var(--c5)"><a href="/Corn-Jr-Public/finding/187.html"><span class="fn">187</span>Trained on invented names, he learned to copy one, never which</a></li><li style="--c:var(--c5)"><a href="/Corn-Jr-Public/finding/188.html"><span class="fn">188</span>His surprise spots unusual words, not words he misunderstands</a></li><li style="--c:var(--c5)"><a href="/Corn-Jr-Public/finding/198.html"><span class="fn">198</span>Surprise-steered reading lowers rare-word surprise but not understanding at 5M</a></li></ul>
+        
+      </div>
+    </div>
+    <p class="body source">docs/findings/186-a-described-field-menu-changes-nothing-at-20m-shuffled-or-not-while-descriptions-alone-pick-the-field-at-twice-chance.md</p>
+  </section>
+</article>
+
+  
+<footer class="turn">
+  <div></div>
+  <div class="r"><span class="sc">next</span><a href="/Corn-Jr-Public/finding/187.html">187 · Trained on invented names, he learned to copy one, never which</a></div>
+  <p class="keys"><kbd>←</kbd> <kbd>→</kbd> turn the page · <kbd>/</kbd> find</p>
+</footer>
+<p class="bynumber">Previous and next in <a href="/Corn-Jr-Public/thread/understanding.html">Understanding at small scale</a>. By number:
+  <a href="/Corn-Jr-Public/finding/185.html">185</a> · <a href="/Corn-Jr-Public/finding/187.html">187</a></p>
+
+</div>
+</body>
+</html>

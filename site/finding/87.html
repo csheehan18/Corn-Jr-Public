@@ -1,0 +1,114 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>87 · The passage reader ships: 389 of 721 right, up 107 · Corn-Jr</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600&family=IBM+Plex+Mono:wght@400;500&family=Spectral:ital,wght@0,400;0,500;0,600;1,400&family=Spectral+SC:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/Corn-Jr-Public/static/library.css">
+<script defer src="/Corn-Jr-Public/static/library.js"></script>
+<script type="speculationrules">
+{"prerender": [{"where": {"and": [{"href_matches": "/Corn-Jr-Public/*"}, {"not": {"href_matches": "/Corn-Jr-Public/random.html"}}, {"not": {"href_matches": "/Corn-Jr-Public/static/*"}}]}, "eagerness": "moderate"}]}
+</script>
+
+</head>
+<body>
+<div class="page">
+  <header class="running">
+    <a class="book" href="/Corn-Jr-Public/">Corn-Jr · The Record</a>
+    <nav>
+      <a href="/Corn-Jr-Public/" data-key="shelf">Shelf</a><a href="/Corn-Jr-Public/findings.html" data-key="findings" class="here">Findings</a><a href="/Corn-Jr-Public/doc/VISION.html" data-key="VISION">Vision</a><a href="/Corn-Jr-Public/doc/GLOSSARY.html" data-key="GLOSSARY">Glossary</a>
+      <a href="https://github.com/csheehan18/Corn-Jr-Public">Source</a>
+    </nav>
+  </header>
+  
+
+<article class="sheet" style="--c:var(--c2)">
+  <div class="progress" aria-hidden="true"></div>
+  <section class="grid chapter-open finding-open">
+    <a class="tab" href="/Corn-Jr-Public/thread/reading.html" title="Reading documents"><small>Part</small><span>II</span></a>
+    <p class="cn">87</p>
+    <p class="partline"><a href="/Corn-Jr-Public/thread/reading.html">Reading documents</a> · 3 September 2026</p>
+    <h1>The passage reader ships: 389 of 721 right, up 107</h1>
+  </section>
+
+  <section class="grid">
+    <p class="marginal">The result, as the finding states it</p><div class="prose"><p class="lead">The reader head ships, and the runtime reads what the replay said it would to the passage</p></div>
+    <p class="marginal">What it cost</p><div class="prose"><p class="cost">0 s of new scoring on record; it reads 1 card scored for an earlier finding (<code>corn_jr_260m_v4_ft4g</code>). Backfilled 2026-09-26 from the cards' <code>seconds</code>; training and probe time were never recorded, so this is a floor.</p></div>
+  </section>
+
+  
+
+  <section class="grid">
+    <div class="prose doc"><p><strong>Run 2026-09-03 on the frozen <code>corn_jr_260m_v4_ft4g</code> trunk. No weight of the trunk moves, no second checkpoint is loaded, <code>corn/extract.py</code>'s <code>reduce</code> and <code>grounded</code>, <code>corn/gate.py</code>, every scorer and every frozen eval row are untouched. This is <code>PLAN-EXTRACTION-READER.md</code> R3 — wiring, guards, verification — and it contains no new experiment.</strong></p>
+<p>The eighty-sixth finding measured a reader on Population A by replay: a harvest of spans and margins, replies rendered by the probe, <code>reduce</code> called directly. What it could not say is whether the <em>runtime</em> reads the same way, because between that harvest and a live turn sit <code>harness/backends/read.py</code>, <code>corn.extract.read_passage</code>'s own cut and prompt build, the trunk run live in fp32 rather than replayed off an fp16 store, and a second <code>reduce</code> call for the fallback. This file closes each of those and then reads the whole thing end to end.</p>
+<h3 id="what-ships">What ships</h3>
+<p>span head      checkpoints/reader_built_s1.pt   where the answer is verifier head  checkpoints/nullpr_s1.pt         whether it is spoken extent rule    d = 2.0, radius 3                where the span ends reduce         hybrid (finding <a class="fref" href="/Corn-Jr-Public/finding/84.html">84</a>)              how N windows become one threshold      -2.02                            when he speaks at all</p>
+<p><code>corn/reader.py</code> is new and holds all five: <code>SpanHead</code> (the built arm's pair scorer — pointer term, LayerNorm per layer chunk, width embedding, bilinear product, hidden 512 over the concatenated block outputs at layers 8, 12 and 16), <code>VerifierHead</code> (the pair-rows null head — the say marker's row, the argmax pair's own two rows, the three standardised scalars), <code>extend</code>, and <code>HeadReader</code>, which is a <code>run</code> in <code>read_passage</code>'s sense: N prompts in, N worker-shaped replies out. <code>harness/backends/read.py</code> gains <code>Reader(reader=&quot;head&quot;)</code> and the hybrid's second <code>reduce</code> call; <code>harness/serverconfig.py</code> gains <code>reader</code>, <code>reader_threshold</code> and <code>reader_extent_d</code>. <strong><code>generate</code> is still the default.</strong></p>
+<p><strong>Two owner decisions are recorded as decisions, not as readings.</strong></p>
+<ul><li><strong>The threshold protocol is the bar's own shape</strong> — the <code>t</code> that maximises <code>right</code> on the training fold among those holding that fold's share of 200 correct silences — and not the <code>joint</code> optimum every earlier Population A number was quoted at. The eighty-sixth finding is why this is decidable rather than a preference: the joint optimum sits in a band up to 158 thresholds wide across which <code>right</code> and correct silence trade by up to thirty passages, so <code>joint</code> does not choose. The two cross-validated fold values are <strong>-1.980 / -2.061</strong> and the shipped constant is their mean, <strong>-2.02</strong>, the way <code>train_null_head.py</code> ships a frozen file's mean.</li><li><strong>Seed 1's heads ship.</strong> Seed 3 read higher on Population A (400 right at 201 silent against seed 1's 389 at 199) and Population A is the population the arm is <em>measured</em> on, so choosing the seed by that number would be selecting on the test population. Seed 1 is the seed the workstream ran first and the one whose verifier bar (f) passes on both files.</li></ul>
+<h3 id="a-the-live-reader-reads-what-the-harvest-read-to-the-window">(a) The live reader reads what the harvest read, to the window</h3>
+<p><code>scripts/check_reader_popa.py</code>, a new guard. Every window of Population A through the wired <code>HeadReader</code> with the extent rule off — the harvest was written at <code>d = 0</code>, so comparing a widened span against an unwidened one would measure the rule rather than the wiring — against <code>evals/results/nullpr_s1_popa.json</code>, the file every eighty-sixth-finding number on this arm was replayed from.</p>
+<p>windows compared                         3,893 of 3,893 spans string-identical                   3,893   100.00%   (bar: &gt;= 99%) windows disagreeing                          0 worst margin gap                         0.00152 median margin gap                        0.000171 mean margin gap                          0.000222 spans the extent rule widens at d = 2      334   8.6%      (printed, unbarred)</p>
+<p><strong>Nothing disagrees.</strong> The four differences between the paths — fp16 store against a live fp32 trunk, hooks registered per read rather than for the life of the process, windows bucketed into batched forwards rather than read one at a time, and a re-tokenisation on the runtime's side — move the margin by at most 0.0015 of a logit and move no argmax at all. The tolerance is quoted rather than asserted because it is a float that has been through a different rounding on each path; the span is a string and is the bar.</p>
+<h3 id="b-the-runtime-end-to-end-at-the-shipped-constant">(b) The runtime, end to end, at the shipped constant</h3>
+<p><code>scripts/probe_reader_runtime.py</code>: the real <code>Reader(reader=&quot;head&quot;)</code> handed <code>(question, passage)</code> 1,003 times, whatever comes back scored by <code>probe_reader_passages.judge</code> — <code>score_extract_tight</code> on <code>reduce</code>'s output, the scorer every arm on this population has been read on, unchanged.</p>
+<p>arm                 answerable 721            unanswerable 282 right  wrong  silent      silent  wrong   joint gate on (recorded) 230     99     392        256     26      486 gate CV            282    169     270        227     55      509 head (runtime)     389    188     144        200     82      589</p>
+<p>gate on (recorded)  precision 64.8%, acc|att 0.699, attempt rate 45.6% gate CV             precision 55.7%, acc|att 0.625, attempt rate 62.6% head (runtime)      precision 59.0%, acc|att 0.674, attempt rate 80.0%</p>
+<p>the hybrid fallback fired on 88 of the 1,003 passages</p>
+<p><strong>389 right at 200 correct silences</strong>, against the eighty-sixth finding's replay of 389 at 199. One passage of correct silence is the whole difference between the replay and the runtime, and it is a rounding of the margin against a threshold, not a disagreement about a reading. <code>INDEPENDENT-READ.md</code> §5.1's rule is the reason the last three columns are there: the attempt rate goes 62.6% → 80.0%, so this is an arm that speaks much more often, and <code>acc | att</code> 0.625 → 0.674 says it is also right more often when it does.</p>
+<h3 id="c-paired-against-the-gate-and-the-trade">(c) Paired against the gate, and the trade</h3>
+<p>McNemar on the joint bit — a right answer on an answerable passage or a silence on an unanswerable one — passage by passage, both gate arms named rather than inferred. <code>evals/results/multiwindow_ft4g.json</code>'s <code>on</code> verdicts are the arm recorded at <code>t = -0.082</code>; the CV'd gate at joint 509 is the policy <code>corn/gate.py</code> carries today, recomputed here from the same gate harvest by <code>probe_reader_passages.cross_validate</code>.</p>
+<p>against                net    lost   won    p gate on (recorded)    +103     99    202    2.9e-09 gate CV                +80    103    183    2.6e-06</p>
+<p><strong>And the trade, stated rather than netted.</strong> Against the CV'd gate — the policy that actually ships — the head reads:</p>
+<p>right answers          282 -&gt; 389     +107 correct silences       227 -&gt; 200      -27 precision             55.7% -&gt; 59.0%   +3.3 points acc | att             0.625 -&gt; 0.674 attempt rate          62.6% -&gt; 80.0%</p>
+<p><strong>It buys 107 right answers and spends 27 correct silences.</strong> That is a real cost and it is the owner's ordering rather than an accident: <code>R-T</code> says speak first, and the bar this workstream is written against is <em><code>right</code> subject to <code>silent &gt;= 200</code></em>, which 200 meets exactly and no more than exactly. It is also 103 passages the gate got and this arm does not, against 183 the other way — the net is not the whole story and both halves are printed above. A reader who wants the conservative arm has <code>--reader generate</code>, unchanged.</p>
+<h3 id="d-invariance-no-scored-number-on-the-card-moves-and-the-extr">(d) Invariance: no scored number on the card moves, and the extract rows do not either</h3>
+<p><code>python -m corn.evals --json</code> on <code>corn_jr_260m_v4_ft4g</code>, the reader wired, against <code>evals/results/corn_jr_260m_v4_ft4g.json</code>:</p>
+<p>behaviour rows byte-identical            45 of 54 rows present only in the fresh card       8   social.* x6, extract.span_loose, extract.span_tight rows whose content differs                1   extract.span lm / contamination / selection            identical val_loss / iter / config                  identical variety / register / chat_reply /         identical in every scored value; turn2_reply                             they differ in <code>seconds</code> alone</p>
+<p><strong>The one row that differs did not move its verdict.</strong> <code>extract.span</code> reads <code>pass 97 of 200</code> on both cards; what changed is the <code>why</code> breakdown, because the scorer gained two reporting categories in an earlier session and 49 <code>wrong_span</code> is now 34 <code>wrong_span</code> + 10 <code>near_miss_clip</code> + 5 <code>near_miss_det</code>. The eight new rows are <code>evals/</code>'s own growth since that card was written — <code>docs/ENVIRONMENT.md</code>'s known confound, that a card written after an eval rebuild carries rows the ones before it do not.</p>
+<p><strong>And the plan's expectation that the <code>extract.*</code> rows would move as a new column beside the old is wrong, for a reason worth writing down: the scorecard has no reader in its path at all.</strong> <code>corn/evals.py</code> scores single-window items by decoding the trunk directly; it never calls <code>read_passage</code>, never builds a <code>Reader</code>, and importing it loads <code>corn</code>, <code>corn.evals</code> and <code>corn.temporal</code> and nothing else — no <code>corn.reader</code>, no <code>harness</code>. So there is no <code>--reader head</code> column to write on the card, the frozen rows are invariant to this session by construction, and the population that <em>can</em> see the arm is Population A, which (b) reads. If the head is ever to appear on a card, the card needs a whole-passage row it does not have.</p>
+<h3 id="e-the-guards">(e) The guards</h3>
+<p><code>scripts/check_extract.py</code> grows a boundary-reader section, and every check in it runs with no checkpoint anywhere near it:</p>
+<ul><li><strong>The ports are the trainer's, score for score.</strong> <code>corn/</code> may not import <code>scripts/</code> (rule 29), so <code>corn/reader.py</code> carries copies of two heads and five helpers; the guard loads <code>CachedHead(built)</code>'s and <code>NullHead</code>'s own <code>state_dict</code> into them on canned states and asserts the outputs are <strong>bit-identical</strong>, the pair enumeration equal tensor for tensor, the three scalars equal, and the two state dicts key for key the same. Same for the token map: <code>corn.reader.token_bounds</code> and <code>window_region</code> against <code>corn/spangen.py</code>'s on a prompt whose window carries a quote and a backslash, and <code>corn.reader.bucket</code> against <code>harness.backends.read.bucket</code>. This is <code>corn/gate.py</code>'s arrangement and it is why the copies are safe to have.</li><li><strong>The extent rule on hand cases</strong>: a longer span within <code>d</code> is spoken; one that scores past <code>d</code> away — the extension that walks into the next entity — is refused; equal-length extensions tie to the smaller <code>a</code>; nothing past three rows is reachable; <code>d = 0</code> is the argmax. And the rule against <code>probe_extent_frozen.extend</code>, the function the eighty-fifth and eighty-sixth findings measured, on five canned score patterns: same span every time.</li><li><strong>The threshold's direction</strong>: a window exactly at <code>-2.02</code> speaks, one a hair below it declines and the passage abstains with the runtime's own decline behind it.</li><li><strong>The hybrid fallback fires on the disagreement reason and on nothing else</strong>: two admitted windows extracting different grounded values fall back to the surest one; a passage nothing was extracted from still abstains; an agreed read never reaches the fallback.</li><li><strong>Flag off is the path that shipped</strong> — not "similar": <code>Reader</code>'s own call and a direct <code>read_passage</code> return the same <code>(answer, reason)</code> tuple for the same canned worker, and with <code>reader=&quot;generate&quot;</code> the head is never constructed at all.</li><li><strong>The decline on every refused window</strong>: all 200 unanswerable items of <code>evals/extract.jsonl</code> pass <code>score_extract_abstain</code> under <code>decline_text(question, window)</code>.</li><li><strong>The constants are held equal</strong>: <code>ServerConfig().reader_threshold</code> and <code>.reader_extent_d</code> against <code>corn/reader.py</code>'s, the way <code>gate_threshold</code> already is, plus the three nonsense configs <code>validate()</code> must refuse.</li><li><strong>Layering</strong>: <code>corn/reader.py</code> imports <code>corn.gate</code> and <code>corn.toolgen</code> and nothing else from the package, both inside the runtime closure, so the reader moves with the harness when the repo splits and drags no generator with it. <code>scripts/check_layering.py</code> is green.</li></ul>
+<p><code>scripts/check_reader_popa.py</code> is (a) as a guard, and is <code>check_all.py</code>'s sixty-seventh — the count was 66. <strong>The full sweep reads 585 s over 67 guards, 91 s of it this one, and three guards fail: <code>check_churn.py</code>, <code>check_copyable.py</code> and <code>check_social.py</code>.</strong> All three fail identically at <code>HEAD</code> (<code>b72ad908</code>) in a clean worktree with the same messages and counts, so none of them is this session's: <code>check_churn</code>'s is the same <code>extract.span_tight</code> re-derivation that (d) sees as a new row, and the other two belong to the slice work another session has in flight. Reported here rather than left for the next reader to attribute.</p>
+<h3 id="f-a-live-session-both-readers">(f) A live session, both readers</h3>
+<p><code>scripts/probe_reader_live.py</code>, <code>probe_gate_live.py</code>'s fourteen questions through the real provider, each passage read twice — <code>Reader(gate=True, gate_threshold=-0.136)</code> and <code>Reader(reader=&quot;head&quot;)</code> — with the provider's own lead sentence beside both. Transcript: <code>evals/results/reader_live.md</code>.</p>
+<p>6 of 14 questions came back with a passage      8 read <code>no_results</code> the gate answered 3, the head answered 3 questions one arm answered and the other refused: none</p>
+<p>question                        gate                 head what is the capital of laos     It's Vientiane.      It's Vientiane. 1 of 4 windows       4 of 4 windows agree what is the population of       It's 138,772.        It's 138,772. reykjavik                     1 of 1               1 of 1 what language do they speak     Looks like           It's Portuguese. in brazil                     Portuguese.          2 of 7 agree 2 of 7 agree melting point of iron           None                 None treaty of waitangi              None                 None president of iceland            None                 None</p>
+<p><strong>Nothing changes for the eight questions with no passage</strong>, which is what <code>PLAN-EXTRACTION-READER.md</code> §4 predicts and the reason it predicts it: the reader only ever sees the window retrieval hands it, and <code>_web_search</code>'s lead sentence is the floor either way. On the six that did return a passage the two arms agree question for question — and the one visible difference is the mechanism the eighty-sixth finding describes, <code>capital of laos</code> going from one window extracting <code>Vientiane</code> to <strong>four of four agreeing on it</strong>, which is a reduce with more evidence under it rather than a different answer. The provider returned fewer passages today than on the day <code>gate_live.md</code> was written (six against nine); that is the day's retrieval and not the reader.</p>
+<h3 id="limits">Limits</h3>
+<p>One trunk, one seed of the shipped heads, fp32. Population A is nq-dev's own paragraphs and the questions are NQ's; the live session is fourteen questions and is not a population. The verifier's training saw the <em>fold</em> heads' argmax rows and at inference it reads the deployed head's, which is the stacking rule's usual cost, accepted rather than removed (finding <a class="fref" href="/Corn-Jr-Public/finding/86.html">86</a>'s limits). The threshold is a constant of a checkpoint and a population and not of the model: the next trunk gets its own <code>scripts/probe_reader_passages.py</code> run. <code>(a)</code>'s tolerance is a reading on this trunk and this harvest and would have to be re-read on another. Nothing here measures packs, which is where the extraction gains were expected to transfer and where no reader number exists yet.</p></div>
+  </section>
+
+  <section class="grid refs">
+    <div class="body two-even">
+      <div>
+        <h2 class="small">It cites</h2>
+        <ul class="reflist"><li style="--c:var(--c2)"><a href="/Corn-Jr-Public/finding/84.html"><span class="fn">84</span>A fallback rule buys 35 answers, but refusals still dominate</a></li><li style="--c:var(--c2)"><a href="/Corn-Jr-Public/finding/86.html"><span class="fn">86</span>A checker that reads the candidate answer works; re-ranking does not</a></li></ul>
+        
+      </div>
+      <div>
+        <h2 class="small">Cited by</h2>
+        <ul class="reflist"><li style="--c:var(--c2)"><a href="/Corn-Jr-Public/finding/112.html"><span class="fn">112</span>Training on whole passages lifts extraction from 54% to 71%</a></li><li style="--c:var(--c2)"><a href="/Corn-Jr-Public/finding/116.html"><span class="fn">116</span>A fix to the copy check lifts the whole-passage reader to 523</a></li><li style="--c:var(--c2)"><a href="/Corn-Jr-Public/finding/117.html"><span class="fn">117</span>The whole-passage reader ships: 526 of 721 at runtime</a></li></ul>
+        
+      </div>
+    </div>
+    <p class="body source">docs/findings/87-the-reader-head-ships-and-the-runtime-reads-what-the-replay-said-it-would-to-the-passage.md</p>
+  </section>
+</article>
+
+  
+<footer class="turn">
+  <div><span class="sc">previous</span><a href="/Corn-Jr-Public/finding/86.html">86 · A checker that reads the candidate answer works; re-ranking does not</a></div>
+  <div class="r"><span class="sc">next</span><a href="/Corn-Jr-Public/finding/89.html">89 · Wrong rival answers are mostly about position on the shipped checker</a></div>
+  <p class="keys"><kbd>←</kbd> <kbd>→</kbd> turn the page · <kbd>/</kbd> find</p>
+</footer>
+<p class="bynumber">Previous and next in <a href="/Corn-Jr-Public/thread/reading.html">Reading documents</a>. By number:
+  <a href="/Corn-Jr-Public/finding/86.html">86</a> · <a href="/Corn-Jr-Public/finding/88.html">88</a></p>
+
+</div>
+</body>
+</html>

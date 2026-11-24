@@ -1,0 +1,103 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>169 · Choosing a branch from a checked condition: seeds split · Corn-Jr</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600&family=IBM+Plex+Mono:wght@400;500&family=Spectral:ital,wght@0,400;0,500;0,600;1,400&family=Spectral+SC:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/Corn-Jr-Public/static/library.css">
+<script defer src="/Corn-Jr-Public/static/library.js"></script>
+<script type="speculationrules">
+{"prerender": [{"where": {"and": [{"href_matches": "/Corn-Jr-Public/*"}, {"not": {"href_matches": "/Corn-Jr-Public/random.html"}}, {"not": {"href_matches": "/Corn-Jr-Public/static/*"}}]}, "eagerness": "moderate"}]}
+</script>
+
+</head>
+<body>
+<div class="page">
+  <header class="running">
+    <a class="book" href="/Corn-Jr-Public/">Corn-Jr · The Record</a>
+    <nav>
+      <a href="/Corn-Jr-Public/" data-key="shelf">Shelf</a><a href="/Corn-Jr-Public/findings.html" data-key="findings" class="here">Findings</a><a href="/Corn-Jr-Public/doc/VISION.html" data-key="VISION">Vision</a><a href="/Corn-Jr-Public/doc/GLOSSARY.html" data-key="GLOSSARY">Glossary</a>
+      <a href="https://github.com/csheehan18/Corn-Jr-Public">Source</a>
+    </nav>
+  </header>
+  
+
+<article class="sheet" style="--c:var(--c4)">
+  <div class="progress" aria-hidden="true"></div>
+  <section class="grid chapter-open finding-open">
+    <a class="tab" href="/Corn-Jr-Public/thread/tag-language.html" title="The tag language"><small>Part</small><span>IV</span></a>
+    <p class="cn">169</p>
+    <p class="partline"><a href="/Corn-Jr-Public/thread/tag-language.html">The tag language</a> · 14 October 2026</p>
+    <h1>Choosing a branch from a checked condition: seeds split</h1>
+  </section>
+
+  <section class="grid">
+    <p class="marginal">The result, as the finding states it</p><div class="prose"><p class="lead">G6's branch rung: when the runtime checks the condition and writes the person's two continuations as a menu, the seeds split — at 2337 the pick follows the result and the frame together on every trained wording (105 and 96 of 144 held-out quads), at 1337 it barely follows the result at all (0 and 29) — and at neither seed does the binding reach a wording it never trained; the standing copy kill fires at both seeds</p></div>
+    <p class="marginal">What it cost</p><div class="prose"><p class="cost">38.9 min of training two nano runs (1,189 s and 1,144 s, contended — the card at 39-40%, a bound; registered ~45 min end to end, actual 39.8); 37 s of probing, two <code>tool_copy_wide</code> cards in 17 s, the two control reads 37 s and the copy hand read 28 s on the card; the build about 12 min of CPU (08:09-08:21 on 2026-10-14), the read 09:00-09:04.</p></div>
+  </section>
+
+  
+
+  <section class="grid">
+    <div class="prose doc"><p>G6's third rung, pre-registered in <code>configs/mix_v3_funcworld_branch.py</code>'s docstring and committed at 9c0eac5 before a byte trained. <strong>One change from arm E2: the branch payload</strong> (<code>corn/branchgen.py</code>, 7,424 traces, 2.19% of the mix, 5,842 iterations — recover's dose within 1%). A person names a condition and two continuations; he looks it up; the runtime writes <code>check: A ok</code> or <code>check: A unmet:&lt;field&gt;</code> and <code>options: next[...] next[...]</code> in the order the request names them; <code>pick:</code> is his, and the next call's query is the picked continuation:</p>
+<p>&lt;|user|&gt;check the weather in Garathmere, and if it's raining, find me somewhere to eat, otherwise a spot for a pint ... &lt;|obs|&gt;{"items": [{"id": "A", "sky": "sunny", "temp": 18, "wind": 9}]} goal: sky=raining check: A unmet:sky options: next[somewhere to eat] next[a spot for a pint] pick: next[a spot for a pint]</p>
+<p>Designed to <span class="deadlink">GENERATORS.md</span>, with every hop in the bytes: the result is the runtime's word and the condition's value the observation's own word, so the only read left to him is <strong>the binding</strong> — which continuation the request put under the condition. Eight trained frames, four with the conditional continuation first ("if it's raining, find me X, otherwise Y") and four with it second ("find me Y, but if it's raining, X"). The gold's position is the result crossed with the frame's side; <code>check_branch.py</code> holds every single key at 50-51% on the position and (frame, result) at 100%.</p>
+<p><strong>The rows</strong> (<code>evals/funcworld_branch.jsonl</code>): 528 <strong>quads</strong> — the base, the result twin (the observation flipped between <code>ok</code> and <code>unmet</code>, every other byte the same), the action twin (the two continuations swapped in the request) and both. A quad is right when all four prompts are; any rule that ignores the result, the frame or the swap scores zero on a side's quads. The gate: quad on the <code>heldout</code> cell (each trained frame with the one continuation pair it never carried) above 14 of 144 <strong>on each side separately</strong>, at both seeds. <strong>Cards:</strong> <code>evals/results/nano20m_v3_fw_branch{,_seed2}__branch.json</code>, <code>__branch_items.jsonl</code> (every prompt's NLLs), <code>__copywide.json</code>; the controls' <code>nano20m_v3_fw_filter_ev2{,_seed2}__branch.json</code>.</p>
+<h3 id="the-registered-read">The registered read</h3>
+<p>quads (all four right)      heldout first   heldout second   train first   train second   newframe first   newframe second (of 144)        (of 144)        (of 72)       (of 72)         (of 48)          (of 48) arm E2 (control)  1337            0               3               0             0               0                0 arm E2 (control)  2337            0               0               0             0               0                0 branch            1337            0              29               2            14               0               12 branch            2337          105              96              62            45               0                1</p>
+<p>the pick follows the result (base vs result twin, + action pair; of 288 heldout / 96 newframe) arm E2  1337      9+5      11+15       0+2       2+2 branch  1337     37+32     57+49       8+17     23+26 branch  2337    123+118   110+115     15+14     14+17</p>
+<p><strong>Seeds split on the gate</strong> — 2337 passes both sides, 1337 one: the registered row "a direction; no third seed". The controls read 0-3 on every cell; readable. <strong>The prediction on the record was wrong in its shape</strong>: it said the result would reach the pick at both seeds and the side would split. At 2337 both formed together; at 1337 neither did — the pick follows the result on 37 of 288 heldout twin pairs on the first side, against 123 at 2337 and 9 at the control.</p>
+<h3 id="read-by-hand">Read by hand</h3>
+<p>Per trained frame (<code>branch_frames.py</code>, scratch, probe only — not on disk; <code>margin</code> is the mean NLL of the wrong line minus the gold's, per prompt):</p>
+<p>frame                                      side      2337: quad/54  margin    1337: quad/54  margin  cond if {c}, find me {a}, otherwise {b}         first          44        +2.95          1        +0.22   0.80 if {c}, I'd like {a} — if not, {b}        first          40        +2.20          0        +0.18   0.49 {a} if {c}, otherwise {b}                  first          41        +2.26          0        -0.08   0.62 if {c} then {a}, else {b}                  first          42        +2.78          1        +0.24   0.75 find me {b}, but if {c}, {a}               second         26        +1.23          8        +0.25   0.61 {b} — unless {c}, in which case {a}       second         35        +2.25          3        +0.28   0.54 {b}, or {a} if {c}                         second         37        +2.43         21        +0.42   0.45 {b} please; if {c} though, {a} instead     second         43        +2.38         11        +0.44   0.58 when {c}, go for {a}; any other time, {b}  first (new)     0        +0.16          0        -0.15   0.35 {b} normally, {a} whenever {c}             second (new)    1        +0.88         12        +0.40   0.45</p>
+<p>(<code>cond</code> is seed 1337's share of picks naming the continuation under the condition, whatever the result.)</p>
+<p><strong>At 2337 branch installed on every trained wording</strong>, the weakest ("find me {b}, but if {c}, {a}") at 26 of 54, with two to three nats between the gold and the other line. The held-out continuation pairs read the same as the trained ones, so the continuation's words carry nothing.</p>
+<p><strong>At 1337 almost nothing formed.</strong> Margins are a fifth of a nat. On the <code>if</code>-initial frames he leans to the continuation under the condition (0.75 and 0.80 of picks) and the result barely moves it; the second-side frames carry what little there is, 21 of 54 on "{b}, or {a} if {c}".</p>
+<p><strong>On a wording never trained, the result stops reaching the pick at the seed that has the rung.</strong> At 2337 the new frames read 0 and 1 of 48, and the pick follows the result on 15 and 14 of 48 twin pairs against 34-50 on every trained frame. So the result is read <em>through</em> the frame, not beside it: what installed is a table of eight wordings, each with its own reading of <code>ok</code>, and a ninth wording falls outside the table altogether. Seed 1337's 12 of 48 on "{b} normally, {a} whenever {c}" sits beside its 29 of 144 on the trained second side, the same weak lean, and is not read as transfer.</p>
+<p><strong>The split falls the same way as finding <a class="fref" href="/Corn-Jr-Public/finding/168.html">168</a>'s.</strong> Seed 2337 learned the named limit there (288 of 288) and branch here; seed 1337 formed a fixed ranking there and a lean here. Two arms on one family and one seed pair is a coincidence until a third seed of either says otherwise. But it is the second menu pick after an observation in a row where one initialisation installs the dependency outright and the other does not start it.</p>
+<h3 id="the-standing-kill-fires-at-both-seeds">The standing kill fires at both seeds</h3>
+<p><code>tool.copy_wide</code> 292 of 300 against arm E2's 298 at seed 1337 (half-width 2.8), 282 against 295 at seed 2337 (half-width 4.3). Read by hand (scratch greedy decode, probe only — not on disk):</p>
+<ul><li><strong>2337, 18 misses — one species, 12 of them</strong>: a comma-thousands number with its leading digit and comma dropped — "4,491 degrees Celsius" said "491", "3,376 metres at its deepest" said "376" — plus "4,747" written "4747" twice and a first syllable swapped on two invented names.</li><li><strong>1337, 8 misses</strong>: a filler in place of a short one-word answer ("Right.", "Got it." for "Ravotha", "Garolvburg"), wrong first syllables on two invented names, "4,227" written "4,27".</li></ul>
+<p>Finding <a class="fref" href="/Corn-Jr-Public/finding/168.html">168</a>'s species was the same family as 2337's (a copied number's first digit moved). That is two payloads out of three on this ladder costing the copy band at both seeds, while recover's own arm (finding <a class="fref" href="/Corn-Jr-Public/finding/167.html">167</a>) did not. The branch payload carries no comma number and no copied answer, so nothing in it competes with the slot directly. Finding <a class="fref" href="/Corn-Jr-Public/finding/139.html">139</a>'s caution about the copy band at nano is said beside it: a third seed of either would separate the payload from nano's noise between payloads, and none was registered.</p>
+<h3 id="what-it-licenses">What it licenses</h3>
+<p>By the table, <strong>a direction, no third seed</strong>. What the direction is:</p>
+<ul><li><strong>A menu pick that depends on the request and the result together can install at this position and dose</strong> — 2337 did it on every trained wording with margins of two to three nats. Findings <a class="fref" href="/Corn-Jr-Public/finding/156.html">156</a> and <a class="fref" href="/Corn-Jr-Public/finding/167.html">167</a> never saw that, and finding <a class="fref" href="/Corn-Jr-Public/finding/168.html">168</a> saw it only on a word match. So "every hop in the bytes" is a design that can work.</li><li><strong>It is a table of the wordings, not a reading of the conditional.</strong> A new wording reads zero at both seeds, and at 2337 the result stops reaching the pick with it. In the corpus a branch carried by eight frames would teach eight frames; the person's ninth way of saying "if" would get no branch at all. That is finding <a class="fref" href="/Corn-Jr-Public/finding/158.html">158</a>'s list again, one level up, and GENERATORS D8's lever, many wordings, is untested here.</li><li><strong>For D7</strong>: branch as his pick needs the wordings to be wide and is fragile at one seed of two; the runtime alternative is cheap — the parse marks which continuation sits under the condition, and the runtime, which already computes <code>check:</code>, runs the right one with no pick of his. Combine (156) and recover's flex reading (167, 168) already point there. <strong>Which one branch takes is the owner's call.</strong> (The copy kill read here is not readable — see the amendment below.)</li></ul>
+<p><strong>What it does not settle.</strong> Why 1337 did not start (dose, the share of the slice, the initialisation — finding <a class="fref" href="/Corn-Jr-Public/finding/168.html">168</a>'s same split says ask before guessing); whether many wordings make the binding a reading rather than a table; and whether the copy cost is the payload's or nano's.</p>
+<h3 id="amended-2026-10-14-the-copy-kill-is-not-readable-finding-170">Amended 2026-10-14 — the copy kill is not readable (finding <a class="fref" href="/Corn-Jr-Public/finding/170.html">170</a>)</h3>
+<p>The standing kill above was read with a binomial half-width of 3-4 items. Seeds of one arm on identical data spread 0-54 items on <code>tool.copy_wide</code> (median 8, 90th percentile 20), so by EXPERIMENTS §5.2, and §5.7 as amended, the gap here is <strong>not readable</strong>: every seed of this arm would have to sit below arm E2's lowest seed (293) by more than 20 items. The hand-read misses are real outputs and stay as written. What does not stand is "the copy kill fires at both seeds" as a reason against the payload (finding <a class="fref" href="/Corn-Jr-Public/finding/170.html">170</a>).</p>
+<h3 id="amended-2026-10-14-the-payload-broke-generators-d8-finding-1">Amended 2026-10-14 — the payload broke GENERATORS D8 (finding <a class="fref" href="/Corn-Jr-Public/finding/173.html">173</a>)</h3>
+<p>This arm trained <code>corn/branchgen.py</code>'s payload: "if" in eight wordings, each seen ~928 times, and its own guard showed (wording, result) settling every gold — the lookup route GENERATORS §4 names as the sign of a list, and D8's "near or under ten sightings" missed by two orders of magnitude. What it measured is a memorisable slice: the "table of eight wordings" and the zero on a ninth are what that slice predicts, and the seed, size and frame comparisons here vary everything except the flaw. The rebuild to GENERATORS is finding <a class="fref" href="/Corn-Jr-Public/finding/173.html">173</a>.</p></div>
+  </section>
+
+  <section class="grid refs">
+    <div class="body two-even">
+      <div>
+        <h2 class="small">It cites</h2>
+        <ul class="reflist"><li style="--c:var(--c4)"><a href="/Corn-Jr-Public/finding/139.html"><span class="fn">139</span>Aligning training blocks to transcript starts helps parsing, short of target</a></li><li style="--c:var(--c4)"><a href="/Corn-Jr-Public/finding/156.html"><span class="fn">156</span>He can&#39;t build a goal from two observations at one pass</a></li><li style="--c:var(--c3)"><a href="/Corn-Jr-Public/finding/158.html"><span class="fn">158</span>Wordings seen over ten times get memorised; key phrases become lists</a></li><li style="--c:var(--c4)"><a href="/Corn-Jr-Public/finding/167.html"><span class="fn">167</span>He can&#39;t learn which limit a person will relax</a></li><li style="--c:var(--c4)"><a href="/Corn-Jr-Public/finding/168.html"><span class="fn">168</span>Naming the flexible limit outright splits the seeds</a></li><li style="--c:var(--c4)"><a href="/Corn-Jr-Public/finding/170.html"><span class="fn">170</span>The copy test&#39;s failure threshold was measuring seed noise</a></li><li style="--c:var(--c4)"><a href="/Corn-Jr-Public/finding/173.html"><span class="fn">173</span>Branch choice falls to chance when condition words flip the meaning</a></li></ul>
+        
+      </div>
+      <div>
+        <h2 class="small">Cited by</h2>
+        <ul class="reflist"><li style="--c:var(--c4)"><a href="/Corn-Jr-Public/finding/170.html"><span class="fn">170</span>The copy test&#39;s failure threshold was measuring seed noise</a></li><li style="--c:var(--c4)"><a href="/Corn-Jr-Public/finding/171.html"><span class="fn">171</span>At 50M, branch choice still splits across seeds</a></li><li style="--c:var(--c4)"><a href="/Corn-Jr-Public/finding/172.html"><span class="fn">172</span>The starting model, not the trace format, makes branching reliable</a></li><li style="--c:var(--c4)"><a href="/Corn-Jr-Public/finding/173.html"><span class="fn">173</span>Branch choice falls to chance when condition words flip the meaning</a></li><li style="--c:var(--c4)"><a href="/Corn-Jr-Public/finding/174.html"><span class="fn">174</span>A space after the bracket shifts his default to the first option</a></li><li style="--c:var(--c4)"><a href="/Corn-Jr-Public/finding/176.html"><span class="fn">176</span>Naming both branches fixes the pick but blurs &#39;not&#39;</a></li><li style="--c:var(--c4)"><a href="/Corn-Jr-Public/finding/179.html"><span class="fn">179</span>Fine-tuned, he reads every condition word like &#39;not&#39; and &#39;unless&#39;</a></li><li style="--c:var(--c4)"><a href="/Corn-Jr-Public/finding/180.html"><span class="fn">180</span>When the runtime orders the menu, &#39;the other one&#39; is perfect</a></li></ul>
+        
+      </div>
+    </div>
+    <p class="body source">docs/findings/169-branch-installs-at-one-seed-of-two-every-trained-wording-at-2337-none-at-1337-no-new-wording-at-either-and-the-copy-kill-fires-at-both.md</p>
+  </section>
+</article>
+
+  
+<footer class="turn">
+  <div><span class="sc">previous</span><a href="/Corn-Jr-Public/finding/168.html">168 · Naming the flexible limit outright splits the seeds</a></div>
+  <div class="r"><span class="sc">next</span><a href="/Corn-Jr-Public/finding/170.html">170 · The copy test&#39;s failure threshold was measuring seed noise</a></div>
+  <p class="keys"><kbd>←</kbd> <kbd>→</kbd> turn the page · <kbd>/</kbd> find</p>
+</footer>
+<p class="bynumber">Previous and next in <a href="/Corn-Jr-Public/thread/tag-language.html">The tag language</a>. By number:
+  <a href="/Corn-Jr-Public/finding/168.html">168</a> · <a href="/Corn-Jr-Public/finding/170.html">170</a></p>
+
+</div>
+</body>
+</html>

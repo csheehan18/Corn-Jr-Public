@@ -1,0 +1,94 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>21 · Copying is a step: it appears once any tool data exists · Corn-Jr</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600&family=IBM+Plex+Mono:wght@400;500&family=Spectral:ital,wght@0,400;0,500;0,600;1,400&family=Spectral+SC:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/Corn-Jr-Public/static/library.css">
+<script defer src="/Corn-Jr-Public/static/library.js"></script>
+<script type="speculationrules">
+{"prerender": [{"where": {"and": [{"href_matches": "/Corn-Jr-Public/*"}, {"not": {"href_matches": "/Corn-Jr-Public/random.html"}}, {"not": {"href_matches": "/Corn-Jr-Public/static/*"}}]}, "eagerness": "moderate"}]}
+</script>
+
+</head>
+<body>
+<div class="page">
+  <header class="running">
+    <a class="book" href="/Corn-Jr-Public/">Corn-Jr · The Record</a>
+    <nav>
+      <a href="/Corn-Jr-Public/" data-key="shelf">Shelf</a><a href="/Corn-Jr-Public/findings.html" data-key="findings" class="here">Findings</a><a href="/Corn-Jr-Public/doc/VISION.html" data-key="VISION">Vision</a><a href="/Corn-Jr-Public/doc/GLOSSARY.html" data-key="GLOSSARY">Glossary</a>
+      <a href="https://github.com/csheehan18/Corn-Jr-Public">Source</a>
+    </nav>
+  </header>
+  
+
+<article class="sheet" style="--c:var(--c1)">
+  <div class="progress" aria-hidden="true"></div>
+  <section class="grid chapter-open finding-open">
+    <a class="tab" href="/Corn-Jr-Public/thread/tool-calls.html" title="Tool calls and copying"><small>Part</small><span>I</span></a>
+    <p class="cn">21</p>
+    <p class="partline"><a href="/Corn-Jr-Public/thread/tool-calls.html">Tool calls and copying</a> · 17 August 2026</p>
+    <h1>Copying is a step: it appears once any tool data exists</h1>
+  </section>
+
+  <section class="grid">
+    <p class="marginal">The result, as the finding states it</p><div class="prose"><p class="lead">Copy discipline is a step, and the step is the slice existing</p></div>
+    <p class="marginal">What it cost</p><div class="prose"><p class="cost">4.0 min of scoring on the 1 card first cited here (<code>nano20m_notools</code>); it also reads 1 card scored for an earlier finding (<code>nano20m_web_bpe</code>). Backfilled 2026-09-26 from the cards' <code>seconds</code>; training and probe time were never recorded, so this is a floor.</p></div>
+  </section>
+
+  
+
+  <section class="grid">
+    <div class="prose doc"><p>The twentieth finding could not distinguish "no share moves this row" from "no share moves it <em>above</em> a floor that the slice buys outright", because all six corpora scored on <code>tool.copy_wide</code> contained the tool slice. Two measurements close it. One cost nothing: <code>nano20m_web_bpe</code> is the only existing corpus with no tool data and was the one checkpoint never re-scored on the wide row. The other is <code>nano20m_notools</code> — <code>mix_balanced</code> with the tool slice removed and web absorbing its 815,442 tokens, one variable, same 130,934,381 budget, same 5,237 iterations, 1,023s at 154k tok/s.</p>
+<div class="tablewrap"><table><thead><tr><th>row</th><th><code>balanced</code></th><th><code>notools</code></th><th><code>web_bpe</code></th><th>Δ</th><th>floor</th></tr></thead><tbody><tr><td><code>tool.copy_wide</code></td><td>277/300</td><td><strong>0</strong></td><td><strong>0</strong></td><td>−277</td><td>29</td></tr><tr><td><code>tool.copy</code></td><td>120/120</td><td><strong>0</strong></td><td><strong>0</strong></td><td>−120</td><td>18</td></tr><tr><td><code>tool.selection</code></td><td>150/200</td><td>0</td><td>0</td><td>−150</td><td>8</td></tr><tr><td><code>tool.validity</code></td><td>171/181</td><td>134</td><td>112</td><td>−37</td><td>13</td></tr><tr><td><strong><code>temporal.copy</code></strong></td><td>353/353</td><td><strong>353</strong></td><td><strong>353</strong></td><td><strong>+0</strong></td><td>0</td></tr><tr><td><code>temporal.route</code></td><td>400/400</td><td>399</td><td>398</td><td>−1</td><td>2</td></tr><tr><td><code>refusal.clarify</code>, <code>refusal.no_guess</code></td><td>47/47</td><td>47</td><td>47</td><td>+0</td><td>0</td></tr><tr><td><code>schema.conform</code></td><td>172/200</td><td><strong>174</strong></td><td>0</td><td>+2</td><td>2</td></tr><tr><td><code>lm narrative</code></td><td>0.3679</td><td>0.3675</td><td>0.3666</td><td>−0.0003</td><td>0.0012</td></tr><tr><td><code>lm temporal</code></td><td>0.0944</td><td><strong>0.0963</strong></td><td>0.0967</td><td><strong>+0.0019</strong></td><td>0.0009</td></tr><tr><td><code>lm web</code></td><td>0.9106</td><td>0.9079</td><td>0.9104</td><td>−0.0027</td><td>0.0038</td></tr><tr><td><code>variety.distinct3</code></td><td>89.34%</td><td>87.71%</td><td>90.04%</td><td>−1.63</td><td>1.85</td></tr></tbody></table></div>
+<h4 id="the-whole-effect-lives-between-0-and-0-61">The whole effect lives between 0% and 0.61%</h4>
+<p>Across every corpus the project has trained, <code>tool.copy_wide</code> reads:</p>
+<div class="tablewrap"><table><thead><tr><th>tools share</th><th>corpora</th><th><code>tool.copy_wide</code></th></tr></thead><tbody><tr><td><strong>0%</strong></td><td><code>notools</code>, <code>web_bpe</code></td><td><strong>0/300, 0/300</strong></td></tr><tr><td>0.61%</td><td>seven corpora, four of them seed replicates</td><td>249–289</td></tr><tr><td>15%</td><td><code>tools15</code></td><td>278</td></tr></tbody></table></div>
+<p><strong>Presence is a step and share is flat.</strong> The band above zero spans 40 items where four seeds on a single corpus span 29, so once the slice exists nothing about how much of it there is has ever moved the row. The eleventh finding's "a 25th of §4's share buys most of the behaviour" is understated for copy discipline: 0.61% buys <em>all</em> of it, and the unmeasured region is everything below a share that is already a twenty-fifth of the smallest one ever tested.</p>
+<h4 id="temporal-copy-353-353-is-the-result-not-the-control-passing"><code>temporal.copy</code> 353/353 is the result, not the control passing</h4>
+<p>Both 0%-tools checkpoints read <code>temporal.copy</code> <strong>353/353</strong> while reading <code>tool.copy_wide</code> 0/300. The temporal slice commits to the same transcript markers — <code>&lt;|day|&gt;</code>, <code>&lt;|call|&gt;</code>, <code>&lt;|obs|&gt;</code>, <code>&lt;|say|&gt;</code> — and teaches perfect copy discipline on <code>resolve_date</code>, and <strong>none of it reaches <code>web_search</code>.</strong> So the thirteenth finding's "the copy discipline generalises" is real and is bought by the tool slice; it does not follow from having the format, which was the one reading the twentieth finding left open. Deference is learned per answer space, not per marker.</p>
+<p>The failure modes differ between the two 0% arms in a way worth recording: <code>web_bpe</code> fails <code>malformed</code> 300/300, and <code>notools</code> fails <strong><code>empty</code> 298 and <code>malformed</code> 2</strong>. The corpus with the structured slice stops writing instead of writing the wrong thing.</p>
+<h4 id="tool-validity-cannot-tell-schema-mastery-from-one-memorised-"><code>tool.validity</code> cannot tell schema mastery from one memorised call</h4>
+<p><code>tool.validity</code> reads <strong>134/181 on <code>notools</code> against 112/181 on <code>web_bpe</code></strong>, and neither model has ever seen a tool call. That looked like the structured slice buying tool-call syntax. It is not, and the arithmetic says so exactly:</p>
+<div class="tablewrap"><table><thead><tr><th></th><th><code>tool.validity</code> pass</th><th><code>tool.selection</code> <code>chose_resolve_date</code></th><th><code>not_json</code> / <code>unparseable</code></th></tr></thead><tbody><tr><td><code>web_bpe</code></td><td><strong>112</strong></td><td><strong>112</strong></td><td>69 / 69</td></tr><tr><td><code>notools</code></td><td><strong>134</strong></td><td><strong>134</strong></td><td>46 / 46</td></tr></tbody></table></div>
+<p><strong>Every valid call either model emits is a <code>resolve_date</code> call.</strong> They know one tool of six, from the temporal slice, and name it for all 181 items whatever was asked. <code>score_validity</code> is deliberately blind to which tool was chosen — a well-formed call to the wrong tool is a validity pass and a selection failure, which is the distinction the two rows exist for — so a model with one memorised call reads 74% on a row whose one-line note is "emit a call that matches the schema".</p>
+<p>So the 22-item difference is <strong>entirely fewer unparseable answers</strong>, 69 → 46. What the structured slice buys is JSON well-formedness, not anything about tools. That is a smaller claim than the one this finding first recorded, and a cleaner one: it is the same skill <code>schema.conform</code> measures, showing up on a row that was not built to see it.</p>
+<p><strong>Nothing on the scorecard said any of this</strong> — finding it meant cross-referencing two rows' failure buckets, and the coincidence of 134 with 134 is the only thing that gives it away. So <code>corn/evals.py</code> gains <code>named_tool</code> and the validity row gains a <code>named</code> count of which tool each item named, with the report saying out loud when a row has collapsed onto one tool. <code>scripts/check_evals.py</code> gains eight checks over it. It changes no score: the buckets are observations, not verdicts, and every re-scored row came back identical.</p>
+<p><code>schema.conform</code> 172 → <strong>174</strong> fills the last empty cell of the 2×2 — structured formats work at full strength with no tool slice present, at the row's floor. (Quoted as 2 when written; the thirtieth finding puts it at <strong>8</strong>, which only makes the null cleaner.)</p>
+<h4 id="two-small-costs-one-of-them-real">Two small costs, one of them real</h4>
+<p><code>lm temporal</code> moves <strong>0.0944 → 0.0963</strong>, which is 0.0019 against a floor of 0.0009 — a little over twice it, and the only language row outside its noise. Removing the tool slice made <em>temporal</em> modelling worse, which is the direction the shared transcript format predicts: the two slices are the only ones that use those markers, and there is now less of that shape in the corpus. It is small and it is outside the floor, which is the weakest kind of real.</p>
+<p><code>lm web</code> moves −0.0027 for 815,442 extra tokens of web, inside its floor of 0.0038. The absorption is therefore not confounding the ablation, which is what <code>configs/mix_notools.py</code> argued in advance — though it predicted "under 0.001" and the observed move is nearly three times that, so the argument was right and its arithmetic was optimistic.</p>
+<h4 id="what-this-does-not-say">What this does not say</h4>
+<p>It does not say the tool slice is correctly sized. Every share from 0.61% to 15% reads the same on this row, so the row cannot price the slice — it can only say the slice must exist. The fifteenth finding's pricing of tools at 15% still rests on <code>tool.selection</code> and on prose, and this arm does not touch either question. It also does not say anything about scale: <code>tool.copy</code> and <code>tool.copy_wide</code> both collapse to zero here, and a 250M model with the same corpus might recover the format from far less.</p></div>
+  </section>
+
+  <section class="grid refs">
+    <div class="body two-even">
+      <div>
+        <h2 class="small">It cites</h2>
+        <p class="aside">No other finding by number.</p>
+      </div>
+      <div>
+        <h2 class="small">Cited by</h2>
+        <p class="aside">No later finding yet.</p>
+      </div>
+    </div>
+    <p class="body source">docs/findings/21-copy-discipline-is-a-step-and-the-step-is-the-slice-existing.md</p>
+  </section>
+</article>
+
+  
+<footer class="turn">
+  <div><span class="sc">previous</span><a href="/Corn-Jr-Public/finding/20.html">20 · No data share moves copying above noise</a></div>
+  <div class="r"><span class="sc">next</span><a href="/Corn-Jr-Public/finding/33.html">33 · Copying depends on the tool output&#39;s shape and nothing else</a></div>
+  <p class="keys"><kbd>←</kbd> <kbd>→</kbd> turn the page · <kbd>/</kbd> find</p>
+</footer>
+<p class="bynumber">Previous and next in <a href="/Corn-Jr-Public/thread/tool-calls.html">Tool calls and copying</a>. By number:
+  <a href="/Corn-Jr-Public/finding/20.html">20</a> · <a href="/Corn-Jr-Public/finding/22.html">22</a></p>
+
+</div>
+</body>
+</html>

@@ -1,0 +1,91 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>115 · A copy-check bug refused answers like &#39;best-of-seven&#39; · Corn-Jr</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600&family=IBM+Plex+Mono:wght@400;500&family=Spectral:ital,wght@0,400;0,500;0,600;1,400&family=Spectral+SC:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/Corn-Jr-Public/static/library.css">
+<script defer src="/Corn-Jr-Public/static/library.js"></script>
+<script type="speculationrules">
+{"prerender": [{"where": {"and": [{"href_matches": "/Corn-Jr-Public/*"}, {"not": {"href_matches": "/Corn-Jr-Public/random.html"}}, {"not": {"href_matches": "/Corn-Jr-Public/static/*"}}]}, "eagerness": "moderate"}]}
+</script>
+
+</head>
+<body>
+<div class="page">
+  <header class="running">
+    <a class="book" href="/Corn-Jr-Public/">Corn-Jr · The Record</a>
+    <nav>
+      <a href="/Corn-Jr-Public/" data-key="shelf">Shelf</a><a href="/Corn-Jr-Public/findings.html" data-key="findings" class="here">Findings</a><a href="/Corn-Jr-Public/doc/VISION.html" data-key="VISION">Vision</a><a href="/Corn-Jr-Public/doc/GLOSSARY.html" data-key="GLOSSARY">Glossary</a>
+      <a href="https://github.com/csheehan18/Corn-Jr-Public">Source</a>
+    </nav>
+  </header>
+  
+
+<article class="sheet" style="--c:var(--c2)">
+  <div class="progress" aria-hidden="true"></div>
+  <section class="grid chapter-open finding-open">
+    <a class="tab" href="/Corn-Jr-Public/thread/reading.html" title="Reading documents"><small>Part</small><span>II</span></a>
+    <p class="cn">115</p>
+    <p class="partline"><a href="/Corn-Jr-Public/thread/reading.html">Reading documents</a> · 5 September 2026</p>
+    <h1>A copy-check bug refused answers like &#39;best-of-seven&#39;</h1>
+  </section>
+
+  <section class="grid">
+    <p class="marginal">The result, as the finding states it</p><div class="prose"><p class="lead"><code>grounded</code> strips frame words out of the middle of a span before testing that it is contiguous, so "best-of-seven" is tested as "best seven" and refused; on the whole-passage adapter that costs ten and seven right answers a seed against three on the window reader, and it is <code>READER-AUDIT.md</code> row 43 with its size measured</p></div>
+    
+  </section>
+
+  
+
+  <section class="grid">
+    <div class="prose doc"><p>Replay, 2026-09-05, no GPU, both seeds, both readers. Found while asking what <code>AGGREGATION</code> could mean on finding <a class="fref" href="/Corn-Jr-Public/finding/112.html">112</a>'s harvests, where every passage is one window and there is no vote to lose: all 16 / 10 of them are passages where the head's span (or its extent-widened form) is handed to <code>reduce</code> and <code>reduce</code> returns nothing, "no window extracted an answer", because <code>corn.extract.grounded</code> refuses the reply.</p>
+<h3 id="0-the-rule-and-the-defect">0. The rule and the defect</h3>
+<p><code>grounded</code> (corn/extract.py) accepts a reply if every content word is in the window, the question, the source or <code>FRAME</code>; if at least one word is <em>novel</em> (from the window and not the question); and if the novel words are contiguous in the window:</p>
+<p>novel = [w for w in said if w in window_words and w not in question_words and w not in source_words and w not in FRAME] return len(set(novel)) == 1 or longest_span(" ".join(novel), window) &gt;= 2</p>
+<p><code>FRAME</code> is the closed set of function words a framing may add, and it holds <code>of</code>, <code>the</code>, <code>a</code>, <code>in</code>, <code>and</code>. So a span that carries one of those <em>inside</em> it loses it before the contiguity test:</p>
+<p>reply                     said                      novel              tested as        passage says It's best-of-seven.       best of seven             best seven         "best seven"     best-of-seven It's Stephen A. Douglas.  stephen a douglas         stephen douglas    "stephen douglas" Stephen A. Douglas It's Coton in the Elms.   coton in the elms         coton elms         "coton elms"     Coton in the Elms</p>
+<p>"best seven" is not a phrase the passage contains, and the right answer is refused. Finding <a class="fref" href="/Corn-Jr-Public/finding/85.html">85</a> counted this as "12 contiguity defect" among the 22 unwinnable passages on the window reader and the audit carries it as row 43, "contiguity repair in <code>grounded</code>", +3 / +3 right, open, the owner's.</p>
+<h3 id="1-the-size-on-both-readers">1. The size, on both readers</h3>
+<p>The variant tested: contiguity measured over the reply's own words from the first novel word to the last, frame words inside that span kept; everything else in <code>grounded</code> unchanged (the no-invention test, the novel-word requirement, the source and question exclusions). Bar protocol, extent on, hybrid, each harvest at its own CV'd threshold, paired by passage:</p>
+<p>right        wrong        silent     u.silent   paired right      AGGREGATION W2 s1 (112)     513 -&gt; 523   126 -&gt; 127   82 -&gt; 71   199 -&gt; 198   +10 (p 0.021)    16 -&gt; 2 W2 s2 (112)     510 -&gt; 517   123 -&gt; 125   88 -&gt; 79   199 -&gt; 200    +7 (p 0.065)    10 -&gt; 1 shipped s1      389 -&gt; 392   188 -&gt; 192  144 -&gt; 137  199 -&gt; 199    +3 (p 0.25)     64 -&gt; 61 shipped s2      388 -&gt; 391   172 -&gt; 175  161 -&gt; 155  196 -&gt; 196    +3 (p 0.25)     50 -&gt; 47</p>
+<p>Correct silence is unchanged to a passage on every row. The shipped reader's +3 / +3 is finding <a class="fref" href="/Corn-Jr-Public/finding/85.html">85</a>'s number reproduced. <strong>On the adapter the same defect is worth three times as much</strong>, because the adapter finds the exact multi-word span far more often (<code>other</code> doubled in finding <a class="fref" href="/Corn-Jr-Public/finding/112.html">112</a>) and those are the spans that carry a function word.</p>
+<h3 id="2-why-this-is-recorded-and-not-applied">2. Why this is recorded and not applied</h3>
+<p><code>grounded</code> is on the measurement path: <code>corn/evals.py</code> calls it inside the extraction scorers (line ~2002), <code>corn/agent.py</code> uses it as the runtime's acceptance test, and <code>corn/reader.py</code> and every probe read through it. A change to it is rule 4's case — a scorer change that must re-score two frozen checkpoints byte-identically before it merges, and here it would not be byte-identical by construction, since the change is the point. Finding <a class="fref" href="/Corn-Jr-Public/finding/85.html">85</a> left the same repair to the owner for the same reason. What is new is the price tag: <strong>+10 / +7 on the reader that will ship</strong>, pooled +17 over 1,442 passages, and <code>AGGREGATION</code> on the adapter goes to 2 / 1.</p>
+<p>Neither the head nor the adapter is touched by this; it is the runtime's acceptance rule refusing what the head got right.</p>
+<h3 id="3-what-it-would-take">3. What it would take</h3>
+<p>A change to <code>corn.extract.grounded</code> (the <code>novel</code> slice replaced by the span between the first and last novel word), the scorers re-scored on two frozen checkpoints with the moved rows listed, and <code>scripts/check_extract.py</code> extended with the three cases above as the regression. About an hour, no GPU; the owner's decision under rule 4.</p></div>
+  </section>
+
+  <section class="grid refs">
+    <div class="body two-even">
+      <div>
+        <h2 class="small">It cites</h2>
+        <ul class="reflist"><li style="--c:var(--c2)"><a href="/Corn-Jr-Public/finding/85.html"><span class="fn">85</span>The checker needs cross-fitted labels; fallback rules are exhausted</a></li><li style="--c:var(--c2)"><a href="/Corn-Jr-Public/finding/112.html"><span class="fn">112</span>Training on whole passages lifts extraction from 54% to 71%</a></li></ul>
+        
+      </div>
+      <div>
+        <h2 class="small">Cited by</h2>
+        <ul class="reflist"><li style="--c:var(--c2)"><a href="/Corn-Jr-Public/finding/116.html"><span class="fn">116</span>A fix to the copy check lifts the whole-passage reader to 523</a></li></ul>
+        
+      </div>
+    </div>
+    <p class="body source">docs/findings/115-the-grounding-rule-strips-frame-words-out-of-the-middle-of-a-span-before-testing-contiguity-and-on-the-whole-passage-adapter-that-refuses-ten-and-seven-right-answers-a-seed.md</p>
+  </section>
+</article>
+
+  
+<footer class="turn">
+  <div><span class="sc">previous</span><a href="/Corn-Jr-Public/finding/114.html">114 · Tuning answer length on the new reader changes nothing</a></div>
+  <div class="r"><span class="sc">next</span><a href="/Corn-Jr-Public/finding/116.html">116 · A fix to the copy check lifts the whole-passage reader to 523</a></div>
+  <p class="keys"><kbd>←</kbd> <kbd>→</kbd> turn the page · <kbd>/</kbd> find</p>
+</footer>
+<p class="bynumber">Previous and next in <a href="/Corn-Jr-Public/thread/reading.html">Reading documents</a>. By number:
+  <a href="/Corn-Jr-Public/finding/114.html">114</a> · <a href="/Corn-Jr-Public/finding/116.html">116</a></p>
+
+</div>
+</body>
+</html>

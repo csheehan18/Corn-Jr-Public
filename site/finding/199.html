@@ -1,0 +1,88 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>199 · Steering mostly teaches how likely a word is, partly where it fits · Corn-Jr</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600&family=IBM+Plex+Mono:wght@400;500&family=Spectral:ital,wght@0,400;0,500;0,600;1,400&family=Spectral+SC:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/Corn-Jr-Public/static/library.css">
+<script defer src="/Corn-Jr-Public/static/library.js"></script>
+<script type="speculationrules">
+{"prerender": [{"where": {"and": [{"href_matches": "/Corn-Jr-Public/*"}, {"not": {"href_matches": "/Corn-Jr-Public/random.html"}}, {"not": {"href_matches": "/Corn-Jr-Public/static/*"}}]}, "eagerness": "moderate"}]}
+</script>
+
+</head>
+<body>
+<div class="page">
+  <header class="running">
+    <a class="book" href="/Corn-Jr-Public/">Corn-Jr · The Record</a>
+    <nav>
+      <a href="/Corn-Jr-Public/" data-key="shelf">Shelf</a><a href="/Corn-Jr-Public/findings.html" data-key="findings" class="here">Findings</a><a href="/Corn-Jr-Public/doc/VISION.html" data-key="VISION">Vision</a><a href="/Corn-Jr-Public/doc/GLOSSARY.html" data-key="GLOSSARY">Glossary</a>
+      <a href="https://github.com/csheehan18/Corn-Jr-Public">Source</a>
+    </nav>
+  </header>
+  
+
+<article class="sheet" style="--c:var(--c5)">
+  <div class="progress" aria-hidden="true"></div>
+  <section class="grid chapter-open finding-open">
+    <a class="tab" href="/Corn-Jr-Public/thread/understanding.html" title="Understanding at small scale"><small>Part</small><span>V</span></a>
+    <p class="cn">199</p>
+    <p class="partline"><a href="/Corn-Jr-Public/thread/understanding.html">Understanding at small scale</a> · 22 October 2026</p>
+    <h1>Steering mostly teaches how likely a word is, partly where it fits</h1>
+  </section>
+
+  <section class="grid">
+    <p class="marginal">The result, as the finding states it</p><div class="prose"><p class="lead">On finding <a class="fref" href="/Corn-Jr-Public/finding/198.html">198</a>'s runs, a steered rare word's surprise falls in sentences where it does not fit as well as where it does: on the held-out targets the scheduler steered at 10-30 and 30-100 sightings, the drop in eight wrong sentences is 0.58 and 0.71 of the drop in the word's own eight (seed 1: own −1.75 / wrong −1.12 at 10-30, −0.41 / −0.17 at 30-100; seed 2: −0.98 / −0.81, −0.44 / −0.23) — the pre-registered <em>mixed</em> row at both seeds, against a predicted 0.8. The unsteered targets and the common words move neither column. By hand, the two columns move together word by word (<em>celebs</em> −4.3 own / −4.0 wrong, <em>nosebleeds</em> −6.1 / −4.3); how much more he expects a word where it fits grows on 20 of 27 and 16 of 29 steered words</p></div>
+    <p class="marginal">What it cost</p><div class="prose"><p class="cost">writing <code>scripts/probe_word_fit.py</code> and a CPU dry run 08:20-08:30 on 2026-10-22, pre-registered at 565d9dd; the read 4 checkpoints in ~10 s (the card free, run directly — two launches through <code>gpu.py run</code> without <code>--detach</code> stalled at 99% of the card and were killed, cause unread); hand read 3 min. ETA 15 min, actual ~25 with the two stalls.</p></div>
+  </section>
+
+  
+
+  <section class="grid">
+    <div class="prose doc"><p><strong>The question</strong> (the review of finding <a class="fref" href="/Corn-Jr-Public/finding/198.html">198</a>, 2026-10-22). Finding <a class="fref" href="/Corn-Jr-Public/finding/198.html">198</a> showed steering lowers his surprise on a steered word in sentences he never read. That is necessary for knowing the word, not proof: three extra sightings could simply raise the word's prior — how likely it is anywhere — which lowers its surprise in every sentence alike. Knowing a word is expecting it where it fits <em>more</em> than where it does not.</p>
+<p><strong>The read</strong> (<code>scripts/probe_word_fit.py</code>). Each of the 300 held-out targets and 60 common words (<code>evals/word_surprise.jsonl</code>) is scored in its own eight held-out sentences (<em>right</em>) and put into eight other targets' sentences in place of that target (<em>wrong</em>), the partners drawn once by seed from words of the same suffix class (-ing, -ed, -ly, plural, noun and adjective endings), so the slot mostly takes the same part of speech: "the evidence of dune <em>iridescent</em> at the mid-section", "denounce sexual <em>demolition</em>". <em>Fit</em> is wrong less right. Unit: summed nats on the word's tokens, as <code>probe_word_surprise.py</code>.</p>
+<p>run                  10-30 right/wrong/fit   30-100              100-300             common base s1              17.94 20.19 2.25        14.32 16.45 2.13    11.41 13.71 2.30    6.66 10.27 3.60 base s2              18.16 20.41 2.25        14.46 16.53 2.07    11.28 13.69 2.41    6.57 10.17 3.60 surprise s1          17.40 19.91 2.52        14.18 16.42 2.24    11.22 13.45 2.22    6.62 10.29 3.67 surprise s2          17.63 19.92 2.29        14.31 16.51 2.21    11.35 13.58 2.24    6.63 10.21 3.58</p>
+<p>The instrument reads what it should on the base: fit is 2.1-2.4 nats on rare words and 3.6 on common ones — the better he knows a word, the more he expects it where it belongs.</p>
+<p><strong>Steered against the rest</strong> (drop, base pair mean less the run; <em>share</em> is wrong's drop over right's):</p>
+<p>seed 1          steered: n  right   wrong   share      rest: n  right   wrong 10-30                  27   +1.75   +1.12   0.64            73  +0.25   +0.11 30-100                 46   +0.41   +0.17   0.41            54  +0.04   -0.01 100-300                44   +0.04   +0.24   —              56  +0.19   +0.26 seed 2 10-30                  29   +0.98   +0.81   0.83            71  +0.18   +0.20 30-100                 42   +0.44   +0.23   0.53            58  -0.17   -0.21 100-300                45   +0.12   +0.26   —              55  -0.10   +0.00</p>
+<p>pooled steered 10-30 + 30-100: share 0.58 (seed 1), 0.71 (seed 2) -&gt; mixed, both seeds</p>
+<p>(100-300 drops are inside the noise at both seeds and do not enter the share.)</p>
+<h3 id="read-by-hand">Read by hand</h3>
+<p>The 27 and 29 steered 10-30 words, one line each, read in full (<code>evals/results/wordfit__...json</code>). The two columns move together: the words that fell most in their own sentences fell most in wrong ones too — <em>polytheistic</em> −6.2 / −4.4, <em>nosebleeds</em> −6.1 / −4.3, <em>euphemism</em> −5.2 / −3.4, <em>celebs</em> −4.3 / −4.0 (seed 1); <em>illusory</em> −4.3 / −2.8, <em>voluptuous</em> −4.2 / −4.4 (seed 2). A few gained fit cleanly (<em>thermoregulatory</em> −2.5 / −0.6, <em>sauerkraut</em> −1.8 / +0.6, <em>striations</em> −2.7 / −0.8). Medians: seed 1 right −1.44, wrong −0.62; seed 2 −0.93, −0.82. Fit grew on 20 of 27 and 16 of 29.</p>
+<h3 id="what-it-licenses">What it licenses</h3>
+<ul><li><strong>Most of the per-word gain is prior, not fit.</strong> Three or four extra sightings at 5M mostly teach him that the word <em>exists and is likely</em>; between three tenths and two fifths of the drop (1 - 0.71, 1 - 0.58) is specific to sentences where it belongs. That is learning — a 5M's base fit on a rare word is only 2.25 nats — but it is the shallow part.</li><li><strong>Report fit beside surprise from here.</strong> A held-out surprise drop alone overstates what a reading intervention taught; <code>probe_word_fit.py</code> is the column that separates them, and the random-word control (pre-registered at 12fd610) is read through it too.</li></ul>
+<p><strong>What it does not settle.</strong> Whether the wrong sentences are wrong in meaning or partly in grammar (the suffix classes are a proxy for part of speech; <em>other</em> holds 109 of 300 words); any size above 5M; whether a longer dose per word moves fit more than prior.</p></div>
+  </section>
+
+  <section class="grid refs">
+    <div class="body two-even">
+      <div>
+        <h2 class="small">It cites</h2>
+        <ul class="reflist"><li style="--c:var(--c5)"><a href="/Corn-Jr-Public/finding/198.html"><span class="fn">198</span>Surprise-steered reading lowers rare-word surprise but not understanding at 5M</a></li><li style="--c:var(--c5)"><a href="/Corn-Jr-Public/finding/202.html"><span class="fn">202</span>A shape built for small models cost language and taught only spelling</a></li></ul>
+        
+      </div>
+      <div>
+        <h2 class="small">Cited by</h2>
+        <ul class="reflist"><li style="--c:var(--c5)"><a href="/Corn-Jr-Public/finding/224.html"><span class="fn">224</span>One hard press makes the word likelier everywhere, and writes no line</a></li><li style="--c:var(--c5)"><a href="/Corn-Jr-Public/finding/231.html"><span class="fn">231</span>A far lesson in training takes, costs reading, and lifts nothing clearly</a></li></ul>
+        
+      </div>
+    </div>
+    <p class="body source">docs/findings/199-steering-lowers-a-words-surprise-where-it-does-not-fit-too-wrong-sentence-share-0-58-and-0-71-so-most-of-the-gain-is-the-words-prior-and-some-is-fit.md</p>
+  </section>
+</article>
+
+  
+<footer class="turn">
+  <div><span class="sc">previous</span><a href="/Corn-Jr-Public/finding/198.html">198 · Surprise-steered reading lowers rare-word surprise but not understanding at 5M</a></div>
+  <div class="r"><span class="sc">next</span><a href="/Corn-Jr-Public/finding/200.html">200 · A model that cannot learn picks the same words the scheduler did</a></div>
+  <p class="keys"><kbd>←</kbd> <kbd>→</kbd> turn the page · <kbd>/</kbd> find</p>
+</footer>
+<p class="bynumber">Previous and next in <a href="/Corn-Jr-Public/thread/understanding.html">Understanding at small scale</a>. By number:
+  <a href="/Corn-Jr-Public/finding/198.html">198</a> · <a href="/Corn-Jr-Public/finding/200.html">200</a></p>
+
+</div>
+</body>
+</html>

@@ -1,0 +1,94 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>237 · Decay and end noise both cleared: the small-step run just learned less · Corn-Jr</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600&family=IBM+Plex+Mono:wght@400;500&family=Spectral:ital,wght@0,400;0,500;0,600;1,400&family=Spectral+SC:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/Corn-Jr-Public/static/library.css">
+<script defer src="/Corn-Jr-Public/static/library.js"></script>
+<script type="speculationrules">
+{"prerender": [{"where": {"and": [{"href_matches": "/Corn-Jr-Public/*"}, {"not": {"href_matches": "/Corn-Jr-Public/random.html"}}, {"not": {"href_matches": "/Corn-Jr-Public/static/*"}}]}, "eagerness": "moderate"}]}
+</script>
+
+</head>
+<body>
+<div class="page">
+  <header class="running">
+    <a class="book" href="/Corn-Jr-Public/">Corn-Jr · The Record</a>
+    <nav>
+      <a href="/Corn-Jr-Public/" data-key="shelf">Shelf</a><a href="/Corn-Jr-Public/findings.html" data-key="findings" class="here">Findings</a><a href="/Corn-Jr-Public/doc/VISION.html" data-key="VISION">Vision</a><a href="/Corn-Jr-Public/doc/GLOSSARY.html" data-key="GLOSSARY">Glossary</a>
+      <a href="https://github.com/csheehan18/Corn-Jr-Public">Source</a>
+    </nav>
+  </header>
+  
+
+<article class="sheet" style="--c:var(--c5)">
+  <div class="progress" aria-hidden="true"></div>
+  <section class="grid chapter-open finding-open">
+    <a class="tab" href="/Corn-Jr-Public/thread/understanding.html" title="Understanding at small scale"><small>Part</small><span>V</span></a>
+    <p class="cn">237</p>
+    <p class="partline"><a href="/Corn-Jr-Public/thread/understanding.html">Understanding at small scale</a> · 15 November 2026</p>
+    <h1>Decay and end noise both cleared: the small-step run just learned less</h1>
+  </section>
+
+  <section class="grid">
+    <p class="marginal">The result, as the finding states it</p><div class="prose"><p class="lead">Finding <a class="fref" href="/Corn-Jr-Public/finding/236.html">236</a>'s small-step 5M was re-run with its weight decay cut from 0.1 to 0.0188, so that 41,896 steps would apply what the control's 5,237 do. The audit row fails by its own rule — the weights did not come back to ordinary size but went past it, to 1.6 to 2.2 times six ordinary runs' — so this is not a "decay matched" run. It is the other side of a bracket: with weights at 0.6 of ordinary size (decay 0.1) the recipe reads held-out text 3.235, and with weights at twice ordinary size (decay 0.0188) it reads 3.224, both against the controls' 3.041. The decay is not why it reads worse. Nor is noise in where it ended: its two saved iterates averaged take 0.022 off, and 4.9M more tokens with the step size taken down tenfold take 0.029 off where the same treatment takes 0.018 off the control. About 0.15 of the 0.18 is neither. The lift is under every ordinary run again (0.41 and 0.27), and read with the writers hidden, 2 of 48 continuations carry the phrase's meaning for this run and 1 of 48 for the control.</p></div>
+    <p class="marginal">What it cost</p><div class="prose"><p class="cost">config and reader changes committed with the pre-registration at 00:00 on 2026-11-15 (fd00828); the run trained 355.0 s, 558.7 s for the chain with a read that re-read thirteen runs (190.0 s); the cooling check 50.6 s. ETA about seven minutes of training; 5.9.</p></div>
+  </section>
+
+  
+
+  <section class="grid">
+    <div class="prose doc"><p><strong>The question</strong> (owner, 2026-11-14: "Did you investigate the failures first? To verify yourself?", then "Run it then hand read it"). Finding <a class="fref" href="/Corn-Jr-Public/finding/236.html">236</a> explained its worse reading as the noise of small steps without auditing the run; the audit found a second variable, five times the weight decay, and the amendment withdrew the explanation. This run takes that variable out, and the reader now audits before it reads. The pre-registration is <code>configs/nano5m_v3_webblend_nudge_wd.py</code>'s docstring.</p>
+<h3 id="row-a-the-audit-read-first">Row A — the audit, read first</h3>
+<p>The saved config differs from finding <a class="fref" href="/Corn-Jr-Public/finding/236.html">236</a>'s run in <code>weight_decay</code> (0.1 to 0.0188) and <code>name</code>, and in nothing else. The weights:</p>
+<p>root-mean-square size      word table   position table   attention   mlp     norm gains six ordinary runs          0.082-0.087  0.043-0.061      0.074-0.077 0.084   1.00-1.05 finding <a class="fref" href="/Corn-Jr-Public/finding/236.html">236</a> (decay 0.1)    0.054        0.014            0.062       0.059   1.51 this run (decay 0.0188)    0.137        0.037            0.169       0.169   1.12</p>
+<p><strong>The match failed by the registered rule</strong>: three of four groups are far outside the ordinary ranges, on the high side. Equal total decay does not give equal weights when there are eight times the steps to grow them. By the pre-registration no row below is read as "more updates with the decay held level". They are read as what they are: the same recipe with weights too large where finding <a class="fref" href="/Corn-Jr-Public/finding/236.html">236</a>'s were too small.</p>
+<h3 id="the-rows-as-that">The rows, as that</h3>
+<p>held-out text   fields: right  lift    wishes: right  lift    first word unchanged the two controls             3.036, 3.047       79, 75   0.50, 0.51    68, 62   0.37, 0.30    108, 84 twelve ordinary 5Ms          3.025-3.107        65-84    0.43-0.59     61-72    0.30-0.39 small steps, decay 0.1       3.235                 72    0.39             60    0.26           93 small steps, decay 0.0188    3.224                 75    0.41             62    0.27          109</p>
+<ul><li><strong>R: worse</strong>, +0.183 nats a token. Given as odds beforehand: worse or between 55%, level 30%, better 15%, with 3.06 to 3.14 as the number. It is 0.08 worse than that number.</li><li><strong>U: down.</strong> Both lifts under every ordinary run, as in finding <a class="fref" href="/Corn-Jr-Public/finding/236.html">236</a>.</li><li><strong>N.</strong> Held-out text at iterate 41,000: 3.2239; at 41,896: 3.2220; their weights averaged: 3.2003. Finding <a class="fref" href="/Corn-Jr-Public/finding/236.html">236</a>'s pair gave 3.2347, 3.2346 and 3.1893.</li><li><strong>H.</strong> Marks written before the key was opened: 2 of 48 for this run ("best way to make me feel better" for a recipe that won't make me feel heavy; "a very difficult situation" for police who never solve anything — both borderline) and 1 of 48 for the control ("a beautiful day" for a cheerful tune about sunshine). On the other 45 sentences both write "best way to make it happen", "most important thing to do", "a very important one", the phrase's own noun, or a loop on one word ("a small, small, small"). Not blind, six ordinary openers: both write short chat turns and web sentences of the same kind; the small-step run is not a broken writer.</li></ul>
+<h3 id="what-was-checked-before-a-cause-was-written-probe-only-not-o">What was checked before a cause was written (probe only — not on disk)</h3>
+<p><strong>The decay: cleared.</strong> Two runs with weights either side of ordinary size end 0.011 apart. On the same evaluation batches their last seven validation losses differ by 0.008 to 0.023.</p>
+<p><strong>Noise in the end state: a small part.</strong> Averaging two iterates takes off 0.045 (decay 0.1) and 0.022 (this run). And a direct test: each run's final weights trained on 4.9M more tokens with the step size taken down tenfold over them --</p>
+<p>the small-step run as it ended      3.2220      then cooled   3.1929   (-0.029) the control as it ended             3.0355      then cooled   3.0173   (-0.018)</p>
+<p>If the run were sitting hot above a good place, cooling would bring it down. It moves 0.011 more than the control does.</p>
+<p><strong>So about 0.15 nats is in where the run got to, not in how it sits there.</strong> The curves say when: at the same tokens read the small-step runs are level with a run of the control's recipe to 37M tokens (3.13 against 3.13 for this run), then stand still while it goes on (3.12 against 2.98 at 49M), and fall only as the step size falls.</p>
+<p>tokens read          25M     37M     49M     74M     98M     123M decay 0.1            3.33    3.22    3.22    3.08    2.86    2.85 decay 0.0188         3.25    3.13    3.12    2.98    2.82    2.84 control's recipe     3.30    3.13    2.98    2.84    2.71    2.64</p>
+<p><strong>What is left is a guess, and is written as one:</strong> a step size chosen on a squeezed schedule is too high for this batch over a full one, and the run spends the middle of its reading unable to settle. Not tested. The settings still not level per token are the step size against the batch, Adam's two averages and the gradient clip.</p>
+<h3 id="what-it-licenses">What it licenses</h3>
+<ul><li><strong>Finding <a class="fref" href="/Corn-Jr-Public/finding/236.html">236</a>'s two explanations are both out.</strong> Its first (noise) and its amendment's suspect (decay) each account for a few hundredths of a nat. The record now says what the cause is not.</li><li><strong>"More nudges from the same tokens" is still unread.</strong> Both runs tested one recipe — six rows a step at a step size of 2e-3 — and it reads worse. Whether a small step at a step size that suits it reads better, the same or worse than the control has not been run. In the squeezed smokes the small step at 6e-4 tied the control (3.853 against 3.828).</li><li><strong>Weight size barely matters to what he reads.</strong> Weights at 0.6 and at 2 times ordinary size read within 0.011 of each other. The norm layers absorb it.</li><li><strong>The audit earns its place.</strong> It failed this run by its own rule before a number was read, and that changed what the run could be said to show.</li><li><strong>The hand read agrees with itself across three reads</strong>: a 5M continues the ruler's sentences with stock openings, 1 to 2 in 24 or 48 touched by the phrase, whatever the recipe.</li></ul>
+<p><strong>What it does not settle.</strong> The small step at a lower step size, with or without Adam's averages stretched to the control's span in tokens. Whether any recipe reads this text clearly better than the control at 5M, which is what the understanding question has been waiting on since finding <a class="fref" href="/Corn-Jr-Public/finding/236.html">236</a>.</p></div>
+  </section>
+
+  <section class="grid refs">
+    <div class="body two-even">
+      <div>
+        <h2 class="small">It cites</h2>
+        <ul class="reflist"><li style="--c:var(--c5)"><a href="/Corn-Jr-Public/finding/236.html"><span class="fn">236</span>Eight times the nudges reads worse; the short test had misled</a></li></ul>
+        
+      </div>
+      <div>
+        <h2 class="small">Cited by</h2>
+        <ul class="reflist"><li style="--c:var(--c5)"><a href="/Corn-Jr-Public/finding/236.html"><span class="fn">236</span>Eight times the nudges reads worse; the short test had misled</a></li></ul>
+        
+      </div>
+    </div>
+    <p class="body source">docs/findings/237-with-the-weight-decay-cut-to-0-0188-the-small-step-5m-reads-3-224-beside-3-235-and-the-controls-3-041-its-weights-twice-ordinary-size-and-cooling-recovers-0-03-of-the-0-18.md</p>
+  </section>
+</article>
+
+  
+<footer class="turn">
+  <div><span class="sc">previous</span><a href="/Corn-Jr-Public/finding/236.html">236 · Eight times the nudges reads worse; the short test had misled</a></div>
+  <div class="r"></div>
+  <p class="keys"><kbd>←</kbd> <kbd>→</kbd> turn the page · <kbd>/</kbd> find</p>
+</footer>
+<p class="bynumber">Previous and next in <a href="/Corn-Jr-Public/thread/understanding.html">Understanding at small scale</a>. By number:
+  <a href="/Corn-Jr-Public/finding/236.html">236</a> · <a href="/Corn-Jr-Public/finding/238.html">238</a></p>
+
+</div>
+</body>
+</html>

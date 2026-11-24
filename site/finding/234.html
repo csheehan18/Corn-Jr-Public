@@ -1,0 +1,91 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>234 · Given the count&#39;s word summaries, he leans on them and gains nothing · Corn-Jr</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600&family=IBM+Plex+Mono:wght@400;500&family=Spectral:ital,wght@0,400;0,500;0,600;1,400&family=Spectral+SC:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/Corn-Jr-Public/static/library.css">
+<script defer src="/Corn-Jr-Public/static/library.js"></script>
+<script type="speculationrules">
+{"prerender": [{"where": {"and": [{"href_matches": "/Corn-Jr-Public/*"}, {"not": {"href_matches": "/Corn-Jr-Public/random.html"}}, {"not": {"href_matches": "/Corn-Jr-Public/static/*"}}]}, "eagerness": "moderate"}]}
+</script>
+
+</head>
+<body>
+<div class="page">
+  <header class="running">
+    <a class="book" href="/Corn-Jr-Public/">Corn-Jr · The Record</a>
+    <nav>
+      <a href="/Corn-Jr-Public/" data-key="shelf">Shelf</a><a href="/Corn-Jr-Public/findings.html" data-key="findings" class="here">Findings</a><a href="/Corn-Jr-Public/doc/VISION.html" data-key="VISION">Vision</a><a href="/Corn-Jr-Public/doc/GLOSSARY.html" data-key="GLOSSARY">Glossary</a>
+      <a href="https://github.com/csheehan18/Corn-Jr-Public">Source</a>
+    </nav>
+  </header>
+  
+
+<article class="sheet" style="--c:var(--c5)">
+  <div class="progress" aria-hidden="true"></div>
+  <section class="grid chapter-open finding-open">
+    <a class="tab" href="/Corn-Jr-Public/thread/understanding.html" title="Understanding at small scale"><small>Part</small><span>V</span></a>
+    <p class="cn">234</p>
+    <p class="partline"><a href="/Corn-Jr-Public/thread/understanding.html">Understanding at small scale</a> · 14 November 2026</p>
+    <h1>Given the count&#39;s word summaries, he leans on them and gains nothing</h1>
+  </section>
+
+  <section class="grid">
+    <p class="marginal">The result, as the finding states it</p><div class="prose"><p class="lead">A 5M trained from its first step with each word's home — the ruler-blind count squeezed to 512 numbers a word, frozen, added through one trained matrix to the input of the piece after the word — reads 79, 84, 82 and 80 of the understanding ruler's 141 fields over four seeds (mean 81.2) and 69, 74, 66 and 62 of its 192 wishes (mean 67.8). Twelve 5Ms with no lesson read 65 to 84 fields and 61 to 72 wishes. F and W are each "a direction" by the registered lines — no seed is over the best ordinary run on the fields, and the wishes clear their fail line by a tenth of an item. Two runs with the homes shuffled between words, the control the registration owed, read 71 and 84 fields and 59 and 65 wishes: the lean is not shown to be the count's. Held-out text costs what it costs the controls (-0.002 to +0.005 nats a token; shuffled +0.003 and +0.006). With its homes switched off a trained run reads text 0.38 to 0.42 nats a token worse: he leans on them heavily and ends where a model that never had them ends.</p></div>
+    <p class="marginal">What it cost</p><div class="prose"><p class="cost">mechanism, guard 110, six configs and reader committed with the pre-registration at 20:31 on 2026-11-14 (3a61eaf), after two 250-iteration smokes in a scratch directory (59.8 and 19.5 s) and a run of the reader's paths on them (8.7 s); the four runs trained 481.8, 463.7, 449.4 and 453.7 s (the controls 350.0 and 353.9), 1,978.2 s for the chain with its read; the two shuffled runs 456.4 and 456.2 s, 1,037.0 s with the re-read; the tied-table check 16.2 s, contended. ETA about 25 minutes of card for the four runs and their read; 33.0.</p></div>
+  </section>
+
+  
+
+  <section class="grid">
+    <div class="prose doc"><p><strong>The question</strong> (owner, 2026-11-14: "The goal is to figure out how to make understanding 'click' with the data we have", then "Let's try it"). Seven tries from finding <a class="fref" href="/Corn-Jr-Public/finding/222.html">222</a> to <a class="fref" href="/Corn-Jr-Public/finding/231.html">231</a> changed what he is asked, and none took the count's knowledge into him. Far words (232) and word order (233) are not what the count has over him. This changes what he is <em>given</em>: the test finding <a class="fref" href="/Corn-Jr-Public/finding/227.html">227</a> left standing, a trunk trained with homes from its first step. The pre-registration is <code>configs/nano5m_v3_webblend_homes.py</code>'s docstring.</p>
+<h3 id="what-was-built">What was built</h3>
+<p><code>corn/homes.py</code> cuts a window into the count's words; <code>CornModel.home_in</code> adds the home of the word that has just ended, through a 512-by-256 matrix that starts at zero, to the next piece's input. The table (20,000 words, 10.24M numbers, counted from <code>mix_v3_webblend</code> with the ruler never read) is frozen; read as a count it answers 74 wishes and 90 fields itself. One piece later than finding <a class="fref" href="/Corn-Jr-Public/finding/227.html">227</a> placed it, so a home never says a word is over before the text has. Everything else is the control's run: same batches, same seed, same trunk at step zero (<code>scripts/check_homes.py</code>).</p>
+<h3 id="the-read">The read</h3>
+<p>twelve 5Ms with no lesson (finding <a class="fref" href="/Corn-Jr-Public/finding/231.html">231</a>): fields 65 to 84, mean 74.5, sd 5.0; wishes 61 to 72, mean 64.7, sd 3.0</p>
+<p>wishes (192)   fields (141)   held-out text, mean of four sources, against the controls' mean control, seed 1337               68             79            3.0355 control, seed 1338               62             75            3.0472 HOMES, seed 1337                 69             79            -0.0015 HOMES, seed 1338                 74             84            +0.0049 HOMES, seed 1339                 66             82            +0.0027 HOMES, seed 1340                 62             80            +0.0009 SHUF, seed 1337                  59             71            +0.0026 SHUF, seed 1338                  65             84            +0.0064 HOMES read with homes off     67 70 54 59    77 77 66 82      +0.42, +0.38, +0.42, +0.39 over the same run with them on</p>
+<h3 id="the-pre-registered-rows">The pre-registered rows</h3>
+<ul><li><strong>F: a direction.</strong> 79, 84, 82, 80; mean 81.2. It held with all four at 85 or more (none is) and failed with the mean at 79.5 or under. Predicted: a direction or fails, mean 76 to 82, at most one seed at 85.</li><li><strong>W: a direction, by a tenth of an item.</strong> Mean 67.8 against a fail line of 67.7; one seed (74) is over every no-lesson run, the others are at 62 to 69. Predicted fails at 63 to 67: on the line.</li><li><strong>L: little.</strong> -0.0015 to +0.0049 nats a token against the controls' mean, and the two controls stand 0.012 apart. Predicted little, with a gain of 0.005 to 0.02: there is no gain.</li><li><strong>K: not shown to be the count.</strong> F and W did not fail, so the two shuffled runs were owed and trained. The lift was the count's if both read under the lowest of the four: on the fields 71 and <strong>84</strong> against 79, on the wishes 59 and <strong>65</strong> against 62. At seed 1338 the shuffled run reads 84 fields, as the real one does at that seed.</li><li><strong>O.</strong> With homes off the text costs 0.38 to 0.42 nats a token more (predicted 0.05 or more — eight times that) and the fields read 77, 77, 66 and 82 where the same runs read 79, 84, 82 and 80.</li></ul>
+<h3 id="read-by-hand">Read by hand</h3>
+<ul><li><strong>Fields that change side, seed 1337</strong>: 17 right only with homes ("that can take a hit" -&gt; defense, "that's easy on petrol" -&gt; fuel, "made of memory foam" -&gt; material) and 17 right only in the control ("that's light to carry around" -&gt; weight, where the homes run says battery; "that's a bargain" -&gt; price, gears). 79 and 79: the same count made of different items, as two seeds of one recipe are.</li><li><strong>Stock answers</strong> move run to run and not with the arm: the controls' most-picked wrong fields are price 8 and price 7; the four's are rating 6, genre 10, price 9 and difficulty 6.</li><li><strong>What they write</strong>, six openers each through the whole-window decoder: alike in kind. The homes run's web continuations stay on their noun ("the ocean is a very small part of the ocean. The presence of ocean photosynthesis...") no more sensibly than the control's.</li></ul>
+<h3 id="cause-reads-not-registered-probe-only-not-on-disk">Cause reads (not registered; probe only — not on disk)</h3>
+<ul><li><strong>How unusual the four are.</strong> Among the sixteen runs, four drawn at random average 81.2 fields or more in 25 of 1,820 draws (0.014), and average 67.8 wishes or more in one draw in ten. The fields lean is unlikely to be the draw alone — and the shuffled run at 84 says what else it can be.</li><li><strong>The twelve ordinary runs miss different items.</strong> Only 24 fields are right in all twelve and 14 in none; the other 103 are right in some and wrong in others, about evenly spread. A majority vote of the twelve reads 77.8 fields (a run averages 74.5) and 75.2 wishes (64.7; the best single run 72). Most fields are half-held in every run; voting does not firm them up.</li><li><strong>A counted starting table</strong> (the owner's next idea: the count as his word-piece table's starting weights). A tied table of 256 numbers a piece, built as finding <a class="fref" href="/Corn-Jr-Public/finding/228.html">228</a> built its tied tables and read as a count, answers 82, 83, 80 and 76 fields at windows of 5, 10, 20 and 40 pieces and 67, 64, 63 and 55 wishes: inside what an ordinary 5M reads. A trained 5M's own table read the same way answers 67 and 64 fields. The line said before the check was 85 fields; it is not met.</li></ul>
+<h3 id="what-it-licenses">What it licenses</h3>
+<p>By the pre-registration this sits between its first and second outcomes and K decides it: <strong>no lift that can be called the count's.</strong></p>
+<ul><li><strong>Being given the count is not the click.</strong> With what the count knows about every word laid at his input for the whole run, a 5M's fields stay inside what twelve ordinary runs and two shuffled ones read. The 20M with homes is not proposed on this.</li><li><strong>He takes what he is given and it replaces what he would have learned.</strong> Switched off, the homes cost him 0.4 nats a token; switched on, he reads no better than a control. A home is a fixed function of a word he can already see, so it can save him learning and cannot tell him anything new — and by the end of one pass it had saved nothing that shows in held-out text.</li><li><strong>What he reads off a home is which word it is, not what the count says about it.</strong> Shuffled homes — a steady code a word, with the count's geometry gone — leave the text where real ones leave it (+0.003 and +0.006 against -0.002 to +0.005).</li><li><strong>Asked or given, the next-piece question takes what it pays for.</strong> Findings <a class="fref" href="/Corn-Jr-Public/finding/222.html">222</a> to <a class="fref" href="/Corn-Jr-Public/finding/231.html">231</a> said it of extra lessons; this says it of an extra input. The count's knowledge stays beside him.</li><li><strong>The counted starting table is not built on this evidence.</strong> Its own read is at his level, and a start he is free to overwrite is a weaker form of an input he could not lose. It is the owner's call.</li><li><strong>Unguarded read.</strong> <code>scripts/check_homes.py</code> holds the mechanism; no guard pins <code>scripts/read_homes_arm.py</code>, whose own checks are the two controls reproducing their saved ruler counts and held-out loss.</li></ul>
+<p><strong>What it does not settle.</strong> Whether real homes beat shuffled ones on the fields: two shuffled runs at 71 and 84 cannot be told from four at 79 to 84, and four more shuffled seeds (half an hour) would say. A 20M. A home on the output side (finding <a class="fref" href="/Corn-Jr-Public/finding/227.html">227</a>'s cause read lifted both rows a little on a frozen 20M). Why a typical field is right in half of twelve identical runs.</p></div>
+  </section>
+
+  <section class="grid refs">
+    <div class="body two-even">
+      <div>
+        <h2 class="small">It cites</h2>
+        <ul class="reflist"><li style="--c:var(--c5)"><a href="/Corn-Jr-Public/finding/222.html"><span class="fn">222</span>Pressing harder where the book points taught the 20M nothing more</a></li><li style="--c:var(--c5)"><a href="/Corn-Jr-Public/finding/223.html"><span class="fn">223</span>His word vectors hold less than his framed answers do</a></li><li style="--c:var(--c5)"><a href="/Corn-Jr-Public/finding/224.html"><span class="fn">224</span>One hard press makes the word likelier everywhere, and writes no line</a></li><li style="--c:var(--c5)"><a href="/Corn-Jr-Public/finding/225.html"><span class="fn">225</span>Pressing the difference a neighbour makes writes some of the pair</a></li><li style="--c:var(--c5)"><a href="/Corn-Jr-Public/finding/226.html"><span class="fn">226</span>Kept presses last, but break the text and churn the words</a></li><li style="--c:var(--c5)"><a href="/Corn-Jr-Public/finding/227.html"><span class="fn">227</span>A short word vector holds field knowledge; frozen, he cannot read it</a></li><li style="--c:var(--c5)"><a href="/Corn-Jr-Public/finding/228.html"><span class="fn">228</span>The fields stall is not the word-pieces, and not hidden in him</a></li><li style="--c:var(--c5)"><a href="/Corn-Jr-Public/finding/229.html"><span class="fn">229</span>Asked from afar, a step writes a pair the next-piece question misses</a></li><li style="--c:var(--c5)"><a href="/Corn-Jr-Public/finding/230.html"><span class="fn">230</span>Kept far lines add up from afar, not for the next piece</a></li><li style="--c:var(--c5)"><a href="/Corn-Jr-Public/finding/231.html"><span class="fn">231</span>A far lesson in training takes, costs reading, and lifts nothing clearly</a></li></ul>
+        
+      </div>
+      <div>
+        <h2 class="small">Cited by</h2>
+        <ul class="reflist"><li style="--c:var(--c5)"><a href="/Corn-Jr-Public/finding/235.html"><span class="fn">235</span>A counted starting table helps early and is erased by the end</a></li></ul>
+        
+      </div>
+    </div>
+    <p class="body source">docs/findings/234-a-5m-trained-with-each-words-count-made-summary-as-an-input-reads-79-to-84-fields-beside-ordinary-65-to-84-and-shuffled-71-and-84-reads-text-no-better-and-loses-0-4-nats-with-them-off.md</p>
+  </section>
+</article>
+
+  
+<footer class="turn">
+  <div><span class="sc">previous</span><a href="/Corn-Jr-Public/finding/233.html">233 · A left-to-right count still beats him, so order is not it</a></div>
+  <div class="r"><span class="sc">next</span><a href="/Corn-Jr-Public/finding/235.html">235 · A counted starting table helps early and is erased by the end</a></div>
+  <p class="keys"><kbd>←</kbd> <kbd>→</kbd> turn the page · <kbd>/</kbd> find</p>
+</footer>
+<p class="bynumber">Previous and next in <a href="/Corn-Jr-Public/thread/understanding.html">Understanding at small scale</a>. By number:
+  <a href="/Corn-Jr-Public/finding/233.html">233</a> · <a href="/Corn-Jr-Public/finding/235.html">235</a></p>
+
+</div>
+</body>
+</html>

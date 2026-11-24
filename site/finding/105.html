@@ -1,0 +1,96 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>105 · The answer-length rule is already at its best setting · Corn-Jr</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600&family=IBM+Plex+Mono:wght@400;500&family=Spectral:ital,wght@0,400;0,500;0,600;1,400&family=Spectral+SC:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/Corn-Jr-Public/static/library.css">
+<script defer src="/Corn-Jr-Public/static/library.js"></script>
+<script type="speculationrules">
+{"prerender": [{"where": {"and": [{"href_matches": "/Corn-Jr-Public/*"}, {"not": {"href_matches": "/Corn-Jr-Public/random.html"}}, {"not": {"href_matches": "/Corn-Jr-Public/static/*"}}]}, "eagerness": "moderate"}]}
+</script>
+
+</head>
+<body>
+<div class="page">
+  <header class="running">
+    <a class="book" href="/Corn-Jr-Public/">Corn-Jr · The Record</a>
+    <nav>
+      <a href="/Corn-Jr-Public/" data-key="shelf">Shelf</a><a href="/Corn-Jr-Public/findings.html" data-key="findings" class="here">Findings</a><a href="/Corn-Jr-Public/doc/VISION.html" data-key="VISION">Vision</a><a href="/Corn-Jr-Public/doc/GLOSSARY.html" data-key="GLOSSARY">Glossary</a>
+      <a href="https://github.com/csheehan18/Corn-Jr-Public">Source</a>
+    </nav>
+  </header>
+  
+
+<article class="sheet" style="--c:var(--c2)">
+  <div class="progress" aria-hidden="true"></div>
+  <section class="grid chapter-open finding-open">
+    <a class="tab" href="/Corn-Jr-Public/thread/reading.html" title="Reading documents"><small>Part</small><span>II</span></a>
+    <p class="cn">105</p>
+    <p class="partline"><a href="/Corn-Jr-Public/thread/reading.html">Reading documents</a> · 4 September 2026</p>
+    <h1>The answer-length rule is already at its best setting</h1>
+  </section>
+
+  <section class="grid">
+    <p class="marginal">The result, as the finding states it</p><div class="prose"><p class="lead">The extent rule is at its optimum: neither a wider tolerance nor a wider reach buys the fuller answer the owner asked for on either column, and dropping "the" before a proper noun costs ten right answers a seed</p></div>
+    
+  </section>
+
+  
+
+  <section class="grid">
+    <div class="prose doc"><p><code>scripts/probe_extent_sweep.py</code> and <code>harvest_popa_pairs.py --radius 8</code>, 2026-09-04. Replay off the pairs harvests plus three 19-second GPU passes to widen the stored grid; no head trained. <code>evals/results/extent_sweep_s{1,2,3}.json</code>, <code>extent_sweep_r8_s{1,2,3}.json</code>, <code>pairs_built_s{1,2,3}_r8_popa.json</code>. <code>corn/reader.py</code> is untouched.</p>
+<h3 id="0-what-the-owner-asked-for-and-what-it-turned-out-to-be">0. What the owner asked for, and what it turned out to be</h3>
+<p>Finding <a class="fref" href="/Corn-Jr-Public/finding/104.html">104</a> §7 recorded four speech preferences from the owner's read of the lenient credits: say the whole name; extend the answer with the passage's qualifying phrase ("It occurred in Gilbert Inlet in Alaska", not "It's Gilbert Inlet"); give both names on a <code>who ... and</code> question; and no "the" before a bare proper noun ("It's Chernobyl", not "It's the Chernobyl"). This was the first thing recommended after the ruler question closed, because it looked like the cheapest change a user would notice: a template fix and a constant.</p>
+<p>It is not. The first three are the same thing — the reader's span is shorter than the natural phrase — and that is the extent rule's business. The fourth is not a template problem at all.</p>
+<h3 id="1-dropping-the-is-wrong-on-ten-passages-a-seed">1. Dropping "the" is wrong on ten passages a seed</h3>
+<p>On the answerable passages where the reader speaks <code>It&#x27;s the &lt;Capital&gt;...</code> (23 / 20 / 22 a seed), the strict verdict before and after removing the article:</p>
+<p>spoken 'the &lt;Cap&gt;'   strict right   right after stripping seed 1              23                 14                  4 seed 2              20                 15                  6 seed 3              22                 14                  3</p>
+<p><code>the Soviet Union</code>, <code>The Maginot Line</code>, <code>the Intolerable Acts</code>, <code>the Battle of Antietam</code>, <code>The Royalettes</code> need their article and the ruler knows it. <code>It&#x27;s the Chernobyl</code> — the case the owner heard — is not an article error: the head picked <code>the Chernobyl</code> out of "The Chernobyl disaster" in the first sentence when the answer, <code>Chernobyl Nuclear Power Plant</code>, is in the second. That is a pick on the wrong occurrence with a clipped noun phrase, and no template rule can tell it from <code>the Soviet Union</code>. <strong>Closed as a template change.</strong></p>
+<h3 id="2-the-tolerance-is-flat-on-the-record-s-grid">2. The tolerance is flat, on the record's grid</h3>
+<p><code>corn.reader.extend</code> speaks the longest pair within <code>EXTENT_D</code> of the argmax over <code>EXTENT_RADIUS = 3</code> candidate rows on either side; <code>EXTENT_D = 2.0</code> was chosen on the strict ruler. Swept at the bar protocol, hybrid reduce, each <code>d</code> at its own CV'd threshold, on two columns — strict, and a lenient proxy that also credits a spoken span which <em>wraps</em> an accepted answer (the gold or any span finding <a class="fref" href="/Corn-Jr-Public/finding/104.html">104</a>'s labels accepted for that passage) while staying <code>answer_sized</code>:</p>
+<p>d        s1 right / lenient*    s2 right / lenient*    s3 right / lenient*    mean words 0.0          381 / 416              384 / 425              391 / 433           4.1 1.0          387 / 422              387 / 429              399 / 441           4.2 2.0  ships   389 / 424              388 / 430              400 / 442           4.2 3.0          390 / 424              386 / 428              403 / 441           4.2 4.0          389 / 423              386 / 428              406 / 444           4.3 6.0          389 / 423              383 / 425              406 / 443           4.4 8.0          387 / 420              391 / 431              404 / 439           4.5</p>
+<p>The rule is worth +8 / +4 / +9 over no rule (<code>d = 0</code>), which is finding <a class="fref" href="/Corn-Jr-Public/finding/86.html">86</a>'s number again. Above <code>d = 2</code> the strict column moves by at most +6 on one seed and −5 on another, the lenient proxy by at most +2, and the mean spoken answer lengthens by a third of a word. <strong>There is no fuller answer in the grid the rule searches</strong>: within three rows of the argmax, the head does not score a longer span close enough to be taken.</p>
+<h3 id="3-a-wider-reach-does-not-help-either">3. A wider reach does not help either</h3>
+<p>The grid is the harvest's. <code>harvest_popa_pairs.py --radius 8</code> re-wrote the three seed heads' grids to eight rows on either side (19 s each), and the sweep re-run over them:</p>
+<p>radius 8, d     s1 right / lenient*    s2 right / lenient*    s3 right / lenient*    mean words 2.0                 389 / 424              393 / 431              402 / 442           4.2 3.0                 388 / 423              389 / 427              402 / 438           4.3 4.0                 386 / 416              391 / 427              396 / 427           4.5 6.0                 381 / 409              379 / 410              388 / 415           4.8 8.0                 372 / 399              375 / 403              380 / 406           5.2</p>
+<p>At the shipped tolerance the wider reach is +0 / +5 / +2 strict and +0 / +1 / +0 on the proxy — noise. Every wider tolerance loses on <strong>both</strong> columns, steadily, while the answers lengthen: by <code>d = 8</code> the reader is 17 / 13 / 20 right answers worse and the lenient proxy 25 / 28 / 36 worse. Widening past the head's own near-ties does not find "in Gilbert Inlet in Alaska"; it finds neighbouring clauses that fail <code>answer_sized</code> or, admitted wider, tip the vote to another window.</p>
+<h3 id="4-verdict">4. Verdict</h3>
+<p><strong>The extent rule as shipped is at its optimum on both rulers.</strong> The preferences the owner voiced are real and are not reachable by the rule's two constants or by the say template. What they need is either a span head that ranks the natural phrase higher — training, where every arm on frozen states has failed to move the pick — or a syntactic completion rule (finish the noun phrase the argmax sits in) that finding <a class="fref" href="/Corn-Jr-Public/finding/82.html">82</a> measured on the generative path and found broke more than it fixed. Neither is cheap, and this finding's purpose is to have spent forty minutes rather than a day learning that.</p>
+<p>Not closed: the <code>who ... and</code> preference was not measured separately. It is a subset of extension (the second name is a wider span) and the sweep says the head does not offer it, but a count of how often a two-name gold has its second name in the head's ten would size it, and was not run.</p>
+<h3 id="5-on-disk">5. On disk</h3>
+<p><code>scripts/probe_extent_sweep.py</code> (new): the rule replayed at any tolerance and reach off a pairs harvest, read on the strict column and the wrapping proxy, with the mean spoken length beside them. <code>probe_reader_rank.apply_extent</code> takes a <code>radius</code>, default the shipped 3. <code>pairs_built_s{1,2,3}_r8_popa.json</code> are the radius-8 grids and read identically to the radius-3 files at radius 3.</p></div>
+  </section>
+
+  <section class="grid refs">
+    <div class="body two-even">
+      <div>
+        <h2 class="small">It cites</h2>
+        <ul class="reflist"><li style="--c:var(--c2)"><a href="/Corn-Jr-Public/finding/82.html"><span class="fn">82</span>Scored fairly, the boundary model trails plain generation</a></li><li style="--c:var(--c2)"><a href="/Corn-Jr-Public/finding/86.html"><span class="fn">86</span>A checker that reads the candidate answer works; re-ranking does not</a></li><li style="--c:var(--c2)"><a href="/Corn-Jr-Public/finding/104.html"><span class="fn">104</span>Under the owner&#39;s rules, a fifth of &#39;wrong&#39; answers are right</a></li></ul>
+        
+      </div>
+      <div>
+        <h2 class="small">Cited by</h2>
+        <ul class="reflist"><li style="--c:var(--c2)"><a href="/Corn-Jr-Public/finding/112.html"><span class="fn">112</span>Training on whole passages lifts extraction from 54% to 71%</a></li><li style="--c:var(--c2)"><a href="/Corn-Jr-Public/finding/114.html"><span class="fn">114</span>Tuning answer length on the new reader changes nothing</a></li></ul>
+        
+      </div>
+    </div>
+    <p class="body source">docs/findings/105-the-extent-rule-is-at-its-optimum-and-neither-a-wider-tolerance-nor-a-wider-reach-buys-the-fuller-answer-the-owner-asked-for-while-dropping-the-article-costs-ten-right-answers-a-seed.md</p>
+  </section>
+</article>
+
+  
+<footer class="turn">
+  <div><span class="sc">previous</span><a href="/Corn-Jr-Public/finding/104.html">104 · Under the owner&#39;s rules, a fifth of &#39;wrong&#39; answers are right</a></div>
+  <div class="r"><span class="sc">next</span><a href="/Corn-Jr-Public/finding/106.html">106 · Fifty thousand extra labelled windows don&#39;t help the reader</a></div>
+  <p class="keys"><kbd>←</kbd> <kbd>→</kbd> turn the page · <kbd>/</kbd> find</p>
+</footer>
+<p class="bynumber">Previous and next in <a href="/Corn-Jr-Public/thread/reading.html">Reading documents</a>. By number:
+  <a href="/Corn-Jr-Public/finding/104.html">104</a> · <a href="/Corn-Jr-Public/finding/106.html">106</a></p>
+
+</div>
+</body>
+</html>

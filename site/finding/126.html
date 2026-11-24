@@ -1,0 +1,124 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>126 · A hand-driven session found a chat turn sent out as a search · Corn-Jr</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600&family=IBM+Plex+Mono:wght@400;500&family=Spectral:ital,wght@0,400;0,500;0,600;1,400&family=Spectral+SC:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/Corn-Jr-Public/static/library.css">
+<script defer src="/Corn-Jr-Public/static/library.js"></script>
+<script type="speculationrules">
+{"prerender": [{"where": {"and": [{"href_matches": "/Corn-Jr-Public/*"}, {"not": {"href_matches": "/Corn-Jr-Public/random.html"}}, {"not": {"href_matches": "/Corn-Jr-Public/static/*"}}]}, "eagerness": "moderate"}]}
+</script>
+
+</head>
+<body>
+<div class="page">
+  <header class="running">
+    <a class="book" href="/Corn-Jr-Public/">Corn-Jr · The Record</a>
+    <nav>
+      <a href="/Corn-Jr-Public/" data-key="shelf">Shelf</a><a href="/Corn-Jr-Public/findings.html" data-key="findings" class="here">Findings</a><a href="/Corn-Jr-Public/doc/VISION.html" data-key="VISION">Vision</a><a href="/Corn-Jr-Public/doc/GLOSSARY.html" data-key="GLOSSARY">Glossary</a>
+      <a href="https://github.com/csheehan18/Corn-Jr-Public">Source</a>
+    </nav>
+  </header>
+  
+
+<article class="sheet" style="--c:var(--c3)">
+  <div class="progress" aria-hidden="true"></div>
+  <section class="grid chapter-open finding-open">
+    <a class="tab" href="/Corn-Jr-Public/thread/conversation.html" title="Conversation and the second turn"><small>Part</small><span>III</span></a>
+    <p class="cn">126</p>
+    <p class="partline"><a href="/Corn-Jr-Public/thread/conversation.html">Conversation and the second turn</a> · 7 September 2026</p>
+    <h1>A hand-driven session found a chat turn sent out as a search</h1>
+  </section>
+
+  <section class="grid">
+    <p class="marginal">The result, as the finding states it</p><div class="prose"><p class="lead">A hand-driven sitting on the shipped 0.5 checkpoint hit both history rows that read zero in the release table, found a chat turn leaving the machine as a live search query, and closed three of it in the runtime with every row of the release triple identical afterwards</p></div>
+    <p class="marginal">What it cost</p><div class="prose"><p class="cost">0 s of new scoring on record; it reads 1 card scored for an earlier finding (<code>corn_jr_260m_v4_ft_social8</code>). Backfilled 2026-09-26 from the cards' <code>seconds</code>; training and probe time were never recorded, so this is a floor.</p></div>
+  </section>
+
+  <div class="grid"><figure class="specimen">
+  <div class="slip">
+    <span class="k">to him</span><span class="m">rough week, honestly</span>
+    <span class="k">he wrote</span><span class="a">I&#39;m sorry to hear that you&#39;re not happy with the product.</span>
+  </div>
+  <figcaption><a href="/Corn-Jr-Public/finding/126.html">Finding 126.</a> One draw of the consolation reply he writes himself: call-centre register bleeding into a social turn.</figcaption>
+</figure></div>
+
+  <section class="grid">
+    <div class="prose doc"><p>Roughly 120 hand-driven turns on <code>corn_jr_260m_v4_ft_social8</code> over two sittings on 2026-09-07 — one table-backed, one <code>--all</code> — plus five grids written during the sitting and one committed as <code>scripts/probe_social_leak.py</code>. No training, no checkpoint moved, no threshold moved. The three fixes are <code>corn/agent.py</code> only; the release triple was re-read on the release conditions afterwards and every measured field in all three cards is identical to the <code>0c48261c</code> cards.</p>
+<p><strong>This finding is an outside read, and that is what it is for.</strong> Every number in <code>docs/RELEASE.md</code> was read by an instrument this project wrote, against a distribution this project chose. What a sitting adds is the distribution nobody chose.</p>
+<h3 id="1-the-two-rows-that-read-zero-and-why-the-grids-do-not-see-t">1. The two rows that read zero, and why the grids do not see them</h3>
+<p><code>docs/RELEASE.md</code> gates decision 6 on <code>historygrid</code> reading <code>reissued_query</code> <strong>0/36</strong> and <code>reissued_utterance</code> <strong>0/72</strong> at depth 1 and depth 3 alike. Both were hit by hand inside an hour, and both reproduce deterministically at temperature 0.</p>
+<p><strong><code>reissued_utterance</code>.</strong> A prior turn answered by <em>code</em> rather than by a tool call:</p>
+<blockquote><p>whats my birthday</p></blockquote>
+<p>I don't have your birthday written down. A birthday: line at the top of packs/about-me.md is where it goes.          [1 ms, no call]</p>
+<blockquote><p>what do i do for work</p></blockquote>
+<p>-&gt; web_search {"query": "whats my birthday"}</p>
+<p>The control — the same second utterance with no history — routes correctly.</p>
+<p><strong><code>reissued_query</code></strong>, three runs of three:</p>
+<blockquote><p>what is the currency of japan          It's the yen. what about india</p></blockquote>
+<p>-&gt; web_search {"query": "what is the currency of japan"} It's the yen.</p>
+<p><strong>The proposed account, and it is a hypothesis rather than a result.</strong> The grids build histories in which the prior turn <em>called a tool</em>. A turn the temporal or persona hatch answered leaves a history entry with a user line and a reply and <strong>no call in it</strong>, which is a shape the grid does not generate. If that is the mechanism, both rows are correct about what they measure and neither is a statement about a conversation with hatch-answered turns in it — which is most conversations, because the seed turn makes turn 1 one of them. Not fixed here, and it is the cheapest thing in this document to test: add a call-less prior turn to <code>historygrid</code>'s history builder and re-read the two rows.</p>
+<p><strong>Follow-up composition, measured while there.</strong> Five "what about X" pairs, each after a question of a different shape: <strong>1/5 composed with no filler turn and 1/5 with one</strong>, and the one that composed is <code>france → spain</code>, which is the pair this project's own documents use as the example. The other four fail three different ways — the query passed through verbatim ("A number of songs are about Mexico."), the previous query reissued, and a generic fact page. The filler turn changing nothing is consistent with PLAN-CONVERSATION's memory probe. <strong>The reissue is the worst of the three</strong>, because it returns a correct-sounding answer to a question nobody asked: "what about india" → "It's the yen." is indistinguishable from a right answer without reading the tool line.</p>
+<h3 id="2-the-leak-a-private-sentence-going-to-a-provider">2. The leak: a private sentence going to a provider</h3>
+<p>Under <code>--all</code>, second turn of the first conversation of the sitting:</p>
+<blockquote><p>bit tired today, long week</p></blockquote>
+<p>-&gt; web_search {"query": "bit tired today"}</p>
+<p><strong>The cause is hatch coverage, not the router.</strong> <code>conversational_reply</code> matches a <em>whole</em> normalised utterance against six frozen sets — deliberately, and <code>GREETINGS</code>' own docstring gives the argument, which is that a prefix rule swallowed "ok do it". But people do not type one social move per turn. Neither <code>bit tired today, long week</code> nor <code>pretty good. bit tired though, long week</code> is in any set, so both fell through to the model, which routed them, which sent them to <code>en.wikipedia.org</code>.</p>
+<p>This is the seventy-eighth finding's species — <em>a hatch miss is not a worse answer, it is a different system</em> — on the family that finding did not probe, and with the sharper cost: <code>--all</code> is what a friend will run, so the miss is outbound rather than merely wrong.</p>
+<h3 id="3-what-the-reader-s-floor-sounds-like-when-it-is-not-an-answ">3. What the reader's floor sounds like when it is not an answer</h3>
+<p><code>--extract</code>'s floor is the provider's lead sentence, and <code>_web_search_read</code>'s docstring calls it "never the casualty" — true, because the floor can only replace an extraction that found nothing. It is <strong>not</strong> true against saying nothing. Live, of 21 questions the provider answered, <strong>16 were right and every one of the five wrong ones was the lead sentence of a wrong or generic article, delivered in the same voice as "It's Tokyo."</strong>:</p>
+<p>who is the prime minister of canada   It's the head of government of Canada. what is the speed of light            It's fifth book of narrative Spanish writer Javier Cercas.</p>
+<p>The second is a Javier Cercas novel of that name. <strong>The grounding rule is not what failed</strong> — in ~120 turns the model was never caught asserting a fact the observation did not carry, which is what four findings bought and it holds. The guarantee is "he will not make it up", and the sitting's result is that this is <strong>not</strong> the same guarantee as "he will not be wrong", and that nothing in the delivery distinguished them. <code>fell_back</code> was already on the say event.</p>
+<h3 id="4-the-frame-s-seam">4. The frame's seam</h3>
+<p><code>SAY_ANSWER</code>'s <code>It&#x27;s {a}.</code> is a trained framing reproduced by the reader, so what lands in <code>answer</code> is the frame with an extracted span dropped into it, and the two do not always meet: <code>It&#x27;s The yen.</code>, <code>It&#x27;s The Pacific Ocean.</code>, <code>It&#x27;s it is part Flying type.</code> Four live instances.</p>
+<h3 id="5-the-three-fixes-and-what-each-is-allowed-to-do">5. The three fixes, and what each is allowed to do</h3>
+<p>All in <code>corn/agent.py</code>. None touches a threshold, a checkpoint or a default.</p>
+<p><strong>(a) The hatch, two widenings.</strong> <code>_SOCIAL_TAIL</code> strips trailing fillers ("today", "honestly", "though") and <code>_SOCIAL_JOIN</code>/<code>_social_run</code> splits a run of social moves — <strong>and each is accepted only if what remains matches a pool whole</strong>, which is the whole-utterance rule applied per fragment rather than relaxed. So "rough day, note that I'm skipping the gym" still routes, and <code>check_hatches.py</code> now asserts that over eight request-carrying sentences. The tail strip also closes the leak <code>LOW</code>'s own docstring names as open — "I'm kind of tired today honestly", recorded there as getting "a different wrong move on every checkpoint" — which needed the crossed pool entries (<code>i&#x27;m kind of tired</code> beside the <code>i&#x27;m tired</code> and <code>kind of tired</code> already there) before it had anything to land on.</p>
+<p><code>conversational_reply</code> and <code>social_family</code> were the same test written twice and are now one function, <code>_social_hit</code>. The duplication was live: the widening would otherwise have landed on the hatch and not on the family check.</p>
+<p><strong>And the run rule is narrower than the argument for it, because <code>check_turn2</code> said so.</strong> The first version claimed "alright, much appreciated", "great, much appreciated" and "lovely, much appreciated" — which <code>corn/turn2gen.py</code> builds as class-A reactions from <code>REACT_CUES</code> × <code>USER_REACT_ANY</code>, and which the turn-2 slice therefore <em>trains him to answer</em>. That is rule 4 exactly: the runtime composing what the corpus teaches. Restricting a run to <code>_RUN_FAMILIES</code> = {consolation, greeting, wellbeing} — the three a miss was measured to cost a live query on — resolves it without an exception list, and an ack followed by a thanks has never reached a provider because both halves are already matched whole.</p>
+<p><strong>(b) <code>FELL_BACK_FRAME</code>.</strong> A fallback is spoken as one. Gated on exactly the condition the <code>fell_back</code> field is gated on, so the sentence and the column cannot disagree about which turns fell back, and the say author flips to <code>runtime</code> — <code>SAY_AUTHORS</code>' argument, since these transcripts are training data.</p>
+<p><strong>(c) <code>tidy_frame</code>.</strong> Two seam repairs, applied where the reader's answer enters the payload so the observation and the spoken sentence carry the same string: a repeated copula (<code>It&#x27;s it is X</code> → <code>It&#x27;s X</code>) and a capitalised article <strong>only when the next word is lowercase</strong>. The ambiguous half is left alone — <code>It&#x27;s The Hague.</code> is a proper name and nothing in the runtime can tell it from a typo except by what follows, so the cost taken is a stiff sentence rather than a lowercased name. Neither word it can drop can carry a fact and both are in <code>corn.extract.FRAME</code>, so <code>grounded</code> reads the repaired answer as it read the unrepaired one.</p>
+<p><strong>One over-reach, caught by its own row.</strong> The first copula pattern included the possessive <code>its</code> and turned "It's its own thing." into "It's own thing." — the repair inventing a defect. It is a regression row in <code>check_agent.py</code> now.</p>
+<h3 id="6-what-the-fixes-cost-measured">6. What the fixes cost, measured</h3>
+<p><strong>The release triple, re-read on the release conditions</strong> (<code>--packs &quot;&quot; --book &quot;&quot; --tools-dir &quot;&quot; --no-log</code>), against the <code>0c48261c</code> cards field by field: <strong>every measured field is identical.</strong> <code>checkup</code> routed 16/19, executed 14/14, <code>spoke_from_tool</code> 8/8, <code>held_back</code> 2/5, <code>named_right</code> 2/3; <code>converse</code> <code>in_kind</code> 14/16, <code>said_something</code> 16/16, <code>fresh</code> 10/10, <code>carried_over</code> 2/3; <code>toolgrid</code> A 170/176 and 23/24, B 390/400 with contact 388/390 and message 171/173, C 169/176 with <code>kept_text</code> 142/169. The only fields that differ are the scratch path, the revision and the timestamp. <strong><code>toolgrid</code>'s closing line still reads "no turn was answered by a runtime hatch"</strong> — the widened hatch claimed none of its 808 turns, which is the number that matters for (a).</p>
+<p><strong><code>check_all.py</code>: 70 ran, 2 failed</strong> — <code>check_churn</code> and <code>check_copyable</code>, both confirmed failing on the unmodified tree.</p>
+<p><strong>Live, <code>scripts/probe_social_leak.py</code>:</strong> leak grid <strong>8/8</strong> answered without a lookup (was 0/8 on the two recorded utterances), cost grid <strong>7/8</strong>, fallback frame <strong>5/6</strong> with the sixth a real answer that correctly did not fall back.</p>
+<p><strong>The note grids do not move</strong>, and that matters because it says (a) bought nothing on the tool side: canonical <code>save_note</code> requests read <strong>12/12 → 10/12 → 9/12</strong> on empty / one chat turn / two chat turns of history, exactly as before, with every failure a <code>pick up the …</code> payload. Twenty-one requests across all tools read 19/21 either way.</p>
+<h3 id="7-what-is-not-fixed-said-plainly">7. What is not fixed, said plainly</h3>
+<ul><li><strong>Retrieval.</strong> "who is the king of england" → "It's Alfred the Great." has no <code>fell_back</code> on it — the provider returned the wrong article and the reader read it correctly. The frame does not reach these and should not.</li><li><strong>A lead that is not prose.</strong> One live instance: the currency-of-Japan passage was a category page, so the frame honestly reads out "Circulating currencies Currency symbols … Hidden categories:". The <code>LEAD_ANSWERS is False</code> path already takes the honest miss for the deep path's own case and is the place to extend.</li><li><strong>The <code>pick up the …</code> note class</strong>, and follow-up composition at 1/5. Both are corpus, both are named in <code>docs/PLAN-1-0.md</code>, and neither is a runtime fix.</li><li><strong>The consolation reply's register.</strong> The hatch now claims "rough week, honestly" and he writes the reply himself; one draw of it was "I'm sorry to hear that you're not happy with the product." Pre-existing — the same call-centre bleed answered a bare "morning" before any of this — but the widening puts more turns on the path, so <code>family_rejection</code>'s consolation arm now has more to gate. Not counted as caused here and not fixed here.</li></ul>
+<h3 id="8-what-this-says-about-the-release-table">8. What this says about the release table</h3>
+<p>Nothing in <code>docs/RELEASE.md</code> is withdrawn: every number reproduced, twice, including under the changes. What the sitting adds is that <strong>two rows read zero because of what their grid generates</strong>, and the honest statement of decision 6's gate is now "nothing reissues in the shapes <code>historygrid</code> builds" rather than "nothing reissues". The instruments are not wrong; the distribution is narrow, and a hand sitting is cheap next to what it caught.</p>
+<p>Left unexplained: why <code>pick up the …</code> specifically collapses to <code>decline</code> after a chat turn while <code>take out the bins</code>, <code>drop off the parcel</code> and <code>pick up milk</code> do not — a phrasal verb whose particle is shared with <code>place_call</code>'s register is the obvious guess and it is only a guess.</p></div>
+  </section>
+
+  <section class="grid refs">
+    <div class="body two-even">
+      <div>
+        <h2 class="small">It cites</h2>
+        <p class="aside">No other finding by number.</p>
+      </div>
+      <div>
+        <h2 class="small">Cited by</h2>
+        <p class="aside">No later finding yet.</p>
+      </div>
+    </div>
+    <p class="body source">docs/findings/126-a-hand-sitting-under-all-found-the-two-history-rows-that-read-zero-and-the-leak-that-sends-a-private-sentence-to-a-provider-and-three-runtime-fixes-move-no-row-of-the-release-triple.md</p>
+  </section>
+</article>
+
+  
+<footer class="turn">
+  <div><span class="sc">previous</span><a href="/Corn-Jr-Public/finding/123.html">123 · One unrelated exchange in history stops repeated calls</a></div>
+  <div class="r"></div>
+  <p class="keys"><kbd>←</kbd> <kbd>→</kbd> turn the page · <kbd>/</kbd> find</p>
+</footer>
+<p class="bynumber">Previous and next in <a href="/Corn-Jr-Public/thread/conversation.html">Conversation and the second turn</a>. By number:
+  <a href="/Corn-Jr-Public/finding/125.html">125</a> · <a href="/Corn-Jr-Public/finding/127.html">127</a></p>
+
+</div>
+</body>
+</html>

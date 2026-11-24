@@ -1,0 +1,91 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>68 · At 260M the seed barely moves scores, measured for the first time · Corn-Jr</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600&family=IBM+Plex+Mono:wght@400;500&family=Spectral:ital,wght@0,400;0,500;0,600;1,400&family=Spectral+SC:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/Corn-Jr-Public/static/library.css">
+<script defer src="/Corn-Jr-Public/static/library.js"></script>
+<script type="speculationrules">
+{"prerender": [{"where": {"and": [{"href_matches": "/Corn-Jr-Public/*"}, {"not": {"href_matches": "/Corn-Jr-Public/random.html"}}, {"not": {"href_matches": "/Corn-Jr-Public/static/*"}}]}, "eagerness": "moderate"}]}
+</script>
+
+</head>
+<body>
+<div class="page">
+  <header class="running">
+    <a class="book" href="/Corn-Jr-Public/">Corn-Jr · The Record</a>
+    <nav>
+      <a href="/Corn-Jr-Public/" data-key="shelf">Shelf</a><a href="/Corn-Jr-Public/findings.html" data-key="findings" class="here">Findings</a><a href="/Corn-Jr-Public/doc/VISION.html" data-key="VISION">Vision</a><a href="/Corn-Jr-Public/doc/GLOSSARY.html" data-key="GLOSSARY">Glossary</a>
+      <a href="https://github.com/csheehan18/Corn-Jr-Public">Source</a>
+    </nav>
+  </header>
+  
+
+<article class="sheet" style="--c:var(--c1)">
+  <div class="progress" aria-hidden="true"></div>
+  <section class="grid chapter-open finding-open">
+    <a class="tab" href="/Corn-Jr-Public/thread/measurement.html" title="Measurement and noise"><small>Part</small><span>I</span></a>
+    <p class="cn">68</p>
+    <p class="partline"><a href="/Corn-Jr-Public/thread/measurement.html">Measurement and noise</a> · 26 August 2026</p>
+    <h1>At 260M the seed barely moves scores, measured for the first time</h1>
+  </section>
+
+  <section class="grid">
+    <p class="marginal">The result, as the finding states it</p><div class="prose"><p class="lead">The seed moves nothing on the frozen rows, and that is the error bar every 260M finding has been missing</p></div>
+    <p class="marginal">What it cost</p><div class="prose"><p class="cost">12.6 min of scoring on the 1 card first cited here (<code>corn_jr_260m_ftnarrow_seed2</code>); it also reads 2 cards scored for an earlier finding (<code>corn_jr_260m</code>, <code>corn_jr_260m_ftwide_seed2</code>). Backfilled 2026-09-26 from the cards' <code>seconds</code>; training and probe time were never recorded, so this is a floor.</p></div>
+  </section>
+
+  
+
+  <section class="grid">
+    <div class="prose doc"><p><code>corn_jr_260m_ftwide_seed2</code> and <code>corn_jr_260m_ftnarrow_seed2</code>, 2026-08-26, scored by <code>corn.evals</code> against the frozen <code>evals/</code> set. R4 of <code>docs/PLAN-P3-RULERS.md</code>, which pre-registered <strong>no threshold on purpose</strong>: the deliverable is the spread itself, to be quoted by every later 260M finding. No training — both checkpoints were on disk and unscored, which is why the plan called this the cheapest read in the repository.</p>
+<h3 id="the-two-things-that-make-it-a-comparison">The two things that make it a comparison</h3>
+<p>Both arms are the seed-1 run with <code>seed: 1337</code> changed to <code>1338</code> and nothing else: same <code>init_from</code> (the frozen <code>corn_jr_260m</code>), same 30MB payload, same 786 <code>max_iters</code>, same <code>lr</code>, same dtype. And the invocation is the seed-1 one flag for flag — bare <code>python -m corn.evals --ckpt … --json …</code>, every section on, <code>--max-samples</code> at its default of 8, <code>--data-dir</code> defaulting to the checkpoint's own. Ground rule 4 of the plan is that comparability is declared rather than assumed, and a scorecard taken under different flags would have broken it inside its own workstream.</p>
+<p><strong>One difference is not the seed and has to be said.</strong> The selection rule (<code>mean-log-per-source</code>) picked <strong>iter 700</strong> for <code>ftwide_seed2</code> and <strong>iter 600</strong> for <code>ftnarrow_seed2</code>, against 786 for both seed-1 runs. So "the seed" here means the seed and the checkpoint it caused to be selected, which is what a re-run of this rig actually varies.</p>
+<h3 id="the-table-r4-asked-for">The table R4 asked for</h3>
+<p>Rows findings <a class="fref" href="/Corn-Jr-Public/finding/63.html">63</a> and <a class="fref" href="/Corn-Jr-Public/finding/65.html">65</a> cite, seed 1 → seed 2:</p>
+<p>row                 ftwide            ftnarrow tool.copy           120/120 → 120/120  120/120 → 120/120 tool.copy_wide      300/300 → 300/300  300/300 → 300/300 temporal.copy       353/353 → 353/353  353/353 → 353/353 temporal.route      400/400 → 400/400  400/400 → 400/400 search.route_base   200/200 → 200/200  200/200 → 200/200 search.route_wide   200/200 → 200/200  199/200 → 199/200 search.route_heldout 200/200 → 200/200 200/200 → 200/200 extract.span         22/200 →  20/200   22/200 →  21/200 extract.abstain       1/200 →   1/200    1/200 →   1/200 extract.brevity     238/400 → 224/400  243/400 → 231/400 invented (span why)      70 →      71       63 →      68</p>
+<p>Every ceiling row is <strong>exactly</strong> reproduced. Nothing that finding <a class="fref" href="/Corn-Jr-Public/finding/63.html">63</a> rests on moves by one item across a seed.</p>
+<p>The widest movers anywhere in the behaviour block are not in that list:</p>
+<p>notefid.novel_phrasing   86/120 → 80/120     87/120 → 79/120 extract.brevity         238/400 → 224/400   243/400 → 231/400 chat.abstain_oos         47/100 → 50/100     38/100 → 37/100 tool.selection          188/200 → 190/200   unchanged turn2.second            178/200 → 180/200   182/200 → 180/200</p>
+<p><strong>So the error bar, stated as a number to quote: ±2 items on <code>extract.span</code>, ±14 of 400 on <code>extract.brevity</code>, ±8 of 120 on <code>notefid.novel_phrasing</code>, and zero on every row at ceiling.</strong> A 260M effect smaller than that is wobble; the sixty-third finding's 72/200 → 198/200 and the sixty-fifth's 9/200 → 70/200 are two and three orders of magnitude outside it.</p>
+<h3 id="val-loss-is-not-the-instrument-and-this-is-the-cleanest-demo"><code>val_loss</code> is not the instrument, and this is the cleanest demonstration yet</h3>
+<p>checkpoint          iter   val_loss   behaviour rows that moved ftwide              786     0.9305    — ftwide_seed2        700     0.8380    9 rows, none by more than 6 items ftnarrow            786     0.9344    — ftnarrow_seed2      600     0.9252    7 rows, none by more than 8 items</p>
+<p><code>ftwide_seed2</code> sits <strong>0.093 nats below</strong> its seed-1 twin — the largest val gap anywhere in this family — and scores the same behaviour to within a handful of items, with the four <code>lm</code> rows agreeing to three decimal places (<code>temporal</code> 0.1923 → 0.1910, the rest inside 0.0002). A run that picked the checkpoint by val alone would have called that a materially better model.</p>
+<h3 id="what-it-does-not-say">What it does not say</h3>
+<p>This is the spread of the <strong>frozen rows</strong>, and it does not transfer to live instruments. The sixty-ninth finding measures the same four checkpoints on <code>harness/toolgrid.py</code> and reads a seed spread of <strong>26 to 55 turns of 208</strong> on the decline column — an order of magnitude wider, on the same weights, on the same day. Two seeds a side is also two, not five: the nineteenth and forty-third findings both had to widen a floor when the third and fourth seeds arrived, and nothing here is safe from that.</p></div>
+  </section>
+
+  <section class="grid refs">
+    <div class="body two-even">
+      <div>
+        <h2 class="small">It cites</h2>
+        <ul class="reflist"><li style="--c:var(--c2)"><a href="/Corn-Jr-Public/finding/63.html"><span class="fn">63</span>Fresh tool training, not new phrasings, fixed search routing</a></li><li style="--c:var(--c2)"><a href="/Corn-Jr-Public/finding/65.html"><span class="fn">65</span>Fine-tuning installs extraction at 260M from zero</a></li></ul>
+        
+      </div>
+      <div>
+        <h2 class="small">Cited by</h2>
+        <ul class="reflist"><li style="--c:var(--c1)"><a href="/Corn-Jr-Public/finding/77.html"><span class="fn">77</span>At 5B tokens, fresh text is no worse than re-reading text</a></li></ul>
+        
+      </div>
+    </div>
+    <p class="body source">docs/findings/68-the-seed-moves-nothing-on-the-frozen-rows-and-that-is-the-error-bar-every-260m-finding-has-been-missing.md</p>
+  </section>
+</article>
+
+  
+<footer class="turn">
+  <div><span class="sc">previous</span><a href="/Corn-Jr-Public/finding/61.html">61 · The phrasing test itself has noise of sixty items</a></div>
+  <div class="r"></div>
+  <p class="keys"><kbd>←</kbd> <kbd>→</kbd> turn the page · <kbd>/</kbd> find</p>
+</footer>
+<p class="bynumber">Previous and next in <a href="/Corn-Jr-Public/thread/measurement.html">Measurement and noise</a>. By number:
+  <a href="/Corn-Jr-Public/finding/67.html">67</a> · <a href="/Corn-Jr-Public/finding/69.html">69</a></p>
+
+</div>
+</body>
+</html>

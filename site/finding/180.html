@@ -1,0 +1,90 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>180 · When the runtime orders the menu, &#39;the other one&#39; is perfect · Corn-Jr</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600&family=IBM+Plex+Mono:wght@400;500&family=Spectral:ital,wght@0,400;0,500;0,600;1,400&family=Spectral+SC:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/Corn-Jr-Public/static/library.css">
+<script defer src="/Corn-Jr-Public/static/library.js"></script>
+<script type="speculationrules">
+{"prerender": [{"where": {"and": [{"href_matches": "/Corn-Jr-Public/*"}, {"not": {"href_matches": "/Corn-Jr-Public/random.html"}}, {"not": {"href_matches": "/Corn-Jr-Public/static/*"}}]}, "eagerness": "moderate"}]}
+</script>
+
+</head>
+<body>
+<div class="page">
+  <header class="running">
+    <a class="book" href="/Corn-Jr-Public/">Corn-Jr · The Record</a>
+    <nav>
+      <a href="/Corn-Jr-Public/" data-key="shelf">Shelf</a><a href="/Corn-Jr-Public/findings.html" data-key="findings" class="here">Findings</a><a href="/Corn-Jr-Public/doc/VISION.html" data-key="VISION">Vision</a><a href="/Corn-Jr-Public/doc/GLOSSARY.html" data-key="GLOSSARY">Glossary</a>
+      <a href="https://github.com/csheehan18/Corn-Jr-Public">Source</a>
+    </nav>
+  </header>
+  
+
+<article class="sheet" style="--c:var(--c4)">
+  <div class="progress" aria-hidden="true"></div>
+  <section class="grid chapter-open finding-open">
+    <a class="tab" href="/Corn-Jr-Public/thread/tag-language.html" title="The tag language"><small>Part</small><span>IV</span></a>
+    <p class="cn">180</p>
+    <p class="partline"><a href="/Corn-Jr-Public/thread/tag-language.html">The tag language</a> · 18 October 2026</p>
+    <h1>When the runtime orders the menu, &#39;the other one&#39; is perfect</h1>
+  </section>
+
+  <section class="grid">
+    <p class="marginal">The result, as the finding states it</p><div class="prose"><p class="lead">With the runtime writing the menu in his line's order, branch is his pick and both halves excel: "the other one" reads 864 of 864 at all three starts, his own quads 141-144 of 144 on every cell, his line 0.992-0.998 — RULES 21 untouched; and every fine-tune from arm E2's second start pays the copy row in one species, a thousands figure's leading 4 written as 3</p></div>
+    <p class="marginal">What it cost</p><div class="prose"><p class="cost">three fine-tunes of 650 iterations at 20M (143 s each, contended — the card at 39-42%, a bound), three three-way reads at 87-88 s, three slot reads and copy cards at 7-8 s, the real-wording probe 18 s: one chain of 754.5 s, 20:15-20:28 on 2026-10-18, registered ~15 min; the copy hand read 26.6 s; the build 20:11-20:15 on CPU.</p></div>
+  </section>
+
+  
+
+  <section class="grid">
+    <div class="prose doc"><p><strong>The owner's pick after finding <a class="fref" href="/Corn-Jr-Public/finding/179.html">179</a></strong>: "try A2 first: the runtime lists his line's continuation first, so the pick stays his." Finding <a class="fref" href="/Corn-Jr-Public/finding/179.html">179</a>'s A1 had shown the line excellent and the complement unformed: from a right one-slot line, on an unmet condition, his trained pick read 430 / 658 / 655 of 864 against 0.90. Pre-registered in <code>configs/mix_v3_bind_ft_order.py</code> at cccdf6d before a byte trained. <strong>One change from A1: the payload's menu order</strong> — the runtime, which holds his line, writes <code>options:</code> with the continuation his line names first and the other second (<code>branchflipgen.FlipBranch.line_order</code>, <code>gen_funcworld_branchflip.py --line-order</code>). Finding <a class="fref" href="/Corn-Jr-Public/finding/175.html">175</a>'s payload byte for byte but for 3,705 <code>options:</code> lines of 7,424; the pick becomes met: first, unmet: second. The same two passes, replay, 650 iterations, pick under loss and arm E2's three starts. <code>check_branch.py</code> section 15 holds it (a mutant that points the mix at the request-order payload fails it).</p>
+<p><strong>The read</strong> is <code>probe_branch_bind.py --line-order</code> on <code>evals/funcworld_branchflip_bind_order.jsonl</code>: in <code>own</code> and <code>forged</code> the menu is rebuilt from the line actually spliced in, his or the forged one, as the runtime builds it in serving — checked on CPU over all 1,728 prompts before any read (a gold line leaves the prompt unchanged; a forged line puts its continuation first and the gold option keeps its text).</p>
+<h3 id="the-registered-read">The registered read</h3>
+<p>start    his line exact     gold-line pick        own quads              forged followed (of 1,728)         met / unmet (of 864)  flip / held1 / held2   (of 576 a cell) ev2      1,714 (0.992)      864 / 864             141 / 141 / 143        576 / 576 / 576 ev2s2    1,718 (0.994)      864 / 864             142 / 142 / 143        576 / 576 / 576 ev2s3    1,724 (0.998)      864 / 864             144 / 143 / 144        576 / 576 / 576</p>
+<p>finding <a class="fref" href="/Corn-Jr-Public/finding/179.html">179</a>'s A1, the same starts, request-order menu: 0.979-1.000        864 / 430-658         1-96 a cell</p>
+<p>negated families' first slot on 600 of his training traces: 0.99, 1.00, 1.00</p>
+<p><strong>Passes at three starts of three: the registered row "Route A: branch is his pick and both halves excel".</strong> The prediction (3 of 3, unmet 0.95+, own quads 130+) held. The start that read 0.50 on the complement under A1 reads 864 of 864 here.</p>
+<h3 id="read-by-hand">Read by hand</h3>
+<p>The three-way probe prints his line beside the gold on four quads a run: every shown line exact ("provided it isn't snowing", "except if it's foggy"), every own pick right on both results. <strong>Own quads equal the runtime-resolved quads on every cell of every run</strong> (<code>probe_bind_resolve.py</code>): his pick adds no error of its own, and every miss is a wrong line — 14, 10 and 4 of 1,728, each naming the same continuation on the request's action twin, the plain families as often as the flip ones. A forged line is followed 576 of 576: the pick reads the result and the runtime's order, which is the design; whether the line is right is the line's job.</p>
+<p><strong>The real-wording probe</strong> (finding <a class="fref" href="/Corn-Jr-Public/finding/179.html">179</a>'s 29 hand-written shapes) reads the line here exactly as there — pairs right pos 8-12 of 26, neg 14-18 of 20, unless 9-12 of 12, the same ten-odd shapes failing. The menu order changes the pick, not the line, and finding <a class="fref" href="/Corn-Jr-Public/finding/179.html">179</a>'s limit stands: new words in the eight trained clause structures transfer, new structures do not.</p>
+<h3 id="the-copy-row-read-by-hand">The copy row, read by hand</h3>
+<p><code>tool.copy_wide</code> 298, 248 and 296 against the starts' 298, 295, 293 — "not readable" by finding <a class="fref" href="/Corn-Jr-Public/finding/170.html">170</a>'s rule. But the second start's fine-tunes read 253 (A1), 249 (B2) and 248 (A2), and no other start falls. Greedy-decoded with the row's own scorer (scratch, probe only — not on disk): the start misses 5 of 300 and the A2 fine-tune 52, and of its first 40 misses <strong>23 write a thousands figure's leading 4 as 3</strong> — "4,086 degrees Celsius" said "3,086", "4,717 metres at its deepest" said "3,717" — and 8 cut a three-decimal figure to two ("up to 2.031 metres" said "2.03"). The start makes neither. It is the digit species findings <a class="fref" href="/Corn-Jr-Public/finding/168.html">168</a> and <a class="fref" href="/Corn-Jr-Public/finding/169.html">169</a> read, now one start's in three arms; the branch payload carries no such figure, so the cause is the fine-tune at that start (its replay or its optimiser path), not the payload's content. Not read further here.</p>
+<h3 id="what-it-licenses">What it licenses</h3>
+<ul><li><strong>Branch installs as his pick, by fine-tune, at three starts of three, with every number at or near ceiling</strong>: the binding line (his reading of the flip words, 0.99+) and the move (the pick from the result, 864 of 864). The runtime writes the menu in his line's order — a line it already holds — and computes nothing of the decision. RULES 21 is never touched: the pick is his and trained, the menu the runtime's and never in his loss as his.</li><li><strong>Two routes now stand for the owner</strong>, both rule-clean: this (A2, the pick his) and finding <a class="fref" href="/Corn-Jr-Public/finding/179.html">179</a>'s B2 (the runtime resolving the move). They read the same line; A2 keeps the move his at no measured cost.</li><li><strong>The binding read's limit is unchanged</strong> (finding <a class="fref" href="/Corn-Jr-Public/finding/179.html">179</a>): the clause structures, not the words. A 1.0 branch slice needs many structures before either route reads a person's ninth way of building the sentence.</li><li><strong>The second start's copy species is owed a cause</strong> before a fine-tune from it is quoted on the copy row.</li></ul>
+<p><strong>What it does not settle.</strong> Pretraining at one pass in this format (every read here is by fine-tune, at ~40% of 650 iterations); structures; the copy species' cause; and whether a fine-tuned branch survives the next fine-tune.</p></div>
+  </section>
+
+  <section class="grid refs">
+    <div class="body two-even">
+      <div>
+        <h2 class="small">It cites</h2>
+        <ul class="reflist"><li style="--c:var(--c4)"><a href="/Corn-Jr-Public/finding/168.html"><span class="fn">168</span>Naming the flexible limit outright splits the seeds</a></li><li style="--c:var(--c4)"><a href="/Corn-Jr-Public/finding/169.html"><span class="fn">169</span>Choosing a branch from a checked condition: seeds split</a></li><li style="--c:var(--c4)"><a href="/Corn-Jr-Public/finding/170.html"><span class="fn">170</span>The copy test&#39;s failure threshold was measuring seed noise</a></li><li style="--c:var(--c4)"><a href="/Corn-Jr-Public/finding/175.html"><span class="fn">175</span>He names the chosen branch, but can&#39;t combine it with the result</a></li><li style="--c:var(--c4)"><a href="/Corn-Jr-Public/finding/179.html"><span class="fn">179</span>Fine-tuned, he reads every condition word like &#39;not&#39; and &#39;unless&#39;</a></li></ul>
+        
+      </div>
+      <div>
+        <h2 class="small">Cited by</h2>
+        <ul class="reflist"><li style="--c:var(--c4)"><a href="/Corn-Jr-Public/finding/181.html"><span class="fn">181</span>Mixed sentence shapes: he reads each option&#39;s own condition, loses &#39;otherwise&#39;</a></li><li style="--c:var(--c4)"><a href="/Corn-Jr-Public/finding/182.html"><span class="fn">182</span>Copying the condition&#39;s clause first: new sentence shapes read, new words don&#39;t</a></li><li style="--c:var(--c4)"><a href="/Corn-Jr-Public/finding/183.html"><span class="fn">183</span>More words fixed most misses; an unseen &#39;unless&#39; word still reads &#39;if&#39;</a></li><li style="--c:var(--c4)"><a href="/Corn-Jr-Public/finding/184.html"><span class="fn">184</span>Looping until it sounds right: he learns to always keep looking</a></li><li style="--c:var(--c5)"><a href="/Corn-Jr-Public/finding/187.html"><span class="fn">187</span>Trained on invented names, he learned to copy one, never which</a></li></ul>
+        
+      </div>
+    </div>
+    <p class="body source">docs/findings/180-with-the-runtime-writing-the-menu-in-his-lines-order-branch-is-his-pick-and-both-halves-excel-the-other-one-864-of-864-and-own-quads-141-to-144-at-three-starts.md</p>
+  </section>
+</article>
+
+  
+<footer class="turn">
+  <div><span class="sc">previous</span><a href="/Corn-Jr-Public/finding/179.html">179 · Fine-tuned, he reads every condition word like &#39;not&#39; and &#39;unless&#39;</a></div>
+  <div class="r"><span class="sc">next</span><a href="/Corn-Jr-Public/finding/181.html">181 · Mixed sentence shapes: he reads each option&#39;s own condition, loses &#39;otherwise&#39;</a></div>
+  <p class="keys"><kbd>←</kbd> <kbd>→</kbd> turn the page · <kbd>/</kbd> find</p>
+</footer>
+<p class="bynumber">Previous and next in <a href="/Corn-Jr-Public/thread/tag-language.html">The tag language</a>. By number:
+  <a href="/Corn-Jr-Public/finding/179.html">179</a> · <a href="/Corn-Jr-Public/finding/181.html">181</a></p>
+
+</div>
+</body>
+</html>

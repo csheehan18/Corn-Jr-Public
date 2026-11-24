@@ -1,0 +1,100 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>69 · The tools data, not extraction data, displaced his declining · Corn-Jr</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600&family=IBM+Plex+Mono:wght@400;500&family=Spectral:ital,wght@0,400;0,500;0,600;1,400&family=Spectral+SC:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/Corn-Jr-Public/static/library.css">
+<script defer src="/Corn-Jr-Public/static/library.js"></script>
+<script type="speculationrules">
+{"prerender": [{"where": {"and": [{"href_matches": "/Corn-Jr-Public/*"}, {"not": {"href_matches": "/Corn-Jr-Public/random.html"}}, {"not": {"href_matches": "/Corn-Jr-Public/static/*"}}]}, "eagerness": "moderate"}]}
+</script>
+
+</head>
+<body>
+<div class="page">
+  <header class="running">
+    <a class="book" href="/Corn-Jr-Public/">Corn-Jr · The Record</a>
+    <nav>
+      <a href="/Corn-Jr-Public/" data-key="shelf">Shelf</a><a href="/Corn-Jr-Public/findings.html" data-key="findings" class="here">Findings</a><a href="/Corn-Jr-Public/doc/VISION.html" data-key="VISION">Vision</a><a href="/Corn-Jr-Public/doc/GLOSSARY.html" data-key="GLOSSARY">Glossary</a>
+      <a href="https://github.com/csheehan18/Corn-Jr-Public">Source</a>
+    </nav>
+  </header>
+  
+
+<article class="sheet" style="--c:var(--c1)">
+  <div class="progress" aria-hidden="true"></div>
+  <section class="grid chapter-open finding-open">
+    <a class="tab" href="/Corn-Jr-Public/thread/routing.html" title="Routing and declining"><small>Part</small><span>I</span></a>
+    <p class="cn">69</p>
+    <p class="partline"><a href="/Corn-Jr-Public/thread/routing.html">Routing and declining</a> · 26 August 2026</p>
+    <h1>The tools data, not extraction data, displaced his declining</h1>
+  </section>
+
+  <section class="grid">
+    <p class="marginal">The result, as the finding states it</p><div class="prose"><p class="lead">The tools corpus displaced decline, not the extraction slice, and the see-saw wobbles by fifty-five turns on the seed</p></div>
+    <p class="marginal">What it cost</p><div class="prose"><p class="cost">0 s of new scoring on record; it reads 1 card scored for an earlier finding (<code>corn_jr_260m</code>). Backfilled 2026-09-26 from the cards' <code>seconds</code>; training and probe time were never recorded, so this is a floor.</p></div>
+  </section>
+
+  
+
+  <section class="grid">
+    <div class="prose doc"><p><code>corn_jr_260m_ft{wide,narrow}</code> and both their seed-2 twins, 2026-08-26, measured by <code>harness/toolgrid.py</code> under the conditions of the two runs it is read against: 808 turns each, greedy, table-backed (<code>search: table</code>, nothing leaves the machine), scratch <code>--notes</code>, eight tools declared with <code>decline</code> offered, <code>hatched: 0</code> on every cell. Declared as a new cell of <code>docs/PLAN-P3-RULERS.md</code> before it was run, not slipped into R1. No training.</p>
+<h3 id="the-question-it-was-built-to-settle">The question it was built to settle</h3>
+<p>The sixty-seventh finding measured a see-saw: the base declines 201/208 and serves 118/600; <code>ftextract</code> serves 386/600 and declines 88/208. It named two candidate causes for the decline collapse and could not separate them, because one checkpoint carried both — <code>ftextract</code>'s corpus is the <strong>p3b2 tools payload</strong> <em>and</em> an <strong>extraction slice</strong>, and the tools payload is the first corpus in this project to carry <code>ask_agent</code> transcripts at all.</p>
+<p><code>ftwide</code> and <code>ftnarrow</code> are the control that separates them: same frozen base, same p3b2 tools payload, <strong>no extraction</strong>. If their Grid A collapses too, the tools corpus is the cause. If it holds, the extraction slice is.</p>
+<h3 id="it-collapses-every-arm-that-saw-the-tools-payload-declines-l">It collapses. Every arm that saw the tools payload declines like <code>ftextract</code></h3>
+<p>checkpoint             decline (A)   contacts (B)   notes (C) corn_jr_260m            201/208        96/424         22/176 ftextract                88/208       306/424         80/176 ftwide                   88/208       245/424        117/176 ftnarrow                 57/208       283/424        123/176 ftwide_seed2            114/208       282/424        101/176 ftnarrow_seed2          112/208       274/424        110/176</p>
+<p><strong><code>ftwide</code> reads 88/208 — the same number as <code>ftextract</code>, to the turn — with no extraction transcript anywhere in its corpus.</strong> The extraction slice is acquitted: it is the tools payload that moved the prior, and the sixty-seventh finding's mechanism paragraph was right about the sink existing and wrong about which corpus opened it.</p>
+<p>The misses say the same thing from the other side:</p>
+<p>checkpoint       where the 120-151 decline misses went base             (nothing) 6, place_call 1 ftextract        web_search 49, ask_agent 41, save_note 29 ftwide           ask_agent 68, save_note 50 ftnarrow         ask_agent 89, save_note 61 ftwide_seed2     ask_agent 61, save_note 27 ftnarrow_seed2   ask_agent 66, save_note 25</p>
+<p><code>ask_agent</code> absorbs the mass on <strong>all four</strong> p3b2 arms, and the <code>web_search</code> sink is <code>ftextract</code>'s alone — 49 turns against 0 and 1 elsewhere. So the displacement has two separable parts: <strong>the tools payload opens <code>ask_agent</code> and everything that is not a served request falls into it</strong>, and <em>on top of that</em> the extraction fine-tune adds a <code>web_search</code> pull that no other arm has. "The fine-tune moved the prior, not the judgement" survives; "its misses land on the two tools its corpus is about" was reading one arm's signature as the family's.</p>
+<h3 id="the-seed-spread-on-the-see-saw-which-is-the-read-finding-67-">The seed spread on the see-saw, which is the read finding <a class="fref" href="/Corn-Jr-Public/finding/67.html">67</a> called missing</h3>
+<p>grid          ftwide → seed2    ftnarrow → seed2 A decline     88 → 114  (+26)    57 → 112  (+55) B contacts   245 → 282  (+37)   283 → 274   (-9) C notes      117 → 101  (-16)   123 → 110  (-13)</p>
+<p><strong>The gap between the two arms on Grid A is 31 turns and the seed moves the narrow arm by 55.</strong> So the wide/narrow difference on decline is wobble, and any future arm read on this grid needs both seeds or it is reading the seed. Note what this does <em>not</em> touch: the sixty-eighth finding scored the same four checkpoints on the frozen rows the same day and found <strong>zero</strong> movement on every ceiling row and at most 8 items of 120 anywhere. Same weights, same afternoon: the frozen set is seed-stable to the item and the live grid is not. An instrument's spread is a property of the instrument, not of the checkpoint, and quoting one set's error bar on the other's numbers would understate it by an order of magnitude.</p>
+<h3 id="what-reproduces-across-all-six-checkpoints-and-is-therefore-">What reproduces across all six checkpoints, and is therefore not one arm's quirk</h3>
+<p><strong>Content halves note routing, on every checkpoint that serves notes.</strong></p>
+<p>content class      base   ftextract   ftwide   ftnarrow   w-seed2   n-seed2 plain              5/44     37/44      43/44     43/44      41/44     42/44 date_bearing       4/44     16/44      24/44     24/44      21/44     21/44 question_shaped    5/44     11/44      30/44     34/44      24/44     31/44 real_entity        8/44     16/44      20/44     22/44      15/44     16/44</p>
+<p>The carrier is identical across the four cells and the content moves routing by 19 to 27 points on every arm. The live audit's single anecdote ("note down dentist appointment moved to friday") is now a five-checkpoint effect, and the cheap generator change — dates and entities <em>inside</em> note text — is licensed by more than one column.</p>
+<p><strong>The messageless text family lands on <code>ask_agent</code> everywhere.</strong></p>
+<p>base 0/24 (declines all 24)   ftextract 4/24   ftwide 3/24 ftnarrow 7/24                 w-seed2 5/24     n-seed2 6/24</p>
+<p>with 16-20 of each fine-tune's misses on <code>ask_agent</code>. "send a text <strong>to</strong> {c}" reads as relay on every checkpoint that has an <code>ask_agent</code> to read it as, which makes the carrier-overlap line a corpus item rather than a hypothesis.</p>
+<p><strong><code>send_text</code> is the weak tool and <code>place_call</code> is not.</strong> <code>place_call</code> runs 187-201 of 224 on every fine-tune while <code>send_text</code> runs 58-109 of 200. The slots underneath are healthy — <code>kept_contact</code> after <code>shed_overrun</code> is 58/58, 81/84, 79/81, 74/74 on the four p3b2 arms — so what is missing is routing, not copying. The shed's own contribution is checkpoint-specific and worth one line: it recovers <strong>12 texts on <code>ftextract</code></strong> (71/109 raw → 83/109) and 1-4 on the others, because the arms that route fewer texts also overrun fewer contacts.</p>
+<h3 id="what-it-licenses">What it licenses</h3>
+<p>The Phase 3 balance variable named by finding <a class="fref" href="/Corn-Jr-Public/finding/67.html">67</a> stands, and this finding aims it: the corpus that has to be trained against declines is the <strong>tools payload</strong>, <code>ask_agent</code> included, and it must be graded on both columns of the see-saw with <strong>two seeds a side</strong>, because one seed cannot tell a 31-turn arm difference from a 55-turn seed difference. It licenses nothing about <code>ask_agent</code>'s share — that is the freeze decision <code>PLAN-5B-SUPPLY.md</code> §7 leaves with the owner, and this grid is a ruler for it rather than an argument about it.</p>
+<h3 id="limits">Limits</h3>
+<p>Two seeds a side on the fine-tunes and one on the base, which has no seed-2 twin to be read against. Authored fills, not user traffic. Greedy only. The <code>smart_home</code> cell of Grid A has no trained frame — the decline slice has no such domain — so it is novel-only on every checkpoint and its four columns are not a trained/novel contrast. And the base is the only checkpoint here without <code>ask_agent</code> in its corpus, so "the tools payload opens the sink" is measured against arms that all have it: what is not measured is a tools corpus <strong>without</strong> <code>ask_agent</code>, which is the arm that would price the escalation line on its own.</p></div>
+  </section>
+
+  <section class="grid refs">
+    <div class="body two-even">
+      <div>
+        <h2 class="small">It cites</h2>
+        <ul class="reflist"><li style="--c:var(--c1)"><a href="/Corn-Jr-Public/finding/67.html"><span class="fn">67</span>The best tool-router never declines; the best decliner never serves</a></li></ul>
+        
+      </div>
+      <div>
+        <h2 class="small">Cited by</h2>
+        <ul class="reflist"><li style="--c:var(--c4)"><a href="/Corn-Jr-Public/finding/129.html"><span class="fn">129</span>He learns to label his own request; forcing labels doesn&#39;t change calls</a></li><li style="--c:var(--c1)"><a href="/Corn-Jr-Public/finding/73.html"><span class="fn">73</span>Training both answers on one phrasing breaks the serve/decline trade-off</a></li></ul>
+        
+      </div>
+    </div>
+    <p class="body source">docs/findings/69-the-tools-corpus-displaced-decline-not-the-extraction-slice-and-the-see-saw-wobbles-by-fifty-five-turns-on-the-seed.md</p>
+  </section>
+</article>
+
+  
+<footer class="turn">
+  <div><span class="sc">previous</span><a href="/Corn-Jr-Public/finding/67.html">67 · The best tool-router never declines; the best decliner never serves</a></div>
+  <div class="r"><span class="sc">next</span><a href="/Corn-Jr-Public/finding/73.html">73 · Training both answers on one phrasing breaks the serve/decline trade-off</a></div>
+  <p class="keys"><kbd>←</kbd> <kbd>→</kbd> turn the page · <kbd>/</kbd> find</p>
+</footer>
+<p class="bynumber">Previous and next in <a href="/Corn-Jr-Public/thread/routing.html">Routing and declining</a>. By number:
+  <a href="/Corn-Jr-Public/finding/68.html">68</a> · <a href="/Corn-Jr-Public/finding/70.html">70</a></p>
+
+</div>
+</body>
+</html>

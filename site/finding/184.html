@@ -1,0 +1,92 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>184 · Looping until it sounds right: he learns to always keep looking · Corn-Jr</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600&family=IBM+Plex+Mono:wght@400;500&family=Spectral:ital,wght@0,400;0,500;0,600;1,400&family=Spectral+SC:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/Corn-Jr-Public/static/library.css">
+<script defer src="/Corn-Jr-Public/static/library.js"></script>
+<script type="speculationrules">
+{"prerender": [{"where": {"and": [{"href_matches": "/Corn-Jr-Public/*"}, {"not": {"href_matches": "/Corn-Jr-Public/random.html"}}, {"not": {"href_matches": "/Corn-Jr-Public/static/*"}}]}, "eagerness": "moderate"}]}
+</script>
+
+</head>
+<body>
+<div class="page">
+  <header class="running">
+    <a class="book" href="/Corn-Jr-Public/">Corn-Jr · The Record</a>
+    <nav>
+      <a href="/Corn-Jr-Public/" data-key="shelf">Shelf</a><a href="/Corn-Jr-Public/findings.html" data-key="findings" class="here">Findings</a><a href="/Corn-Jr-Public/doc/VISION.html" data-key="VISION">Vision</a><a href="/Corn-Jr-Public/doc/GLOSSARY.html" data-key="GLOSSARY">Glossary</a>
+      <a href="https://github.com/csheehan18/Corn-Jr-Public">Source</a>
+    </nav>
+  </header>
+  
+
+<article class="sheet" style="--c:var(--c4)">
+  <div class="progress" aria-hidden="true"></div>
+  <section class="grid chapter-open finding-open">
+    <a class="tab" href="/Corn-Jr-Public/thread/tag-language.html" title="The tag language"><small>Part</small><span>IV</span></a>
+    <p class="cn">184</p>
+    <p class="partline"><a href="/Corn-Jr-Public/thread/tag-language.html">The tag language</a> · 20 October 2026</p>
+    <h1>Looping until it sounds right: he learns to always keep looking</h1>
+  </section>
+
+  <section class="grid">
+    <p class="marginal">The result, as the finding states it</p><div class="prose"><p class="lead">G6's loop rung as the owner defined it, "until it sounds right", by fine-tune from arm E2's three starts: he learns to write <code>none</code> on every batch — 189-192 of 192 answer batches, every start, the free line and two scoring reads agreeing — so three gates fail and the fourth passes vacuously; the starts never wrote <code>none</code> at all; and inside, his lean to stop does not follow the wish (the swap twins at AUC 0.38-0.49) while the soft read under it ranks the right place first on 47-60% of answer batches against a chance of about 42%</p></div>
+    <p class="marginal">What it cost</p><div class="prose"><p class="cost">three fine-tunes of 650 iterations at 20M (144, 143, 143 s, contended — the card at 35-38%, a bound), three loop reads at 18-19 s and three copy cards at 8 s: one chain of 509.1 s, 13:19-13:28 on 2026-10-20, registered ~9 min; the zero-training control 57 s; the three-way read on six checkpoints 399 s and the inside read on six 90 s; the build 12:57-13:18 on CPU.</p></div>
+  </section>
+
+  
+
+  <section class="grid">
+    <div class="prose doc"><p><strong>The owner's go, 2026-10-20</strong>: "let's move on to loop", and of three definitions offered his pick was <strong>"until it sounds right"</strong> — a stop rule the runtime cannot check — over "keep looking until" a checkable condition and "do it for each". Pre-registered at bf6c994 (<code>configs/mix_v3_loop_ft.py</code>) after a zero-training control read and before a byte trained.</p>
+<p><strong>The world</strong> (<code>corn/loopgen.py</code>). A request with a soft wish and a loop frame ("keep looking till you find somewhere cosy"); batch after batch of two or three places; on each his <code>pick: because[&lt;the answering place&#x27;s description&gt;]</code> (D-A1.20) or <code>pick: none</code>; on <code>none</code> the runtime fetches the next batch, up to four, so no line of his is one the runtime could compute. The answer on batch 1, 2, 3 or 4 or nowhere, a fifth each. The lexicon and holdout are <code>corn/filtergen.py</code>'s — no description shares a content word with any wish, 24 of 72 phrasing x family pairings never train — and no place in a trace could answer the wish but the answer. <code>scripts/check_loop.py</code> holds it, every description's concept found by matching filtergen's templates; three mutants each fail their check. The recipe is the branch fine-tunes' (findings <a class="fref" href="/Corn-Jr-Public/finding/179.html">179</a>-<a class="fref" href="/Corn-Jr-Public/finding/183.html">183</a>), the loop payload in the branch payload's place: 1.68 passes.</p>
+<h3 id="the-registered-read">The registered read</h3>
+<p><code>scripts/probe_loop.py</code>, every batch's options scored in full, earlier batches' gold picks before it; a trace right when every batch is:</p>
+<p>run            train (gate 0.85)   no answer, all none   swap (0.80)   held (0.60) of 240              (gate 0.85) of 48     of 148        of 120 start ev2       23                   0                     59             8 start ev2s2     22                   0                     66            12 start ev2s3     23                   0                     55             7 loop ev2        48                  48                      0            24 loop ev2s2      48                  48                      0            24 loop ev2s3      48                  48                      0            24</p>
+<p><strong>Every trace right is a trace with no answer.</strong> Early stops 0, misses 192 of 192 answer batches on the trained rows at every start. Installs, reads it and by meaning fail at three of three; gives up passes at three of three and means nothing — he never stops. The prediction (the first three gates at three of three, by meaning at one) was wrong.</p>
+<h3 id="the-instrument-suspected-and-cleared">The instrument, suspected and cleared</h3>
+<p>The first fine-tune's six free decodes held one where he wrote the gold (<code>pick: because[a rooftop hostel]</code>) and the registered read had picked <code>none</code> — and the read sums each option's loss over its whole line, which favours the two-token <code>pick: none</code> over an eight-token description. So the read was rebuilt (<code>probe_loop.py --split</code>, committed): the decision at its one token (<code>pick: none</code> against <code>pick: because</code>), the place among the <code>because[...]</code> options by full loss, and <strong>his greedy line on every batch</strong>. All three agree: the free line writes <code>none</code> on 189, 192 and 192 of 192 answer batches. The length bias accounts for 3, 0 and 0 of 436 answer batches; the one decode read by hand was one of the three. <strong>The collapse is his, not the instrument's.</strong></p>
+<h3 id="inside-is-the-judgment-there-and-outvoted">Inside: is the judgment there and outvoted?</h3>
+<p><code>scripts/probe_loop_inside.py</code> (committed), per batch <code>d = loss(pick: none) - loss(pick: because)</code> — the stop lean, no length term — and, on answer batches, whether the right place ranks first among the places:</p>
+<p>run            AUC answer vs none batch      right place first train   held   swap           train (of 192)  held (96)  swap (148) start ev2      0.44    0.43   0.59             87              37          67 start ev2s2    0.44    0.53   0.45             91              37          76 start ev2s3    0.40    0.39   0.52             76              41          71 loop ev2       0.64    0.63   0.49             94              46          77 loop ev2s2     0.62    0.66   0.38            116              51         101 loop ev2s3     0.63    0.64   0.45             90              46          75</p>
+<p>After the fine-tune his lean to stop is a little higher on the batches that hold the answer (AUC 0.62-0.66) — <strong>and not on the swap twins (0.38-0.49), where the batches are the same and only the wish moved.</strong> What separates an answer batch from the others on the trained rows is not the wish; the batch's place in the trace is the candidate it leaves. The soft read under the decision — forced to choose among the places on an answer batch — ranks the right one first on 47-49% at two starts and 60% (swap 68%) at 2337, the start finding <a class="fref" href="/Corn-Jr-Public/finding/148.html">148</a> found reading the wish at pretraining; chance is about 42% (two or three places).</p>
+<h3 id="the-copy-row-a-side-column">The copy row, a side column</h3>
+<p><code>tool.copy_wide</code> 298, 264, 286 against the starts' 298, 295, 293 — the second start's fall again, its fifth arm today (finding <a class="fref" href="/Corn-Jr-Public/finding/180.html">180</a>'s digit species, still owed a cause).</p>
+<h3 id="what-it-licenses">What it licenses</h3>
+<ul><li><strong>Loop's stop rule is rung 3's soft read, and at nano the soft read is not there to stop on.</strong> Near chance at two starts of three and partial at the third — finding <a class="fref" href="/Corn-Jr-Public/finding/148.html">148</a>'s split, unchanged by a fine-tune that taught the format. The batch decision had nothing to read, and fell to the payload's majority answer (<code>none</code>, 71% of decisions): the starts always stopped, the fine-tunes never do. GENERATORS §1 with the input missing rather than a shortcut present.</li><li><strong>The <code>none</code> decision now has two readings on record, both a constant</strong>: never written at pretraining (findings <a class="fref" href="/Corn-Jr-Public/finding/148.html">148</a>-<a class="fref" href="/Corn-Jr-Public/finding/149.html">149</a>, these starts), always written after a fine-tune where it is the majority. Neither is a decision.</li><li><strong>For the ladder</strong>: the iteration format (the runtime fetching the next batch after <code>none</code>) is unread, because nothing above it formed. The owner's choice is between testing loop's control on a stop the runtime can check — which splits the format from the soft read, as branch did — and taking the soft read itself as the work, which is a meaning hop findings <a class="fref" href="/Corn-Jr-Public/finding/148.html">148</a>, <a class="fref" href="/Corn-Jr-Public/finding/156.html">156</a> and <a class="fref" href="/Corn-Jr-Public/finding/167.html">167</a>-<a class="fref" href="/Corn-Jr-Public/finding/168.html">168</a> found to be the wall at nano.</li></ul>
+<p><strong>What it does not settle.</strong> Whether loop's control installs on a checkable stop; whether the soft read forms at 260M or with real descriptions; whether balancing the payload's <code>none</code> share changes the constant's sign without making a decision; and the second start's copy species.</p></div>
+  </section>
+
+  <section class="grid refs">
+    <div class="body two-even">
+      <div>
+        <h2 class="small">It cites</h2>
+        <ul class="reflist"><li style="--c:var(--c4)"><a href="/Corn-Jr-Public/finding/148.html"><span class="fn">148</span>Picking a template by letter never installed; one seed in three learned</a></li><li style="--c:var(--c4)"><a href="/Corn-Jr-Public/finding/149.html"><span class="fn">149</span>With checkable rules filtered, he picks the template matching the request</a></li><li style="--c:var(--c4)"><a href="/Corn-Jr-Public/finding/179.html"><span class="fn">179</span>Fine-tuned, he reads every condition word like &#39;not&#39; and &#39;unless&#39;</a></li><li style="--c:var(--c4)"><a href="/Corn-Jr-Public/finding/180.html"><span class="fn">180</span>When the runtime orders the menu, &#39;the other one&#39; is perfect</a></li><li style="--c:var(--c4)"><a href="/Corn-Jr-Public/finding/181.html"><span class="fn">181</span>Mixed sentence shapes: he reads each option&#39;s own condition, loses &#39;otherwise&#39;</a></li><li style="--c:var(--c4)"><a href="/Corn-Jr-Public/finding/182.html"><span class="fn">182</span>Copying the condition&#39;s clause first: new sentence shapes read, new words don&#39;t</a></li><li style="--c:var(--c4)"><a href="/Corn-Jr-Public/finding/183.html"><span class="fn">183</span>More words fixed most misses; an unseen &#39;unless&#39; word still reads &#39;if&#39;</a></li></ul>
+        
+      </div>
+      <div>
+        <h2 class="small">Cited by</h2>
+        <ul class="reflist"><li style="--c:var(--c5)"><a href="/Corn-Jr-Public/finding/185.html"><span class="fn">185</span>Everyday web text taught him more word meanings at little cost</a></li><li style="--c:var(--c5)"><a href="/Corn-Jr-Public/finding/187.html"><span class="fn">187</span>Trained on invented names, he learned to copy one, never which</a></li><li style="--c:var(--c4)"><a href="/Corn-Jr-Public/finding/194.html"><span class="fn">194</span>Everyday web text leaves the soft read under loop near chance</a></li><li style="--c:var(--c4)"><a href="/Corn-Jr-Public/finding/195.html"><span class="fn">195</span>Balanced keep-looking odds flip loop from never stopping to always stopping</a></li><li style="--c:var(--c5)"><a href="/Corn-Jr-Public/finding/196.html"><span class="fn">196</span>Loop fails because the small model lacks the knowledge, not the format</a></li></ul>
+        
+      </div>
+    </div>
+    <p class="body source">docs/findings/184-loop-until-it-sounds-right-collapses-to-always-keep-looking-at-three-starts-because-the-soft-read-under-it-is-near-chance.md</p>
+  </section>
+</article>
+
+  
+<footer class="turn">
+  <div><span class="sc">previous</span><a href="/Corn-Jr-Public/finding/183.html">183 · More words fixed most misses; an unseen &#39;unless&#39; word still reads &#39;if&#39;</a></div>
+  <div class="r"><span class="sc">next</span><a href="/Corn-Jr-Public/finding/194.html">194 · Everyday web text leaves the soft read under loop near chance</a></div>
+  <p class="keys"><kbd>←</kbd> <kbd>→</kbd> turn the page · <kbd>/</kbd> find</p>
+</footer>
+<p class="bynumber">Previous and next in <a href="/Corn-Jr-Public/thread/tag-language.html">The tag language</a>. By number:
+  <a href="/Corn-Jr-Public/finding/183.html">183</a> · <a href="/Corn-Jr-Public/finding/185.html">185</a></p>
+
+</div>
+</body>
+</html>

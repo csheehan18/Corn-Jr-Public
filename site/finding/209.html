@@ -1,0 +1,88 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>209 · The small model answers half of even its own style&#39;s openers · Corn-Jr</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600&family=IBM+Plex+Mono:wght@400;500&family=Spectral:ital,wght@0,400;0,500;0,600;1,400&family=Spectral+SC:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/Corn-Jr-Public/static/library.css">
+<script defer src="/Corn-Jr-Public/static/library.js"></script>
+<script type="speculationrules">
+{"prerender": [{"where": {"and": [{"href_matches": "/Corn-Jr-Public/*"}, {"not": {"href_matches": "/Corn-Jr-Public/random.html"}}, {"not": {"href_matches": "/Corn-Jr-Public/static/*"}}]}, "eagerness": "moderate"}]}
+</script>
+
+</head>
+<body>
+<div class="page">
+  <header class="running">
+    <a class="book" href="/Corn-Jr-Public/">Corn-Jr · The Record</a>
+    <nav>
+      <a href="/Corn-Jr-Public/" data-key="shelf">Shelf</a><a href="/Corn-Jr-Public/findings.html" data-key="findings" class="here">Findings</a><a href="/Corn-Jr-Public/doc/VISION.html" data-key="VISION">Vision</a><a href="/Corn-Jr-Public/doc/GLOSSARY.html" data-key="GLOSSARY">Glossary</a>
+      <a href="https://github.com/csheehan18/Corn-Jr-Public">Source</a>
+    </nav>
+  </header>
+  
+
+<article class="sheet" style="--c:var(--c5)">
+  <div class="progress" aria-hidden="true"></div>
+  <section class="grid chapter-open finding-open">
+    <a class="tab" href="/Corn-Jr-Public/thread/reply-judge.html" title="The reply judge"><small>Part</small><span>V</span></a>
+    <p class="cn">209</p>
+    <p class="partline"><a href="/Corn-Jr-Public/thread/reply-judge.html">The reply judge</a> · 22 October 2026</p>
+    <h1>The small model answers half of even its own style&#39;s openers</h1>
+  </section>
+
+  <section class="grid">
+    <p class="marginal">The result, as the finding states it</p><div class="prose"><p class="lead">The 148 messages of the reply read are not his conversational style: at matched length (4-9 words) the plain 5M finds them 3.91 nats a token surprising against 2.25 for real conversational openers he never read and 2.39 for ones he did — so he has not memorised his openers, and the hand-written messages sit far outside the SODA-style dialogue he learned conversation from. But the register is the smaller part of his incoherence: on 60 real openers in his own style that he never read, he answers coherently 29 and 37 times (0.48 and 0.62, blind; the real replies 60 of 60) against 0.47 and 0.37 on the everyday messages. 21 of the 148 messages appear verbatim as a turn in his reading (mostly "Hi.", "Thanks!", "How are you doing today?"); he passes them a little more often (0.67 and 0.43 against 0.44 and 0.36), as do short easy messages generally</p></div>
+    <p class="marginal">What it cost</p><div class="prose"><p class="cost">the overlap search (CPU, ~1 min), <code>scripts/probe_message_style.py</code> (seconds of card), <code>scripts/probe_reply_instyle.py</code> (generation ~1 min, contended) and the blind read of 180 replies, 14:55-15:15 on 2026-10-22. ETA 15 min, actual ~20.</p></div>
+  </section>
+
+  
+
+  <section class="grid">
+    <div class="prose doc"><p><strong>The question</strong> (owner, 2026-10-22: "are you asking things that would have been in their training?"). Findings <a class="fref" href="/Corn-Jr-Public/finding/202.html">202</a>-<a class="fref" href="/Corn-Jr-Public/finding/206.html">206</a> read the 5M's coherence on <code>probe_reply.py</code>'s hand-written everyday messages and found it near 47% whatever was changed; finding <a class="fref" href="/Corn-Jr-Public/finding/208.html">208</a> found the shipped 260M at 83% on the same.</p>
+<h3 id="the-reads">The reads</h3>
+<p><strong>Overlap.</strong> Of the 148 messages, 38 occur somewhere in the decoded conversational and chat reading, 21 as a whole turn — the short and generic ones. Blind pass rates on those 21 against the other 127: 5M seed 1 0.67 against 0.44, seed 2 0.43 against 0.36; the 260M 0.81 against 0.83.</p>
+<p><strong>Style</strong> (mean surprise after <code>&lt;|user|&gt;</code>, nats a token, plain 5M seed 1):</p>
+<p>set (4-9 words)                                  surprise   words probe_reply.py's messages (111)                  3.91       6.5 chat-slice openers he read                       2.39       12.7 conversational openers he never read             2.25       6.6</p>
+<p><strong>In-style coherence</strong> (<code>scripts/probe_reply_instyle.py</code>: the first lines of 60 dialogues past the bytes the mix reads, 4-20 words, seed 21; three replies each, blind — the 5M's two seeds and the dialogue's own reply):</p>
+<p>replier              coherent (of 60)   on probe_reply.py's messages (of 148) 5M seed 1            29 (0.48)          70 (0.47) 5M seed 2            37 (0.62)          55 (0.37) the real reply       60 (1.00)          --</p>
+<p>The blind is imperfect on the real reply — it is longer and more specific than the model's and easy to pick out.</p>
+<h3 id="read-by-hand">Read by hand</h3>
+<p>In his own style he handles the greetings and set pieces cleanly ("Hey, Pablo. What's up?" -&gt; "Not much. Just hanging out."; a shop's "We have a great selection of shoes! What type are you looking for?") and fails as on everyday messages: "Oh, thank you so much! I really appreciate it." to a pay cut, "Oh, wow! That's amazing! How did you do it?" to a twisted ankle, the stock "I'm sorry, I didn't mean to hurt you" to "Why the hell did you do that?". The SODA openers themselves (the unread sample) are what the owner's messages are not: named greetings ("Hi Mirabel. How are you feeling today?"), set roles (doctor, mother, shopkeeper), melodrama ("I'm scared of tomorrow. I don't want to die.").</p>
+<h3 id="what-it-licenses">What it licenses</h3>
+<ul><li><strong>The 5M's coherence ceiling is mostly the model, not the register</strong>: in its own style it still answers about half. Findings <a class="fref" href="/Corn-Jr-Public/finding/202.html">202</a>-<a class="fref" href="/Corn-Jr-Public/finding/206.html">206</a>'s flat results stand on in-style ground too; finding <a class="fref" href="/Corn-Jr-Public/finding/208.html">208</a>'s 83% at 260M is the size and reading.</li><li><strong>The register gap is real and costs something on top</strong> (a 5M is roughly 10-15 points better in its own style; 60 items, noisy): the conversation he learns from does not contain the everyday, short, first-person messages the owner sends — "Maybe.", "Long day.", "I spilled coffee on my keyboard" — which is also where the 260M is weakest (finding <a class="fref" href="/Corn-Jr-Public/finding/208.html">208</a>: short and vague 11 of 20). That is a corpus item for 1.0: real conversational text in the owner's register, varied, not generated.</li></ul>
+<p><strong>What it does not settle.</strong> One reader; 60 in-style items; whether real everyday-register text moves the 5M, or only the larger models.</p></div>
+  </section>
+
+  <section class="grid refs">
+    <div class="body two-even">
+      <div>
+        <h2 class="small">It cites</h2>
+        <ul class="reflist"><li style="--c:var(--c5)"><a href="/Corn-Jr-Public/finding/202.html"><span class="fn">202</span>A shape built for small models cost language and taught only spelling</a></li><li style="--c:var(--c5)"><a href="/Corn-Jr-Public/finding/203.html"><span class="fn">203</span>His surprise flags unfamiliar names, not questions he cannot answer</a></li><li style="--c:var(--c5)"><a href="/Corn-Jr-Public/finding/204.html"><span class="fn">204</span>Running the same layers twice moves nothing measurable at 5M</a></li><li style="--c:var(--c5)"><a href="/Corn-Jr-Public/finding/205.html"><span class="fn">205</span>Choosing replies by what the message raises varies them, not their fit</a></li><li style="--c:var(--c5)"><a href="/Corn-Jr-Public/finding/206.html"><span class="fn">206</span>A matching lesson at a tenth of conversation reading did not take</a></li><li style="--c:var(--c5)"><a href="/Corn-Jr-Public/finding/208.html"><span class="fn">208</span>The shipped model answers most one-off messages coherently</a></li></ul>
+        
+      </div>
+      <div>
+        <h2 class="small">Cited by</h2>
+        <ul class="reflist"><li style="--c:var(--c5)"><a href="/Corn-Jr-Public/finding/210.html"><span class="fn">210</span>Real everyday dialogue fits the owner&#39;s messages best; Reddit worst</a></li><li style="--c:var(--c5)"><a href="/Corn-Jr-Public/finding/211.html"><span class="fn">211</span>Real everyday dialogue moves him toward how the owner talks</a></li><li style="--c:var(--c5)"><a href="/Corn-Jr-Public/finding/213.html"><span class="fn">213</span>A small dose matching how the owner talks moves him furthest</a></li><li style="--c:var(--c5)"><a href="/Corn-Jr-Public/finding/214.html"><span class="fn">214</span>A reply judge beside the 5M moves his replies level</a></li><li style="--c:var(--c5)"><a href="/Corn-Jr-Public/finding/219.html"><span class="fn">219</span>A 5M reading only conversation answers far more messages</a></li></ul>
+        
+      </div>
+    </div>
+    <p class="body source">docs/findings/209-the-5m-finds-everyday-messages-far-more-surprising-than-its-own-conversational-openers-3-91-against-2-25-nats-a-token-and-answers-its-own-style-only-29-and-37-of-60.md</p>
+  </section>
+</article>
+
+  
+<footer class="turn">
+  <div><span class="sc">previous</span><a href="/Corn-Jr-Public/finding/208.html">208 · The shipped model answers most one-off messages coherently</a></div>
+  <div class="r"><span class="sc">next</span><a href="/Corn-Jr-Public/finding/210.html">210 · Real everyday dialogue fits the owner&#39;s messages best; Reddit worst</a></div>
+  <p class="keys"><kbd>←</kbd> <kbd>→</kbd> turn the page · <kbd>/</kbd> find</p>
+</footer>
+<p class="bynumber">Previous and next in <a href="/Corn-Jr-Public/thread/reply-judge.html">The reply judge</a>. By number:
+  <a href="/Corn-Jr-Public/finding/208.html">208</a> · <a href="/Corn-Jr-Public/finding/210.html">210</a></p>
+
+</div>
+</body>
+</html>

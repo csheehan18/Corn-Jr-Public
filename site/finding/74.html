@@ -1,0 +1,117 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>74 · Second-turn behaviour installs; compound requests forget how to stop · Corn-Jr</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600&family=IBM+Plex+Mono:wght@400;500&family=Spectral:ital,wght@0,400;0,500;0,600;1,400&family=Spectral+SC:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/Corn-Jr-Public/static/library.css">
+<script defer src="/Corn-Jr-Public/static/library.js"></script>
+<script type="speculationrules">
+{"prerender": [{"where": {"and": [{"href_matches": "/Corn-Jr-Public/*"}, {"not": {"href_matches": "/Corn-Jr-Public/random.html"}}, {"not": {"href_matches": "/Corn-Jr-Public/static/*"}}]}, "eagerness": "moderate"}]}
+</script>
+
+</head>
+<body>
+<div class="page">
+  <header class="running">
+    <a class="book" href="/Corn-Jr-Public/">Corn-Jr · The Record</a>
+    <nav>
+      <a href="/Corn-Jr-Public/" data-key="shelf">Shelf</a><a href="/Corn-Jr-Public/findings.html" data-key="findings" class="here">Findings</a><a href="/Corn-Jr-Public/doc/VISION.html" data-key="VISION">Vision</a><a href="/Corn-Jr-Public/doc/GLOSSARY.html" data-key="GLOSSARY">Glossary</a>
+      <a href="https://github.com/csheehan18/Corn-Jr-Public">Source</a>
+    </nav>
+  </header>
+  
+
+<article class="sheet" style="--c:var(--c3)">
+  <div class="progress" aria-hidden="true"></div>
+  <section class="grid chapter-open finding-open">
+    <a class="tab" href="/Corn-Jr-Public/thread/conversation.html" title="Conversation and the second turn"><small>Part</small><span>III</span></a>
+    <p class="cn">74</p>
+    <p class="partline"><a href="/Corn-Jr-Public/thread/conversation.html">Conversation and the second turn</a> · 27 August 2026</p>
+    <h1>Second-turn behaviour installs; compound requests forget how to stop</h1>
+  </section>
+
+  <section class="grid">
+    <p class="marginal">The result, as the finding states it</p><div class="prose"><p class="lead">The second turn installs on both vehicles, and the compound one buys composition by forgetting how to stop</p></div>
+    <p class="marginal">What it cost</p><div class="prose"><p class="cost">2.1 min of scoring on the 1 card first cited here (<code>nano20m_v3_compound_seed3</code>); it also reads 1 card scored for an earlier finding (<code>nano20m_v3</code>). Backfilled 2026-09-26 from the cards' <code>seconds</code>; training and probe time were never recorded, so this is a floor.</p></div>
+  </section>
+
+  
+
+  <section class="grid">
+    <div class="prose doc"><p>Eight nano arms trained 2026-08-27 from <code>configs/mix_v3_turn2.py</code>, <code>configs/mix_turn2_ft.py</code>, <code>configs/mix_v3_compound.py</code> and <code>configs/mix_compound_ft.py</code> — two families, two vehicles, two seeds each, plus both <code>ckpt.pt</code> and <code>last.pt</code> on every fine-tune. Pre-registered in <code>docs/PLAN-TURN-2.md</code> and built to <code>docs/PLAN-TURN2-BUILD.md</code> before a byte trained. Controls are the four already-scored <code>nano20m_v3</code> seeds; <strong>nothing retrained and nothing was re-scored</strong>, and nothing in the scoring path moved this session — <code>corn/evals.py</code> and the four eval files are untouched since the <code>__turn2rows</code> cards were written, which is checkable in the log rather than asserted here.</p>
+<h3 id="the-question-and-the-absence-it-was-aimed-at">The question, and the absence it was aimed at</h3>
+<p>Multi-turn was the one capability class with no positive finding, and the 2026-08-27 baseline read said why: <code>turn2.reask</code> a hard <strong>0/96 on all twelve checkpoints</strong>, <code>turn2.chain_result</code> 0/50, both compound second stages 0/48 with <code>said_instead</code> at exactly 48/48. Finding <a class="fref" href="/Corn-Jr-Public/finding/71.html">71</a>'s signature — a corpus absence, not a weak capability. Every trained second turn in the corpus called a tool, so there was nothing to surface.</p>
+<p>Two payloads now contain the missing turns, and each gets finding <a class="fref" href="/Corn-Jr-Public/finding/60.html">60</a>'s vehicle experiment: the same bytes as a 5% slice of the v3 mix, and as a fine-tune over the frozen base with 1:1 mix replay, payload exposure equal to 0.054%.</p>
+<h3 id="the-turn-2-family-it-installs-and-the-vehicle-verdict-splits">The turn-2 family: it installs, and the vehicle verdict splits by class</h3>
+<p>Four control seeds, then two seeds of each arm. <code>last.pt</code> reproduces <code>ckpt.pt</code> within a point on every cell, so selection is not flattering the fine-tune and the column is omitted.</p>
+<div class="tablewrap"><table><thead><tr><th>cell</th><th>control ×4</th><th>MIX ×2</th><th>FT ×2</th></tr></thead><tbody><tr><td><code>turn2.react</code> /120</td><td>0–9</td><td><strong>112–117</strong></td><td><strong>107–108</strong></td></tr><tr><td><code>turn2.chain_ellipsis</code> /50</td><td>0–6</td><td><strong>47–48</strong></td><td><strong>44–44</strong></td></tr><tr><td><code>turn2.chain_result</code> /50</td><td>0–0</td><td><strong>47–49</strong></td><td><strong>49–49</strong></td></tr><tr><td><code>turn2.reask</code> /96</td><td>0–0</td><td><strong>57–66</strong></td><td>15–17</td></tr><tr><td><code>turn2.reask_yn</code> /40</td><td>0–4</td><td><strong>33–38</strong></td><td>8–11</td></tr><tr><td><code>turn2.chain_pronoun</code> /50</td><td>0–17</td><td>12–18</td><td>20–30</td></tr></tbody></table></div>
+<p><strong>React and both readable chain cells install by fine-tune</strong>, at parity with the mix: 107–108 against 112–117 on a row whose control tops out at 9, and 49–49 against 47–49 on a row that was a hard zero. That is the pre-registered "installs by fine-tune" outcome, and it lands on the family finding <a class="fref" href="/Corn-Jr-Public/finding/6.html">6</a> said should be hardest — a second turn that answers <em>without</em> calling is policy-shaped, and the policy installed anyway.</p>
+<p><strong>Re-ask does not.</strong> Both vehicles clear a control of exactly zero, and then the mix delivers four times what the fine-tune does, with no overlap between the ranges on either the span cell (57–66 against 15–17) or the polarity cell (33–38 against 8–11). So the two rows the plan deliberately refused to pool give the same answer, and it is a different answer from the one three cells away. <strong>The honest null the plan pre-registered — "React installs and Chain does not, or the reverse, is a finding, not a failure" — happened, on an axis nobody named: the split is not React against Chain, it is <em>re-reading the observation</em> against everything else.</strong></p>
+<p>Why that class and not the others is not measured here, and the guess worth recording is that it is the only one whose right answer is a span the model must locate in a line it already spoke past. React needs no span, and the chain cells are handed <code>&lt;|call|&gt;</code> and asked only what goes in it.</p>
+<p><strong><code>turn2.chain_pronoun</code> is not readable and is reported as such.</strong> The control spans 0–17 over four seeds. MIX reads 12–18, which overlaps it. FT reads 20–30, which clears 17 by three against a spread of seventeen. Finding <a class="fref" href="/Corn-Jr-Public/finding/61.html">61</a>'s rule binds: no cell is a separation unless it clears the spread that produced it. This is the wide cell the plan warned about, doing exactly what it was warned about doing.</p>
+<p><strong>No deference bill on this family.</strong> <code>tool.copy</code> 113–120 MIX and 120/120 FT against a control of 118–120 (the 113 is seven items, inside the ~10-item single-run wobble the STATUS method note establishes); <code>tool.copy_wide</code> 297–300 and 299–300 against 281–296, which is <em>up</em>; <code>temporal.copy</code> 353/353 everywhere; <code>temporal.route</code> 398–399 against 396–399; <code>refusal.say</code> 266 and 268–270 against 261–268. Finding <a class="fref" href="/Corn-Jr-Public/finding/49.html">49</a>'s precedent — a second-turn corpus that buys its target and pays in deference — <strong>did not reproduce.</strong> Routing went the other way as well: <code>tool.selection</code> 174–185 against a control of 109–130.</p>
+<h3 id="the-compound-family-the-pipe-installs-completely-and-the-bil">The compound family: the pipe installs completely, and the bill arrives</h3>
+<div class="tablewrap"><table><thead><tr><th>cell</th><th>control ×4</th><th>MIX ×2</th><th>FT ×2</th></tr></thead><tbody><tr><td><code>compound.pipe</code> /48</td><td>0–0</td><td><strong>47–48</strong></td><td><strong>46–47</strong></td></tr><tr><td><code>compound.pipe_first</code> /48</td><td>15–39</td><td>43–46</td><td>29–35</td></tr><tr><td><code>compound.items</code> /48</td><td>0–0</td><td>2–6</td><td>9–9</td></tr><tr><td><code>compound.items_first</code> /48</td><td>5–8</td><td><strong>1–1</strong></td><td>1–6</td></tr></tbody></table></div>
+<p><strong>Class I is installed and essentially perfect on both vehicles</strong> — a row that read 0/48 with <code>said_instead</code> 48/48 on every checkpoint ever scored now reads 47/48 and 48/48. One utterance, two calls, the first observation's <code>answer</code> copied verbatim into the second call's argument. That is the shape <code>corn/agent.py</code>'s round loop has always supported and no corpus had ever contained.</p>
+<p><strong>Class L is not.</strong> 2–6 and 9–9 of 48. What moved is the <em>failure species</em>, and it moved the whole way: <code>said_instead</code> collapses 48 → 1–2, so the arm now continues almost every time and then puts the wrong span in the call — <code>wrong_text</code> 32 and 36. Finding <a class="fref" href="/Corn-Jr-Public/finding/66.html">66</a>'s first-taker shape, arriving on multi-item utterances: it grabs a span, and not the one that belongs in that position. <code>items_first</code> <strong>drops below its control</strong> (5–8 → 1–1 on the mix), so the arm also stopped getting call one right while learning to make call two.</p>
+<h4 id="the-cost-and-it-is-the-largest-this-project-has-measured">The cost, and it is the largest this project has measured</h4>
+<div class="tablewrap"><table><thead><tr><th>row</th><th>control ×4</th><th>comp MIX ×2</th><th>comp FT ×2</th></tr></thead><tbody><tr><td><code>tool.copy</code> /120</td><td>118–120</td><td>36–104</td><td><strong>0–1</strong></td></tr><tr><td><code>tool.copy_wide</code> /300</td><td>281–296</td><td>190–282</td><td><strong>0–0</strong></td></tr></tbody></table></div>
+<p><strong>And copy discipline is not what broke.</strong> The <code>why</code> bucket is <code>malformed</code>, not <code>wrong_answer</code>, on 120 of 120 and 300 of 300; a probe with retained generations says what the model actually writes after a <code>web_search</code> observation on a plain single-request turn:</p>
+<p>prompt   ... &lt;|obs|&gt;{"answer": "up to 3.5 metres", ...} got      &lt;|call|&gt;{"name": "save_note", "arguments": {"text": "up to 3.5 metres"}} want     &lt;|say|&gt;Looks like up to 3.5 metres.</p>
+<p>The span is exact. Every one of them is exact. <strong>What collapsed is the decision to stop.</strong> The compound corpus put a second call after the first observation in all 43,626 of its transcripts, and the model learned the rule the corpus actually stated: after an observation, call again. On the fine-tune arm, where the payload is half the stream, it does that on 100% of <code>tool.copy</code> items and saves a note nobody asked for.</p>
+<p>That is <code>chat.abstain_oos</code>'s gold-conflict shape inverted. There the better behaviour scored as failure; here the <em>worse</em> behaviour scores as a copy failure while copying perfectly, and the row that reads it is measuring the envelope rather than the span.</p>
+<p><strong>Rule 5 did not cover this and should be widened.</strong> The plan's ground rule 5 balances a class teaching "don't call" against one teaching "call", and the compound family has no don't-call class, so the rule was satisfied vacuously and the file shipped with no member that ends a turn after one call. Varying <code>N</code> inside class L (two items and three, 92.3%/7.7%) taught the mapping from requests to calls and taught nothing about stopping, because every value of <code>N</code> was greater than one. <strong>The missing class is a single-request control in the compound file</strong> — one utterance, one call, then speech — and it is the same argument <code>cold_start</code> makes for turn 1 and P3-E's matched pair makes for the decline column, arriving a third time.</p>
+<h4 id="two-seeds-disagree-beyond-the-floor-and-that-is-the-owner-s-">Two seeds disagree beyond the floor, and that is the owner's call</h4>
+<p>Stop-and-report condition 4 of the build brief is tripped, on the compound MIX arm and only there: <code>tool.copy</code> reads <strong>36 and 104</strong> across its two seeds and <code>tool.copy_wide</code> <strong>190 and 282</strong>, against control spreads of 2 and 15. The <em>direction</em> is not in doubt — both seeds sit far below both control ranges on both rows — but the size is unreadable at two seeds, and a third seed is the owner's call rather than the implementer's. The fine-tune arm has no such problem: 0 and 1, 0 and 0.</p>
+<h3 id="one-way-cross-transfer-between-the-families">One-way cross-transfer between the families</h3>
+<p>Scored apart, as the plan requires, and the two files then say something about each other that a pooled read would have hidden:</p>
+<ul><li><strong>The compound payload moves <code>turn2.chain_result</code></strong> from 0/50 to 24–39 (MIX) and 32–35 (FT), without a single turn-2 transcript in it. Class E's behaviour — save the answer that just came back — is class I's second call wearing a turn boundary, and the model generalises across the boundary.</li><li><strong>The turn-2 payload moves no compound cell.</strong> <code>compound.pipe</code> stays 0/48 on both turn-2 arms with <code>said_instead</code> 48/48. The transfer runs one way: a compound utterance teaches the two-turn chain, and the two-turn chain does not teach the compound utterance.</li></ul>
+<h3 id="what-this-licenses-and-what-it-does-not">What this licenses, and what it does not</h3>
+<p>Against the pre-registered table, per family:</p>
+<p>turn-2 family    React and Chain: "installs by fine-tune". Re-ask: "needs the mix". A partial result licensing a partial share, which is what scoring the cells apart was for. compound family  Class I installs on either vehicle. Class L installs on neither. Both vehicles spend copy discipline, the fine-tune totally — so the line does not ride mix_v4 until the corpus carries a single-request control, and the deferral in PLAN-5B-SUPPLY 7a is written on that condition rather than on a share.</p>
+<p><strong>What no arm here says</strong> is whether the two payloads can ride the same mix. They were built as two files and read apart on purpose; a joint arm is a new cell. And the turn-2 numbers are a <em>nano</em> reading of a policy class, where the 260M baseline carries a substrate the nano control does not (<code>chain_pronoun</code> 30–35/50 at 260M against 0–17 at nano) — so the sizes here transfer to the H200 run by argument and not by measurement.</p>
+<h3 id="limits">Limits</h3>
+<p>Two seeds per arm, so directions rather than sizes (rule 6), and one cell where even the direction is unreadable (<code>chain_pronoun</code>, both arms). The first turns of both payloads are drawn from <code>corn/toolgen.py</code> at HEAD, which carries the <code>ask_agent</code> transcripts PLAN-CORPUS-GAPS §3b records as a known variable, and WS-D's composed contact book — both held identical across the two vehicles of each family, so neither can confound a vehicle comparison, and both are live for any comparison against an older card. <code>compound.items</code> is scored on 48 items and its second stage moved by single digits; nothing there is a separation and it is not quoted as one.</p>
+<h3 id="method-notes-worth-carrying">Method notes worth carrying</h3>
+<ul><li><strong><code>scripts/score_pipeline.py</code>'s live path drove its first real queue</strong>, as the build brief asked somebody to watch. Twelve cards, two queues, 8/8 in 982 s and 4/4 in 463 s, ~2 minutes a card at <code>--batch 16</code> against the baseline <code>__turn2rows</code> cards' 395 s behaviour pass. It refused nothing it should not have, and the lock and existing-output refusals behaved. The <code>--evals-suffix</code> flag is what makes <code>ckpt.pt</code> and <code>last.pt</code> scorable in one repo, since the card name derives from the checkpoint's <em>directory</em>.</li><li><strong>Three of the four fine-tunes selected best-val below their last iteration</strong> (525, 525, 455 of 551), so <code>ckpt.pt</code> and <code>last.pt</code> are genuinely different weights on this arm, and scoring both was not a formality. It changed nothing: every cell reproduces within a point.</li><li><strong>Nano training cost held at the recorded figure</strong> — 1,060–1,067 s for each 5,513-iteration MIX arm, 176 s for each 551-iteration fine-tune.</li></ul>
+<h3 id="addendum-2026-08-28-the-third-compound-mix-seed-lands-betwee">Addendum, 2026-08-28 — the third compound-MIX seed lands between the first two, and the spread is a spread</h3>
+<p><code>nano20m_v3_compound_seed3</code> (seed 1339), ordered by the owner on 2026-08-27 after this finding tripped stop-and-report condition 4, and pre-registered in <code>docs/PLAN-TURN-2.md</code>'s evening addendum with one instruction and no others: <strong>report where it lands relative to 36 and 104.</strong> Characterisation, feeding the compound share decision and nothing else. Trained eager, like its two siblings and like the four controls it is read against; nothing retrained and nothing was re-scored.</p>
+<p>row                control x4     s1      s2      s3 (new) tool.copy /120     118-120        36     104      49 tool.copy_wide /300  281-296     190     282     260</p>
+<p><strong>It lands between them, and it does not close the question.</strong> Three seeds now read 36, 49 and 104 on a row whose four control seeds span two items, and 190, 260 and 282 on one whose controls span fifteen. Two of the three cluster low and one sits high; the median is 49. A third seed was worth running and it bought exactly what a third seed can buy — it says the 36 was not a freak and the 104 was not the truth — but the honest reading is the one this finding already gave: <strong>the direction is certain and the size is not readable at this n.</strong> Every seed of the MIX arm sits far below every control seed on both rows, and no two of them agree within the control spread.</p>
+<p>Nothing else moved. <code>compound.pipe</code> 48/48 and <code>compound.pipe_first</code> 48/48, both at the first two seeds' ceiling; <code>compound.items</code> 6/48 and <code>items_first</code> 1/48, which is s1's reading to the item and confirms class L installing on neither vehicle; <code>temporal.copy</code> 353/353, <code>temporal.route</code> 398/400, <code>refusal.say</code> 257/270 inside the control's 261-268 by four items on a row whose own spread is seven. <code>tool.selection</code> 151/200 is the arm's highest of the three and above every control seed (109-130), which is the routing gain this family showed from the start.</p>
+<p><strong>What this does not license.</strong> It is not evidence about <code>compound_v2.txt</code>. The v1 dose is unreadable at three seeds and the v2 read is a different question — whether a single-request control class returns the copy rows at all — and it is answered against the <em>control</em> band, not against these three numbers. What the third seed does is retire the temptation to quote 36 or 104 as the cost: the cost is "far below control, size unknown", and a share chosen off either endpoint would be chosen off noise.</p></div>
+  </section>
+
+  <section class="grid refs">
+    <div class="body two-even">
+      <div>
+        <h2 class="small">It cites</h2>
+        <ul class="reflist"><li style="--c:var(--c1)"><a href="/Corn-Jr-Public/finding/6.html"><span class="fn">6</span>Fine-tuning installs the tool format but not using the tool&#39;s answer</a></li><li style="--c:var(--c3)"><a href="/Corn-Jr-Public/finding/49.html"><span class="fn">49</span>Second-turn data teaches him to talk, at a cost to deferring</a></li><li style="--c:var(--c1)"><a href="/Corn-Jr-Public/finding/60.html"><span class="fn">60</span>Fine-tuning costs nothing but delivers three fifths of pretraining&#39;s gain</a></li><li style="--c:var(--c1)"><a href="/Corn-Jr-Public/finding/61.html"><span class="fn">61</span>The phrasing test itself has noise of sixty items</a></li><li style="--c:var(--c2)"><a href="/Corn-Jr-Public/finding/66.html"><span class="fn">66</span>The extractor takes the first value of the right type</a></li><li style="--c:var(--c1)"><a href="/Corn-Jr-Public/finding/71.html"><span class="fn">71</span>Giving memory-lookup calls real results turns silence into recitation</a></li></ul>
+        
+      </div>
+      <div>
+        <h2 class="small">Cited by</h2>
+        <ul class="reflist"><li style="--c:var(--c4)"><a href="/Corn-Jr-Public/finding/129.html"><span class="fn">129</span>He learns to label his own request; forcing labels doesn&#39;t change calls</a></li><li style="--c:var(--c5)"><a href="/Corn-Jr-Public/finding/187.html"><span class="fn">187</span>Trained on invented names, he learned to copy one, never which</a></li><li style="--c:var(--c1)"><a href="/Corn-Jr-Public/finding/75.html"><span class="fn">75</span>Fine-tuning doesn&#39;t overwrite what pretraining installed</a></li><li style="--c:var(--c1)"><a href="/Corn-Jr-Public/finding/76.html"><span class="fn">76</span>A single-request control removes the compound requests&#39; copying cost</a></li><li style="--c:var(--c1)"><a href="/Corn-Jr-Public/finding/77.html"><span class="fn">77</span>At 5B tokens, fresh text is no worse than re-reading text</a></li><li style="--c:var(--c1)"><a href="/Corn-Jr-Public/finding/80.html"><span class="fn">80</span>Contradicting a trained behaviour needs that behaviour&#39;s data replayed</a></li></ul>
+        
+      </div>
+    </div>
+    <p class="body source">docs/findings/74-the-second-turn-installs-on-both-vehicles-and-the-compound-one-buys-composition-by-forgetting-how-to-stop.md</p>
+  </section>
+</article>
+
+  
+<footer class="turn">
+  <div><span class="sc">previous</span><a href="/Corn-Jr-Public/finding/49.html">49 · Second-turn data teaches him to talk, at a cost to deferring</a></div>
+  <div class="r"><span class="sc">next</span><a href="/Corn-Jr-Public/finding/119.html">119 · Fine-tuning from the shipped base: frozen scores hold, small social costs</a></div>
+  <p class="keys"><kbd>←</kbd> <kbd>→</kbd> turn the page · <kbd>/</kbd> find</p>
+</footer>
+<p class="bynumber">Previous and next in <a href="/Corn-Jr-Public/thread/conversation.html">Conversation and the second turn</a>. By number:
+  <a href="/Corn-Jr-Public/finding/73.html">73</a> · <a href="/Corn-Jr-Public/finding/75.html">75</a></p>
+
+</div>
+</body>
+</html>

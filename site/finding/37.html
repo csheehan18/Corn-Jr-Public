@@ -1,0 +1,99 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>37 · Training second-turn declines changed nothing and cost tool choice · Corn-Jr</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600&family=IBM+Plex+Mono:wght@400;500&family=Spectral:ital,wght@0,400;0,500;0,600;1,400&family=Spectral+SC:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/Corn-Jr-Public/static/library.css">
+<script defer src="/Corn-Jr-Public/static/library.js"></script>
+<script type="speculationrules">
+{"prerender": [{"where": {"and": [{"href_matches": "/Corn-Jr-Public/*"}, {"not": {"href_matches": "/Corn-Jr-Public/random.html"}}, {"not": {"href_matches": "/Corn-Jr-Public/static/*"}}]}, "eagerness": "moderate"}]}
+</script>
+
+</head>
+<body>
+<div class="page">
+  <header class="running">
+    <a class="book" href="/Corn-Jr-Public/">Corn-Jr · The Record</a>
+    <nav>
+      <a href="/Corn-Jr-Public/" data-key="shelf">Shelf</a><a href="/Corn-Jr-Public/findings.html" data-key="findings" class="here">Findings</a><a href="/Corn-Jr-Public/doc/VISION.html" data-key="VISION">Vision</a><a href="/Corn-Jr-Public/doc/GLOSSARY.html" data-key="GLOSSARY">Glossary</a>
+      <a href="https://github.com/csheehan18/Corn-Jr-Public">Source</a>
+    </nav>
+  </header>
+  
+
+<article class="sheet" style="--c:var(--c1)">
+  <div class="progress" aria-hidden="true"></div>
+  <section class="grid chapter-open finding-open">
+    <a class="tab" href="/Corn-Jr-Public/thread/routing.html" title="Routing and declining"><small>Part</small><span>I</span></a>
+    <p class="cn">37</p>
+    <p class="partline"><a href="/Corn-Jr-Public/thread/routing.html">Routing and declining</a> · 18 August 2026</p>
+    <h1>Training second-turn declines changed nothing and cost tool choice</h1>
+  </section>
+
+  <section class="grid">
+    <p class="marginal">The result, as the finding states it</p><div class="prose"><p class="lead">The turn-2 no-call class moved turn-2 abstention by exactly nothing, and took 17 items of tool choice with it</p></div>
+    <p class="marginal">What it cost</p><div class="prose"><p class="cost">0 s of new scoring on record; it reads 1 card scored for an earlier finding (<code>nano20m_v1_chat</code>). Backfilled 2026-09-26 from the cards' <code>seconds</code>; training and probe time were never recorded, so this is a floor.</p></div>
+  </section>
+
+  
+
+  <section class="grid">
+    <div class="prose doc"><p>Two seeds of <code>configs/mix_v1_chat2.py</code> against the two <code>nano20m_v1_chat</code> seeds. The intervention is <code>data/raw/chat2.txt</code> — 94,844 two-exchange no-call transcripts — at <strong>a 25th of one pass</strong>, 318,873 tokens, 0.24% of the budget. The corpus rationale, the 89.3% it refuses and the overlap that bounds it are in the mix config.</p>
+<p><strong>This is a negative result with a cost attached, and it is the outcome the config pre-registered as "the reflex is upstream of the corpus class".</strong></p>
+<h3 id="the-control-passed-so-the-rest-is-readable">The control passed, so the rest is readable</h3>
+<p><code>register.conv</code> — baseline <strong>[77, 82]</strong>, arm <strong>[79, 80]</strong> of 200. Fully overlapping. The twenty-fifth finding priced this row at exactly this dialogue share against a 1.0-point floor, and a 0.24% perturbation moving it would have meant a broken build rather than a hypothesis. Total dialogue tokens are 26,186,876 in both corpora by construction.</p>
+<h3 id="turn-2-abstention-did-not-move-at-all">Turn-2 abstention did not move. At all.</h3>
+<p><code>turn2.second</code>'s 19 out-of-scope items are the only ones on that row where the right answer is no call. <code>called_anyway</code> is the failure:</p>
+<div class="tablewrap"><table><thead><tr><th></th><th>baseline s1</th><th>baseline s2</th><th>arm s1</th><th>arm s2</th></tr></thead><tbody><tr><td><code>called_anyway</code></td><td><strong>19</strong></td><td><strong>19</strong></td><td><strong>19</strong></td><td><strong>19</strong></td></tr></tbody></table></div>
+<p><strong>Nineteen of nineteen, in every cell, on both sides.</strong> The class the corpus was missing was added, in the position it was missing from, and the behaviour it was supposed to buy is at complete floor before and after. There is no seed spread to argue about and no margin to size: the number is the ceiling of the row and it did not change by one item.</p>
+<p>That is the third time this project has added a no-call class and watched the reflex survive. The thirty-fourth finding's <code>absent</code> failed at 128 hand-written refusals; the thirty-fifth succeeded at turn 1 and is the reason this arm was worth running; this fails at turn 2. The pair the thirty-fifth finding's config anticipated — "it would be the second no-call intervention to fail and the pair would be the finding" — has arrived, and the honest reading is that <strong>turn-1 and turn-2 abstention are not the same behaviour</strong>: one moved off floor on a 5% slice and the other does not move on a slice occupying the same structural position.</p>
+<h3 id="and-the-tool-choice-got-worse-decisively">And the tool choice got worse, decisively</h3>
+<p><code>turn2.second</code> overall:</p>
+<div class="tablewrap"><table><thead><tr><th></th><th>baseline s1</th><th>baseline s2</th><th>arm s1</th><th>arm s2</th></tr></thead><tbody><tr><td>pass</td><td>168/200</td><td>166/200</td><td><strong>147/200</strong></td><td><strong>149/200</strong></td></tr></tbody></table></div>
+<p>Ranges <strong>[166, 168]</strong> against <strong>[147, 149]</strong> — non-overlapping, margin <strong>17</strong>, within-arm spreads <strong>2 and 2</strong>. This clears the spread that produced it by more than eight times, which none of the thirty-sixth finding's four controls managed and which makes this the readable number on the scorecard.</p>
+<p><strong>The failure mass is wrong-tool, not over-abstention</strong>, and the distinction is checkable because <code>score_selection</code> has no separate reason for declining an item that wants a call — a model that says something instead of calling produces no parseable call and scores <code>unparseable</code>. That bucket moves <strong>+4 and +3</strong>. The rest is tool choice:</p>
+<div class="tablewrap"><table><thead><tr><th>reason</th><th>base s1 → arm s1</th><th>base s2 → arm s2</th></tr></thead><tbody><tr><td><code>chose_send_text</code></td><td>6 → 11</td><td>0 → <strong>21</strong></td></tr><tr><td><code>chose_save_note</code></td><td>3 → 11</td><td>10 → 0</td></tr><tr><td><code>chose_web_search</code></td><td>2 → 6</td><td>0 → 4</td></tr><tr><td><code>unparseable</code></td><td>2 → 6</td><td>3 → 6</td></tr></tbody></table></div>
+<p>So the slice did not make him quieter at turn 2. It made him <strong>worse at picking which tool</strong>, while leaving the one behaviour it targeted untouched. 0.24% of the budget bought a 17-item regression on a row eleven findings paid for.</p>
+<h3 id="turn2-first-says-nothing-and-says-it-loudly"><code>turn2.first</code> says nothing, and says it loudly</h3>
+<p>Baseline <strong>[159, 160]</strong>, arm <strong>[161, 174]</strong>. The margin is <strong>1</strong> against a within-arm spread of <strong>13</strong>. INSIDE SPREAD — no claim, in either direction.</p>
+<p>Worth recording anyway: the arm's spread on this row is <strong>thirteen times the baseline's</strong>. Two seeds cannot tell a genuinely less stable arm from an unlucky draw, and the thirtieth finding's rule is why this is a note rather than a result.</p>
+<h3 id="the-register-gap-narrowed-and-this-is-the-one-place-the-thir">The register gap narrowed, and this is the one place the thirty-sixth finding earns out</h3>
+<p><code>turn2_reply</code>, <code>talk − tool</code> distinct-3 at an identical length histogram, differenced against the same matching at turn 1:</p>
+<div class="tablewrap"><table><thead><tr><th></th><th>baseline s1</th><th>baseline s2</th><th>arm s1</th><th>arm s2</th></tr></thead><tbody><tr><td>matched DiD</td><td>+0.0573</td><td>+0.0547</td><td><strong>+0.0135</strong></td><td><strong>+0.0123</strong></td></tr></tbody></table></div>
+<p>Baseline <strong>[+0.0547, +0.0573]</strong> against arm <strong>[+0.0123, +0.0135]</strong>: margin <strong>0.0412</strong> against within-arm spreads of <strong>0.0026 and 0.0012</strong>. That is a separation of more than fifteen times the spread — far cleaner than anything the thirty-sixth finding could establish about the gap's size, and readable <em>only</em> because that finding first showed the gap survives length matching. Quoting the raw cells here would have been quoting a length difference: <strong>the arm's median reply after a <code>tool</code> preamble falls from 11 words to 8.</strong></p>
+<p><strong>Which cell moved is not established.</strong> The absolute numbers point at the <code>tool</code> cell rising toward <code>talk</code> (0.8680/0.9154 → 0.9066/0.9381) rather than <code>talk</code> falling (0.9456/0.9500 → 0.9449/0.9520), which would make this the one thing the arm improved. But that comparison is arm-against-baseline <em>within</em> a cell and is <strong>not</strong> length-controlled, and the median dropped by three words in exactly that cell — which is the confound the thirty-sixth finding exists to police. The narrowing is established; its mechanism is not. <code>terminated</code> is 200/200 in every cell of every checkpoint, so nothing collapsed.</p>
+<h3 id="what-this-does-not-settle">What this does not settle</h3>
+<ul><li><strong>The dose.</strong> 1/25 of one pass is one point. But <code>chat2.txt</code> shares <strong>100% of its openings and 99.3% of its first exchanges</strong> with <code>chat.txt</code>, so a bracket above ~1/8 would be testing duplication as much as the class. A larger dose needs <code>chat2</code> re-cut from a region <code>chat.txt</code> does not use — a corpus rebuild, not a weight change.</li><li><strong>Whether the cost is the class or the duplication.</strong> At this dose ~3,767 openings go from one use to two. That is 1.9% of <code>chat.txt</code>, and the pool moves from 1.19 uses per distinct reply to ~1.21 — well inside the bar — but the arm that would separate "the turn-2 class hurt tool choice" from "re-reading 1.9% of turn 1 hurt tool choice" has not been run.</li><li><strong>Whether turn-2 abstention is reachable at all.</strong> Three interventions, one success, and the success was at turn 1. Nothing here says a bigger turn-2 slice would work; the 19/19 is equally consistent with the reflex sitting upstream of any corpus fix, which is what the thirty-fourth finding concluded about <code>absent</code>.</li></ul></div>
+  </section>
+
+  <section class="grid refs">
+    <div class="body two-even">
+      <div>
+        <h2 class="small">It cites</h2>
+        <p class="aside">No other finding by number.</p>
+      </div>
+      <div>
+        <h2 class="small">Cited by</h2>
+        <p class="aside">No later finding yet.</p>
+      </div>
+    </div>
+    <p class="body source">docs/findings/37-the-turn-two-class-moved-turn-two-abstention-by-exactly-nothing-and-cost-the-tool-choice.md</p>
+  </section>
+</article>
+
+  
+<footer class="turn">
+  <div><span class="sc">previous</span><a href="/Corn-Jr-Public/finding/35.html">35 · One percent of non-tool turns teaches him when not to call</a></div>
+  <div class="r"><span class="sc">next</span><a href="/Corn-Jr-Public/finding/38.html">38 · A confidence margin spots wrong calls, except where it was needed</a></div>
+  <p class="keys"><kbd>←</kbd> <kbd>→</kbd> turn the page · <kbd>/</kbd> find</p>
+</footer>
+<p class="bynumber">Previous and next in <a href="/Corn-Jr-Public/thread/routing.html">Routing and declining</a>. By number:
+  <a href="/Corn-Jr-Public/finding/36.html">36</a> · <a href="/Corn-Jr-Public/finding/38.html">38</a></p>
+
+</div>
+</body>
+</html>

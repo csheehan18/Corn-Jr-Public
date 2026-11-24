@@ -1,0 +1,91 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>47 · The leading learning rate finished last; 3e-4 stays · Corn-Jr</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600&family=IBM+Plex+Mono:wght@400;500&family=Spectral:ital,wght@0,400;0,500;0,600;1,400&family=Spectral+SC:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/Corn-Jr-Public/static/library.css">
+<script defer src="/Corn-Jr-Public/static/library.js"></script>
+<script type="speculationrules">
+{"prerender": [{"where": {"and": [{"href_matches": "/Corn-Jr-Public/*"}, {"not": {"href_matches": "/Corn-Jr-Public/random.html"}}, {"not": {"href_matches": "/Corn-Jr-Public/static/*"}}]}, "eagerness": "moderate"}]}
+</script>
+
+</head>
+<body>
+<div class="page">
+  <header class="running">
+    <a class="book" href="/Corn-Jr-Public/">Corn-Jr · The Record</a>
+    <nav>
+      <a href="/Corn-Jr-Public/" data-key="shelf">Shelf</a><a href="/Corn-Jr-Public/findings.html" data-key="findings" class="here">Findings</a><a href="/Corn-Jr-Public/doc/VISION.html" data-key="VISION">Vision</a><a href="/Corn-Jr-Public/doc/GLOSSARY.html" data-key="GLOSSARY">Glossary</a>
+      <a href="https://github.com/csheehan18/Corn-Jr-Public">Source</a>
+    </nav>
+  </header>
+  
+
+<article class="sheet" style="--c:var(--c1)">
+  <div class="progress" aria-hidden="true"></div>
+  <section class="grid chapter-open finding-open">
+    <a class="tab" href="/Corn-Jr-Public/thread/foundations.html" title="Foundations"><small>Part</small><span>I</span></a>
+    <p class="cn">47</p>
+    <p class="partline"><a href="/Corn-Jr-Public/thread/foundations.html">Foundations</a> · 22 August 2026</p>
+    <h1>The leading learning rate finished last; 3e-4 stays</h1>
+  </section>
+
+  <section class="grid">
+    <p class="marginal">The result, as the finding states it</p><div class="prose"><p class="lead">The rate that leads for sixty per cent of the probe finishes last, and the decision rule had an unmeasurable term in it</p></div>
+    <p class="marginal">What it cost</p><div class="prose"><p class="cost">10.2 min of scoring on the 1 card first cited here (<code>corn_jr_260m</code>). Backfilled 2026-09-26 from the cards' <code>seconds</code>; training and probe time were never recorded, so this is a floor.</p></div>
+  </section>
+
+  
+
+  <section class="grid">
+    <div class="prose doc"><p><code>configs/corn_jr_260m_lr{3e4,4p5e4,6e4}.py</code>, run 2026-08-22 on the 3080. Three 2,000-iteration probes, 49,152,000 tokens each, <strong>37.9 / 37.6 / 37.6 minutes, 1.89 hours for all three.</strong> This is the 1.7 hours <code>corn_jr_260m.py</code> priced against 2.5 days of regret, and it is spent.</p>
+<p><code>lr</code> was the one unmeasured number in the Phase 2 config. It is now a screened one, which is a weaker thing than a measured one and is exactly what the instrument was built to deliver.</p>
+<h3 id="nothing-was-vetoed">Nothing was vetoed</h3>
+<p>The pre-registered disqualifiers were NaN, an unrecovered loss spike, and val loss climbing across consecutive post-warmup eval points. <strong>None of the three rates hit any of them.</strong> All three exited 0, and throughput held 23.0–23.2k tok/s throughout — which incidentally confirms the 23.5k planning figure the 220-iteration smoke test established, at 40× the length.</p>
+<div class="tablewrap"><table><thead><tr><th>iter</th><th>3e-4</th><th>4.5e-4</th><th>6e-4</th></tr></thead><tbody><tr><td>0</td><td>9.2475</td><td>9.2475</td><td>9.2475</td></tr><tr><td>250</td><td>4.1994</td><td>4.1542</td><td><strong>4.1285</strong></td></tr><tr><td>500</td><td>3.4365</td><td>3.3793</td><td><strong>3.3397</strong></td></tr><tr><td>750</td><td>3.0934</td><td>3.0448</td><td><strong>3.0105</strong></td></tr><tr><td>1000</td><td>3.0098</td><td>2.9533</td><td><strong>2.9404</strong></td></tr><tr><td>1250</td><td>2.8481</td><td>2.8202</td><td><strong>2.8223</strong></td></tr><tr><td>1500</td><td>2.5735</td><td><strong>2.5509</strong></td><td>2.5553</td></tr><tr><td>1750</td><td>2.6300</td><td><strong>2.6166</strong></td><td>2.6307</td></tr><tr><td>2000</td><td>2.4796</td><td><strong>2.4725</strong></td><td>2.4832</td></tr></tbody></table></div>
+<p><strong>The comparison is paired, and iter 0 is the proof.</strong> All three configs carry <code>seed=1337</code> and differ only in <code>lr</code>/<code>min_lr</code>, which consumes no RNG, so the data order and the val batches at each eval point are identical across the three runs. Val at iter 0 agrees to four decimals in all three columns. This is a stronger design than three independent runs and it is stronger by accident rather than by intent — the probes were written to hold everything fixed, and pairing fell out of that.</p>
+<h3 id="the-ordering-flips-and-that-is-the-result">The ordering flips, and that is the result</h3>
+<p><strong>6e-4 is the best rate at five of the first six eval points and the worst rate at the last one.</strong> It leads through iter 1,250 — 62% of the probe — and finishes third. 4.5e-4 takes the lead at 1,500 and holds it to the end.</p>
+<p>That is the finding, and it is empirical support for a pre-registration that until now was only an argument. <code>corn_jr_260m_lr3e4.py</code> declared before any probe ran that <strong>the instrument vetoes rates and does not rank them</strong>, on the a priori grounds that 2,000 iterations of a 203,451-iteration run cannot say which rate wins at 5B. It now has evidence: the ranking did not survive even to the end of the probe itself, at 1% of the run. A screen that had stopped at iter 1,250 — still 25 minutes of GPU, still a plausible place to stop — would have promoted 6e-4 on a lead it was about to lose.</p>
+<p>The uptick at 1,750 is common to all three columns and is therefore the val draw, not the rates: eval points sample 40 fresh batches each, so <strong>absolute val at a single point carries roughly 0.05 of sample noise</strong> (the 1,500 → 1,750 move against a downward trend). Common-mode, so it cancels in the paired comparison — but it is the reason no single eval point can be read alone.</p>
+<h3 id="3e-4-stands-and-not-because-4-5e-4-lost">3e-4 stands, and not because 4.5e-4 lost</h3>
+<p>The pre-registered rule: if all three survive, 3e-4 stands unless a higher rate is below it at <strong>every</strong> post-warmup eval point <strong>by more than the eval noise</strong>.</p>
+<p>4.5e-4 satisfies the first clause. It is below 3e-4 at <strong>8 of 8</strong> points, sign consistent throughout, under a paired comparison. The margin runs 0.0452 at iter 250 down to <strong>0.0071 at iter 2,000</strong>.</p>
+<p>The second clause cannot be evaluated, and that is the honest outcome. Because the arms share their val draws, the sample noise that the 1,750 uptick measures <strong>cancels</strong> in the paired difference — so the relevant floor is not eval-sample noise at all but run-to-run seed variance on the paired gap, and <strong>there is one seed per rate.</strong> The thirtieth finding's rule is that a floor is a property of the arm and a single seed cannot establish one. So 0.0071 is not a small effect; it is an <strong>unpriced</strong> one.</p>
+<p><strong>The rule as written contained a term nobody had arranged to measure.</strong> It named "the eval noise" without saying which noise or how it would be counted, and the paired design — which was not anticipated when the rule was written — changed the answer to that question. This is the same class of defect as the forty-sixth finding's guard that read the generator instead of the artefact: the instrument was fine and the thing that decides what the instrument means was not checked. It cost nothing here, because the rule's default clause resolves the case either way.</p>
+<p>So the config launches at <strong>3e-4, unchanged</strong>, on the pre-registered default rather than on a demonstration. Changing a 2.5-day run's learning rate on a consistent-sign 0.0071 with no floor under it would be precisely the error this project has now caught four times.</p>
+<h3 id="what-this-does-not-settle">What this does not settle</h3>
+<ul><li><strong>Whether 4.5e-4 is better at 5B.</strong> 8 of 8 on a paired comparison is real evidence of a sign and no evidence at all of a size, and the sign was also consistent for 6e-4 right up until it reversed. The cheap thing that would settle it is <strong>a second seed on 3e-4 and 4.5e-4 only</strong> — 75 minutes, and it gives the paired gap a floor for the first time.</li><li><strong>Anything about 6e-4 at length.</strong> Its late fade is consistent with the small-batch argument in <code>corn_jr_260m.py</code>'s docstring — 24,576 tokens per step against the ~0.5M the recipes quoting 6e-4 use — but a fade inside a 1% probe is not that argument confirmed. It is one crossing.</li><li><strong>The trunk beyond 2,000 iters.</strong> <code>decay_frac=0.0</code> means these read the <code>wsd</code> trunk with no anneal, by design. The <code>lr 3.00e-05</code> printed on the iter-2,000 line is <code>lr_at</code>'s post-loop display for <code>it &gt;= max_iters</code>; <strong>no step trained at <code>min_lr</code></strong>, and iter 1,999 reads the full rate, verified against <code>lr_at</code> directly before the probes ran.</li><li><strong>Scale.</strong> These are 260.6M probes, which is the size they were meant to screen, so the usual transfer caveat does not apply here — but 49.2M tokens is 1% of the budget and none of the behaviour rows exist at this length. Nothing here is a corpus reading.</li></ul></div>
+  </section>
+
+  <section class="grid refs">
+    <div class="body two-even">
+      <div>
+        <h2 class="small">It cites</h2>
+        <p class="aside">No other finding by number.</p>
+      </div>
+      <div>
+        <h2 class="small">Cited by</h2>
+        <p class="aside">No later finding yet.</p>
+      </div>
+    </div>
+    <p class="body source">docs/findings/47-the-rate-that-leads-for-sixty-per-cent-of-the-probe-finishes-last-and-the-decision-rule-had-an-unmeasurable-term.md</p>
+  </section>
+</article>
+
+  
+<footer class="turn">
+  <div><span class="sc">previous</span><a href="/Corn-Jr-Public/finding/3.html">3 · Training and validation loss never separate on one pass of data</a></div>
+  <div class="r"><span class="sc">next</span><a href="/Corn-Jr-Public/finding/64.html">64 · Re-reading the prompt each round costs launches, not tokens: 0.22 ms</a></div>
+  <p class="keys"><kbd>←</kbd> <kbd>→</kbd> turn the page · <kbd>/</kbd> find</p>
+</footer>
+<p class="bynumber">Previous and next in <a href="/Corn-Jr-Public/thread/foundations.html">Foundations</a>. By number:
+  <a href="/Corn-Jr-Public/finding/46.html">46</a> · <a href="/Corn-Jr-Public/finding/48.html">48</a></p>
+
+</div>
+</body>
+</html>

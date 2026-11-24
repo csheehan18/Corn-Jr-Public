@@ -1,0 +1,94 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>109 · Other layer choices don&#39;t beat the shipped one · Corn-Jr</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600&family=IBM+Plex+Mono:wght@400;500&family=Spectral:ital,wght@0,400;0,500;0,600;1,400&family=Spectral+SC:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/Corn-Jr-Public/static/library.css">
+<script defer src="/Corn-Jr-Public/static/library.js"></script>
+<script type="speculationrules">
+{"prerender": [{"where": {"and": [{"href_matches": "/Corn-Jr-Public/*"}, {"not": {"href_matches": "/Corn-Jr-Public/random.html"}}, {"not": {"href_matches": "/Corn-Jr-Public/static/*"}}]}, "eagerness": "moderate"}]}
+</script>
+
+</head>
+<body>
+<div class="page">
+  <header class="running">
+    <a class="book" href="/Corn-Jr-Public/">Corn-Jr · The Record</a>
+    <nav>
+      <a href="/Corn-Jr-Public/" data-key="shelf">Shelf</a><a href="/Corn-Jr-Public/findings.html" data-key="findings" class="here">Findings</a><a href="/Corn-Jr-Public/doc/VISION.html" data-key="VISION">Vision</a><a href="/Corn-Jr-Public/doc/GLOSSARY.html" data-key="GLOSSARY">Glossary</a>
+      <a href="https://github.com/csheehan18/Corn-Jr-Public">Source</a>
+    </nav>
+  </header>
+  
+
+<article class="sheet" style="--c:var(--c2)">
+  <div class="progress" aria-hidden="true"></div>
+  <section class="grid chapter-open finding-open">
+    <a class="tab" href="/Corn-Jr-Public/thread/reading.html" title="Reading documents"><small>Part</small><span>II</span></a>
+    <p class="cn">109</p>
+    <p class="partline"><a href="/Corn-Jr-Public/thread/reading.html">Reading documents</a> · 4 September 2026</p>
+    <h1>Other layer choices don&#39;t beat the shipped one</h1>
+  </section>
+
+  <section class="grid">
+    <p class="marginal">The result, as the finding states it</p><div class="prose"><p class="lead">Five layer bands trained on the same ten thousand windows rank the shipped band at the top within a point on both seeds, and a five-layer band is no better, so the pick's missing signal is not in another three layers of the same stack and A3 closes on its kill</p></div>
+    
+  </section>
+
+  
+
+  <section class="grid">
+    <div class="prose doc"><p><code>scripts/harvest_states.py --layers 0..19,-1</code> and <code>scripts/train_reader_cached.py --band ... --skip-evals</code>, 2026-09-04. One harvest of 10,000 positive training windows (uniform sample, seed 3) at every block output and <code>ln_f</code> — 21 × 1,024 a row, 27 GB, 1,892 s — then the built head trained six epochs on each of five bands sliced out of that cache, two seeds, 8,028 training windows and 1,972 held out by article, the same split for every band. <code>evals/results/band_*_s{1,2}.json</code>. Held-out exact-pair only; no eval pass, no Population A, nothing shipped. <code>corn/reader.py</code> is untouched.</p>
+<h3 id="0-the-arm-and-its-pre-registration">0. The arm and its pre-registration</h3>
+<p><code>PLAN-READER-REPRESENTATION.md</code> A3, <code>READER-AUDIT.md</code> row 36: the span head reads layers {8, 12, 16}, fixed by a linear membership probe on 800 windows on the older v4 trunk (finding <a class="fref" href="/Corn-Jr-Public/finding/83.html">83</a>, <code>probe_spanhead.py</code>: 90 / 94 / 110 / 108 / 102 on the frozen eval at layers −1 / 4 / 8 / 12 / 16), never re-asked on the trunk that ships, with the head that ships, on more than 800 windows. After findings <a class="fref" href="/Corn-Jr-Public/finding/102.html">102</a>, <a class="fref" href="/Corn-Jr-Public/finding/103.html">103</a>, <a class="fref" href="/Corn-Jr-Public/finding/106.html">106</a> and <a class="fref" href="/Corn-Jr-Public/finding/108.html">108</a> each changed the head or its data and not what it reads, the layer band was the last constant on the pick's inputs that had not been tested.</p>
+<p><strong>Cheap read.</strong> A tenth of the training data at all twenty-one layers, five bands trained on it with the shipped band as the control, held-out exact-pair on the same windows. A ranking, not a bar. <strong>Go:</strong> a band beats the control by ≥ 2 points on both seeds; then the full 38 GB harvest of that band and the chain. <strong>Kill:</strong> no band does.</p>
+<h3 id="1-the-ranking">1. The ranking</h3>
+<p>Selected epoch's held-out exact-pair on 1,972 windows (standard error about 1.1 points):</p>
+<p>band                    seed 1    seed 2    mean     vs control 12, 16, 19              0.4853    0.4776    0.4814   +0.0005 / +0.0064 8, 12, 16  (shipped)    0.4848    0.4712    0.4780        control 8, 12, 16, 19, ln_f     0.4731    0.4786    0.4758   -0.0117 / +0.0074 4, 8, 12                0.4701    0.4643    0.4672   -0.0147 / -0.0069 6, 10, 14               0.4686    0.4574    0.4630   -0.0162 / -0.0138</p>
+<p><strong>No band beats the control by two points on either seed, let alone both.</strong> The band shifted up one layer, {12, 16, 19}, ties the shipped band on seed 1 and leads it by 0.6 on seed 2, inside one standard error. The two bands that reach lower into the stack are 1.5 and 1.6 points under on seed 1 and 0.7 and 1.4 under on seed 2 — the one consistent direction in the table, and the same direction finding <a class="fref" href="/Corn-Jr-Public/finding/107.html">107</a> found for the say marker: the lower layers carry less of the answer. The five-layer band, with 70% more input width, starts worse (0.4128 at epoch 0 against 0.4356), is under the control on seed 1 and over it on seed 2, and buys nothing for its width on a tenth of the data.</p>
+<p>The curves have the shipped head's shape in miniature: training loss to 0.04 by epoch 5 on 8,028 windows, held-out flat or falling over the last epoch on eight of ten runs. Fewer windows, the same memorisation.</p>
+<h3 id="2-verdict">2. Verdict</h3>
+<p><strong>Closed on its kill.</strong> The band chosen once on 800 windows on v4 is as good as any three layers of this stack on the trunk that ships, and a wider band is not better. Row 36 of the audit closes, the 38 GB harvest is not spent, and the last constant on the span head's inputs that a head could break has been broken and found to hold.</p>
+<p>With finding <a class="fref" href="/Corn-Jr-Public/finding/107.html">107</a> (the say marker at any layer adds nothing the verifier's inputs lack) and 108 (three other prompt forms move the states and none lands the gold), the plan's three cheap reads are all in, one afternoon, and each said the same thing: <strong>what the frozen trunk computes about a window under this prompt is what the shipped heads already read, and reading it from a different layer, a different prompt or a different depth of the stack does not add to it.</strong> What remains on the plan is W1, the whole passage in one forward on the frozen trunk, and W2, the trunk itself moved under a reader adapter. Those are the two arms that change what is computed rather than where it is read from.</p>
+<h3 id="3-cost-as-measured">3. Cost, as measured</h3>
+<p>harvest 10,000 windows at 21 layers      1,892 s GPU, 27 GB   (estimated 80 s and 16 GB: 21 hooks throttle the forward and the windows average 65 candidate rows, not 40) one band run, six epochs                 ~5 min              (45 s an epoch: every row is read at 21 layers and sliced) ten runs                                 ~50 min</p>
+<p>About an hour and a half of wall clock for the read, against the hour I priced. The 27 GB cache is regenerable in 32 minutes and is left on <code>F:</code> for the owner to delete; nothing else reads it.</p>
+<h3 id="4-on-disk">4. On disk</h3>
+<p><code>harvest_states.py --layers</code> (any block outputs, <code>-1</code> for <code>ln_f</code>; the manifest records the band and its width). <code>train_reader_cached.py --band</code> (the head reads a subset of the cache's layers, sliced per row where a row leaves its shard, so the shipped path with the flag off is byte for byte what it was) and <code>--skip-evals</code> (held-out curve only, for a cache whose band the eval caches were not harvested at). <code>evals/results/band_*_s{1,2}.json</code>, ten files.</p>
+<h3 id="5-limits">5. Limits</h3>
+<p>A tenth of the data and a 1,972-window slice: the read ranks bands to about a point and cannot see a half-point band. Five bands, not a sweep of all 1,330 triples. Six epochs of the shipped schedule on 8,028 windows over-fits harder than the shipped run (loss 0.04 against 0.10), which flattens every curve equally and should not favour a band. The held-out exact-pair here (0.47–0.49) is not comparable to the shipped heads' 0.54 — a tenth of the data — and is quoted only against the control on the same tenth.</p></div>
+  </section>
+
+  <section class="grid refs">
+    <div class="body two-even">
+      <div>
+        <h2 class="small">It cites</h2>
+        <ul class="reflist"><li style="--c:var(--c2)"><a href="/Corn-Jr-Public/finding/83.html"><span class="fn">83</span>The boundary model finds answers but can&#39;t prefer them to silence</a></li><li style="--c:var(--c2)"><a href="/Corn-Jr-Public/finding/102.html"><span class="fn">102</span>Twice the training epochs doesn&#39;t improve the answer finder</a></li><li style="--c:var(--c2)"><a href="/Corn-Jr-Public/finding/103.html"><span class="fn">103</span>Averaging three seeds&#39; readers barely helps</a></li><li style="--c:var(--c2)"><a href="/Corn-Jr-Public/finding/106.html"><span class="fn">106</span>Fifty thousand extra labelled windows don&#39;t help the reader</a></li><li style="--c:var(--c2)"><a href="/Corn-Jr-Public/finding/107.html"><span class="fn">107</span>Later layers know slightly more; the shipped checker already has it</a></li><li style="--c:var(--c2)"><a href="/Corn-Jr-Public/finding/108.html"><span class="fn">108</span>The reader is sensitive to prompt wording, but no wording does better</a></li></ul>
+        
+      </div>
+      <div>
+        <h2 class="small">Cited by</h2>
+        <ul class="reflist"><li style="--c:var(--c2)"><a href="/Corn-Jr-Public/finding/112.html"><span class="fn">112</span>Training on whole passages lifts extraction from 54% to 71%</a></li></ul>
+        
+      </div>
+    </div>
+    <p class="body source">docs/findings/109-five-layer-bands-on-the-same-ten-thousand-windows-rank-the-shipped-band-at-the-top-within-a-point-so-the-picks-missing-signal-is-not-in-another-three-layers-of-the-stack.md</p>
+  </section>
+</article>
+
+  
+<footer class="turn">
+  <div><span class="sc">previous</span><a href="/Corn-Jr-Public/finding/108.html">108 · The reader is sensitive to prompt wording, but no wording does better</a></div>
+  <div class="r"><span class="sc">next</span><a href="/Corn-Jr-Public/finding/110.html">110 · Of four cheap rescoring ideas, only one vote per mention helps</a></div>
+  <p class="keys"><kbd>←</kbd> <kbd>→</kbd> turn the page · <kbd>/</kbd> find</p>
+</footer>
+<p class="bynumber">Previous and next in <a href="/Corn-Jr-Public/thread/reading.html">Reading documents</a>. By number:
+  <a href="/Corn-Jr-Public/finding/108.html">108</a> · <a href="/Corn-Jr-Public/finding/110.html">110</a></p>
+
+</div>
+</body>
+</html>

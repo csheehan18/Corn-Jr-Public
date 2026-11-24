@@ -1,0 +1,101 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>66 · The extractor takes the first value of the right type · Corn-Jr</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600&family=IBM+Plex+Mono:wght@400;500&family=Spectral:ital,wght@0,400;0,500;0,600;1,400&family=Spectral+SC:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/Corn-Jr-Public/static/library.css">
+<script defer src="/Corn-Jr-Public/static/library.js"></script>
+<script type="speculationrules">
+{"prerender": [{"where": {"and": [{"href_matches": "/Corn-Jr-Public/*"}, {"not": {"href_matches": "/Corn-Jr-Public/random.html"}}, {"not": {"href_matches": "/Corn-Jr-Public/static/*"}}]}, "eagerness": "moderate"}]}
+</script>
+
+</head>
+<body>
+<div class="page">
+  <header class="running">
+    <a class="book" href="/Corn-Jr-Public/">Corn-Jr · The Record</a>
+    <nav>
+      <a href="/Corn-Jr-Public/" data-key="shelf">Shelf</a><a href="/Corn-Jr-Public/findings.html" data-key="findings" class="here">Findings</a><a href="/Corn-Jr-Public/doc/VISION.html" data-key="VISION">Vision</a><a href="/Corn-Jr-Public/doc/GLOSSARY.html" data-key="GLOSSARY">Glossary</a>
+      <a href="https://github.com/csheehan18/Corn-Jr-Public">Source</a>
+    </nav>
+  </header>
+  
+
+<article class="sheet" style="--c:var(--c2)">
+  <div class="progress" aria-hidden="true"></div>
+  <section class="grid chapter-open finding-open">
+    <a class="tab" href="/Corn-Jr-Public/thread/reading.html" title="Reading documents"><small>Part</small><span>II</span></a>
+    <p class="cn">66</p>
+    <p class="partline"><a href="/Corn-Jr-Public/thread/reading.html">Reading documents</a> · 26 August 2026</p>
+    <h1>The extractor takes the first value of the right type</h1>
+  </section>
+
+  <section class="grid">
+    <p class="marginal">The result, as the finding states it</p><div class="prose"><p class="lead">The extractor takes the first value of the right type, and flipping the clause flips which question it answers</p></div>
+    <p class="marginal">What it cost</p><div class="prose"><p class="cost">11.4 min of scoring on the 1 card first cited here (<code>corn_jr_260m_ftextract</code>). Backfilled 2026-09-26 from the cards' <code>seconds</code>; training and probe time were never recorded, so this is a floor.</p></div>
+  </section>
+
+  
+
+  <section class="grid">
+    <div class="prose doc"><p><code>corn_jr_260m_ftextract</code>, 2026-08-26, the checkpoint the sixty-fifth finding trained. Measured through the real runtime path — <code>harness/backends/read.py</code>'s <code>Reader</code>, <code>corn.extract.read_passage</code>, <code>corn.extract.reduce</code> — on synthetic passages, at temperature 0. No training, no network.</p>
+<h3 id="where-it-came-from">Where it came from</h3>
+<p>The sixty-fifth finding's end-to-end check answered five of six entity-property lookups and got one wrong: asked for the <strong>boiling</strong> point of iron it returned 1538, the melting point. Both facts sit in one sentence — "Iron melts at 1538 degrees Celsius and boils at 2862 degrees Celsius" — and two hypotheses were offered for it: windows cut mid-sentence, or windows too small to carry the context that disambiguates.</p>
+<p><strong>Both were tested and both are wrong.</strong> Widths 64 through 256 and sentence-aligned windows at four token budgets, eight queries over three pages:</p>
+<p>config                        hit  wrong  declined  windows  batches fixed width=64 stride=32        7      1         0       62        8 fixed width=96 stride=48        4      1         3       38        8 fixed width=128 stride=64       2      1         5       27        8 fixed width=192 stride=96       4      1         3       19        8 fixed width=256 stride=128      5      1         2       11        8 sentence-aligned &lt;=64tok        4      3         1       43       37 sentence-aligned &lt;=96tok        5      1         2       27       27</p>
+<p>Bigger windows lose hits to <em>declines</em>, not to wrong answers — more context makes him less willing to commit rather than better at choosing. And <strong>sentence alignment costs the batching outright</strong>: 43 windows fragment into 37 batches against 62 windows running as 8, because whole sentences have unequal token lengths and <code>BatchedReader</code> needs equal ones — <code>StaticCache.pos</code> is a single scalar shared by every row. That is the reason <code>corn/extract.py</code> chunks by token count, restated as a measurement.</p>
+<p><strong>The <code>wrong</code> column is 1 in every row.</strong> No windowing scheme fixes it, which is what said the defect is not about windows.</p>
+<h3 id="what-it-actually-is">What it actually is</h3>
+<p>Three conditions over four substances, the same two facts each time:</p>
+<p>together (one sentence)   HIT 4/8   SWAPPED 3/8   DECLINED 1/8 split (far apart)         HIT 6/8   SWAPPED 2/8 alone (only one present)  HIT 7/8   DECLINED 1/8</p>
+<p>Asked for the melting point — always stated first — he was right 4 of 4. Asked for the boiling point he was right 0 of 4.</p>
+<p><strong>The control that settles it is flipping the clause.</strong> Six substances, both orders, both questions:</p>
+<p>order        verdicts                    took the FIRST-stated value melt-first   6 correct 5 swapped 1 dec   11 of 11 that answered boil-first   5 correct 5 swapped 2 dec    9 of 10 that answered</p>
+<p><strong>Of the 21 cases where he answered at all, he took the first-stated value 20 times.</strong> Writing "boils at B and melts at A" makes the boiling point the one he gets right and the melting point the one he swaps. Asked-property accuracy — melting 7/12, boiling 4/12 — is entirely an artefact of which clause each fixture happened to put first.</p>
+<p>So the rule the weights implement is <strong>"the first value of the gold's type in the window"</strong>, and the question's property term is not read at all when two candidates of the same type are present.</p>
+<h3 id="it-is-not-a-diversity-gap-in-the-slice-and-that-was-checked">It is not a diversity gap in the slice, and that was checked</h3>
+<p>The obvious repair is more varied training questions. The slice already has the general case: <strong>71% of <code>extract.txt</code>'s answerable windows carry a same-type distractor</strong>, against the frozen eval's 79% (<code>extract_distractor_rate</code> in <code>evals/manifest.json</code>). So the model has seen a competing number in the window 17,772 times and still learned a positional rule.</p>
+<p>What it has <em>not</em> plausibly seen is the narrow case where two candidates share a clause and only a verb separates them — "melts at" against "boils at". A distractor three sentences away is discriminated by every content word around it; a distractor five tokens away is discriminated by one. <code>make_evals.py</code> already names this rule as the thing its distractor rate exists to defeat — "say the first number in the passage is the wrong rule that would score well" — and the eval measures it while the slice does not teach against it.</p>
+<h3 id="what-this-cannot-say">What this cannot say</h3>
+<p><strong>Synthetic fixtures, small n.</strong> Four to six substances per condition, one sentence template, all temperatures in degrees Celsius. This is not the frozen eval and no floor has been measured for it. What carries the weight is the <em>flip</em>: the same fixtures answer differently when the clause order changes, and that comparison is internally controlled.</p>
+<p><strong>Numbers only.</strong> Every gold here is a quantity, so <code>_has_distractor</code>'s digit branch is the one under test. Whether the same positional rule governs the name branch — two capitalised entities in one clause — is unmeasured and is the cheapest extension.</p>
+<p><strong>Temperature 0 throughout</strong>, so there is no decode noise, and equally no evidence about how the rule behaves under sampling.</p>
+<h3 id="what-follows">What follows</h3>
+<p>Two repairs, and they are not alternatives:</p>
+<p>runtime, no training    reject an extraction whose span is not local to the question's distinguishing term. Converts SWAPPED into DECLINED, which the runtime already handles by falling back to the reduced lead sentence — and a wrong number spoken confidently is the one outcome <code>_web_search</code> is built to avoid</p>
+<p>corpus, one arm         paired-property windows where the gold is the <em>second</em> value often enough that "take the first" scores badly. <code>corn/extractgen.py</code> work, a slice rebuild and a fine-tune — about the cost of the sixty-fifth finding's run</p>
+<p>The runtime repair is strictly safer and does not raise the hit rate; the corpus repair is the one that could. <strong>The order matters</strong>: shipping the runtime rejection first means the corpus arm is measured against a base that declines rather than one that answers wrongly, which is the comparison <code>extract.span</code> and <code>extract.abstain</code> are designed to read together.</p></div>
+  </section>
+
+  <section class="grid refs">
+    <div class="body two-even">
+      <div>
+        <h2 class="small">It cites</h2>
+        <p class="aside">No other finding by number.</p>
+      </div>
+      <div>
+        <h2 class="small">Cited by</h2>
+        <ul class="reflist"><li style="--c:var(--c3)"><a href="/Corn-Jr-Public/finding/158.html"><span class="fn">158</span>Wordings seen over ten times get memorised; key phrases become lists</a></li><li style="--c:var(--c2)"><a href="/Corn-Jr-Public/finding/70.html"><span class="fn">70</span>The first-value rule holds on a new fixed test set</a></li><li style="--c:var(--c2)"><a href="/Corn-Jr-Public/finding/72.html"><span class="fn">72</span>Search returned &#39;capital punishment&#39; for &#39;capital of Mongolia&#39;; fixed</a></li><li style="--c:var(--c3)"><a href="/Corn-Jr-Public/finding/74.html"><span class="fn">74</span>Second-turn behaviour installs; compound requests forget how to stop</a></li><li style="--c:var(--c1)"><a href="/Corn-Jr-Public/finding/76.html"><span class="fn">76</span>A single-request control removes the compound requests&#39; copying cost</a></li></ul>
+        
+      </div>
+    </div>
+    <p class="body source">docs/findings/66-the-extractor-takes-the-first-value-of-the-right-type-and-flipping-the-clause-flips-which-question-it-answers.md</p>
+  </section>
+</article>
+
+  
+<footer class="turn">
+  <div><span class="sc">previous</span><a href="/Corn-Jr-Public/finding/65.html">65 · Fine-tuning installs extraction at 260M from zero</a></div>
+  <div class="r"><span class="sc">next</span><a href="/Corn-Jr-Public/finding/70.html">70 · The first-value rule holds on a new fixed test set</a></div>
+  <p class="keys"><kbd>←</kbd> <kbd>→</kbd> turn the page · <kbd>/</kbd> find</p>
+</footer>
+<p class="bynumber">Previous and next in <a href="/Corn-Jr-Public/thread/reading.html">Reading documents</a>. By number:
+  <a href="/Corn-Jr-Public/finding/65.html">65</a> · <a href="/Corn-Jr-Public/finding/67.html">67</a></p>
+
+</div>
+</body>
+</html>

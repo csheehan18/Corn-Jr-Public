@@ -1,0 +1,104 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>36 · Reply length inflates the measured style gain, but the gain survives · Corn-Jr</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600&family=IBM+Plex+Mono:wght@400;500&family=Spectral:ital,wght@0,400;0,500;0,600;1,400&family=Spectral+SC:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/Corn-Jr-Public/static/library.css">
+<script defer src="/Corn-Jr-Public/static/library.js"></script>
+<script type="speculationrules">
+{"prerender": [{"where": {"and": [{"href_matches": "/Corn-Jr-Public/*"}, {"not": {"href_matches": "/Corn-Jr-Public/random.html"}}, {"not": {"href_matches": "/Corn-Jr-Public/static/*"}}]}, "eagerness": "moderate"}]}
+</script>
+
+</head>
+<body>
+<div class="page">
+  <header class="running">
+    <a class="book" href="/Corn-Jr-Public/">Corn-Jr · The Record</a>
+    <nav>
+      <a href="/Corn-Jr-Public/" data-key="shelf">Shelf</a><a href="/Corn-Jr-Public/findings.html" data-key="findings" class="here">Findings</a><a href="/Corn-Jr-Public/doc/VISION.html" data-key="VISION">Vision</a><a href="/Corn-Jr-Public/doc/GLOSSARY.html" data-key="GLOSSARY">Glossary</a>
+      <a href="https://github.com/csheehan18/Corn-Jr-Public">Source</a>
+    </nav>
+  </header>
+  
+
+<article class="sheet" style="--c:var(--c3)">
+  <div class="progress" aria-hidden="true"></div>
+  <section class="grid chapter-open finding-open">
+    <a class="tab" href="/Corn-Jr-Public/thread/conversation.html" title="Conversation and the second turn"><small>Part</small><span>III</span></a>
+    <p class="cn">36</p>
+    <p class="partline"><a href="/Corn-Jr-Public/thread/conversation.html">Conversation and the second turn</a> · 18 August 2026</p>
+    <h1>Reply length inflates the measured style gain, but the gain survives</h1>
+  </section>
+
+  <section class="grid">
+    <p class="marginal">The result, as the finding states it</p><div class="prose"><p class="lead">The length confound is real, it is small, and turn 1 was the control sitting in the file the whole time</p></div>
+    <p class="marginal">What it cost</p><div class="prose"><p class="cost">8.0 min of scoring on the 2 cards first cited here (<code>nano20m_v1_chat_seed2</code>, <code>nano20m_v1_seed2</code>); it also reads 2 cards scored for an earlier finding (<code>nano20m_v1</code>, <code>nano20m_v1_chat</code>). Backfilled 2026-09-26 from the cards' <code>seconds</code>; training and probe time were never recorded, so this is a floor.</p></div>
+  </section>
+
+  
+
+  <section class="grid">
+    <div class="prose doc"><p>The handoff that opened <code>turn2_reply.*</code> named the thing that stopped it being a claim: replies after a <code>talk</code> preamble are <strong>longer</strong> than after a <code>tool</code> one — median 7/8, 7/10, 11/12, 11/12 across the four checkpoints — and pooled distinct-3 is not independent of length. <em>"A conversational preamble carries register into the next turn"</em> and <em>"a conversational preamble makes him say more"</em> both fit every number in that table, and it said so rather than picking one.</p>
+<p>This is the length-controlled read. <strong>The confound is real, it inflates the gap by roughly 0.005 to 0.015, and the gap survives removing it on four checkpoints of four.</strong> No GPU was needed for the analysis and none of the published numbers moved.</p>
+<h3 id="nothing-was-re-generated-and-that-is-checkable">Nothing was re-generated, and that is checkable</h3>
+<p><code>_reply_aggregate</code> was already pure — "no model, no rng, no clock" — and <code>_reply_records</code> seeds generation to <code>seed + i</code> per item index. So retaining every reply instead of <code>max_samples</code>' eight cannot change a scored quantity, and re-scoring the four checkpoints reproduces <strong>every aggregate in every cell to the digit: zero mismatches</strong> across <code>first</code>, <code>second</code>, <code>first_by_preamble</code> and <code>second_by_preamble</code> on all four. The <code>records</code> block added to <code>evaluate_turn2_reply</code> is the whole change, and it makes every future length question a re-analysis rather than another 4× pass.</p>
+<p><code>HARNESS_VERSION</code> stays 1. No scored quantity changed meaning; a field was added beside them.</p>
+<h3 id="the-second-confound-which-the-handoff-table-did-not-mention">The second confound, which the handoff table did not mention</h3>
+<p>The 200 utterances are <strong>disjoint between the cells</strong> — 100 carry a <code>tool</code> preamble, 100 carry a <code>talk</code> one, and <code>check_evals.py</code> asserts no utterance appears in both. So the raw <code>talk − tool</code> column is partly a difference between two sets of openings rather than between two preambles.</p>
+<p>The control for it was already in the harness and unused: <code>first_by_preamble</code> scores those same two item sets <strong>at turn 1, where there is no preamble at all</strong>. Differencing it out is the difference-in-differences, and it matters — at turn 1 the item sets do not favour <code>talk</code> consistently, and on <code>nano20m_v1</code> they run 0.9332 against 0.9056 the <em>other</em> way.</p>
+<p>Length is a separate problem and DiD does not touch it, because the length gap is <strong>created by the preamble</strong> rather than inherited from the items: the medians are equal or near-equal at turn 1 and split only at turn 2.</p>
+<h3 id="four-reads-of-the-same-contrast">Four reads of the same contrast</h3>
+<p><code>talk − tool</code> distinct-3 at turn 2, within checkpoint. <code>matched</code> is exact length-distribution matching — for each reply length take <code>min(count_tool, count_talk)</code> from each cell, so both sides carry an identical length histogram and therefore an identical trigram-pool size.</p>
+<div class="tablewrap"><table><thead><tr><th>checkpoint</th><th>med w</th><th>raw</th><th>DiD</th><th>matched</th><th>[p5, p95]</th><th>kept</th><th>matched t1</th><th>matched DiD</th></tr></thead><tbody><tr><td><code>nano20m_v1</code></td><td>7/8</td><td>+0.0818</td><td>+0.1094</td><td><strong>+0.0664</strong></td><td>[+0.0379, +0.0924]</td><td>70</td><td>−0.0286</td><td>+0.0949</td></tr><tr><td><code>nano20m_v1_seed2</code></td><td>7/10</td><td>+0.0619</td><td>+0.0397</td><td><strong>+0.0491</strong></td><td>[+0.0245, +0.0716]</td><td>65</td><td>+0.0025</td><td>+0.0466</td></tr><tr><td><code>nano20m_v1_chat</code></td><td>11/12</td><td>+0.0345</td><td>+0.0506</td><td><strong>+0.0344</strong></td><td>[+0.0180, +0.0492]</td><td>72</td><td>−0.0229</td><td>+0.0573</td></tr><tr><td><code>nano20m_v1_chat_seed2</code></td><td>11/12</td><td>+0.0777</td><td>+0.0596</td><td><strong>+0.0702</strong></td><td>[+0.0583, +0.0808]</td><td>79</td><td>+0.0155</td><td>+0.0547</td></tr></tbody></table></div>
+<p><strong>Positive on 4 of 4 under every control, and the draw interval never crosses zero.</strong> The matched gap is <em>smaller</em> than the raw gap on three of four and unchanged on the fourth, which is the size of the confound: it was real and it was worth ~0.005–0.015, not ~0.05.</p>
+<p><strong>The <code>matched t1</code> column is the sharpest thing here.</strong> Length-matched, with no preamble in front of either cell, the <code>talk</code> items carry no advantage at all — two of four are negative. The gap appears exactly when the preamble does.</p>
+<h3 id="what-this-does-not-license">What this does not license</h3>
+<div class="tablewrap"><table><thead><tr><th>quantity</th><th>range across 4</th><th>within-arm seed spread</th><th>verdict</th></tr></thead><tbody><tr><td>raw</td><td>[+0.0345, +0.0818]</td><td>0.0431</td><td>direction holds, size unresolved</td></tr><tr><td>DiD</td><td>[+0.0397, +0.1094]</td><td>0.0696</td><td>direction holds, size unresolved</td></tr><tr><td>matched</td><td>[+0.0344, +0.0702]</td><td>0.0358</td><td>direction holds, size unresolved</td></tr><tr><td>matched DiD</td><td>[+0.0466, +0.0949]</td><td>0.0483</td><td>direction holds, size unresolved</td></tr></tbody></table></div>
+<p><strong>Not one of the four clears the seed spread that produced it.</strong> <code>scripts/effect.py</code>'s argument applies here unchanged — two seeds are a spread and not a standard deviation — so what this finding adds is that <em>length does not explain the gap</em>, and <strong>no interval for its size exists</strong>. The thirtieth finding's rule is the reason this table is printed rather than a single number.</p>
+<p><strong>This is a within-checkpoint contrast and is not the trap.</strong> The handoff's standing caution is about the <code>tool</code> cell separating <em>arm from baseline</em> at a margin of 0.0106 against a within-arm spread of 0.0474. Nothing above quotes that comparison. <code>talk</code> against <code>tool</code> inside one checkpoint is a different contrast with a different denominator.</p>
+<h3 id="the-mechanism-that-would-have-explained-it-away-ruled-out">The mechanism that would have explained it away, ruled out</h3>
+<p>The obvious way length produces this without any register story: short replies are where canned text lives, twenty replies of "Okay." share every trigram they have, and the shorter cell scores low for being repetitive rather than for being flat.</p>
+<p><strong>It is not happening.</strong> Duplicate-reply rate in the <code>tool</code> cell is 0.010, 0.020, 0.010, 0.030 — the most repeated reply in any cell appears <strong>two or three times in a hundred</strong> (<code>&quot;i&#x27;m doing&quot;</code>, <code>&quot;i don&#x27;t have a problem&quot;</code>, <code>&quot;of course what&#x27;s up&quot;</code>, <code>&quot;not much what&#x27;s up with you&quot;</code>). The <code>talk</code> cell is 0.000–0.020, i.e. the same. Whatever the <code>tool</code> cell is doing worse, it is not saying the same sentence repeatedly, and the diversity difference is finer-grained than verbatim repetition.</p>
+<h3 id="the-one-read-that-dissents-kept-because-it-does">The one read that dissents, kept because it does</h3>
+<p>Truncating every reply to its first <code>K</code> words gives each one exactly <code>K − 2</code> trigrams:</p>
+<pre><code>nano20m_v1             3:+0.155  5:+0.184  7:+0.167  9:+0.122  11:+0.008  13:-0.013  14:-0.038
+nano20m_v1_seed2       3:+0.055  5:+0.091  7:+0.078  9:+0.099  11:+0.057  13:+0.069  16:+0.007
+nano20m_v1_chat        3:-0.010  5:+0.047  7:+0.049  9:+0.060  11:+0.010  13:-0.033  16:+0.003
+nano20m_v1_chat_seed2  3:+0.168  5:+0.131  7:+0.074  9:+0.067  11:+0.071  13:+0.065  16:+0.046</code></pre>
+<p>The gap is large in the opening words and <strong>decays toward zero, crossing it on two of four checkpoints by <code>K ≈ 12</code></strong>. Two readings fit: the effect lives in how he <em>opens</em> the second turn and washes out once enough of the reply is read, or the long tail is thin and this is the sample shrinking. Both are consistent with the matched read, which is why the matched read is the headline and this one is printed underneath it rather than averaged in.</p>
+<h3 id="what-it-costs-to-go-further">What it costs to go further</h3>
+<p>Nothing, for the re-analysis: <code>scripts/length_control.py</code> reads the retained records and the four result files are on disk. Sizing the effect needs more seeds, and the thirty-first finding is the standing warning about what that buys — this one does not claim the extra seeds are worth it.</p>
+<p>.venv/Scripts/python.exe scripts/length_control.py \ --base nano20m_v1 nano20m_v1_seed2 \ --treat nano20m_v1_chat nano20m_v1_chat_seed2</p></div>
+  </section>
+
+  <section class="grid refs">
+    <div class="body two-even">
+      <div>
+        <h2 class="small">It cites</h2>
+        <p class="aside">No other finding by number.</p>
+      </div>
+      <div>
+        <h2 class="small">Cited by</h2>
+        <p class="aside">No later finding yet.</p>
+      </div>
+    </div>
+    <p class="body source">docs/findings/36-the-length-confound-is-real-and-small-and-turn-one-was-the-control.md</p>
+  </section>
+</article>
+
+  
+<footer class="turn">
+  <div><span class="sc">previous</span><a href="/Corn-Jr-Public/finding/26.html">26 · He knows where a turn ends; the long replies were our fault</a></div>
+  <div class="r"><span class="sc">next</span><a href="/Corn-Jr-Public/finding/49.html">49 · Second-turn data teaches him to talk, at a cost to deferring</a></div>
+  <p class="keys"><kbd>←</kbd> <kbd>→</kbd> turn the page · <kbd>/</kbd> find</p>
+</footer>
+<p class="bynumber">Previous and next in <a href="/Corn-Jr-Public/thread/conversation.html">Conversation and the second turn</a>. By number:
+  <a href="/Corn-Jr-Public/finding/35.html">35</a> · <a href="/Corn-Jr-Public/finding/37.html">37</a></p>
+
+</div>
+</body>
+</html>

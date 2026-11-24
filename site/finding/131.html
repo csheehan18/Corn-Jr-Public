@@ -1,0 +1,100 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>131 · Once the runtime enforces the label, a forged one is obeyed 36/36 · Corn-Jr</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600&family=IBM+Plex+Mono:wght@400;500&family=Spectral:ital,wght@0,400;0,500;0,600;1,400&family=Spectral+SC:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/Corn-Jr-Public/static/library.css">
+<script defer src="/Corn-Jr-Public/static/library.js"></script>
+<script type="speculationrules">
+{"prerender": [{"where": {"and": [{"href_matches": "/Corn-Jr-Public/*"}, {"not": {"href_matches": "/Corn-Jr-Public/random.html"}}, {"not": {"href_matches": "/Corn-Jr-Public/static/*"}}]}, "eagerness": "moderate"}]}
+</script>
+
+</head>
+<body>
+<div class="page">
+  <header class="running">
+    <a class="book" href="/Corn-Jr-Public/">Corn-Jr · The Record</a>
+    <nav>
+      <a href="/Corn-Jr-Public/" data-key="shelf">Shelf</a><a href="/Corn-Jr-Public/findings.html" data-key="findings" class="here">Findings</a><a href="/Corn-Jr-Public/doc/VISION.html" data-key="VISION">Vision</a><a href="/Corn-Jr-Public/doc/GLOSSARY.html" data-key="GLOSSARY">Glossary</a>
+      <a href="https://github.com/csheehan18/Corn-Jr-Public">Source</a>
+    </nav>
+  </header>
+  
+
+<article class="sheet" style="--c:var(--c4)">
+  <div class="progress" aria-hidden="true"></div>
+  <section class="grid chapter-open finding-open">
+    <a class="tab" href="/Corn-Jr-Public/thread/tag-spine.html" title="The tag spine"><small>Part</small><span>IV</span></a>
+    <p class="cn">131</p>
+    <p class="partline"><a href="/Corn-Jr-Public/thread/tag-spine.html">The tag spine</a> · 12 September 2026</p>
+    <h1>Once the runtime enforces the label, a forged one is obeyed 36/36</h1>
+  </section>
+
+  <section class="grid">
+    <p class="marginal">The result, as the finding states it</p><div class="prose"><p class="lead">The tag becomes the door, and the door is the runtime's: the role grammar alone takes the whole tree from eighteen and twenty-four to forty-five and fifty-one of sixty on an unmasked checkpoint, the structural mask costs nothing and adds nothing measurable, a forged tag is obeyed thirty-six of thirty-six once the copy is bound, and a follow-up composes what no copy slot can source</p></div>
+    
+  </section>
+
+  
+
+  <section class="grid">
+    <div class="prose doc"><p>PLAN-TAG-SPINE rung 1 and the tail of rung 0, read 2026-09-12. Two nano arms, <code>S</code> at two seeds, trained on arm B's file byte for byte under the structural mask (<code>configs/mix_v3_decomp_s.py</code>, pre-registered before a byte trained; a first seed discarded, below). Read against B's own cards, and — because every piece of the binding except the mask is a decode-time constraint — read <em>on B as well</em>, so that mask, grammar and copy separate on the same checkpoints. Nothing else retrained. Twelve readings of the decomposition rows, seven forged-structure probes, four rung-0 probes.</p>
+<h3 id="the-question">The question</h3>
+<p>Finding <a class="fref" href="/Corn-Jr-Public/finding/130.html">130</a>: a tag he <em>may</em> read is never read while the words decide the call, at either layer, with or without the request under loss. PLAN-TAG-SPINE §4 made the tag the door instead: while a call line is written the request tokens of every other part are masked out of attention (trained and served), the grammar admits only the declared tools of the focused leaf's role, and the copy slot admits only the leaf's words and the last answer. <strong>Does the mask cost anything on trained rows, and how much of the door is the mask?</strong></p>
+<h3 id="the-answer-the-door-is-the-grammar-and-the-copy-and-both-are">The answer: the door is the grammar and the copy, and both are the runtime's</h3>
+<p>decomposition rows, 120/120/60/50     B    +role  +full    B s2  +role  +full    S-   +role  +full    S- s2  +role  +full parse.span                            77     77     77      78     78     78     79     79     79      82     82     82 move.next                             96    114    116      97    114    117    104    116    116     102    114    116 move.args                            120    120    120     115    118    120    118    120    120     113    119    120 e2e.tree                              18     45     45      24     51     51     20     45     45      33     50     50 e2e.rebind                            48     48     48      49     49     49     50     50     50      48     48     48</p>
+<p><code>+role</code> is <code>--role-bind</code> (the grammar admits the focused leaf's tools); <code>+full</code> adds <code>--copy-bind</code> (the string slots copy from the leaf's words and the last answer). <code>S-</code> is the masked checkpoint read under the mask alone.</p>
+<p><strong>The grammar alone, on the unmasked B, takes the whole tree from 18 and 24 to 45 and 51 of 60, and the route from 96 and 97 to 114 and 114.</strong> The copy binding adds two on the route and takes <code>move.args</code> to 120 on every checkpoint. <strong>The mask adds nothing measurable</strong>: S- sits inside B's band on every row, and S under the same bindings reads what B does under them, seed for seed. The parse rows are untouched everywhere, as they should be — parse positions are unmasked.</p>
+<p>The whole tree is near the world's ceiling under the binding: sixteen of the sixty tree items declare two tools of one role, the generator always takes the first declared, and the label cannot choose between them. The <code>wrong_tool</code> that remains — 9, 12, 6 — lives inside that set.</p>
+<p><strong>The band.</strong> <code>tool.copy</code> 120/120 on both S seeds, <code>tool.copy_wide</code> 299 and 291, <code>temporal.*</code> flat. <code>tool.selection</code> reads 99 and 115 against B's 128 and 118, on the row whose seed spread has run to 35 on every arm that carries the world (finding <a class="fref" href="/Corn-Jr-Public/finding/129.html">129</a>, <a class="fref" href="/Corn-Jr-Public/finding/130.html">130</a>): direction down, size unreadable at two seeds, and it is the world's 5% declared-tools slice again, not the mask — S- and B share the file.</p>
+<p><strong>The mask's cost.</strong> 9% a training step compiled, measured before the run (probe only — not on disk); on the payload's own validation split the masked call lines are <em>easier</em>, decomp 0.343 against 0.454, with every other source within a hundredth — a distractor removed, which is the inductive bias doing its one job.</p>
+<h3 id="the-forged-structure-invention-then-obedience-by-constructio">The forged structure: invention, then obedience by construction</h3>
+<p><code>probe_depth.py --forge label --structure</code>: the two children of a <code>do</code> swapped, so the first call executes the span the forgery calls a lookup. Readable denominator 36 of 60 — the other 24 are items whose first call was never the forged part, and they are exactly the "neither" every arm since B has carried on this probe.</p>
+<p>of the 36 readable                      follows forged   follows gold   invents porous mask (first seed, discarded)          0               31            5 mask                                         0                0        35 / 32 mask + role                                  0                0        36 / 36 mask + role + copy                       36 / 31              0        0 / 5 B, never masked, + mask + role + copy       36                0            0</p>
+<p>Three readings, in order. <strong>The first mask was porous</strong>: it hid the request's other parts and left their copies on the parse line, and he took the gold span from the line above 31 times — caught by this probe on the first checkpoint, the streams rebuilt so a part's words carry its id wherever they appear, and on the porous checkpoint under the fixed mask the gold span reads 0 of 30. <strong>Under the tight mask he invents</strong>: handed a send-span with no subject in it, he composes one around the visible name — <code>the founding year of Kelunlvstone</code> from <code>fire it over to Kelunlvstone</code> — finding <a class="fref" href="/Corn-Jr-Public/finding/98.html">98</a>'s mechanism arriving when the words are taken away. <strong>Under the copy binding invention is impossible</strong> and he follows the forged tag 36 of 36 (seed 2: 31, five unparseable), copying a fragment of what he was shown (<code>fire</code>, <code>along</code>, <code>send</code>) — provenance guaranteed, sense not, because the forgery gave the lookup nothing sensible to copy. And B, which never saw a mask, reads 36 of 36 under the same three constraints.</p>
+<p><strong>So "load-bearing by construction" is literal, and it is the runtime's construction.</strong> The weights contribute the parse. Everything that makes the parse govern the call — which tool, which words — is a constraint at decode that any checkpoint with the parse obeys.</p>
+<h3 id="the-one-thing-the-copy-slot-could-not-hold-the-follow-up">The one thing the copy slot could not hold: the follow-up</h3>
+<p>Under the copy binding as first written, <code>e2e.rebind</code> read <strong>5, 28, 5, 28 of 50</strong> where it reads 48-50. A follow-up's argument is the previous turn's frame with a new entity bound in — <code>the capital of spain</code> from <code>the capital of france</code> and <code>what about spain?</code> — which is a contiguous span of nothing (PLAN-DECOMPOSE §4 says so; this is what it costs). So <strong>the label decides which binding applies</strong>: <code>find</code>, <code>send</code> and <code>note</code> copy and are held to the span and the answer; <code>follow</code> composes and is role-bound only. Under that rule the table above holds and the re-bind is back at 48-50 everywhere.</p>
+<h3 id="rung-0-s-tail-corrected">Rung 0's tail, corrected</h3>
+<p>The A1 probe (<code>scripts/probe_rolebind.py</code>) read the role door at +2 on <code>move.next</code> because it kept its own leaf table — no <code>do</code> leaf, no <code>follow</code>, surface order — and bound the wrong role where those govern. The scorer's <code>--role-bind</code> on the same checkpoints is the read above: +18 on the route and +27 on the tree. The probe now takes its tables from the one place that defines them. A2 (the state line halving the repeat under the route header, 40 to 19 of 192) and A3 (his label a bag of words at 0.641 held out) stand as read.</p>
+<h3 id="what-this-licenses">What this licenses</h3>
+<p>PLAN-TAG-SPINE §8, rung 1's row: <em>S inside B's band on trained rows and the copy band; copy under forged structure at or above 80%</em> — both clauses hold, the second under the full binding. <strong>The gate to rung 2 is open</strong>, with the reading sharpened: the mask is not the door, the grammar and the copy are, and they ship as runtime rules with no training run. What rung 2 asks is whether a label learned as a function can be <em>written</em> for a shape he was never shown; nothing here touches that — <code>parse.heldout</code> and <code>parse.depth3</code> are zero on every reading in this finding, as on every arm before it.</p>
+<h3 id="instruments">Instruments</h3>
+<ul><li>The porous mask, caught by the forged probe on the first checkpoint and refused by <code>check_decomp_scorer.py</code> group 7, which now reads the visible text of a focused query and rejects any other leaf's span in it.</li><li><code>CopySpec</code> keys a slot by <code>(tool, slot)</code>, and the first copy binding passed bare slot names, which matched nothing; the walk test that caught it (<code>invented: accepted</code>) is the kind of negative control this repo requires.</li><li>The probe's readable denominator is 36 of 60 and always was; every "neither" count on this probe since finding <a class="fref" href="/Corn-Jr-Public/finding/129.html">129</a> is that set.</li><li><code>structure_for_text</code> disagreed with the generator's execution order on 115 of 399 turns (<code>follow</code>) and then 16 (<code>do</code> as a leaf) before it agreed on 535; the guard holds the agreement.</li></ul>
+<h3 id="limits">Limits</h3>
+<p>Two seeds per arm, so directions (rule 6). A dummy world whose labels are lexical (A3), so a bound tag is only as right as the parse, and on unseen carriers the parse is wrong. The mask's contribution is unmeasurable here because the words never fail; a world where they do is rung 2's. The tree ceiling from duplicated roles is the world's, and a description binding (finding <a class="fref" href="/Corn-Jr-Public/finding/34.html">34</a>'s) would lift it. The copy binding guarantees provenance and not sense: under a wrong structure he copies a fragment, and the runtime that ships this should treat a call whose argument is a lone word as a refusal rather than an answer.</p></div>
+  </section>
+
+  <section class="grid refs">
+    <div class="body two-even">
+      <div>
+        <h2 class="small">It cites</h2>
+        <ul class="reflist"><li style="--c:var(--c1)"><a href="/Corn-Jr-Public/finding/34.html"><span class="fn">34</span>He picks tools he never saw in training, but can&#39;t say no</a></li><li style="--c:var(--c2)"><a href="/Corn-Jr-Public/finding/98.html"><span class="fn">98</span>A generated question frame invents relations more than a hand-written one</a></li><li style="--c:var(--c4)"><a href="/Corn-Jr-Public/finding/129.html"><span class="fn">129</span>He learns to label his own request; forcing labels doesn&#39;t change calls</a></li><li style="--c:var(--c4)"><a href="/Corn-Jr-Public/finding/130.html"><span class="fn">130</span>A label in the text is a hint, never the decision</a></li></ul>
+        
+      </div>
+      <div>
+        <h2 class="small">Cited by</h2>
+        <ul class="reflist"><li style="--c:var(--c4)"><a href="/Corn-Jr-Public/finding/132.html"><span class="fn">132</span>Rotary position embeddings beat learned positions on most tests</a></li><li style="--c:var(--c4)"><a href="/Corn-Jr-Public/finding/133.html"><span class="fn">133</span>On a synthetic world he generalises labels but not one level deeper</a></li><li style="--c:var(--c4)"><a href="/Corn-Jr-Public/finding/134.html"><span class="fn">134</span>He learns to write a summary line of conversation state</a></li></ul>
+        
+      </div>
+    </div>
+    <p class="body source">docs/findings/131-the-tag-becomes-the-door-and-the-door-is-the-runtimes-the-role-grammar-alone-takes-the-tree-from-eighteen-to-forty-five-of-sixty-on-an-unmasked-checkpoint-and-the-mask-adds-nothing.md</p>
+  </section>
+</article>
+
+  
+<footer class="turn">
+  <div><span class="sc">previous</span><a href="/Corn-Jr-Public/finding/130.html">130 · A label in the text is a hint, never the decision</a></div>
+  <div class="r"><span class="sc">next</span><a href="/Corn-Jr-Public/finding/132.html">132 · Rotary position embeddings beat learned positions on most tests</a></div>
+  <p class="keys"><kbd>←</kbd> <kbd>→</kbd> turn the page · <kbd>/</kbd> find</p>
+</footer>
+<p class="bynumber">Previous and next in <a href="/Corn-Jr-Public/thread/tag-spine.html">The tag spine</a>. By number:
+  <a href="/Corn-Jr-Public/finding/130.html">130</a> · <a href="/Corn-Jr-Public/finding/132.html">132</a></p>
+
+</div>
+</body>
+</html>

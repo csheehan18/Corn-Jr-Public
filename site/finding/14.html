@@ -1,0 +1,97 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>14 · The JSON data taught the format but not copying field names · Corn-Jr</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600&family=IBM+Plex+Mono:wght@400;500&family=Spectral:ital,wght@0,400;0,500;0,600;1,400&family=Spectral+SC:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/Corn-Jr-Public/static/library.css">
+<script defer src="/Corn-Jr-Public/static/library.js"></script>
+<script type="speculationrules">
+{"prerender": [{"where": {"and": [{"href_matches": "/Corn-Jr-Public/*"}, {"not": {"href_matches": "/Corn-Jr-Public/random.html"}}, {"not": {"href_matches": "/Corn-Jr-Public/static/*"}}]}, "eagerness": "moderate"}]}
+</script>
+
+</head>
+<body>
+<div class="page">
+  <header class="running">
+    <a class="book" href="/Corn-Jr-Public/">Corn-Jr · The Record</a>
+    <nav>
+      <a href="/Corn-Jr-Public/" data-key="shelf">Shelf</a><a href="/Corn-Jr-Public/findings.html" data-key="findings" class="here">Findings</a><a href="/Corn-Jr-Public/doc/VISION.html" data-key="VISION">Vision</a><a href="/Corn-Jr-Public/doc/GLOSSARY.html" data-key="GLOSSARY">Glossary</a>
+      <a href="https://github.com/csheehan18/Corn-Jr-Public">Source</a>
+    </nav>
+  </header>
+  
+
+<article class="sheet" style="--c:var(--c1)">
+  <div class="progress" aria-hidden="true"></div>
+  <section class="grid chapter-open finding-open">
+    <a class="tab" href="/Corn-Jr-Public/thread/tool-calls.html" title="Tool calls and copying"><small>Part</small><span>I</span></a>
+    <p class="cn">14</p>
+    <p class="partline"><a href="/Corn-Jr-Public/thread/tool-calls.html">Tool calls and copying</a> · 17 August 2026</p>
+    <h1>The JSON data taught the format but not copying field names</h1>
+  </section>
+
+  <section class="grid">
+    <p class="marginal">The result, as the finding states it</p><div class="prose"><p class="lead">The same bug, a third time, and the rule it settles into</p></div>
+    
+  </section>
+
+  
+
+  <section class="grid">
+    <div class="prose doc"><p>DATA.md §4's structured-formats slice is 10% of the budget, for "schema-constrained decoding (§6) needs priors". <code>corn/structured.py</code> generates it: a form declares some fields and types, writes the values out as bare text, and the model builds the JSON object. One right answer, fully checkable, and no sentences in it — so unlike the tool slice it can be generated to its full declared share at one pass, which no §4 slice had managed before.</p>
+<p><strong>The first version scored 0/200 and the failure was not what the number suggests.</strong></p>
+<div class="tablewrap"><table><thead><tr><th></th><th>floor</th><th>first slice</th><th><strong>rebuilt slice</strong></th></tr></thead><tbody><tr><td><code>schema.conform</code></td><td>0/200</td><td>0/200</td><td><strong>194/200</strong></td></tr><tr><td>parses as an object</td><td>0/200</td><td>101/200</td><td>—</td></tr><tr><td>values right, ignoring keys</td><td>0/200</td><td><strong>83/200</strong></td><td>—</td></tr><tr><td>key qualifiers from <em>training</em></td><td>—</td><td><strong>308 / 318</strong></td><td>—</td></tr><tr><td>key qualifiers from the <em>declaration</em></td><td>—</td><td><strong>0</strong></td><td>—</td></tr></tbody></table></div>
+<p>The first slice taught the transformation and not the copying. It punctuated JSON correctly, quoted strings, left integers bare, and got the values exactly right in 82% of everything it parsed — then wrote <code>segment_weight</code> where the declaration two lines above said <code>beacon_weight</code>. <strong>Not one key in 318 used a held-out qualifier.</strong></p>
+<p>The cause was mine and it was the twelfth finding's cause exactly: field names came from 20 qualifiers × 20 nouns, so each qualifier appeared ~170 times and the <em>set</em> was memorisable. Substituting a training qualifier was a strategy that worked on the training distribution, so the declaration never had to be read — the same sentence as "a model can score 100% on <code>web_search</code> without ever reading <code>&lt;|obs|&gt;</code>", one slice over.</p>
+<p>Rebuilt with 5,400 invented qualifiers per side at ~13 uses each, against real shared nouns, the row reads <strong>194/200</strong>, and the six remaining failures are <code>missing_key 5</code> and <code>wrong_value 1</code>. <strong>Zero <code>not_json</code>, zero <code>wrong_type</code>, zero <code>wrong_order</code>.</strong></p>
+<h4 id="the-rule-now-that-it-has-cost-three-findings">The rule, now that it has cost three findings</h4>
+<blockquote><p><strong>Any span the model is supposed to copy must come from a space too large to learn as a set.</strong></p></blockquote>
+<p>Three instances, each found by measurement rather than by inspection, and each looking like a different problem at the time:</p>
+<div class="tablewrap"><table><thead><tr><th></th><th>what was copied</th><th>space</th><th>exposures</th><th>result</th></tr></thead><tbody><tr><td>twelfth</td><td>a search answer</td><td>28 facts</td><td>107</td><td>0/120 → 120/120 when rebuilt</td></tr><tr><td>fourteenth</td><td>a field name</td><td>400 names</td><td>170</td><td>0/200 → 194/200 when rebuilt</td></tr><tr><td>sixth</td><td>a year</td><td><code>ANCHOR_END</code> is one value</td><td>—</td><td>every failure clamps to it</td></tr></tbody></table></div>
+<p>The sixth finding is the same shape read backwards: the year was the one field of the tool's answer that did <em>not</em> vary in training, and it was the only field the fine-tuned models got wrong. A constant is a set of size one.</p>
+<p>What makes this a rule rather than three anecdotes is that the failure is invisible in training loss and invisible in the slice — both corpora are exactly correct, and a checker that verifies every record against its declaration passes on both. It surfaces only as a behaviour row reading zero, weeks later, on an eval built to catch something else.</p>
+<h4 id="so-it-is-a-guard-now-not-a-lesson">So it is a guard now, not a lesson</h4>
+<p><code>scripts/check_copyable.py</code> runs over every slice in <code>data/raw/</code>. Each declares where it asks the model to copy; each declared slot is measured for <em>effective cardinality</em> — the perplexity of its value distribution, so a slot where one value covers half the mass does not score as a full one. <strong>An undeclared slice fails rather than passes.</strong> That is the part that would have prevented all three: nobody forgot to check the cardinality, they forgot that cardinality was a thing to check, and a corpus that cannot be added without declaring its copy slots removes the opportunity. <code>--propose</code> mines candidates for a new slice by finding substrings carried between two lines of the same example, which is the copy relation stated directly.</p>
+<p><strong>The thresholds are validated on every run rather than trusted.</strong> The guard rebuilds the two corpora that actually shipped the bug — the 28-fact index and the 400-name vocabulary — and asserts it still calls them memorisable (5 and 394 effective values), then asserts it still accepts the rebuilt one (42,181). A detector that has quietly stopped detecting is the same failure mode as the fixture that quietly stopped testing, three sections up.</p>
+<p>Building it corrected the rule twice. <strong>It is cardinality, not exposure count</strong>: the temporal slice's 1,442 dates at <em>122 uses each</em> read <code>temporal.copy</code> 353/353, against 28 facts at 107 uses reading 0/120 — near-identical recurrence, opposite outcomes. And one slot refuses the rule outright: <code>contact</code> has 57 effective values at 101 uses, which should be memorisable, and <code>tool.validity</code> reads 175/181 with <strong>zero of 45 <code>send_text</code> items failing on held-out contacts</strong>. Either the rule is really about whether the target is in the model's general vocabulary — <code>Thaddeus</code> is English, <code>eskemere</code> is not — or about whether the mapping is an identity rather than a lookup. Both are testable and neither is tested, so the guard records the exception with its evidence instead of tuning the threshold until it disappears.</p>
+<h4 id="wrong-type-is-zero-which-is-a-claim-about-phase-3"><code>wrong_type</code> is zero, which is a claim about Phase 3</h4>
+<p>VISION §6 wants a model <em>unable</em> to emit a malformed call, via grammar-constrained decoding, and <code>tool.validity</code> exists to measure how badly that is needed. This row says something sharper: given data that requires it, a 25M model gets <strong>every type right on 200 schemas it has never seen</strong> — quoted strings, bare integers, bare lowercase booleans, bracketed lists. The constraint layer is still worth building for the guarantee, but it is not carrying correctness that the corpus cannot supply.</p>
+<h4 id="three-bugs-the-guards-caught-none-of-which-would-have-raised">Three bugs the guards caught, none of which would have raised an error</h4>
+<ul><li><strong>Overcorrection.</strong> Composing both halves of a field name from invented pools made the median name <strong>12 tokens</strong>, so a five-field record needed 60 tokens of exact identifier copying — the row would have failed for reasons with nothing to do with schemas. Nouns went back to being real and shared; only the qualifier is held out, which is also the more realistic shape.</li><li><strong>Form names leaked the holdout.</strong> <code>form: cororburg_entry</code> drew from a syllable pool that overlapped the qualifier pool, so held-out qualifiers appeared in training as form names. A holdout is only as good as the whole file, not the column being held out.</li><li><strong>Then the leak check was too strict.</strong> <code>esk</code>, <code>hesk</code> and <code>mesk</code> are all onsets, so the training identifier <code>meskemere</code> <em>contains</em> the held-out <code>eskemere</code> while being a different identifier. Word-bounded matching, the same distinction the <code>trained_answer</code> scorer needed.</li></ul>
+<h4 id="what-it-cost-and-what-that-says-about-10">What it cost, and what that says about 10%</h4>
+<div class="tablewrap"><table><thead><tr><th></th><th>floor</th><th>struct</th></tr></thead><tbody><tr><td><code>tool.copy</code></td><td>120/120</td><td><strong>99/120</strong></td></tr><tr><td><code>tool.validity</code></td><td>175/181</td><td>168/181</td></tr><tr><td><code>narrative</code> nats/byte</td><td>0.3665</td><td>0.3715</td></tr><tr><td><code>web</code> nats/byte</td><td>0.9098</td><td>0.9174</td></tr></tbody></table></div>
+<p><code>temporal.copy</code>, both refusal rows and <code>tool.selection</code> are unmoved. But 10% of the budget spent here costs 21 items of <code>tool.copy</code> and about 1% of prose, which is the seventh finding's "slices compete" showing up for the fourth time. <strong>Whether 10% is the right share is now exactly the question the eleventh finding asked about the tool slice's 15%, and it has the same cheap answer available:</strong> run it at 2% and see how much of the 194 survives. §4's shares were guesses, and two of the six have now been measured to be wrong in the same direction.</p></div>
+  </section>
+
+  <section class="grid refs">
+    <div class="body two-even">
+      <div>
+        <h2 class="small">It cites</h2>
+        <p class="aside">No other finding by number.</p>
+      </div>
+      <div>
+        <h2 class="small">Cited by</h2>
+        <ul class="reflist"><li style="--c:var(--c3)"><a href="/Corn-Jr-Public/finding/158.html"><span class="fn">158</span>Wordings seen over ten times get memorised; key phrases become lists</a></li></ul>
+        
+      </div>
+    </div>
+    <p class="body source">docs/findings/14-the-same-bug-a-third-time-and-the-rule-it-settles-into.md</p>
+  </section>
+</article>
+
+  
+<footer class="turn">
+  <div><span class="sc">previous</span><a href="/Corn-Jr-Public/finding/13.html">13 · Inventing the fact database makes him copy tool answers perfectly</a></div>
+  <div class="r"><span class="sc">next</span><a href="/Corn-Jr-Public/finding/20.html">20 · No data share moves copying above noise</a></div>
+  <p class="keys"><kbd>←</kbd> <kbd>→</kbd> turn the page · <kbd>/</kbd> find</p>
+</footer>
+<p class="bynumber">Previous and next in <a href="/Corn-Jr-Public/thread/tool-calls.html">Tool calls and copying</a>. By number:
+  <a href="/Corn-Jr-Public/finding/13.html">13</a> · <a href="/Corn-Jr-Public/finding/15.html">15</a></p>
+
+</div>
+</body>
+</html>

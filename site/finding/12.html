@@ -1,0 +1,95 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>12 · Copying fails to generalise because the training facts were memorisable · Corn-Jr</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600&family=IBM+Plex+Mono:wght@400;500&family=Spectral:ital,wght@0,400;0,500;0,600;1,400&family=Spectral+SC:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/Corn-Jr-Public/static/library.css">
+<script defer src="/Corn-Jr-Public/static/library.js"></script>
+<script type="speculationrules">
+{"prerender": [{"where": {"and": [{"href_matches": "/Corn-Jr-Public/*"}, {"not": {"href_matches": "/Corn-Jr-Public/random.html"}}, {"not": {"href_matches": "/Corn-Jr-Public/static/*"}}]}, "eagerness": "moderate"}]}
+</script>
+
+</head>
+<body>
+<div class="page">
+  <header class="running">
+    <a class="book" href="/Corn-Jr-Public/">Corn-Jr · The Record</a>
+    <nav>
+      <a href="/Corn-Jr-Public/" data-key="shelf">Shelf</a><a href="/Corn-Jr-Public/findings.html" data-key="findings" class="here">Findings</a><a href="/Corn-Jr-Public/doc/VISION.html" data-key="VISION">Vision</a><a href="/Corn-Jr-Public/doc/GLOSSARY.html" data-key="GLOSSARY">Glossary</a>
+      <a href="https://github.com/csheehan18/Corn-Jr-Public">Source</a>
+    </nav>
+  </header>
+  
+
+<article class="sheet" style="--c:var(--c1)">
+  <div class="progress" aria-hidden="true"></div>
+  <section class="grid chapter-open finding-open">
+    <a class="tab" href="/Corn-Jr-Public/thread/tool-calls.html" title="Tool calls and copying"><small>Part</small><span>I</span></a>
+    <p class="cn">12</p>
+    <p class="partline"><a href="/Corn-Jr-Public/thread/tool-calls.html">Tool calls and copying</a> · 17 August 2026</p>
+    <h1>Copying fails to generalise because the training facts were memorisable</h1>
+  </section>
+
+  <section class="grid">
+    <p class="marginal">The result, as the finding states it</p><div class="prose"><p class="lead">The copy discipline does not generalise, and the corpus is why</p></div>
+    
+  </section>
+
+  
+
+  <section class="grid">
+    <div class="prose doc"><blockquote><p><strong>Superseded by the thirteenth finding, which acted on this one's diagnosis and reversed its headline.</strong> Everything below stands as measured; what it could not know is that the cause it identifies is sufficient. Rebuilding the search index took <code>tool.copy</code> from 27/120 to <strong>120/120</strong> with no change to the model. Read this as the diagnosis and the thirteenth as the confirmation — "the copy discipline does not generalise" was true of this corpus and is not true of the tool.</p></blockquote>
+<p><code>temporal.copy</code> is the row every conclusion in this project rests on. It reads <strong>353/353</strong> in all three arms of the eleventh finding, as it has through templates, real web text, retokenization, and four rival tools. DATA.md §11 has carried "still one tool" as the standing caveat on it since the sixth finding, and the tenth finding shaped <code>web_search</code> to return an <code>answer</code> field precisely so the same behaviour could be asked of a second tool. <code>tool.copy</code> is that row: cut after <code>&lt;|obs|&gt;</code>, score the <code>&lt;|say|&gt;</code>, answers drawn from <code>HELD_OUT_FACTS</code> so a correct one proves copying rather than knowing.</p>
+<div class="tablewrap"><table><thead><tr><th></th><th>0% tools</th><th>0.61% tools</th><th>15% tools</th></tr></thead><tbody><tr><td><code>temporal.copy</code></td><td>353/353</td><td><strong>353/353</strong></td><td><strong>353/353</strong></td></tr><tr><td><code>tool.copy</code></td><td>0/120</td><td><strong>27/120</strong></td><td><strong>0/120</strong></td></tr><tr><td></td><td><code>malformed</code> 120</td><td><code>wrong_answer</code> 93</td><td><code>trained_answer</code> 52, <code>wrong_answer</code> 68</td></tr></tbody></table></div>
+<p><strong>The same checkpoint that defers to <code>resolve_date</code> 353 times out of 353 defers to <code>web_search</code> 27 times out of 120 at best, and zero at worst.</strong> The behaviour §4's whole conclusion describes is not a disposition the model has. It is a thing it does with one tool.</p>
+<p>The 0% arm's failure is the cleanest statement of the floor: asked what to say after a <code>web_search</code> observation, it emits <code>&lt;|call|&gt;{&quot;name&quot;: &quot;recall_day&quot;, ...}</code> — the continuation the <em>temporal</em> format taught it — 120 times out of 120. It has the script and applies it to the wrong tool.</p>
+<h4 id="the-upsampled-arm-recites-the-training-fact-table">The upsampled arm recites the training fact table</h4>
+<p>The 15% arm scores <strong>zero</strong>, and 52 of its 120 failures name a training answer outright:</p>
+<p>want  'Alexander Fleming'          got  &lt;|say|&gt;It's William Shakespeare. want  '3,422 degrees Celsius'      got  &lt;|say|&gt;It's Mount Everest, at 8,849 metres. want  'up to 3.5 metres'           got  &lt;|say|&gt;Looks like eleven a side on the pitch.</p>
+<p>Every one of those is a <code>FACTS</code> entry, read straight out of the weights with the tool's answer sitting in the prompt above it. This is the sixth finding's year-clamping again — a model substituting the training distribution's value for the one it was handed — but total rather than confined to one field, and it is the same memorisation that broke <code>send_text</code> in the eleventh finding, showing up on a second row.</p>
+<p>The direction is what makes it damning. The one-pass arm gets Kinshasa <strong>20/20</strong>; the upsampled arm gets it <strong>0/20</strong>. More tool data, twenty-five times over, took a behaviour from working to absent.</p>
+<h4 id="the-corpus-cannot-teach-deference-on-this-tool-and-the-arith">The corpus cannot teach deference on this tool, and the arithmetic says so</h4>
+<p>The scored row is strict — it wants the tool's answer string, which is what the corpus always writes. A softer reading, asking only whether the answer's distinctive token survived at all:</p>
+<div class="tablewrap"><table><thead><tr><th></th><th>exact</th><th>content token only</th><th>neither</th></tr></thead><tbody><tr><td>0.61%</td><td>27/120</td><td>26</td><td>67</td></tr><tr><td>15%</td><td>0/120</td><td>2</td><td>118</td></tr></tbody></table></div>
+<p>Both readings agree, and the per-answer breakdown in the one-pass arm points at the cause: Kinshasa 20/20, Alexander Fleming 7/20, and <strong>0</strong> for the three multi-word measurement answers — <code>up to 3.5 metres</code> comes back as <code>about 3.5 metres</code>, <code>1,642 metres at its deepest</code> as <code>1,642 metres.</code>. Partial copies, regenerated rather than transcribed.</p>
+<p>Then the arithmetic. <code>data/raw/tools.txt</code> holds <strong>3,000 search transcripts over 28 facts — 107 examples per fact, and 2,679 in the upsampled arm.</strong> <code>web_search</code>'s answer is a deterministic function of its query, and there are twenty-eight of them. <strong>A model can score 100% on the training distribution of this tool without ever reading <code>&lt;|obs|&gt;</code>,</strong> so nothing in the corpus ever requires it to.</p>
+<p><code>resolve_date</code> is not like that, and not by luck. Its answer depends on the <code>&lt;|day|&gt;</code> anchor as well as the utterance, and the anchors span 2020–2027 — so "last Tuesday" has no fixed answer and the observation is the <em>only</em> place the date can come from. The temporal slice makes deference load-bearing by construction. The tool slice made it optional, and the model took the option.</p>
+<p><strong>So this is a corpus defect, not a model result</strong>, which is the useful form of the finding: it predicts its own fix. Widen the answer space until the query stops determining the answer — more facts than a model can memorise at the exposure the mix implies, or answers generated per example rather than drawn from a table. Until then <code>tool.validity</code> and <code>tool.selection</code> are measuring something the slice does teach, and <code>tool.copy</code> is measuring something it does not.</p>
+<h4 id="what-this-costs-the-sixth-finding-and-what-it-does-not">What this costs the sixth finding, and what it does not</h4>
+<p>The sixth finding's ordering stands: pretrained 100% against 48–92% across six fine-tuned checkpoints, on the same row, is unaffected by anything here. What narrows is the <em>claim</em>. "Deferring to a tool over your own prior is the part that has to be there from the start" should now read: deferring to <code>resolve_date</code> is. Whether that generalises is exactly what this row was built to test, and the answer on the only second tool available is no — for a reason that is about how the second tool's data was generated rather than about deference.</p>
+<p>DATA.md §11 already recorded the analogous limit on <code>temporal.copy</code> itself — that its power comes from the anchor year being out of distribution. This is the same lesson arriving from the other side: <strong>a copy row measures copying only where the answer could not have come from anywhere else</strong>, and that is a property of the training corpus, not of the eval.</p>
+<p><strong>What this does not settle:</strong> 25M parameters, and the one-pass arm is the only one that shows the behaviour at all, at 22.5%. Whether a widened fact table gets <code>web_search</code> to <code>resolve_date</code>'s 100%, or whether something about dates makes them uniquely copyable, needs the corpus fix and a re-run — which is now a generation change and two training runs, not an argument.</p></div>
+  </section>
+
+  <section class="grid refs">
+    <div class="body two-even">
+      <div>
+        <h2 class="small">It cites</h2>
+        <p class="aside">No other finding by number.</p>
+      </div>
+      <div>
+        <h2 class="small">Cited by</h2>
+        <ul class="reflist"><li style="--c:var(--c3)"><a href="/Corn-Jr-Public/finding/158.html"><span class="fn">158</span>Wordings seen over ten times get memorised; key phrases become lists</a></li></ul>
+        
+      </div>
+    </div>
+    <p class="body source">docs/findings/12-the-copy-discipline-does-not-generalise-and-the-corpus-is-why.md</p>
+  </section>
+</article>
+
+  
+<footer class="turn">
+  <div><span class="sc">previous</span><a href="/Corn-Jr-Public/finding/11.html">11 · A twenty-fifth of the planned tool data buys most of the behaviour</a></div>
+  <div class="r"><span class="sc">next</span><a href="/Corn-Jr-Public/finding/13.html">13 · Inventing the fact database makes him copy tool answers perfectly</a></div>
+  <p class="keys"><kbd>←</kbd> <kbd>→</kbd> turn the page · <kbd>/</kbd> find</p>
+</footer>
+<p class="bynumber">Previous and next in <a href="/Corn-Jr-Public/thread/tool-calls.html">Tool calls and copying</a>. By number:
+  <a href="/Corn-Jr-Public/finding/11.html">11</a> · <a href="/Corn-Jr-Public/finding/13.html">13</a></p>
+
+</div>
+</body>
+</html>

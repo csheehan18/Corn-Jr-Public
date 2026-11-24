@@ -1,0 +1,93 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>38 · A confidence margin spots wrong calls, except where it was needed · Corn-Jr</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600&family=IBM+Plex+Mono:wght@400;500&family=Spectral:ital,wght@0,400;0,500;0,600;1,400&family=Spectral+SC:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/Corn-Jr-Public/static/library.css">
+<script defer src="/Corn-Jr-Public/static/library.js"></script>
+<script type="speculationrules">
+{"prerender": [{"where": {"and": [{"href_matches": "/Corn-Jr-Public/*"}, {"not": {"href_matches": "/Corn-Jr-Public/random.html"}}, {"not": {"href_matches": "/Corn-Jr-Public/static/*"}}]}, "eagerness": "moderate"}]}
+</script>
+
+</head>
+<body>
+<div class="page">
+  <header class="running">
+    <a class="book" href="/Corn-Jr-Public/">Corn-Jr · The Record</a>
+    <nav>
+      <a href="/Corn-Jr-Public/" data-key="shelf">Shelf</a><a href="/Corn-Jr-Public/findings.html" data-key="findings" class="here">Findings</a><a href="/Corn-Jr-Public/doc/VISION.html" data-key="VISION">Vision</a><a href="/Corn-Jr-Public/doc/GLOSSARY.html" data-key="GLOSSARY">Glossary</a>
+      <a href="https://github.com/csheehan18/Corn-Jr-Public">Source</a>
+    </nav>
+  </header>
+  
+
+<article class="sheet" style="--c:var(--c1)">
+  <div class="progress" aria-hidden="true"></div>
+  <section class="grid chapter-open finding-open">
+    <a class="tab" href="/Corn-Jr-Public/thread/routing.html" title="Routing and declining"><small>Part</small><span>I</span></a>
+    <p class="cn">38</p>
+    <p class="partline"><a href="/Corn-Jr-Public/thread/routing.html">Routing and declining</a> · 18 August 2026</p>
+    <h1>A confidence margin spots wrong calls, except where it was needed</h1>
+  </section>
+
+  <section class="grid">
+    <p class="marginal">The result, as the finding states it</p><div class="prose"><p class="lead">The margin is diagnostic on every checkpoint except the one the gate was written for</p></div>
+    <p class="marginal">What it cost</p><div class="prose"><p class="cost">0 s of new scoring on record; it reads 5 cards scored for an earlier finding (<code>nano100m_v1</code>, <code>nano20m_v1</code>, <code>nano20m_v1_chat</code> and 2 more). Backfilled 2026-09-26 from the cards' <code>seconds</code>; training and probe time were never recorded, so this is a floor.</p></div>
+  </section>
+
+  
+
+  <section class="grid">
+    <div class="prose doc"><p><code>scripts/margin_probe.py</code> on five checkpoints. <strong>No training</strong> — every one was already on disk, and the whole read is a forward pass per item plus the generation the harness already does.</p>
+<p>The question WS-B1 asked: at the position where Corn-Jr chooses between <code>&lt;|call|&gt;</code> and <code>&lt;|say|&gt;</code>, is <code>logit(&lt;|call|&gt;) − logit(&lt;|say|&gt;)</code> smaller on the calls he should not make? If yes, an inference-time gate buys abstention through the deference channel — let the call complete, refuse to execute it, hand back <code>{&quot;ok&quot;: false, &quot;reason&quot;: &quot;not_confident&quot;, &quot;clarify&quot;: ...}</code> and let him read it out. No training, no corpus, and no fighting a reflex that three arms have now failed to suppress.</p>
+<p><strong>The criterion was pre-registered in the script's docstring and committed before the first number was produced</strong> (<code>git show</code> on the commit preceding the run): <em>some threshold gates ≥50% of the wrongly-emitted calls while catching ≤5% of <code>chat.engage</code>'s correct calls, on the <code>_chat</code> arm checkpoints.</em></p>
+<h3 id="it-fails-on-the-arm-it-was-written-for-and-passes-everywhere">It fails on the arm it was written for and passes everywhere else</h3>
+<div class="tablewrap"><table><thead><tr><th>checkpoint</th><th>arm</th><th><code>oos</code> called</th><th>wrong calls</th><th>AUC</th><th>gated at ≤5% collateral</th><th>criterion</th></tr></thead><tbody><tr><td><code>nano20m_v1_chat</code></td><td><code>_chat</code></td><td>93/100</td><td>111</td><td><strong>0.814</strong></td><td>41.4%</td><td><strong>not met</strong></td></tr><tr><td><code>nano20m_v1_chat_seed2</code></td><td><code>_chat</code></td><td>71/100</td><td>86</td><td><strong>0.809</strong></td><td>18.6%</td><td><strong>not met</strong></td></tr><tr><td><code>nano20m_v1</code></td><td>control</td><td>95/100</td><td>118</td><td>0.954</td><td>77.1%</td><td>met</td></tr><tr><td><code>nano20m_v1_seed2</code></td><td>control</td><td>100/100</td><td>120</td><td>0.936</td><td>70.0%</td><td>met</td></tr><tr><td><code>nano100m_v1</code></td><td>control</td><td>85/100</td><td>103</td><td>0.888</td><td>61.2%</td><td>met</td></tr></tbody></table></div>
+<p>AUC is the probability that a randomly chosen correct call outranks a randomly chosen wrong one, ties counted half. It is reported beside the threshold number because the criterion's own axis is a threshold and a threshold is not scale-free: a checkpoint whose margins are spread wider scores better at a fixed collateral rate for reasons that have nothing to do with how separable the two populations are.</p>
+<p><strong>Read at matched scale and matched recipe, the separation is not marginal.</strong> The two <code>mix_v1</code> seeds at 29.6M read 0.936–0.954, a within-arm spread of 0.018. The two <code>mix_v1_chat</code> seeds at the same scale read 0.809–0.814, a spread of <strong>0.005</strong>. The gap between the arms is 0.122 against within-arm spreads of 0.018 and 0.005, which clears the thirtieth finding's bar comfortably. <code>nano100m_v1</code> is a different scale and is not pooled into that comparison; at 0.888 it sits below both <code>mix_v1</code> seeds and above both <code>_chat</code> seeds, which is the direction capacity would predict and is one checkpoint.</p>
+<p><strong>So the gate is not built.</strong> That is what the pre-registration says to do, and doing it is the point of having written it down first. WS-B2 is dropped from the plan.</p>
+<h3 id="what-is-actually-true-about-the-margin">What is actually true about the margin</h3>
+<p>The direction is right on all five checkpoints and never in doubt: the correct calls are the confident ones, by +2.55 to +3.76 of median margin. Nothing here says the margin is noise.</p>
+<p><code>chat.abstain_talk</code> is separated completely and on every checkpoint — ordinary conversation sits at a median margin of −8.72 and −7.72 on the <code>_chat</code> seeds, against <code>chat.engage</code>'s +7.38 and +5.06, and he calls on 0 and 0 of the 100 talk items. <strong>He is not uncertain about whether a sentence is a request.</strong> The entire overlap is between <code>chat.abstain_oos</code> and <code>chat.engage</code> — between "this is a request" and "this is a request I can serve" — which is the same boundary every failing arm in the project has run into.</p>
+<h3 id="the-unwelcome-part-which-is-why-this-is-a-finding-and-not-a-">The unwelcome part, which is why this is a finding and not a note</h3>
+<p>The treatment that improves the behaviour is the treatment that destroys the instrument. The <code>_chat</code> arm is the one carrying <code>data/raw/chat.txt</code>; it abstains more often on <code>oos</code> (93 and 71 of 100 called, against the controls' 95, 100 and 85), and its remaining wrong calls are the ones the margin cannot see. Training removed the wrong calls a gate would have caught and left the confident residue.</p>
+<p>If that reading is right, then the gate and the corpus compete for the same items, and a gate priced on an untreated checkpoint is priced on mass that any successful arm will have eaten first. That would make the whole inference-time route worth less than the 77.1% on <code>nano20m_v1</code> makes it look.</p>
+<p><strong>It is a hypothesis and n=5 does not establish it.</strong> The abstention rate and the gate's yield do not order together across the five (71 → 18.6%, 85 → 61.2%, 93 → 41.4%, 95 → 77.1%, 100 → 70.0%), so "more abstention trained in, less left for the gate" is not a dose-response anybody measured here — it is the arm distinction that is clean, and the mechanism behind it that is not. What would settle it is a third <code>_chat</code> seed and the margin re-read on whichever of WS-C, WS-D or WS-E actually moves an abstention row, which costs nothing beyond the probe once those checkpoints exist.</p>
+<h3 id="the-name-phase-reading-which-was-free-and-says-something-els">The name-phase reading, which was free and says something else</h3>
+<p>On the wrongly-emitted calls, mass at the first byte of the tool name is spread rather than collapsed, and which tool it spreads onto is not stable across arms: <code>send_text</code> 0.61 / <code>save_note</code> 0.49 on <code>nano20m_v1_chat</code>, <code>resolve_date</code> 0.44 / <code>web_search</code> 0.35 on <code>nano20m_v1_seed2</code>, <code>web_search</code> 0.40 / <code>resolve_date</code> 0.31 on <code>nano100m_v1</code>. The masses do not sum to one and are not meant to — names share prefixes, so a token is compatible with several and the buckets overlap by construction.</p>
+<p>Nothing here supports "he reaches for one tool when he is unsure". Whatever the wrong call is, it is not a single default.</p>
+<h3 id="what-this-does-not-settle">What this does not settle</h3>
+<ul><li><strong>The 181 prefilled prompts were never in the instrument.</strong> The plan asked for the margin over <code>evals/chat.jsonl</code> and "the selection items", but 181 of <code>tools.jsonl</code>'s 200 prompts end at <code>&lt;|call|&gt;</code> — the format hands them the call and there is no fork to read. Only the 19 <code>tool is None</code> items contributed, so <code>tool.selection</code>'s share of every number above is 19 items and the 300 chat items are the instrument.</li><li><strong>Greedy decoding, so the verdict joined to each margin is the argmax path.</strong> A margin of +0.12 and a margin of +8.9 both produce a call, and this measures how the decision was made rather than how it would have gone under sampling.</li><li><strong>Two seeds per arm</strong>, and the caution the thirty-seventh finding earned applies: a spread of 0.005 across two points is not a floor. What makes this quotable is that the two arms do not overlap and the gap is seven times the wider within-arm spread — not that either spread is known.</li><li><strong>Nothing here is a claim about whether a gate would work if it were built.</strong> The criterion is about whether the margin can find the items; a gate also has to not break <code>chat.engage</code> in production, and that was never measured because the gate was never built.</li></ul></div>
+  </section>
+
+  <section class="grid refs">
+    <div class="body two-even">
+      <div>
+        <h2 class="small">It cites</h2>
+        <p class="aside">No other finding by number.</p>
+      </div>
+      <div>
+        <h2 class="small">Cited by</h2>
+        <p class="aside">No later finding yet.</p>
+      </div>
+    </div>
+    <p class="body source">docs/findings/38-the-margin-is-diagnostic-everywhere-except-on-the-arm-the-gate-was-for.md</p>
+  </section>
+</article>
+
+  
+<footer class="turn">
+  <div><span class="sc">previous</span><a href="/Corn-Jr-Public/finding/37.html">37 · Training second-turn declines changed nothing and cost tool choice</a></div>
+  <div class="r"><span class="sc">next</span><a href="/Corn-Jr-Public/finding/39.html">39 · Restricting names to declared tools fixes routing, not refusal</a></div>
+  <p class="keys"><kbd>←</kbd> <kbd>→</kbd> turn the page · <kbd>/</kbd> find</p>
+</footer>
+<p class="bynumber">Previous and next in <a href="/Corn-Jr-Public/thread/routing.html">Routing and declining</a>. By number:
+  <a href="/Corn-Jr-Public/finding/37.html">37</a> · <a href="/Corn-Jr-Public/finding/39.html">39</a></p>
+
+</div>
+</body>
+</html>

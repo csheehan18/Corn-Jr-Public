@@ -1,0 +1,91 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>13 · Inventing the fact database makes him copy tool answers perfectly · Corn-Jr</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600&family=IBM+Plex+Mono:wght@400;500&family=Spectral:ital,wght@0,400;0,500;0,600;1,400&family=Spectral+SC:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/Corn-Jr-Public/static/library.css">
+<script defer src="/Corn-Jr-Public/static/library.js"></script>
+<script type="speculationrules">
+{"prerender": [{"where": {"and": [{"href_matches": "/Corn-Jr-Public/*"}, {"not": {"href_matches": "/Corn-Jr-Public/random.html"}}, {"not": {"href_matches": "/Corn-Jr-Public/static/*"}}]}, "eagerness": "moderate"}]}
+</script>
+
+</head>
+<body>
+<div class="page">
+  <header class="running">
+    <a class="book" href="/Corn-Jr-Public/">Corn-Jr · The Record</a>
+    <nav>
+      <a href="/Corn-Jr-Public/" data-key="shelf">Shelf</a><a href="/Corn-Jr-Public/findings.html" data-key="findings" class="here">Findings</a><a href="/Corn-Jr-Public/doc/VISION.html" data-key="VISION">Vision</a><a href="/Corn-Jr-Public/doc/GLOSSARY.html" data-key="GLOSSARY">Glossary</a>
+      <a href="https://github.com/csheehan18/Corn-Jr-Public">Source</a>
+    </nav>
+  </header>
+  
+
+<article class="sheet" style="--c:var(--c1)">
+  <div class="progress" aria-hidden="true"></div>
+  <section class="grid chapter-open finding-open">
+    <a class="tab" href="/Corn-Jr-Public/thread/tool-calls.html" title="Tool calls and copying"><small>Part</small><span>I</span></a>
+    <p class="cn">13</p>
+    <p class="partline"><a href="/Corn-Jr-Public/thread/tool-calls.html">Tool calls and copying</a> · 17 August 2026</p>
+    <h1>Inventing the fact database makes him copy tool answers perfectly</h1>
+  </section>
+
+  <section class="grid">
+    <p class="marginal">The result, as the finding states it</p><div class="prose"><p class="lead">Invent the world, and the copy discipline generalises</p></div>
+    
+  </section>
+
+  
+
+  <section class="grid">
+    <div class="prose doc"><p>The twelfth finding diagnosed <code>tool.copy</code> 0/120 as a corpus defect rather than a model result: <code>web_search</code>'s answer was a function of its query over 28 hand-written facts, 107 training examples each, so nothing ever required reading <code>&lt;|obs|&gt;</code>. That is a falsifiable claim, and the fix is the test of it. <code>corn/tools.py</code> now <strong>invents</strong> the search index — ~8,700 facts over twelve families — and <code>data/raw/tools.txt</code> is regenerated at the same 10,000 examples, so the answer space is the only thing that moved.</p>
+<div class="tablewrap"><table><thead><tr><th></th><th>hand-written</th><th>invented</th></tr></thead><tbody><tr><td>distinct facts</td><td>28</td><td><strong>8,697</strong></td></tr><tr><td>training examples per fact</td><td>107.1</td><td><strong>1.62</strong></td></tr><tr><td>distinct utterances in the slice</td><td>6,470</td><td>7,756</td></tr></tbody></table></div>
+<p>Same eval set, same sha256, same 130,279,711 tokens, same 5,237 iterations, same tokenizer.</p>
+<div class="tablewrap"><table><thead><tr><th>row</th><th>facts28 0.61%</th><th>facts28 15%</th><th><strong>invented 0.61%</strong>&lt;br&gt;ckpt / last</th><th><strong>invented 15%</strong>&lt;br&gt;ckpt / last</th></tr></thead><tbody><tr><td><code>tool.copy</code></td><td>27/120</td><td>0/120</td><td><strong>120/120 / 120/120</strong></td><td>98/120 / 113/120</td></tr><tr><td><code>tool.validity</code></td><td>167/181</td><td>155/181</td><td><strong>175/181</strong> / 174/181</td><td>173/181 / 173/181</td></tr><tr><td><code>tool.selection</code></td><td>146/200</td><td>172/200</td><td>148/200 / 116/200</td><td><strong>182/200</strong> / 182/200</td></tr><tr><td><code>temporal.copy</code></td><td>353/353</td><td>353/353</td><td>353/353</td><td>353/353</td></tr><tr><td><code>narrative</code> nats/byte</td><td>0.3666</td><td>0.3724</td><td>0.3665 / <strong>0.3661</strong></td><td>0.3725 / 0.3716</td></tr><tr><td><code>web</code> nats/byte</td><td>0.9099</td><td>0.9216</td><td>0.9098 / <strong>0.9089</strong></td><td>0.9212 / 0.9203</td></tr></tbody></table></div>
+<p><strong>120/120, with an empty failure table.</strong> <code>temporal.copy</code> and <code>tool.copy</code> are both at ceiling on the same checkpoint, which is what "the discipline generalises" has to mean, and the "still one tool" caveat carried since the sixth finding is discharged. Nothing about the model changed — the language-modelling rows are flat to the fourth decimal (0.3666 → 0.3665). What changed is that the corpus stopped answering the question for him.</p>
+<p><strong><code>trained_answer</code> is now zero everywhere</strong>, which is the mechanism confirmed from the other side. The upsampled arm's 22 and 7 remaining failures are ordinary <code>wrong_answer</code>: there is no memorisable table left to recite, so the specific pathology the twelfth finding caught — <code>William Shakespeare</code> when the tool had said <code>Alexander Fleming</code> — has no way to occur. The eleventh finding's <code>send_text</code> collapse also improved, <code>missing:message</code> 16 → 5.</p>
+<h4 id="repetition-still-costs-something-and-it-is-no-longer-the-sam">Repetition still costs something, and it is no longer the same something</h4>
+<p>The one-pass arm is perfect; the 15% arm, reading <strong>the same corpus 24 times</strong>, is the only arm that fails the row at all. So upsampling is still not free, but the old explanation is gone with the old table. Whether the residue is repetition or capacity is the confound the eleventh finding named and this run does not break — a bigger <em>distinct</em> slice at a fixed 15% is the experiment, and it needs the sentences §11 still has no source for.</p>
+<h4 id="three-bugs-all-caught-by-guards-rather-than-by-the-training-">Three bugs, all caught by guards rather than by the training run</h4>
+<p>Writing the checks before the corpus is what made the fix survivable. None of these would have raised an error; each would have produced a number.</p>
+<ul><li><strong>An answer equal to its own query.</strong> Pools were drawn independently from one name space, so the same string landed in two of them: <code>the capital of Belaburg -&gt; Belaburg</code>. That restores the exact property the rebuild exists to remove. Fixed by carving disjoint pools from one prefix-free master list.</li><li><strong>A generated answer colliding with the holdout.</strong> Lake depths draw from [120, 1990] and <code>HELD_OUT_FACTS</code> says Baikal is <code>1,642 metres at its deepest</code> — which the generator produced on its first run. A model could then learn that string in training and <strong>pass</strong> the Baikal item without reading anything, a false positive on the one row built to detect exactly that.</li><li><strong>Pattern prefixes.</strong> <code>web_search_tool</code> matches with <code>p in q or q in p</code>, so <code>the capital of Bela</code> swallows <code>the capital of Belaria</code> and the tool answers by table order rather than by query.</li></ul>
+<p>An audit of the <em>old</em> tables came back clean on all three axes, which is worth recording: the twelfth finding really was about the size of the answer space and not a lookup bug. <code>check_tools.py</code> now asserts all of it, <strong>including the exposures-per-fact ratio itself</strong> — if a later edit pushes 1.6 back toward 107, the guard fails rather than the finding quietly reversing.</p>
+<p>A fourth defect was subtler and is the one worth remembering. The group-12 checks pinned the word-boundary rule with the literals <code>&quot;It&#x27;s Paris.&quot;</code> and <code>&quot;It&#x27;s 6.&quot;</code>. When <code>FACTS</code> became generated those strings stopped being training answers, and the checks failed — correctly, but the lesson is the near miss: <strong>a check that hardcodes its fixtures silently stops testing what it names.</strong> Had those literals happened to stay valid, the checks would have kept passing while asserting nothing. They now draw from the live table, longest answer for the recitation case and shortest for the boundary case, since the shortest is the one most able to appear inside another string by accident.</p>
+<h4 id="the-selection-rule-lost-its-first-real-test-inside-its-own-n">The selection rule lost its first real test, inside its own noise</h4>
+<p>This is the first pair where <code>ckpt.pt</code> and <code>last.pt</code> are different files, so §11's standing question — how often do the rule and the ruler disagree — finally has an answer. The rule picked iter 5,125 in both arms; the blended <code>val</code> preferred 5,237; the frozen set prefers <strong>5,237 on all three lm rows in the one-pass arm and two of three in the upsampled one</strong>. The blended val agreed with the ruler and the stratified rule did not, which is the reverse of the seventh finding that motivated the rule.</p>
+<p>The margins are the whole story. The rule preferred 5,125 by <strong>0.0079 and 0.0009</strong> — 0.79% and 0.09% relative, against its own measured relative noise of <strong>0.94%</strong>. Both disagreements happened inside the noise floor, so the rule is not choosing badly; it is choosing at a resolution it does not have. And val cannot see what actually moved: <code>tool.selection</code> went <strong>148 → 116</strong> across those same 112 iterations, <code>chose_resolve_date</code> 19 → 56, while every per-source loss stayed flat to three decimals. Behaviour is not a smooth function of validation loss at the tail of a cosine schedule, and no val-based rule will fix that.</p>
+<p><strong>What this does not settle:</strong> one pair at one scale, and <code>tool.selection</code>'s 32-point swing between adjacent checkpoints is itself a warning that some of these rows are noisier than the differences being read off them. The 0.61% arm's selection number should be treated as a band, not a point.</p></div>
+  </section>
+
+  <section class="grid refs">
+    <div class="body two-even">
+      <div>
+        <h2 class="small">It cites</h2>
+        <p class="aside">No other finding by number.</p>
+      </div>
+      <div>
+        <h2 class="small">Cited by</h2>
+        <ul class="reflist"><li style="--c:var(--c4)"><a href="/Corn-Jr-Public/finding/135.html"><span class="fn">135</span>More depth-3 training data doesn&#39;t teach depth 4</a></li><li style="--c:var(--c3)"><a href="/Corn-Jr-Public/finding/158.html"><span class="fn">158</span>Wordings seen over ten times get memorised; key phrases become lists</a></li><li style="--c:var(--c5)"><a href="/Corn-Jr-Public/finding/186.html"><span class="fn">186</span>He knows roughly what descriptions mean but ignores a described menu</a></li></ul>
+        
+      </div>
+    </div>
+    <p class="body source">docs/findings/13-invent-the-world-and-the-copy-discipline-generalises.md</p>
+  </section>
+</article>
+
+  
+<footer class="turn">
+  <div><span class="sc">previous</span><a href="/Corn-Jr-Public/finding/12.html">12 · Copying fails to generalise because the training facts were memorisable</a></div>
+  <div class="r"><span class="sc">next</span><a href="/Corn-Jr-Public/finding/14.html">14 · The JSON data taught the format but not copying field names</a></div>
+  <p class="keys"><kbd>←</kbd> <kbd>→</kbd> turn the page · <kbd>/</kbd> find</p>
+</footer>
+<p class="bynumber">Previous and next in <a href="/Corn-Jr-Public/thread/tool-calls.html">Tool calls and copying</a>. By number:
+  <a href="/Corn-Jr-Public/finding/12.html">12</a> · <a href="/Corn-Jr-Public/finding/14.html">14</a></p>
+
+</div>
+</body>
+</html>

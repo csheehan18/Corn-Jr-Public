@@ -1,0 +1,88 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>16 · A new output-variety metric, and a data change that didn&#39;t move it · Corn-Jr</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600&family=IBM+Plex+Mono:wght@400;500&family=Spectral:ital,wght@0,400;0,500;0,600;1,400&family=Spectral+SC:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/Corn-Jr-Public/static/library.css">
+<script defer src="/Corn-Jr-Public/static/library.js"></script>
+<script type="speculationrules">
+{"prerender": [{"where": {"and": [{"href_matches": "/Corn-Jr-Public/*"}, {"not": {"href_matches": "/Corn-Jr-Public/random.html"}}, {"not": {"href_matches": "/Corn-Jr-Public/static/*"}}]}, "eagerness": "moderate"}]}
+</script>
+
+</head>
+<body>
+<div class="page">
+  <header class="running">
+    <a class="book" href="/Corn-Jr-Public/">Corn-Jr · The Record</a>
+    <nav>
+      <a href="/Corn-Jr-Public/" data-key="shelf">Shelf</a><a href="/Corn-Jr-Public/findings.html" data-key="findings" class="here">Findings</a><a href="/Corn-Jr-Public/doc/VISION.html" data-key="VISION">Vision</a><a href="/Corn-Jr-Public/doc/GLOSSARY.html" data-key="GLOSSARY">Glossary</a>
+      <a href="https://github.com/csheehan18/Corn-Jr-Public">Source</a>
+    </nav>
+  </header>
+  
+
+<article class="sheet" style="--c:var(--c1)">
+  <div class="progress" aria-hidden="true"></div>
+  <section class="grid chapter-open finding-open">
+    <a class="tab" href="/Corn-Jr-Public/thread/measurement.html" title="Measurement and noise"><small>Part</small><span>I</span></a>
+    <p class="cn">16</p>
+    <p class="partline"><a href="/Corn-Jr-Public/thread/measurement.html">Measurement and noise</a> · 17 August 2026</p>
+    <h1>A new output-variety metric, and a data change that didn&#39;t move it</h1>
+  </section>
+
+  <section class="grid">
+    <p class="marginal">The result, as the finding states it</p><div class="prose"><p class="lead">The ruler for output variety, and the corpus change that did not move it</p></div>
+    <p class="marginal">What it cost</p><div class="prose"><p class="cost">3.5 min of scoring on the 1 card first cited here (<code>nano20m_narrative10</code>); it also reads 1 card scored for an earlier finding (<code>nano20m_balanced</code>). Backfilled 2026-09-26 from the cards' <code>seconds</code>; training and probe time were never recorded, so this is a floor.</p></div>
+  </section>
+
+  
+
+  <section class="grid">
+    <div class="prose doc"><p>Two things landed together, and they have to be read together because the first was built to judge the second.</p>
+<p><strong>The tenth row.</strong> Nine rows scored routing, copying, refusing, schema conformance and nats/byte, and <strong>a model that repeats itself forever aces every one of them</strong> — perfectly, if the thing it repeats is correct. VISION's goal is conversation that does not repeat itself, so the project had spent fifteen findings unable to measure its own stated objective. <code>variety.distinct3</code> closes that: 200 openings cut from the reserved eval tails, one sampled continuation each at T=0.85, and distinct 3-grams <strong>pooled across all 200</strong> — the only view that can see 200 different prompts answered with the same sentence, which looks perfectly varied item by item. It is the fourth row added by <code>make_evals.py --add</code>, and the first whose holdout needed no argument: its prompts are substrings of files <code>reserve_tail_for</code> already keeps out of every corpus.</p>
+<p><strong>The corpus change.</strong> <code>nano20m_narrative10</code> is <code>nano20m_balanced</code> with narrative cut 46.80% → 10.00% and temporal 11.13% → 5.00%, both to the share §4 declares, with web absorbing all 42.9 points at 81.88%. Same 130,934,381 budget, same 5,237 iterations, same config, one pass over every source. It is the largest single corpus change the project has made.</p>
+<div class="tablewrap"><table><thead><tr><th>row</th><th><code>balanced</code></th><th><strong><code>narrative10</code></strong></th></tr></thead><tbody><tr><td><code>web</code> nats/byte</td><td>0.9106</td><td><strong>0.8502</strong></td></tr><tr><td><code>narrative</code> nats/byte</td><td><strong>0.3679</strong></td><td>0.4667</td></tr><tr><td><code>temporal</code> nats/byte</td><td><strong>0.0944</strong></td><td>0.0972</td></tr><tr><td><code>temporal.route</code></td><td><strong>400/400</strong></td><td>397/400</td></tr><tr><td><code>temporal.copy</code></td><td><strong>353/353</strong></td><td>352/353</td></tr><tr><td><code>tool.copy</code></td><td><strong>120/120</strong></td><td>111/120</td></tr><tr><td><code>tool.validity</code></td><td><strong>171/181</strong></td><td>169/181</td></tr><tr><td><code>tool.selection</code></td><td>150/200</td><td>116/200</td></tr><tr><td><code>schema.conform</code></td><td>172/200</td><td><strong>174/200</strong></td></tr><tr><td><strong><code>variety.distinct3</code></strong></td><td><strong>89.3%</strong></td><td>89.2%</td></tr><tr><td>distinct words</td><td>19.7%</td><td>19.5%</td></tr><tr><td>self-repetition</td><td>3.7%</td><td>3.8%</td></tr></tbody></table></div>
+<p><strong><code>web</code> nats/byte 0.9106 → 0.8502 is the largest language-modelling improvement in the project</strong>, and it is exactly what doubling a slice should buy. Everything else is the finding.</p>
+<h4 id="the-corpus-diversity-number-does-not-predict-the-model-varie">The corpus diversity number does not predict the model variety number</h4>
+<p>§5.0 measured 61% of the corpus to be low-vocabulary text and named it as the reason he writes like a children's book. Cutting the largest and thinnest of those slices by 4.7x moved <code>variety.distinct3</code> by <strong>0.1 point</strong> and distinct words by <strong>0.2</strong>. The samples say the same thing more bluntly than the number does — given a story opening, both checkpoints still write</p>
+<p>balanced      The moral of this story is that if you accept a child who we are different, they will always be there. &lt;|endoftext|&gt; Once upon a time, there was a little dog named Spot. narrative10   The moral of this story is that I will teach a child who can help him, even if he has a plan. &lt;|endoftext|&gt; Once upon a time, there was a little girl named Sue.</p>
+<p>47% of the corpus or 10%, he opens with <em>Once upon a time</em>.</p>
+<p><strong>The most likely explanation is a flaw in the row, and it is visible in its own by-source split.</strong> Narrative-prompted continuations went 88.6% → 87.0% while web-prompted ones went 91.1% → <strong>92.4%</strong>: each model got more varied on the register it has more of, less varied on the other, and the two halves cancelled. Half the prompts are TinyStories openings, which <em>invite</em> the exact output the row exists to detect. So what got measured is variety <strong>conditional on being steered into a register</strong>, and the complaint behind §5.0 was about which register he defaults to when nobody steers him. Those are two quantities and proposing this row conflated them. The fix is cheap and is the next thing to build: an unprompted or neutrally-prompted arm, scored the same way.</p>
+<p>What the row does establish is that neither checkpoint is degenerate — 3.7% and 3.8% within-continuation repetition — and that is a hole in the scorecard that is now closed whatever else it does. It also caught something real while being built: with digits counted as words, a checkpoint answering a prompt about sleep with <code>2.26.26.4669a / 2.28.2661.269a</code> scored <em>better</em> than English, because number soup never repeats. <strong>The row's first bug was one that would have made a degenerating model look like its best result.</strong></p>
+<h4 id="cutting-temporal-cost-tool-copy-and-that-is-a-share-nobody-h">Cutting temporal cost <code>tool.copy</code>, and that is a share nobody has priced</h4>
+<p><code>tool.copy</code> has read 120/120 on every corpus containing an unrepeated tool slice, and the tool slice here is byte-identical to <code>balanced</code>'s — same file, same 815,442 tokens, one pass. It still fell to <strong>111/120</strong>. The only other change touching the transcript format is temporal going 11.13% → 5.00%, and <code>temporal.copy</code> and <code>tool.copy</code> ask the same question of two different tools. So the reading is that <strong>the temporal slice was buying deference on a tool it does not contain</strong>, and §4's 5% is the second half of this run's cut that needs its own arm to separate from the first. <code>temporal.route</code> 400 → 397 and <code>temporal.copy</code> 353 → 352 are small and in the same direction.</p>
+<p><code>tool.selection</code> 150 → 116 is 34 points, one point inside the ~35 the thirteenth finding established as unreadable on that row, so it is not evidence either way.</p>
+<p><strong>What this does not say.</strong> One seed, one prompt set, and <code>variety.distinct3</code> has now produced exactly two readings ever — its noise floor is uncharacterised, so "0.1 points" is a difference smaller than anything yet shown to be measurable. The claim that survives is the weaker and more useful one: <strong>a 4.7x cut to the corpus's thinnest slice did not produce a variety change large enough to see</strong>, and the register did not change at all.</p></div>
+  </section>
+
+  <section class="grid refs">
+    <div class="body two-even">
+      <div>
+        <h2 class="small">It cites</h2>
+        <p class="aside">No other finding by number.</p>
+      </div>
+      <div>
+        <h2 class="small">Cited by</h2>
+        <p class="aside">No later finding yet.</p>
+      </div>
+    </div>
+    <p class="body source">docs/findings/16-the-ruler-for-output-variety.md</p>
+  </section>
+</article>
+
+  
+<footer class="turn">
+  <div><span class="sc">previous</span><a href="/Corn-Jr-Public/finding/4.html">4 · A frozen evaluation set, and the three problems it caught</a></div>
+  <div class="r"><span class="sc">next</span><a href="/Corn-Jr-Public/finding/17.html">17 · One test moved 18 items on the random seed alone</a></div>
+  <p class="keys"><kbd>←</kbd> <kbd>→</kbd> turn the page · <kbd>/</kbd> find</p>
+</footer>
+<p class="bynumber">Previous and next in <a href="/Corn-Jr-Public/thread/measurement.html">Measurement and noise</a>. By number:
+  <a href="/Corn-Jr-Public/finding/15.html">15</a> · <a href="/Corn-Jr-Public/finding/17.html">17</a></p>
+
+</div>
+</body>
+</html>

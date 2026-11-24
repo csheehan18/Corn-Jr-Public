@@ -1,0 +1,96 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>227 · A short word vector holds field knowledge; frozen, he cannot read it · Corn-Jr</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600&family=IBM+Plex+Mono:wght@400;500&family=Spectral:ital,wght@0,400;0,500;0,600;1,400&family=Spectral+SC:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/Corn-Jr-Public/static/library.css">
+<script defer src="/Corn-Jr-Public/static/library.js"></script>
+<script type="speculationrules">
+{"prerender": [{"where": {"and": [{"href_matches": "/Corn-Jr-Public/*"}, {"not": {"href_matches": "/Corn-Jr-Public/random.html"}}, {"not": {"href_matches": "/Corn-Jr-Public/static/*"}}]}, "eagerness": "moderate"}]}
+</script>
+
+</head>
+<body>
+<div class="page">
+  <header class="running">
+    <a class="book" href="/Corn-Jr-Public/">Corn-Jr · The Record</a>
+    <nav>
+      <a href="/Corn-Jr-Public/" data-key="shelf">Shelf</a><a href="/Corn-Jr-Public/findings.html" data-key="findings" class="here">Findings</a><a href="/Corn-Jr-Public/doc/VISION.html" data-key="VISION">Vision</a><a href="/Corn-Jr-Public/doc/GLOSSARY.html" data-key="GLOSSARY">Glossary</a>
+      <a href="https://github.com/csheehan18/Corn-Jr-Public">Source</a>
+    </nav>
+  </header>
+  
+
+<article class="sheet" style="--c:var(--c5)">
+  <div class="progress" aria-hidden="true"></div>
+  <section class="grid chapter-open finding-open">
+    <a class="tab" href="/Corn-Jr-Public/thread/understanding.html" title="Understanding at small scale"><small>Part</small><span>V</span></a>
+    <p class="cn">227</p>
+    <p class="partline"><a href="/Corn-Jr-Public/thread/understanding.html">Understanding at small scale</a> · 13 November 2026</p>
+    <h1>A short word vector holds field knowledge; frozen, he cannot read it</h1>
+  </section>
+
+  <section class="grid">
+    <p class="marginal">The result, as the finding states it</p><div class="prose"><p class="lead">The book with the ruler never read — a page for each of the 20,000 commonest words — answers 91 wishes of 192 and 95 fields of 141 against the 20M's 71 and 73 and 78 and 76, and squeezed to a short list of numbers a word it keeps the fields and loses the wishes: 85 fields and 72 wishes at 256 numbers, 92 and 75 at 512, and still only 83 wishes at 4,096. So the two halves of the understanding ruler are two kinds of knowledge: what a phrase's content word says about a field is compact, and what a whole description implies is a long tail of separate lines that does not fit a short vector. Handed 512-number homes through a 262,144-number input adapter, the frozen 20M reads neither: wishes 68 and 71, fields 74 and 78, failing the registered row at both seeds, though held-out web text gets 0.017 and 0.018 nats a token easier where shuffled homes give 0.000 and 0.003. The same homes laid on his next-piece scores did nothing at the registered settings (it had barely trained), and at ten times the step size and three times the steps — a cause read — lift fields to 83 and 80 and wishes to 73 and 77 and take 0.3% to 0.5% off held-out text of every kind: a direction. A first squeeze had read 47 of the second 96 wishes at 256 numbers; that book had a page for every ruler word, and with 5,000 pages and none of them the whole book reads the wishes at the 20M's own level, 71.</p></div>
+    <p class="marginal">What it cost</p><div class="prose"><p class="cost">the book-only reads 203.7 s of card (and three scratch reads before them, 0.2, 0.4 and 1.3 min); probe and pre-registration committed at 13:27 on 2026-11-13 (d07b777), after a 60-step smoke read (3.6 min) that moved the training set from the web range to the whole stream; the registered run 911.6 s of card, contended at 30%, for four adapters at two checkpoints; the cause read of <code>out</code> 635.3 s. ETA ~20 min of card for the registered run; 15.2.</p></div>
+  </section>
+
+  
+
+  <section class="grid">
+    <div class="prose doc"><p><strong>The question</strong> (owner, 2026-11-13: "Figure out why this happened and everything we could do what are we not connecting", then "Yes, test it"). Findings <a class="fref" href="/Corn-Jr-Public/finding/222.html">222</a> and <a class="fref" href="/Corn-Jr-Public/finding/224.html">224</a> to <a class="fref" href="/Corn-Jr-Public/finding/226.html">226</a> tried to write the book's knowledge into the 20M by nudging his weights. The other reading of the day was that the knowledge should not be written by gradient at all: counting writes it, and he only has to read it. Two things had to be true for that: the knowledge fits a home a word can carry, and he can read a home. The pre-registration is <code>scripts/probe_read_homes.py</code>'s docstring.</p>
+<h3 id="what-a-home-can-hold-the-book-alone-book-only">What a home can hold: the book alone (<code>--book-only</code>)</h3>
+<p>Read as finding <a class="fref" href="/Corn-Jr-Public/finding/221.html">221</a> read it (<code>probe_book.read_book</code>, direct, PPMI at window 10), no model. The ruler's descriptions use 906 words and its labels 102; 596 and 74 of them rank among the 5,000 commonest words, 813 and 96 among the 20,000 commonest.</p>
+<p>who has a page                                              wishes (192)   2nd 96   fields (141) the 5,000 commonest, and every ruler word (finding <a class="fref" href="/Corn-Jr-Public/finding/221.html">221</a>)     104            51       97 squeezed to 256 numbers a word                          98             47       89 the 5,000 commonest, the ruler never read                   71             36       88 squeezed to 256                                         64             30       86 the 20,000 commonest, and every ruler word                  104            51       97 squeezed to 256                                         73             30       90 the 20,000 commonest, the ruler never read                  91             42       95 squeezed to 64                                          57             23       83 squeezed to 256                                         72             28       85 squeezed to 512                                         75             30       92 squeezed to 1,024                                       78             34       89 squeezed to 2,048                                       79             35       93 squeezed to 4,096                                       83             37       94 the 20M controls                                            71 and 73      35, 37   78 and 76</p>
+<ul><li><strong>Finding <a class="fref" href="/Corn-Jr-Public/finding/221.html">221</a> holds with the ruler unread, and by less on the wishes.</strong> A book of 20,000 pages that never saw the ruler leads the 20M by 18 to 20 wishes and 17 to 19 fields; finding <a class="fref" href="/Corn-Jr-Public/finding/221.html">221</a>'s 31 to 33 wishes rested partly on a page for each of the ruler's own rarer words. With 5,000 pages and none of those, the wishes read is the 20M's (71) and the fields lead stands (88). That book has 32,805,771 lines above zero, more than he has weights.</li><li><strong>The fields squeeze; the wishes do not.</strong> 64 numbers a word already read 83 fields, over both controls. The wishes need the whole table: at 256 numbers they are at his level, and sixteen times that buys eleven items.</li><li><strong>A squeeze flatters whatever has few rows.</strong> The first read of the day squeezed the 5,336-page book and kept 47 of 51: 336 of those pages were the test's words. The same squeeze over 20,000 pages, the ruler's words still among them, keeps 30.</li></ul>
+<h3 id="reading-a-home-the-frozen-20m-and-four-adapters">Reading a home: the frozen 20M and four adapters</h3>
+<p>A word's home is the page side of the rank-512 summary of the ruler-blind 20,000-page book, attached at the word's last piece. <code>in</code> maps it into the token's input (he has to read it); <code>out</code> maps the mean home of the last ten finished words onto his next-piece scores (the book speaks); <code>both</code>; and <code>shuf</code>, <code>in</code> with every word given another word's home. Each starts at zero and trains 800 steps of 16 windows from the whole train stream at 1e-3.</p>
+<p>cell     numbers      wishes (192)   fields (141)   held-out, nats a token: web / plain web / conversation / narrative frozen                71 and 73      78 and 76      3.7312 / 3.8827 / 1.9625 / 1.9468   (seed 1337) in       262,144      68 and 71      74 and 78      -0.0169 / -0.0274 / -0.0028 / +0.0075   (-0.0183 / -0.0288 / -0.0037 / +0.0098) shuf     262,144      76 and 69      76 and 76      -0.0003 / -0.0125 / +0.0013 / +0.0184   (-0.0029 / -0.0093 / +0.0054 / +0.0230) out      4,194,304    71 and 73      78 and 76      -0.0027 / -0.0027 / -0.0015 / -0.0029   (-0.0032 / -0.0032 / -0.0030 / -0.0035) both     4,456,448    70 and 76      74 and 78      -0.0192 / -0.0302 / -0.0041 / +0.0058   (-0.0213 / -0.0318 / -0.0060 / +0.0075) the squeezed book's own read          74            90</p>
+<p>The frozen read through this script's own forward reproduces 71 / 78 and 73 / 76 (asserted). Per-item picks are in <code>evals/results/read_homes__mix_v3_webblend.json</code>.</p>
+<h3 id="the-pre-registered-rows">The pre-registered rows</h3>
+<ul><li><strong>H fails.</strong> <code>in</code> reads 74 and 78 fields where the row asked 84 on both, and 68 and 71 wishes. Predicted: fields inside three of the frozen read (it is -4 and +2) and the ruler inside four either way.</li><li><strong>K is quiet.</strong> <code>shuf</code> reads 76 and 76 fields.</li><li><strong>L holds.</strong> <code>in</code> moves conversation and narrative by at most 0.39% and 0.50%. The smoke read, trained on the web range alone, had moved them 1.7%, and the registered run trains on every source for that reason.</li><li><strong>He does read something.</strong> Real homes take 0.017 and 0.018 nats a token off held-out web text and 0.027 and 0.029 off plain web; shuffled homes take 0.000 and 0.003 and 0.013 and 0.009. Predicted 0.005 to 0.02. It is not what the ruler asks: on finding <a class="fref" href="/Corn-Jr-Public/finding/226.html">226</a>'s pairs <code>in</code> leaves the word 0.16 and 0.11 nats <em>harder</em> at the pair's other meeting.</li></ul>
+<h3 id="the-cause-read-of-out-not-registered">The cause read of <code>out</code> (not registered)</h3>
+<p>At the registered settings <code>out</code> changed no ruler answer at either seed and took 0.003 nats off held-out text: a 4.2M-number matrix started at zero had barely moved in 800 steps at 1e-3. At 1e-2 for 2,400 steps:</p>
+<p>out, 1e-2, 2,400 steps   wishes 73 and 77 (+2, +4)   fields 83 and 80 (+5, +4) held-out                 -0.0181 / -0.0151 / -0.0065 / -0.0087   (-0.0199 / -0.0168 / -0.0084 / -0.0092) finding <a class="fref" href="/Corn-Jr-Public/finding/226.html">226</a>'s pairs      off B +0.10 and +0.14, off By +0.04 and +0.07, B - By +0.06 and +0.06</p>
+<p>By finding <a class="fref" href="/Corn-Jr-Public/finding/222.html">222</a>'s lines, a direction: fields one and four short of 84. It costs nothing anywhere — every source reads easier — which no press did. The amended prediction called +3 to +8 fields and got it only here.</p>
+<h3 id="read-by-hand-the-second-96-at-seed-1337">Read by hand: the second 96 at seed 1337</h3>
+<p><code>in</code> gains one wish and loses five, and the five are his default label moving again (an old dog at the station: <code>sad</code> to <code>scary</code>; a jeep safari: <code>adventurous</code> to <code>sunny</code>); <code>shuf</code> moves three; <code>out</code> at the registered settings moves none.</p>
+<h3 id="what-it-licenses">What it licenses</h3>
+<p>By the pre-registration, between its second and third rows: <strong>H fails, and <code>out</code> moves the ruler only in a cause read.</strong> Three things stand:</p>
+<ul><li><strong>Two kinds of knowledge, two answers.</strong> A field is compact and can ride in a short vector — 64 numbers a word beat the 20M — so the 20M's shortfall there is not room. A wish is a long tail and wants the table itself: for that half finding <a class="fref" href="/Corn-Jr-Public/finding/197.html">197</a>'s reading, room, was right, and the book wins by being larger than he is.</li><li><strong>A frozen model does not read a new input through a thin adapter.</strong> Reading a home is a skill of the trunk. Whether a trunk <em>trained</em> with homes learns it is still the one-hour arm, at a lower prior than this morning's.</li><li><strong>The book can speak beside him at no cost</strong> — a little, on both reads, with every kind of text easier. For a judgment the runtime makes, the book's own answer (91 and 95, ruler unread) is stronger than any of these.</li></ul>
+<p><strong>What it does not settle.</strong> <code>out</code> at one pair of settings, chosen after the registered ones failed to train. Homes from a larger table (a page for every word, not 20,000). A trunk trained with homes from the first step.</p></div>
+  </section>
+
+  <section class="grid refs">
+    <div class="body two-even">
+      <div>
+        <h2 class="small">It cites</h2>
+        <ul class="reflist"><li style="--c:var(--c5)"><a href="/Corn-Jr-Public/finding/197.html"><span class="fn">197</span>A model a quarter as wide nearly matches the 20M&#39;s understanding</a></li><li style="--c:var(--c6)"><a href="/Corn-Jr-Public/finding/221.html"><span class="fn">221</span>A book of tallies, no weights, beats the 20M on word meaning</a></li><li style="--c:var(--c5)"><a href="/Corn-Jr-Public/finding/222.html"><span class="fn">222</span>Pressing harder where the book points taught the 20M nothing more</a></li><li style="--c:var(--c5)"><a href="/Corn-Jr-Public/finding/224.html"><span class="fn">224</span>One hard press makes the word likelier everywhere, and writes no line</a></li><li style="--c:var(--c5)"><a href="/Corn-Jr-Public/finding/225.html"><span class="fn">225</span>Pressing the difference a neighbour makes writes some of the pair</a></li><li style="--c:var(--c5)"><a href="/Corn-Jr-Public/finding/226.html"><span class="fn">226</span>Kept presses last, but break the text and churn the words</a></li></ul>
+        
+      </div>
+      <div>
+        <h2 class="small">Cited by</h2>
+        <ul class="reflist"><li style="--c:var(--c6)"><a href="/Corn-Jr-Public/finding/221.html"><span class="fn">221</span>A book of tallies, no weights, beats the 20M on word meaning</a></li><li style="--c:var(--c5)"><a href="/Corn-Jr-Public/finding/228.html"><span class="fn">228</span>The fields stall is not the word-pieces, and not hidden in him</a></li><li style="--c:var(--c5)"><a href="/Corn-Jr-Public/finding/231.html"><span class="fn">231</span>A far lesson in training takes, costs reading, and lifts nothing clearly</a></li><li style="--c:var(--c5)"><a href="/Corn-Jr-Public/finding/232.html"><span class="fn">232</span>He uses far words like the 260M; his gap is close in</a></li><li style="--c:var(--c5)"><a href="/Corn-Jr-Public/finding/233.html"><span class="fn">233</span>A left-to-right count still beats him, so order is not it</a></li><li style="--c:var(--c5)"><a href="/Corn-Jr-Public/finding/234.html"><span class="fn">234</span>Given the count&#39;s word summaries, he leans on them and gains nothing</a></li><li style="--c:var(--c5)"><a href="/Corn-Jr-Public/finding/235.html"><span class="fn">235</span>A counted starting table helps early and is erased by the end</a></li></ul>
+        
+      </div>
+    </div>
+    <p class="body source">docs/findings/227-a-short-word-vector-holds-the-fields-and-not-the-wishes-and-the-frozen-20m-reads-neither-from-it-through-an-input-adapter-while-the-book-speaking-on-his-scores-lifts-both-a-little.md</p>
+  </section>
+</article>
+
+  
+<footer class="turn">
+  <div><span class="sc">previous</span><a href="/Corn-Jr-Public/finding/226.html">226 · Kept presses last, but break the text and churn the words</a></div>
+  <div class="r"><span class="sc">next</span><a href="/Corn-Jr-Public/finding/228.html">228 · The fields stall is not the word-pieces, and not hidden in him</a></div>
+  <p class="keys"><kbd>←</kbd> <kbd>→</kbd> turn the page · <kbd>/</kbd> find</p>
+</footer>
+<p class="bynumber">Previous and next in <a href="/Corn-Jr-Public/thread/understanding.html">Understanding at small scale</a>. By number:
+  <a href="/Corn-Jr-Public/finding/226.html">226</a> · <a href="/Corn-Jr-Public/finding/228.html">228</a></p>
+
+</div>
+</body>
+</html>

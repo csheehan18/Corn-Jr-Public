@@ -1,0 +1,102 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>62 · The call grammar fixes 44% of bytes; the tokenizer blocks using it · Corn-Jr</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600&family=IBM+Plex+Mono:wght@400;500&family=Spectral:ital,wght@0,400;0,500;0,600;1,400&family=Spectral+SC:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/Corn-Jr-Public/static/library.css">
+<script defer src="/Corn-Jr-Public/static/library.js"></script>
+<script type="speculationrules">
+{"prerender": [{"where": {"and": [{"href_matches": "/Corn-Jr-Public/*"}, {"not": {"href_matches": "/Corn-Jr-Public/random.html"}}, {"not": {"href_matches": "/Corn-Jr-Public/static/*"}}]}, "eagerness": "moderate"}]}
+</script>
+
+</head>
+<body>
+<div class="page">
+  <header class="running">
+    <a class="book" href="/Corn-Jr-Public/">Corn-Jr · The Record</a>
+    <nav>
+      <a href="/Corn-Jr-Public/" data-key="shelf">Shelf</a><a href="/Corn-Jr-Public/findings.html" data-key="findings" class="here">Findings</a><a href="/Corn-Jr-Public/doc/VISION.html" data-key="VISION">Vision</a><a href="/Corn-Jr-Public/doc/GLOSSARY.html" data-key="GLOSSARY">Glossary</a>
+      <a href="https://github.com/csheehan18/Corn-Jr-Public">Source</a>
+    </nav>
+  </header>
+  
+
+<article class="sheet" style="--c:var(--c1)">
+  <div class="progress" aria-hidden="true"></div>
+  <section class="grid chapter-open finding-open">
+    <a class="tab" href="/Corn-Jr-Public/thread/tool-calls.html" title="Tool calls and copying"><small>Part</small><span>I</span></a>
+    <p class="cn">62</p>
+    <p class="partline"><a href="/Corn-Jr-Public/thread/tool-calls.html">Tool calls and copying</a> · 26 August 2026</p>
+    <h1>The call grammar fixes 44% of bytes; the tokenizer blocks using it</h1>
+  </section>
+
+  <section class="grid">
+    <p class="marginal">The result, as the finding states it</p><div class="prose"><p class="lead">The grammar knows the next 44% of the bytes, and the tokenizer is what stops it saying so</p></div>
+    
+  </section>
+
+  
+
+  <section class="grid">
+    <div class="prose doc"><p>No GPU, no checkpoint, no training. Everything below is a walk of 400 real calls from <code>data/raw/tools.txt</code> through the real <code>CallConstraint</code>, counted. <code>scripts/forced_token_survey.py</code> is the instrument.</p>
+<blockquote><p><strong>Correction, 2026-08-26, added the day this was written.</strong> The mechanism below is <strong>not new</strong>, and this finding was written without checking. It is <code>llguidance</code>'s <strong>fast-forward tokens</strong>, shipped in production — see <span class="deadlink">EXTERNAL-RESEARCH</span> entry 14. They measure fast-forwarded tokens at <strong>~12.7% of JSON-schema tokens</strong> on llama3, against the 3.8% below on <code>bpe8k</code>; different tokenizer and different schema, so the two are the same quantity and not comparable numbers. They also measured the tokenisation tax from the other side and it is <strong>worse than this file guesses</strong>: with token healing off, <strong>~97% of fast-forwarded sequences are non-canonical</strong>, and forcing a non-canonical segmentation actively damages the model rather than merely wasting a step. What survives as this project's own is the measurement on this tokenizer and this corpus, and the draft-and-verify framing in the last section — which is a <em>different</em> proposal from theirs, not a better one, and is still unmeasured.</p></blockquote>
+<h3 id="why-the-question-came-up">Why the question came up</h3>
+<p>Decode is at 691 tok/s after the sixty-first commit's three optimisations, against a <strong>GEMV floor of 877</strong> — the cost of reading 521 MB of bf16 weights once per token. Every remaining idea that still runs the model once per token is arguing over the last 21%. Passing the floor at all requires producing more than one token per weight read, and with quantisation ruled out that means spending fewer forward passes than tokens.</p>
+<p>Corn-Jr has something most models do not: <code>corn/grammar.py</code> already computes, at every step, the set of tokens that may legally follow. <strong>Where that set has one member the next token is decided and the logits cannot change it</strong> — masked argmax returns it whatever the model computes, and masked softmax gives it probability 1, so this is true of sampling and not only of greedy. A forward pass at such a position is work whose result is discarded.</p>
+<p>That is a property of the grammar and the sentence, not of the weights, so it was measurable before anything was built. Which is the whole reason it got measured before anything was built.</p>
+<h3 id="the-idea-as-first-stated-is-a-null">The idea, as first stated, is a null</h3>
+<p>forced TOKENS          412/10743 = 3.8% consecutive runs       406, mean length 1.01 run lengths            403 of length 1, 3 of length 3</p>
+<p>forwards saved         412/10743 = 3.8%  -&gt;  1.04x</p>
+<p><strong>3.8%, in runs of one.</strong> All 400 of the length-1 runs are the same position: <code>name_body</code>, the completion of the tool name after its first distinguishing character. Nine more are hex escapes and three are string escapes. Nothing else in a call is ever down to a single token.</p>
+<p>An intervention worth 1.04x on part of the output does not justify the machinery it needs, which is chunked prefill into a non-empty cache — a thing <code>CausalSelfAttention.forward</code> currently refuses outright. Recorded as a null.</p>
+<h3 id="the-reason-is-the-finding-and-it-is-a-tokenisation-tax">The reason is the finding, and it is a tokenisation tax</h3>
+<p>The same walk, counting <em>bytes</em> the grammar leaves no choice about rather than tokens:</p>
+<p>forced BYTES           4784/10743 = 44.5% forced TOKENS           412/10743 =  3.8%</p>
+<p><strong>The grammar determines nearly half the bytes of a call and can say almost none of them.</strong> The two numbers differ by 12x and the gap is entirely segmentation: a determined byte string has many legal BPE tokenisations, so "only one string can follow" does not imply "only one token can follow". From inside <code>{&quot;name&quot;: &quot;save_note&quot;</code> the bytes <code>, &quot;arguments&quot;: {&quot;</code> are forced and the decoder still faces a choice among every token that is a prefix of them.</p>
+<p>This is the twelfth-to-fourteenth findings' shape pointed at the decoder instead of the corpus: the information is present, and the representation is what makes it unreachable.</p>
+<h3 id="what-the-gap-is-worth-and-it-is-not-the-obvious-thing">What the gap is worth, and it is not the obvious thing</h3>
+<p>A determined byte run cannot be <em>emitted</em>, because picking a tokenisation picks one the model might not have picked, and a different segmentation is a different KV cache and therefore different logits downstream. But it can be <strong>drafted</strong>. Encode the forced run canonically, run one chunked forward over the whole draft, and keep each drafted token only where it equals what the masked model would have produced anyway; take the model's token at the first disagreement and continue.</p>
+<p>That is ordinary speculative verification with the draft arriving free from the constraint instead of from a second model — no second set of weights, no training, no approximation, and <strong>output exactly identical to the unaccelerated decoder's</strong> by construction rather than by measurement.</p>
+<p>Acceptance is what decides whether it is worth building, and the corpus is the honest estimate of it: <code>tools.txt</code>'s own tokenisation is canonical BPE and is what the model was trained to reproduce, so how often a canonical draft matches the corpus token is how often it should match the model.</p>
+<p>tokens drafted     4717 tokens accepted    3024   (64.1% of drafts) share of all call tokens covered   32.1%</p>
+<p>accepted per draft   1 -&gt; 957   2 -&gt; 243   3 -&gt; 403   4 -&gt; 93</p>
+<p>forwards saved on the constrained span   3024/9415 = 32.1%  -&gt;  1.47x</p>
+<p><strong>1.47x on the span inside a call, exactly.</strong> Not on free <code>&lt;|say|&gt;</code> prose, which no grammar constrains — this buys speed precisely where Corn-Jr does the thing VISION §6 says he is for.</p>
+<h3 id="what-this-does-not-settle">What this does not settle</h3>
+<ul><li><strong>It was already done, and this file did not check.</strong> See the correction at the top and EXTERNAL-RESEARCH entry 14. The prior art also carries a hazard this file did not anticipate: a forced non-canonical segmentation makes the model's <em>next</em> prediction worse, not just its speed. Draft-and-verify is immune to that by construction — a bad draft is rejected and costs a step — which is the one argument for the framing here over theirs, and it is an argument rather than a measurement.</li><li><strong>Nothing is built.</strong> The enabling primitive is a multi-token forward into a non-empty cache — which <code>CausalSelfAttention.forward</code> raised <code>NotImplementedError</code> for when this was written and which <code>CornModel.step</code> now supports, built for prefix reuse — plus KV rollback on a rejected draft. The numbers above are an opportunity, not a speedup anyone has run.</li><li><strong>64.1% is a corpus estimate, not a model measurement.</strong> It says how often canonical BPE agrees with the corpus, and the model's agreement with canonical BPE at temperature 0 is a separate quantity nobody has read. It could go either way and the first real implementation should report it before anything quotes 1.47x.</li><li><strong>The span is not the turn.</strong> 1.47x applies to constrained tokens. What a whole turn gains depends on the call-to-prose ratio, which varies by tool and which this does not measure.</li><li><strong>The 3.8% null is only null for run-skipping.</strong> Those 412 forced tokens are still free inside a draft scheme; they are counted in the 32.1%.</li></ul>
+<h3 id="the-method-note-worth-keeping">The method note worth keeping</h3>
+<p>The byte count is four lines of the survey and it is the only reason the null became a design. A measurement that says "3.8%, abandon it" and a measurement that says "3.8% of tokens but 44.5% of bytes" cost the same to take and point in opposite directions. <strong>When an intervention reads near zero, measure the quantity the mechanism actually operates on before recording the null</strong> — the first number was about the decoder's alphabet and the question was about the grammar's knowledge.</p></div>
+  </section>
+
+  <section class="grid refs">
+    <div class="body two-even">
+      <div>
+        <h2 class="small">It cites</h2>
+        <p class="aside">No other finding by number.</p>
+      </div>
+      <div>
+        <h2 class="small">Cited by</h2>
+        <ul class="reflist"><li style="--c:var(--c2)"><a href="/Corn-Jr-Public/finding/72.html"><span class="fn">72</span>Search returned &#39;capital punishment&#39; for &#39;capital of Mongolia&#39;; fixed</a></li></ul>
+        
+      </div>
+    </div>
+    <p class="body source">docs/findings/62-the-grammar-knows-the-next-forty-four-per-cent-of-the-bytes-and-the-tokenizer-is-what-stops-it-saying-so.md</p>
+  </section>
+</article>
+
+  
+<footer class="turn">
+  <div><span class="sc">previous</span><a href="/Corn-Jr-Public/finding/50.html">50 · Invented facts make him copy; a real name brings memory back</a></div>
+  <div class="r"><span class="sc">next</span><a href="/Corn-Jr-Public/finding/71.html">71 · Giving memory-lookup calls real results turns silence into recitation</a></div>
+  <p class="keys"><kbd>←</kbd> <kbd>→</kbd> turn the page · <kbd>/</kbd> find</p>
+</footer>
+<p class="bynumber">Previous and next in <a href="/Corn-Jr-Public/thread/tool-calls.html">Tool calls and copying</a>. By number:
+  <a href="/Corn-Jr-Public/finding/61.html">61</a> · <a href="/Corn-Jr-Public/finding/63.html">63</a></p>
+
+</div>
+</body>
+</html>

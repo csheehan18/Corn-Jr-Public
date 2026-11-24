@@ -1,0 +1,94 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>103 · Averaging three seeds&#39; readers barely helps · Corn-Jr</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600&family=IBM+Plex+Mono:wght@400;500&family=Spectral:ital,wght@0,400;0,500;0,600;1,400&family=Spectral+SC:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/Corn-Jr-Public/static/library.css">
+<script defer src="/Corn-Jr-Public/static/library.js"></script>
+<script type="speculationrules">
+{"prerender": [{"where": {"and": [{"href_matches": "/Corn-Jr-Public/*"}, {"not": {"href_matches": "/Corn-Jr-Public/random.html"}}, {"not": {"href_matches": "/Corn-Jr-Public/static/*"}}]}, "eagerness": "moderate"}]}
+</script>
+
+</head>
+<body>
+<div class="page">
+  <header class="running">
+    <a class="book" href="/Corn-Jr-Public/">Corn-Jr · The Record</a>
+    <nav>
+      <a href="/Corn-Jr-Public/" data-key="shelf">Shelf</a><a href="/Corn-Jr-Public/findings.html" data-key="findings" class="here">Findings</a><a href="/Corn-Jr-Public/doc/VISION.html" data-key="VISION">Vision</a><a href="/Corn-Jr-Public/doc/GLOSSARY.html" data-key="GLOSSARY">Glossary</a>
+      <a href="https://github.com/csheehan18/Corn-Jr-Public">Source</a>
+    </nav>
+  </header>
+  
+
+<article class="sheet" style="--c:var(--c2)">
+  <div class="progress" aria-hidden="true"></div>
+  <section class="grid chapter-open finding-open">
+    <a class="tab" href="/Corn-Jr-Public/thread/reading.html" title="Reading documents"><small>Part</small><span>II</span></a>
+    <p class="cn">103</p>
+    <p class="partline"><a href="/Corn-Jr-Public/thread/reading.html">Reading documents</a> · 4 September 2026</p>
+    <h1>Averaging three seeds&#39; readers barely helps</h1>
+  </section>
+
+  <section class="grid">
+    <p class="marginal">The result, as the finding states it</p><div class="prose"><p class="lead">The three seed heads averaged rank the gold first on four more passages than the best of them, while any one of them being right would be sixty-one more, so the pick's seed variance is real and averaging does not harvest it</p></div>
+    
+  </section>
+
+  
+
+  <section class="grid">
+    <div class="prose doc"><p><code>scripts/harvest_popa_pairs.py --span-head s1 s2 s3</code>, 2026-09-04. No head was trained: the three shipped built heads (<code>reader_built_s{1,2,3}.pt</code>) read Population A's 3,893 windows off the popa cache, their pair logits averaged before the argmax, 34 s on the GPU. <code>evals/results/pairs_ens_s123_popa.json</code> and <code>reader_funnel_ens_s123.json</code>. <code>corn/reader.py</code> is untouched.</p>
+<h3 id="0-why-this-read-and-what-it-was-to-decide">0. Why this read, and what it was to decide</h3>
+<p>Finding <a class="fref" href="/Corn-Jr-Public/finding/102.html">102</a> left the span head at training loss 0.03 and held-out exact-pair 0.54 with more epochs buying nothing: a generalisation gap, not an under-trained head. The levers for a gap split by what the gap is made of. If the three seed heads err on <em>different</em> windows the gap is variance, and weight averaging, ensembling and stronger regularisation are the cheap next arms. If they err on the <em>same</em> windows the gap is bias in what the frozen states carry, and only data, labels or representation can move it. The cheapest instrument that separates the two is the ensemble the project already owns: three heads of one recipe on three seeds, on a population none of them trained on.</p>
+<p>Pre-stated before the run (this session's recommendation to the owner): the pick stage moves by fifteen or more passages, and averaging pays; under ten, and the next arms are labels and data.</p>
+<h3 id="1-the-pick-stage-four-ways">1. The pick stage, four ways</h3>
+<p><code>probe_reader_funnel.py --pairs</code> on the ensemble's pairs file, with the seed-1 reader harvest supplying the gold windows. The first two funnel stages read the pairs file alone, so they are the ensemble's own.</p>
+<p>passages, of 721 answerable         s1     s2     s3    mean   ensemble the gold in some gold window's ten  678    679    676   677.7     681 the head ranks it first there       494    484    493   490.3     498</p>
+<p>gold-bearing windows, of 1,211      731    700    723   718.0     739 on which the gold is ranked first</p>
+<p>passages ranked first by:   two of three 493    any of three 555    all three 423 windows ranked first by:                        any of three 837    all three 596</p>
+<p><strong>The mean-logit ensemble is +4 passages over the best single head and +8 over their mean.</strong> Majority vote across the three is 493, the best head's number. The pick <em>rate</em> over windows whose ten holds the gold is unchanged: 739 of 1,109 (66.6%) against seed 1's 731 of 1,097 (66.6%); the ensemble's whole gain is that its ten catches twelve more windows and three more passages, which is a generation gain and not a pick gain. The winner's median lead over the gold falls from 3.44 to 3.06 logits, still a confident miss.</p>
+<p><strong>And the oracle says the variance is there.</strong> Some one of the three heads ranks the gold first on 555 passages, sixty-one more than the best head; all three agree on only 423. At the window level 837 against 731. The seeds disagree on about one gold-bearing window in five, and on those windows the ensemble sides with the wrong head as often as the best head is wrong alone.</p>
+<h3 id="2-reading">2. Reading</h3>
+<p>This is the shape of disagreement that averaging cannot help: when the heads split, the one that is wrong is not less confident than the one that is right, so the mean inherits the error. Whatever separates 498 from 555 is a choice <em>among</em> heads on the windows where they differ, and a choice among candidate spans by a second scorer is the pick problem itself, which the re-ranker (finding <a class="fref" href="/Corn-Jr-Public/finding/86.html">86</a>), the listwise verifier (finding <a class="fref" href="/Corn-Jr-Public/finding/99.html">99</a>) and the encoder (finding <a class="fref" href="/Corn-Jr-Public/finding/100.html">100</a>) have each failed to make.</p>
+<p>By the rule set before the run, four is under ten and the cheap variance-reduction arms — EMA or SWA of the weights, a dropout and weight-decay sweep, state noise — are not the next thing. They would reduce each head's variance around a mean that is itself wrong on the same windows. They remain cheap (about three minutes a point) and never-asked, and are left as an option and not a recommendation.</p>
+<p><strong>What is left on the pick is data, labels and representation.</strong> Labels: <code>train_reader.py</code>'s loss already sums the probability of every annotated occurrence of the gold (<code>spans</code> carries more than one on 7,842 of 100,084 positives), and only 1,752 positives (1.75%) hold an unannotated further occurrence of the answer string, so "credit every occurrence" is already pulled; the label lever that remains is the <code>EQUIVALENT</code> class finding <a class="fref" href="/Corn-Jr-Public/finding/95.html">95</a> measured at 15% of refused-wrong golds, which needs relabelling and waits on the owner's spot check (<code>docs/SPOT-CHECK-REFUSED-WRONG.md</code>). Data: SQuAD 2.0 as minority supervision (audit L18) was blocked on disk at 19 GB free; the states drive now has 50 GB free against a 38 GB positive cache, so it is blocked on the owner's licence line only. Representation: the layer band (row 36) and the prompt-form variants (L16, L17), each a fresh state harvest.</p>
+<h3 id="3-on-disk">3. On disk</h3>
+<p><code>harvest_popa_pairs.py --span-head</code> now takes several heads and averages their pair logits; one head is byte-identical to before, and <code>--check-against</code> is refused for an ensemble whose spans are nobody's. <code>pairs_ens_s123_popa.json</code> is in the single-head pairs format with <code>span_head</code> and <code>seed</code> as lists, so every replay tool reads it unchanged.</p>
+<h3 id="4-limits">4. Limits</h3>
+<p>One ensemble rule, the mean of raw logits; the three heads share one recipe and 95% of their training articles, so this is a lower bound on what a more diverse ensemble would show and an upper bound on nothing. The any-of-three oracle is handed the answer and is quoted as a bound on variance, not as a reachable number. Population A only; the held-out slices differ by seed so no held-out exact-pair for the ensemble exists. The downstream funnel stages (admission, vote) for the ensemble were read with seed 1's verifier and are not quoted because that verifier was cross-fitted to seed 1's head.</p></div>
+  </section>
+
+  <section class="grid refs">
+    <div class="body two-even">
+      <div>
+        <h2 class="small">It cites</h2>
+        <ul class="reflist"><li style="--c:var(--c2)"><a href="/Corn-Jr-Public/finding/86.html"><span class="fn">86</span>A checker that reads the candidate answer works; re-ranking does not</a></li><li style="--c:var(--c2)"><a href="/Corn-Jr-Public/finding/95.html"><span class="fn">95</span>The right answer is among the top ten on 90% of misses</a></li><li style="--c:var(--c2)"><a href="/Corn-Jr-Public/finding/99.html"><span class="fn">99</span>Ranking candidates together makes the checker worse on both seeds</a></li><li style="--c:var(--c2)"><a href="/Corn-Jr-Public/finding/100.html"><span class="fn">100</span>Two bidirectional layers over the reader add nothing</a></li><li style="--c:var(--c2)"><a href="/Corn-Jr-Public/finding/102.html"><span class="fn">102</span>Twice the training epochs doesn&#39;t improve the answer finder</a></li></ul>
+        
+      </div>
+      <div>
+        <h2 class="small">Cited by</h2>
+        <ul class="reflist"><li style="--c:var(--c2)"><a href="/Corn-Jr-Public/finding/106.html"><span class="fn">106</span>Fifty thousand extra labelled windows don&#39;t help the reader</a></li><li style="--c:var(--c2)"><a href="/Corn-Jr-Public/finding/109.html"><span class="fn">109</span>Other layer choices don&#39;t beat the shipped one</a></li><li style="--c:var(--c2)"><a href="/Corn-Jr-Public/finding/111.html"><span class="fn">111</span>Overlapping windows add nothing; answers near a cut edge are missed</a></li><li style="--c:var(--c2)"><a href="/Corn-Jr-Public/finding/112.html"><span class="fn">112</span>Training on whole passages lifts extraction from 54% to 71%</a></li></ul>
+        
+      </div>
+    </div>
+    <p class="body source">docs/findings/103-three-seed-heads-averaged-rank-the-gold-first-on-four-more-passages-while-any-one-of-them-being-right-would-be-sixty-one-more-so-the-pick-variance-is-real-and-averaging-cannot-harvest-it.md</p>
+  </section>
+</article>
+
+  
+<footer class="turn">
+  <div><span class="sc">previous</span><a href="/Corn-Jr-Public/finding/102.html">102 · Twice the training epochs doesn&#39;t improve the answer finder</a></div>
+  <div class="r"><span class="sc">next</span><a href="/Corn-Jr-Public/finding/104.html">104 · Under the owner&#39;s rules, a fifth of &#39;wrong&#39; answers are right</a></div>
+  <p class="keys"><kbd>←</kbd> <kbd>→</kbd> turn the page · <kbd>/</kbd> find</p>
+</footer>
+<p class="bynumber">Previous and next in <a href="/Corn-Jr-Public/thread/reading.html">Reading documents</a>. By number:
+  <a href="/Corn-Jr-Public/finding/102.html">102</a> · <a href="/Corn-Jr-Public/finding/104.html">104</a></p>
+
+</div>
+</body>
+</html>

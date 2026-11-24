@@ -1,0 +1,87 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>206 · A matching lesson at a tenth of conversation reading did not take · Corn-Jr</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600&family=IBM+Plex+Mono:wght@400;500&family=Spectral:ital,wght@0,400;0,500;0,600;1,400&family=Spectral+SC:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/Corn-Jr-Public/static/library.css">
+<script defer src="/Corn-Jr-Public/static/library.js"></script>
+<script type="speculationrules">
+{"prerender": [{"where": {"and": [{"href_matches": "/Corn-Jr-Public/*"}, {"not": {"href_matches": "/Corn-Jr-Public/random.html"}}, {"not": {"href_matches": "/Corn-Jr-Public/static/*"}}]}, "eagerness": "moderate"}]}
+</script>
+
+</head>
+<body>
+<div class="page">
+  <header class="running">
+    <a class="book" href="/Corn-Jr-Public/">Corn-Jr · The Record</a>
+    <nav>
+      <a href="/Corn-Jr-Public/" data-key="shelf">Shelf</a><a href="/Corn-Jr-Public/findings.html" data-key="findings" class="here">Findings</a><a href="/Corn-Jr-Public/doc/VISION.html" data-key="VISION">Vision</a><a href="/Corn-Jr-Public/doc/GLOSSARY.html" data-key="GLOSSARY">Glossary</a>
+      <a href="https://github.com/csheehan18/Corn-Jr-Public">Source</a>
+    </nav>
+  </header>
+  
+
+<article class="sheet" style="--c:var(--c5)">
+  <div class="progress" aria-hidden="true"></div>
+  <section class="grid chapter-open finding-open">
+    <a class="tab" href="/Corn-Jr-Public/thread/reply-judge.html" title="The reply judge"><small>Part</small><span>V</span></a>
+    <p class="cn">206</p>
+    <p class="partline"><a href="/Corn-Jr-Public/thread/reply-judge.html">The reply judge</a> · 22 October 2026</p>
+    <h1>A matching lesson at a tenth of conversation reading did not take</h1>
+  </section>
+
+  <section class="grid">
+    <p class="marginal">The result, as the finding states it</p><div class="prose"><p class="lead">Graded from the first step on whether a reply belongs to its message — two quads a micro-batch from the 717,092 message-reply pairs of his own conversational reading, scored lp(r1|m1) + lp(r2|m2) - lp(r2|m1) - lp(r1|m2) so a reply's general likelihood cancels, weighted like one token of the reading — the 5M matches no better afterwards: same-dialogue quads right 0.873 and 0.867 against the control's 0.872 and 0.858 (the gate was 0.887 at both), the pre-registered row (u), the exercise did not take at this weight. Its margins rose a little at both seeds (11.00 / 10.30 against 10.43 / 9.69) and its training log climbed to 0.885 by step 5,000; language, the rulers and the swap test are level; the blind hand read gives 73 and 63 of 148 against 70 and 55. By hand, a large part of what the control gets "wrong" has no right answer: two turns of one conversation often carry replies that fit either message</p></div>
+    <p class="marginal">What it cost</p><div class="prose"><p class="cost"><code>corn/contrast.py</code>, its guard (<code>scripts/check_contrast.py</code>, 103 guards), <code>scripts/probe_contrast_take.py</code>, a 500-iteration smoke run, the floor and the pre-registration 13:41-13:47 on 2026-10-22 (5c48510); the chain 13:47-14:06, 19.1 min (both runs 417 and 414 s, contended, a bound); the quad hand check and the blind hand read of 592 replies inside it. ETA 25 min of card, actual 19.1.</p></div>
+  </section>
+
+  
+
+  <section class="grid">
+    <div class="prose doc"><p><strong>The question</strong> (owner, 2026-10-22: teach him from wrong answers; "this should come from pretraining"; "no shortcuts"; about a tenth of his conversational reading). Next-word training only ever says what to write. Findings <a class="fref" href="/Corn-Jr-Public/finding/204.html">204</a>-<a class="fref" href="/Corn-Jr-Public/finding/205.html">205</a>: the plain 5M recognises a fitting reply far better than it writes one. This adds a matching lesson to pretraining from step one — <code>corn/contrast.py</code> argues every setting — at 2 quads a micro-batch (three same-dialogue to one cross), weighted like one token each, on the control's reading byte for byte (its own generator). Predicted (t): it takes, writing is level.</p>
+<h3 id="the-read">The read</h3>
+<p>read                                          base s1   base s2   arm s1   arm s2 exercise take, same dialogue: right / margin  0.872/10.43 0.858/9.69 0.873/11.00 0.867/10.30 cross: right / margin                        0.989/20.05 0.990/19.28 0.986/20.27 0.986/19.38 training log, same dialogue right (step 5,000) —        —        0.885    (seed 2 alike) coherence, blind hand read (of 148)           70        55        73       63 swap test, within margin                      8.27      8.08      8.15     7.68 lm narrative / web / conversational           0.4864/0.9512/0.5579  0.4883/0.9522/0.5599  0.4880/0.9543/0.5582  0.4880/0.9523/0.5603 fields / wishes 192 / plain lift              0.56/0.35/0.49  0.53/0.32/0.47  0.52/0.33/0.48  0.49/0.33/0.47</p>
+<p>(<code>evals/results/contrast__take.txt</code>, <code>reply_contrast__*</code>, <code>nano5m_contrast__*</code>; hand labels and blind key committed beside the replies.)</p>
+<p><strong>The gates, as registered.</strong> Took: no — 0.873 and 0.867 under 0.887. <strong>(u)</strong>, whatever else moved. Read beside: fluency holds; the hand read is inside the control pair's spread (a seed-for-seed +3 and +8, not the pre-registered direction, which needed both above 70).</p>
+<h3 id="read-by-hand">Read by hand</h3>
+<p><strong>The quads.</strong> Six same-dialogue quads drawn fresh and decoded with both checkpoints' margins: the instrument scores what it should (<em>"Hi there! I'm going to wash your face and hair" -&gt; "Okay!"</em> against <em>"This feels good! Thank you, Jerry" -&gt; "You're welcome, sweetie..."</em>: +21.5 on the control). But the hard ones are hard because nothing decides them: <em>"It's no problem. I want to help you" -&gt; "That means a lot to me"</em> against <em>"I'm happy to offer my protection" -&gt; "Thank you, Rylei. I really appreciate it"</em> — either reply fits either message (+1.5 / +0.9); in another, <em>"Really? I never thought of it that way"</em> and <em>"Exactly! And that's what makes art so interesting"</em> each fit both turns. Two turns of one conversation share the topic, the people and the mood, and their replies are often interchangeable; the 13% the control gets wrong is part error and part a coin with no right side.</p>
+<p><strong>The replies</strong> (592, blind; the control's labels came out 70 and 55 for the third time) fail as before: "That's great!" to a spilled coffee, the self-doubt line to open questions.</p>
+<p><strong>Corrected by finding <a class="fref" href="/Corn-Jr-Public/finding/207.html">207</a> (2026-10-22).</strong> The six quads above were not a count. Read blind with a baseline, a person decides 42 of 50 same-dialogue quads the control gets wrong, 38 correctly; undecidable pairs are about a sixth of the misses, not "a large part". The reading (u) stands; the reason given for it below does not, and the licence's "if few" branch is the one that did not happen.</p>
+<h3 id="what-it-licenses">What it licenses</h3>
+<ul><li><strong>At this weight the lesson does not move him.</strong> It honoured the cap the owner set (~1.6% of the reading's weight); quads already right by a wide margin teach almost nothing, and the ones left are partly undecidable.</li><li><strong>Before a heavier weight, measure the headroom by hand</strong>: read 50 same-dialogue quads the control gets wrong and count how many a person could decide. If most cannot be decided, a heavier weight trains on noise and the exercise needs harder <em>decidable</em> pairs (a reply that answers a question against one that answers a statement; a reply that fits the mood against one that fits the topic) rather than more of these.</li><li>The machinery stands: pairs from his own reading, a margin no reply prior can move, the reading untouched — guarded and ready for either.</li></ul>
+<p><strong>What it does not settle.</strong> Any heavier weight; any size above 5M; whether a lesson that took would carry into writing (finding <a class="fref" href="/Corn-Jr-Public/finding/205.html">205</a>'s open question).</p></div>
+  </section>
+
+  <section class="grid refs">
+    <div class="body two-even">
+      <div>
+        <h2 class="small">It cites</h2>
+        <ul class="reflist"><li style="--c:var(--c5)"><a href="/Corn-Jr-Public/finding/204.html"><span class="fn">204</span>Running the same layers twice moves nothing measurable at 5M</a></li><li style="--c:var(--c5)"><a href="/Corn-Jr-Public/finding/205.html"><span class="fn">205</span>Choosing replies by what the message raises varies them, not their fit</a></li><li style="--c:var(--c5)"><a href="/Corn-Jr-Public/finding/207.html"><span class="fn">207</span>The pairs he fails are mostly decidable: he loses the conversation&#39;s thread</a></li></ul>
+        
+      </div>
+      <div>
+        <h2 class="small">Cited by</h2>
+        <ul class="reflist"><li style="--c:var(--c5)"><a href="/Corn-Jr-Public/finding/207.html"><span class="fn">207</span>The pairs he fails are mostly decidable: he loses the conversation&#39;s thread</a></li><li style="--c:var(--c5)"><a href="/Corn-Jr-Public/finding/208.html"><span class="fn">208</span>The shipped model answers most one-off messages coherently</a></li><li style="--c:var(--c5)"><a href="/Corn-Jr-Public/finding/209.html"><span class="fn">209</span>The small model answers half of even its own style&#39;s openers</a></li><li style="--c:var(--c5)"><a href="/Corn-Jr-Public/finding/214.html"><span class="fn">214</span>A reply judge beside the 5M moves his replies level</a></li><li style="--c:var(--c5)"><a href="/Corn-Jr-Public/finding/219.html"><span class="fn">219</span>A 5M reading only conversation answers far more messages</a></li><li style="--c:var(--c5)"><a href="/Corn-Jr-Public/finding/226.html"><span class="fn">226</span>Kept presses last, but break the text and churn the words</a></li><li style="--c:var(--c5)"><a href="/Corn-Jr-Public/finding/231.html"><span class="fn">231</span>A far lesson in training takes, costs reading, and lifts nothing clearly</a></li></ul>
+        
+      </div>
+    </div>
+    <p class="body source">docs/findings/206-a-matching-exercise-in-pretraining-at-a-tenth-of-the-conversational-reading-does-not-take-at-5m-same-dialogue-right-0-873-and-0-867-against-0-872-and-0-858-and-writing-is-level.md</p>
+  </section>
+</article>
+
+  
+<footer class="turn">
+  <div><span class="sc">previous</span><a href="/Corn-Jr-Public/finding/205.html">205 · Choosing replies by what the message raises varies them, not their fit</a></div>
+  <div class="r"><span class="sc">next</span><a href="/Corn-Jr-Public/finding/207.html">207 · The pairs he fails are mostly decidable: he loses the conversation&#39;s thread</a></div>
+  <p class="keys"><kbd>←</kbd> <kbd>→</kbd> turn the page · <kbd>/</kbd> find</p>
+</footer>
+<p class="bynumber">Previous and next in <a href="/Corn-Jr-Public/thread/reply-judge.html">The reply judge</a>. By number:
+  <a href="/Corn-Jr-Public/finding/205.html">205</a> · <a href="/Corn-Jr-Public/finding/207.html">207</a></p>
+
+</div>
+</body>
+</html>

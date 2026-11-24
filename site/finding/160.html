@@ -1,0 +1,105 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>160 · 2048-token blocks cost 1.2x training time and fit in memory · Corn-Jr</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600&family=IBM+Plex+Mono:wght@400;500&family=Spectral:ital,wght@0,400;0,500;0,600;1,400&family=Spectral+SC:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/Corn-Jr-Public/static/library.css">
+<script defer src="/Corn-Jr-Public/static/library.js"></script>
+<script type="speculationrules">
+{"prerender": [{"where": {"and": [{"href_matches": "/Corn-Jr-Public/*"}, {"not": {"href_matches": "/Corn-Jr-Public/random.html"}}, {"not": {"href_matches": "/Corn-Jr-Public/static/*"}}]}, "eagerness": "moderate"}]}
+</script>
+
+</head>
+<body>
+<div class="page">
+  <header class="running">
+    <a class="book" href="/Corn-Jr-Public/">Corn-Jr · The Record</a>
+    <nav>
+      <a href="/Corn-Jr-Public/" data-key="shelf">Shelf</a><a href="/Corn-Jr-Public/findings.html" data-key="findings" class="here">Findings</a><a href="/Corn-Jr-Public/doc/VISION.html" data-key="VISION">Vision</a><a href="/Corn-Jr-Public/doc/GLOSSARY.html" data-key="GLOSSARY">Glossary</a>
+      <a href="https://github.com/csheehan18/Corn-Jr-Public">Source</a>
+    </nav>
+  </header>
+  
+
+<article class="sheet" style="--c:var(--c5)">
+  <div class="progress" aria-hidden="true"></div>
+  <section class="grid chapter-open finding-open">
+    <a class="tab" href="/Corn-Jr-Public/thread/corpus-1-0.html" title="The 1.0 corpus"><small>Part</small><span>V</span></a>
+    <p class="cn">160</p>
+    <p class="partline"><a href="/Corn-Jr-Public/thread/corpus-1-0.html">The 1.0 corpus</a> · 10 October 2026</p>
+    <h1>2048-token blocks cost 1.2x training time and fit in memory</h1>
+  </section>
+
+  <section class="grid">
+    <p class="marginal">The result, as the finding states it</p><div class="prose"><p class="lead">The block's costs: at the 260M step 2048 trains at 1.20x the 512 wall clock and 1024 at 1.06x, a fine-tune fits at 2048 in the memory it uses at 512, decode is free on a short turn and 100 tok/s deep in a full window as shipped, and a 2048 window holds ten documents with a third of its attention inside one</p></div>
+    <p class="marginal">What it cost</p><div class="prose"><p class="cost">~12 min of GPU in four chains under <code>scripts/gpu.py</code>, all marked contended (card at 31-44% light use): 3 min (killed — a spill I should have priced first), 5.2, 5.8 and 0.9 min; CPU ~5 s for the packing probe and 79 s for the 2048 conversation build; the bench options, the probe, the decode fix and its guard and this write-up took about 25 min (16:25-16:50 on 2026-10-10).</p></div>
+  </section>
+
+  
+
+  <section class="grid">
+    <div class="prose doc"><p>ROADMAP P0: <em>the block's costs, no slice needed: training at the H200 shape, fine-tune memory on the 10 GB 3080, bucketed decode at 2048, and what a block of five-plus packed documents attending across each other costs.</em> It feeds the owner's block decision (D2) and the 1.0 date; P1's nano pilot is the other half of D2 and is not read here. <strong>Every timing below was taken beside 31-44% light use of the card and is a bound</strong>; the three blocks were read back to back in one sitting under the same load, and the ratios between them are what this finding quotes. Cards: <code>evals/results/block_costs__160.json</code> (every bench row) and <code>evals/results/block_packing__160.json</code> (the stream and the v5 slices).</p>
+<h3 id="1-training-at-the-h200-step">1. Training, at the H200 step</h3>
+<p><code>corn/trainbench.py --compile</code> on <code>configs/corn_jr_260m_v4.py</code>'s shape and its 24,576-token step, the tokens per micro-batch held equal across blocks:</p>
+<p>block   rows x accum x block   step ms   tok/s   TFLOP/s   vs 512   by FLOPs   peak / reserved 512        8 x 6 x 512           1,135   21.6k     36.6     1.00      1.00     7.73 / 8.03 GB 1024       4 x 6 x 1024          1,206   20.4k     37.1     1.06      1.08     7.74 / 8.05 GB 2048       2 x 6 x 2048          1,357   18.1k     37.6     1.20      1.23     7.76 / 8.10 GB</p>
+<p><strong>The step costs what its arithmetic says.</strong> Achieved TFLOP/s is flat, and the ratio sits just under the FLOP count's (<code>flops_per_token</code>: the quadratic term is 245,760 x T a token against 6N = 1.56 GFLOP, so attention is 7.4% of the step at 512, 13.8% at 1024, 24.2% at 2048). PLAN-1-0 §4's estimates — ~1.3x at 1024, ~2x at 2048 — priced attention as a larger share than it is at 1,024 wide.</p>
+<p><strong>On the H200.</strong> The v4 run was 6 h 43 m and $25.52 at 512 (~$23.10 of it training). At the 3080's ratio, <strong>2048 is ~8.0 h and ~$30, 1024 ~7.1 h and ~$27</strong> — an extrapolation: the H200 holds the 3080's ratio if its flash kernel keeps the same efficiency against its matmuls, and the FLOP count (1.23x) is the ceiling if it does not. D11's ~1B-token pilot at 2048 is ~1.6 h of H200 at v4's sustained rate.</p>
+<p><strong>The pilot's own shape</strong> (<code>nano20m_v3</code>, compiled, 24 x 2 x 512 and its equal-token twins): 137, 151 and 178 ms, <strong>1.10x and 1.29x</strong> (by FLOPs 1.14 and 1.42 — attention is a larger share of a 512-wide model). P1's three arms cost about 3.4 runs of the 512 arm, which is PLAN-1-0 §4's ~50 minutes.</p>
+<h3 id="2-fine-tune-memory-on-the-10-gb-card">2. Fine-tune memory on the 10 GB card</h3>
+<p><strong>Memory is linear in tokens per micro-batch, not quadratic in the block</strong> — SDPA's flash kernel never builds the T x T matrix — so at equal tokens the three blocks reserve 8.03, 8.05 and 8.10 GB of 10.00. A fine-tune at 2048 runs <strong>2 rows x 6 accumulation, 24,576 tokens a step — <code>4j</code>'s step exactly (8 x 6 x 512) — in the same memory, at 1.2x its time</strong> (<code>4j</code>'s 17 minutes of training becomes ~20). PLAN-1-0 §4's "about four times 512's at the same batch" is true at the same <em>rows</em>; nothing needs more accumulation.</p>
+<p>What does not fit: <strong>4 rows at 2048</strong> (8,192 tokens a micro-batch). The first chain asked for it, the card went to 9,998 of 10,240 MiB, and it was killed before a step was timed — WDDM spills into host RAM rather than raising, as <code>trainbench</code>'s docstring warns, and §1's line puts it at ~12.6 GB. So did 16 rows at 512, which was cut from the chain unrun.</p>
+<h3 id="3-decode">3. Decode</h3>
+<p><code>corn/bench.py</code> gained <code>--block-size</code>, <code>--buckets</code>, <code>--compile-step</code> and <code>--paths</code>. bf16 is finding <a class="fref" href="/Corn-Jr-Public/finding/2.html">2</a>'s condition; fp32 with buckets and <code>compile_step</code> is what <code>harness/serverconfig.py</code> ships. tok/s, graphed path (with sampling and readback in brackets), and the 32-token reply in ms:</p>
+<p>dtype  buckets  compile  positions      block 512           block 2048 bf16   off      off      128-256        425 (394)  87       226 (218)  153 bf16   on       off      128-256        502 (461)  75       503 (459)   75 bf16   off      off      1792-1920        —                225 (217)  170 bf16   on       off      1792-1920        —                234 (225)  165 fp32   on       on       128-256              297  119            303  117 fp32   on       on       352-480              234  157              — fp32   on       on       1792-1920        —                      100  412 fp32   on       off      128-256          —                      276  128 fp32   on       off      1792-1920        —                       97  422</p>
+<p><strong>Finding <a class="fref" href="/Corn-Jr-Public/finding/2.html">2</a> reproduces</strong>: 425 against its 424 at this shape. The 554 that PLAN-1-0 §4 and the P0 brief quote is finding <a class="fref" href="/Corn-Jr-Public/finding/2.html">2</a>'s 12L x 1280, a shape that never shipped.</p>
+<p><strong>Unbucketed, 2048 halves every turn</strong> (226): the static cache attends all 2048 slots. <strong>Bucketed, a short turn costs exactly what it does at 512</strong> — 503 against 502 in bf16, 303 against 297 as shipped — and the server already runs buckets, so a short conversation pays nothing for the wider window.</p>
+<p><strong>Deep in a full window is the cost, and no bucket removes it</strong> — the window is full. <strong>As shipped, a turn at positions 1792-1920 decodes at 100 tok/s and a 32-token reply takes 412 ms</strong> (91 ms of it prefill), against VISION §3's 250 tok/s and 100 ms; 512's own deepest point reads 234. bf16 reads 225 at the same position with a 28 ms prefill. So the 10-20-turn goal pays ~2.3x a token at the end of a long conversation as shipped, and dtype is the measured lever — but fp32 is a measurement condition (<code>corn/sample.py</code>: every scorecard is fp32), so serving bf16 is an H3 and owner choice, not a corpus one. <code>attn=&quot;manual&quot;</code> (2.2x at decode in <code>model.py</code>'s own measurement) was not read.</p>
+<p><strong>A hole, fixed: <code>compile_step</code> silently fell back past eight buckets.</strong> Dynamo caps one function at 8 compiled versions; a 2048 window has 16 buckets, the ninth raised <code>FailOnRecompileLimitHit</code> under <code>fullgraph=True</code>, and <code>_capture</code>'s broken-toolchain path caught it — leaving buckets 1-8 compiled, 9-16 eager, and the card saying <code>compile_step: false</code>. 1024 has exactly 8 buckets and 512 has 4, so nothing shipped ever met it. <code>corn.decode.ensure_recompile_room</code> raises the limit to twice the bucket count before compiling (never lowering it); <code>scripts/check_decode.py</code> section 0 checks the helper without compiling, and <code>--compile</code> now builds sixteen compiled buckets on the nano checkpoint and requires <code>compiled</code> and 96/96 greedy parity — <strong>96/96 and compiled with the fix; with the helper made a no-op it fails on both counts.</strong> What the fix buys is honesty more than speed: 3% deep (100 against 97), 10% on a short turn (303 against 276).</p>
+<h3 id="4-packed-documents">4. Packed documents</h3>
+<p><strong>The premise was a reading of six generated files.</strong> "No document exceeds 431 tokens" is <code>docs/MEASURED-TURNS.md</code> §4's table, and its six files are all generated. The stream <code>train.py</code> samples is 46.4% web, and <code>scripts/probe_block_packing.py</code> reads it per source (400 random windows a source a block, 2M-token samples for lengths): <strong>web's median document is 834 tokens, p90 2,541; 93% of web tokens are in documents longer than 512 and 45% in documents longer than 2048.</strong> Every other source sits at a median of 48-228 tokens, with at most 5% of its tokens (narrative) in documents over 512.</p>
+<p><strong>What a boundary is had to be read, not assumed.</strong> The first cut used <code>&lt;|day|&gt;</code> where a source had no <code>&lt;|endoftext|&gt;</code>; by hand, five sources (<code>structured</code>, <code>tools</code>, <code>extract</code>, <code>turn2</code>, <code>paired</code>) have neither and separate documents with a blank line, and <code>compound_v2</code> heads only some documents with a day line, so its p90 read 1,133. A blank line is the boundary in every source without <code>&lt;|endoftext|&gt;</code>; <code>chat</code> then reads a median of 48 and <code>compound_v2</code> 130, against MEASURED-TURNS' independent 45 and 128.</p>
+<p>Weighted by each source's share of the stream (which is its share of windows):</p>
+<p>block   documents a window   five or more   same-document pairs   cut head   whole 512            3.1               16%               58%              49%        35% 1024           5.3               52%               45%              37%        48% 2048           9.7               57%               33%              25%        61%</p>
+<p><em>Same-document pairs</em>: the share of causal (query, key) pairs whose key is in the query's own document — a FLOP share. <em>Cut head</em>: tokens whose document began before the window. <em>Whole</em>: tokens in a document wholly inside it.</p>
+<p><strong>"Five-plus packed documents" is true of 57% of 2048 windows</strong> — every window outside web (11 to 43 documents) and 8% of web windows (2.6). The costs, each priced:</p>
+<ul><li><strong>Compute.</strong> Two thirds of attention pairs at 2048 cross a boundary, and attention is 24.2% of the step: <strong>16% of a 2048 step is spent attending across documents</strong> (3% at 512, 8% at 1024). It is already inside §1's 1.20x.</li><li><strong>Stopping it.</strong> A document mask through SDPA's boolean path (<code>trainbench --doc-len 150</code>) steps in <strong>1,534 ms against 1,357 at 2048, +13%</strong>, memory unchanged (8.13 GB); at 512 no cost is readable under the contention (1,101 against 1,135). A boolean mask takes SDPA off flash and skips nothing, so it pays extra <em>not</em> to attend. A block-sparse kernel (FlexAttention, or flash's varlen path) would skip the masked blocks and could recover up to the 16%; not measured, because it is a model change.</li><li><strong>What the window shows.</strong> At 2048, 61% of tokens sit in a document wholly in view (35% at 512) and 25% are read without their document's opening (49%). The wider window shows more documents whole although it packs more of them.</li><li><strong>Whether attending across a boundary hurts what he learns</strong> is a quality question, not a cost; it would show in P1, which has no arm for it.</li></ul>
+<p><strong>The slice packing bites is the one 2048 is for.</strong> C9's conversation build at 2048 (<code>gen_conversation.py --block 2048 --turn-reserve 21</code>, 1,144 conversations, a scratch build — <strong>probe only, not on disk</strong>): median <strong>887 tokens</strong>, p90 1,594, max 1,816, ten turns at the median. Under random offsets <strong>only 49% of its tokens are in a conversation wholly inside the window, and 24% are read without its opening</strong> — for a slice whose point is a follow-up reaching 6-18 turns back, the antecedent is before the window often enough to matter. The repo has the fix in kind: arm A's <code>align_parse_blocks</code> (<code>corn/data.py</code>) snaps an offset that lands inside a parse transcript back to its first token, leaving every source's delivered share unchanged; the same rule on the conversation source would put every 2048 window over a whole conversation at no compute cost. Not built and not decided — a sampler choice for P1 and the owner. The on-disk 1024 build reads 331 / 536 tokens, 80% whole at 2048.</p>
+<h3 id="5-what-it-changes">5. What it changes</h3>
+<ul><li><strong>PLAN-1-0 §4's three unmeasured costs are measured</strong>: training 1.06x and 1.20x, not ~1.3x and ~2x; fine-tune memory unchanged at equal tokens; decode free on a short turn and 100 tok/s deep in a full window as shipped. Its "Cost" section moves with them.</li><li><strong>D2.</strong> P0 finds no cost that rules out 2048 for training or for the fine-tunes. The price of 2048 is paid at serving, and only by a conversation long enough to use the room; and the packing question goes to P1 with one sampler option attached.</li><li><strong>The 1.0 run</strong>: ~8 h and ~$30 at 2048, from 6 h 43 m and $25.52.</li></ul>
+<h3 id="reproduce">Reproduce</h3>
+<p>python -m corn.trainbench --config configs/corn_jr_260m_v4.py --compile --block-size 2048 --batch-size 2 --grad-accum 6 python -m corn.trainbench --config configs/corn_jr_260m_v4.py --compile --block-size 2048 --batch-size 2 --grad-accum 6 --doc-len 150 python -m corn.bench --config configs/corn_jr_260m_v4.py --dtype float32 --block-size 2048 --paths graph+sampling --buckets --compile-step --prompt-len 1792 python scripts/probe_block_packing.py python scripts/check_decode.py --compile</p>
+<p>each through <code>scripts/gpu.py run</code>; the block, batch and dtype of every row are in <code>evals/results/block_costs__160.json</code>.</p></div>
+  </section>
+
+  <section class="grid refs">
+    <div class="body two-even">
+      <div>
+        <h2 class="small">It cites</h2>
+        <ul class="reflist"><li style="--c:var(--c1)"><a href="/Corn-Jr-Public/finding/2.html"><span class="fn">2</span>Decode speed is launch overhead per layer; CUDA graphs remove most</a></li></ul>
+        
+      </div>
+      <div>
+        <h2 class="small">Cited by</h2>
+        <p class="aside">No later finding yet.</p>
+      </div>
+    </div>
+    <p class="body source">docs/findings/160-the-blocks-costs-2048-trains-at-1-2x-fits-a-fine-tune-in-the-same-memory-decodes-free-on-a-short-turn-and-slow-deep-in-a-full-window.md</p>
+  </section>
+</article>
+
+  
+<footer class="turn">
+  <div></div>
+  <div class="r"><span class="sc">next</span><a href="/Corn-Jr-Public/finding/166.html">166 · Halving the tool data leaves tool use intact</a></div>
+  <p class="keys"><kbd>←</kbd> <kbd>→</kbd> turn the page · <kbd>/</kbd> find</p>
+</footer>
+<p class="bynumber">Previous and next in <a href="/Corn-Jr-Public/thread/corpus-1-0.html">The 1.0 corpus</a>. By number:
+  <a href="/Corn-Jr-Public/finding/159.html">159</a> · <a href="/Corn-Jr-Public/finding/161.html">161</a></p>
+
+</div>
+</body>
+</html>

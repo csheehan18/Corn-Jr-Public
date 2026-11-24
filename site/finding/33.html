@@ -1,0 +1,95 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>33 · Copying depends on the tool output&#39;s shape and nothing else · Corn-Jr</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600&family=IBM+Plex+Mono:wght@400;500&family=Spectral:ital,wght@0,400;0,500;0,600;1,400&family=Spectral+SC:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/Corn-Jr-Public/static/library.css">
+<script defer src="/Corn-Jr-Public/static/library.js"></script>
+<script type="speculationrules">
+{"prerender": [{"where": {"and": [{"href_matches": "/Corn-Jr-Public/*"}, {"not": {"href_matches": "/Corn-Jr-Public/random.html"}}, {"not": {"href_matches": "/Corn-Jr-Public/static/*"}}]}, "eagerness": "moderate"}]}
+</script>
+
+</head>
+<body>
+<div class="page">
+  <header class="running">
+    <a class="book" href="/Corn-Jr-Public/">Corn-Jr · The Record</a>
+    <nav>
+      <a href="/Corn-Jr-Public/" data-key="shelf">Shelf</a><a href="/Corn-Jr-Public/findings.html" data-key="findings" class="here">Findings</a><a href="/Corn-Jr-Public/doc/VISION.html" data-key="VISION">Vision</a><a href="/Corn-Jr-Public/doc/GLOSSARY.html" data-key="GLOSSARY">Glossary</a>
+      <a href="https://github.com/csheehan18/Corn-Jr-Public">Source</a>
+    </nav>
+  </header>
+  
+
+<article class="sheet" style="--c:var(--c1)">
+  <div class="progress" aria-hidden="true"></div>
+  <section class="grid chapter-open finding-open">
+    <a class="tab" href="/Corn-Jr-Public/thread/tool-calls.html" title="Tool calls and copying"><small>Part</small><span>I</span></a>
+    <p class="cn">33</p>
+    <p class="partline"><a href="/Corn-Jr-Public/thread/tool-calls.html">Tool calls and copying</a> · 17 August 2026</p>
+    <h1>Copying depends on the tool output&#39;s shape and nothing else</h1>
+  </section>
+
+  <section class="grid">
+    <p class="marginal">The result, as the finding states it</p><div class="prose"><p class="lead">The copy behaviour is keyed to the payload's shape, and to nothing else</p></div>
+    <p class="marginal">What it cost</p><div class="prose"><p class="cost">0 s of new scoring on record; it reads 1 card scored for an earlier finding (<code>nano20m_v1</code>). Backfilled 2026-09-26 from the cards' <code>seconds</code>; training and probe time were never recorded, so this is a floor.</p></div>
+  </section>
+
+  
+
+  <section class="grid">
+    <div class="prose doc"><p>Every arm from the twenty-eighth finding onward rewrites the <code>&lt;|user|&gt;</code> line and holds everything to the right of it. The observation's <em>shape</em> had never moved once, and neither had the name in the call. Two scripts move them — <code>scripts/payload_evals.py</code> rewrites the payload, <code>scripts/newtool_evals.py</code> rewrites the tool's name — and between them they say what the copy behaviour §4 rests on is actually keyed to.</p>
+<p><code>nano20m_v1</code> ×4, <code>pass/n</code> as min–max with the spread in brackets. No training; every checkpoint was already on disk.</p>
+<div class="tablewrap"><table><thead><tr><th>row</th><th>frozen</th><th>reorder</th><th>extra_key</th><th>renamed</th><th>nested</th><th>phrasing</th><th><strong>newtool</strong></th><th><strong>swapname</strong></th></tr></thead><tbody><tr><td><code>temporal.copy</code> /353</td><td>353 (0)</td><td>318–349 (31)</td><td>335–353 (18)</td><td>353 (0)</td><td><strong>28–84 (56)</strong></td><td>353 (0)</td><td><strong>353 (0)</strong></td><td><strong>353 (0)</strong></td></tr><tr><td><code>refusal.clarify</code> /47</td><td>47 (0)</td><td>22–32 (10)</td><td>28–38 (10)</td><td>47 (0)</td><td><strong>0 (0)</strong></td><td><strong>0 (0)</strong></td><td><strong>47 (0)</strong></td><td><strong>47 (0)</strong></td></tr><tr><td><code>refusal.no_guess</code> /47</td><td>47 (0)</td><td>26–39 (13)</td><td>30–41 (11)</td><td>47 (0)</td><td>—</td><td>44–47 (3)</td><td><strong>47 (0)</strong></td><td><strong>47 (0)</strong></td></tr><tr><td><code>tool.copy</code> /120</td><td>100–120 (20)</td><td>54–73 (19)</td><td>95–120 (25)</td><td>68–94 (26)</td><td>0–27 (27)</td><td>100–120 (20)</td><td><strong>100–120 (20)</strong></td><td><strong>100–120 (20)</strong></td></tr><tr><td><code>tool.copy_wide</code> /300</td><td>238–279 (41)</td><td>110–155 (45)</td><td>224–277 (53)</td><td><strong>95–194 (99)</strong></td><td>0–35 (35)</td><td>238–279 (41)</td><td>242–274 (32)</td><td>237–280 (43)</td></tr></tbody></table></div>
+<p><strong>Shape is worth about a hundred times the name.</strong> One level of wrapping and the model emits <code>&lt;|end|&gt;</code> immediately — not a wrong answer, <em>no</em> answer, on every row and both model sizes. The same keys and the same values in a different order cost ~120 of 300 at 29.6M and ~30 at 91.6M. Against that, a tool the model has never seen costs <strong>3 of 300</strong> and the difference sits inside a frozen spread of 41.</p>
+<p><code>renamed</code> is unreadable and should not be quoted at either size: <code>tool.copy_wide</code> spreads <strong>99 of 300</strong> across four seeds, and the 91.6M figures of 143 and 210 are inside it. No seed count this project will run fixes that.</p>
+<h4 id="the-tool-s-name-is-not-read-at-all-and-the-control-is-what-s">The tool's name is not read at all, and the control is what says so</h4>
+<p><code>newtool</code> puts <code>date_lookup</code> and <code>fetch_answer</code> in the call — snake_case names scanned against every corpus in <code>data/raw/</code>, with the build failing rather than warning if one appears. <code>swapname</code> puts a <em>trained</em> name there that is wrong for those arguments. Both make the transcript incoherent; only one makes it unfamiliar.</p>
+<p><strong>Both cost nothing, on six checkpoints across two model sizes.</strong> <code>temporal.copy</code> reads 353/353 in all twelve cells. Per-checkpoint deltas against each checkpoint's own frozen scorecard are +0 everywhere except <code>tool.copy_wide</code>, where <code>newtool</code> runs −9…+4 and <code>swapname</code> −2…+1. So an unseen name leans about 1% below a familiar one on the widest copy row, consistently but far inside noise — and the reading is not "incoherence is tolerated" but that the model is not consulting the name when it decides what to say. It reads the observation.</p>
+<p>The four routing rows are byte-identical to the frozen set on every checkpoint, as they must be — this arm never touches <code>prompt_call</code> — and that is its invariance check.</p>
+<h4 id="refusal-clarify-was-measuring-recitation-and-that-is-a-fact-"><code>refusal.clarify</code> was measuring recitation — and that is a fact about the corpus</h4>
+<p>The row reads 47/47 everywhere and <strong>0/47 the moment the tool's question is worded a way the corpus does not contain</strong> — on two disjoint held-out pools, four 29.6M seeds and both 91.6M seeds, <strong>twelve cells, no passes</strong>, 42–47 of the failures <code>reworded</code>. Every other row on that arm is identical to the frozen set, which is the invariance control the four structural arms cannot supply.</p>
+<p>The row was measuring whether the model could reproduce one of four sentences it had seen 9,372 times. <code>scripts/payload_evals.py</code>'s second pool is what makes that a claim rather than a guess: <code>HELD_OUT_CLARIFY_2</code> keys off the same nine trained strings in nine wordings sharing no clause with the first pool, written without consulting the attribution files, and the 47 items are paired one-for-one across the two arms.</p>
+<p><strong>The second pool also retires the scarier reading of <code>refusal.no_guess</code>.</strong> Pool A costs 1–3 items at 29.6M and 5 at 91.6M, and on all five of those the model <strong>invented a date and called <code>recall_day</code> with it</strong> having just been told the tool had none. Pool B costs <strong>zero on all six checkpoints</strong>. The five losses reproduce on pool A and vanish on pool B, and they are visible from both sides — pool A's five <code>did_not_ask</code> on <code>refusal.clarify</code> are the same five items as its five <code>guessed</code> here. So it was <em>that</em> wording, not novel wording: VISION §9's most important behaviour is not generally fragile under an unseen refusal, it is broken by one sentence, and the live hypothesis is that the sentence reads as an instruction to produce something.</p>
+<p><strong>And the zero is a property of the corpus, not of the model or the scale</strong> — <code>mix_v1_sayvar</code> (<code>45a98e9</code>), which is the treatment this result asks for and which landed while the rest of this finding was being written. <code>CLARIFY_POOLS</code> takes the tool's question from 9 carriers at 2,096 uses each to 3,301 at <strong>5.7</strong> — <code>answer</code>'s regime rather than <code>clarify</code>'s — holding generator, seed, anchor window, expressions, left-context arm, resolved dates and the <code>&lt;|user|&gt;</code> line, and matching <code>mix_v1</code> at 130,279,711 train tokens:</p>
+<div class="tablewrap"><table><thead><tr><th></th><th><code>nano20m_v1</code> ×4</th><th><code>sayvar</code> ×2</th></tr></thead><tbody><tr><td>frozen</td><td>47 47 47 47</td><td>40, 47</td></tr><tr><td><code>phrasing</code> pool A</td><td><strong>0 0 0 0</strong></td><td><strong>29, 8</strong></td></tr><tr><td><code>phrasing2</code> pool B</td><td><strong>0 0 0 0</strong></td><td><strong>30, 24</strong></td></tr></tbody></table></div>
+<p><strong>Eight baseline cells at exactly zero against four treated cells at 8–30.</strong> The row cannot fall below zero, so the existence of the effect needs no seed argument. So the correct reading of 0/47 is not that the row cannot measure deference and not that 29.6M is too small to relay an unseen sentence — it is that <strong>a corpus repeating one sentence 2,096 times per carrier teaches recitation, and one that does not, does not.</strong> The cost is seven items of frozen <code>refusal.clarify</code> on one of the two seeds and nothing else: <code>temporal.copy</code> 353/353 and <code>temporal.route</code> 398–399 on both, val 2.2554 and 2.2370 against 2.2516.</p>
+<p>What remains open there is the dose. 2,096 recites and 5.7 reads; nothing between them has been run, so the knee is unbracketed exactly as left edges were before <code>mix_v1_mid</code>. The treated spread is also 8 against 24 on pool A — item-level instability of the kind <code>churn.py</code> exists to price, and there is still no attribution pass for the payload arms.</p>
+<h4 id="what-this-buys-the-tool-layer">What this buys the tool layer</h4>
+<p>VISION §6 says tools are cheap to add and means it about the code, where <code>REGISTRY</code> has always made a tool a declaration. This is the same claim measured against the <em>model</em>, and it comes apart into three pieces:</p>
+<ul><li><strong>Read-back on a new tool is free.</strong> Measured, six checkpoints, two sizes.</li><li><strong>Payload shape is the contract</strong>, and it is the expensive one. A new tool returning a bare object with its own fields, or <code>{&quot;ok&quot;: false, &quot;reason&quot;, ...}</code> carrying <code>say</code>/<code>clarify</code>, inherits the behaviour. One returning a nested object does not, at any size tested.</li><li><strong>Routing to a new tool is untouched</strong> and remains a training question. This arm holds <code>prompt_call</code> fixed by construction, so it says nothing about whether he would <em>choose</em> the new tool — only that he handles its answer once called.</li></ul>
+<h4 id="what-this-does-not-settle">What this does not settle</h4>
+<ul><li><strong>Why <code>nested</code> collapses.</strong> Total failure at every seed and both sizes is the cleanest signal on the board and the least explained. Nothing here distinguishes a parse failure from a model that has never seen a <code>{</code> in that position.</li><li><strong>The dose curve is not a control-and-arm.</strong> <code>reorder</code> was written as this file's <code>retemplate</code> and is not one: on the payload side the only perturbation leaving an object's meaning <em>and</em> bytes untouched is the object itself, so key order is already a treatment. Read the four as a dose curve.</li><li><strong>Share is not priced.</strong> <code>resolve_date</code> is 9.79% of the corpus against tools' 0.62%, and <code>temporal.copy</code> is the row most robust to shape. That is one plausible reading of the same fact and it is a share arm away from being a claim.</li><li><strong>What <code>refusal.clarify</code> measures on an untreated corpus.</strong> <code>sayvar</code> shows the row moves when the carrier count moves, so it is not a dead instrument — but on <code>mix_v1</code> it cannot separate a model that defers from one that recites, and every checkpoint in the back catalogue is <code>mix_v1</code>-shaped. Read every 47/47 in this document as "recited correctly" unless the corpus under it says otherwise. <code>refusal.say</code> does not fix this: 55 of its 150 items are answerable without reading the observation.</li><li><strong>Whether the same treatment is needed anywhere else.</strong> <code>resolve_date</code>'s payload is 9.79% of the corpus and the copy rows sit at 1.2 uses per value, which is why they read rather than recite. No audit exists of which <em>other</em> fields sit in <code>clarify</code>'s regime rather than <code>answer</code>'s, and <code>scripts/check_copyable.py</code> is the shape of the tool that would do it.</li></ul></div>
+  </section>
+
+  <section class="grid refs">
+    <div class="body two-even">
+      <div>
+        <h2 class="small">It cites</h2>
+        <p class="aside">No other finding by number.</p>
+      </div>
+      <div>
+        <h2 class="small">Cited by</h2>
+        <p class="aside">No later finding yet.</p>
+      </div>
+    </div>
+    <p class="body source">docs/findings/33-the-copy-behaviour-is-keyed-to-the-payloads-shape-and-to-nothing-else.md</p>
+  </section>
+</article>
+
+  
+<footer class="turn">
+  <div><span class="sc">previous</span><a href="/Corn-Jr-Public/finding/21.html">21 · Copying is a step: it appears once any tool data exists</a></div>
+  <div class="r"><span class="sc">next</span><a href="/Corn-Jr-Public/finding/48.html">48 · Four bugs let decoding escape the call grammar mid-call</a></div>
+  <p class="keys"><kbd>←</kbd> <kbd>→</kbd> turn the page · <kbd>/</kbd> find</p>
+</footer>
+<p class="bynumber">Previous and next in <a href="/Corn-Jr-Public/thread/tool-calls.html">Tool calls and copying</a>. By number:
+  <a href="/Corn-Jr-Public/finding/32.html">32</a> · <a href="/Corn-Jr-Public/finding/34.html">34</a></p>
+
+</div>
+</body>
+</html>

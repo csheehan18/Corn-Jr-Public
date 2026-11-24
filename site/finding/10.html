@@ -1,0 +1,89 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>10 · A generated tool dataset caps at 2.3 MB of distinct examples · Corn-Jr</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600&family=IBM+Plex+Mono:wght@400;500&family=Spectral:ital,wght@0,400;0,500;0,600;1,400&family=Spectral+SC:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/Corn-Jr-Public/static/library.css">
+<script defer src="/Corn-Jr-Public/static/library.js"></script>
+<script type="speculationrules">
+{"prerender": [{"where": {"and": [{"href_matches": "/Corn-Jr-Public/*"}, {"not": {"href_matches": "/Corn-Jr-Public/random.html"}}, {"not": {"href_matches": "/Corn-Jr-Public/static/*"}}]}, "eagerness": "moderate"}]}
+</script>
+
+</head>
+<body>
+<div class="page">
+  <header class="running">
+    <a class="book" href="/Corn-Jr-Public/">Corn-Jr · The Record</a>
+    <nav>
+      <a href="/Corn-Jr-Public/" data-key="shelf">Shelf</a><a href="/Corn-Jr-Public/findings.html" data-key="findings" class="here">Findings</a><a href="/Corn-Jr-Public/doc/VISION.html" data-key="VISION">Vision</a><a href="/Corn-Jr-Public/doc/GLOSSARY.html" data-key="GLOSSARY">Glossary</a>
+      <a href="https://github.com/csheehan18/Corn-Jr-Public">Source</a>
+    </nav>
+  </header>
+  
+
+<article class="sheet" style="--c:var(--c1)">
+  <div class="progress" aria-hidden="true"></div>
+  <section class="grid chapter-open finding-open">
+    <a class="tab" href="/Corn-Jr-Public/thread/tool-calls.html" title="Tool calls and copying"><small>Part</small><span>I</span></a>
+    <p class="cn">10</p>
+    <p class="partline"><a href="/Corn-Jr-Public/thread/tool-calls.html">Tool calls and copying</a> · 17 August 2026</p>
+    <h1>A generated tool dataset caps at 2.3 MB of distinct examples</h1>
+  </section>
+
+  <section class="grid">
+    <p class="marginal">The result, as the finding states it</p><div class="prose"><p class="lead">The tool slice, and what a generator cannot buy</p></div>
+    <p class="marginal">What it cost</p><div class="prose"><p class="cost">0 s of new scoring on record; it reads 1 card scored for an earlier finding (<code>nano20m_web_bpe</code>). Backfilled 2026-09-26 from the cards' <code>seconds</code>; training and probe time were never recorded, so this is a floor.</p></div>
+  </section>
+
+  
+
+  <section class="grid">
+    <div class="prose doc"><p>DATA.md §4 gives assistant transcripts with tool calls 15% of the budget, and §6 says they "need a larger model to generate". That claim is about <em>labels</em>, and the temporal slice is a standing argument against it: manufactured programmatically, exact ground truth, and the source of the project's most load-bearing result. So the tool slice was built the same way — <code>corn/tools.py</code> declares the tools, <code>corn/toolgen.py</code> builds transcripts by construction, and <code>scripts/check_tools.py</code> checks them with an independently written reader that has to agree.</p>
+<p><strong>Five tools, as declarations rather than code</strong> (VISION §6's own rule): <code>place_call</code>, <code>send_text</code>, <code>save_note</code>, <code>web_search</code>, plus <code>resolve_date</code>/<code>recall_day</code> from the temporal slice. VISION names four and says a fifth "will come out of development rather than planning"; web search is it, and it is the one the confirmed use case — hands-free research while driving — actually needs.</p>
+<p><strong><code>web_search</code> returns an <code>answer</code> field, not a page of snippets.</strong> Snippets would make this the one place in the corpus where Corn-Jr composes a fact instead of copying one, and §5.2 forbids exactly that: a 250M model asked to summarise three snippets will fluently produce something that was in none of them. The tool extracts, the model reads out. That keeps it on <code>resolve_date</code>'s discipline, which means the sixth finding's copy result gets <em>tested</em> on a second tool with a different payload shape rather than assumed to generalise — §11 has carried "still one tool" as a caveat on it ever since.</p>
+<p><strong>A third of the slice is failure</strong>, which is the part §6 says matters most: an ambiguous contact, a name not in the book, a lookup with no answer, a query too vague to run, and requests no tool covers. Every one of those labels is exact <em>because the situation was chosen before the sentence was written</em>. This is precisely where a larger model is weakest — ask one for "requests Corn-Jr should refuse" and the labels are its opinion.</p>
+<h4 id="the-two-stub-rows-are-live-and-were-right-to-be-two-rows">The two stub rows are live, and were right to be two rows</h4>
+<p><code>tool.validity</code> and <code>tool.selection</code> printed <code>--</code> for six checkpoints. <code>evals/tools.jsonl</code> went in via <code>make_evals.py --add</code> with all four prior sha256 and <code>built</code> untouched. Scored on <code>nano20m_web_bpe</code> — a model that has read one tool and never seen the other four:</p>
+<div class="tablewrap"><table><thead><tr><th>row</th><th>score</th><th>n</th><th>why</th></tr></thead><tbody><tr><td><code>tool.validity</code></td><td><strong>61.9%</strong></td><td>181</td><td><code>not_json 69</code></td></tr><tr><td><code>tool.selection</code></td><td><strong>0.0%</strong></td><td>200</td><td><code>chose_resolve_date 112</code>, <code>unparseable 69</code>, <code>called_anyway 19</code></td></tr></tbody></table></div>
+<p><strong>Six times in ten it emits a perfectly well-formed call to the only tool it knows.</strong> Valid and wrong. Merged into one row that reads about 30% and tells you nothing about which half is broken. The zeros are the floor these rows needed for the same reason the fourth finding gives: a row that cannot read zero on a model which has never seen the behaviour cannot register the change when it arrives.</p>
+<p><code>tool.selection</code> counts <strong>"no tool" as an answer</strong> — 19 of its 200 items are requests nothing covers, and their prompts stop after the user's line rather than at <code>&lt;|call|&gt;</code>, because ending them at <code>&lt;|call|&gt;</code> would hand the model the answer to the only question they ask. <code>called_anyway 19</code> is that reading zero too.</p>
+<p>Decontamination is structural, borrowing temporal's held-out anchor years on a different axis: <code>corn/toolgen.World</code> parameterises the generator, and the training and eval worlds share every template and <strong>no lookup table</strong> — contacts, first names, facts, unknown names, vague queries and out-of-scope requests all disjoint. A model that dials Ophelia Vance or reads back Kinshasa did it by copying the observation. Two of those six holdouts only got added once the eval was wired, which is the argument for wiring it: an item on a vague query would otherwise have scored recall of a clarify the model read thousands of times.</p>
+<h4 id="the-real-limit-is-sentences-not-labels">The real limit is sentences, not labels</h4>
+<p>The mix is a target that variety has to be able to reach, and it very nearly did not. The first version of <code>gen_tools.py</code> deduplicated a weighted stream without per-kind budgets and emitted <strong>61.5% <code>send_text</code> against a declared 16%, and 0.1% out-of-scope against a declared 10%</strong> — the situation §9 ranks highest, almost entirely absent, with nothing in the output saying so. Situations with small combinatorial spaces exhaust first and every later draw of them is a duplicate.</p>
+<p>Each kind now gets its share and a kind that runs dry <strong>falls short and says so</strong>, which is <code>prepare_mix</code>'s contract and §8's reasoning. That made the ceiling visible:</p>
+<div class="tablewrap"><table><thead><tr><th></th><th>distinct transcripts</th><th>share</th><th>caps the slice at</th></tr></thead><tbody><tr><td><code>send_text</code></td><td>75,504</td><td>16%</td><td>471,900</td></tr><tr><td><code>place_call</code></td><td>3,696</td><td>16%</td><td>23,100</td></tr><tr><td><code>web_search</code></td><td>2,800</td><td>20%</td><td>14,000</td></tr><tr><td>out of scope</td><td>2,016</td><td>10%</td><td>20,160</td></tr><tr><td>vague query</td><td>550</td><td>5%</td><td><strong>11,000</strong></td></tr></tbody></table></div>
+<p><strong>~11,000 examples, 2.3 MB, against the ~75 MB §4's 15% wants.</strong> So §6 is half right, and the half that survives is not the half that was meant: exactness and the failure modes are free, and <em>phrasing nobody wrote down</em> is what costs. That relocates where a larger model earns its place — as a paraphraser over a skeleton whose labels are already correct, rather than as the source of the labels.</p>
+<p><strong>What this does not show:</strong> no model has been trained on the slice yet, so 61.9%/0.0% is a floor reading and not a result — the eleventh finding trains two. And the out-of-scope holdout is the weakest of the six — knowing what you cannot do is partly a fact about yourself and only partly a generalisation, and only the second is being tested.</p></div>
+  </section>
+
+  <section class="grid refs">
+    <div class="body two-even">
+      <div>
+        <h2 class="small">It cites</h2>
+        <p class="aside">No other finding by number.</p>
+      </div>
+      <div>
+        <h2 class="small">Cited by</h2>
+        <p class="aside">No later finding yet.</p>
+      </div>
+    </div>
+    <p class="body source">docs/findings/10-the-tool-slice-and-what-a-generator-cannot-buy.md</p>
+  </section>
+</article>
+
+  
+<footer class="turn">
+  <div><span class="sc">previous</span><a href="/Corn-Jr-Public/finding/6.html">6 · Fine-tuning installs the tool format but not using the tool&#39;s answer</a></div>
+  <div class="r"><span class="sc">next</span><a href="/Corn-Jr-Public/finding/11.html">11 · A twenty-fifth of the planned tool data buys most of the behaviour</a></div>
+  <p class="keys"><kbd>←</kbd> <kbd>→</kbd> turn the page · <kbd>/</kbd> find</p>
+</footer>
+<p class="bynumber">Previous and next in <a href="/Corn-Jr-Public/thread/tool-calls.html">Tool calls and copying</a>. By number:
+  <a href="/Corn-Jr-Public/finding/9.html">9</a> · <a href="/Corn-Jr-Public/finding/11.html">11</a></p>
+
+</div>
+</body>
+</html>

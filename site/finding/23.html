@@ -1,0 +1,88 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>23 · The vocabulary test really measures how much web text is mixed in · Corn-Jr</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600&family=IBM+Plex+Mono:wght@400;500&family=Spectral:ital,wght@0,400;0,500;0,600;1,400&family=Spectral+SC:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/Corn-Jr-Public/static/library.css">
+<script defer src="/Corn-Jr-Public/static/library.js"></script>
+<script type="speculationrules">
+{"prerender": [{"where": {"and": [{"href_matches": "/Corn-Jr-Public/*"}, {"not": {"href_matches": "/Corn-Jr-Public/random.html"}}, {"not": {"href_matches": "/Corn-Jr-Public/static/*"}}]}, "eagerness": "moderate"}]}
+</script>
+
+</head>
+<body>
+<div class="page">
+  <header class="running">
+    <a class="book" href="/Corn-Jr-Public/">Corn-Jr · The Record</a>
+    <nav>
+      <a href="/Corn-Jr-Public/" data-key="shelf">Shelf</a><a href="/Corn-Jr-Public/findings.html" data-key="findings" class="here">Findings</a><a href="/Corn-Jr-Public/doc/VISION.html" data-key="VISION">Vision</a><a href="/Corn-Jr-Public/doc/GLOSSARY.html" data-key="GLOSSARY">Glossary</a>
+      <a href="https://github.com/csheehan18/Corn-Jr-Public">Source</a>
+    </nav>
+  </header>
+  
+
+<article class="sheet" style="--c:var(--c1)">
+  <div class="progress" aria-hidden="true"></div>
+  <section class="grid chapter-open finding-open">
+    <a class="tab" href="/Corn-Jr-Public/thread/corpus-mix.html" title="The corpus mix"><small>Part</small><span>I</span></a>
+    <p class="cn">23</p>
+    <p class="partline"><a href="/Corn-Jr-Public/thread/corpus-mix.html">The corpus mix</a> · 17 August 2026</p>
+    <h1>The vocabulary test really measures how much web text is mixed in</h1>
+  </section>
+
+  <section class="grid">
+    <p class="marginal">The result, as the finding states it</p><div class="prose"><p class="lead">The bar measures how much web is in the corpus</p></div>
+    
+  </section>
+
+  
+
+  <section class="grid">
+    <div class="prose doc"><p>§5.0 measured five slices in isolation, rejected narrative at 6,863 distinct words, and has gated the conversational search ever since. <strong>What it never measured is the blend</strong> — and no slice is what gets trained on. <code>scripts/vocab.py --bins</code> samples a built token stream at 800 even intervals, decodes it, and measures the vocabulary the model actually sees.</p>
+<div class="tablewrap"><table><thead><tr><th>corpus</th><th>narrative</th><th>blend distinct</th><th>blend top-100</th><th><code>variety.distinct3</code></th><th><code>lm web</code></th></tr></thead><tbody><tr><td><code>mix_narrative10</code></td><td>10%</td><td><strong>45,369</strong></td><td>42.6%</td><td>89.2%</td><td>0.8502</td></tr><tr><td><code>mix_narr10_temp11</code></td><td>10%</td><td>43,555</td><td>44.9%</td><td>87.9%</td><td>0.8548</td></tr><tr><td><code>mix_struct</code></td><td>~46%</td><td>32,591</td><td>48.0%</td><td>88.5%</td><td>0.9174</td></tr><tr><td><code>mix_notools</code></td><td>46.8%</td><td>31,745</td><td>50.6%</td><td>87.7%</td><td>0.9079</td></tr><tr><td><code>mix_balanced</code></td><td>46.8%</td><td>31,544</td><td>50.6%</td><td>89.3%</td><td>0.9106</td></tr><tr><td><code>mix_tools_1pass</code></td><td>~48%</td><td>29,886</td><td>51.9%</td><td>89.1%</td><td>0.9098</td></tr><tr><td><code>mix_web_bpe</code></td><td>~48%</td><td>29,856</td><td>51.9%</td><td>90.0%</td><td>0.9104</td></tr><tr><td><code>mix_tools15</code></td><td>~41%</td><td><strong>27,364</strong></td><td>51.2%</td><td>87.7%</td><td>0.9212</td></tr></tbody></table></div>
+<p><strong>The per-slice reading badly overstates the damage.</strong> <code>mix_balanced</code> is 46.80% TinyStories and 11.13% temporal — the two slices §5.0 names as the worst offenders, at 6,863 and 182 distinct words — and it blends to <strong>31,544 at 50.6%</strong>, which is within a rounding error of the bar rather than far beneath it. And <code>mix_narrative10</code> blends to <strong>45,369, higher than FineWeb-Edu's own 42,755</strong>, because registers contribute vocabulary that does not overlap: a blend can carry more distinct types than any of its parts.</p>
+<h4 id="the-bar-does-not-predict-the-thing-it-exists-to-protect">The bar does not predict the thing it exists to protect</h4>
+<p>Blend vocabulary spans <strong>66%</strong> across these eight corpora, 27,364 to 45,369. Over the same eight, <code>variety.distinct3</code> spans <strong>2.33 points</strong> — against its own measured seed floor of <strong>1.85</strong>.</p>
+<div class="tablewrap"><table><thead><tr><th>relationship</th><th>r</th></tr></thead><tbody><tr><td>blend distinct vs <code>variety.distinct3</code></td><td><strong>−0.045</strong></td></tr><tr><td>blend top-100 vs <code>variety.distinct3</code></td><td>+0.129</td></tr><tr><td>blend distinct vs output <code>distinct1</code></td><td>−0.403</td></tr><tr><td><strong>blend distinct vs <code>lm web</code></strong></td><td><strong>−0.976</strong></td></tr></tbody></table></div>
+<p>A 66% swing in the quantity the bar measures produces essentially nothing in the quantity the bar was built to defend, and what little there is runs the wrong way. What blend vocabulary <em>does</em> predict, at −0.976, is <code>lm web</code> — because it is very nearly a restatement of how much web is in the corpus, and the nats/byte rows measure that directly, at a floor of 0.0038, without the intermediate step.</p>
+<p>So <strong>§5.0's bar should not gate the conversational slice.</strong> It is a proxy for web share dressed as a quality threshold, and the project already has the direct measurement.</p>
+<h4 id="the-caveat-is-real-and-cuts-at-the-other-ruler">The caveat is real and cuts at the other ruler</h4>
+<p>Eight corpora, one model size, one budget. More importantly the <em>outcome</em> variable is barely resolvable: <code>variety.distinct3</code> spans 2.33 points across every corpus the project has built and 1.85 of that is seed noise. A null correlation against a near-unresolvable outcome is weak evidence of no effect — it is equally consistent with the output ruler being too blunt to see one. §11 already carries that complaint about <code>variety.distinct3</code>, including that half its prompts are TinyStories openings, so <strong>this finding implicates both rulers</strong> and the honest statement is "no relationship detectable at this resolution", not "no relationship".</p>
+<p>That does not rescue the bar. A screen that cannot be shown to predict anything downstream, and which correlates at −0.976 with a row already measured better, should not be what blocks the largest unsourced share in the corpus.</p>
+<h4 id="what-it-unblocks">What it unblocks</h4>
+<p><strong>SODA comes back.</strong> Right register — everyday two-person dialogue, median turn 14, p90 31 — CC BY 4.0, freely fetchable, already measured, and rejected on this bar alone. At 15,942 distinct it would pull the blend down, and nothing here says that costs anything a nats/byte row would not show. The test that was always the right one is an arm rather than a screen: SODA at 20%, read against <code>lm narrative</code>, <code>lm web</code> and <code>variety.distinct3</code>, priced the way every other share in this project has been.</p>
+<h4 id="a-bug-in-the-tool-caught-by-two-corpora-agreeing-too-well">A bug in the tool, caught by two corpora agreeing too well</h4>
+<p>The first version of <code>--bins</code> filled a word budget in file order and stopped when it was full, which read the first <strong>58%</strong> of the stream. Sources are written in spec order, so that silently dropped whichever slices were declared last. It reported <code>mix_narrative10</code> and <code>mix_narr10_temp11</code> as <strong>identical to the digit</strong> — two corpora that differ only in the temporal slice, which sits in the tail. Taking a fixed quota from every window fixes it. A second pass found that trimming words by line discarded whole windows on long-line sources, biasing the blend against web, the widest-vocabulary slice; words are now trimmed by token fragment and only turn lengths by line.</p></div>
+  </section>
+
+  <section class="grid refs">
+    <div class="body two-even">
+      <div>
+        <h2 class="small">It cites</h2>
+        <p class="aside">No other finding by number.</p>
+      </div>
+      <div>
+        <h2 class="small">Cited by</h2>
+        <p class="aside">No later finding yet.</p>
+      </div>
+    </div>
+    <p class="body source">docs/findings/23-the-bar-measures-how-much-web-is-in-the-corpus.md</p>
+  </section>
+</article>
+
+  
+<footer class="turn">
+  <div><span class="sc">previous</span><a href="/Corn-Jr-Public/finding/22.html">22 · Every conversation dataset fails a vocabulary test built from web text</a></div>
+  <div class="r"><span class="sc">next</span><a href="/Corn-Jr-Public/finding/24.html">24 · The rejected dialogue data costs prose quality and nothing else</a></div>
+  <p class="keys"><kbd>←</kbd> <kbd>→</kbd> turn the page · <kbd>/</kbd> find</p>
+</footer>
+<p class="bynumber">Previous and next in <a href="/Corn-Jr-Public/thread/corpus-mix.html">The corpus mix</a>. By number:
+  <a href="/Corn-Jr-Public/finding/22.html">22</a> · <a href="/Corn-Jr-Public/finding/24.html">24</a></p>
+
+</div>
+</body>
+</html>

@@ -1,0 +1,100 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>166 · Halving the tool data leaves tool use intact · Corn-Jr</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600&family=IBM+Plex+Mono:wght@400;500&family=Spectral:ital,wght@0,400;0,500;0,600;1,400&family=Spectral+SC:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/Corn-Jr-Public/static/library.css">
+<script defer src="/Corn-Jr-Public/static/library.js"></script>
+<script type="speculationrules">
+{"prerender": [{"where": {"and": [{"href_matches": "/Corn-Jr-Public/*"}, {"not": {"href_matches": "/Corn-Jr-Public/random.html"}}, {"not": {"href_matches": "/Corn-Jr-Public/static/*"}}]}, "eagerness": "moderate"}]}
+</script>
+
+</head>
+<body>
+<div class="page">
+  <header class="running">
+    <a class="book" href="/Corn-Jr-Public/">Corn-Jr · The Record</a>
+    <nav>
+      <a href="/Corn-Jr-Public/" data-key="shelf">Shelf</a><a href="/Corn-Jr-Public/findings.html" data-key="findings" class="here">Findings</a><a href="/Corn-Jr-Public/doc/VISION.html" data-key="VISION">Vision</a><a href="/Corn-Jr-Public/doc/GLOSSARY.html" data-key="GLOSSARY">Glossary</a>
+      <a href="https://github.com/csheehan18/Corn-Jr-Public">Source</a>
+    </nav>
+  </header>
+  
+
+<article class="sheet" style="--c:var(--c5)">
+  <div class="progress" aria-hidden="true"></div>
+  <section class="grid chapter-open finding-open">
+    <a class="tab" href="/Corn-Jr-Public/thread/corpus-1-0.html" title="The 1.0 corpus"><small>Part</small><span>V</span></a>
+    <p class="cn">166</p>
+    <p class="partline"><a href="/Corn-Jr-Public/thread/corpus-1-0.html">The 1.0 corpus</a> · 13 October 2026</p>
+    <h1>Halving the tool data leaves tool use intact</h1>
+  </section>
+
+  <section class="grid">
+    <p class="marginal">The result, as the finding states it</p><div class="prose"><p class="lead">The tool share (ROADMAP TS): with <code>tools</code> and <code>toolspace</code> at half their share the call surface holds under the door at both seeds — <code>tool.selection</code> 190 and 180 against 186 and 182, the routing rows 199-200 against 188-200 — and nothing is a kill; the one registered cost is <code>refusal.say</code> at both seeds, read by hand as the relayed refusal cutting the copied query's last words short on four of the row's six strings; a quarter splits on <code>search.route_heldout</code> and is a direction</p></div>
+    <p class="marginal">What it cost</p><div class="prose"><p class="cost">70.5 min of training four nano runs (17.5-18.2 min each, <code>card_cost.py</code>; registered ~16-18), 11.8 min scoring their four standard cards and 6.8 min re-reading the full cell's two, 80.5 min of the staged read on six checkpoints (13.2-13.7 min each), all inside one hold of the card of 2.86 h against a registered ~3 h — contended throughout (the card at 34-45% before the job), so every timing is a bound; the routing control 13.1 min and the hand-read probe 20 s on top; the build about 20 min of CPU (08:07-08:27 on 2026-10-13).</p></div>
+  </section>
+
+  
+
+  <section class="grid">
+    <div class="prose doc"><p>ROADMAP TS, PLAN-TAG-SPINE §7, the owner's D12 (2026-09-26: it runs for 1.0, to find room in the mix for D10's layers). Pre-registered in <code>configs/mix_v3_ts_half.py</code>'s docstring and committed at 2df7e96 before a byte of either cut trained. One variable: the share of <code>tools</code> (<code>tools_names_parse.txt</code>) and <code>toolspace</code> (<code>toolspace_decline_composed_parse.txt</code>) in A2's tagged world, every other source byte-identical and <code>max_iters</code> scaled with the budget so every other slice keeps its exposure:</p>
+<p>cell      tool share   max_iters   checkpoints full      5.15%        5,896       nano20m_v3_a2_on{,_seed2}   (A2's on cell, finding <a class="fref" href="/Corn-Jr-Public/finding/150.html">150</a>; re-read, not retrained) half      2.64%        5,744       nano20m_v3_ts_half{,_seed2} quarter   1.34%        5,668       nano20m_v3_ts_quarter{,_seed2}</p>
+<p>Seeds 1337 and 2337, <code>compile=True</code>. Read by <code>scripts/run_ts.py</code> in one sitting — the standard card on all six (the full cell's as <code>__ts_card</code>) and <code>scripts/probe_a2.py --families ts</code> on all six — and tabled by <code>scripts/read_ts.py</code>, written before the staged cards existed. <strong>Cards:</strong> <code>evals/results/nano20m_v3_ts_{half,quarter}{,_seed2}{.json,__ts.json,__ts_items.jsonl}</code>, <code>evals/results/nano20m_v3_a2_on{,_seed2}{__ts_card.json,__ts.json,__ts_items.jsonl}</code>. <code>probe_a2.py</code> is held by <code>scripts/check_parseline.py</code> and nothing more: <strong>every staged number is a bound</strong> (rule 28).</p>
+<h3 id="readable">Readable</h3>
+<p>Neither unreadable condition fired. Every primary of the full cell reads 188-200 of 200 bound (the bar was 160), and the full cell's re-read is the 2026-10-04 card to the item on every staged row it shares with it (<code>tool.selection</code> 186 and 182 both days) — the instrument did not move under the arm.</p>
+<h3 id="the-registered-read">The registered read</h3>
+<p>A cell falls (<code>v</code>) when it is below the full cell at its seed by more than <code>probe_move.half_width</code> at the full cell's rate. Seed 1337 then 2337.</p>
+<p>PRIMARY, bound              full        half         quarter tool.selection            186  182    190  180     183  181 search.route_base         200  200    200  200     200  200 search.route_wide         200  200    199  199     200  200 search.route_heldout      197  188    200  196     192v 197</p>
+<p>KILL, forced card tool.copy_wide            299  299    297v 300     298  299</p>
+<p>HOLD, bound compound.pipe              45   29     46   39      40v  31 compound.pipe_first        46   35     46   44      44   37 turn2.chain_ellipsis       42   44     46   46      45   45 turn2.chain_result         50   50     50   49      48v  50 turn2.react               117  119    113v 120     115  113v turn2.reask                53   48     57   51      58   36v</p>
+<p>HOLD, forced card refusal.say               263  266    245v 260v    259  255v refusal.clarify            40   40     40   33v     40   40</p>
+<p><strong>Half: every primary holds at both seeds and the kill does not fire</strong> (<code>tool.copy_wide</code> 297 against 299 at one seed — two items of 300, a split, not a kill). <strong>One hold row falls at both seeds: <code>refusal.say</code></strong> (245 and 260 against 263 and 266). The table's row for that is <strong>"a hold row falls at a cut that otherwise holds — that cut costs the row's turn: read row by row beside D1, not a kill of the cut."</strong> <code>turn2.react</code> and <code>refusal.clarify</code> fall at one seed each.</p>
+<p><strong>Quarter: <code>search.route_heldout</code> falls at one seed (192 against 197) and holds at the other</strong> — "seeds split on a primary: a direction; no third seed." So "room to a quarter" is not licensed. Five hold rows fall at one seed each and none at both.</p>
+<p><strong>The prediction, scored</strong>: half holds every primary — right; quarter holds <code>tool.selection</code> — right; quarter drops <code>route_heldout</code> — at one seed, a split; no kill — right; <code>refusal.say</code> falls at the quarter — wrong cell: it fell at half at both seeds and at the quarter at one.</p>
+<h3 id="read-by-hand-experiments-5-6">Read by hand (EXPERIMENTS §5.6)</h3>
+<p><strong><code>refusal.say</code> is a copy row with six answers on the side that fell.</strong> The row relays a refusal a tool handed over, word for word (<code>score_say</code>, exact match). Its <code>no_results</code> items are 43 items over <strong>six</strong> strings ("I couldn't find anything useful for {query}."), and a scratch decode of all 150 say items (probe only — not on disk) reads the full cell 150 and 146, half 125 and 140, <strong>every lost item <code>no_results</code></strong>. At half seed 1337 all 25 lost items are one failure: <strong>the relayed sentence cuts the copied query's last words</strong> — "...for what the loft smells." for "...what the loft smells like.", "...which sock." for "...which sock is missing.", "...what my dentist had." for "...what my dentist had for breakfast." — on four of the six strings. It is EXPERIMENTS §5.7's caution about <code>tool.copy</code> (six answers, one garbled string costs twenty items) on a different row. The 232-answer <code>tool.copy_wide</code> holds at both cuts, so the truncation is a real cost on the relay of a long query and <strong>not</strong> the copy band falling. It is the cost this finding hands D1, at its size.</p>
+<p><strong>The quarter's <code>route_heldout</code> fall is a carrier that already misroutes.</strong> Seed 1337's eight misses: six <code>place_call</code> on "give me the discoverer of Peliholm, please" and its kind, two <code>save_note</code>. The full cell's seed 2337 misses the same carrier the same way twelve times, and the quarter's seed 2337 improves on it (197 against 188). One carrier, read as a call, moving between seeds — not the share.</p>
+<p><strong>The forced card's call rows rose with the cut</strong>, side column and not the read (finding <a class="fref" href="/Corn-Jr-Public/finding/150.html">150</a>: on the tagged cell the forced card is a transcript shape it never trained): <code>search.route_base</code> 122 and 86 full, 200 and 154 half, 178 and 176 quarter. Fewer tool documents carrying a <code>parts:</code> line under every user turn make the untagged forced prompt less foreign. The staged rows are the read.</p>
+<h3 id="post-hoc-not-in-the-table-the-social-side">Post hoc, not in the table: the social side</h3>
+<p><code>probe_a2.py</code>'s guard family (finding <a class="fref" href="/Corn-Jr-Public/finding/150.html">150</a>'s post hoc rows) reads, bound:</p>
+<p>row                    full        half         quarter social.bare_nocall    80   86     63   76      75   73 social.voice          47   66     37   50      69   52 social.family          7   13     11    8       8    3 social.self           47   47     47   47      47   47</p>
+<p><code>social.bare_nocall</code> is below the full cell at all four cut checkpoints, past the half-width at three; <code>social.voice</code> falls at half at both seeds and splits at the quarter (69 up, 52 down) — not dose-monotonic. Read by hand at half: chit-chat draws a <code>web_search</code> or <code>resolve_date</code> call more often (15 and 15 <code>web_search</code> against 6 and 8), and his own social sentences drift into the registry tools' say register — "Listen to write a small agent on the user's behalf.", "Note down that the loft was done.", "I'll call you the small agent on the user's behalf." My guess at the mechanism, untested: toolspace's plain-spoken declines and coined-tool says were a large share of the say lines in the mix, and halving them leaves the registry tools' few say templates a bigger share of what a say sounds like. <strong>Not registered, so a direction, and it names what a share cut has to watch beside the call rows: the social turn.</strong></p>
+<h3 id="what-it-licenses">What it licenses</h3>
+<p><strong>For D1's table: the tool slices can go to half their share</strong> — 2.64% at nano, which is about 2.65% of <code>mix_v4_5b</code> against today's 5.3% (<code>tools</code> 0.59% + <code>toolspace</code> 4.7%), about 2.6 points of a 5B run, some 130M tokens, for D10's layers. The surface the door holds does not need the rest: tool choice, routing, call validity and the payloads' rows hold at both seeds. <strong>The cost goes into D1 with it, at its size</strong>: the relay of a long refused query loses its last words on a six-string row (<code>refusal.say</code> 245 and 260 of 270), and, post hoc, the social turn's no-call and voice rows fall at half. <strong>A quarter is a direction and is not licensed.</strong></p>
+<p><strong>What it does not settle.</strong> Nano, A2's tagged world, with the door held by the runtime (<code>probe_a2.py</code>'s <em>bound</em>): the untagged world was not cut, and the reading is about the call surface <em>when the door holds</em>, which is the question D12 asked. 260M has flipped a nano sign before (finding <a class="fref" href="/Corn-Jr-Public/finding/51.html">51</a>); D11's pilot is where the share is read again. And whether the social side is the share or the say register of what was cut is a probe — a cut that keeps toolspace's say lines and drops its calls separates them.</p>
+<p><strong>Next</strong> (not run): that separating probe, priced at four nano runs (~1.2 h) plus the guard-family read; and PLAN-1-0 §10's share table carries the half cut with its two named costs when D1 is taken.</p></div>
+  </section>
+
+  <section class="grid refs">
+    <div class="body two-even">
+      <div>
+        <h2 class="small">It cites</h2>
+        <ul class="reflist"><li style="--c:var(--c1)"><a href="/Corn-Jr-Public/finding/51.html"><span class="fn">51</span>At 260M the date header helps where at 30M it hurt</a></li><li style="--c:var(--c4)"><a href="/Corn-Jr-Public/finding/150.html"><span class="fn">150</span>On real requests the runtime&#39;s machinery works but his own parse doesn&#39;t</a></li></ul>
+        
+      </div>
+      <div>
+        <h2 class="small">Cited by</h2>
+        <p class="aside">No later finding yet.</p>
+      </div>
+    </div>
+    <p class="body source">docs/findings/166-the-tool-share-at-half-the-call-surface-holds-under-the-door-and-the-one-cost-is-the-refusal-relay-cutting-the-copied-query-short.md</p>
+  </section>
+</article>
+
+  
+<footer class="turn">
+  <div><span class="sc">previous</span><a href="/Corn-Jr-Public/finding/160.html">160 · 2048-token blocks cost 1.2x training time and fit in memory</a></div>
+  <div class="r"><span class="sc">next</span><a href="/Corn-Jr-Public/finding/185.html">185 · Everyday web text taught him more word meanings at little cost</a></div>
+  <p class="keys"><kbd>←</kbd> <kbd>→</kbd> turn the page · <kbd>/</kbd> find</p>
+</footer>
+<p class="bynumber">Previous and next in <a href="/Corn-Jr-Public/thread/corpus-1-0.html">The 1.0 corpus</a>. By number:
+  <a href="/Corn-Jr-Public/finding/165.html">165</a> · <a href="/Corn-Jr-Public/finding/167.html">167</a></p>
+
+</div>
+</body>
+</html>

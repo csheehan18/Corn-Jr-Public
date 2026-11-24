@@ -1,0 +1,107 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>129 · He learns to label his own request; forcing labels doesn&#39;t change calls · Corn-Jr</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600&family=IBM+Plex+Mono:wght@400;500&family=Spectral:ital,wght@0,400;0,500;0,600;1,400&family=Spectral+SC:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/Corn-Jr-Public/static/library.css">
+<script defer src="/Corn-Jr-Public/static/library.js"></script>
+<script type="speculationrules">
+{"prerender": [{"where": {"and": [{"href_matches": "/Corn-Jr-Public/*"}, {"not": {"href_matches": "/Corn-Jr-Public/random.html"}}, {"not": {"href_matches": "/Corn-Jr-Public/static/*"}}]}, "eagerness": "moderate"}]}
+</script>
+
+</head>
+<body>
+<div class="page">
+  <header class="running">
+    <a class="book" href="/Corn-Jr-Public/">Corn-Jr · The Record</a>
+    <nav>
+      <a href="/Corn-Jr-Public/" data-key="shelf">Shelf</a><a href="/Corn-Jr-Public/findings.html" data-key="findings" class="here">Findings</a><a href="/Corn-Jr-Public/doc/VISION.html" data-key="VISION">Vision</a><a href="/Corn-Jr-Public/doc/GLOSSARY.html" data-key="GLOSSARY">Glossary</a>
+      <a href="https://github.com/csheehan18/Corn-Jr-Public">Source</a>
+    </nav>
+  </header>
+  
+
+<article class="sheet" style="--c:var(--c4)">
+  <div class="progress" aria-hidden="true"></div>
+  <section class="grid chapter-open finding-open">
+    <a class="tab" href="/Corn-Jr-Public/thread/tag-spine.html" title="The tag spine"><small>Part</small><span>IV</span></a>
+    <p class="cn">129</p>
+    <p class="partline"><a href="/Corn-Jr-Public/thread/tag-spine.html">The tag spine</a> · 12 September 2026</p>
+    <h1>He learns to label his own request; forcing labels doesn&#39;t change calls</h1>
+  </section>
+
+  <section class="grid">
+    <p class="marginal">The result, as the finding states it</p><div class="prose"><p class="lead">He learns to write the parse, half of it is label and not position, and not one of two hundred and forty forced tags moves a call</p></div>
+    <p class="marginal">What it cost</p><div class="prose"><p class="cost">2.8 min of scoring on the 1 card first cited here (<code>nano20m_v3_compiled</code>); it also reads 1 card scored for an earlier finding (<code>nano20m_v3</code>). Backfilled 2026-09-26 from the cards' <code>seconds</code>; training and probe time were never recorded, so this is a floor.</p></div>
+  </section>
+
+  
+
+  <section class="grid">
+    <div class="prose doc"><p>Eight nano arms trained 2026-09-09 from <code>configs/mix_v3_decomp_{a,b,c,d}.py</code>, two seeds each, all compiled, pre-registered in <code>configs/mix_v3_decomp_b.py</code>'s docstring before a byte of any arm trained. Built to <code>docs/PLAN-DECOMPOSE.md</code> rung 1. Controls are the four already-scored <code>nano20m_v3</code> seeds plus a fifth trained for this read (<code>nano20m_v3_compiled</code>); <strong>nothing else retrained and nothing was re-scored</strong> except where this finding says so and says why.</p>
+<p>The rows are eight new ones added by <code>scripts/make_evals.py --add</code> and scored on <code>nano20m_v3</code> before the corpus existed (rule 23). The floor is seven hard zeros and <code>move.args</code> at 39/120.</p>
+<h3 id="the-question-and-the-shape-of-the-answer">The question, and the shape of the answer</h3>
+<p>PLAN-DECOMPOSE's claim: a request is a sequence of parts, a part of a composite kind is itself a sequence of parts, <strong>he emits that parse as tags over spans of the user's own words</strong>, and because every level is a token he wrote, every level can be scored, forced and read back. Depth through him rather than through a longer forward pass.</p>
+<p>Four arms, one variable each: <strong>A</strong> no parse line, <strong>B</strong> one-pass, <strong>C</strong> B with the labels globally permuted and the spans kept, <strong>D</strong> stepped — the runtime hands each part back and he opens it or acts on it.</p>
+<p>row              floor      A          B          C          D      n parse.span          0     0/0      77/78      38/37      58/56    120 parse.entity        0     0/0      71/77      29/29      46/42    120 parse.heldout       0     0/0       0/0        0/0        0/0     120 parse.depth3        0     0/0       0/0        0/0        0/0      96 move.next           0   65/65      96/97     99/103      96/88    120 move.args          39  114/114    120/115    117/114    113/116   120 e2e.tree            0   24/26      18/24      25/28      29/31     60 e2e.rebind          0   50/50      48/49      49/49      48/46     50</p>
+<p><strong>The format installs and it is not padding.</strong> B reads 77 and 78 of 120 on trained shapes against a floor of zero, and 71 and 77 on shapes over entities no transcript contains. The shuffled control reads 38/37 and 29/29 — real, and half of B. So the labels carry content: C reproduces the cuts and misnames them, <code>wrong_label</code> 63 of its failures. PLAN-DECOMPOSE §7's "structured padding" row is refused. <strong>This replicated on two independently generated corpora and four checkpoints</strong>, seed spreads of one item.</p>
+<p><strong>It does not generalise.</strong> Zero on held-out orders, pairings and carriers, and zero at depth three — on every arm, both corpora, both seeds. A span-recall probe over all 216 held-out and depth-3 items says what the zeros are made of: on held-out carriers he recovers <strong>21% of the gold cuts</strong> and <strong>63% of the spans he emits are not in the sentence at all</strong>. That is not near-missing. It is finding <a class="fref" href="/Corn-Jr-Public/finding/34.html">34</a>'s mechanism — handed a carrier he does not know he reaches for a trained one (<code>go digging for</code> comes back <code>go and get</code>) and when that fails he invents (<code>Ithunlvcombe</code> comes back <code>Ithunlvdia</code>). At depth three he does better — 62% leaf recall, 81% of spans legal — but a complete correct decomposition, every leaf in order, is <strong>6 of 96</strong>.</p>
+<h3 id="the-gate-and-it-is-a-hard-zero">The gate, and it is a hard zero</h3>
+<p><strong>0 of 240.</strong> <code>scripts/probe_depth.py --probe forced</code> on four checkpoints: same prompt, same spans, same labels, the level-2 line's two children in swapped order — a forgery the grammar accepts and the corpus never wrote, and one that implies a different tool first.</p>
+<p>checkpoint          forced   gold   neither   own-parse control decomp_b   seed 1     0/60   60/60     0/60         60/60 decomp_b   seed 2     0/60   60/60     0/60         60/60 decomp_d   seed 1     0/60   59/60     1/60         59/60 decomp_d   seed 2     0/60   60/60     0/60         60/60</p>
+<p><strong>And it is not memorisation.</strong> <code>probe_depth.py --probe forced</code> and <code>gen_decomp.py</code> share a default seed, so 28 of those 60 utterances are in the training corpus verbatim — and on a memorised sentence "answer from the sentence" is the strongest possible prior, which would read as tag-blindness whether or not the tag was blind. Re-run at <code>--case-seed 77001</code>, where <strong>0 of 60 utterances appear in the corpus</strong>, both B seeds read the same: forced 0/60, gold 60/60, control 60/60. The zero survives the sentence being new.</p>
+<p>The control is at ceiling, so these are not checkpoints that cannot answer. They read the utterance and not the line. PLAN-DECOMPOSE §10's third kill condition, pre-registered: <em>"The forced-tag probe not moving the calls. Then whatever the rows say, the parse is decoration and the legibility claim goes with it."</em> §9's argument — that a scored intermediate sorts every failure into the level it happened at — does not survive, because the level he wrote is not the level he acts on.</p>
+<p><strong>And every behavioural row agrees.</strong> <code>move.next</code>, <code>move.args</code>, <code>e2e.tree</code> and <code>e2e.rebind</code> are flat across all four arms, and on <code>move.next</code> the <em>shuffled</em> control is nominally the highest of the four. No arm beats C anywhere. The parse line changes what he writes and not what he does.</p>
+<h3 id="d-was-the-alternative-and-d-did-not-rescue-it">D was the alternative and D did not rescue it</h3>
+<p>§4 named adjacency in advance: <em>"If D reads and B does not, depth was there and adjacency was the cost."</em> The decision that reads a one-pass tag sits far from where the tag was written, and PLAN-1-0 §5c's memory probe is the precedent — 2/5 with no filler between frame and use, 0/5 with any. D writes each level immediately before the calls that read it, with the runtime handing the part back.</p>
+<p>D reads zero on both held-out rows like everyone else, and <strong>0 of 120 on the forced probe</strong>. Its <code>e2e.tree</code> 29/31 is nominally the best cell in the table and is not a separation: B's own two seeds differ by six there, and B sits <em>below</em> its own shuffled control. The adjacency explanation is spent.</p>
+<p>D's <code>parse.heldout</code> and <code>parse.depth3</code> are additionally read through B-shaped prompts — the frozen parse items carry no hand-back — so those two cells are biased low and are floors rather than readings. Every other D cell is scored under its own protocol, stamped <code>decomp_arm</code> on the card.</p>
+<h3 id="the-band-is-the-corpus-and-compile-is-ruled-out">The band is the corpus, and compile is ruled out</h3>
+<p>row              eager x4   compiled    A       B       C       D tool.selection    128-129      131    63/96   98/128   ...     ... tool.validity     143-152      149    81/122  135/153  ...     ...</p>
+<p><code>tool.selection</code> and <code>tool.validity</code> fall far below every control seed on the arms, with seed spreads of 33 and 30 against control spreads of 1 and 9 — the direction is certain and <strong>the size is not readable at two seeds</strong>, which is the sentence finding <a class="fref" href="/Corn-Jr-Public/finding/74.html">74</a> had to write about <code>tool.copy</code> and is no more satisfying here. A fifth control trained compiled on the <em>unchanged</em> <code>mix_v3</code> reads 131 and 149, inside or above the eager band, so <strong>compile is not the cause</strong>: a 5% slice declaring composed tool names displaces the tool decision, which is finding <a class="fref" href="/Corn-Jr-Public/finding/51.html">51</a>'s arity price and finding <a class="fref" href="/Corn-Jr-Public/finding/69.html">69</a>'s displaced prior arriving together. The copy band is untouched (<code>tool.copy_wide</code> above control on three arms of four); <code>temporal.*</code> is flat.</p>
+<p>One cell is unexplained and is reported rather than smoothed: the compiled control reads <code>tool.copy</code> <strong>103</strong> against an eager band of 118–120, below every arm. One seed, no explanation, and it should be re-read before anyone quotes the copy band.</p>
+<h3 id="three-instrument-defects-all-of-which-spared-the-baseline">Three instrument defects, all of which spared the baseline</h3>
+<p>Recorded because the pattern is the finding, not the individual bugs.</p>
+<ul><li><strong><code>e2e.tree</code> grew the transcript past the 512 block</strong> and died on <code>prefill</code> at item ten of the first arm-B card. Arm A had scored clean; its rollouts are shorter.</li><li><strong><code>e2e.rebind</code> read arm B 0 of 50</strong>, <code>no_call</code> on every item, because <code>corn.evals.continuation</code> stops at the first newline and an arm that emits a parse writes <code>parts:</code> first and its call second. Arm A read 48 of 50 on the same instrument for no reason but the order it writes its lines in. <strong>That zero was reported as a result before it was understood.</strong></li><li><strong>Arm D's corpus was an oracle.</strong> The runtime handed back only the parts that open, which told him which parts were composite — knowledge no runtime has. An arm trained on it learns "when handed a part, open it".</li></ul>
+<p>Every one of the three fell on the arms that emit a parse and spared the baseline, which is the direction that makes a null look like a result. <code>scripts/check_decomp_scorer.py</code> now feeds every scorer the gold transcript and requires n/n on every row on every arm, with a negative group that requires the same scorers to refuse the defects above, and a protocol group that asserts the scorer reproduces each arm's own context line for line. It was red on D until the hand-back was implemented.</p>
+<p><strong>A fourth, in the corpus rather than the scorer.</strong> The first fix for the arm-D oracle echoed the whole span in the hand-back. That is forty tokens repeating a line he wrote above, and it took the length cap's rejection rate from 22% to <strong>61%</strong> — the cap rejects long trees, which is to say deep ones, so the corpus lost three-turn conversations (5.1% to 0.1%), a fifth of its depth-2 trees, and put <code>send</code> under its exposure floor. An index costs a tenth of the tokens. Caught by reading the shape distribution <code>gen_decomp.py</code> prints, which no guard would have flagged.</p>
+<h3 id="what-this-licenses">What this licenses</h3>
+<p>Against §7's pre-registered table this is the second row — <em>"a lookup table over trained trees; rung 2 does not run on this corpus; §5's sizing is wrong, not the thesis"</em> — with one correction the table did not anticipate. <strong>"Lookup table" is too harsh</strong>: a lookup table would fail on held-out entities, and B reads 71 and 77 there. He learned the shapes and can refill them with strings he has never seen. What he did not learn is the rule that generates shapes.</p>
+<p>So, precisely: <strong>decomposition over a closed move set installs as a surface form, generalises over slots, does not generalise over structure, and is not read by the thing that acts.</strong> The gate to rung 2 needed B above C on the held-out rows and the forced probe reading load-bearing. Neither holds.</p>
+<h3 id="limits">Limits</h3>
+<p>Two seeds per arm, so directions rather than sizes (rule 6). The forced probe tests one axis — the order of two children — and a label-swap forgery is a different test that was not run. <code>parse.heldout</code> confounds held-out orders and pairings with held-out carriers and reads zero either way, so the two cannot be separated here; <code>parse.depth3</code> uses trained carriers and is the clean depth read. The held-out rows are scored <strong>unconstrained</strong>, and <code>corn/grammar.py</code>'s <code>ParseConstraint</code> — which forbids exactly the 63% of spans that are not in the sentence — is implemented and not used by any scorer, so those zeros are an upper bound on the failure and not a measurement of it. And these are nano readings of a dummy world: nothing here transfers to real carriers by measurement, which is what rung 2 was for.</p></div>
+  </section>
+
+  <section class="grid refs">
+    <div class="body two-even">
+      <div>
+        <h2 class="small">It cites</h2>
+        <ul class="reflist"><li style="--c:var(--c1)"><a href="/Corn-Jr-Public/finding/34.html"><span class="fn">34</span>He picks tools he never saw in training, but can&#39;t say no</a></li><li style="--c:var(--c1)"><a href="/Corn-Jr-Public/finding/51.html"><span class="fn">51</span>At 260M the date header helps where at 30M it hurt</a></li><li style="--c:var(--c1)"><a href="/Corn-Jr-Public/finding/69.html"><span class="fn">69</span>The tools data, not extraction data, displaced his declining</a></li><li style="--c:var(--c3)"><a href="/Corn-Jr-Public/finding/74.html"><span class="fn">74</span>Second-turn behaviour installs; compound requests forget how to stop</a></li></ul>
+        
+      </div>
+      <div>
+        <h2 class="small">Cited by</h2>
+        <ul class="reflist"><li style="--c:var(--c4)"><a href="/Corn-Jr-Public/finding/130.html"><span class="fn">130</span>A label in the text is a hint, never the decision</a></li><li style="--c:var(--c4)"><a href="/Corn-Jr-Public/finding/131.html"><span class="fn">131</span>Once the runtime enforces the label, a forged one is obeyed 36/36</a></li><li style="--c:var(--c4)"><a href="/Corn-Jr-Public/finding/132.html"><span class="fn">132</span>Rotary position embeddings beat learned positions on most tests</a></li><li style="--c:var(--c4)"><a href="/Corn-Jr-Public/finding/133.html"><span class="fn">133</span>On a synthetic world he generalises labels but not one level deeper</a></li><li style="--c:var(--c4)"><a href="/Corn-Jr-Public/finding/138.html"><span class="fn">138</span>He knows where the next request part starts, 80 to 93 percent</a></li></ul>
+        
+      </div>
+    </div>
+    <p class="body source">docs/findings/129-the-parse-installs-and-half-of-it-is-label-content-and-none-of-it-reaches-the-calls-on-two-corpora-four-arms-and-two-hundred-and-forty-forced-tags.md</p>
+  </section>
+</article>
+
+  
+<footer class="turn">
+  <div></div>
+  <div class="r"><span class="sc">next</span><a href="/Corn-Jr-Public/finding/130.html">130 · A label in the text is a hint, never the decision</a></div>
+  <p class="keys"><kbd>←</kbd> <kbd>→</kbd> turn the page · <kbd>/</kbd> find</p>
+</footer>
+<p class="bynumber">Previous and next in <a href="/Corn-Jr-Public/thread/tag-spine.html">The tag spine</a>. By number:
+  <a href="/Corn-Jr-Public/finding/128.html">128</a> · <a href="/Corn-Jr-Public/finding/130.html">130</a></p>
+
+</div>
+</body>
+</html>

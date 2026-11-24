@@ -1,0 +1,93 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>113 · A checker on the whole-passage reader doesn&#39;t beat its own confidence · Corn-Jr</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600&family=IBM+Plex+Mono:wght@400;500&family=Spectral:ital,wght@0,400;0,500;0,600;1,400&family=Spectral+SC:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/Corn-Jr-Public/static/library.css">
+<script defer src="/Corn-Jr-Public/static/library.js"></script>
+<script type="speculationrules">
+{"prerender": [{"where": {"and": [{"href_matches": "/Corn-Jr-Public/*"}, {"not": {"href_matches": "/Corn-Jr-Public/random.html"}}, {"not": {"href_matches": "/Corn-Jr-Public/static/*"}}]}, "eagerness": "moderate"}]}
+</script>
+
+</head>
+<body>
+<div class="page">
+  <header class="running">
+    <a class="book" href="/Corn-Jr-Public/">Corn-Jr · The Record</a>
+    <nav>
+      <a href="/Corn-Jr-Public/" data-key="shelf">Shelf</a><a href="/Corn-Jr-Public/findings.html" data-key="findings" class="here">Findings</a><a href="/Corn-Jr-Public/doc/VISION.html" data-key="VISION">Vision</a><a href="/Corn-Jr-Public/doc/GLOSSARY.html" data-key="GLOSSARY">Glossary</a>
+      <a href="https://github.com/csheehan18/Corn-Jr-Public">Source</a>
+    </nav>
+  </header>
+  
+
+<article class="sheet" style="--c:var(--c2)">
+  <div class="progress" aria-hidden="true"></div>
+  <section class="grid chapter-open finding-open">
+    <a class="tab" href="/Corn-Jr-Public/thread/reading.html" title="Reading documents"><small>Part</small><span>II</span></a>
+    <p class="cn">113</p>
+    <p class="partline"><a href="/Corn-Jr-Public/thread/reading.html">Reading documents</a> · 5 September 2026</p>
+    <h1>A checker on the whole-passage reader doesn&#39;t beat its own confidence</h1>
+  </section>
+
+  <section class="grid">
+    <p class="marginal">The result, as the finding states it</p><div class="prose"><p class="lead">The cross-fitted pair-rows verifier on the whole-passage adapter separates right picks from wrong three points better than the arm's own margin on held rows, and on Population A it is that margin's own curve to the passage on the answerable half and forty correct silences worse on the other, so it closes at its willingness control</p></div>
+    
+  </section>
+
+  
+
+  <section class="grid">
+    <div class="prose doc"><p><code>scripts/train_reader_whole.py --fold {0,1}</code> then <code>--verifier</code>, 2026-09-05, seed 1 only. Two fold arms of finding <a class="fref" href="/Corn-Jr-Public/finding/112.html">112</a>'s recipe (three epochs each on half the articles, 41,707 / 41,946 passages), each reading the argmax pair's two rows, six scalars and the label "the argmax is a gold pair" on the half it never saw (83,653 out-of-fold rows, 38.4% / 38.9% positive); an MLP over <code>[LN(h_i); LN(h_j); standardised scalars]</code> selected by AUC on a tenth of the articles; then the full seed-1 arm's Population A argmax judged by it. <code>evals/results/whole_causal_s1_ver.json</code>, <code>reader_whole_causal_s1_ver_popa.json</code>, <code>reader_whole_causal_s1_stack_popa.json</code>; <code>checkpoints/verifier_whole_causal_s1_ver.pt</code> and the fold arms (gitignored); features at <code>F:/corn-jr-data/states/whole_feats_whole_causal_s1_fold{0,1}.pt</code>.</p>
+<h3 id="0-why">0. Why</h3>
+<p>Finding <a class="fref" href="/Corn-Jr-Public/finding/86.html">86</a>'s pair-rows verifier was worth +10 / +9 / +18 right at the silence floor on the window reader, by halving the same-type rival. Finding <a class="fref" href="/Corn-Jr-Public/finding/112.html">112</a>'s arm speaks 132 wrong answers and holds 84 right ones back on seed 1, and its speak-or-decline decision is one null logit in the span softmax. This is the same head, cross-fitted the same way (finding <a class="fref" href="/Corn-Jr-Public/finding/85.html">85</a>: the label is unreadable in fold), on the new arm.</p>
+<h3 id="1-the-verifier-separates-on-the-rows-it-was-fitted-to">1. The verifier separates, on the rows it was fitted to</h3>
+<p>held rows 8,418          AUC span-head margin         0.8041 verifier (epoch 3)       0.8327 margin + verifier stack  0.8359</p>
+<p>Three points over the margin, and the two-feature stack adds a third of a point over the verifier alone.</p>
+<h3 id="2-on-population-a-it-does-not-and-the-willingness-control-sa">2. On Population A it does not, and the willingness control says why</h3>
+<p>Bar protocol, extent on, each at its own CV'd threshold, seed 1:</p>
+<p>right  wrong  silent  u.silent  attempt  acc|att arm, own margin (112)       505    132      84       198    0.883    0.793 arm, verifier               465     90     166       198    0.770    0.838 arm, margin+verifier stack  496    126      99       198    0.863    0.797</p>
+<p>paired vs the margin:  verifier  right -44 (lost 49, won 5, p 4e-10), silence 0 stack     right  -9 (lost 14, won 5, p 0.06),  silence 0</p>
+<p><strong>At matched attempt rate (0.781, both fold thresholds shifted together):</strong></p>
+<p>margin @ 0.781    right 462  wrong 101  u.silent 237 verifier          right 461  wrong 102  u.silent 198</p>
+<p>On the answerable half the verifier is the margin's own precision curve to within a passage. On the unanswerable half it is <strong>39 to 43 correct silences worse at every willingness</strong>. Its precision at the bar (0.838) was the threshold protocol spending silences it did not have, and the stack, which lets the margin back in, gives back the silences and reads −9 right.</p>
+<h3 id="3-what-it-says">3. What it says</h3>
+<p>The window verifier's edge was structural: the window pipeline's null was a separate head on the say marker that had never seen the picked span, and the pair rows told it something new. Here the null already sits in the same softmax as the pair scores on a trunk that was trained for it, so the boundary rows carry nothing the margin does not, and the verifier's three points of held-out AUC are on a label (argmax is gold, unanswerable rows all negative) whose operating point the bar protocol does not read at. Finding <a class="fref" href="/Corn-Jr-Public/finding/107.html">107</a>'s shape on the other side of the fine-tune.</p>
+<p><strong>Closed at the willingness control on one seed.</strong> A second seed would cost 95 minutes to replicate a −40 on silences; not run. The verifier flag stays in the script.</p>
+<h3 id="4-what-it-leaves">4. What it leaves</h3>
+<p>The 132 wrong and 84 withheld are still there. What the read rules out is a second head over the same rows; what it does not touch is the null itself (its own head on the say marker, or a class-weighted term, are untried on this arm), the schedule (both seeds' pooled metric was flat across epochs 1 and 2), and CLIPPED at 38 / 34.</p></div>
+  </section>
+
+  <section class="grid refs">
+    <div class="body two-even">
+      <div>
+        <h2 class="small">It cites</h2>
+        <ul class="reflist"><li style="--c:var(--c2)"><a href="/Corn-Jr-Public/finding/85.html"><span class="fn">85</span>The checker needs cross-fitted labels; fallback rules are exhausted</a></li><li style="--c:var(--c2)"><a href="/Corn-Jr-Public/finding/86.html"><span class="fn">86</span>A checker that reads the candidate answer works; re-ranking does not</a></li><li style="--c:var(--c2)"><a href="/Corn-Jr-Public/finding/112.html"><span class="fn">112</span>Training on whole passages lifts extraction from 54% to 71%</a></li></ul>
+        
+      </div>
+      <div>
+        <h2 class="small">Cited by</h2>
+        <ul class="reflist"><li style="--c:var(--c2)"><a href="/Corn-Jr-Public/finding/112.html"><span class="fn">112</span>Training on whole passages lifts extraction from 54% to 71%</a></li></ul>
+        
+      </div>
+    </div>
+    <p class="body source">docs/findings/113-the-pair-rows-verifier-on-the-whole-passage-adapter-is-the-margins-own-curve-on-the-answerable-half-and-forty-silences-worse-on-the-other-so-it-closes-at-its-willingness-control.md</p>
+  </section>
+</article>
+
+  
+<footer class="turn">
+  <div><span class="sc">previous</span><a href="/Corn-Jr-Public/finding/112.html">112 · Training on whole passages lifts extraction from 54% to 71%</a></div>
+  <div class="r"><span class="sc">next</span><a href="/Corn-Jr-Public/finding/114.html">114 · Tuning answer length on the new reader changes nothing</a></div>
+  <p class="keys"><kbd>←</kbd> <kbd>→</kbd> turn the page · <kbd>/</kbd> find</p>
+</footer>
+<p class="bynumber">Previous and next in <a href="/Corn-Jr-Public/thread/reading.html">Reading documents</a>. By number:
+  <a href="/Corn-Jr-Public/finding/112.html">112</a> · <a href="/Corn-Jr-Public/finding/114.html">114</a></p>
+
+</div>
+</body>
+</html>

@@ -1,0 +1,115 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>127 · Two thirds of one dataset&#39;s tool calls were invalid JSON · Corn-Jr</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600&family=IBM+Plex+Mono:wght@400;500&family=Spectral:ital,wght@0,400;0,500;0,600;1,400&family=Spectral+SC:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/Corn-Jr-Public/static/library.css">
+<script defer src="/Corn-Jr-Public/static/library.js"></script>
+<script type="speculationrules">
+{"prerender": [{"where": {"and": [{"href_matches": "/Corn-Jr-Public/*"}, {"not": {"href_matches": "/Corn-Jr-Public/random.html"}}, {"not": {"href_matches": "/Corn-Jr-Public/static/*"}}]}, "eagerness": "moderate"}]}
+</script>
+
+</head>
+<body>
+<div class="page">
+  <header class="running">
+    <a class="book" href="/Corn-Jr-Public/">Corn-Jr · The Record</a>
+    <nav>
+      <a href="/Corn-Jr-Public/" data-key="shelf">Shelf</a><a href="/Corn-Jr-Public/findings.html" data-key="findings" class="here">Findings</a><a href="/Corn-Jr-Public/doc/VISION.html" data-key="VISION">Vision</a><a href="/Corn-Jr-Public/doc/GLOSSARY.html" data-key="GLOSSARY">Glossary</a>
+      <a href="https://github.com/csheehan18/Corn-Jr-Public">Source</a>
+    </nav>
+  </header>
+  
+
+<article class="sheet" style="--c:var(--c1)">
+  <div class="progress" aria-hidden="true"></div>
+  <section class="grid chapter-open finding-open">
+    <a class="tab" href="/Corn-Jr-Public/thread/tool-calls.html" title="Tool calls and copying"><small>Part</small><span>I</span></a>
+    <p class="cn">127</p>
+    <p class="partline"><a href="/Corn-Jr-Public/thread/tool-calls.html">Tool calls and copying</a> · 7 September 2026</p>
+    <h1>Two thirds of one dataset&#39;s tool calls were invalid JSON</h1>
+  </section>
+
+  <section class="grid">
+    <p class="marginal">The result, as the finding states it</p><div class="prose"><p class="lead">The copy audit called a sound slice memorisable because its own value class stops at an escaped quote, and underneath that false positive two thirds of <code>relpairs.txt</code>'s tool calls are not valid JSON, written past the slice's own guard because that guard parsed the observation and threw the call away</p></div>
+    <p class="marginal">What it cost</p><div class="prose"><p class="cost">13.1 min of scoring on the 3 cards first cited here (<code>corn_jr_260m_v4_ftxrel</code>, <code>nano20m_v3_extract_seed2</code>, <code>nano20m_v3_extract_widetype_seed2</code>); it also reads 3 cards scored for an earlier finding (<code>nano20m_v3_extract</code>, <code>nano20m_v3_extract_narrowtype</code>, <code>nano20m_v3_extract_widetype</code>). Backfilled 2026-09-26 from the cards' <code>seconds</code>; training and probe time were never recorded, so this is a floor.</p></div>
+  </section>
+
+  
+
+  <section class="grid">
+    <div class="prose doc"><p>The two red rows in <code>check_all.py</code> at <code>6dee3e5a</code>, run down. No model, no GPU, no network: every measurement here is a regex over <code>data/raw/</code> or a re-derivation from saved generations. One of the two is a chain of three failures that hid each other; the other is a decision about the record and is left to the owner with the diagnosis made.</p>
+<h3 id="1-check-copyable-the-detector-not-the-corpus">1. <code>check_copyable</code> — the detector, not the corpus</h3>
+<p><code>relpairs.txt</code>'s window slot read <strong>33 effective values against a floor of 1,000</strong>, which is this file's definition of a memorisable slot and the bug that cost three findings. The slice is fine.</p>
+<p>Almost every slot in the table reads a JSON field with <code>&quot;field&quot;: &quot;(?P&lt;v&gt;[^&quot;]*)&quot;</code>, which stops at the first quote <strong>including an escaped one</strong>. Every question in this slice names a quoted work — <code>who wrote &quot;The Broken Hinterland&quot;</code> — so every value was cut to the same one-character prefix <code>\</code>, and a slot whose values are all one string is exactly what "memorisable" means. <strong>The blindness announces itself as the loudest possible false positive, which is the only reason it was ever found.</strong></p>
+<p>Read with an escape-aware value class the same slice reads <strong>15,432 effective at 4.00 uses</strong>, which reproduces the number in its own declaration to the digit — so the declaration was written correctly and the pattern was wrong underneath it.</p>
+<p><strong>Six slots across four slices were being mis-read</strong>, all in the same direction — the naive class can only ever under-count:</p>
+<p>relpairs.txt      window            33 -&gt; 15,432    FAIL -&gt; ok relpairs.txt      search query     262 -&gt;  2,450    FAIL -&gt; ok extract.txt       window        35,420 -&gt; 43,226      ok -&gt; ok extract_5b.txt    window       118,002 -&gt; 148,756     ok -&gt; ok extract_clause    window       118,000 -&gt; 148,754     ok -&gt; ok extract_iso.txt   window        10,945 -&gt; 19,336      ok -&gt; ok</p>
+<p>The four <code>extract*</code> slices are real Wikipedia prose, which quotes things; they passed anyway and their recorded numbers were simply low.</p>
+<p><strong>And <code>paired_names.txt</code> was undeclared</strong> — the condition this file says matters most, since "a slice nobody has audited is how all three findings happened". It is <code>corn/pairedgen.py</code>'s names arm, declared here at 36,154 effective windows and <strong>1,598 effective queries at 62 uses each</strong>, which is the thinnest slot in the table. It clears the floor on its entity vocabulary alone and its relation phrases are deliberately few — that is what the arm <em>is</em> — so it is declared with the number written down rather than widened, on <code>tools.txt</code>'s contact-slot precedent.</p>
+<p><strong>The repair that matters is the third one.</strong> <code>JSON_V</code> fixes the six slots, but a value class is exactly the kind of thing that goes quietly wrong again, so the blindness is now a row: <code>check_copyable</code> fails if any declared slot captures a value ending in an <strong>odd</strong> run of trailing backslashes, which is the unambiguous signature of a capture cut mid-escape. An even run is a real escaped backslash. A slot that trips it is not measuring a bad slice, it is measuring nothing trustworthy — which is worse, because a floor comparison against a truncated value is a number with no meaning rather than a number that is wrong.</p>
+<h3 id="2-underneath-it-41-152-malformed-calls-and-the-guard-that-co">2. Underneath it: 41,152 malformed calls, and the guard that could not see them</h3>
+<p>Chasing the truncation into the file found this, which is the real result:</p>
+<p>&lt;|obs|&gt;{"answer": "\"The Broken Hinterland\" is a standard ...", "source": "example.org", "query": "who wrote \"The Broken Hinterland\""}      &lt;- correct &lt;|call|&gt;{"name": "web_search", "arguments": {"query": "who wrote "The Broken Hinterland""}} &lt;- not JSON</p>
+<p><strong>41,152 of <code>relpairs.txt</code>'s 61,728 calls (66.7%) do not parse</strong>, against <strong>0 of its 61,728 observations</strong> and <strong>0 in every other slice in <code>data/raw/</code></strong> — counted over all of them, because no other generator puts a quote in a question.</p>
+<p>The cause is one line. <code>corn/extract.py</code>'s <code>PROMPT</code> builds the observation with <code>json.dumps</code> and hand-writes the call as a literal with <code>{question}</code> interpolated straight into a JSON string. That is correct for every question without a quote and silently malformed for every question with one. It also means a question with a <strong>non-ASCII character</strong> is written raw in the call and <code>\u</code>-escaped in the observation beside it, so the two have disagreed for as long as both have existed.</p>
+<p><strong>Three guards had a chance and none took it.</strong> <code>check_relpairs.py</code> parses the observation and splits the call into a variable named <code>_call</code> that it never looks at — so the half that was correct was checked and the half that was broken was discarded. <code>check_spans.py</code>, <code>check_iso.py</code> and <code>check_extract_slice.py</code> all assert that the artefacts rebuild through <code>worker_prompt</code>, which they did, because the artefacts and the generator were <em>consistently</em> wrong. And <code>check_copyable.py</code> was blind for section 1's reason. A round trip through a broken writer is not a check on the writer.</p>
+<p><strong>What it costs, stated exactly.</strong> <code>relpairs.txt</code> appears in one config, <code>configs/mix_v4_ft_xrel.py</code>, and in <strong>no shipped corpus</strong> — not <code>mix_v3_5b</code>, which pretrained the released model, and not <code>mix_v4_ft_social8</code>, which fine-tuned the checkpoint that ships. <strong>So the released weights were never trained on a malformed call.</strong> What was trained on them is the <code>corn_jr_260m_v4_ftxrel</code> arm, and any reading taken off that arm is confounded by a call syntax the runtime's own <code>validate_call</code> would refuse.</p>
+<h3 id="3-why-the-one-line-fix-is-not-in-this-commit">3. Why the one-line fix is not in this commit</h3>
+<p>It was written, and it was taken out again. <code>json.dumps</code> on the call reproduces the old literal byte for byte <strong>only</strong> for questions that carry neither a quote nor a non-ASCII character, and <code>extract.txt</code> alone has 185 blocks that carry one. Regenerating the <code>extract*</code> slices to match would change bytes inside <code>mix_v3_5b</code> — the corpus that produced the shipped checkpoint — and the three rebuild guards went red the moment the writer moved, which is them working.</p>
+<p>This project already has the precedent and it points the other way from a rewrite: <code>configs/mix_v4_ft_social11.py</code> records that <code>data/raw/social8.txt</code> "is no longer reproducible from today's generator" rather than regenerating it. So the writer fix is <strong>sequenced with the 1.0 corpus rebuild</strong>, where the slices are being rewritten anyway, and until then:</p>
+<ul><li><code>check_relpairs.py</code> now parses the call, <strong>reports</strong> the malformed count on every run with a pointer to this finding, and asserts on the calls that do parse that each asks for what its observation answers. A known defect with a number on it beats a red run that says nothing new, and beats the silence it had before.</li><li><code>check_copyable.py</code> records that the query slot's 2,450 is itself a symptom — regenerated with the escaping fixed it reads <strong>14,329</strong>, which is the number to compare against after the rebuild.</li><li><p><strong><code>scripts/check_calls.py</code> fences it</strong>, and this is the part the first version of this finding left out. Deferring the writer fix left the bug fixed nowhere <em>and</em> fenced nowhere: <code>worker_prompt</code> is what <code>gen_extract.py</code> and <code>gen_spans.py</code> write through as well, so a new slice with a quoted or non-ASCII question would inherit it and <code>check_relpairs</code> — which reads one file — would not say so. The new guard parses every <code>&lt;|call|&gt;</code> in <code>data/raw/</code> and holds <code>relpairs.txt</code> to <strong>exactly 41,152</strong>, not to a threshold: a slice that gets better fails it as loudly as one that gets worse, because both mean the entry is stale, and the entry is meant to be deleted by the rebuild rather than kept. A second section fails if the exception names a file that no longer exists.</p>
+<p>Verified by making it fail: a one-block slice written through today's <code>worker_prompt</code> with the question <code>who wrote &quot;Iron Quarry&quot;</code> produces <code>{&quot;query&quot;: &quot;who wrote &quot;Iron Quarry&quot;&quot;}</code> and the guard refuses it, naming this finding. A guard nobody has watched fail is not known to work, which is the lesson three of the four detectors in this document each taught separately.</p></li></ul>
+<h3 id="4-check-churn-a-decision-not-a-bug-and-it-is-the-owner-s">4. <code>check_churn</code> — a decision, not a bug, and it is the owner's</h3>
+<p>Six <code>nano20m_v3_extract*</code> cards fail to re-derive. <strong>No verdict changed side</strong>: the pass count is identical on every row and only the <em>name</em> a failure is filed under moved, by one or two items a card. Two scorer changes explain it, both deliberate and both dated — the near-miss split of 2026-08-31, which <code>verify()</code> already folds for, and the grounding rule at <code>e46ac9ee</code>, which moves items between <code>wrong_span</code> and <code>invented</code> because <code>invented</code> <em>is</em> "failed <code>grounded</code>" and that predicate changed.</p>
+<p>Inspecting the nine items the current scorer calls <code>invented</code> on <code>nano20m_v3_extract_narrowtype</code>: seven have no stray word at all and are degenerate echoes of the question — "who is nebula on guardians of the galaxy" answered "Nebula.", "who is the character of santa claus based on" answered "Santa Claus, according to wikipedia.org." — which fail <code>grounded</code>'s second condition rather than its first. Two are genuine invention (<code>Northam</code> → <code>Southam</code>). Every one of the nine is correctly refused under the current rule.</p>
+<p><strong>So the scorer is right and the cards are stale derived data, and this check firing is it doing its job</strong> — it exists to catch "a scorer changing underneath a file already on disk".</p>
+<p><strong>The owner's call, taken 2026-09-07: re-derive.</strong> The <code>why</code> histogram is a pure function of two things that both still exist — the saved generations, and the scorer at the revision the card itself names in <code>source.rev</code> — so it is a cache rather than a record, and a cache that disagrees with its inputs should be recomputed. The measurement is the pass count, and it does not move. The argument that settled it is what a permanently red row becomes: <code>check_all</code> reading "70 ran, 1 failed" forever, with everyone knowing the 1 is <em>"just churn, ignore it"</em>, is a guard that has stopped working — and it stops working silently, which is the third instance of that failure in this document alone.</p>
+<p><strong>The four rows, before and after</strong>, recorded here because re-deriving the card is the only place these numbers lived and the old scorer is awkward to re-run (<code>extract_attribute.py</code> imports a symbol the pre-<code>e46ac9ee</code> <code>evals.py</code> does not define):</p>
+<p>nano20m_v3_extract_narrowtype       wrong_span 34 -&gt; 33   invented  8 -&gt; 9 nano20m_v3_extract_seed2            wrong_span 32 -&gt; 31   invented 12 -&gt; 13 nano20m_v3_extract_widetype         wrong_span 27 -&gt; 26   invented 11 -&gt; 12 nano20m_v3_extract_widetype_seed2   wrong_span 43 -&gt; 41   invented 21 -&gt; 23</p>
+<p><code>abstained</code>, <code>wrote_own</code>, <code>recited</code> and <code>continued_payload</code> are unchanged on every row, as is every pass count.</p>
+<p><strong>One published number moves with them, and it is annotated rather than edited.</strong> The fifty-seventh finding quotes <code>invented 105 -&gt; 7 / 12</code> across the two seeds; the <code>12</code> is <code>nano20m_v3_extract_seed2</code> and now reads 13. A note beside it says so. The claim it supports — confabulation falling from 105 of 200 to single figures — does not depend on the item. Findings <a class="fref" href="/Corn-Jr-Public/finding/58.html">58</a>'s numbers are decline rates and type shares and are untouched; no other finding or plan quotes a failure bucket from these six cards.</p>
+<p><strong>The second half of the red was not a scorer disagreement at all.</strong> All six committed attribution files carried <strong>zero rows</strong> for <code>extract.span_tight</code> — the row the eighty-second finding added after they were written — so the drift check was comparing 0 rows against 200. Re-deriving them through <code>scripts/extract_attribute.py</code> put the row in, and the next run immediately failed a <em>different</em> check: "every extraction row is a row <code>churn.py</code> knows". It was not. <code>churn.ROWS</code> never learned <code>extract.span_tight</code> either, and could not be caught not knowing it while every artefact on disk predated the row. <strong>A table that is only ever checked against artefacts older than the thing it is missing is not being checked.</strong> Both are fixed; the guard found the second one itself, one run after the first was cleared.</p>
+<p>What is also changed is the failure message, which said "do not trust either until they do not" and now names which buckets moved, that no verdict changed side, and where the two known scorer changes are recorded — so the next time this fires the diagnosis is in the output rather than in a session.</p>
+<p>Left unexplained: whether any <em>other</em> tracked card in <code>evals/results/</code> is stale against today's scorers. <code>check_churn</code> walks the extract rows only, and the same question applies to every row a scorer has been edited under since it was written — which is a one-evening replay over saved generations and would either close the question or produce a list. The <code>span_tight</code> result above raises the prior: that row was missing from six files for weeks and nothing said so.</p>
+<h3 id="amended-2026-10-08-the-writer-fixed-every-slice-regenerated-">Amended 2026-10-08 — the writer fixed, every slice regenerated, and the bug was in three more files</h3>
+<p>ROADMAP C0 discharged PLAN-1-0 ground rule 6. <code>corn.extract.PROMPT</code> now takes its call from <code>corn.tools.call_text</code>, the one on-the-wire form every tool generator already writes, and every slice <code>worker_prompt</code> writes was regenerated through it. The rows that moved are exactly the rows whose question carries a quote or a non-ASCII character:</p>
+<p>slice                  rows moved   what moved extract.txt                   185   the call line extract_5b.txt                866   the call line extract_clause.txt            866   the call line extract_iso.txt                44   the call line relpairs.txt               41,152   re-sampled (below) spans_synth.jsonl          41,196   prompt; spans on the 20,598 answerable spans_nq.jsonl              1,659   prompt; spans on the 401 answerable spans_squad.jsonl          17,354   prompt; spans on the 3,675 answerable</p>
+<p>Each regeneration was checked against a second one run with the old call patched back in. <code>relpairs.txt</code> and <code>spans_synth.jsonl</code> came back byte-identical to the files on disk, so every difference in them is the fix. <code>relpairs.txt</code> is re-sampled rather than edited in place: an escaped quote costs tokens, and the same 9.7M-token budget now holds 60,912 blocks against 61,728. Its query slot reads 14,329 effective values in <code>check_copyable</code>, which is the number this finding's audit predicted for a fixed regeneration. <code>extract_5b.txt</code> also lost two blocks that the old-writer run loses too. That is generator drift since 2026-08-28, not this fix.</p>
+<p><strong>The fence had a hole of its own.</strong> <code>scripts/check_calls.py</code> claimed every call in <code>data/raw/</code>, but globbed <code>*.txt</code>. The labelled-window files are <code>.jsonl</code> and carry each transcript as an escaped JSON string, and two of them held 53,201 malformed calls the guard never read: 41,152 in <code>spans_synth.jsonl</code> and 12,049 in <code>spans_squad.jsonl</code>. It reads <code>.jsonl</code> now, through one unescape, and <code>EXPECTED</code> is empty.</p>
+<p><strong>What did not move.</strong> Four frozen eval items store a prompt with a curly apostrophe written raw in the call: three in <code>evals/extract.jsonl</code> and one in <code>evals/extract_phrase.jsonl</code>. They stay as built, under PLAN-FINETUNE-V4 ground rule 2, and no guard rebuilds them. The runtime does move. <code>harness/backends/ read.py</code> builds its prompts through <code>worker_prompt</code>, so on v0.5 a question carrying a quote or a non-ASCII character is now shown the escaped call. That is 4 of NQ-dev's 1,003 questions, and Population A is drawn from them. Not re-read; a Population A number taken after this commit is a bound on those four.</p></div>
+  </section>
+
+  <section class="grid refs">
+    <div class="body two-even">
+      <div>
+        <h2 class="small">It cites</h2>
+        <ul class="reflist"><li style="--c:var(--c1)"><a href="/Corn-Jr-Public/finding/58.html"><span class="fn">58</span>Tripling a fact type in training left his declines unchanged</a></li></ul>
+        
+      </div>
+      <div>
+        <h2 class="small">Cited by</h2>
+        <ul class="reflist"><li style="--c:var(--c2)"><a href="/Corn-Jr-Public/finding/57.html"><span class="fn">57</span>Extraction training works, mostly by declining answerable questions</a></li></ul>
+        
+      </div>
+    </div>
+    <p class="body source">docs/findings/127-a-spurious-memorisable-slot-was-the-copy-audit-going-blind-on-escaped-quotes-and-underneath-it-two-thirds-of-the-relpairs-calls-are-invalid-json.md</p>
+  </section>
+</article>
+
+  
+<footer class="turn">
+  <div><span class="sc">previous</span><a href="/Corn-Jr-Public/finding/71.html">71 · Giving memory-lookup calls real results turns silence into recitation</a></div>
+  <div class="r"></div>
+  <p class="keys"><kbd>←</kbd> <kbd>→</kbd> turn the page · <kbd>/</kbd> find</p>
+</footer>
+<p class="bynumber">Previous and next in <a href="/Corn-Jr-Public/thread/tool-calls.html">Tool calls and copying</a>. By number:
+  <a href="/Corn-Jr-Public/finding/126.html">126</a> · <a href="/Corn-Jr-Public/finding/128.html">128</a></p>
+
+</div>
+</body>
+</html>

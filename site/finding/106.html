@@ -1,0 +1,103 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>106 · Fifty thousand extra labelled windows don&#39;t help the reader · Corn-Jr</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600&family=IBM+Plex+Mono:wght@400;500&family=Spectral:ital,wght@0,400;0,500;0,600;1,400&family=Spectral+SC:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/Corn-Jr-Public/static/library.css">
+<script defer src="/Corn-Jr-Public/static/library.js"></script>
+<script type="speculationrules">
+{"prerender": [{"where": {"and": [{"href_matches": "/Corn-Jr-Public/*"}, {"not": {"href_matches": "/Corn-Jr-Public/random.html"}}, {"not": {"href_matches": "/Corn-Jr-Public/static/*"}}]}, "eagerness": "moderate"}]}
+</script>
+
+</head>
+<body>
+<div class="page">
+  <header class="running">
+    <a class="book" href="/Corn-Jr-Public/">Corn-Jr · The Record</a>
+    <nav>
+      <a href="/Corn-Jr-Public/" data-key="shelf">Shelf</a><a href="/Corn-Jr-Public/findings.html" data-key="findings" class="here">Findings</a><a href="/Corn-Jr-Public/doc/VISION.html" data-key="VISION">Vision</a><a href="/Corn-Jr-Public/doc/GLOSSARY.html" data-key="GLOSSARY">Glossary</a>
+      <a href="https://github.com/csheehan18/Corn-Jr-Public">Source</a>
+    </nav>
+  </header>
+  
+
+<article class="sheet" style="--c:var(--c2)">
+  <div class="progress" aria-hidden="true"></div>
+  <section class="grid chapter-open finding-open">
+    <a class="tab" href="/Corn-Jr-Public/thread/reading.html" title="Reading documents"><small>Part</small><span>II</span></a>
+    <p class="cn">106</p>
+    <p class="partline"><a href="/Corn-Jr-Public/thread/reading.html">Reading documents</a> · 4 September 2026</p>
+    <h1>Fifty thousand extra labelled windows don&#39;t help the reader</h1>
+  </section>
+
+  <section class="grid">
+    <p class="marginal">The result, as the finding states it</p><div class="prose"><p class="lead">Fifty thousand SQuAD windows lift the span head 1.3 points on one seed and sink it 1.6 on the other, and move Population A's pick stage by +2 and −5, so more labelled windows are not the pick's lever either and the arm closes at its gate</p></div>
+    <p class="marginal">What it cost</p><div class="prose"><p class="cost">0 s of new scoring on record; it reads 1 card scored for an earlier finding (<code>corn_jr_260m_v4_ft4g</code>). Backfilled 2026-09-26 from the cards' <code>seconds</code>; training and probe time were never recorded, so this is a floor.</p></div>
+  </section>
+
+  
+
+  <section class="grid">
+    <div class="prose doc"><p><code>scripts/prepare_squad.py</code>, <code>gen_spans.py</code>, <code>harvest_states.py</code> and <code>train_reader_cached.py --extra-cache</code>, 2026-09-04. Two span heads on the frozen <code>corn_jr_260m_v4_ft4g</code> trunk with no weight of it moved, the shipped recipe with one change: 48,929 / 48,732 SQuAD 2.0 windows added to the training set, none to the held-out slice. <code>evals/results/reader_squad_s{1,2}.json</code> and <code>_popa.json</code>, <code>pairs_squad_s{1,2}_popa.json</code>, <code>reader_funnel_squad_s{1,2}.json</code>; <code>checkpoints/reader_squad_s{1,2}.pt</code> (gitignored); the state cache <code>F:/corn-jr-data/states/spans_squad_positive</code> (20 GB, 50,000 windows). No verifier, no chain, no reader run: the gate is a stopping rule and it stopped the arm. <code>corn/reader.py</code> is untouched.</p>
+<h3 id="0-the-arm-as-pre-registered">0. The arm, as pre-registered</h3>
+<p><code>READER-AUDIT.md</code> L18 and <code>PLAN-EXTRACTION-READER.md</code> §7.1: SQuAD as a <strong>minority</strong> source of labelled windows for the span head, NQ held out as the only read. Opened by the owner on 2026-09-04 after the epochs (102), ensemble (103), ruler (104) and extent (105) levers had closed, on the reasoning of finding <a class="fref" href="/Corn-Jr-Public/finding/103.html">103</a> that the pick's remaining error is bias in what the frozen states carry and more data is the direct fix for bias. The licence is CC BY-SA 4.0, the same family as NQ, and the owner accepted it.</p>
+<p>Pre-registered in <code>STATUS.md</code> before any number existed: a gate of held-out exact-pair <strong>≥ 0.565 on both seeds</strong> (the shipped heads read 0.5410 / 0.5425 / 0.5554); a kill if NQ held-out exact-pair <strong>falls below the shipped head's on either seed</strong>; and only past the gate the chain and a bar of +12 right a seed at the silence floor.</p>
+<p><strong>The recipe.</strong> <code>train-v2.0.json</code> (442 articles, 130,319 questions, 86,821 answerable) → <code>prepare_squad.py</code> writes one row per question in <code>nq-train-full.jsonl</code>'s shape, question lower-cased and unquestioned to match the NQ prompt, a title-carrying url so <code>article_key</code> works → <code>gen_spans.py</code> windows it at 64/32 and decontaminates against NQ dev and the frozen evals by article and by window (3,177 rows dropped by article; 141,443 positive windows, alignment 91.7%, unaligned 0.60%) → <code>harvest_states.py --kinds positive --cap 50000 --sample-seed 1</code> (410 s) → <code>train_reader_cached.py --arm built --extra-cache</code>, which indexes the second cache, tags its windows, joins them to training only, and drops any whose article is one NQ held out (1,071 and 1,268). Training sets of 144,133 and 143,889 windows against the shipped 95,204 and 95,157; held-out slices the shipped heads' own 4,880 and 4,927 NQ windows, so every number below is like for like.</p>
+<h3 id="1-the-gate-one-seed-up-one-seed-down">1. The gate: one seed up, one seed down</h3>
+<p>Held-out exact-pair on the same slice, epoch by epoch:</p>
+<p>epoch     seed 1 shipped   seed 1 +SQuAD     seed 2 shipped   seed 2 +SQuAD 0          0.4863           0.5318            0.4973           0.5062 1          0.5172           0.5311            0.5050           0.5222 2          0.5133           0.5311            0.5040           0.5151 3          0.5287           0.5449            0.5261           0.5151 4          0.5369           0.5516            0.5368           0.5267 5          0.5410           0.5543            0.5425           0.5267</p>
+<p><strong>Seed 1: +1.33 points, above the shipped head at every epoch, the first positive move of the pick from any arm on frozen states in this workstream. Seed 2: −1.58 points, above for three epochs and below for three.</strong> The gate of 0.565 is missed on both; the kill fires on seed 2. The standard error of a proportion over 4,880 windows is about 0.7 points, so the two seeds are two standard errors apart in opposite directions around zero.</p>
+<p>The epoch-0 lead is the one consistent thing: +4.6 and +0.9 points before the schedule has decayed, more data helping the head start faster and then converging to the same place. Training loss ends at 0.111 and 0.112 against the shipped 0.101 and 0.103: the same memorisation of a set half again as large.</p>
+<h3 id="2-population-a-s-pick-stage-does-not-move">2. Population A's pick stage does not move</h3>
+<p><code>harvest_popa_pairs.py</code> on each head, <code>probe_reader_funnel.py --pairs</code>, and a passage-level pairing against the shipped head's grid. The pick stages are the head's alone; the downstream stages read with each seed's shipped verifier are not quoted, because that verifier was cross-fitted to the shipped head.</p>
+<p>seed 1 shipped  +SQuAD    seed 2 shipped  +SQuAD the gold in some gold window's ten        678         684           679         685 the head ranks it first there             494         496           484         479 paired on the pick                        +2 (lost 48, won 50, p = 0.92)    −5 (lost 52, won 47, p = 0.69) paired on the ten                         +6 (lost 9, won 15, p = 0.31)     +6 (lost 10, won 16, p = 0.33) pick rate over windows with the gold in the ten     66.6% -&gt; 65.0%           64.7% -&gt; 63.9%</p>
+<p><strong>+2 and −5 passages on the pick, with about fifty passages moving each way on each seed.</strong> The one shared movement is six more passages with the gold in the ten on both seeds, which is generation and not the pick, and is what the extra windows would buy a head that had learned nothing but a slightly wider candidate habit. The winner's median lead over the gold shortens from 3.44 to 2.57 logits on seed 1 — the wrong picks are less confident — and no more of them are right.</p>
+<h3 id="3-the-other-rulers-ungated">3. The other rulers, ungated</h3>
+<p>seed 1 shipped  +SQuAD    seed 2 shipped  +SQuAD frozen tight /200              138          130           130          127 phrase tight /89                36           39            39           41 extract.paired /128             89          101            85           93 took_first                    27            9            22           19 sibling spoken                29           10            26           19</p>
+<p>Frozen tight down on both seeds and phrase tight up on both, each inside its seed spread. <strong>The paired file is up +12 and +8 on both seeds</strong>, with <code>took_first</code> — the sixty-sixth finding's "take the first value of the gold's type in the window" — down from 27 to 9 on seed 1. That is the same-type rival discrimination that SQuAD's paragraph-primed questions were expected to teach badly and appear to teach well, on a 128-item file whose seed spread finding <a class="fref" href="/Corn-Jr-Public/finding/83.html">83</a> measured at ±24. It is reported and not barred, and it did not reach Population A's <code>RIVAL</code> species in any read here because no verifier was fit.</p>
+<h3 id="4-verdict">4. Verdict</h3>
+<p><strong>Closed at the gate by its own pre-registration</strong>: 0.5543 and 0.5267 against a gate of 0.565, and the kill fired. Under the audit's rule — a pre-registered bar failed on two seeds — L18 is closed as an arm on the pick.</p>
+<p>What it says beyond itself is the same thing findings <a class="fref" href="/Corn-Jr-Public/finding/102.html">102</a> and <a class="fref" href="/Corn-Jr-Public/finding/103.html">103</a> said from the other two directions. More epochs (102) bought nothing; averaging three seeds (103) bought four passages against sixty of real disagreement; fifty per cent more labelled windows buys +1.3 on one seed's own slice and nothing on the population. A head with 7.9M parameters that memorises 95,000 or 144,000 windows to a loss of 0.1 and holds at 0.54 either way has run out of signal in its inputs, not out of data, epochs or ensembles. <strong>The remaining lever on the pick is the representation</strong> — a different layer band, a different prompt form, or a trunk that has seen the span task — and every one of those is a state re-harvest or a fine-tune, which is what §7 of the extraction plan and the audit's Part 4 already price.</p>
+<p>Not run, and not owed: the Population A chain on a missed gate. The owner could override the protocol on seed 1's +1.3 and the paired file's +12 / +8; the pick stage's +2 / −5 is the number that would tell them what the chain would find.</p>
+<h3 id="5-cost-as-measured">5. Cost, as measured</h3>
+<p>convert 130,319 questions to rows       ~1 min CPU, 145 MB window and decontaminate                110 s CPU, 808 MB, 726,549 windows harvest 50,000 positive windows         410 s GPU, 20 GB span head, six epochs, per seed         ~20 min GPU (200 s an epoch at 144k windows) pair grid on Population A, per seed     19 s GPU</p>
+<p>About an hour and a quarter of wall clock for the two-seed gate read, against a pre-registered estimate of an hour a seed for the full chain, which was not needed.</p>
+<h3 id="6-on-disk">6. On disk</h3>
+<p><code>scripts/prepare_squad.py</code> (new). <code>train_reader_cached.py --extra-cache</code>: an item's <code>shard</code> is now <code>(cache, shard)</code>, so every reader of <code>blobs[it[&quot;shard&quot;]]</code> works over several caches; the held-out slice is drawn from the primary cache alone; extra windows in a held-out article are dropped. Flag off is byte-identical behaviour. <code>data/raw/train-v2.0.json</code> (42 MB), <code>squad-train.jsonl</code> (145 MB) and <code>spans_squad.jsonl</code> (808 MB) are on disk and not committed; the 20 GB cache is on F:. <code>docs/RELEASE.md</code> carries the licence line and <code>DATA.md</code> §6 the one-use reversal of its NQ-over-SQuAD argument, both written before the run.</p>
+<h3 id="7-limits">7. Limits</h3>
+<p>Two seeds, one cap (50,000 of 141,443 positives, a third of the training set), one recipe: a larger SQuAD share or SQuAD-only pre-training of the head followed by NQ were not tried, and the plan's own reason for the cap — the lexical-overlap shortcut — was not measured directly, only made readable by selecting on NQ. The no-answer half of SQuAD (43,498 unanswerable questions, 249,248 <code>absent_topical</code> windows) was windowed and not harvested; the verifier never saw it. Alignment on SQuAD is 91.7% against NQ's higher figure because SQuAD golds carry more trailing punctuation and quotation. The seed-1 head's <code>reader_squad_s1_popa.json</code> is an ungated harvest and is not a reader number.</p></div>
+  </section>
+
+  <section class="grid refs">
+    <div class="body two-even">
+      <div>
+        <h2 class="small">It cites</h2>
+        <ul class="reflist"><li style="--c:var(--c2)"><a href="/Corn-Jr-Public/finding/83.html"><span class="fn">83</span>The boundary model finds answers but can&#39;t prefer them to silence</a></li><li style="--c:var(--c2)"><a href="/Corn-Jr-Public/finding/102.html"><span class="fn">102</span>Twice the training epochs doesn&#39;t improve the answer finder</a></li><li style="--c:var(--c2)"><a href="/Corn-Jr-Public/finding/103.html"><span class="fn">103</span>Averaging three seeds&#39; readers barely helps</a></li></ul>
+        
+      </div>
+      <div>
+        <h2 class="small">Cited by</h2>
+        <ul class="reflist"><li style="--c:var(--c2)"><a href="/Corn-Jr-Public/finding/109.html"><span class="fn">109</span>Other layer choices don&#39;t beat the shipped one</a></li><li style="--c:var(--c2)"><a href="/Corn-Jr-Public/finding/112.html"><span class="fn">112</span>Training on whole passages lifts extraction from 54% to 71%</a></li></ul>
+        
+      </div>
+    </div>
+    <p class="body source">docs/findings/106-fifty-thousand-squad-windows-lift-the-span-head-on-one-seed-and-sink-it-on-the-other-and-move-the-population-a-pick-by-two-and-minus-five-so-more-labelled-windows-are-not-the-lever-either.md</p>
+  </section>
+</article>
+
+  
+<footer class="turn">
+  <div><span class="sc">previous</span><a href="/Corn-Jr-Public/finding/105.html">105 · The answer-length rule is already at its best setting</a></div>
+  <div class="r"><span class="sc">next</span><a href="/Corn-Jr-Public/finding/107.html">107 · Later layers know slightly more; the shipped checker already has it</a></div>
+  <p class="keys"><kbd>←</kbd> <kbd>→</kbd> turn the page · <kbd>/</kbd> find</p>
+</footer>
+<p class="bynumber">Previous and next in <a href="/Corn-Jr-Public/thread/reading.html">Reading documents</a>. By number:
+  <a href="/Corn-Jr-Public/finding/105.html">105</a> · <a href="/Corn-Jr-Public/finding/107.html">107</a></p>
+
+</div>
+</body>
+</html>

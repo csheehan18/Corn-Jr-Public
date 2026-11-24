@@ -1,0 +1,96 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>182 · Copying the condition&#39;s clause first: new sentence shapes read, new words don&#39;t · Corn-Jr</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600&family=IBM+Plex+Mono:wght@400;500&family=Spectral:ital,wght@0,400;0,500;0,600;1,400&family=Spectral+SC:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/Corn-Jr-Public/static/library.css">
+<script defer src="/Corn-Jr-Public/static/library.js"></script>
+<script type="speculationrules">
+{"prerender": [{"where": {"and": [{"href_matches": "/Corn-Jr-Public/*"}, {"not": {"href_matches": "/Corn-Jr-Public/random.html"}}, {"not": {"href_matches": "/Corn-Jr-Public/static/*"}}]}, "eagerness": "moderate"}]}
+</script>
+
+</head>
+<body>
+<div class="page">
+  <header class="running">
+    <a class="book" href="/Corn-Jr-Public/">Corn-Jr · The Record</a>
+    <nav>
+      <a href="/Corn-Jr-Public/" data-key="shelf">Shelf</a><a href="/Corn-Jr-Public/findings.html" data-key="findings" class="here">Findings</a><a href="/Corn-Jr-Public/doc/VISION.html" data-key="VISION">Vision</a><a href="/Corn-Jr-Public/doc/GLOSSARY.html" data-key="GLOSSARY">Glossary</a>
+      <a href="https://github.com/csheehan18/Corn-Jr-Public">Source</a>
+    </nav>
+  </header>
+  
+
+<article class="sheet" style="--c:var(--c4)">
+  <div class="progress" aria-hidden="true"></div>
+  <section class="grid chapter-open finding-open">
+    <a class="tab" href="/Corn-Jr-Public/thread/tag-language.html" title="The tag language"><small>Part</small><span>IV</span></a>
+    <p class="cn">182</p>
+    <p class="partline"><a href="/Corn-Jr-Public/thread/tag-language.html">The tag language</a> · 20 October 2026</p>
+    <h1>Copying the condition&#39;s clause first: new sentence shapes read, new words don&#39;t</h1>
+  </section>
+
+  <section class="grid">
+    <p class="marginal">The result, as the finding states it</p><div class="prose"><p class="lead">With the condition's clause cut first, composed clause structures install and transfer at all three starts — the trained cells 0.986-0.997, five held cells 0.979-1.000, every family on his training traces 1.00, "otherwise" and the default-then-late-switch order included; two gates miss, each read by hand to vocabulary the inventory lacks ("but not if": 54-66 of 64-80 misses on finding <a class="fref" href="/Corn-Jr-Public/finding/180.html">180</a>'s rows, which read 0.992-0.997 without it) and to a parenthetical condition the cut rule itself attaches forward</p></div>
+    <p class="marginal">What it cost</p><div class="prose"><p class="cost">three fine-tunes of 650 iterations at 20M (144, 143, 143 s, contended — the card at 36%, a bound), two span reads a run (144-145 s and 106-108 s), three slot reads and copy cards at 7-8 s, the real-wording probe: one chain of 1,263.5 s, 11:15-11:36 on 2026-10-20, registered ~17 min (the span reads ran twice the estimate: two greedy lines a prompt); the build 11:02-11:15 on CPU.</p></div>
+  </section>
+
+  
+
+  <section class="grid">
+    <div class="prose doc"><p><strong>The owner's go, 2026-10-20</strong>: "do 3" — put finding <a class="fref" href="/Corn-Jr-Public/finding/181.html">181</a>'s missing hop in the bytes. Finding <a class="fref" href="/Corn-Jr-Public/finding/181.html">181</a>: with the clause structure composed from parts, the one-slot line <code>if: v -&gt; &lt;the continuation taken when it holds&gt;</code> fell to chance wherever the condition attached backward ("X if it's v") or Y had only "otherwise". Two hops sat inside the one choice: which continuation the condition is attached to, and "otherwise means the other one". So the line became two, each a copy (<code>corn/branchstructgen.py</code>, <code>StructBranch.span_line</code>):</p>
+<p>cond: X if it isn't raining     the clause holding the condition, run on to the clause its continuation stands in if: not raining -&gt; X            that continuation, "not" when negated</p>
+<p>The runtime orders the menu from the <code>if:</code> line — what runs when the condition holds first — as A2's runtime already does; the menu and the pick are finding <a class="fref" href="/Corn-Jr-Public/finding/181.html">181</a>'s byte for byte. One variable against finding <a class="fref" href="/Corn-Jr-Public/finding/181.html">181</a>: the payload's binding lines (1.88 passes against 1.96, the same weight). Pre-registered at 9a788a2 (<code>configs/mix_v3_bind_ft_span.py</code>); <code>check_branch.py</code> section 17 holds it; finding <a class="fref" href="/Corn-Jr-Public/finding/180.html">180</a>'s rows were rewritten into the form with every prompt byte for byte but the binding lines, so the old eight are read on the requests A2 read.</p>
+<h3 id="the-registered-read">The registered read</h3>
+<p>The decision — the continuation his <code>if:</code> line implies, which the runtime acts on (<code>scripts/probe_branch_span.py</code>; his own two lines, the runtime's menu from them, his pick on it):</p>
+<p>start   structure, trained   structure, held   finding <a class="fref" href="/Corn-Jr-Public/finding/180.html">180</a>'s rows   far probe (gate 0.94)          (gate 0.90)       (gate 0.97)          (gate 48 of 58) ev2     718/720 0.997        478/480 0.996     1,648/1,728 0.954    37 ev2s2   710/720 0.986        470/480 0.979     1,656/1,728 0.958    38 ev2s3   716/720 0.994        480/480 1.000     1,664/1,728 0.963    37</p>
+<p>controls, the same requests: A2      320-328 0.44-0.46    292-328 0.61-0.68   1,714-1,724 0.99+  34-40 181     490-516 0.68-0.72    296-306 0.62-0.64   816-858 0.47-0.50  23-29</p>
+<p><strong>Installs and transfers pass at all three starts</strong>: every YXC cell 44-48 of 48 (gate 41), no held cell below 0.94 (gate 0.75), own quads 176-179 of 180 and 116-120 of 120. His clause is exact on 708-718 and 466-480 of the same prompts. <strong>The old eight and the far probe miss at all three.</strong> The pick half holds: from the gold lines, every quad 144/144, 288/288, 180/180, 120/120. The prediction (installs and the old eight 3 of 3, transfers and the far probe 2 of 3) was right on installs, under on transfers (3 of 3), and wrong on the old eight and the far probe.</p>
+<p>On his own training traces the <code>if:</code> line's continuation, the gold clause above it (<code>probe_bind_slot.py</code>), reads 1.00 in every family at all three starts — finding <a class="fref" href="/Corn-Jr-Public/finding/181.html">181</a>'s arm read 0.61-0.70.</p>
+<h3 id="the-old-eight-read-by-hand">The old eight, read by hand</h3>
+<p>The misses on finding <a class="fref" href="/Corn-Jr-Public/finding/180.html">180</a>'s rows are one family: U1, 70, 66 and 54 of 264 against 0-8 for every other family. <strong>Of those, 66, 66 and 54 are "but not if"</strong> — "maybe a spot for a pint but not if it's windy — then somewhere to eat" — an unless-word <code>branchflipgen</code> uses and the composed lists never contain (<code>branchstructgen.UNLESSES</code> is "unless" and "except if"). He cuts the clause without the condition ("maybe a spot for a pint then somewhere to eat") or keeps it and drops the "not". Outside that word he misses 14, 6 and 10 of the 1,728 prompts: A2's level. Own quads, held-first 141-143, held-second 128-134, flip 133-137; the held-second cell at 128 at the first start is the same U1 misses. <strong>A word, not a structure</strong>: the vocabulary column, apart.</p>
+<h3 id="the-far-probe-by-shape">The far probe, by shape</h3>
+<p>Pooled over the three starts (6 a shape):</p>
+<ul><li><strong>The five shapes pre-registered as covered</strong> — a trained cell, new words — read 21 of 30 (A2 0 of 30, finding <a class="fref" href="/Corn-Jr-Public/finding/181.html">181</a> 9): "if it turns out to be v, A; if it doesn't, B" 6, "B is the plan, but switch to A if it's v" 6, "go for B, but if it's not v, A" 6, "go with B, though if it's v make it A" 3, "if it's v then definitely A, but if it's not then B" 0.</li><li><strong>The else-word shapes finding <a class="fref" href="/Corn-Jr-Public/finding/181.html">181</a> lost are back</strong>: "should it be v, A — B otherwise" 5, "A when it's v, B the rest of the time" 5 — the pre-registered 4 of 6. The question form, beyond every cell, 6 of 6.</li><li><strong>The vocabulary column</strong>: 5, 6 and 5 of 6 (finding <a class="fref" href="/Corn-Jr-Public/finding/181.html">181</a>: 0-1).</li></ul>
+<p>What fails, read by hand on the first start's own lines:</p>
+<p>"A, unless of course it's v, in which case B"   1 of 6 "A, but only if it's not v — else B"            0 of 6 his: cond: unless it's raining, in which case B / if: not raining -&gt; B The condition stands between commas <em>after</em> the continuation it governs — a parenthetical. The cut rule (a condition clause holding no continuation runs on to the next clause) attaches it forward, to B; he wrote what the rule says. The generator never writes a parenthetical, so the rule was never wrong on a trace: a hole in the format's definition, not in his reading. "A save for if it's v, in which case B"          0 of 6 his clause exact; his "not" missing — an unless-word never seen "B is the backup — A provided it isn't v"       1 of 6 he cuts the default clause, once writing "B is fine" — a trained default marker for one never seen (GENERATORS §5's first signature) "if it's v then definitely A, but if it's not then B"   0 of 6 he cuts "but if it's raining then definitely A" — two clauses fused, "then definitely" never seen "A as long as it's anything but v", "B by default; A in the event that it's v"   1 of 6 each — connectives never seen</p>
+<h3 id="the-copy-row-a-side-column">The copy row, a side column</h3>
+<p><code>tool.copy_wide</code> 299, 281, 291 against the starts' 298, 295, 293 — not readable by finding <a class="fref" href="/Corn-Jr-Public/finding/170.html">170</a>'s rule. The second start falls again, now in three arms; its digit species still owes a cause.</p>
+<h3 id="what-it-licenses">What it licenses</h3>
+<ul><li><strong>The hop in the bytes is the lever a layer up from finding <a class="fref" href="/Corn-Jr-Public/finding/175.html">175</a>.</strong> With the attachment a cut and the complement the runtime's menu, composed clause structures install and transfer to held structure combinations at three starts of three, and "otherwise" and the late switch read where finding <a class="fref" href="/Corn-Jr-Public/finding/181.html">181</a> left them at chance. GENERATORS D5 holds at the structure layer.</li><li><strong>What is left is vocabulary and one shape.</strong> The far probe and the old eight fail on words the inventory lacks (unless-words, connectives, default markers), and on a parenthetical condition after its continuation, which the cut rule misreads. The 1.0 branch slice: the two-line form, the word lists widened to the connectives people use — real text is the source finding <a class="fref" href="/Corn-Jr-Public/finding/179.html">179</a> already named — and a parenthetical cell with a cut rule that attaches it backward.</li><li><strong>RULES 21 untouched</strong>, and the pick his: both lines and the pick are his and under loss; the runtime orders the menu from his line.</li></ul>
+<p><strong>What it does not settle.</strong> Whether widened word lists close the far probe (a dose question once the words are in); the cut rule for a parenthetical; pretraining at one pass in this form; and the second start's copy species.</p></div>
+  </section>
+
+  <section class="grid refs">
+    <div class="body two-even">
+      <div>
+        <h2 class="small">It cites</h2>
+        <ul class="reflist"><li style="--c:var(--c4)"><a href="/Corn-Jr-Public/finding/170.html"><span class="fn">170</span>The copy test&#39;s failure threshold was measuring seed noise</a></li><li style="--c:var(--c4)"><a href="/Corn-Jr-Public/finding/175.html"><span class="fn">175</span>He names the chosen branch, but can&#39;t combine it with the result</a></li><li style="--c:var(--c4)"><a href="/Corn-Jr-Public/finding/179.html"><span class="fn">179</span>Fine-tuned, he reads every condition word like &#39;not&#39; and &#39;unless&#39;</a></li><li style="--c:var(--c4)"><a href="/Corn-Jr-Public/finding/180.html"><span class="fn">180</span>When the runtime orders the menu, &#39;the other one&#39; is perfect</a></li><li style="--c:var(--c4)"><a href="/Corn-Jr-Public/finding/181.html"><span class="fn">181</span>Mixed sentence shapes: he reads each option&#39;s own condition, loses &#39;otherwise&#39;</a></li></ul>
+        
+      </div>
+      <div>
+        <h2 class="small">Cited by</h2>
+        <ul class="reflist"><li style="--c:var(--c4)"><a href="/Corn-Jr-Public/finding/183.html"><span class="fn">183</span>More words fixed most misses; an unseen &#39;unless&#39; word still reads &#39;if&#39;</a></li><li style="--c:var(--c4)"><a href="/Corn-Jr-Public/finding/184.html"><span class="fn">184</span>Looping until it sounds right: he learns to always keep looking</a></li></ul>
+        
+      </div>
+    </div>
+    <p class="body source">docs/findings/182-with-the-condition-clause-cut-first-composed-structures-install-and-transfer-at-three-starts-and-what-fails-is-words-the-inventory-lacks-and-a-parenthetical-the-cut-rule-misreads.md</p>
+  </section>
+</article>
+
+  
+<footer class="turn">
+  <div><span class="sc">previous</span><a href="/Corn-Jr-Public/finding/181.html">181 · Mixed sentence shapes: he reads each option&#39;s own condition, loses &#39;otherwise&#39;</a></div>
+  <div class="r"><span class="sc">next</span><a href="/Corn-Jr-Public/finding/183.html">183 · More words fixed most misses; an unseen &#39;unless&#39; word still reads &#39;if&#39;</a></div>
+  <p class="keys"><kbd>←</kbd> <kbd>→</kbd> turn the page · <kbd>/</kbd> find</p>
+</footer>
+<p class="bynumber">Previous and next in <a href="/Corn-Jr-Public/thread/tag-language.html">The tag language</a>. By number:
+  <a href="/Corn-Jr-Public/finding/181.html">181</a> · <a href="/Corn-Jr-Public/finding/183.html">183</a></p>
+
+</div>
+</body>
+</html>

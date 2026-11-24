@@ -1,0 +1,93 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>224 · One hard press makes the word likelier everywhere, and writes no line · Corn-Jr</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600&family=IBM+Plex+Mono:wght@400;500&family=Spectral:ital,wght@0,400;0,500;0,600;1,400&family=Spectral+SC:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/Corn-Jr-Public/static/library.css">
+<script defer src="/Corn-Jr-Public/static/library.js"></script>
+<script type="speculationrules">
+{"prerender": [{"where": {"and": [{"href_matches": "/Corn-Jr-Public/*"}, {"not": {"href_matches": "/Corn-Jr-Public/random.html"}}, {"not": {"href_matches": "/Corn-Jr-Public/static/*"}}]}, "eagerness": "moderate"}]}
+</script>
+
+</head>
+<body>
+<div class="page">
+  <header class="running">
+    <a class="book" href="/Corn-Jr-Public/">Corn-Jr · The Record</a>
+    <nav>
+      <a href="/Corn-Jr-Public/" data-key="shelf">Shelf</a><a href="/Corn-Jr-Public/findings.html" data-key="findings" class="here">Findings</a><a href="/Corn-Jr-Public/doc/VISION.html" data-key="VISION">Vision</a><a href="/Corn-Jr-Public/doc/GLOSSARY.html" data-key="GLOSSARY">Glossary</a>
+      <a href="https://github.com/csheehan18/Corn-Jr-Public">Source</a>
+    </nav>
+  </header>
+  
+
+<article class="sheet" style="--c:var(--c5)">
+  <div class="progress" aria-hidden="true"></div>
+  <section class="grid chapter-open finding-open">
+    <a class="tab" href="/Corn-Jr-Public/thread/understanding.html" title="Understanding at small scale"><small>Part</small><span>V</span></a>
+    <p class="cn">224</p>
+    <p class="partline"><a href="/Corn-Jr-Public/thread/understanding.html">Understanding at small scale</a> · 13 November 2026</p>
+    <h1>One hard press makes the word likelier everywhere, and writes no line</h1>
+  </section>
+
+  <section class="grid">
+    <p class="marginal">The result, as the finding states it</p><div class="prose"><p class="lead">On the trained 20M controls, one gradient step on a word's loss at one meeting of a pair the book knows from two to four meetings, sized to take two nats off the word there (it takes 1.84 and 1.87), takes 0.49 and 0.43 nats off the same word at the pair's other meeting — and 0.48 and 0.44 off it at an occurrence where the book says nothing about it. The line, what carries because the earlier word is there, is +0.02 nats at both seeds over 193 and 192 pairs. So a hard press is possible — that step costs held-out text 0.00019 nats a token, and even eight nats costs 0.0037 — but what it writes is how likely the word is anywhere, a quarter of the press, and not the pair. Pressed only into the word's own rows of the word table it carries further (0.80 and 0.77 of 1.93) at a tenth of the damage (0.00002), and it carries to the unrelated occurrence just the same (0.77 and 0.75; line +0.08 and +0.03). Pressed only into the think-alone matrices it carries least (0.38 and 0.33). No place and no strength writes a line.</p></div>
+    <p class="marginal">What it cost</p><div class="prose"><p class="cost">probe written and its pre-registration committed at 11:10 on 2026-11-13 (0bb5e87; a 12-item smoke read of the instrument, 92.9 s, was seen before the commit and after the prediction was written); the read 641.8 s of card for 200 pairs at two checkpoints, three places and six strengths. ETA ~6 min of card; it took 10.7 — eighteen press-and-measure rounds an item were priced as one.</p></div>
+  </section>
+
+  
+
+  <section class="grid">
+    <div class="prose doc"><p><strong>The question</strong> (owner, 2026-11-13: "could it be we aren't pushing hard enough when the book says it matters?"). Finding <a class="fref" href="/Corn-Jr-Public/finding/222.html">222</a>'s book press failed, and one reading was that it was never hard: its cap moved a token from one part of a 24,576-token step to four, where the book writes a whole line from one meeting. Before a steeper press is trained, this asks what the idea rests on: how hard can one meeting be pressed, does the press write a line or a sentence, and what does it dent. The pre-registration is <code>scripts/probe_one_press.py</code>'s docstring.</p>
+<h3 id="the-items-and-the-press">The items and the press</h3>
+<p>From <code>build_press.py</code>'s ruler-blind book over the web range of <code>mix_v3_webblend</code>: a word <code>b</code> ranked 2,000 or rarer and an earlier word <code>a</code> within ten words before it whose line to <code>b</code> sits 3 nats or more over <code>b</code>'s usual pull — 706,877 such meetings, 33,577 pairs, 4,433 of them met two to four times with the first two meetings 5,000 words apart. 200 drawn by seed, no <code>b</code> twice: <code>roof -&gt; leaking</code>, <code>uncle -&gt; grandfather</code>, <code>guilty -&gt; pleaded</code>, <code>pizza -&gt; olives</code>. For each: A, the meeting pressed; B, the pair's other meeting; C, an occurrence of <code>b</code> where no earlier word holds a line above its usual pull. An item is used where <code>b</code> costs him 2 nats or more at A (193 and 192 of 200); before any press it costs a median 8.9 nats at A, 8.4 at B and 10.0 at C.</p>
+<p>The press is one step on <code>b</code>'s loss at A alone, <code>-s * g / |g|^2</code>, so its first-order effect is <code>s</code> nats off <code>b</code> there; in every weight, in <code>b</code>'s own word-table rows, or in the blocks' think-alone matrices; then put back.</p>
+<h3 id="the-read">The read</h3>
+<p>nano20m_v3_webblend, medians over 193 pairs (seed 1338 in brackets, 192) place   press   off A          off B          off C          line             held-out, nats a token all     1.0     0.96 (0.97)    0.25 (0.22)    0.24 (0.22)    +0.01 (+0.01)    +0.00003 (+0.00004) all     2.0     1.84 (1.87)    0.49 (0.43)    0.48 (0.44)    +0.02 (+0.02)    +0.00019 (+0.00019)   &lt;- reference all     8.0     5.22 (5.24)    1.68 (1.47)    1.72 (1.60)    +0.07 (+0.04)    +0.00385 (+0.00348) row     2.0     1.93 (1.93)    0.80 (0.77)    0.77 (0.75)    +0.08 (+0.03)    +0.00002 (+0.00002)   &lt;- reference row     8.0     6.24 (6.20)    2.99 (2.79)    2.67 (2.56)    +0.18 (+0.11)    +0.00079 (+0.00075) mlp     2.0     1.81 (1.84)    0.38 (0.33)    0.35 (0.32)    +0.01 (+0.01)    +0.00012 (+0.00014)   &lt;- reference mlp     8.0     4.92 (5.00)    1.36 (1.20)    1.22 (1.15)    +0.03 (+0.02)    +0.00255 (+0.00249)</p>
+<p>All eighteen cells of each seed are in <code>evals/results/one_press__mix_v3_webblend.json</code> with every item.</p>
+<h3 id="the-pre-registered-rows-at-each-place-s-reference-strength-2">The pre-registered rows, at each place's reference strength (2 nats)</h3>
+<ul><li><strong>M fails everywhere.</strong> B carries 0.27 and 0.23 of A in every weight, 0.42 and 0.40 in the word's rows, 0.21 and 0.18 in the think-alone matrices — under the half the row asked — and the line is +0.02, +0.08 / +0.03 and +0.01 where it asked 0.25.</li><li><strong>W holds everywhere.</strong> The drop at C is 0.98 and 1.02 of the drop at B in every weight, 0.96 and 0.97 in the rows, 0.92 and 0.97 in the matrices. What carries to another sentence is what carries to any sentence.</li><li><strong>S</strong>: no for <code>all</code> and <code>row</code> (B carries more than a fifth of A), yes for <code>mlp</code> at the second seed (0.18).</li><li><strong>D: little.</strong> 0.00019 nats a token in every weight at two nats; 0.0037 at eight, between the two lines and not breaking.</li></ul>
+<p><strong>The prediction</strong> held on the shape and missed on two sizes. Called: no place writes a line; <code>row</code> carries to B and C alike with almost no damage; <code>mlp</code> reads like <code>all</code>. Missed: about half of what carried was called the word — it is all of it; and eight nats was called breaking — it is a third of the breaking line.</p>
+<h3 id="read-by-hand-the-first-24-pairs-in-their-sentences-and-every">Read by hand: the first 24 pairs in their sentences, and every item's line</h3>
+<p>The pairs are what the book would press: a word after its neighbour in two unrelated texts. <code>grounds -&gt; feeding</code>: 5.72 -&gt; 3.82 where pressed ("their summer feeding"), 7.12 -&gt; 6.79 at the other meeting, 9.06 -&gt; 8.84 in a football report. <code>guilty -&gt; pleaded</code>: 7.48 -&gt; 5.46, 10.66 -&gt; 9.79, and 12.58 -&gt; 11.73 in "she pleaded" from a story. Item by item the line is noise about zero: at two nats in every weight 24% of pairs read a line over +0.25 and 22% under -0.25 (24% and 19% at the second seed), mean +0.05 and +0.04. One voter is junk (<code>place -&gt; newcastle</code>); the rest are ties a person would name. Only the hardest press into the word's own rows shows a line that is not nothing — mean +0.26 and +0.20 at eight nats, against 2.99 and 2.79 off B — a tenth of what carries.</p>
+<h3 id="why-a-press-writes-the-word-and-not-the-pair">Why a press writes the word and not the pair</h3>
+<p>A step goes where the loss falls fastest, and the fastest way to make <code>leaking</code> likelier after <code>roof</code> is to make <code>leaking</code> likelier: its own output row and whatever reads it. Finding <a class="fref" href="/Corn-Jr-Public/finding/199.html">199</a> read the same shape from the other side — steered reading lowered a word's surprise where it did not fit too — and GENERATORS says it as a rule: he takes the cheapest route the lines allow. The pair is a smaller part of the same gradient, and one step, however long, is spent on the larger part first.</p>
+<h3 id="what-it-licenses">What it licenses</h3>
+<p>By the pre-registration, <strong>W: a press teaches how likely the word is; the book's line is not what moved.</strong> So finding <a class="fref" href="/Corn-Jr-Public/finding/222.html">222</a>'s press was not too soft — at any strength it would have taught him which web words are common in the places the book likes, which is a prior he mostly has. And three things this probe was not asked for:</p>
+<ul><li><strong>A hard press is cheap.</strong> Two nats off one meeting costs everything else two ten-thousandths of a nat a token, and a tenth of that in the word's own rows. The owner's "press hard where it is private" is right about the damage: at the same strength the private place dents the rest a tenth as much, and at eight nats about what every weight costs at four.</li><li><strong>The private place holds the word, not the pair.</strong> A word's own row can say how likely it is; a line needs two words.</li><li><strong>What would have to be pressed is the difference</strong>: <code>b</code> likelier at A <em>without</em> <code>b</code> likelier at C. That is a press with a second term holding the word where the book is silent — the next read on this instrument, and untested.</li></ul>
+<p><strong>What it does not settle.</strong> One step; several small steps on one meeting, or one step each on a pair's several meetings, may divide differently. A 20M only. Whether a press that holds the word elsewhere writes the line.</p></div>
+  </section>
+
+  <section class="grid refs">
+    <div class="body two-even">
+      <div>
+        <h2 class="small">It cites</h2>
+        <ul class="reflist"><li style="--c:var(--c5)"><a href="/Corn-Jr-Public/finding/199.html"><span class="fn">199</span>Steering mostly teaches how likely a word is, partly where it fits</a></li><li style="--c:var(--c5)"><a href="/Corn-Jr-Public/finding/222.html"><span class="fn">222</span>Pressing harder where the book points taught the 20M nothing more</a></li></ul>
+        
+      </div>
+      <div>
+        <h2 class="small">Cited by</h2>
+        <ul class="reflist"><li style="--c:var(--c5)"><a href="/Corn-Jr-Public/finding/225.html"><span class="fn">225</span>Pressing the difference a neighbour makes writes some of the pair</a></li><li style="--c:var(--c5)"><a href="/Corn-Jr-Public/finding/226.html"><span class="fn">226</span>Kept presses last, but break the text and churn the words</a></li><li style="--c:var(--c5)"><a href="/Corn-Jr-Public/finding/227.html"><span class="fn">227</span>A short word vector holds field knowledge; frozen, he cannot read it</a></li><li style="--c:var(--c5)"><a href="/Corn-Jr-Public/finding/229.html"><span class="fn">229</span>Asked from afar, a step writes a pair the next-piece question misses</a></li><li style="--c:var(--c5)"><a href="/Corn-Jr-Public/finding/233.html"><span class="fn">233</span>A left-to-right count still beats him, so order is not it</a></li><li style="--c:var(--c5)"><a href="/Corn-Jr-Public/finding/234.html"><span class="fn">234</span>Given the count&#39;s word summaries, he leans on them and gains nothing</a></li><li style="--c:var(--c5)"><a href="/Corn-Jr-Public/finding/235.html"><span class="fn">235</span>A counted starting table helps early and is erased by the end</a></li></ul>
+        
+      </div>
+    </div>
+    <p class="body source">docs/findings/224-one-hard-press-on-one-meeting-makes-the-word-likelier-everywhere-and-writes-no-line-two-nats-off-the-pressed-sentence-take-half-a-nat-off-any-other.md</p>
+  </section>
+</article>
+
+  
+<footer class="turn">
+  <div><span class="sc">previous</span><a href="/Corn-Jr-Public/finding/223.html">223 · His word vectors hold less than his framed answers do</a></div>
+  <div class="r"><span class="sc">next</span><a href="/Corn-Jr-Public/finding/225.html">225 · Pressing the difference a neighbour makes writes some of the pair</a></div>
+  <p class="keys"><kbd>←</kbd> <kbd>→</kbd> turn the page · <kbd>/</kbd> find</p>
+</footer>
+<p class="bynumber">Previous and next in <a href="/Corn-Jr-Public/thread/understanding.html">Understanding at small scale</a>. By number:
+  <a href="/Corn-Jr-Public/finding/223.html">223</a> · <a href="/Corn-Jr-Public/finding/225.html">225</a></p>
+
+</div>
+</body>
+</html>

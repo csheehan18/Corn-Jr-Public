@@ -1,0 +1,97 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>167 · He can&#39;t learn which limit a person will relax · Corn-Jr</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600&family=IBM+Plex+Mono:wght@400;500&family=Spectral:ital,wght@0,400;0,500;0,600;1,400&family=Spectral+SC:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/Corn-Jr-Public/static/library.css">
+<script defer src="/Corn-Jr-Public/static/library.js"></script>
+<script type="speculationrules">
+{"prerender": [{"where": {"and": [{"href_matches": "/Corn-Jr-Public/*"}, {"not": {"href_matches": "/Corn-Jr-Public/random.html"}}, {"not": {"href_matches": "/Corn-Jr-Public/static/*"}}]}, "eagerness": "moderate"}]}
+</script>
+
+</head>
+<body>
+<div class="page">
+  <header class="running">
+    <a class="book" href="/Corn-Jr-Public/">Corn-Jr · The Record</a>
+    <nav>
+      <a href="/Corn-Jr-Public/" data-key="shelf">Shelf</a><a href="/Corn-Jr-Public/findings.html" data-key="findings" class="here">Findings</a><a href="/Corn-Jr-Public/doc/VISION.html" data-key="VISION">Vision</a><a href="/Corn-Jr-Public/doc/GLOSSARY.html" data-key="GLOSSARY">Glossary</a>
+      <a href="https://github.com/csheehan18/Corn-Jr-Public">Source</a>
+    </nav>
+  </header>
+  
+
+<article class="sheet" style="--c:var(--c4)">
+  <div class="progress" aria-hidden="true"></div>
+  <section class="grid chapter-open finding-open">
+    <a class="tab" href="/Corn-Jr-Public/thread/tag-language.html" title="The tag language"><small>Part</small><span>IV</span></a>
+    <p class="cn">167</p>
+    <p class="partline"><a href="/Corn-Jr-Public/thread/tag-language.html">The tag language</a> · 13 October 2026</p>
+    <h1>He can&#39;t learn which limit a person will relax</h1>
+  </section>
+
+  <section class="grid">
+    <p class="marginal">The result, as the finding states it</p><div class="prose"><p class="lead">G6's recover rung does not install at one pass: when nothing fits he relaxes a limit by a fixed ranking of the field names, a different ranking at each seed, and the limit the person said they would bend on never reaches the choice — paired 3 and 0 of 288 held-out, 0 and 0 of 144 trained, and his state at the pick carries the clause no better than an untrained net's</p></div>
+    <p class="marginal">What it cost</p><div class="prose"><p class="cost">41.5 min of training two nano runs (1,244 s and 1,249 s, contended — the card at 36-41%, a bound; registered ~40 min), 52 s of probing, four <code>tool_copy_wide</code> cards in 34 s, the three control reads 117 s and the three hand reads 52 s on the card; the build — generator, guard, probe, rows, configs — about 15 min of CPU (12:47-13:02 on 2026-10-13), the read 13:45-13:55; registered ~50 min of card, actual ~46.</p></div>
+  </section>
+
+  
+
+  <section class="grid">
+    <div class="prose doc"><p>ROADMAP G6, PLAN-TAG-LANGUAGE §6's ladder, its second rung ("recover when nothing fits"), in the form SPEC-LANGUAGE §6 fixed (D-A1.8): when <code>check:</code> marks every listed place unmet, the runtime writes <code>options: relax[a] relax[b] ask</code> and his <code>pick:</code> is one move. Pre-registered in <code>configs/mix_v3_funcworld_recover.py</code>'s docstring and committed at a092e65 before a byte trained. One variable from arm E2: 8,100 recover traces (<code>corn/recovergen.py</code>) at combine's dose to the token, 2.21% of the mix, 5,843 iterations; seeds 1337 and 2337. On two traces in three the request names one limit as flexible by meaning ("though the budget can stretch a bit"), with nouns that share no stem with <code>price</code>, <code>km</code> or <code>rating</code> (<code>scripts/check_recover.py</code>, which caught "budget" against a firm clause's "budge" before anything trained); the gold is the first-named limit on 50.0% of relax traces and the nearest-miss limit on 51.1%. <strong>Cards:</strong> <code>evals/results/nano20m_v3_fw_recover{,_seed2}__recover.json</code> and <code>__copywide.json</code>; the controls' <code>nano20m_v3_fw_filter_ev2{,_seed2,_seed3}__recover.json</code> and <code>nano20m_v3_fw_filter_ev2{,_seed2}__copywide.json</code>.</p>
+<h3 id="the-registered-read">The registered read</h3>
+<p>seed   right train / held-out   paired train / held-out   moved (twin)   ask rows right 1337        69 / 152                   0 / 3                 0 / 3           0 of 96 2337        66 / 112                   0 / 0                 3 / 6          18 of 96</p>
+<p>Gates: paired held-out more than 42 of 288, paired train more than 23 of 144, at both seeds. <strong>Both fail at both seeds: the registered row "23 or fewer both, 42 or fewer both — nothing installs at one pass; recover at nano is not his at this dose; the dose is the next variable, as combine's was."</strong> The prediction on the record — paired held-out above 42 at both seeds — was wrong. Controls (arm E2, every seed): <code>ask</code> on every row, paired 0, the ask rows 96 — a checkpoint that never saw a menu finds the shortest line likeliest. Not unreadable: no control reads paired above 0.</p>
+<p><strong>The standing kill does not fire</strong>: <code>tool.copy_wide</code> 298 of 300 against arm E2's 298 at seed 1337, 287 against 295 at seed 2337 — below by more than the half-width (4.3) at one seed only.</p>
+<h3 id="read-by-hand-experiments-5-6-what-the-pick-follows">Read by hand (EXPERIMENTS §5.6) — what the pick follows</h3>
+<p>A scratch read of every row on both seeds (probe only — not on disk).</p>
+<p><strong>A fixed ranking of the field names, different at each seed.</strong> Seed 1337 relaxes <code>rating</code> over <code>km</code> over <code>price</code>, almost without exception:</p>
+<p>pair         seed 1337                          seed 2337 km / price   relax[km] 148, relax[price] 6      relax[km] 84, relax[price] 60, ask 10 km / rating  relax[rating] 133, relax[km] 3     relax[km] 65, relax[rating] 64, ask 7 price/rating relax[rating] 142                  relax[price] 58, ask 71, relax[rating] 13</p>
+<p><code>right</code> near half on the relax rows is that ranking landing on the gold half the time, and the twin — the clause moved to the other limit, every other byte the same — moves the pick on 0-6 of 288 rows.</p>
+<p><strong>The person's words do not move the choice at all.</strong> Where the clause names neither limit (the ask rows) and where it names one, the margin of <code>ask</code> against his best relax is the same: +0.55 against +0.51 nats at seed 1337, +0.20 against +0.19 at 2337. The gold relax is the likelier of the two on 221 and 230 of 432 relax rows. List length is not it either (seed 1337: 81 of 151 right at three places, 70 of 142 at four, 70 of 139 at five).</p>
+<p><strong>Inside him, at the token where he names the field</strong> (after <code>pick: relax[</code>), a linear reader in finding <a class="fref" href="/Corn-Jr-Public/finding/161.html">161</a>'s protocol — fit on the trained rows and their twins, the layer chosen on a fifth of them, read on the held-out rows and twins (576):</p>
+<p>label                         seed 1337   seed 2337   arm E2 (control)   random-init floor which limit (first / second)    0.509       0.503        0.500              0.486 which field (price/km/rating)   0.627       0.670        0.653              0.733</p>
+<p>The relative label — the one the choice needs, the noun's field placed against the goal's order — is at chance in every net. The absolute field is readable well above chance (0.33), but <strong>a randomly initialised net of his shape reads it best</strong>: that is the noun's identity mixed forward, which any net carries and which a reader can map to a field because every noun appears in its fit. His trained state carries it no better than an untrained one. So the words reach the pick as words, at the floor's level, and training formed no mapping from "the budget" to <code>price</code> and no use of one: <strong>the evidence never reaches the decision</strong>, finding <a class="fref" href="/Corn-Jr-Public/finding/161.html">161</a>'s first reading, not its second.</p>
+<h3 id="amended-2026-10-13-the-raw-rows-and-his-own-training-traces">Amended 2026-10-13: the raw rows, and his own training traces</h3>
+<p><strong>The raw rows</strong> (the probe's printed rows, read after the numbers — the order CLAUDE.md says to avoid): on every printed row all three menu lines sit at 0.6-1.7 nats, near a blind three-way guess (1.10), and the lowest is the seed's favourite field whatever the clause says — "I'm easy about the budget" and "I'm easy about the trip there" both put <code>relax[km]</code> lowest at seed 1337 (0.78, 0.63). He learned the menu's format and its one-in-three prior, and almost nothing that depends on the request.</p>
+<p><strong>His own training traces</strong> (the owner asked for this before any further arm; probe only — not on disk): the same full-option scoring on 300 relax and 150 ask traces taken from the part of the payload file that trained, verbatim:</p>
+<p>seed   relax right   gold's NLL among the three   ask right 1337   147 of 300    1.01 nats (blind 1.10)        0 of 150 2337   126 of 300    1.50 nats                     51 of 150</p>
+<p>Chance on what he trained on. Each trace trained once, so no trace was expected to be memorised; but each noun x frame pairing trained about 200 times and each noun about 600, and the choice depends on none of them. <strong>This is not a transfer failure — the request-dependent choice never formed, even in distribution.</strong> What is still open is why: too little gradient on a decision of three tokens in a ~400-token trace (combine read the same at four times the dose, which argues against dose alone), or the two hops — the clause's noun to a field, the field to a menu move — across the observation between them. An arm that names the field outright in the request ("I'm flexible on price") splits the two.</p>
+<h3 id="what-it-licenses">What it licenses</h3>
+<p>The table's row: <strong>recover at nano is not his at one pass; the dose is the next variable.</strong> The same shape as combine (finding <a class="fref" href="/Corn-Jr-Public/finding/156.html">156</a>): a request-dependent choice over a small menu of values he sees on every trace forms a fixed ranking of the values instead, different at each seed, and combine read the same at four times the dose. So the cheap next arm is recover at four times the dose; the decision it would feed is D7's row for recover. The alternative this finding makes available without training: <strong>the flex reading is the runtime's</strong> — the runtime holds a table of flex phrasings (as combine became the runtime's, by lookup) and either picks the move itself or shows him the menu already narrowed; what stays his is nothing on this rung.</p>
+<p><strong>What it does not settle.</strong> Nano, one pass, one world (two limits, three fields). Whether a menu read at a later layer, a shorter distance between the clause and the pick, or a format where the flexibility is written on the <code>goal:</code> line (a term he writes while the request is in view, e.g. <code>soft[...]</code>-style) would install — none was tested. The 96 ask rows read 0 and 18: he did not learn to ask when the person bent on nothing, either.</p></div>
+  </section>
+
+  <section class="grid refs">
+    <div class="body two-even">
+      <div>
+        <h2 class="small">It cites</h2>
+        <ul class="reflist"><li style="--c:var(--c4)"><a href="/Corn-Jr-Public/finding/156.html"><span class="fn">156</span>He can&#39;t build a goal from two observations at one pass</a></li><li style="--c:var(--c3)"><a href="/Corn-Jr-Public/finding/161.html"><span class="fn">161</span>His internal state knows more than he writes about move choice</a></li></ul>
+        
+      </div>
+      <div>
+        <h2 class="small">Cited by</h2>
+        <ul class="reflist"><li style="--c:var(--c4)"><a href="/Corn-Jr-Public/finding/168.html"><span class="fn">168</span>Naming the flexible limit outright splits the seeds</a></li><li style="--c:var(--c4)"><a href="/Corn-Jr-Public/finding/169.html"><span class="fn">169</span>Choosing a branch from a checked condition: seeds split</a></li><li style="--c:var(--c5)"><a href="/Corn-Jr-Public/finding/185.html"><span class="fn">185</span>Everyday web text taught him more word meanings at little cost</a></li><li style="--c:var(--c4)"><a href="/Corn-Jr-Public/finding/195.html"><span class="fn">195</span>Balanced keep-looking odds flip loop from never stopping to always stopping</a></li></ul>
+        
+      </div>
+    </div>
+    <p class="body source">docs/findings/167-g6-recover-does-not-install-at-one-pass-he-relaxes-by-a-fixed-ranking-of-the-fields-and-the-persons-words-never-reach-the-choice.md</p>
+  </section>
+</article>
+
+  
+<footer class="turn">
+  <div><span class="sc">previous</span><a href="/Corn-Jr-Public/finding/156.html">156 · He can&#39;t build a goal from two observations at one pass</a></div>
+  <div class="r"><span class="sc">next</span><a href="/Corn-Jr-Public/finding/168.html">168 · Naming the flexible limit outright splits the seeds</a></div>
+  <p class="keys"><kbd>←</kbd> <kbd>→</kbd> turn the page · <kbd>/</kbd> find</p>
+</footer>
+<p class="bynumber">Previous and next in <a href="/Corn-Jr-Public/thread/tag-language.html">The tag language</a>. By number:
+  <a href="/Corn-Jr-Public/finding/166.html">166</a> · <a href="/Corn-Jr-Public/finding/168.html">168</a></p>
+
+</div>
+</body>
+</html>

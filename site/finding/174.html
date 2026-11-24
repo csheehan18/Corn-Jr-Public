@@ -1,0 +1,90 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>174 · A space after the bracket shifts his default to the first option · Corn-Jr</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600&family=IBM+Plex+Mono:wght@400;500&family=Spectral:ital,wght@0,400;0,500;0,600;1,400&family=Spectral+SC:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/Corn-Jr-Public/static/library.css">
+<script defer src="/Corn-Jr-Public/static/library.js"></script>
+<script type="speculationrules">
+{"prerender": [{"where": {"and": [{"href_matches": "/Corn-Jr-Public/*"}, {"not": {"href_matches": "/Corn-Jr-Public/random.html"}}, {"not": {"href_matches": "/Corn-Jr-Public/static/*"}}]}, "eagerness": "moderate"}]}
+</script>
+
+</head>
+<body>
+<div class="page">
+  <header class="running">
+    <a class="book" href="/Corn-Jr-Public/">Corn-Jr · The Record</a>
+    <nav>
+      <a href="/Corn-Jr-Public/" data-key="shelf">Shelf</a><a href="/Corn-Jr-Public/findings.html" data-key="findings" class="here">Findings</a><a href="/Corn-Jr-Public/doc/VISION.html" data-key="VISION">Vision</a><a href="/Corn-Jr-Public/doc/GLOSSARY.html" data-key="GLOSSARY">Glossary</a>
+      <a href="https://github.com/csheehan18/Corn-Jr-Public">Source</a>
+    </nav>
+  </header>
+  
+
+<article class="sheet" style="--c:var(--c4)">
+  <div class="progress" aria-hidden="true"></div>
+  <section class="grid chapter-open finding-open">
+    <a class="tab" href="/Corn-Jr-Public/thread/tag-language.html" title="The tag language"><small>Part</small><span>IV</span></a>
+    <p class="cn">174</p>
+    <p class="partline"><a href="/Corn-Jr-Public/thread/tag-language.html">The tag language</a> · 14 October 2026</p>
+    <h1>A space after the bracket shifts his default to the first option</h1>
+  </section>
+
+  <section class="grid">
+    <p class="marginal">The result, as the finding states it</p><div class="prose"><p class="lead">A space after the menu's bracket, so the option is written in the request's own tokens, moves his default from a taste in place phrases to the first option listed (79% of picks) and leaves the binding exactly as unformed (209 of 400 on his own training traces); the phrase ranking was the spelling cost of a choice he had not learned</p></div>
+    <p class="marginal">What it cost</p><div class="prose"><p class="cost">19.3 min of training one nano run (1,157 s, contended — the card at 30-40%, a bound), two reads at 15-18 s, one copy card 8 s, the control read 15 s, the free-decode hand read 7 s and the own-trace read ~7 s on the card; the build 14:02-14:07 on 2026-10-14, the chain 14:07-14:27, the read 14:27-14:28.</p></div>
+  </section>
+
+  
+
+  <section class="grid">
+    <div class="prose doc"><p><strong>The owner's question after finding <a class="fref" href="/Corn-Jr-Public/finding/173.html">173</a>.</strong> The flip-word run's free decode ranked every place phrase opening on "a" (0.43-0.89 when offered) above every one opening on "somewhere" (0.26-0.41), and how often each was offered or was the gold explained none of it. The tokens did: glued to the menu's bracket, <code>next[somewhere to eat]</code> spells the phrase <code>[</code> <code>s</code> <code>ome</code> <code>where</code> — pieces the request never contains, where it reads <code> some</code> <code>where</code> — and <code>next[a spot to eat]</code> spells <code>[</code> <code>a</code>. With a space after the bracket the option's tokens are the request's exactly. The owner's suggestion: test it now. Pre-registered in <code>configs/mix_v3_funcworld_branchflip_spaced.py</code>'s docstring at 3a9b495 before a byte trained; <strong>one change from finding <a class="fref" href="/Corn-Jr-Public/finding/173.html">173</a>'s arm: the space</strong> (<code>branchflipgen.FlipBranch.spaced</code>; <code>check_branch.py</code> section 9 holds the payload and rows byte for byte but for it). One seed, as finding <a class="fref" href="/Corn-Jr-Public/finding/173.html">173</a>. <strong>Cards:</strong> <code>evals/results/nano20m_v3_fw_branchflip_spaced__branchflip_spaced{,_items}.json*</code>, <code>__branch*.json*</code>, <code>__copywide.json</code>; the control <code>nano20m_v3_fw_filter_ev2__branchflip_spaced.json</code>.</p>
+<h3 id="the-registered-read">The registered read</h3>
+<p>quads (all four right)       held-out first   held-out second   flip pairs (of 144)         (of 144)         (of 144) arm E2 (control)                   0                1                0 flip-word (finding <a class="fref" href="/Corn-Jr-Public/finding/173.html">173</a>)            3                0                1 flip-word, spaced                  0                0                0</p>
+<p><strong>The gate fails.</strong> The registered outcome is the row "gate fails, ranking flattens — the instrument", with the flattening only half met: the prediction said no phrase above 0.65 when offered, and the top phrase is at 0.77.</p>
+<p><strong>Finding <a class="fref" href="/Corn-Jr-Public/finding/169.html">169</a>'s rows are not readable on this arm.</strong> They write the options unspaced (<code>next[X]</code>), and a model trained on <code>next[ X]</code> writes the space: in the free decode every one of its 64 lines on those rows is correctly formed for itself and malformed for the rows. The <code>__branch.json</code> card for this run reads an option format the run never saw, and is not quoted.</p>
+<h3 id="read-by-hand-the-free-decode-first">Read by hand — the free decode first</h3>
+<p><code>hand_flip.py</code> (scratch, probe only — not on disk), 16 quads on the flip rows, every prompt, each line beside its request and result. <strong>He writes the continuation the request names first.</strong> Row 054: "a place for drinks" on both results while drinks is listed first, then "a place to sleep" on both once the action twin lists it first; rows 126, 130 and 149 the same. The tally follows from that. On plain families, where the first-named continuation is the one the condition selects, he is right on 10 of 10 prompts when the condition holds and 2 of 10 when it does not. On negated families, where the first-named is the one taken when it does not hold, he is right on 1 of 6 and 4 of 6. Over all 432 quads (the full-option card):</p>
+<p>run                            first option picked   one place on all four   phrase pick rate (when offered) flip-word (finding <a class="fref" href="/Corn-Jr-Public/finding/173.html">173</a>)          583 of 1,728 (0.34)       276 of 432               0.26 - 0.89 flip-word, spaced              1,373 of 1,728 (0.79)       199 of 432               0.34 - 0.77</p>
+<p><strong>The default moved; the decision did not form.</strong> With the bracket glued, the cheapest line to write was the one with the cheapest spelling, so the "a" phrases won. With the space every phrase costs what it costs in the request, and the cheapest line became the one named first. Neither tracks the result: the pick follows it on 9-19 of 288 twin pairs a cell, the control's 7-20.</p>
+<h3 id="on-its-own-training-traces">On its own training traces</h3>
+<p>400 payload traces from the front of the file (<code>own_traces.py</code>, scratch, probe only — not on disk): <strong>209 right, median margin +0.07 nats</strong> (finding <a class="fref" href="/Corn-Jr-Public/finding/173.html">173</a>'s unspaced run: 202, +0.01; finding <a class="fref" href="/Corn-Jr-Public/finding/169.html">169</a>'s installing seed: 367, +2.27). Nothing formed where it trained, with or without the space.</p>
+<p><strong>The copy row, a side column</strong>: <code>tool.copy_wide</code> 290 of 300, inside the 20M family's spread (finding <a class="fref" href="/Corn-Jr-Public/finding/170.html">170</a>).</p>
+<h3 id="what-it-licenses">What it licenses</h3>
+<ul><li><strong>The phrase ranking was an instrument of the format, not a cause of the failure.</strong> The spelling cost decided which option an unlearned choice fell on. It did not stop the binding forming — removing it changed only where the choice fell. Finding <a class="fref" href="/Corn-Jr-Public/finding/173.html">173</a>'s cause stands: the harder conjunction does not form at one pass and 2.2% of the mix.</li><li><strong>The space is still the better format.</strong> A bracketed copy whose tokens differ from its source's (<code>next[</code>, <code>soft[</code>, <code>because[</code>, <code>relax[</code> in SPEC-LANGUAGE) makes some words cost more to write than others for no reason, and a default that falls on spelling is harder to read than one that falls on position. It is a D7 question, with this finding as its evidence, and not a lever for learning.</li><li><strong>The two levers from finding <a class="fref" href="/Corn-Jr-Public/finding/173.html">173</a> remain</strong>: the binding written by him beside the request (the hop in the bytes), or more fresh evidence.</li></ul>
+<p><strong>What it does not settle.</strong> Whether the space helps where the copy <em>is</em> the decision (<code>because[...]</code> copying an item's words), which a format arm on rung 3's payload would read; and why position became the default rather than nothing.</p></div>
+  </section>
+
+  <section class="grid refs">
+    <div class="body two-even">
+      <div>
+        <h2 class="small">It cites</h2>
+        <ul class="reflist"><li style="--c:var(--c4)"><a href="/Corn-Jr-Public/finding/169.html"><span class="fn">169</span>Choosing a branch from a checked condition: seeds split</a></li><li style="--c:var(--c4)"><a href="/Corn-Jr-Public/finding/170.html"><span class="fn">170</span>The copy test&#39;s failure threshold was measuring seed noise</a></li><li style="--c:var(--c4)"><a href="/Corn-Jr-Public/finding/173.html"><span class="fn">173</span>Branch choice falls to chance when condition words flip the meaning</a></li></ul>
+        
+      </div>
+      <div>
+        <h2 class="small">Cited by</h2>
+        <ul class="reflist"><li style="--c:var(--c4)"><a href="/Corn-Jr-Public/finding/175.html"><span class="fn">175</span>He names the chosen branch, but can&#39;t combine it with the result</a></li><li style="--c:var(--c4)"><a href="/Corn-Jr-Public/finding/176.html"><span class="fn">176</span>Naming both branches fixes the pick but blurs &#39;not&#39;</a></li></ul>
+        
+      </div>
+    </div>
+    <p class="body source">docs/findings/174-a-space-after-the-menu-bracket-moves-his-default-from-a-taste-in-phrases-to-the-first-option-and-the-binding-still-does-not-form.md</p>
+  </section>
+</article>
+
+  
+<footer class="turn">
+  <div><span class="sc">previous</span><a href="/Corn-Jr-Public/finding/173.html">173 · Branch choice falls to chance when condition words flip the meaning</a></div>
+  <div class="r"><span class="sc">next</span><a href="/Corn-Jr-Public/finding/175.html">175 · He names the chosen branch, but can&#39;t combine it with the result</a></div>
+  <p class="keys"><kbd>←</kbd> <kbd>→</kbd> turn the page · <kbd>/</kbd> find</p>
+</footer>
+<p class="bynumber">Previous and next in <a href="/Corn-Jr-Public/thread/tag-language.html">The tag language</a>. By number:
+  <a href="/Corn-Jr-Public/finding/173.html">173</a> · <a href="/Corn-Jr-Public/finding/175.html">175</a></p>
+
+</div>
+</body>
+</html>

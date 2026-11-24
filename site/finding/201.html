@@ -1,0 +1,92 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>201 · Words picked at random gain less than words the scheduler picked · Corn-Jr</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600&family=IBM+Plex+Mono:wght@400;500&family=Spectral:ital,wght@0,400;0,500;0,600;1,400&family=Spectral+SC:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/Corn-Jr-Public/static/library.css">
+<script defer src="/Corn-Jr-Public/static/library.js"></script>
+<script type="speculationrules">
+{"prerender": [{"where": {"and": [{"href_matches": "/Corn-Jr-Public/*"}, {"not": {"href_matches": "/Corn-Jr-Public/random.html"}}, {"not": {"href_matches": "/Corn-Jr-Public/static/*"}}]}, "eagerness": "moderate"}]}
+</script>
+
+</head>
+<body>
+<div class="page">
+  <header class="running">
+    <a class="book" href="/Corn-Jr-Public/">Corn-Jr · The Record</a>
+    <nav>
+      <a href="/Corn-Jr-Public/" data-key="shelf">Shelf</a><a href="/Corn-Jr-Public/findings.html" data-key="findings" class="here">Findings</a><a href="/Corn-Jr-Public/doc/VISION.html" data-key="VISION">Vision</a><a href="/Corn-Jr-Public/doc/GLOSSARY.html" data-key="GLOSSARY">Glossary</a>
+      <a href="https://github.com/csheehan18/Corn-Jr-Public">Source</a>
+    </nav>
+  </header>
+  
+
+<article class="sheet" style="--c:var(--c5)">
+  <div class="progress" aria-hidden="true"></div>
+  <section class="grid chapter-open finding-open">
+    <a class="tab" href="/Corn-Jr-Public/thread/understanding.html" title="Understanding at small scale"><small>Part</small><span>V</span></a>
+    <p class="cn">201</p>
+    <p class="partline"><a href="/Corn-Jr-Public/thread/understanding.html">Understanding at small scale</a> · 22 October 2026</p>
+    <h1>Words picked at random gain less than words the scheduler picked</h1>
+  </section>
+
+  <section class="grid">
+    <p class="marginal">The result, as the finding states it</p><div class="prose"><p class="lead">With the scheduler's words drawn at random — as many of each frequency band as the surprise arm steered, under the same cap, spacing and variety — the held-out rare-word gap reads 7.814 and 7.923 against the surprise arm's 7.650 and 7.802 and the base's 7.896 and 8.064: the pre-registered <em>between</em> row (m), random choice helps less and not separably at the gate. The steered-target split separates them: rare targets (10-30 sightings) chosen at random fall 0.70 and 0.13 nats in their own held-out sentences against 1.75 and 0.98 for those the surprise scheduler chose, though the random ones got more rows each (4.2 against 2.7-3.2). The progress score is noise (finding <a class="fref" href="/Corn-Jr-Public/finding/200.html">200</a>), so the difference lies in what comes with it: the surprise scheduler steers a word only once he has met it three times and still finds it harder than average (z +1.2 at the first steer, random picks +0.1), which lands its rare-word steering mid-run (median first steer at step 2,600-3,100 against 900-1,100). Fluency, chats and the understanding reads hold at both seeds</p></div>
+    <p class="marginal">What it cost</p><div class="prose"><p class="cost">the random mode, guard property 6 and its three mutants, the configs and the pre-registration 08:30-08:45 on 2026-10-22 (12fd610); both runs with card and reads 08:55-09:17 inside the 29.0-min chain beside the frozen run (contended, the card at 34%, a bound); the split, dose and timing read and the hand reads ~10 min. ETA 24 min of card for the arm, actual ~22.</p></div>
+  </section>
+
+  
+
+  <section class="grid">
+    <div class="prose doc"><p><strong>The question</strong> (the review of finding <a class="fref" href="/Corn-Jr-Public/finding/198.html">198</a>, 2026-10-22). Finding <a class="fref" href="/Corn-Jr-Public/finding/198.html">198</a>'s steered words fell and the rest did not — which any extra sightings would do. The control keeps every part of the scheduler except the choice of words: <code>corn/surprise.py</code> section 9 draws a fixed random set at the start (seed 1: 2,908 / 3,527 / 2,457 / 1,698 words at 10-29 / 30-99 / 100-299 / 300-1,000 sightings, matched to what surprise seed 1 steered; seed 2 matched to seed 2) and walks its due words in a fresh random order every step; nothing read off his loss enters the choice. Pre-registered at 12fd610 in <code>configs/nano5m_v3_webblend_surprise_random.py</code>, predicted (e) — "the extra varied, spaced reading carries it".</p>
+<h3 id="the-read">The read</h3>
+<p>run            gap     fields   wishes 192   plain lift   lm narr / conv / web        chats base      s1   7.896   0.56     0.35         0.49         0.4864 / 0.5579 / 0.9512   8 s2   8.064   0.53     0.32         0.47         0.4883 / 0.5599 / 0.9522   6 surprise  s1   7.650   0.55     0.32         0.47         0.4873 / 0.5584 / 0.9536   7 s2   7.802   0.53     0.33         0.48         0.4857 / 0.5566 / 0.9480   5 random    s1   7.814   0.52     0.38         0.48         0.4859 / 0.5571 / 0.9515   8 s2   7.923   0.51     0.32         0.47         0.4873 / 0.5604 / 0.9522   6</p>
+<p>(gap: <code>probe_word_surprise.py</code>, the 300 held-out targets less the 60 common words, summed nats; <code>evals/results/nano5m_random__wordsurprise.txt</code>)</p>
+<p><strong>The gates, as registered.</strong> Fluency: holds — every text row under its fall line (0.4913, 0.5629, 0.9552), chats 8 and 6 of 10 against the base seeds' 8 and 6. (s), the surprise choice earns its keep: no — both random gaps are above 7.802, but the pair mean 7.869 is under 7.893. (e), the reading carries it: no — seed 2's 7.923 is above 7.896. <strong>(m)</strong>: random choice helps less, not separably at the gap. Unreadable: no — the guard passes on both logs (and on all five run logs), each run steered its full 36,659 rows, and the random sets overlap the surprise sets exactly at chance (Jaccard 0.239-0.241 against 0.239 expected).</p>
+<h3 id="the-steered-target-split-what-m-sends-us-to">The steered-target split — what (m) sends us to</h3>
+<p>Drop in the word's own held-out sentences, base pair mean less the run (<code>evals/results/nano5m_random__wordfit.txt</code>), with the steering dose and timing off each run's log:</p>
+<p>run           band    targets   drop     rows a word   first steer   last steer   z at first steer surprise s1   10-30   27        +1.75    2.70          3,068         3,468        +1.22 surprise s2   10-30   29        +0.98    3.21          2,638         3,904        +1.32 random s1     10-30   20        +0.70    4.20          1,072         4,536        +0.12 random s2     10-30   23        +0.13    4.30            873         4,703        +0.07 surprise s1   30-100  46        +0.41    3.41          2,298         4,032        +0.79 surprise s2   30-100  42        +0.44    3.29          1,952         3,584        +0.81 random s1     30-100  37        +0.33    4.19            800         4,608        +0.00 random s2     30-100  36        +0.32    3.72          1,440         4,585        +0.17</p>
+<p>(steps are medians over the band's steered targets; the run is 5,237 steps.) The unsteered rare targets move alike in every arm (+0.25 / +0.18 surprise, +0.30 / +0.08 random). The word-fit share on the random arm's steered words is 0.61 and 0.26 — mixed, as the surprise arm's (finding <a class="fref" href="/Corn-Jr-Public/finding/199.html">199</a>), on thinner drops.</p>
+<p><strong>The order holds at both seeds and in both bands, and it does not come from dose.</strong> The random rare words got <em>more</em> rows than the surprise ones and fell less. Nor from picking harder words: the surprise seeds' rare targets were harder than their band at seed 1 (19.56 nats against 18.05) and easier at seed 2 (17.38) and fell most at both. The groups are small (20-29 words, the per-word drops spread several nats), so the size of the gap between arms is a direction; its sign is the same four times.</p>
+<h3 id="why-a-noise-score-still-chooses-better-than-random">Why a noise score still chooses better than random</h3>
+<p>Finding <a class="fref" href="/Corn-Jr-Public/finding/200.html">200</a>: the progress score is noise — a frozen model picks the same words. But the score is not the whole rule. A word is eligible only once <strong>he has met it three times</strong> in his own reading and while <strong>he still finds it harder than the average candidate</strong> (<code>fast &gt; 0</code>), and only then does the noise rank it. That gate has two effects the random control removed:</p>
+<ul><li><strong>the word is one he has started on and not finished</strong> — at the first steer its recent surprise sits 1.2-1.3 above the average candidate's; the random picks sit at the average;</li><li><strong>the steering lands when the model can use it</strong> — a rare word reaches three sightings only well into the run, so the surprise arm's rare-word steering starts near step 2,600-3,100 and ends by 3,500-3,900; the random arm starts within the first thousand steps, during warmup and the model's first pass at language, and spreads to the end.</li></ul>
+<p>Which of the two does the work is not separable here.</p>
+<h3 id="what-it-licenses">What it licenses</h3>
+<ul><li><strong>Keep the gate, drop the progress score.</strong> The part of the scheduler that beats random is "met a few times, still hard"; the ranking by learning progress adds nothing a frozen model does not (finding <a class="fref" href="/Corn-Jr-Public/finding/200.html">200</a>). The arm that tests it: steer eligible words (3+ sightings, <code>fast &gt; 0</code>) in random order, or ranked by <code>fast</code> — how hard the word still is — against the surprise arm as it stands.</li><li><strong>Timing needs its own control</strong>: the same random set with steering held back until a fixed step (say 2,000) separates "started on" from "late enough to keep".</li><li><strong>Nothing here reaches understanding at 5M</strong> — fields, wishes and lift stay inside the base pair's spread in every arm (random seed 1's wishes 0.38 is one seed, not a gate) — so the 20M is still where the reading change has to show it, with the gate-only rule beside the full one.</li></ul>
+<p><strong>What it does not settle.</strong> Which half of the gate does the work; any size above 5M; whether the per-word order survives larger target groups (the held-out read has 100 words a band, of which an arm steers 20-46).</p></div>
+  </section>
+
+  <section class="grid refs">
+    <div class="body two-even">
+      <div>
+        <h2 class="small">It cites</h2>
+        <ul class="reflist"><li style="--c:var(--c5)"><a href="/Corn-Jr-Public/finding/198.html"><span class="fn">198</span>Surprise-steered reading lowers rare-word surprise but not understanding at 5M</a></li><li style="--c:var(--c5)"><a href="/Corn-Jr-Public/finding/200.html"><span class="fn">200</span>A model that cannot learn picks the same words the scheduler did</a></li><li style="--c:var(--c5)"><a href="/Corn-Jr-Public/finding/202.html"><span class="fn">202</span>A shape built for small models cost language and taught only spelling</a></li></ul>
+        
+      </div>
+      <div>
+        <h2 class="small">Cited by</h2>
+        <ul class="reflist"><li style="--c:var(--c5)"><a href="/Corn-Jr-Public/finding/231.html"><span class="fn">231</span>A far lesson in training takes, costs reading, and lifts nothing clearly</a></li></ul>
+        
+      </div>
+    </div>
+    <p class="body source">docs/findings/201-random-word-steering-lowers-rare-word-surprise-less-than-surprise-steering-gap-7-81-and-7-92-against-7-65-and-7-80-and-its-steered-words-fall-0-70-and-0-13-against-1-75-and-0-98.md</p>
+  </section>
+</article>
+
+  
+<footer class="turn">
+  <div><span class="sc">previous</span><a href="/Corn-Jr-Public/finding/200.html">200 · A model that cannot learn picks the same words the scheduler did</a></div>
+  <div class="r"><span class="sc">next</span><a href="/Corn-Jr-Public/finding/202.html">202 · A shape built for small models cost language and taught only spelling</a></div>
+  <p class="keys"><kbd>←</kbd> <kbd>→</kbd> turn the page · <kbd>/</kbd> find</p>
+</footer>
+<p class="bynumber">Previous and next in <a href="/Corn-Jr-Public/thread/understanding.html">Understanding at small scale</a>. By number:
+  <a href="/Corn-Jr-Public/finding/200.html">200</a> · <a href="/Corn-Jr-Public/finding/202.html">202</a></p>
+
+</div>
+</body>
+</html>

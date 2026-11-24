@@ -1,0 +1,100 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>49 · Second-turn data teaches him to talk, at a cost to deferring · Corn-Jr</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600&family=IBM+Plex+Mono:wght@400;500&family=Spectral:ital,wght@0,400;0,500;0,600;1,400&family=Spectral+SC:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/Corn-Jr-Public/static/library.css">
+<script defer src="/Corn-Jr-Public/static/library.js"></script>
+<script type="speculationrules">
+{"prerender": [{"where": {"and": [{"href_matches": "/Corn-Jr-Public/*"}, {"not": {"href_matches": "/Corn-Jr-Public/random.html"}}, {"not": {"href_matches": "/Corn-Jr-Public/static/*"}}]}, "eagerness": "moderate"}]}
+</script>
+
+</head>
+<body>
+<div class="page">
+  <header class="running">
+    <a class="book" href="/Corn-Jr-Public/">Corn-Jr · The Record</a>
+    <nav>
+      <a href="/Corn-Jr-Public/" data-key="shelf">Shelf</a><a href="/Corn-Jr-Public/findings.html" data-key="findings" class="here">Findings</a><a href="/Corn-Jr-Public/doc/VISION.html" data-key="VISION">Vision</a><a href="/Corn-Jr-Public/doc/GLOSSARY.html" data-key="GLOSSARY">Glossary</a>
+      <a href="https://github.com/csheehan18/Corn-Jr-Public">Source</a>
+    </nav>
+  </header>
+  
+
+<article class="sheet" style="--c:var(--c3)">
+  <div class="progress" aria-hidden="true"></div>
+  <section class="grid chapter-open finding-open">
+    <a class="tab" href="/Corn-Jr-Public/thread/conversation.html" title="Conversation and the second turn"><small>Part</small><span>III</span></a>
+    <p class="cn">49</p>
+    <p class="partline"><a href="/Corn-Jr-Public/thread/conversation.html">Conversation and the second turn</a> · 23 August 2026</p>
+    <h1>Second-turn data teaches him to talk, at a cost to deferring</h1>
+  </section>
+
+  <section class="grid">
+    <p class="marginal">The result, as the finding states it</p><div class="prose"><p class="lead">The second turn learns to talk, and pays for it out of deference</p></div>
+    <p class="marginal">What it cost</p><div class="prose"><p class="cost">0 s of new scoring on record; it reads 2 cards scored for an earlier finding (<code>corn_jr_260m</code>, <code>nano20m_v1</code>). Backfilled 2026-09-26 from the cards' <code>seconds</code>; training and probe time were never recorded, so this is a floor.</p></div>
+  </section>
+
+  
+
+  <section class="grid">
+    <div class="prose doc"><p><code>configs/nano20m_v1_conv.py</code> on <code>configs/mix_v1_conv.py</code>, run 2026-08-22 on the</p>
+<ol><li>53 minutes to train, ~9 minutes per scorecard, three scorecards. The slice is <code>corn/convgen.py</code> at 5% out of web: the mixed second turn, in three classes, none of which the corpus contained at any depth.</li></ol>
+<p><strong>The class it targets was empty rather than rare.</strong> Over <code>data/mix_v3_5b</code>, 1,720 transcripts carry a second <code>&lt;|user|&gt;</code>; the marker after it is <code>&lt;|call|&gt;</code> in 1,720 and <code>&lt;|say|&gt;</code> in <strong>0</strong>. And the live failure it was written for, on <code>corn_jr_260m</code> with <code>decline</code> withheld: <code>in_kind</code> 5/6 at turn 1, 5/6 at turn 2, <strong>0/4 across turns 3 and 4</strong>, every one of them a talk beat, with "thanks" answered by <code>web_search</code> and "great, thanks" by <code>save_note</code>.</p>
+<h3 id="the-row-it-was-built-for-moves-and-moves-past-the-human-refe">The row it was built for moves, and moves past the human reference</h3>
+<p><code>turn2_reply.*</code> scores <em>what he says</em> at turn 2 — <code>distinct3</code> is trigram variety, and the reference is the SODA reply the item was cut from.</p>
+<div class="tablewrap"><table><thead><tr><th>cell</th><th><code>v1</code></th><th><code>v1_seed2</code></th><th><strong>arm</strong></th><th>reference</th></tr></thead><tbody><tr><td><code>second.distinct3</code></td><td>0.8358</td><td>0.8550</td><td><strong>0.9166</strong></td><td>0.913</td></tr><tr><td><code>second/tool.distinct3</code></td><td>0.8234</td><td>0.8574</td><td><strong>0.9263</strong></td><td>—</td></tr><tr><td><code>second/talk.distinct3</code></td><td>0.9052</td><td>0.9193</td><td><strong>0.9520</strong></td><td>—</td></tr><tr><td><code>first.distinct3</code></td><td>0.8754</td><td>0.8814</td><td>0.8979</td><td>0.913</td></tr></tbody></table></div>
+<p><strong>The <code>second/tool</code> cell is the one the slice was aimed at</strong> — a second turn following a completed tool call, the class with every observed 260M failure in it — and it is the cell that moves most: +0.069 against a two-seed spread of 0.034. Pooled, the second turn goes from well below the reference to slightly above it.</p>
+<p>The samples are the finding in one line. Second turn, after a tool call:</p>
+<p>baseline   "I don't have a week, I can't get a week." "I can't control the river." arm        "Anytime!" conversational replies, in register</p>
+<p>The baseline is not failing to be varied. It is answering a conversational turn in <em>tool register</em>, because tool register is the only thing a second <code>&lt;|user|&gt;</code> has ever preceded.</p>
+<p><code>first</code> moved too (+0.019), which is not a broken pairing — the slice carries turn-1 material in <code>talk_then_tool</code>, so a turn-1 effect is expected. It is much smaller than the turn-2 effect, which is the right shape.</p>
+<h3 id="and-it-costs-deference-which-nobody-pre-registered">And it costs deference, which nobody pre-registered</h3>
+<div class="tablewrap"><table><thead><tr><th>row</th><th><code>v1</code></th><th><code>v1_seed2</code></th><th><strong>arm</strong></th></tr></thead><tbody><tr><td><code>refusal.say</code></td><td>172/270</td><td>162/270</td><td><strong>30/270</strong></td></tr><tr><td><code>refusal.say</code> <code>reworded</code></td><td>98</td><td>—</td><td><strong>240</strong></td></tr><tr><td><code>tool.copy</code></td><td>100/120</td><td>100/120</td><td><strong>86/120</strong></td></tr><tr><td><code>tool.copy</code> <code>wrong_answer</code></td><td>20</td><td>—</td><td><strong>34</strong></td></tr><tr><td><code>temporal.copy</code></td><td>353/353</td><td>353/353</td><td>346/353</td></tr></tbody></table></div>
+<p><strong><code>refusal.say</code> falls by 132 of 270 and the whole of it lands in <code>reworded</code>.</strong> That row asks whether he says the tool's sentence <em>verbatim</em>; <code>reworded</code> means he said the same thing in his own words. So the slice did not damage a capability — it changed a policy, and it changed it in exactly the direction the slice teaches. Nine thousand transcripts of "answer in your own words" bought "answer in your own words" everywhere, including the places where §5.2 wants the tool's words read back unchanged.</p>
+<p>This is the project's central tension arriving as a number. VISION §6 pushes wording <em>out</em> of the parameters and into the tools precisely so a 260M model never has to compose; conversational register is the one thing it must compose. Those pull opposite ways and this slice found the seam.</p>
+<p><code>refusal.no_guess</code> holds at 47/47 on every checkpoint, so he is rewording the refusal, not inventing a capability. That distinction is the difference between a trade and a regression.</p>
+<h3 id="the-routing-rows-moved-up-and-are-not-quotable">The routing rows moved up, and are not quotable</h3>
+<div class="tablewrap"><table><thead><tr><th>row</th><th><code>v1</code></th><th><code>v1_seed2</code></th><th>arm</th><th>spread</th></tr></thead><tbody><tr><td><code>tool.selection</code></td><td>156/200</td><td>112/200</td><td>179/200</td><td><strong>44</strong></td></tr><tr><td><code>turn2.second</code></td><td>150/200</td><td>103/200</td><td>179/200</td><td><strong>47</strong></td></tr></tbody></table></div>
+<p>The arm is above both baselines on both rows. <strong>It should not be quoted</strong>, and the forty-first finding is why: a two-seed spread of 44 of 200 is wider than most effects this project has ever claimed, and 179 clears the top of it by 23. The honest statement is that routing did not fall — which was the pre-registered stop condition — and that a claim it <em>rose</em> needs the two further <code>nano20m_v1</code> seeds that already exist on disk to be scored on this eval set.</p>
+<p>Held, for the record: <code>temporal.route</code> 398/400 on all three, <code>schema.conform</code> 190-194, <code>chat.engage</code> 100/100, <code>chat.abstain_talk</code> 95/99 → 100.</p>
+<h3 id="what-it-settles-and-what-it-does-not">What it settles, and what it does not</h3>
+<p><strong>Settles:</strong> the second turn's register is a corpus property, and 5% of a 131M-token mix moves it decisively. The failure at 260M was not a limit of the architecture, the context assembly, or the model's capacity. It was a class nobody had written.</p>
+<p><strong>Does not settle:</strong> the share. 5% was chosen to match the WS-E carve and was never priced, and <code>refusal.say</code> at 30/270 is what an unpriced share looks like when it is too big. <code>configs/mix_v1_conv.py</code> pre-registered "turn2_reply.second rises and turn2.second falls -&gt; the mirror bug, and the share is too big"; what actually happened is the mirror bug one row over, in <code>refusal.say</code> rather than in <code>turn2.second</code>, which the pre-registration did not anticipate and should have.</p>
+<p>The next arm is the same slice at a smaller share, read against <code>refusal.say</code> and <code>tool.copy</code> as much as against <code>turn2_reply</code>. That is a dose problem and not a design problem — the slice does what it was built to do.</p>
+<h3 id="one-instrument-note">One instrument note</h3>
+<p><code>turn2_reply</code> is reported at the top level of the scorecard rather than in <code>behaviour.rows</code>, so it does not appear in the row sweep and a reader looking for it there will conclude it was not scored. It was; it is beside <code>chat_reply</code>, and both are split <code>first</code>/<code>second</code> and again <code>_by_preamble</code>. Worth knowing before the next person reads a card.</p></div>
+  </section>
+
+  <section class="grid refs">
+    <div class="body two-even">
+      <div>
+        <h2 class="small">It cites</h2>
+        <p class="aside">No other finding by number.</p>
+      </div>
+      <div>
+        <h2 class="small">Cited by</h2>
+        <ul class="reflist"><li style="--c:var(--c1)"><a href="/Corn-Jr-Public/finding/51.html"><span class="fn">51</span>At 260M the date header helps where at 30M it hurt</a></li><li style="--c:var(--c1)"><a href="/Corn-Jr-Public/finding/73.html"><span class="fn">73</span>Training both answers on one phrasing breaks the serve/decline trade-off</a></li><li style="--c:var(--c3)"><a href="/Corn-Jr-Public/finding/74.html"><span class="fn">74</span>Second-turn behaviour installs; compound requests forget how to stop</a></li></ul>
+        
+      </div>
+    </div>
+    <p class="body source">docs/findings/49-the-second-turn-learns-to-talk-and-pays-for-it-in-deference.md</p>
+  </section>
+</article>
+
+  
+<footer class="turn">
+  <div><span class="sc">previous</span><a href="/Corn-Jr-Public/finding/36.html">36 · Reply length inflates the measured style gain, but the gain survives</a></div>
+  <div class="r"><span class="sc">next</span><a href="/Corn-Jr-Public/finding/74.html">74 · Second-turn behaviour installs; compound requests forget how to stop</a></div>
+  <p class="keys"><kbd>←</kbd> <kbd>→</kbd> turn the page · <kbd>/</kbd> find</p>
+</footer>
+<p class="bynumber">Previous and next in <a href="/Corn-Jr-Public/thread/conversation.html">Conversation and the second turn</a>. By number:
+  <a href="/Corn-Jr-Public/finding/48.html">48</a> · <a href="/Corn-Jr-Public/finding/50.html">50</a></p>
+
+</div>
+</body>
+</html>

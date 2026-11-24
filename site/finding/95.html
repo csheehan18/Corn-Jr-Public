@@ -1,0 +1,136 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>95 · The right answer is among the top ten on 90% of misses · Corn-Jr</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600&family=IBM+Plex+Mono:wght@400;500&family=Spectral:ital,wght@0,400;0,500;0,600;1,400&family=Spectral+SC:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/Corn-Jr-Public/static/library.css">
+<script defer src="/Corn-Jr-Public/static/library.js"></script>
+<script type="speculationrules">
+{"prerender": [{"where": {"and": [{"href_matches": "/Corn-Jr-Public/*"}, {"not": {"href_matches": "/Corn-Jr-Public/random.html"}}, {"not": {"href_matches": "/Corn-Jr-Public/static/*"}}]}, "eagerness": "moderate"}]}
+</script>
+
+</head>
+<body>
+<div class="page">
+  <header class="running">
+    <a class="book" href="/Corn-Jr-Public/">Corn-Jr · The Record</a>
+    <nav>
+      <a href="/Corn-Jr-Public/" data-key="shelf">Shelf</a><a href="/Corn-Jr-Public/findings.html" data-key="findings" class="here">Findings</a><a href="/Corn-Jr-Public/doc/VISION.html" data-key="VISION">Vision</a><a href="/Corn-Jr-Public/doc/GLOSSARY.html" data-key="GLOSSARY">Glossary</a>
+      <a href="https://github.com/csheehan18/Corn-Jr-Public">Source</a>
+    </nav>
+  </header>
+  
+
+<article class="sheet" style="--c:var(--c2)">
+  <div class="progress" aria-hidden="true"></div>
+  <section class="grid chapter-open finding-open">
+    <a class="tab" href="/Corn-Jr-Public/thread/reading.html" title="Reading documents"><small>Part</small><span>II</span></a>
+    <p class="cn">95</p>
+    <p class="partline"><a href="/Corn-Jr-Public/thread/reading.html">Reading documents</a> · 3 September 2026</p>
+    <h1>The right answer is among the top ten on 90% of misses</h1>
+  </section>
+
+  <section class="grid">
+    <p class="marginal">The result, as the finding states it</p><div class="prose"><p class="lead">The gold is among the head's own ten on nine tenths of the residue, so the ninety-third finding's fifty-eight per cent ceiling was an artefact of conditioning on admission, and perfect window choice with a perfect pick from those ten reads eighty-three per cent</p></div>
+    
+  </section>
+
+  
+
+  <section class="grid">
+    <div class="prose doc"><p><code>scripts/probe_reader_rank.py</code> and <code>scripts/audit_refused_wrong.py</code>, 2026-09-03. <strong>Replay only</strong> — no GPU, no decode, no weight read, no tokenizer, <strong>and no new harvest</strong> — over <code>nullpr_s{1,2}_popa.json</code> joined to <code>pairs_built_s{1,2}_popa.json</code>. <code>evals/results/rank_s{1,2}.json</code> and <code>evals/results/refused_wrong_audit.jsonl</code>.</p>
+<p><strong>The pass that was going to be run already exists on disk.</strong> The plan for this session was one no-grad inference pass per seed to write the head's top ten pairs per window. <code>pairs_built_s{1,2}_popa.json</code> has carried them since 2026-09-02 — <code>top_k = 10</code>, span text, score and token offsets, plus the extent rule's <code>around</code> grid — for the same 1,003 passages and the same 3,893 windows. The join is checked and not assumed: ids align, window counts align, and the argmax span text matches on <strong>3,893 of 3,893 windows on both seeds</strong>. So the whole of what follows is arithmetic, and no GPU was spent.</p>
+<h3 id="0-two-operating-points-and-the-plan-s-residue-shares-belong-">0. Two operating points, and the plan's residue shares belong to the one that does not ship</h3>
+<p>SHIPPED  t = -2.02 (one constant) + extent rule d = 2.0 radius 3 JOINT    the CV'd fold thresholds, extent off</p>
+<p><code>corn/reader.py</code> runs at SHIPPED. <code>probe_reader_species.py</code> — and therefore <code>PLAN-READER-RESIDUE.md</code> §0's table, and every share quoted from it — was run at JOINT. Reproduced here to the passage, including STATUS.md's runtime row (389 right, 200 correct silences, <strong>334 spans widened</strong>) and the ninety-third finding's baselines:</p>
+<p>seed 1                right  wrong silent | u.silent  joint   att  acc|att SHIPPED                389    188    144  |    200     589  0.800   0.674 JOINT                  367    136    218  |    233     600  0.698   0.730 seed 2 SHIPPED                409    196    116  |    170     579  0.839   0.676 JOINT                  368    157    196  |    207     575  0.728   0.701</p>
+<p>species            SHIPPED s1 / s2        JOINT s1 / s2   (the plan's) REFUSED_WRONG      93 28.0% / 83 26.6%    136 38.4% / 139 39.4% REFUSED_RIGHT      77 23.2% / 50 16.0%    113 31.9% /  91 25.8% AGGREGATION        66 19.9% / 60 19.2%     31  8.8% /  42 11.9% RIVAL              62 18.7% / 79 25.3%     42 11.9% /  47 13.3% CLIPPED            18  5.4% / 27  8.7%     22  6.2% /  23  6.5% UNGROUNDED         16  4.8% / 13  4.2%     10  2.8% /  11  3.1% residue               332    /   312          354    /    353</p>
+<p><strong>The ordering is not the same at the two points and the plan's arms were sized at the wrong one.</strong> SHIPPED admits more, so refusals convert into readings: <code>REFUSED_RIGHT</code> falls by a third and <code>AGGREGATION</code> <strong>doubles</strong> (31 → 66 and 42 → 60), because admitting more windows gives agreement more repetitions to count. <code>RIVAL</code> grows by half. Where the eighty-ninth finding found the plan quoting a superseded <em>head</em>, this finds it quoting a superseded <em>threshold</em>: the two corrections are independent and both apply.</p>
+<h3 id="1-the-gold-is-in-the-head-s-ten-on-nine-tenths-of-the-residu">1. The gold is in the head's ten on nine tenths of the residue</h3>
+<p>For every answerable failure, where the gold sits among the ten candidates the head ranked <strong>on that passage's best gold-bearing window</strong>, admitted or not. <code>score_extract_tight</code> on the rendered reply decides "is the gold", which is the ninety-third finding's own test.</p>
+<p>SHIPPED s1      SHIPPED s2      JOINT s1      JOINT s2 RANK_1           128  38.6%       95  30.4%     140  39.5%    129  36.5% RANK_2_10        168  50.6%      182  58.3%     178  50.3%    189  53.5% OUTSIDE_TEN       36  10.8%       35  11.2%      36  10.2%     35   9.9% NO_GOLD_WINDOW     0   0.0%        0   0.0%       0   0.0%      0   0.0% reachable in ten 296  89.2%      277  88.8%     318  89.8%    318  90.1%</p>
+<p><strong>Nine tenths.</strong> And the plurality bucket is <code>RANK_2_10</code> on both seeds at both points — the gold is present in the candidate list and is not first.</p>
+<p>by species, SHIPPED       RANK_1   RANK_2_10   OUTSIDE_TEN REFUSED_RIGHT           72 / 43     5 /  7       0 /  0 AGGREGATION             55 / 51    11 /  9       0 /  0 REFUSED_WRONG            1 /  0    74 / 70      18 / 13 RIVAL                    0 /  1    49 / 63      13 / 15 CLIPPED                  0 /  0    17 / 23       1 /  4 UNGROUNDED               0 /  0    12 / 10       4 /  3</p>
+<p>(The <code>OUTSIDE_TEN</code> column's seed-1 <code>CLIPPED</code> and <code>UNGROUNDED</code> cells read 4 and 3 when this was first written and are corrected here to 1 and 4, which is what <code>rank_s1.json</code> holds. Two transcription errors; every other cell, every row total and every share in this file is unchanged by them.)</p>
+<p><code>REFUSED_RIGHT</code>'s <code>RANK_1</code> is <strong>by construction</strong> — the species is defined by the head's span on that window being the gold — and <code>AGGREGATION</code>'s nearly so. The load-bearing rows are the other four, and they are <code>RANK_2_10</code>: <strong>152 of 332 and 166 of 312 of the residue are passages where the gold is a candidate the head ranked second to tenth on a window it had.</strong></p>
+<p><strong>This does not contradict the ninety-third finding's §2, and the difference between them is the result.</strong> That read said the gold is reachable in the ten on 26.8% and 31.4% of the residue — but it conditioned on <em>admitted</em> windows. This one conditions on the best gold-bearing window whether or not it was admitted. Both are true, and the gap between 27% and 89% is the size of what <strong>admission</strong> is hiding. The candidate list is not the bottleneck; getting the window past the threshold is.</p>
+<h3 id="2-so-the-fifty-eight-per-cent-ceiling-was-an-artefact-and-th">2. So the fifty-eight per cent ceiling was an artefact, and the real one is eighty-three</h3>
+<p>The ninety-third finding put <code>ORACLE_PICK</code> at 58.1%/59.0% and concluded that "the entire <em>choose better among what he produced</em> family is capped twenty-six points short" of 85%. <code>ORACLE_PICK</code> fixes the pick on admitted windows; <code>ORACLE_WINDOW</code> fixes the window and leaves the pick. <strong>Neither is the ceiling on everything downstream of candidate ranking. Their conjunction is.</strong></p>
+<p>JOINT (finding <a class="fref" href="/Corn-Jr-Public/finding/93.html">93</a>'s point)   seed 1              seed 2 baseline                 367  50.9%          368  51.0% ORACLE_PICK              419  58.1%  +52     425  58.9%  +57 ORACLE_WINDOW            460  63.8%  +93     442  61.3%  +74 ORACLE_JOINT             597  82.8% +230     584  81.0% +216 GUARD (ECHO_BLOCKED 22)  699  96.9%</p>
+<p>SHIPPED                      seed 1              seed 2 baseline                 389  53.9%          409  56.7% ORACLE_PICK              449  62.3%  +60     493  68.4%  +84 ORACLE_WINDOW            444  61.6%  +55     449  62.3%  +40 ORACLE_JOINT             559  77.5% +170     573  79.5% +164</p>
+<p><strong>This section's two claims are withdrawn where they were made, 2026-09-03, and the ninety-sixth finding replaces them.</strong> <code>ORACLE_JOINT</code> <em>adds</em> the best gold-bearing window to the real mask and leaves every rival window in the vote, so it is not "the ceiling on everything downstream of candidate ranking" — admitting <strong>only</strong> that window reads 93.2% and 92.9% at SHIPPED, fourteen points above its 77.5% and 79.5%. And 58% is not an artefact: it is a correctly computed oracle over a different conditioning set, which is what §1's own paragraph about 27% and 89% says and what this section's heading overstated. The heading and the file name are left as they were written, because a finding is a record of what was claimed and this note is the correction. Everything below is unchanged and reproduces.</p>
+<p><strong><code>ORACLE_PICK</code> and <code>ORACLE_WINDOW</code> reproduce the ninety-third finding exactly at its own operating point</strong> — 419/460 and 425/442, to the passage — which is what licenses reading <code>ORACLE_JOINT</code> off the same code.</p>
+<p><strong>82.8% and 81.0%, against the owner's 85% = 613 of 721.</strong> <code>ORACLE_JOINT</code> reads 597 and 584: <strong>16 and 29 passages short of the target, not 194.</strong> The two oracles are strongly super-additive (+230 against +52 and +93) because each one alone is blocked by the other's failure — fixing the pick on a window that was never admitted buys nothing, and admitting the right window buys nothing if the head then speaks its rival.</p>
+<p><strong>The caveat the ninety-third finding wrote for <code>ORACLE_WINDOW</code> applies here unchanged and is not smaller for being repeated.</strong> An unanswerable passage has no gold-bearing window, so the force fires on the answerable half only and the correct-silence column is unchanged <strong>by construction, not by merit</strong>; a real window scorer would lift the attempt rate on both halves. <code>ORACLE_JOINT</code> runs at attempt rate 0.972 and 0.969. It is a ceiling and it is not a forecast.</p>
+<h3 id="3-the-outranking-signal-survives-its-control">3. The outranking signal survives its control</h3>
+<p>The ninety-third finding's §5 — a no-gold window outranks every gold-bearing one on 2.8% of passages he gets right against 47.8% of the residue — is near-tautological as stated, because a passage he gets right usually got there <em>through</em> an admitted gold-bearing window. The control is <code>tight_on</code>: whether the head's span on the best gold window is the gold at all, which is a property of the reading and not of the outcome. At SHIPPED, over the 580 answerable passages carrying both kinds of window:</p>
+<p>seed 1                seed 2 all                   148 of 580  25.5%     129 of 580  22.2% he got it right        10 of 300   3.3%      18 of 313   5.8% residue               138 of 280  49.3%     111 of 267  41.6%</p>
+<p>P(outrank | tight)     72 of 412  17.5%      57 of 398  14.3% P(outrank | not tight) 76 of 168  45.2%      72 of 182  39.6%</p>
+<p>tight &amp; right          10 of 294   3.4%      18 of 306   5.9% tight &amp; residue        62 of 118  52.5%      39 of  92  42.4% not tight &amp; right       0 of   6   0.0%       0 of   7   0.0% not tight &amp; residue    76 of 162  46.9%      72 of 175  41.1% Fisher, right vs residue <em>within tight</em>   p = 5.9e-30 / 1.4e-15</p>
+<p><strong>It does not collapse.</strong> Within the tight set — where reading the window is not the problem — the split is 3.4% against 52.5% and 5.9% against 42.4%, as large as the uncontrolled contrast and significant on both seeds.</p>
+<p><strong>Two things the control does show that the original read could not.</strong> First, outranking and misreading <strong>co-occur</strong>: 45.2% against 17.5% and 39.6% against 14.3%, so cross-window ranking failure and within-window reading failure are correlated and are not two independent budgets to be added. Second, the residual structural link is still there and is named rather than waved at — a <code>right</code> verdict does not strictly require the gold window to outrank every empty one (under <code>agree</code> several windows vote), which is why the cell is 3.4% and not 0%, but it comes close, and <strong>the honest unconditional number remains 25.5% and 22.2%.</strong></p>
+<h3 id="4-there-is-no-memorised-answer-prior">4. There is no memorised answer prior</h3>
+<p>For every <code>RIVAL</code> and every <code>REFUSED_WRONG</code>/<code>wrong_span</code> passage, how often the span he spoke is a short answer in <code>data/raw/spans_nq.jsonl</code> — 82,932 training questions of which 58,509 carry a short answer, <strong>zero id overlap with Population A</strong>, checked — against how often the gold is.</p>
+<p>rival more  gold more  tie   share of decided        p seed 1  RIVAL      20         17       25     54.1% of 37        0.743 REF_WRONG  15         13       31     53.6% of 28        0.851 all        35         30       56     53.8% of 65        0.62 seed 2  RIVAL      20         31       28     39.2% of 51        0.161 REF_WRONG  20          7       29     74.1% of 27        0.0192 all        40         38       57     51.3% of 78        0.91</p>
+<p><strong>53.8% and 51.3% against a null of 50%, p = 0.62 and 0.91. The head does not speak the commoner training answer.</strong> A <code>RIVAL</code> is not a memorised frequent answer displacing a rare gold.</p>
+<p><strong>Seed 2's <code>REFUSED_WRONG</code> cell reads 74.1% at p = 0.019 and is not a result.</strong> Seed 1's same cell reads 53.6% at p = 0.85, and the two seeds' <code>RIVAL</code> cells disagree in sign (54.1% against 39.2%). One cell of six clearing 0.05 on one seed with the other seed flat is what noise looks like at n = 27, and the house rule against single-seed numbers is why it is printed rather than claimed. The tie column is large because most golds are not training answers at all.</p>
+<h3 id="5-the-anchor-is-not-an-extraction-prior-and-the-bar-was-pre-">5. The anchor is not an extraction prior, and the bar was pre-registered</h3>
+<p>The ninety-fourth finding put the hand lexicon on the <em>admission</em> decision. This puts it inside the window: on <code>RIVAL</code> and <code>REFUSED_WRONG</code> windows, restrict the head's ten to spans following an anchor and take the restricted argmax. **Pre-registered before the run: worth building only if it recovers</p>
+<blockquote><p>= 25% of those windows on both seeds.** The gap counting as "follows" was</p></blockquote>
+<p>fixed at 12 characters in advance; 4 and 24 are printed as a sensitivity.</p>
+<p>seed 1 (137 windows)      seed 2 (158 windows) gap  4     fires 13  9.5%  gold 2 1.5%   fires 16 10.1%  gold 5 3.2% gap 12     fires 14 10.2%  gold 3 2.2%   fires 19 12.0%  gold 6 3.8% gap 24     fires 15 10.9%  gold 4 2.9%   fires 20 12.7%  gold 6 3.8%</p>
+<p><strong>2.2% and 3.8% against a bar of 25%. Missed by an order of magnitude, at every gap.</strong> The failure is the ninety-fourth finding's, in the same shape and worse: the lexicon fires on one window in ten here against one passage in three there, because a window is a smaller target than a passage. Where it does fire it is right 21% and 32% of the time, which is again respectable and again irrelevant at that coverage. <strong>The frame is an admission signal, not an extraction prior</strong>, and §2 says admission is where the passages are anyway.</p>
+<h3 id="6-the-label-noise-floor-under-85-is-about-a-quarter-and-this">6. The label-noise floor under 85% is about a quarter, and this is a model audit</h3>
+<p>100 <code>REFUSED_WRONG</code> passages, <code>random.Random(0)</code> over the seed-1 harvest's JOINT set (136 passages; SHIPPED holds 93, too few to draw 100 from), each labelled by reading the question, the gold and the passage:</p>
+<p>UNIQUE      the gold is the answer and no other span is      77   77% EQUIVALENT  the gold is right and so is another span         15   15% EXTENT      right referent, arguable boundary                 6    6% WRONG       not the answer the passage gives                  2    2%</p>
+<p>the gold is not the unique correct span on 23 of 100</p>
+<p><strong><code>EQUIVALENT</code> is the bulk of it and it is one shape.</strong> The question asks for a set and NQ's annotator gave one member: three meninges and the gold is <code>dura mater</code>; four commonwealth states and the gold is <code>Kentucky</code>; five Warriors championship years and the gold is <code>1947</code>; four layers of the Earth "in order" and the gold is the crust. A reader naming a different correct member is scored wrong. The two <code>WRONG</code> cases are cleaner: the Charles Bridge passage says it was built as a <em>bow</em> bridge and the gold <code>Stone</code> is lifted out of "the Stone Bridge in Regensburg", a different bridge; the possibilism passage says Sahlins <em>used</em> the concept and credits the theory to Strabo.</p>
+<p><strong>This is a model audit and not a human one.</strong> The labels were assigned by Claude reading question, gold and passage, blind to what the head said on that passage. That removes the obvious circularity and does not remove the model-judgement one, and the boundary between <code>EXTENT</code> and <code>UNIQUE</code> in particular is a judgement call made about twenty times. <strong>The owner should spot-check 20 before this number is quoted as a data fact</strong>; <code>audit_refused_wrong.py --check 20</code> prints a seeded sub-sample for it.</p>
+<p><strong>Spot-checked 2026-09-04</strong> (<code>docs/SPOT-CHECK-REFUSED-WRONG.md</code>). A second model rater agreed with the labels above on 17 of the 20, disagreeing only toward <em>less</em> unique (one <code>EQUIVALENT</code> → <code>WRONG</code>, two <code>UNIQUE</code> → <code>EXTENT</code>). The owner then ruled on the five disputed or non-unique rows: agreed on one, overturned four, and <strong>every overturn moved the gold toward less unique or wrong</strong> — 169 is <code>WRONG</code> where the question asked for countries and the passage says 216; the FBI Director's pre-2004 superior is <code>WRONG</code> on a present-tense question; two <code>when</code> golds that add a season or a range are <code>EXTENT</code> because "a year is enough". So the model audit was not generous to the reader, and <strong>23 of 100 is a floor.</strong> The fifteen agreed <code>UNIQUE</code> rows were not individually ruled on. Three rules from the rulings — recency on present-tense questions, a year answers <code>when</code>, a different quantity is wrong — are the lenient ruler's principles from here.</p>
+<p><strong>And it is a floor on one species, not on Population A.</strong> 23% of <code>REFUSED_WRONG</code> is 23% of 28% of the residue. It does not license subtracting 23% from anything, and the correct use of it is that <strong>a 100% reader does not score 100%, and nobody had measured by how much.</strong> The 22 <code>ECHO_BLOCKED</code> passages (699/721 = 96.9%) are the other known deduction and are disjoint from this one in kind.</p>
+<h3 id="what-this-cannot-say">What this cannot say</h3>
+<p><strong>It cannot separate rank 11 from a gold the pair enumeration never contained.</strong> Both read as <code>OUTSIDE_TEN</code>, because separating them needs the tokenizer and this file loads none. It does not change §1's plurality, which is what the arm gate turned on, but "10.8% is rank &gt; 10" is not a claim this file makes — the claim is "10.8% is not in the ten".</p>
+<p><strong>Every oracle in §2 is handed the answer.</strong> The ninetieth finding's locality rule had a plausible mechanism and reached a <em>negative</em> fraction of its bound. 83% is what perfect information buys, and the last four findings are a record of real mechanisms reaching small fractions of such numbers.</p>
+<p><strong>§3's control reduces the outcome-conditioning and does not eliminate it</strong>, as §3 says in its own last paragraph.</p>
+<p><strong>§6 is one species, one seed's harvest, one operating point and one model auditor.</strong></p>
+<p><strong>Two seeds, one trunk, one population</strong>, Population A under <code>hybrid</code>, at both operating points, with each read's point stated.</p>
+<h3 id="what-follows">What follows</h3>
+<p><strong>The pre-registered gate on the two training arms did not fire, and they should not be written.</strong> The session's plan said to write Arm B1 (a bidirectional encoder between the cached states and the pair scorer) and Arm B2 (listwise passage-level training for the verifier) <strong>only if <code>rank &gt; 10</code> were the plurality of the residue on both seeds</strong>. It is 10.8% and 11.2%, and the plurality is <code>RANK_2_10</code>. More than that, <strong>B1's stated rationale is contradicted by §1</strong>: it was justified by the trunk being causal, so no start state sees its span or right context, which would put the gold <em>outside</em> the enumeration. The gold is inside the enumeration nine times in ten. Building a richer state to fix candidate generation would be aimed at 11% of the residue.</p>
+<p><strong>What §1 and §2 name instead is admission, and it is the same lever the ninety-third and ninety-fourth findings converged on from the other side.</strong> The gold is in the ten and the window is refused, or admitted and outranked. That is <code>ORACLE_JOINT</code>'s +230 and it is where the ninety-fourth finding said a generated frame belongs.</p>
+<p><strong>Re-size the plan's arms at SHIPPED before running any of them.</strong> <code>PLAN-READER-RESIDUE.md</code>'s four arms are sized off the JOINT table, where <code>AGGREGATION</code> is 31 and not 66 and <code>REFUSED_RIGHT</code> is 113 and not 77. A2 — the score-aware reduce, aimed at <code>AGGREGATION</code> — is the arm whose target <em>doubles</em> at the operating point that ships, and it is the one arm in the plan that costs no GPU.</p>
+<p><strong>Left unexplained:</strong> <code>AGGREGATION</code> is 55 and 51 <code>RANK_1</code> at SHIPPED — passages where the head ranked the gold first on a window it admitted, and <code>reduce</code> returned something else. That is a larger <code>RANK_1</code> population than the plan's whole <code>AGGREGATION</code> species at JOINT, and no read here says whether the outvoting window is a repetition of one rival or several different ones.</p></div>
+  </section>
+
+  <section class="grid refs">
+    <div class="body two-even">
+      <div>
+        <h2 class="small">It cites</h2>
+        <ul class="reflist"><li style="--c:var(--c2)"><a href="/Corn-Jr-Public/finding/93.html"><span class="fn">93</span>A perfect sentence finder would be worth only 15-38 passages</a></li></ul>
+        
+      </div>
+      <div>
+        <h2 class="small">Cited by</h2>
+        <ul class="reflist"><li style="--c:var(--c2)"><a href="/Corn-Jr-Public/finding/103.html"><span class="fn">103</span>Averaging three seeds&#39; readers barely helps</a></li><li style="--c:var(--c2)"><a href="/Corn-Jr-Public/finding/104.html"><span class="fn">104</span>Under the owner&#39;s rules, a fifth of &#39;wrong&#39; answers are right</a></li><li style="--c:var(--c2)"><a href="/Corn-Jr-Public/finding/112.html"><span class="fn">112</span>Training on whole passages lifts extraction from 54% to 71%</a></li></ul>
+        
+      </div>
+    </div>
+    <p class="body source">docs/findings/95-the-gold-is-among-the-heads-own-ten-on-nine-tenths-of-the-residue-so-the-fifty-eight-per-cent-ceiling-was-an-artefact-of-conditioning-on-admission.md</p>
+  </section>
+</article>
+
+  
+<footer class="turn">
+  <div><span class="sc">previous</span><a href="/Corn-Jr-Public/finding/94.html">94 · A 16-word hand-written lexicon matches the trained checker where it applies</a></div>
+  <div class="r"><span class="sc">next</span><a href="/Corn-Jr-Public/finding/96.html">96 · Given only the right window, the reader reaches 93%</a></div>
+  <p class="keys"><kbd>←</kbd> <kbd>→</kbd> turn the page · <kbd>/</kbd> find</p>
+</footer>
+<p class="bynumber">Previous and next in <a href="/Corn-Jr-Public/thread/reading.html">Reading documents</a>. By number:
+  <a href="/Corn-Jr-Public/finding/94.html">94</a> · <a href="/Corn-Jr-Public/finding/96.html">96</a></p>
+
+</div>
+</body>
+</html>

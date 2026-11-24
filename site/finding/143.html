@@ -1,0 +1,95 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>143 · Nesting at 20M breaks two different ways; too fragile to build on · Corn-Jr</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600&family=IBM+Plex+Mono:wght@400;500&family=Spectral:ital,wght@0,400;0,500;0,600;1,400&family=Spectral+SC:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/Corn-Jr-Public/static/library.css">
+<script defer src="/Corn-Jr-Public/static/library.js"></script>
+<script type="speculationrules">
+{"prerender": [{"where": {"and": [{"href_matches": "/Corn-Jr-Public/*"}, {"not": {"href_matches": "/Corn-Jr-Public/random.html"}}, {"not": {"href_matches": "/Corn-Jr-Public/static/*"}}]}, "eagerness": "moderate"}]}
+</script>
+
+</head>
+<body>
+<div class="page">
+  <header class="running">
+    <a class="book" href="/Corn-Jr-Public/">Corn-Jr · The Record</a>
+    <nav>
+      <a href="/Corn-Jr-Public/" data-key="shelf">Shelf</a><a href="/Corn-Jr-Public/findings.html" data-key="findings" class="here">Findings</a><a href="/Corn-Jr-Public/doc/VISION.html" data-key="VISION">Vision</a><a href="/Corn-Jr-Public/doc/GLOSSARY.html" data-key="GLOSSARY">Glossary</a>
+      <a href="https://github.com/csheehan18/Corn-Jr-Public">Source</a>
+    </nav>
+  </header>
+  
+
+<article class="sheet" style="--c:var(--c4)">
+  <div class="progress" aria-hidden="true"></div>
+  <section class="grid chapter-open finding-open">
+    <a class="tab" href="/Corn-Jr-Public/thread/parse-depth.html" title="The parse and depth"><small>Part</small><span>IV</span></a>
+    <p class="cn">143</p>
+    <p class="partline"><a href="/Corn-Jr-Public/thread/parse-depth.html">The parse and depth</a> · 25 September 2026</p>
+    <h1>Nesting at 20M breaks two different ways; too fragile to build on</h1>
+  </section>
+
+  <section class="grid">
+    <p class="marginal">The result, as the finding states it</p><div class="prose"><p class="lead">Arm G2 held every pair arm F had and the trained nesting fell anyway, this time because he flattens the nested pair into the outer group; two differently matched arms broke the same base two different ways, so nesting at nano is too fragile to carry the arity ladder, while the outer four-carrier installs cleanly at both seeds</p></div>
+    <p class="marginal">What it cost</p><div class="prose"><p class="cost">6.6 min of scoring on the 1 card first cited here (<code>nano20m_v3_fw_ladder_add</code>). Backfilled 2026-09-26 from the cards' <code>seconds</code>; training and probe time were never recorded, so this is a floor.</p></div>
+  </section>
+
+  
+
+  <section class="grid">
+    <div class="prose doc"><p>PLAN-PARSE-WEIGHTS arm G2, read 2026-09-25. Two nano cells (<code>nano20m_v3_fw_ladder_add</code>, seeds 1337 and 2337) against arm F at the same seeds, <code>scripts/probe_ladder.py</code> on <code>evals/funcworld_ladder.jsonl</code> plus the full card. Pre-registration: <code>configs/mix_v3_funcworld_ladder_add.py</code>, committed at <code>190cef1</code> before either seed trained. G2 is finding <a class="fref" href="/Corn-Jr-Public/finding/142.html">142</a>'s repair: arm F's file byte-identical, 2,096 four-member outer groups added as their own source on top, total tokens and iterations raised by exactly the payload's weight, so every outer pair, triple and nested pair F saw is there to the count (re-read off the union's bytes by <code>check_funcworld.py</code>).</p>
+<h3 id="the-pre-registered-read">The pre-registered read</h3>
+<p>Structure of 96, seed 1 / seed 2, with <code>s|bal</code> (structure on balanced lines) where the probe carries it (committed: <code>evals/results/nano20m_v3_fw_{armf,ladder,ladder_add}{,_seed2}__ladder.json</code>):</p>
+<p>row      F          G          G2         G2 s|bal outer2   22 / 22    17 / 17    30 / 20    27 / 17 outer3   36 / 48    21 / 26    39 / 36    37 / 33 outer4   31 / 20    26 / 27    46 / 42    44 / 40 nest2    15 / 18     2 /  8     4 / 11     3 /  9 nest3     6 /  5     2 /  9     3 /  3     3 /  2 nest4     0 /  4     1 /  4     2 /  1     2 /  1</p>
+<p>nest2 do+ (a <code>do</code> the gold lacks)   F 20 / 10   G 34 / 30   G2 24 / 9</p>
+<p>Every row parses on 77 or more of 96. The kill did not fire: <code>tool.copy</code> 102 and 120 of 120 — seed 1's 102 is arm F's seed-1 figure to the item, the third single-seed copy dip in this phase not to replicate.</p>
+<p><strong>The base failed at both seeds.</strong> The pre-registration read the base first: <code>nest2</code> at 12 or more at both seeds and its <code>do+</code> at 24 or under. <code>do+</code> held (24 and 9); <code>nest2</code> did not (4 and 11). By the table, adding four-member groups interferes with the trained nesting even when no pair is taken away, and <code>nest4</code> is not read.</p>
+<h3 id="what-the-lines-say">What the lines say</h3>
+<p>Holding the pairs did what it was built to do. Arm G's invented consumer is mostly gone — <code>nest2</code> <code>do+</code> back inside F's range at seed 2 and at the line at seed 1 — and outer pairs read above F at seed 1 and two under at seed 2. The nesting fell by a different road. Where the gold nests a pair inside a group, G2 writes the pair's members into the outer group, or splits the group into two outer ones:</p>
+<p>hey no ulterior motive say the capital of Gledaenddor and equally the capital of Bryunlvholm, and lastly the currency of Garorwold GOLD  ask[say ask[ask[the capital of Gledaenddor] and equally ask[the capital of Bryunlvholm]], and ask[lastly the currency of Garorwold]] F     ask[say, ask[ask[the capital of Gledaenddor] and ask[equally the capital of Bryunlvholm]], and ask[lastly ...]] G2    ask[say ask[the capital of Gledaenddor] and ask[equally the capital of Bryunlvholm]] ask[lastly the currency of Garorwold]</p>
+<p>Counted on <code>nest2</code>, among items where he writes no nested group, an outer group one member wider than the gold's (the pair inlined): F 13 and 4, G2 18 and 19, at seeds 1 and 2; the group split into outer groups, F 5 and 9, G2 7 and 7. <strong>A bound</strong> — a scratchpad count over greedy decodes with the probe's tree reader, not a pinned instrument.</p>
+<h3 id="why-as-far-as-these-two-arms-can-say">Why, as far as these two arms can say</h3>
+<p>The payload's four-member groups were built flat (<code>--profile flat4</code>) so that G2 would add no nested pairs: under <code>armf</code> the filter would have added about 610, +25% on the rows being read. That held the nested-pair <strong>count</strong> at F's 2,467 and lowered the <strong>share</strong> of groups that hold a nesting, from 0.309 on F (2,467 of 7,990) to 0.245 on G2 (2,467 of 10,086). Arm G did the opposite — its share stayed at 0.301 and its count fell 10%. Each arm held one of the two and moved the other, and each lost the trained nesting, by a different mechanism. <strong>These runs cannot separate</strong> "the nesting share fell" from "training wide outer groups pulls members outward"; both predict flattening.</p>
+<p>The pre-registration named count as the thing to hold and did not name share. That was this session's design choice, and the table did not anticipate it.</p>
+<h3 id="what-it-does-say">What it does say</h3>
+<p><strong>The trained nesting at nano is fragile</strong>, and that is the result that survives both arms. It is 15 and 18 of 96 on arm F to start with (nesting at all on 16 and 23), and two corpus changes, each matched carefully on a different axis, took it to 2 to 11. A question about arity at a nested position cannot be read on a base that moves this easily — a third ladder arm would be asking the same unreadable question a third way.</p>
+<p><strong>The outer four-carrier installs, and cleanly.</strong> <code>outer4</code> 46 and 42 against F's 31 and 20, 44 and 40 on balanced lines, the number word kept on 40 of 56 at both seeds against F's 17 of 50 and 19 of 45 — and this time without G's cost to the rows beside it. Arity at the level where it is trained is trainable at nano.</p>
+<h3 id="what-it-does-not-say">What it does not say</h3>
+<p>Nothing about whether a four-member carrier travels to a nested position: the gate was not read, twice. Nothing at 260M. Nano, one synthetic world, two seeds, greedy decodes.</p>
+<p><strong>Licenses</strong> moving the nesting question off the corpus and onto the runtime, as PLAN-PARSE-WEIGHTS row F first specified: the stepped protocol, where the runtime re-presents each group's span as its own request and he writes one level at a time — the level these two arms show he learns reliably, and the position finding <a class="fref" href="/Corn-Jr-Public/finding/140.html">140</a> already reads at 71 to 89 of 95. No third ladder arm.</p></div>
+  </section>
+
+  <section class="grid refs">
+    <div class="body two-even">
+      <div>
+        <h2 class="small">It cites</h2>
+        <ul class="reflist"><li style="--c:var(--c4)"><a href="/Corn-Jr-Public/finding/140.html"><span class="fn">140</span>Depth-4 failure is position alone; moved to line one it works</a></li><li style="--c:var(--c4)"><a href="/Corn-Jr-Public/finding/142.html"><span class="fn">142</span>Removing four-member groups from training broke nesting another way</a></li></ul>
+        
+      </div>
+      <div>
+        <h2 class="small">Cited by</h2>
+        <ul class="reflist"><li style="--c:var(--c4)"><a href="/Corn-Jr-Public/finding/147.html"><span class="fn">147</span>When the runtime holds the structure, invented words vanish; grouping stays his</a></li></ul>
+        
+      </div>
+    </div>
+    <p class="body source">docs/findings/143-arm-g2-held-every-pair-and-the-trained-nesting-fell-anyway-he-flattens-the-nested-pair-into-the-outer-group-so-nesting-at-nano-is-too-fragile-to-carry-the-ladder.md</p>
+  </section>
+</article>
+
+  
+<footer class="turn">
+  <div><span class="sc">previous</span><a href="/Corn-Jr-Public/finding/142.html">142 · Removing four-member groups from training broke nesting another way</a></div>
+  <div class="r"><span class="sc">next</span><a href="/Corn-Jr-Public/finding/144.html">144 · Showing the request step by step fixes short chains, not long ones</a></div>
+  <p class="keys"><kbd>←</kbd> <kbd>→</kbd> turn the page · <kbd>/</kbd> find</p>
+</footer>
+<p class="bynumber">Previous and next in <a href="/Corn-Jr-Public/thread/parse-depth.html">The parse and depth</a>. By number:
+  <a href="/Corn-Jr-Public/finding/142.html">142</a> · <a href="/Corn-Jr-Public/finding/144.html">144</a></p>
+
+</div>
+</body>
+</html>

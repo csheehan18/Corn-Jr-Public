@@ -1,0 +1,107 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>91 · The hard questions are those with nothing nameable in them · Corn-Jr</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600&family=IBM+Plex+Mono:wght@400;500&family=Spectral:ital,wght@0,400;0,500;0,600;1,400&family=Spectral+SC:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/Corn-Jr-Public/static/library.css">
+<script defer src="/Corn-Jr-Public/static/library.js"></script>
+<script type="speculationrules">
+{"prerender": [{"where": {"and": [{"href_matches": "/Corn-Jr-Public/*"}, {"not": {"href_matches": "/Corn-Jr-Public/random.html"}}, {"not": {"href_matches": "/Corn-Jr-Public/static/*"}}]}, "eagerness": "moderate"}]}
+</script>
+
+</head>
+<body>
+<div class="page">
+  <header class="running">
+    <a class="book" href="/Corn-Jr-Public/">Corn-Jr · The Record</a>
+    <nav>
+      <a href="/Corn-Jr-Public/" data-key="shelf">Shelf</a><a href="/Corn-Jr-Public/findings.html" data-key="findings" class="here">Findings</a><a href="/Corn-Jr-Public/doc/VISION.html" data-key="VISION">Vision</a><a href="/Corn-Jr-Public/doc/GLOSSARY.html" data-key="GLOSSARY">Glossary</a>
+      <a href="https://github.com/csheehan18/Corn-Jr-Public">Source</a>
+    </nav>
+  </header>
+  
+
+<article class="sheet" style="--c:var(--c2)">
+  <div class="progress" aria-hidden="true"></div>
+  <section class="grid chapter-open finding-open">
+    <a class="tab" href="/Corn-Jr-Public/thread/reading.html" title="Reading documents"><small>Part</small><span>II</span></a>
+    <p class="cn">91</p>
+    <p class="partline"><a href="/Corn-Jr-Public/thread/reading.html">Reading documents</a> · 3 September 2026</p>
+    <h1>The hard questions are those with nothing nameable in them</h1>
+  </section>
+
+  <section class="grid">
+    <p class="marginal">The result, as the finding states it</p><div class="prose"><p class="lead">The first input-side cut of the residue reverses the sign of its own hypothesis: constraint-carrying questions are the easy half, the residue lives in the questions with nothing nameable in them, and the only total failure is thirteen passages wide</p></div>
+    
+  </section>
+
+  
+
+  <section class="grid">
+    <div class="prose doc"><p><code>scripts/probe_question_shape.py</code>, 2026-09-03. <strong>Replay only</strong> — no GPU, no decode, no weight read — over <code>evals/results/nullpr_s{1,2}_popa.json</code>, the shipped pair-rows verifier, at each fold's own cross-validated threshold under <code>hybrid</code>. Baselines 367 right / 354 residue and 368 / 353.</p>
+<p><strong>Ninety findings and every split of the residue has been a split by what the reader did</strong> — <code>probe_reader_residue</code>'s three owners, <code>probe_reader_species</code>'s six species, <code>probe_reader_position</code>'s four verdicts. All of them are taxonomies of the failure. The only input-side cut anywhere in the record is <code>answer_type</code>, three buckets wide. This is the missing cut, and <strong>it refutes the hypothesis it was built to test, with the sign reversed on both seeds.</strong></p>
+<h3 id="where-the-hypothesis-came-from-and-why-it-was-wrong">Where the hypothesis came from, and why it was wrong</h3>
+<p>The species probe's own examples looked like one mechanism wearing five species' clothes:</p>
+<p>who won the world cup in cricket 2017     gold Pakistan    said England what percentage of earth's surface is water  gold ~78%     said 2.5% who sang the theme song from russia with love  gold Matt Monro said Monty Norman who is stephanie's mom on the bold and the beautiful gold Taylor Hayes  said Steffy who has more super bowl wins nfc or afc   gold NFC/NFL said American Football League</p>
+<p><code>AGGREGATION</code>, <code>RIVAL</code>, <code>RIVAL</code>, <code>REFUSED_RIGHT</code>, <code>REFUSED_WRONG</code> — and in every one the question carries a discriminating constraint and the reader matched on topic instead. 2.5% is the fresh-water figure; Monty Norman composed it and Matt Monro sang it; Steffy is the daughter.</p>
+<p><strong>They were selection bias.</strong> They are memorable <em>because</em> the mechanism is legible in them, not because the mechanism is common. Measured over all 721, the sign goes the other way.</p>
+<h3 id="1-constraint-carrying-questions-are-the-half-he-gets-right">1. Constraint-carrying questions are the half he gets right</h3>
+<p>Six labels, each a property of the <strong>question string alone</strong> — nothing consults the passage, the gold or the reader, so no label can be a restatement of the outcome it is cross-tabbed against. Closed hand-written lexicons and two regexes, no new dependency.</p>
+<p>label          accuracy s1 / s2     delta vs base    residue lift   Fisher ROLE            69.5% / 63.2%      +18.6 / +12.1     0.46 / 0.61    1e-04 RELATION        62.3% / 61.0%      +11.4 / +10.0     0.63 / 0.67     0.04 ORDINAL         60.2% / 61.2%       +9.3 / +10.2     0.69 / 0.66     0.05 TEMPORAL        53.5% / 51.2%       +2.6 /  +0.1     0.90 / 1.00     0.76 MEASURE         42.5% / 45.0%       -8.4 /  -6.0     1.40 / 1.27     0.33 NONE            45.5% / 47.0%       -5.4 /  -4.0     1.24 / 1.17    0.001 base                                50.9% / 51.0%</p>
+<p><strong><code>ROLE</code> is the single easiest class measured</strong> — nineteen and twelve points above base, the residue lift 0.46 and 0.61, Fisher p = 0.0001 and 0.011. A question that names a role, a relation or a rank is a question whose answer is pinned down, and being pinned down helps. <code>TEMPORAL</code> — the cricket example's own label, the one the hypothesis leant on hardest — is <strong>flat</strong>: +2.6 and +0.1, p = 0.76 and 1.0.</p>
+<p><code>MEASURE</code> is the only labelled class below base and it does not clear significance on either seed.</p>
+<h3 id="2-the-residue-is-in-the-questions-with-nothing-nameable-in-t">2. The residue is in the questions with nothing nameable in them</h3>
+<p><code>NONE</code> — no label at all — is 404 of 721 questions and <strong>62.1% and 60.6% of the residue</strong>, four to five points below base, p = 0.0013 and 0.016. It is not a describable subset an arm could be aimed at. It is the general case.</p>
+<p><strong>Read (c) makes the same point from the other side.</strong> The label × species cross-tab has no cell where a label concentrates: <code>NONE</code> supplies 91 of 136 <code>REFUSED_WRONG</code>, 74 of 113 <code>REFUSED_RIGHT</code>, 22 of 42 <code>RIVAL</code> and 17 of 31 <code>AGGREGATION</code> — its own share of the residue, in every species. The labels do not cut across the species because they do not cut anything.</p>
+<p><strong>The obvious confound is ruled out.</strong> The residue's questions are not longer: 9.20 content words against the right half's 9.04 on seed 1, and 9.22 against 9.02 on seed 2. Accuracy is flat across length — 51.9% at 8–9 content words, 47.0% at 10–12, 51.5% at 13+ — and the residue carries <em>fewer</em> labels per question (0.43 against 0.58), which is read (a) restated.</p>
+<h3 id="3-one-class-reads-zero-and-it-is-thirteen-passages">3. One class reads zero, and it is thirteen passages</h3>
+<p>ALTERNATIVE  "is it A or B", the gold one of the named alternatives 0 of 7 on both seeds, Fisher p = 0.0067 / 0.0065 BETWEEN      <code>between</code> / <code>than</code> / <code>difference</code> 0 of 6 on both seeds, Fisher p = 0.014 / 0.013</p>
+<p>These were one label until its thirteen passages were read. <code>between</code> in NQ is overwhelmingly <em>prepositional</em> — "the skin between your nostrils", "the alliance between great britain russia and france" — and asks for a thing defined by two others, which is not "solid liquid or gas". <strong>Both halves read zero separately</strong>, and pooling them would have hidden that the zero is two zeroes.</p>
+<p><strong>It is not a scoring artefact.</strong> Read (d2): all 13 have a gold-bearing window, only 2 are <code>ECHO_BLOCKED</code>, so <strong>11 are winnable and 0 are won</strong>. And <strong>10 of 13 are silent rather than wrong</strong> — he refuses them rather than guessing.</p>
+<p>who has more super bowl wins nfc or afc       gold NFC/NFL   -&gt; AFL, wrong where does sound travel fastest solid liquid or gas   gold solids -&gt; silent is aluminium a ferrous or non ferrous metal   gold non-ferrous -&gt; silent was star wars a book or a movie first         gold film        -&gt; silent is greenland part of europe or north america  gold North America -&gt; silent (<code>ECHO_BLOCKED</code>)</p>
+<p><strong>The shape is worth naming even at n = 13.</strong> When the question supplies the candidate set, the gold is a word the question already used — so the correct answer sits at best a morphological step from a restatement (<code>solids</code> for <code>solid</code>, <code>non-ferrous</code> for <code>non ferrous</code>, <code>film</code> for <code>movie</code>), which is the <code>ECHO_BLOCKED</code> condition one inflection out. Two of the thirteen are formally echo-blocked and the rest are its neighbours.</p>
+<h3 id="what-this-cannot-say">What this cannot say</h3>
+<p><strong>Read (d) is inconclusive and nothing is claimed from it.</strong> Splitting accuracy by <code>extractgen._has_distractor</code> on the gold-bearing window was meant to test whether a constraint matters only when there is something to discriminate between. After restricting to golds the predicate can decide, the "without" cells hold between 1 and 41 passages and the gaps swing from −40 to +55 with no consistent sign.</p>
+<p><strong>And the first version of that read was wrong in a way worth recording.</strong> <code>_has_distractor</code> returns <code>False</code> outright for a lower-case gold — its third branch — so "without a distractor" was pooling common-noun answers with genuine no-competitor windows, two populations with different accuracies, and reported a large positive gap that was the gold's own type. The restriction and the excluded count are now printed.</p>
+<p><strong>The labels are lexicons and they are not exhaustive.</strong> <code>ROLE</code> omits <code>plays</code>/<code>played</code>, which is a role verb in "who plays john smith" and a common verb everywhere else and cannot be separated without a tagger. A richer label set could find a class these six miss. What the six do establish is that the <em>obvious</em> constraint classes go the wrong way.</p>
+<p><strong>n = 13 is n = 13.</strong> §3 is two seeds of one head over thirteen passages. It is the cleanest zero in the record and it is not an arm's worth of passages.</p>
+<p><strong>One population, two seeds, one trunk.</strong> Everything is Population A at the CV'd threshold under <code>hybrid</code>.</p>
+<h3 id="what-follows">What follows</h3>
+<p><strong>Do not build the corpus arm this probe was meant to justify.</strong> The plan was: if constraint-carrying questions are over-represented in the residue, generate extraction windows where the question's constraint selects among same-type candidates and the wrong one is positionally favoured — the sixty-sixth finding's second repair, generalised. <strong>The classes such an arm would teach are already the classes he is best at.</strong> <code>ROLE</code> at +18.6 is the one it would have aimed at hardest.</p>
+<p><strong>This is evidence for the trunk levers and it is the first evidence from the input side.</strong> A residue that concentrates in questions with no nameable property, distributes across every species in proportion, and does not vary with question length is what a representation limit looks like from outside. <code>PLAN-EXTRACTION-READER.md</code> §7 is not contradicted by anything here.</p>
+<p><strong><code>ALTERNATIVE</code> is a guard question, not an arm.</strong> Thirteen passages will not move a number, but 10 of 13 silent suggests the verifier has a systematic problem with windows that carry both named alternatives, and the <code>grounded</code> interaction is one inflection away from the 22 <code>ECHO_BLOCKED</code> passages whose exemption has been an open owner decision since the eighty-fifth finding. Those two should be decided together.</p>
+<p><strong>Left unexplained:</strong> <code>MEASURE</code> is six to eight points below base on both seeds and never reaches significance at n = 40. It is the only labelled class pointing the hypothesis's way, and whether it is real needs a population this one cannot supply.</p></div>
+  </section>
+
+  <section class="grid refs">
+    <div class="body two-even">
+      <div>
+        <h2 class="small">It cites</h2>
+        <p class="aside">No other finding by number.</p>
+      </div>
+      <div>
+        <h2 class="small">Cited by</h2>
+        <ul class="reflist"><li style="--c:var(--c2)"><a href="/Corn-Jr-Public/finding/110.html"><span class="fn">110</span>Of four cheap rescoring ideas, only one vote per mention helps</a></li><li style="--c:var(--c2)"><a href="/Corn-Jr-Public/finding/112.html"><span class="fn">112</span>Training on whole passages lifts extraction from 54% to 71%</a></li></ul>
+        
+      </div>
+    </div>
+    <p class="body source">docs/findings/91-the-questions-he-fails-are-the-ones-with-nothing-nameable-in-them-and-constraint-carrying-questions-are-the-easy-half.md</p>
+  </section>
+</article>
+
+  
+<footer class="turn">
+  <div><span class="sc">previous</span><a href="/Corn-Jr-Public/finding/90.html">90 · A nearby-words rule can&#39;t tell a rival answer from the right one</a></div>
+  <div class="r"><span class="sc">next</span><a href="/Corn-Jr-Public/finding/92.html">92 · Reading the whole passage tells the checker nothing new</a></div>
+  <p class="keys"><kbd>←</kbd> <kbd>→</kbd> turn the page · <kbd>/</kbd> find</p>
+</footer>
+<p class="bynumber">Previous and next in <a href="/Corn-Jr-Public/thread/reading.html">Reading documents</a>. By number:
+  <a href="/Corn-Jr-Public/finding/90.html">90</a> · <a href="/Corn-Jr-Public/finding/92.html">92</a></p>
+
+</div>
+</body>
+</html>

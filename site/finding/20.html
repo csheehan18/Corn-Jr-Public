@@ -1,0 +1,82 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>20 · No data share moves copying above noise · Corn-Jr</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600&family=IBM+Plex+Mono:wght@400;500&family=Spectral:ital,wght@0,400;0,500;0,600;1,400&family=Spectral+SC:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/Corn-Jr-Public/static/library.css">
+<script defer src="/Corn-Jr-Public/static/library.js"></script>
+<script type="speculationrules">
+{"prerender": [{"where": {"and": [{"href_matches": "/Corn-Jr-Public/*"}, {"not": {"href_matches": "/Corn-Jr-Public/random.html"}}, {"not": {"href_matches": "/Corn-Jr-Public/static/*"}}]}, "eagerness": "moderate"}]}
+</script>
+
+</head>
+<body>
+<div class="page">
+  <header class="running">
+    <a class="book" href="/Corn-Jr-Public/">Corn-Jr · The Record</a>
+    <nav>
+      <a href="/Corn-Jr-Public/" data-key="shelf">Shelf</a><a href="/Corn-Jr-Public/findings.html" data-key="findings" class="here">Findings</a><a href="/Corn-Jr-Public/doc/VISION.html" data-key="VISION">Vision</a><a href="/Corn-Jr-Public/doc/GLOSSARY.html" data-key="GLOSSARY">Glossary</a>
+      <a href="https://github.com/csheehan18/Corn-Jr-Public">Source</a>
+    </nav>
+  </header>
+  
+
+<article class="sheet" style="--c:var(--c1)">
+  <div class="progress" aria-hidden="true"></div>
+  <section class="grid chapter-open finding-open">
+    <a class="tab" href="/Corn-Jr-Public/thread/tool-calls.html" title="Tool calls and copying"><small>Part</small><span>I</span></a>
+    <p class="cn">20</p>
+    <p class="partline"><a href="/Corn-Jr-Public/thread/tool-calls.html">Tool calls and copying</a> · 17 August 2026</p>
+    <h1>No data share moves copying above noise</h1>
+  </section>
+
+  <section class="grid">
+    <p class="marginal">The result, as the finding states it</p><div class="prose"><p class="lead">Copy discipline is not a lever any share moves</p></div>
+    
+  </section>
+
+  
+
+  <section class="grid">
+    <div class="prose doc"><p>Six checkpoints re-scored on <code>tool.copy_wide</code>, spanning every share change the project has measured. No training: the checkpoints already existed, and the frozen rows came back <strong>byte-identical on all five re-scores</strong>, which is the harness stability claim the whole exercise depends on.</p>
+<div class="tablewrap"><table><thead><tr><th>comparison</th><th>frozen <code>tool.copy</code> (floor 18)</th><th><code>tool.copy_wide</code> (floor 29/300)</th></tr></thead><tbody><tr><td>structured 2.5% → 10%</td><td>120 → 99, <strong>−21 real</strong></td><td>277 → 276, <strong>−1 noise</strong></td></tr><tr><td>tools 0.61% → 15%</td><td>120 → 98, <strong>−22 real</strong></td><td>289 → 278, <strong>−11 noise</strong></td></tr><tr><td>narrative 47% → 10% (+ temporal)</td><td>120 → 111, −9 noise</td><td>277 → 269, −8 noise</td></tr><tr><td>narrative 47% → 10% (temporal held)</td><td>120 → 114, −6 noise</td><td>277 → 282, +5 noise</td></tr></tbody></table></div>
+<p><strong>Both of the frozen row's surviving "real" calls were one held-out fact each, and both evaporate.</strong> A 21-item move on a six-answer row is one fact flipping; the wide row puts the same comparison at one item in three hundred. So after nineteen findings of pricing shares partly on copy discipline, the honest position is that <strong>no share change yet tested moves it measurably at all.</strong> The six corpora sit between 269 and 289 of 300 — a spread of 20 — while four seeds on a <em>single</em> corpus span 29. Composition moves this row less than the seed does.</p>
+<h4 id="what-that-leaves-standing-per-share">What that leaves standing per share</h4>
+<p>With <code>tool.copy</code> removed as a decision variable, two comparisons get simpler and more decisive:</p>
+<ul><li><strong>Structured.</strong> 10% buys <code>schema.conform</code> +22 at a floor of 2 — eleven times its noise — and costs <code>lm web</code> 0.0068 at a floor of 0.0038. The copy leg is gone. So it is a clean win for 10% against a small prose cost, not the trade the nineteenth finding settled on, and <strong>not</strong> the "2.5% better on every axis" §11 carried for a week. Three readings, and only the third had a ruler that could see the question.</li><li><strong>Tools.</strong> 15% buys <code>tool.selection</code> +34 at a floor of 8, and costs <code>lm narrative</code> 0.0060 and <code>lm web</code> 0.0114 against a floor of 0.0038. The eleventh finding's stated cost — 12 items of <code>tool.validity</code> — is 2 items on the re-run pair and inside a floor of 13, and the copy cost is gone too. <strong>The real price of tools at 15% is prose, and it was never validity or copying.</strong> That arm is upsampled 25x, so displacing real text is exactly what it should cost.</li></ul>
+<p><strong>Annotated after the thirtieth finding: both bullets get weaker, and the second loses its benefit leg entirely.</strong> <code>schema.conform</code>'s floor is <strong>8</strong> rather than 2, so structured's +22 is 2.75x its noise and not eleven times — still the cleanest number here, still a win for 10%, but no longer an order of magnitude clear. <code>tool.selection</code>'s frozen floor is <strong>44</strong> rather than 8, so tools at 15% buying +34 is <strong>inside the noise</strong> and cannot be claimed. The bullet's own conclusion survives in a stronger form than it was written in: if the selection gain is unreadable and validity and copying were already gone, then <strong>tools at 15% over 0.61% buys nothing measurable at all and costs prose</strong> — which is the eleventh finding's "a 25th of the declared share buys most of the behaviour" with "most" upgraded. The presence claims are untouched; <code>tool.selection</code> 0 → 146 is 3.3x even the widened floor. What is gone is every attempt to price the <em>share</em> on this row.</p>
+<h4 id="the-uncomfortable-part">The uncomfortable part</h4>
+<p><code>tool.copy</code> at 120/120 has been the project's evidence that deference generalises past <code>resolve_date</code> since the thirteenth finding, and it is the row §4's whole conclusion was said to rest on. It reads 92–96% on the wide row across every checkpoint, moves by less than its own seed noise under every corpus change tried, and is currently unable to distinguish any two corpora in the project. That is not evidence the behaviour is absent — 92% on held-out invented facts is a real skill, and <code>temporal.copy</code> remains 353/353 on all four seeds — but it does mean <strong>copy discipline has never been shown to depend on the corpus, only on having some.</strong> The thirteenth finding's 27 → 120 stands, and it is a claim about the <em>tool slice's answer space</em> rather than about any share.</p></div>
+  </section>
+
+  <section class="grid refs">
+    <div class="body two-even">
+      <div>
+        <h2 class="small">It cites</h2>
+        <p class="aside">No other finding by number.</p>
+      </div>
+      <div>
+        <h2 class="small">Cited by</h2>
+        <p class="aside">No later finding yet.</p>
+      </div>
+    </div>
+    <p class="body source">docs/findings/20-copy-discipline-is-not-a-lever-any-share-moves.md</p>
+  </section>
+</article>
+
+  
+<footer class="turn">
+  <div><span class="sc">previous</span><a href="/Corn-Jr-Public/finding/14.html">14 · The JSON data taught the format but not copying field names</a></div>
+  <div class="r"><span class="sc">next</span><a href="/Corn-Jr-Public/finding/21.html">21 · Copying is a step: it appears once any tool data exists</a></div>
+  <p class="keys"><kbd>←</kbd> <kbd>→</kbd> turn the page · <kbd>/</kbd> find</p>
+</footer>
+<p class="bynumber">Previous and next in <a href="/Corn-Jr-Public/thread/tool-calls.html">Tool calls and copying</a>. By number:
+  <a href="/Corn-Jr-Public/finding/19.html">19</a> · <a href="/Corn-Jr-Public/finding/21.html">21</a></p>
+
+</div>
+</body>
+</html>

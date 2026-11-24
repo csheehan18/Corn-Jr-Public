@@ -1,0 +1,106 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>81 · The answer score measures willingness to answer, not confidence · Corn-Jr</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600&family=IBM+Plex+Mono:wght@400;500&family=Spectral:ital,wght@0,400;0,500;0,600;1,400&family=Spectral+SC:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/Corn-Jr-Public/static/library.css">
+<script defer src="/Corn-Jr-Public/static/library.js"></script>
+<script type="speculationrules">
+{"prerender": [{"where": {"and": [{"href_matches": "/Corn-Jr-Public/*"}, {"not": {"href_matches": "/Corn-Jr-Public/random.html"}}, {"not": {"href_matches": "/Corn-Jr-Public/static/*"}}]}, "eagerness": "moderate"}]}
+</script>
+
+</head>
+<body>
+<div class="page">
+  <header class="running">
+    <a class="book" href="/Corn-Jr-Public/">Corn-Jr · The Record</a>
+    <nav>
+      <a href="/Corn-Jr-Public/" data-key="shelf">Shelf</a><a href="/Corn-Jr-Public/findings.html" data-key="findings" class="here">Findings</a><a href="/Corn-Jr-Public/doc/VISION.html" data-key="VISION">Vision</a><a href="/Corn-Jr-Public/doc/GLOSSARY.html" data-key="GLOSSARY">Glossary</a>
+      <a href="https://github.com/csheehan18/Corn-Jr-Public">Source</a>
+    </nav>
+  </header>
+  
+
+<article class="sheet" style="--c:var(--c2)">
+  <div class="progress" aria-hidden="true"></div>
+  <section class="grid chapter-open finding-open">
+    <a class="tab" href="/Corn-Jr-Public/thread/reading.html" title="Reading documents"><small>Part</small><span>II</span></a>
+    <p class="cn">81</p>
+    <p class="partline"><a href="/Corn-Jr-Public/thread/reading.html">Reading documents</a> · 31 August 2026</p>
+    <h1>The answer score measures willingness to answer, not confidence</h1>
+  </section>
+
+  <section class="grid">
+    <p class="marginal">The result, as the finding states it</p><div class="prose"><p class="lead">The isolated score is a willingness meter and not a confidence meter, ranking windows is the one thing it buys, and every read-time route to the span is now closed</p></div>
+    <p class="marginal">What it cost</p><div class="prose"><p class="cost">0 s of new scoring on record; it reads 1 card scored for an earlier finding (<code>corn_jr_260m_v4</code>). Backfilled 2026-09-26 from the cards' <code>seconds</code>; training and probe time were never recorded, so this is a floor.</p></div>
+  </section>
+
+  
+
+  <section class="grid">
+    <div class="prose doc"><p>Eight read-only probes on the frozen <code>checkpoints/corn_jr_260m_v4/ckpt.pt</code>, run 2026-08-31 in one session. No training, no corpus change, no card touched; inference only, fp32, and every number below is against that one checkpoint at n=1. The thread began as a design conversation about decomposing extraction into stages a 260M model can each do, and it ends having closed every stage except the first.</p>
+<p><code>scripts/probe_enumerator.py</code>, <code>probe_detector.py</code>, <code>probe_series.py</code>, <code>probe_scan.py</code>, <code>probe_scanread.py</code>, <code>probe_rescue.py</code>, <code>probe_tiebreak.py</code>, with records in <code>evals/results/</code>.</p>
+<h3 id="the-central-result">The central result</h3>
+<p>The isolated ask — cut a window to one candidate, ask the ordinary extraction question — produces a score whose meaning had never been separated. Split by what the <em>ordinary</em> read of the same window produced, on 186 gold-bearing NQ dev windows:</p>
+<div class="tablewrap"><table><thead><tr><th>comparison</th><th>AUC</th></tr></thead><tbody><tr><td>correct answer against <strong>abstained</strong></td><td><strong>0.8522</strong></td></tr><tr><td>correct answer against <strong>wrong span</strong></td><td><strong>0.5288</strong></td></tr></tbody></table></div>
+<p><strong>The score knows whether he will speak. It knows nothing about whether what he says is right.</strong> That single dissociation retroactively explains five separate failures in this session and one before it: detection reads 0.79 because detection <em>is</em> engagement; selection reads 0.63 and cannot beat generation; the hedge collapses because it was built on a number that predicts talking; and the seventh vehicle's PMI calibration failed because it was normalising the wrong quantity.</p>
+<p>Everything the score is good for is downstream of that sentence.</p>
+<h3 id="what-ranking-buys-and-it-is-real">What ranking buys, and it is real</h3>
+<p>Item-level score — the maximum isolated score over the candidate list — ranks windows. Cross-document AUC <strong>0.7925</strong>; <strong>within one passage 0.8175</strong>, which was pre-registered to come in <em>lower</em> on the reasoning that windows of one article share topic, entities and register. It came in higher. Holding the question and the article fixed cancels item-level noise that a cross-document comparison carries, so <strong>ranking inside one document is this score's best case</strong>, not its worst.</p>
+<p>Over 100 NQ dev passages, 443 windows, top-1 gold-bearing <strong>80.0%</strong> against 44.7% chance.</p>
+<p>Read into answers (<code>probe_scanread.py</code>, same forward passes for every policy):</p>
+<p>policy      answered   rate    reads/item random            21   21.0%        1.00 first             40   40.0%        1.00 scan              44   44.0%        1.00 readall           42   42.0%        1.59 cascade           47   47.0%        1.55 oracle            49   49.0%        1.00</p>
+<p><strong>Reading in score order beats reading in document order by 5 items at equal cost</strong> (1.55 reads against 1.59) — the pre-registered primary, passed at exactly its bar and therefore suggestive rather than settled. <code>scan</code> against <code>first</code> is +4 and fails its bar, so reading only the top window is not supported.</p>
+<p><strong>And the ceiling retires the premise.</strong> <code>oracle</code> is 49 and <code>first</code> is 40: window choice can buy <strong>9 items of 100</strong>, because on an NQ paragraph the answer is usually near the front. The other 51 are extraction.</p>
+<h3 id="every-read-time-route-to-the-span-is-closed">Every read-time route to the span is closed</h3>
+<p><strong>Selection.</strong> Top-1 over the isolated score covers the gold <strong>44/200</strong> against greedy's own 94/200, on a candidate list whose covering ceiling is 117. Letting him generate is better than twice letting him choose. The enumerator was not the constraint: base-to-widened moves candidate AUC by 0.0096 against a 0.03 falsification while rivals per window go 4.80 → 9.28.</p>
+<p><strong>The hedge.</strong> A three-band take/hedge/quiet policy separates cleanly on <em>detection</em> — 84.0% / 49.0% / 18.0% carry the answer, 152 of 190 splits clearing a pre-registered 15-point bar. Joined to the retained generations it is right <strong>19.5%</strong> end to end, and 19–24% at every split tried. The wording ladder, fixed in the file before the run, calls everything under 40% an abstain wearing a hedge's clothes and refused the sentence five times of five. <strong>And the whole band policy loses to the generator it wraps: best joint 198 against greedy's 215.</strong></p>
+<p><strong>The rescue.</strong> The largest single failure on a window that provably contains the answer is that he declines it — 51 of 186, against 40 <code>wrong_span</code>, 9 <code>invented</code>, 8 near-miss. On those windows isolation endorses the gold <strong>15.0%</strong> and rivals <strong>1.1%</strong>: he refuses the window and refuses every candidate in it standing alone. The control is what makes that readable — the same procedure on windows he answered correctly reads <strong>96.4% gold / 12.7% rival</strong>.</p>
+<p><strong>The tiebreak.</strong> On <code>wrong_span</code> isolation <em>does</em> discriminate — gold 57.1%, rival 19.5%, a 37.6-point gap on the bucket AUC 0.5288 says is invisible — but <code>unique</code> is 0, so it narrows ten candidates to about three and stops. Two tiebreaks over 33 ambiguous windows, both below the null model:</p>
+<p>group           n  firstwin   random     perm   toggle wrong_span     33    33.3%    39.4%    20.7%    24.2% ok            114    57.9%    36.8%    92.2%    60.5%</p>
+<p><strong>The <code>perm</code> dissociation is the finding and it is not what the column was built to show.</strong> Permutation majority recovers the gold 92.2% where the ordinary read is already right and 20.7% where it is wrong. <strong>Reordering the window's sentences does not perturb his answer, it confirms it.</strong> So whatever the sixty-sixth finding's "first value of the right type" describes, it is not a positional bias reordering can cancel — the error is a stable property of the (question, window) pair, and <code>perm</code> underperforms chance precisely by reproducing his own mistake four times.</p>
+<p>That closes a family rather than a probe. Majority-over-perturbations, self-consistency and sample-and-vote all assume the error is variance to be averaged out; here it is signal. The sixty-eighth finding said this from the seed side and this says it from the input side.</p>
+<h3 id="what-he-actually-does-and-the-shape-hypothesis">What he actually does, and the shape hypothesis</h3>
+<p>Handed a window containing the answer he is right <strong>78/186 = 41.9%</strong>. Restricted to windows whose answer is a short typed entity the enumerator can reach, <strong>56/101 = 55.4%</strong>.</p>
+<p>The gap between those two numbers is the one live lead. Against the <code>ok</code> group, the abstained group is enumerable <strong>39% against 72%</strong>, carries <code>answer_type: other</code> at <strong>37% against 19%</strong>, and its golds run <strong>2.14 words against 1.85</strong>. The enumerator hunts capitalised runs and digits; he emits short typed spans. <strong>Both instruments fail on the same property — the answer is a phrase rather than an entity.</strong> 31 of the 51 abstentions and 19 of the 40 <code>wrong_span</code> items sit there: 50 of 108 failures.</p>
+<p>That reframes the abstentions. A model declining because the answer is not the shape it emits is doing something <code>score_extract_abstain</code> credits, and it is a statement about what the corpus taught rather than about what the runtime hands over.</p>
+<h3 id="corrections-to-the-record">Corrections to the record</h3>
+<p><strong><code>STATUS.md</code>'s "an overlapping candidate is enumerable 175/200 but the exact gold only 109/200" does not reproduce.</strong> Against <code>probe_isolation.candidates</code> — the list the isolation pipeline actually runs — it reads <strong>97 exact / 157 overlapping / 101 covering</strong>, and the cap is not the cause: the mean list is 5.07 long and uncapping moves nothing. The pair was read off a different candidate list. <code>probe_verifier.py</code>'s <code>PRIOR</code> carries the same two numbers and its read (d) will disagree with itself when run. This is <code>probe_scorer.py</code>'s own warning arriving: two candidate lists over the same weights give numbers that cannot be pooled.</p>
+<p><strong>The operative containment test is <code>score_extract_span</code>'s</strong>, which asks for the gold's content words rather than string equality — a candidate spanning <code>Jourdan Miller from Bend</code> covers gold <code>Jourdan Miller</code>. Widened, the enumerator reaches <strong>144/200</strong> (held out 141) at 37.5 asks an item, against 101 at 5.1. That ceiling is now moot for selection and still bounds anything that picks.</p>
+<h3 id="limits-and-two-specification-errors-of-my-own">Limits, and two specification errors of my own</h3>
+<p>n=1 on one checkpoint. The populations are NQ dev paragraphs at WIDTH 64 / STRIDE 32 — <strong>4.4 windows a passage</strong>, which is the shortest possible test of a scan and the reason <code>first</code> is a strong baseline. <code>probe_detector</code>'s band table is 50/50 answerable by construction; at the top-100 cut the detector is 42% sensitive with an 8% false-positive rate, so precision falls to 36.8% where one window in ten carries the answer and 21.6% at one in twenty. A real page is the second regime and nothing here measures it.</p>
+<p><code>probe_scan</code>'s read (b) asked top-3 to beat chance by 20 points <strong>without checking that 20 points existed</strong> — chance is 86.4% at 4.4 windows, leaving 13.6 — and an earlier draft printed "the scan does not have an instrument" off that unreachable bar. It is reported VOID and the verdict keys on the primary alone. <code>probe_enumerator</code>'s <code>units</code> variant first read identical to base on every row because <code>_dedup</code> discarded <code>1538 degrees Celsius</code> as overlapping <code>1538</code>, which deleted the extent fix the variant existed to price. Both are the same defect as an under-powered run printing a verdict, and all four probes now guard against it.</p>
+<p>Nothing here licenses a corpus change on its own. What it licenses is a question — whether the failure concentrates on phrase-shaped answers — that is now measured rather than inferred, and that no vehicle so far has been aimed at.</p></div>
+  </section>
+
+  <section class="grid refs">
+    <div class="body two-even">
+      <div>
+        <h2 class="small">It cites</h2>
+        <p class="aside">No other finding by number.</p>
+      </div>
+      <div>
+        <h2 class="small">Cited by</h2>
+        <p class="aside">No later finding yet.</p>
+      </div>
+    </div>
+    <p class="body source">docs/findings/81-the-isolated-score-is-a-willingness-meter-and-every-read-time-route-to-the-span-is-now-closed.md</p>
+  </section>
+</article>
+
+  
+<footer class="turn">
+  <div><span class="sc">previous</span><a href="/Corn-Jr-Public/finding/70.html">70 · The first-value rule holds on a new fixed test set</a></div>
+  <div class="r"><span class="sc">next</span><a href="/Corn-Jr-Public/finding/82.html">82 · Scored fairly, the boundary model trails plain generation</a></div>
+  <p class="keys"><kbd>←</kbd> <kbd>→</kbd> turn the page · <kbd>/</kbd> find</p>
+</footer>
+<p class="bynumber">Previous and next in <a href="/Corn-Jr-Public/thread/reading.html">Reading documents</a>. By number:
+  <a href="/Corn-Jr-Public/finding/80.html">80</a> · <a href="/Corn-Jr-Public/finding/82.html">82</a></p>
+
+</div>
+</body>
+</html>

@@ -1,0 +1,91 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>24 · The rejected dialogue data costs prose quality and nothing else · Corn-Jr</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600&family=IBM+Plex+Mono:wght@400;500&family=Spectral:ital,wght@0,400;0,500;0,600;1,400&family=Spectral+SC:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/Corn-Jr-Public/static/library.css">
+<script defer src="/Corn-Jr-Public/static/library.js"></script>
+<script type="speculationrules">
+{"prerender": [{"where": {"and": [{"href_matches": "/Corn-Jr-Public/*"}, {"not": {"href_matches": "/Corn-Jr-Public/random.html"}}, {"not": {"href_matches": "/Corn-Jr-Public/static/*"}}]}, "eagerness": "moderate"}]}
+</script>
+
+</head>
+<body>
+<div class="page">
+  <header class="running">
+    <a class="book" href="/Corn-Jr-Public/">Corn-Jr · The Record</a>
+    <nav>
+      <a href="/Corn-Jr-Public/" data-key="shelf">Shelf</a><a href="/Corn-Jr-Public/findings.html" data-key="findings" class="here">Findings</a><a href="/Corn-Jr-Public/doc/VISION.html" data-key="VISION">Vision</a><a href="/Corn-Jr-Public/doc/GLOSSARY.html" data-key="GLOSSARY">Glossary</a>
+      <a href="https://github.com/csheehan18/Corn-Jr-Public">Source</a>
+    </nav>
+  </header>
+  
+
+<article class="sheet" style="--c:var(--c1)">
+  <div class="progress" aria-hidden="true"></div>
+  <section class="grid chapter-open finding-open">
+    <a class="tab" href="/Corn-Jr-Public/thread/corpus-mix.html" title="The corpus mix"><small>Part</small><span>I</span></a>
+    <p class="cn">24</p>
+    <p class="partline"><a href="/Corn-Jr-Public/thread/corpus-mix.html">The corpus mix</a> · 17 August 2026</p>
+    <h1>The rejected dialogue data costs prose quality and nothing else</h1>
+  </section>
+
+  <section class="grid">
+    <p class="marginal">The result, as the finding states it</p><div class="prose"><p class="lead">The slice the bar rejected costs prose and nothing else</p></div>
+    <p class="marginal">What it cost</p><div class="prose"><p class="cost">4.5 min of scoring on the 1 card first cited here (<code>nano20m_conv20</code>); it also reads 1 card scored for an earlier finding (<code>nano20m_narrative10</code>). Backfilled 2026-09-26 from the cards' <code>seconds</code>; training and probe time were never recorded, so this is a floor.</p></div>
+  </section>
+
+  
+
+  <section class="grid">
+    <div class="prose doc"><p><code>nano20m_conv20</code> is <code>mix_balanced</code> with SODA at §4's declared <strong>20%</strong>, taken out of narrative (46.80% → 26.80%), everything else held at its exact token count. One variable in the sense that matters — adding a slice must move a second share, and this moves the one §4 wants moved anyway. 781.6 MB of dialogue available against the ~99 MB the share needs, so it is read <strong>once</strong>, with no <code>repeat</code> anywhere. 1,066s at 154k tok/s.</p>
+<p>The arm was set up as a falsifiable test between two rulers, written down before it ran.</p>
+<div class="tablewrap"><table><thead><tr><th>row</th><th><code>balanced</code></th><th><code>conv20</code></th><th>Δ</th><th>floor</th><th></th></tr></thead><tbody><tr><td><strong><code>variety.distinct3</code></strong></td><td>89.34%</td><td>88.61%</td><td><strong>−0.73</strong></td><td><strong>1.85</strong></td><td>noise</td></tr><tr><td><strong><code>lm narrative</code></strong></td><td>0.3679</td><td><strong>0.3949</strong></td><td><strong>+0.0271</strong></td><td>0.0012</td><td><strong>real, 23x</strong></td></tr><tr><td><code>lm web</code></td><td>0.9106</td><td>0.9051</td><td>−0.0055</td><td>0.0038</td><td>real, 1.4x</td></tr><tr><td><code>lm temporal</code></td><td>0.0944</td><td>0.0962</td><td>+0.0018</td><td>0.0009</td><td>real, 2x</td></tr><tr><td><code>schema.conform</code></td><td>172/200</td><td><strong>178</strong></td><td><strong>+6</strong></td><td>2</td><td><strong>real</strong></td></tr><tr><td><code>tool.copy</code></td><td>120/120</td><td><strong>78</strong></td><td><strong>−42</strong></td><td>18</td><td>real</td></tr><tr><td><code>tool.copy_wide</code></td><td>277/300</td><td>269</td><td>−8</td><td>29</td><td>noise</td></tr><tr><td><code>tool.selection</code></td><td>150/200</td><td>155</td><td>+5</td><td>8</td><td>noise</td></tr><tr><td><code>temporal.copy</code></td><td>353/353</td><td>353</td><td>+0</td><td>0</td><td>held</td></tr><tr><td><code>refusal.clarify</code>, <code>refusal.no_guess</code></td><td>47/47</td><td>47</td><td>+0</td><td>0</td><td>held</td></tr></tbody></table></div>
+<p><strong>§5.0's bar predicted <code>variety.distinct3</code> would fall.</strong> A fifth of the corpus is now the most lexically repetitive slice the project has measured — 15,942 distinct words at 64.2% top-100, worse than TinyStories on the second number. The row moved <strong>0.73 points against a floor of 1.85</strong>. The prediction fails, and the twenty-third finding's prediction — that whatever this costs would show up on the nats/byte rows, where it can be read properly — is what happened.</p>
+<h4 id="the-corpus-got-better-on-the-ruler-that-rejected-the-slice">The corpus got better on the ruler that rejected the slice</h4>
+<div class="tablewrap"><table><thead><tr><th></th><th>blend distinct</th><th>top-100</th><th>median turn</th><th>p90</th></tr></thead><tbody><tr><td><code>mix_balanced</code></td><td>31,544</td><td>50.6%</td><td>11</td><td>52</td></tr><tr><td><code>mix_conv20</code></td><td><strong>33,122</strong></td><td><strong>49.0%</strong></td><td>10</td><td>47</td></tr></tbody></table></div>
+<p>Adding the slice <strong>improved the blend on both axes</strong>, +1,578 distinct and −1.6 points. The bar compared SODA against an absolute threshold and never against the slice it would displace: 64.2% top-100 is worse than TinyStories' 63.1%, but 15,942 distinct words is <strong>more than twice</strong> TinyStories' 6,863, and swapping twenty points of one for the other improves the corpus. That is the defect in the screen, stated as plainly as it can be — <em>a threshold cannot see a substitution</em>.</p>
+<p>Some of the gain is the narrative cut rather than the dialogue. Interpolating <code>mix_balanced</code> to <code>mix_narrative10</code>, giving those twenty points to web instead would land near ~39,000, so SODA is better than the incumbent it replaces and worse than web. That is the trade §4 intends, since the 20% is bought for register.</p>
+<h4 id="what-it-actually-cost-and-the-confound">What it actually cost, and the confound</h4>
+<p><code>lm narrative</code> <strong>+0.0271 at 23x its floor</strong> is the whole price, and it is confounded with the narrative cut by construction. The bracket says the confound is not the whole story: <code>nano20m_narrative10</code> cut narrative 46.80% → 10% and moved <code>lm narrative</code> to <strong>0.4667</strong>. Interpolating to this arm's twenty points predicts ~0.4212; the measured value is <strong>0.3949</strong>, better than removal alone. <strong>SODA partly substitutes for what TinyStories was providing</strong> — as a source of simple narrative English it is a worse fit than children's stories and a far better one than nothing. The clean attribution arm, narrative at 26.80% with web absorbing, still does not exist and is the follow-up.</p>
+<p><code>tool.selection</code> is the surprise. Cutting narrative to 10% cost it <strong>34 items</strong> at a floor of 8, and §11 carries that as an open question. Cutting to 26.80% <em>with dialogue in the gap</em> costs <strong>nothing</strong> — +5, inside the floor. Either the cost is not linear in the cut, or transcript-shaped text is what narrative was supplying and dialogue supplies it too. That is a real contribution to a question the sixteenth finding opened and could not answer.</p>
+<p><em>(Withdrawn by the thirtieth finding. <code>tool.selection</code>'s frozen floor is <strong>44</strong>, so the 34 is inside it and so is the +5: this is a contrast between two unreadable numbers, and neither the non-linearity reading nor the dialogue-substitutes reading is supported by it. The question the sixteenth finding opened is still open, and this row cannot close it — see the twenty-eighth finding, where the same row fails the same way on an arm.)</em></p>
+<h4 id="the-two-copy-rows-disagree-and-that-is-the-eighteenth-findin">The two copy rows disagree, and that is the eighteenth finding working</h4>
+<p><code>tool.copy</code> falls <strong>120 → 78, −42 against a floor of 18</strong>, which reads as the largest copy regression in the project. <code>tool.copy_wide</code> on the same checkpoint moves <strong>−8 against a floor of 29</strong>, which is nothing. The frozen row is 120 prompts over <strong>six</strong> answers, so a 42-item move is roughly two facts flipping — and the wide row, 300 prompts over 232 answers, says the behaviour did not change. Every earlier finding would have recorded the −42. This is the first time the disagreement has appeared on a new arm rather than in a re-score, and the widened row is the one to believe.</p>
+<p><code>schema.conform</code> <strong>+6 at a floor of 2</strong> is real and unexplained. The structured slice is byte-identical and at the same token count in both corpora, so something about replacing children's stories with dialogue helps the model build a declared object.</p>
+<p><em>(Withdrawn by the thirtieth finding: the floor is <strong>8</strong>, so +6 is inside it and there is nothing here to explain. The twenty-seventh finding's failure-mode decomposition leans on this +6 and is annotated accordingly.)</em></p>
+<h4 id="what-this-does-not-say">What this does not say</h4>
+<p>It does not say SODA is the right conversational source — it says the reason it was rejected was not a reason. Nothing here measures <strong>register</strong>, which is the only thing the slice is bought for: no eval row asks whether he answers like a person in conversation rather than like a storybook, and <code>variety.distinct3</code> still draws half its prompts from TinyStories openings. So the arm clears SODA of the charge that sank it and leaves the question it was supposed to answer untouched. That gap is now the sharpest one in <code>evals/</code>, and it is the same shape as the three the project has already closed by building a ruler first.</p></div>
+  </section>
+
+  <section class="grid refs">
+    <div class="body two-even">
+      <div>
+        <h2 class="small">It cites</h2>
+        <p class="aside">No other finding by number.</p>
+      </div>
+      <div>
+        <h2 class="small">Cited by</h2>
+        <p class="aside">No later finding yet.</p>
+      </div>
+    </div>
+    <p class="body source">docs/findings/24-the-slice-the-bar-rejected-costs-prose-and-nothing-else.md</p>
+  </section>
+</article>
+
+  
+<footer class="turn">
+  <div><span class="sc">previous</span><a href="/Corn-Jr-Public/finding/23.html">23 · The vocabulary test really measures how much web text is mixed in</a></div>
+  <div class="r"><span class="sc">next</span><a href="/Corn-Jr-Public/finding/25.html">25 · Dialogue data buys conversational vocabulary, not conversational style</a></div>
+  <p class="keys"><kbd>←</kbd> <kbd>→</kbd> turn the page · <kbd>/</kbd> find</p>
+</footer>
+<p class="bynumber">Previous and next in <a href="/Corn-Jr-Public/thread/corpus-mix.html">The corpus mix</a>. By number:
+  <a href="/Corn-Jr-Public/finding/23.html">23</a> · <a href="/Corn-Jr-Public/finding/25.html">25</a></p>
+
+</div>
+</body>
+</html>

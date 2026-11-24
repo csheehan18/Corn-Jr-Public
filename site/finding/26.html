@@ -1,0 +1,90 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>26 · He knows where a turn ends; the long replies were our fault · Corn-Jr</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600&family=IBM+Plex+Mono:wght@400;500&family=Spectral:ital,wght@0,400;0,500;0,600;1,400&family=Spectral+SC:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/Corn-Jr-Public/static/library.css">
+<script defer src="/Corn-Jr-Public/static/library.js"></script>
+<script type="speculationrules">
+{"prerender": [{"where": {"and": [{"href_matches": "/Corn-Jr-Public/*"}, {"not": {"href_matches": "/Corn-Jr-Public/random.html"}}, {"not": {"href_matches": "/Corn-Jr-Public/static/*"}}]}, "eagerness": "moderate"}]}
+</script>
+
+</head>
+<body>
+<div class="page">
+  <header class="running">
+    <a class="book" href="/Corn-Jr-Public/">Corn-Jr · The Record</a>
+    <nav>
+      <a href="/Corn-Jr-Public/" data-key="shelf">Shelf</a><a href="/Corn-Jr-Public/findings.html" data-key="findings" class="here">Findings</a><a href="/Corn-Jr-Public/doc/VISION.html" data-key="VISION">Vision</a><a href="/Corn-Jr-Public/doc/GLOSSARY.html" data-key="GLOSSARY">Glossary</a>
+      <a href="https://github.com/csheehan18/Corn-Jr-Public">Source</a>
+    </nav>
+  </header>
+  
+
+<article class="sheet" style="--c:var(--c3)">
+  <div class="progress" aria-hidden="true"></div>
+  <section class="grid chapter-open finding-open">
+    <a class="tab" href="/Corn-Jr-Public/thread/conversation.html" title="Conversation and the second turn"><small>Part</small><span>III</span></a>
+    <p class="cn">26</p>
+    <p class="partline"><a href="/Corn-Jr-Public/thread/conversation.html">Conversation and the second turn</a> · 17 August 2026</p>
+    <h1>He knows where a turn ends; the long replies were our fault</h1>
+  </section>
+
+  <section class="grid">
+    <p class="marginal">The result, as the finding states it</p><div class="prose"><p class="lead">He knows exactly where a turn ends, and the 35 was ours</p></div>
+    
+  </section>
+
+  
+
+  <section class="grid">
+    <div class="prose doc"><p>The twenty-fifth finding said <code>conv20</code> had the vocabulary of conversation and not its shape, on a median turn of 35 words against a corpus that breaks at 13. Three mechanisms could produce that, and none needed a training run to separate: <strong>representation</strong> (a newline between SODA turns is the same byte as a newline inside a web paragraph, so nothing marks it as a boundary), <strong>drift</strong> (it leaves dialogue register while generating), or <strong>sampling</strong> (<code>T=0.85</code> and <code>top_k=50</code> sharpen away a break that is not the argmax). The representation one was flagged as the worst case, because no share would fix it and the fix would want an eighth marker the frozen <code>bpe8k</code> cannot take.</p>
+<p>All three are wrong, and so was the 35.</p>
+<h4 id="reading-real-dialogue-the-model-is-almost-perfectly-calibrat">Reading real dialogue, the model is almost perfectly calibrated</h4>
+<p><code>scripts/turn_probe.py --calibration</code> reads held-out text and asks, at every position, what probability the model puts on the next token carrying a line break.</p>
+<div class="tablewrap"><table><thead><tr><th>checkpoint</th><th>text</th><th>true rate</th><th>P at boundary</th><th>elsewhere</th><th>ratio</th><th><strong>predicted rate</strong></th><th>sharpened</th></tr></thead><tbody><tr><td><code>conv20</code></td><td>conversational</td><td>0.0479</td><td><strong>0.7847</strong></td><td>0.0111</td><td><strong>70x</strong></td><td><strong>0.0482</strong></td><td>0.0520</td></tr><tr><td><code>conv20</code></td><td>narrative</td><td>0.0287</td><td>0.7620</td><td>0.0073</td><td>105x</td><td>0.0290</td><td>0.0298</td></tr><tr><td><code>conv20</code></td><td>web</td><td>0.0222</td><td>0.4588</td><td>0.0114</td><td>40x</td><td>0.0214</td><td>0.0289</td></tr><tr><td><code>balanced</code></td><td>conversational</td><td>0.0479</td><td>0.5490</td><td>0.0168</td><td>33x</td><td>0.0423</td><td>0.0532</td></tr></tbody></table></div>
+<p><strong><code>conv20</code> puts 78% on a line break exactly where one occurs, and predicts the boundary rate to within 0.6%</strong> — 0.0482 against a true 0.0479. So a shared newline token does not prevent learning a turn boundary: context disambiguates it, and the separation between boundary and non-boundary positions is 70x. The representation hypothesis is dead, and with it the worry that this would need a marker the tokenizer cannot afford.</p>
+<p>The slice is what bought the precision. <code>balanced</code> reads 0.55 at boundaries and under-predicts the rate by 12% (0.0423 against 0.0479); <code>conv20</code> reads 0.78 and is calibrated. That is the conversational slice teaching turn structure, measured directly rather than inferred from output.</p>
+<p><strong>Sampling was the opposite of the worry too.</strong> The same distributions under the row's own <code>T=0.85</code> and <code>top_k=50</code> give a <em>higher</em> newline probability, not a lower one — 0.0520 against 0.0482. Sharpening promotes the break rather than suppressing it, because at a true boundary the break is already near the top of the distribution.</p>
+<h4 id="generating-it-breaks-about-when-it-should">Generating, it breaks about when it should</h4>
+<p><code>--drift</code> generates from real dialogue prompts and records the same probability step by step. <code>conv20</code> holds P(break) at 0.044–0.069 after the opening — an implied gap of 14.5 to 23 tokens against real dialogue's 20.9 — and its <strong>first break lands at a median of 15 tokens</strong>, with 0 of 60 prompts failing to break within 90. There is no drift to find.</p>
+<h4 id="so-where-did-35-come-from">So where did 35 come from</h4>
+<p>From the eval row, pooled across both prompt sources. Story prompts produce unbroken prose that reaches the 40-word cap; dialogue prompts produce short turns. A median over 100 of each lands at the seam and describes neither.</p>
+<div class="tablewrap"><table><thead><tr><th>checkpoint</th><th>median turn, dialogue</th><th>median turn, story</th></tr></thead><tbody><tr><td><code>conv20</code></td><td><strong>14</strong></td><td>40 <em>(cap)</em></td></tr><tr><td><code>narrative10</code></td><td>14</td><td>40</td></tr><tr><td><code>web_bpe</code></td><td>16</td><td>40</td></tr><tr><td><code>balanced</code></td><td>17</td><td>40</td></tr><tr><td>conversational anchor</td><td><strong>13</strong></td><td>—</td></tr></tbody></table></div>
+<p><strong><code>conv20</code> breaks at 14 words against a corpus that breaks at 13.</strong> Every checkpoint is already close. There was never a shape gap, the twenty-fifth finding's conclusion is withdrawn, and <code>evaluate_register</code> now reports turn length per source with the pooled figure marked as meaningless in the scorecard rather than printed as a result.</p>
+<h4 id="what-this-is-really-a-finding-about">What this is really a finding about</h4>
+<p>Three mechanisms were proposed, ranked by how expensive they would be to fix, and the ranking was the reason to check the cheap one first. All three were wrong because <strong>the number they were proposed to explain was an artefact of the measurement</strong>, and the only reason that surfaced is that an independent probe disagreed with the row and both could be checked against each other.</p>
+<p>The uncomfortable part is that this row reports its <em>score</em> by source precisely because pooling two prompt types hides the answer — and then pooled them in its own diagnostic, one field away. The eighteenth finding is the same shape: <code>tool_copy_answers: 6</code> sat in the manifest for eight days while every movement read off that row was a whole number of facts. A number that is not broken down is not yet a measurement, and this project has now paid for that twice.</p></div>
+  </section>
+
+  <section class="grid refs">
+    <div class="body two-even">
+      <div>
+        <h2 class="small">It cites</h2>
+        <p class="aside">No other finding by number.</p>
+      </div>
+      <div>
+        <h2 class="small">Cited by</h2>
+        <p class="aside">No later finding yet.</p>
+      </div>
+    </div>
+    <p class="body source">docs/findings/26-he-knows-exactly-where-a-turn-ends-and-the-35-was-ours.md</p>
+  </section>
+</article>
+
+  
+<footer class="turn">
+  <div></div>
+  <div class="r"><span class="sc">next</span><a href="/Corn-Jr-Public/finding/36.html">36 · Reply length inflates the measured style gain, but the gain survives</a></div>
+  <p class="keys"><kbd>←</kbd> <kbd>→</kbd> turn the page · <kbd>/</kbd> find</p>
+</footer>
+<p class="bynumber">Previous and next in <a href="/Corn-Jr-Public/thread/conversation.html">Conversation and the second turn</a>. By number:
+  <a href="/Corn-Jr-Public/finding/25.html">25</a> · <a href="/Corn-Jr-Public/finding/27.html">27</a></p>
+
+</div>
+</body>
+</html>

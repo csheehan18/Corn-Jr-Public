@@ -1,0 +1,92 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>34 · He picks tools he never saw in training, but can&#39;t say no · Corn-Jr</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600&family=IBM+Plex+Mono:wght@400;500&family=Spectral:ital,wght@0,400;0,500;0,600;1,400&family=Spectral+SC:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/Corn-Jr-Public/static/library.css">
+<script defer src="/Corn-Jr-Public/static/library.js"></script>
+<script type="speculationrules">
+{"prerender": [{"where": {"and": [{"href_matches": "/Corn-Jr-Public/*"}, {"not": {"href_matches": "/Corn-Jr-Public/random.html"}}, {"not": {"href_matches": "/Corn-Jr-Public/static/*"}}]}, "eagerness": "moderate"}]}
+</script>
+
+</head>
+<body>
+<div class="page">
+  <header class="running">
+    <a class="book" href="/Corn-Jr-Public/">Corn-Jr · The Record</a>
+    <nav>
+      <a href="/Corn-Jr-Public/" data-key="shelf">Shelf</a><a href="/Corn-Jr-Public/findings.html" data-key="findings" class="here">Findings</a><a href="/Corn-Jr-Public/doc/VISION.html" data-key="VISION">Vision</a><a href="/Corn-Jr-Public/doc/GLOSSARY.html" data-key="GLOSSARY">Glossary</a>
+      <a href="https://github.com/csheehan18/Corn-Jr-Public">Source</a>
+    </nav>
+  </header>
+  
+
+<article class="sheet" style="--c:var(--c1)">
+  <div class="progress" aria-hidden="true"></div>
+  <section class="grid chapter-open finding-open">
+    <a class="tab" href="/Corn-Jr-Public/thread/routing.html" title="Routing and declining"><small>Part</small><span>I</span></a>
+    <p class="cn">34</p>
+    <p class="partline"><a href="/Corn-Jr-Public/thread/routing.html">Routing and declining</a> · 17 August 2026</p>
+    <h1>He picks tools he never saw in training, but can&#39;t say no</h1>
+  </section>
+
+  <section class="grid">
+    <p class="marginal">The result, as the finding states it</p><div class="prose"><p class="lead">He routes to tools he was never trained on, and cannot decline</p></div>
+    <p class="marginal">What it cost</p><div class="prose"><p class="cost">0 s of new scoring on record; it reads 1 card scored for an earlier finding (<code>nano20m_v1</code>). Backfilled 2026-09-26 from the cards' <code>seconds</code>; training and probe time were never recorded, so this is a floor.</p></div>
+  </section>
+
+  
+
+  <section class="grid">
+    <div class="prose doc"><p>The thirty-third finding showed the <em>answer</em> half of a tool call surviving a tool the model has never seen: an unseen name in <code>&lt;|call|&gt;</code> costs 3 of 300. The <em>choice</em> half was untestable, because the runtime prompt is <code>&lt;|user|&gt;{text}</code> and nothing else — no declaration reaches the model, so it cannot fail to route to a tool it was never told about. <code>corn/toolspace.py</code> puts one there: a plain-text <code>tools:</code> line above <code>&lt;|user|&gt;</code>, no new marker, because <code>bpe8k.json</code> ships seven specials and an eighth would make every checkpoint in the project incomparable.</p>
+<p>Three arms, 29.6M, two seeds each, <code>scripts/score_toolspace.py</code>. The floor is measured rather than assumed: <code>nano20m_v1</code> has never seen a declaration and reads <strong>0/161</strong> at every level.</p>
+<div class="tablewrap"><table><thead><tr><th>row</th><th>narrow ×2</th><th><strong>wide ×2</strong></th><th>wide2 ×2</th></tr></thead><tbody><tr><td><code>train</code> — the positive control</td><td>230, 237 /332</td><td>207, 213 /329</td><td>167, 152 /262</td></tr><tr><td><strong><code>modifier</code> — held-out name</strong></td><td><strong>0, 0</strong> /326</td><td><strong>206, 203</strong> /329</td><td>161, 162 /262</td></tr><tr><td><code>domain</code> — held-out everything</td><td>0, 0 /329</td><td>1, 8 /325</td><td>0, 11 /255</td></tr><tr><td><code>absent</code> — nothing declared fits</td><td>0, 0</td><td>0, 0</td><td>1, 5 /276</td></tr></tbody></table></div>
+<p><strong><code>modifier</code> is the question and the wide arm answers it: 206 and 203, against its own in-distribution control at 207 and 213.</strong> Held-out equals trained, within two items on one seed and ten on the other. Corn-Jr calls a tool declared only at inference at the same rate as one he was trained on, and the name being novel costs nothing.</p>
+<h4 id="the-narrow-arm-read-zero-and-it-is-the-control-rather-than-a">The narrow arm read zero, and it is the control rather than a failure</h4>
+<p><code>mix_v1_toolspace</code> reads <strong>0/326 and 0/329</strong> on both held-out levels. Across 1,310 held-out items the emitted name appeared in the declaration <strong>zero times</strong>, the verb was right 78% and the noun 84%, and a <em>trained</em> modifier was substituted every time: <code>find_meadow_harvest_route</code> came back as <code>find_morning_route</code>. That is not a model limit, it is the corpus. The narrow slice gives 38,395 names at 17.3 uses each — which the design targeted — and builds them from <strong>24 verbs, 16 nouns and 22 modifiers at 27,000–48,000 uses each</strong>, which it did not.</p>
+<p><strong>Name diversity is not token diversity.</strong> The model learned sixty-two words and composed from them, and never had to copy an unfamiliar string because no name it ever saw contained one. The wide arm replaces the modifier with an invented word from <code>_invent_facts</code>'s prefix-free pool, <strong>partitioned</strong> 18,000 trained / 4,500 held out so the two share a shape distribution and differ only in which strings they hold — 162,027 names at <strong>1.0 uses each</strong>, modifiers at 58.7 against 48,088. Nothing else moves: same domains, verbs, values, frames, payload shape, share, and <code>total_tokens</code> at <code>mix_v1</code>'s 130,279,711 in all three arms.</p>
+<p>So this is the <code>sayvar</code> result a second time. A row at exactly zero across seeds and checkpoints, looking like a capability limit, moved by changing one file. It is now the third instance of one mechanism — <code>refusal.clarify</code> at 2,096 uses per sentence, this slice's parameter value at 2,130, and its name tokens at 48,088 — and the generalisation is that <strong>the thing the model must reproduce needs cardinality, and counting the compositions hides that the parts have none.</strong></p>
+<h4 id="what-it-reads-is-the-name-not-the-description">What it reads is the name, not the description</h4>
+<p><code>domain</code> stays at 1, 8, 0 and 11. That level moves the noun, the parameter, the value pool and the utterance frames at once, so its failure has four candidate causes and <strong>this arm separates none of them</strong> — it is not clean evidence that he cannot read a description. What can be said is narrower and is what the <code>modifier</code> result already says: he identifies <em>which</em> declared tool to use through vocabulary the corpus already contains, and copies its name faithfully once identified. At <code>modifier</code> level a quarter of the losses pick the wrong <em>declared</em> tool rather than mistyping the right one, and median similarity between emission and target is 0.56, so the residue is selection rather than transcription.</p>
+<h4 id="he-cannot-decline-and-three-corpus-fixes-did-not-touch-it">He cannot decline, and three corpus fixes did not touch it</h4>
+<p><code>absent</code> — items where the asked-for tool is deliberately not declared — reads <strong>0 in all twelve cells</strong> of the first two arms. Diagnosis found three genuine faults in how the slice asked: the refusal was <strong>one sentence at ~36,000 uses</strong>, <code>absent</code> declared <strong>2.51 tools against <code>route</code>'s 3.49</strong> so the classes were separable by counting, and 18% is a share at which always-calling is right 82% of the time. All three were fixed — 128 composed refusals at 163 uses each, 3.51 declared on both sides with matching per-count distributions, 34.7% absent.</p>
+<p><strong>It moved <code>absent</code> from 0/142 to 1/276 and 5/276</strong>, and left routing unharmed at 61–64%. That is not a repair, and the reason is a mechanism none of the three fixes addressed: on <code>absent</code> items he does not pick the nearest declared tool, he <strong>invents a name that is in no declaration at all</strong> — 216 of 276 and 190 of 276, against 59 and 81 that picked a declared one. There is no membership test to strengthen. The behaviour is generate-a-name-for-the-request, biased toward the declaration when it happens to contain a match, and raising the price of a wrong call cannot reach a decision the model never makes.</p>
+<h4 id="what-this-means-for-the-tool-layer-and-one-thing-it-does-not">What this means for the tool layer, and one thing it does not</h4>
+<p>VISION §6 says tools are cheap to add and means it about <code>REGISTRY</code>. Measured against the model, it comes apart into three pieces, of which two now have numbers:</p>
+<ul><li><strong>Read-back on a new tool is free</strong> — the thirty-third finding, +0 across six checkpoints.</li><li><strong>Routing to a new tool works</strong> at the same rate as a trained one, provided the request maps to it through familiar vocabulary and the corpus taught name-copying rather than name-recall.</li><li><strong>Declining does not work at all</strong>, and is the gap a runtime has to close elsewhere. <code>corn/grammar.py</code> already constrains the emitted name to <code>REGISTRY</code>; constraining it to the <em>declared</em> set turns 78% of these failures into either a declared tool or no call. That is §6's schema-constrained decoding doing what it was specified for, needs no training run, and still does not produce a refusal — it prevents a call to a tool that does not exist.</li></ul>
+<h4 id="what-this-does-not-settle">What this does not settle</h4>
+<ul><li><strong>Two seeds per arm</strong>, and <code>absent</code> is a row whose floor is zero by construction — it cannot fall further, so the effect's <em>existence</em> needs no seed argument and its <em>size</em> has no interval.</li><li><strong>Utterance variety is 274 across the whole slice</strong>, and is not an axis any arm varies. Nothing here speaks to routing under paraphrase, which is the twenty-eighth finding's question.</li><li><strong>The value row proves nothing and was built not to.</strong> 77 strings at ~2,130 uses each, declared below floor in <code>scripts/check_copyable.py</code>; it reads perfect whenever the name is right, in every cell of every arm, which is what a recitable slot does.</li><li><strong>Arms one and two are pinned to git, not to the file.</strong> The refusal fixes changed what <code>generate</code> emits for every vocabulary, so their corpora regenerate only at <code>ec2b954</code> and its parent. <code>vocab</code> stayed switchable because it is an axis under study; the refusal design was not an axis, it was a bug.</li></ul></div>
+  </section>
+
+  <section class="grid refs">
+    <div class="body two-even">
+      <div>
+        <h2 class="small">It cites</h2>
+        <p class="aside">No other finding by number.</p>
+      </div>
+      <div>
+        <h2 class="small">Cited by</h2>
+        <ul class="reflist"><li style="--c:var(--c3)"><a href="/Corn-Jr-Public/finding/120.html"><span class="fn">120</span>Consolation replies barely move and cost tool routing</a></li><li style="--c:var(--c4)"><a href="/Corn-Jr-Public/finding/129.html"><span class="fn">129</span>He learns to label his own request; forcing labels doesn&#39;t change calls</a></li><li style="--c:var(--c4)"><a href="/Corn-Jr-Public/finding/131.html"><span class="fn">131</span>Once the runtime enforces the label, a forged one is obeyed 36/36</a></li><li style="--c:var(--c5)"><a href="/Corn-Jr-Public/finding/186.html"><span class="fn">186</span>He knows roughly what descriptions mean but ignores a described menu</a></li><li style="--c:var(--c3)"><a href="/Corn-Jr-Public/finding/88.html"><span class="fn">88</span>Social replies install by fine-tune; the fix moves failures elsewhere</a></li></ul>
+        
+      </div>
+    </div>
+    <p class="body source">docs/findings/34-he-routes-to-tools-he-was-never-trained-on-and-cannot-decline.md</p>
+  </section>
+</article>
+
+  
+<footer class="turn">
+  <div><span class="sc">previous</span><a href="/Corn-Jr-Public/finding/32.html">32 · A bigger phrasing test; its no-transfer reading was later withdrawn</a></div>
+  <div class="r"><span class="sc">next</span><a href="/Corn-Jr-Public/finding/35.html">35 · One percent of non-tool turns teaches him when not to call</a></div>
+  <p class="keys"><kbd>←</kbd> <kbd>→</kbd> turn the page · <kbd>/</kbd> find</p>
+</footer>
+<p class="bynumber">Previous and next in <a href="/Corn-Jr-Public/thread/routing.html">Routing and declining</a>. By number:
+  <a href="/Corn-Jr-Public/finding/33.html">33</a> · <a href="/Corn-Jr-Public/finding/35.html">35</a></p>
+
+</div>
+</body>
+</html>

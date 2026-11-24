@@ -1,0 +1,109 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>147 · When the runtime holds the structure, invented words vanish; grouping stays his · Corn-Jr</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600&family=IBM+Plex+Mono:wght@400;500&family=Spectral:ital,wght@0,400;0,500;0,600;1,400&family=Spectral+SC:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/Corn-Jr-Public/static/library.css">
+<script defer src="/Corn-Jr-Public/static/library.js"></script>
+<script type="speculationrules">
+{"prerender": [{"where": {"and": [{"href_matches": "/Corn-Jr-Public/*"}, {"not": {"href_matches": "/Corn-Jr-Public/random.html"}}, {"not": {"href_matches": "/Corn-Jr-Public/static/*"}}]}, "eagerness": "moderate"}]}
+</script>
+
+</head>
+<body>
+<div class="page">
+  <header class="running">
+    <a class="book" href="/Corn-Jr-Public/">Corn-Jr · The Record</a>
+    <nav>
+      <a href="/Corn-Jr-Public/" data-key="shelf">Shelf</a><a href="/Corn-Jr-Public/findings.html" data-key="findings" class="here">Findings</a><a href="/Corn-Jr-Public/doc/VISION.html" data-key="VISION">Vision</a><a href="/Corn-Jr-Public/doc/GLOSSARY.html" data-key="GLOSSARY">Glossary</a>
+      <a href="https://github.com/csheehan18/Corn-Jr-Public">Source</a>
+    </nav>
+  </header>
+  
+
+<article class="sheet" style="--c:var(--c4)">
+  <div class="progress" aria-hidden="true"></div>
+  <section class="grid chapter-open finding-open">
+    <a class="tab" href="/Corn-Jr-Public/thread/tag-spine.html" title="The tag spine"><small>Part</small><span>IV</span></a>
+    <p class="cn">147</p>
+    <p class="partline"><a href="/Corn-Jr-Public/thread/tag-spine.html">The tag spine</a> · 2 October 2026</p>
+    <h1>When the runtime holds the structure, invented words vanish; grouping stays his</h1>
+  </section>
+
+  <section class="grid">
+    <p class="marginal">The result, as the finding states it</p><div class="prose"><p class="lead">The nested bind owns the form and the copy pointer, not the count: invented spans, repeats, splices and swapped number words go to zero, legal lines go from 516 to 2,917 of 3,456, and a marked chain passes the three-level depth wall for the first time, while where a group closes, whether a nested group opens at all and which request words he drops stay his — he skips words where he used to invent them, and the <code>struct</code> column's rise on nested rows is half a broken line becoming readable</p></div>
+    <p class="marginal">What it cost</p><div class="prose"><p class="cost">about 100 min of GPU, no training — 20 min for arm F seed 1's six cards (2026-10-01, 22:13-22:33) and 80 min for the other 26 (2026-10-02, 08:55-10:15), a bound ladder or nestgen card 4-6 min except on G2 seed 2, where the stranding hole below took them to 13.5 and 10.3 min; the read, its tables and the grammar repair on CPU, under 5 min.</p></div>
+  </section>
+
+  
+
+  <section class="grid">
+    <div class="prose doc"><p>PLAN-TAG-LANGUAGE §6 rung 0 and SPEC-LANGUAGE §9, read 2026-10-02. The decode-time bind for the nested parse line (<code>ParseConstraint(line=&quot;nested&quot;)</code>, <code>corn/grammar.py</code>, with the four rules rung 0's first decodes added at <code>59cc8f8</code>) against free greedy decoding on the four checkpoints on disk: arm F (<code>nano20m_v3_fw_armf</code>, seeds 1337 and 2337) and arm G2 (<code>nano20m_v3_fw_ladder_add</code>, both seeds). No weight trained. The bound decoder is <code>probe_nestgen.bound_line</code>: greedy wherever a token is legal, and it takes a token back when stranded. Instruments: <code>probe_ladder.py</code> (576 lines a checkpoint), <code>probe_nestgen.py</code> (288), and the two hand probes, <code>probe_hand_arity15.py</code> and <code>probe_hand_depth.py --marked</code>, run by <code>scripts/run_rung0.py</code>; read by <code>scripts/read_rung0.py</code>, which decodes nothing. <strong>Cards:</strong> <code>evals/results/&lt;ckpt&gt;__r0_*</code> and <code>evals/results/rung0.json</code> — arm F seed 1's committed at <code>444dd67</code>, the rest land with this finding. <code>read_rung0.py</code>'s second table, added for this read, and the hand counts are a hand-built reader over those cards, checked against the probe's own <code>struct</code> to the line but not pinned by a guard, so <strong>every number below is a bound</strong> (rule 28).</p>
+<p><strong>The pre-registered expectation</strong> (PLAN-TAG-LANGUAGE §6, before any bound line was decoded): repeats, splices, invented spans and unbalanced lines vanish; the depth ceiling and the flattening do not. Three of those four held. The depth ceiling did not.</p>
+<h3 id="what-the-bind-owns-form">What the bind owns — form</h3>
+<p>Pooled over both probes, all four checkpoints (3,456 lines an arm):</p>
+<p>species                       free      bound legal                          516      2,917 invented span                1,255          0 out of order (repeat/splice)    81          0 unbalanced                   1,604        334 case (a capital lowercased)      0        205</p>
+<p>Per row, free legal is 1-29 of 96 and bound 49-94 of 96 (<code>read_rung0.py</code>'s first table). Invented and out-of-order are zero on every row of every checkpoint, as the grammar guarantees. <strong>A line he already had right comes back byte-identical</strong>: 504 of the 516 free-legal lines; the other twelve are lines the stream is stricter about than <code>nested_accepts</code> (a word between two top-level parts, a leading space). On the ladder the number word follows the same rule — "a run of three" written for "a run of four" goes from 118 lines to 0, and the request's number words survive whole on 902 lines against 608.</p>
+<h3 id="the-struct-question-settled-by-reading">The <code>struct</code> question, settled by reading</h3>
+<p>The ladder's <code>struct</code> rises on every nested row (arm F <code>nest4</code> 0 -&gt; 21, <code>nest3</code> 6 -&gt; 22) and is flat or down on outer rows. Three things are mixed in that column, and reading the lines separates them.</p>
+<p><strong>It cannot read a line that runs out.</strong> <code>probe_ladder.py</code> scores structure through <code>parse_nested</code>, which raises on an open bracket, so a free line that never closed scores <code>struct</code> false whatever it wrote — 225 of the 1,152 free nested-row lines cannot be read at all, of 570 unbalanced one way or the other. Closing each free line's brackets at its end and scoring again is what the bind would get for making lines readable and nothing else.</p>
+<p><strong>It passes a k-member group of the wrong lookups.</strong> So <code>read_rung0.py</code>'s second table adds <code>group</code>: a group at the row's position whose members are the gold group's lookups. Pooled over the four checkpoints, 1,152 lines a cell:</p>
+<p>position   column   free   free, closed   bound nested     struct     72        161         240 nested     group      32         83         135 outer      struct    392        415         359 outer      group     285        298         271</p>
+<p>On nested rows <strong>half the <code>struct</code> rise is a broken line becoming readable</strong> (72 -&gt; 161 of the 72 -&gt; 240), and <strong>only 130 of the 240 bound <code>struct</code> hits are the right group</strong> — the rest are a group of k members in the wrong place, often inside the label stacks below. On the right-group column the bind's own contribution is about 50 lines of 1,152 (83 -&gt; 135): <strong>real, and small.</strong></p>
+<p><strong>What the real part is, read on 16 pairs where the bound line has the gold group and the free line does not</strong> (four a checkpoint): one mechanism. Inside a top-level part the bind admits no jump — the part's words must be one contiguous stretch of the request — so the inner carrier the free line skipped or rewrote has to be copied: "four in one go" (free: dropped, or "two go"), "the four together" ("the three"), "a triple", "all four", "i only need in one go", "both". With the carrier written he opens the group at it, and the members follow. A refused repeat does the rest: arm F <code>flad-027-nest4</code> wrote "the same for the chief export of Orlunstad" twice for five members, and bound wrote it once for four. The group is right; the line around it usually is not (whole-line exact match is 0-3 of 288 nested lines in either arm), because of what the bind leaves to him.</p>
+<h3 id="what-is-left-to-the-weights-structure-and-vocabulary-apart">What is left to the weights — structure and vocabulary apart</h3>
+<p>left to him                      column       free -&gt; bound (ladder, 2,304 lines) where a group closes             structure    arity hand probe: no width past ten whether a nested group opens     structure    nested items with none: 819 -&gt; 561 of 1,152 empty wrappers                   structure    one-member groups: 188 -&gt; 2,891 which request words to drop      coverage     legal lines dropping 5+ words: 35 -&gt; 499 which label                      vocabulary   an invented <code>do</code>: 359 -&gt; 413</p>
+<p><strong>He skips where he used to invent.</strong> Legality never required coverage: a top-level part may start anywhere after the previous one ends. When the bind refuses the word he wanted, the best legal move is often a later word — arm F seed 2 <code>flad-039-outer4</code>, "i ought to know four things: the chief export of Fenennddia, the currency of Halirvik, ..." comes back <code>social[i ought to know] ask[halirvik, ask[the currency of Ithithnia] ...</code>, a carrier and two members gone. The gold never leaves five request words uncovered; 499 of the 2,026 bound legal ladder lines do, against 35 of 413 free. <strong>Nearly all of the <code>case</code> species is this skip landing on a name</strong>: 200 of its 205 lines open a part on a capitalised request word written lowercase, which the one-way fold (D-A1.14) admits, and 159 drop five words or more. On outer rows this is why the bind costs a little: where the free line invented the outer carrier ("have a spare minute", "it's one", "daft") and still counted four, the bound line skipped past it.</p>
+<p><strong>A refused word leaves empty labels behind.</strong> A label is legal at any word edge up to three in a row (MAX_OPEN_RUN, the corpus's own maximum), so when the next word is refused the open is the best legal token: <code>find[find[note[four in one go, ...</code>, <code>social[chat[social[and]]]</code>. Lines with three labels open in a row go from 2-9 to 118-172 of 288 on nested ladder rows; one-member groups from 92 to 2,616 there. They are legal and wrong.</p>
+<p><strong>He still flattens</strong> (finding <a class="fref" href="/Corn-Jr-Public/finding/143.html">143</a>): with every free line closed so it can be read, 819 of 1,152 nested ladder items have no nested group of two or more; bound, 561. A third fewer, and still most.</p>
+<p><strong>The count is his.</strong> The arity hand probe (four phrasings and a control at arities 2-15, 160 cells an arm across the checkpoints): every member copied once in 53 cells free and 114 bound, the right width with every member once (<code>clean</code>) in 36 and 75, unbalanced 77 of 200 rows and 0. But no cell at twelve is clean in either arm, and where the bind made the copy perfect the close is still his: arm F seed 2 at fifteen writes all fifteen members once, in all four phrasings, and closes the group before the last ("... and the river through Corithburg" as a sibling) — width 14; G2 seed 1 at six closes after four.</p>
+<h3 id="the-depth-wall-falls-on-a-marked-chain">The depth wall falls on a marked chain</h3>
+<p><strong>This is the half of the expectation that failed.</strong> <code>probe_hand_depth.py --marked</code> puts a carrier at every level ("the two, A and the pair, B and ..."); its column is carrier levels reproduced in order, <code>ask[&lt;carrier&gt;, ask[&lt;member&gt;]</code>. On the 72 items with four or more carriers (18 a checkpoint, three a depth at 6-15), free decoding never runs past three — the wall this probe found on 2026-09-25 — and bound:</p>
+<p>items with 4+ carriers           free    bound run of 4+ from the top            0/72   20/72 4+ found in order                 0/72   45/72 the whole chain                   0/72   11/72 longest run                       3      13 of 13 (G2 seed 1, depth 15)</p>
+<p>Read by hand on G2 seed 1's first depth-15 item: free rewrites the first carrier ("upper,"), fuses the next two, then jumps to the twelfth and loops on it — "the two things, the river through Elmeholm" three times; bound opens all thirteen in order, each over its member. That is finding <a class="fref" href="/Corn-Jr-Public/finding/145.html">145</a>'s diagnosis from the other side: the wall was the copy pointer jumping and looping at a carrier, not the depth, and the bind forbids both inside a part. <strong>What it does not buy is the tree</strong>: the exact shape is right on no item free and on at most 2 of 3 a depth bound (at depth 4-5 only), because the bound lines carry the empty wrappers (deepest bracket 30 where the gold has 15) and the outer core still splits off (the level-1 boundary, finding <a class="fref" href="/Corn-Jr-Public/finding/138.html">138</a>). Three items a depth, one greedy draw: a hand probe, not a measurement.</p>
+<h3 id="the-residue-the-bind-leaves-unbalanced-and-one-more-hole">The residue the bind leaves unbalanced, and one more hole</h3>
+<p><strong>Of the 334 bound lines that never close, 186 are one hole in the grammar and 148 are the token limit.</strong></p>
+<p><em>The hole</em> (pops of 100 or more, 170 of the 186 on G2 seed 2). At the request's last word that seed ranks a fresh label above the closing bracket, and the grammar let a child open there with no word left to fill it: <code>the three of them]]]]social[follow[fi</code>. Every continuation strands; the decoder takes tokens back one at a time and walks the label stacks behind it — eight labels, three deep — until its budget of four steps a token runs out, 345-424 pops a line. Replayed byte by byte under the grammar the cards were decoded with, all 186 are legal to their last byte with the top part's words already at the request's end. This is why G2 seed 2 reads worst (bound legal 459 and 182 against 512-542 and 231-243) and why its bound cards took twice as long; its depth-12 marked chain ends the same way, the whole chain written first (10 of 10, then <code>]]]]]]ask[follow[follow[</code>), and every one of its marked items from depth 8 reads unbalanced. The top-level space already had this refusal and a child did not. <strong>Closed after the read</strong>: <code>_room_ahead</code> in <code>corn/grammar.py</code> refuses a child's label where the request has no byte left after the words so far; <code>check_grammar.py</code> group 12 holds it with three prefix cases, and it refuses nothing legal — every generated tree in the group, every user-turn tree of <code>funcworld_armf.txt</code> (20,370), <code>funcworld_ladder.txt</code> (19,245) and <code>funcworld_four.txt</code> (1,948), all 576 ladder golds, and all 3,122 bound lines of this read that closed still stream, while all 186 stranded tails are now refused at the open (and 9 of the 148 below). <strong>The cards predate it</strong>; G2 seed 2's bound cards were re-run under it the same day — see the amendment at the end.</p>
+<p><em>The token limit</em> (220, the probes' default; every gold fits, the longest at 219 tokens). These 148 lines wrap words one at a time — <code>social[chat[chat[over]]] social[chat[chat[and]]] social[chat[chat[above]]]</code> — three labels a word, so a request whose gold takes a median 121 tokens on <code>w_d5</code> runs out before its end. Mostly <code>w_d5</code> and the long nested rows.</p>
+<p><strong>And the bind cannot write a fifth of <code>w_d5</code>'s golds</strong>: 19 of its 96 open four labels in a row, which MAX_OPEN_RUN refuses (the same 19 with or without the repair; none at a cap of nine). The held-out depth-5 row is capped by the bind's own rule.</p>
+<h3 id="what-it-licenses">What it licenses</h3>
+<p><strong>The split the rung was for, measured.</strong> The runtime can own the form — every invented span, repeat, splice and swapped number word — and, by owning form, the copy pointer inside a part, which is what carried the marked chain past the depth wall and repaired about one nested group in twenty. The weights keep where a group closes, whether a nested group opens, which label, and coverage; under the bind the last one changes species, from an invented span to a skip, and the skip is legal. <strong>A bind armed in H3 needs three things this read names</strong>: the backtracking decoder (SPEC-LANGUAGE §9 says so already), the <code>_room_ahead</code> refusal, and something for coverage — a top-level part that starts at the request's next word or after a connective (the gold never skips five) — which is not built and would need its own refuses-nothing-legal proof against the generators' connectives. The empty wrappers are a decoder question, not a grammar one: the stacks are legal and trained, and greedy reaches them only because the word he wanted was refused.</p>
+<p><strong>What it does not say.</strong> That the bind makes him better at nesting: the right-group gain is about 50 of 1,152 and mostly a carrier he was made to copy. That depth is solved: one hand probe on a chain marked at every level, three items a depth, one greedy draw each. Or anything about the copy-pointer hypothesis beyond this: holding the pointer inside a part fixed the copy at arity, the chain at depth and some nested groups together, and did not fix the close. Nano, the synthetic world, one greedy decode a line.</p>
+<h3 id="amended-2026-10-02-g2-seed-2-re-run-under-room-ahead">Amended 2026-10-02 — G2 seed 2 re-run under <code>_room_ahead</code></h3>
+<p>The re-run took ~25 min of GPU: the four bound ladder and nestgen cards of <code>nano20m_v3_fw_ladder_add_seed2</code> re-decoded under the repaired grammar (the pre-repair cards are replaced in <code>evals/results/</code>; <code>rung0.json</code> re-read).</p>
+<p>The stranding hole was G2 seed 2's whole deficit. Under the repair its bound ladder reads 534 legal of 576 (from 459) with 13 unbalanced (from 107), its nestgen 244 of 288 (from 182) with 21 (from 98) — inside the other three checkpoints' band (512-542 and 231-243). Its <code>struct</code> on the nested rows moves with legality, 42 -&gt; 72 on the ladder and 44 -&gt; 84 on nestgen, the same half-readability the struct section above names; nothing here re-opens that verdict. Pooled over all four checkpoints, bound legal is <strong>3,054 of 3,456</strong> (the headline's 2,917 was before the repair), bound unbalanced 163 (from 334), the case species 239 (from 205 — more lines close, and a closed line can carry a lowercased capital). The other rows of the headline and every free column are unchanged. Probe only for the second table's columns, as before: a hand-built reader, every number a bound.</p></div>
+  </section>
+
+  <section class="grid refs">
+    <div class="body two-even">
+      <div>
+        <h2 class="small">It cites</h2>
+        <ul class="reflist"><li style="--c:var(--c4)"><a href="/Corn-Jr-Public/finding/138.html"><span class="fn">138</span>He knows where the next request part starts, 80 to 93 percent</a></li><li style="--c:var(--c4)"><a href="/Corn-Jr-Public/finding/143.html"><span class="fn">143</span>Nesting at 20M breaks two different ways; too fragile to build on</a></li><li style="--c:var(--c4)"><a href="/Corn-Jr-Public/finding/145.html"><span class="fn">145</span>The depth limit is the linking word; re-showing uncovered text fixes it</a></li></ul>
+        
+      </div>
+      <div>
+        <h2 class="small">Cited by</h2>
+        <ul class="reflist"><li style="--c:var(--c4)"><a href="/Corn-Jr-Public/finding/173.html"><span class="fn">173</span>Branch choice falls to chance when condition words flip the meaning</a></li></ul>
+        
+      </div>
+    </div>
+    <p class="body source">docs/findings/147-the-bind-owns-form-and-the-copy-pointer-not-the-count-a-marked-chain-passes-the-depth-wall-and-he-skips-words-instead-of-inventing.md</p>
+  </section>
+</article>
+
+  
+<footer class="turn">
+  <div><span class="sc">previous</span><a href="/Corn-Jr-Public/finding/139.html">139 · Aligning training blocks to transcript starts helps parsing, short of target</a></div>
+  <div class="r"><span class="sc">next</span><a href="/Corn-Jr-Public/finding/148.html">148 · Picking a template by letter never installed; one seed in three learned</a></div>
+  <p class="keys"><kbd>←</kbd> <kbd>→</kbd> turn the page · <kbd>/</kbd> find</p>
+</footer>
+<p class="bynumber">Previous and next in <a href="/Corn-Jr-Public/thread/tag-spine.html">The tag spine</a>. By number:
+  <a href="/Corn-Jr-Public/finding/146.html">146</a> · <a href="/Corn-Jr-Public/finding/148.html">148</a></p>
+
+</div>
+</body>
+</html>

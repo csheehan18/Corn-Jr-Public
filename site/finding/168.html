@@ -1,0 +1,90 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>168 · Naming the flexible limit outright splits the seeds · Corn-Jr</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600&family=IBM+Plex+Mono:wght@400;500&family=Spectral:ital,wght@0,400;0,500;0,600;1,400&family=Spectral+SC:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/Corn-Jr-Public/static/library.css">
+<script defer src="/Corn-Jr-Public/static/library.js"></script>
+<script type="speculationrules">
+{"prerender": [{"where": {"and": [{"href_matches": "/Corn-Jr-Public/*"}, {"not": {"href_matches": "/Corn-Jr-Public/random.html"}}, {"not": {"href_matches": "/Corn-Jr-Public/static/*"}}]}, "eagerness": "moderate"}]}
+</script>
+
+</head>
+<body>
+<div class="page">
+  <header class="running">
+    <a class="book" href="/Corn-Jr-Public/">Corn-Jr · The Record</a>
+    <nav>
+      <a href="/Corn-Jr-Public/" data-key="shelf">Shelf</a><a href="/Corn-Jr-Public/findings.html" data-key="findings" class="here">Findings</a><a href="/Corn-Jr-Public/doc/VISION.html" data-key="VISION">Vision</a><a href="/Corn-Jr-Public/doc/GLOSSARY.html" data-key="GLOSSARY">Glossary</a>
+      <a href="https://github.com/csheehan18/Corn-Jr-Public">Source</a>
+    </nav>
+  </header>
+  
+
+<article class="sheet" style="--c:var(--c4)">
+  <div class="progress" aria-hidden="true"></div>
+  <section class="grid chapter-open finding-open">
+    <a class="tab" href="/Corn-Jr-Public/thread/tag-language.html" title="The tag language"><small>Part</small><span>IV</span></a>
+    <p class="cn">168</p>
+    <p class="partline"><a href="/Corn-Jr-Public/thread/tag-language.html">The tag language</a> · 13 October 2026</p>
+    <h1>Naming the flexible limit outright splits the seeds</h1>
+  </section>
+
+  <section class="grid">
+    <p class="marginal">The result, as the finding states it</p><div class="prose"><p class="lead">Recover with the field named outright ("though the price can stretch a bit"): the seeds split — paired 8 and 288 of 288 — but both learn whether the person bent at all, which neither did when the limit was named by meaning, so the position is not a wall; one seed learns which limit and the other forms a fixed ranking; and the standing copy kill fires at both seeds, a copied number one digit off</p></div>
+    <p class="marginal">What it cost</p><div class="prose"><p class="cost">41.4 min of training two nano runs (1,243 s each, contended — the card at 38-39%, a bound; registered ~45 min end to end, actual 42.4); 38 s of probing, two <code>tool_copy_wide</code> cards in 18 s, the two control reads 58 s and the hand read 11 s on the card; the build about 5 min of CPU (15:13-15:18 on 2026-10-13), the read 16:01-16:10.</p></div>
+  </section>
+
+  
+
+  <section class="grid">
+    <div class="prose doc"><p>Finding <a class="fref" href="/Corn-Jr-Public/finding/167.html">167</a>'s split, at the owner's go, pre-registered in <code>configs/mix_v3_funcworld_recover_named.py</code>'s docstring and committed at 84e9a2d before a byte trained — after the owner pointed at findings <a class="fref" href="/Corn-Jr-Public/finding/158.html">158</a>-<a class="fref" href="/Corn-Jr-Public/finding/159.html">159</a>, whose rule (a wording seen more than ten times that settles the answer is labelled from memory) said recover should have been learned as a table and was not. <strong>One change from recover: the flex clause's noun is the field's own key word</strong> (<code>recovergen.NAMED_NOUNS</code>: "the price", "the km", "the rating"), so the clause matches <code>relax[...]</code> by word; same generator seed, frames, lists, dose (8,100 traces, 2.21% of the mix, 5,843 iterations), arm E2 underneath. Every field x frame pairing trains (450 each); the rows are 288 fresh trained relax rows with twins and 96 ask rows; the gate is paired (both twins right) more than 42 of 288 at both seeds. <strong>Cards:</strong> <code>evals/results/nano20m_v3_fw_recover_named{,_seed2}__recover_named.json</code>, <code>__copywide.json</code>; the controls' <code>nano20m_v3_fw_filter_ev2{,_seed2}__recover_named.json</code>.</p>
+<h3 id="the-registered-read">The registered read</h3>
+<p>seed   paired (of 288)   twin moved   relax rows right   ask rows right (of 96) 1337          8              14          140 of 288              96 2337        288             288          288 of 288              94</p>
+<p><strong>Seeds split on the gate: the registered row "a direction; no third seed".</strong> The prediction on the record — the gate passes at both seeds — held at one. Controls (arm E2): <code>ask</code> on every row, paired 0 at both seeds; readable.</p>
+<p><strong>The standing kill fires at both seeds</strong>: <code>tool.copy_wide</code> 265 of 300 against arm E2's 298 at seed 1337, 290 against 295 at seed 2337 (the half-width 4.4; below by 5). Read by hand, the misses are one species: a copied number with its first digit moved — "4,086 degrees Celsius" written "5,086", "4,514 metres" written "5,514" — 26 wrong answers and 9 trained answers at seed 1337. Recover's own arm, whose payload differs from this one only in the clause's noun, read 298 and 287 on the same instrument (finding <a class="fref" href="/Corn-Jr-Public/finding/167.html">167</a>). A cost on the copy band at both seeds is the kill as registered; that it moves this far between two payloads a word apart is finding <a class="fref" href="/Corn-Jr-Public/finding/139.html">139</a>'s caution about the copy band at nano, and is said beside it.</p>
+<h3 id="read-by-hand-both-seeds-learned-more-than-the-gate-shows">Read by hand — both seeds learned more than the gate shows</h3>
+<p>A scratch read of every row (probe only — not on disk; recover's columns from finding <a class="fref" href="/Corn-Jr-Public/finding/167.html">167</a> beside):</p>
+<p>the pull toward ask           with a clause    with none     (nats: nll(ask) - best relax) recover      seed 1337           +0.55           +0.51       no difference recover      seed 2337           +0.20           +0.19       no difference named        seed 1337           +2.80           -4.18       flips sign named        seed 2337           +4.68           -2.48       flips sign</p>
+<p><strong>Both named seeds learned whether the person bent at all</strong> — relax when a clause is there, ask when it is not — which neither recover seed did. So a decision made after the ~250-token observation <em>does</em> come to depend on the request: <strong>the position is not the wall</strong> finding <a class="fref" href="/Corn-Jr-Public/finding/167.html">167</a> left open.</p>
+<p><strong>Which limit</strong>: seed 2337 prefers the gold on 288 of 288 relax rows by 5.33 nats on average, at every list length. Seed 1337 prefers it on 142 of 288 — chance — and relaxes by a fixed ranking instead, <code>price</code> over <code>rating</code> over <code>km</code> (price/rating: price 99 of 102; km/rating: rating 79 of 86), finding <a class="fref" href="/Corn-Jr-Public/finding/167.html">167</a>'s shape.</p>
+<h3 id="what-it-licenses">What it licenses</h3>
+<p>By the table: <strong>a direction, no third seed.</strong> Read with finding <a class="fref" href="/Corn-Jr-Public/finding/167.html">167</a>, the two arms bracket the cause: with the limit named by meaning, nothing formed at either seed — not even whether the person bent; with the key word in the request, the bend formed at both seeds and the limit at one. <strong>The meaning hop is the larger wall, and the choice of limit is fragile at nano even without it.</strong> For recover that points one way: <strong>the flex reading is the runtime's</strong> — a table of flex phrasings names the limit, as combine's clause became a lookup — and the move can be the runtime's too, since the one part that installed at both seeds (bent or not) is the same lookup's other answer. For the ladder's other menu rungs (branch, loop, replan): a pick after the observation can depend on an earlier key when the key is the option's own word; when it must be read by meaning, two rungs in a row (findings <a class="fref" href="/Corn-Jr-Public/finding/156.html">156</a>, <a class="fref" href="/Corn-Jr-Public/finding/167.html">167</a>) formed a fixed ranking instead. The copy kill is the third reason not to put this payload in the run as it stands.</p>
+<p><strong>What it does not settle.</strong> Why seed 1337 formed a ranking with the word right there; whether a second pass or a lower share of <code>ask</code> traces would steady it; and whether the digit shift in the copy band is this payload's or nano's noise between payloads — a third seed of either arm would say, and none was registered.</p>
+<h3 id="amended-2026-10-14-the-copy-kill-is-not-readable-finding-170">Amended 2026-10-14 — the copy kill is not readable (finding <a class="fref" href="/Corn-Jr-Public/finding/170.html">170</a>)</h3>
+<p>The standing kill above was read with a binomial half-width of 3-4 items. Seeds of one arm on identical data spread 0-54 items on <code>tool.copy_wide</code> (median 8, 90th percentile 20), so by EXPERIMENTS §5.2, and §5.7 as amended, the gap here is <strong>not readable</strong>: every seed of this arm would have to sit below arm E2's lowest seed (293) by more than 20 items. The hand-read misses are real outputs and stay as written. What does not stand is "the copy kill fires at both seeds" as a reason against the payload (finding <a class="fref" href="/Corn-Jr-Public/finding/170.html">170</a>).</p></div>
+  </section>
+
+  <section class="grid refs">
+    <div class="body two-even">
+      <div>
+        <h2 class="small">It cites</h2>
+        <ul class="reflist"><li style="--c:var(--c4)"><a href="/Corn-Jr-Public/finding/139.html"><span class="fn">139</span>Aligning training blocks to transcript starts helps parsing, short of target</a></li><li style="--c:var(--c4)"><a href="/Corn-Jr-Public/finding/156.html"><span class="fn">156</span>He can&#39;t build a goal from two observations at one pass</a></li><li style="--c:var(--c3)"><a href="/Corn-Jr-Public/finding/158.html"><span class="fn">158</span>Wordings seen over ten times get memorised; key phrases become lists</a></li><li style="--c:var(--c3)"><a href="/Corn-Jr-Public/finding/159.html"><span class="fn">159</span>More ways to phrase each move helps unseen phrasings modestly</a></li><li style="--c:var(--c4)"><a href="/Corn-Jr-Public/finding/167.html"><span class="fn">167</span>He can&#39;t learn which limit a person will relax</a></li><li style="--c:var(--c4)"><a href="/Corn-Jr-Public/finding/170.html"><span class="fn">170</span>The copy test&#39;s failure threshold was measuring seed noise</a></li></ul>
+        
+      </div>
+      <div>
+        <h2 class="small">Cited by</h2>
+        <ul class="reflist"><li style="--c:var(--c4)"><a href="/Corn-Jr-Public/finding/169.html"><span class="fn">169</span>Choosing a branch from a checked condition: seeds split</a></li><li style="--c:var(--c4)"><a href="/Corn-Jr-Public/finding/170.html"><span class="fn">170</span>The copy test&#39;s failure threshold was measuring seed noise</a></li><li style="--c:var(--c4)"><a href="/Corn-Jr-Public/finding/173.html"><span class="fn">173</span>Branch choice falls to chance when condition words flip the meaning</a></li><li style="--c:var(--c4)"><a href="/Corn-Jr-Public/finding/180.html"><span class="fn">180</span>When the runtime orders the menu, &#39;the other one&#39; is perfect</a></li><li style="--c:var(--c5)"><a href="/Corn-Jr-Public/finding/185.html"><span class="fn">185</span>Everyday web text taught him more word meanings at little cost</a></li><li style="--c:var(--c4)"><a href="/Corn-Jr-Public/finding/195.html"><span class="fn">195</span>Balanced keep-looking odds flip loop from never stopping to always stopping</a></li></ul>
+        
+      </div>
+    </div>
+    <p class="body source">docs/findings/168-recover-with-the-field-named-outright-seeds-split-both-learn-whether-the-person-bent-one-learns-which-limit-and-the-copy-kill-fires.md</p>
+  </section>
+</article>
+
+  
+<footer class="turn">
+  <div><span class="sc">previous</span><a href="/Corn-Jr-Public/finding/167.html">167 · He can&#39;t learn which limit a person will relax</a></div>
+  <div class="r"><span class="sc">next</span><a href="/Corn-Jr-Public/finding/169.html">169 · Choosing a branch from a checked condition: seeds split</a></div>
+  <p class="keys"><kbd>←</kbd> <kbd>→</kbd> turn the page · <kbd>/</kbd> find</p>
+</footer>
+<p class="bynumber">Previous and next in <a href="/Corn-Jr-Public/thread/tag-language.html">The tag language</a>. By number:
+  <a href="/Corn-Jr-Public/finding/167.html">167</a> · <a href="/Corn-Jr-Public/finding/169.html">169</a></p>
+
+</div>
+</body>
+</html>

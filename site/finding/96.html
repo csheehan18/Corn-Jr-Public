@@ -1,0 +1,119 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>96 · Given only the right window, the reader reaches 93% · Corn-Jr</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600&family=IBM+Plex+Mono:wght@400;500&family=Spectral:ital,wght@0,400;0,500;0,600;1,400&family=Spectral+SC:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/Corn-Jr-Public/static/library.css">
+<script defer src="/Corn-Jr-Public/static/library.js"></script>
+<script type="speculationrules">
+{"prerender": [{"where": {"and": [{"href_matches": "/Corn-Jr-Public/*"}, {"not": {"href_matches": "/Corn-Jr-Public/random.html"}}, {"not": {"href_matches": "/Corn-Jr-Public/static/*"}}]}, "eagerness": "moderate"}]}
+</script>
+
+</head>
+<body>
+<div class="page">
+  <header class="running">
+    <a class="book" href="/Corn-Jr-Public/">Corn-Jr · The Record</a>
+    <nav>
+      <a href="/Corn-Jr-Public/" data-key="shelf">Shelf</a><a href="/Corn-Jr-Public/findings.html" data-key="findings" class="here">Findings</a><a href="/Corn-Jr-Public/doc/VISION.html" data-key="VISION">Vision</a><a href="/Corn-Jr-Public/doc/GLOSSARY.html" data-key="GLOSSARY">Glossary</a>
+      <a href="https://github.com/csheehan18/Corn-Jr-Public">Source</a>
+    </nav>
+  </header>
+  
+
+<article class="sheet" style="--c:var(--c2)">
+  <div class="progress" aria-hidden="true"></div>
+  <section class="grid chapter-open finding-open">
+    <a class="tab" href="/Corn-Jr-Public/thread/reading.html" title="Reading documents"><small>Part</small><span>II</span></a>
+    <p class="cn">96</p>
+    <p class="partline"><a href="/Corn-Jr-Public/thread/reading.html">Reading documents</a> · 4 September 2026</p>
+    <h1>Given only the right window, the reader reaches 93%</h1>
+  </section>
+
+  <section class="grid">
+    <p class="marginal">The result, as the finding states it</p><div class="prose"><p class="lead">Admitting only the gold's own window reads ninety-three per cent whatever the threshold, so the ninety-fifth finding's eighty-three was an oracle that left every rival in the vote, and the residue is two coupled levers of similar size</p></div>
+    
+  </section>
+
+  
+
+  <section class="grid">
+    <div class="prose doc"><p><code>scripts/probe_reader_rank.py</code> read (g), 2026-09-03. <strong>Replay only</strong> — no GPU, no decode, no weight read, no tokenizer, <strong>and no new harvest</strong> — over <code>nullpr_s{1,2}_popa.json</code> joined to <code>pairs_built_s{1,2}_popa.json</code>, the same join the ninety-fifth finding checked and this run re-checks: <strong>3,893 of 3,893 windows on both seeds</strong>. <code>evals/results/rank_s{1,2}.json</code>.</p>
+<p><strong>This finding corrects the one before it and takes the number up, not down.</strong> The ninety-fifth finding read <code>ORACLE_JOINT</code> at 82.8% and 81.0% and called it "the ceiling on everything downstream of candidate ranking". It is not, and the reason is one line of the code it was read from.</p>
+<h3 id="0-what-oracle-joint-hands-over-and-the-thing-it-leaves-alone">0. What <code>ORACLE_JOINT</code> hands over, and the thing it leaves alone</h3>
+<p><code>verdict_oracle</code>'s <code>fix_window</code> <strong>adds</strong> the best gold-bearing window to the real admitted mask:</p>
+<p>mask = list(admitted(row, t)) ... mask[max(pool, key=lambda i: row["margins"][i])] = True</p>
+<p>Every window that cleared the threshold on its own is still in that mask, and <code>reduce</code> still counts all of them. So a passage whose gold window is forced in and then <strong>outvoted by two admitted repetitions of a rival</strong> fails under <code>ORACLE_JOINT</code> exactly as it fails under the shipped reader. That is not a hypothetical: it is <code>AGGREGATION</code>, which the ninety-fifth finding measured at 66 and 60 passages at SHIPPED and left unexplained in its own last paragraph.</p>
+<p><code>ORACLE_JOINT</code> is therefore a ceiling on <strong>locating and picking</strong>, conditional on the rest of the vote staying as it is. It is not a ceiling on the reader.</p>
+<h3 id="1-the-two-oracles-that-remove-the-rivals-instead">1. The two oracles that remove the rivals instead</h3>
+<p>Read (g), added to the same file, admits <strong>exactly one</strong> window:</p>
+<p>ONLY_GOLD        the mask is the highest-margin gold-bearing window and nothing else; the head keeps its own pick on it. ONLY_GOLD_PICK   the same single window — preferring, since the pick is also handed over, a gold window whose ten actually hold the gold — with the gold substituted wherever they do.</p>
+<p>Everything else is <code>verdict_at</code>'s own code: the <code>hybrid</code> fallback's second <code>reduce</code> call, <code>local=False</code>, the same <code>judge</code>. <strong>Unanswerable rows have no gold-bearing window, so they keep the real mask and therefore their real verdict</strong> — the correct-silence column below is unchanged <strong>by construction and not by merit</strong>, which is the ninety-third finding's §6 caveat applying for the third finding running and not getting smaller for being repeated.</p>
+<p>Both read the answer. Both are ceilings and neither is an arm.</p>
+<h3 id="2-seventy-one-and-ninety-three-and-the-second-one-does-not-d">2. Seventy-one and ninety-three, and the second one does not depend on the threshold</h3>
+<p>SHIPPED  t = -2.02 + extent rule d = 2.0     seed 1            seed 2 baseline                                 389  53.9%        409  56.7% ORACLE_PICK      pick, admitted windows   449  62.3%  +60   493  68.4%  +84 ORACLE_WINDOW    window added to the mask 444  61.6%  +55   449  62.3%  +40 ORACLE_JOINT     both, rivals left in     559  77.5% +170   573  79.5% +164 ONLY_GOLD        one window, head's pick  515  71.4% +126   499  69.2%  +90 ONLY_GOLD_PICK   one window, gold's pick  672  93.2% +283   670  92.9% +261 GUARD            ECHO_BLOCKED 22          699  96.9%</p>
+<p>JOINT  the CV'd folds, extent off            seed 1            seed 2 baseline                                 367  50.9%        368  51.0% ORACLE_JOINT                             597  82.8% +230   584  81.0% +216 ONLY_GOLD                                501  69.5% +134   489  67.8% +121 ONLY_GOLD_PICK                           672  93.2% +305   670  92.9% +302</p>
+<p><strong><code>ONLY_GOLD_PICK</code> reads 672 and 670 at both operating points, to the passage.</strong> That is not a coincidence and it is the structural point of the read: once the mask is one forced window and the span on it is the gold, an answerable passage's verdict cannot depend on the threshold, because the threshold only decides admission and admission has been taken away. The extent rule cannot reach it either, for the same reason — the pick is already the gold. <strong>93.2% and 92.9% is a ceiling on the whole stack below candidate enumeration, invariant to both of the constants <code>corn/reader.py</code> ships.</strong></p>
+<p><code>ONLY_GOLD</code> <em>does</em> move between the points, by +14 and +10, and the only thing that differs is the extent rule. That is the extent rule's worth under a perfect window, and it is small, which is what the eighty-fifth finding measured it as under a real one. <strong><code>ONLY_GOLD</code> is threshold-invariant too</strong>, for the same reason and with the extent rule held: its mask is also exactly one forced window. §2a is the check.</p>
+<h4 id="2a-seed-2-at-its-own-operating-point-added-after-the-ninety-">2a. Seed 2 at its own operating point, added after the ninety-seventh finding</h4>
+<p><strong>The seed-2 column above is read at -2.02, and -2.02 is seed 1's constant.</strong> The ninety-seventh finding puts the bar protocol in a committed script and measures what that costs: seed 2's own cross-validated mean is <strong>-1.6730</strong>, and at -2.02 it reads 409 right at <strong>170</strong> correct silences, thirty below the floor PRIMARY names. So the seed-2 column above is not a point this project would ship. Re-read at seed 2's own constant:</p>
+<p>seed 2 at -1.6730 (its own bar-CV mean)      right   of 721 baseline                                    390    54.1% ORACLE_PICK                                 454    63.0%   +64 ORACLE_WINDOW                               454    63.0%   +64 ORACLE_JOINT                                581    80.6%  +191 ONLY_GOLD                                   499    69.2%  +109 ONLY_GOLD_PICK                              670    92.9%  +280 what ONLY_GOLD_PICK misses  51: ECHO_BLOCKED 21, OUTSIDE_TEN 26, neither 4</p>
+<p><strong>Every conclusion in this file survives and two of them tighten.</strong> <code>ONLY_GOLD</code> reads <strong>499 at both -2.02 and -1.6730</strong>, and <code>ONLY_GOLD_PICK</code> <strong>670 at both</strong>, which is §2's invariance claim demonstrated at two thresholds rather than argued from the code. What moves is the baseline (409 to 390) and therefore the deltas, and the two levers become <strong>+109 admission-alone and +64 pick-alone against +280 jointly</strong> on seed 2 — still super-additive, still of comparable size, and now with admission the larger on both seeds rather than on one.</p>
+<p><strong>Against the owner's 85% = 613 of 721:</strong> <code>ONLY_GOLD</code> is 98 and 114 passages <strong>short</strong>; <code>ONLY_GOLD_PICK</code> is 59 and 57 passages <strong>over</strong>. So the target is not ruled out by anything measured here, and it is not reachable by admission alone.</p>
+<h3 id="3-two-levers-of-similar-size-and-they-are-coupled">3. Two levers of similar size, and they are coupled</h3>
+<p>what it is worth                        seed 1    seed 2 at -2.02   at its own pick alone       ORACLE_PICK - base       +60          +84            +64 admission alone  ONLY_GOLD - base        +126          +90           +109 pick after perfect admission             +157         +171           +171 admission after perfect pick             +223         +177           +216 both             ONLY_GOLD_PICK - base   +283         +261           +280</p>
+<p><strong>Admission is the larger lever on both seeds once seed 2 is read at its own threshold</strong> — +126 against +60 on seed 1 and, from §2a, +109 against +64 on seed 2 — and the sum of the two alone (186 and 173) is well under the joint 283 and 280. (Read at seed 1's constant, seed 2's two levers come out level, +90 against +84; that apparent parity is the wrong-threshold artefact §2a removes, and it is left here because the row above it is.) <strong>Strongly super-additive, for the same reason the ninety-fifth finding gave and with a sharper edge on it:</strong> fixing the pick on a window that never gets admitted buys nothing, and admitting the right window buys nothing if the head then speaks a rival from it. The correct reading of the residue is not "admission is the lever". It is <strong>two levers of comparable size that have to move together</strong>, and an arm that moves one while the other stands still will read a fraction of its own bound.</p>
+<h3 id="4-the-pick-failure-is-confident-not-a-near-miss">4. The pick failure is confident, not a near miss</h3>
+<p>On the <code>RANK_2_10</code> passages — the plurality of the residue, 168 and 182 at SHIPPED — how far the head's argmax leads the gold, in span-head logits, on that same window:</p>
+<p>seed 1              seed 2 median              3.72                3.05 quartiles      1.99 / 5.90         1.53 / 5.83 within 1.0     22 of 168  13.1%    33 of 182  18.1%</p>
+<p><strong>Three and a half logits is not a tie a re-ranker breaks.</strong> Seven passages in eight sit outside a one-logit band, which is why the eighty-sixth finding's re-ranker never left the span head's own argmax rate and was retired for it, and why the pick lever is a <em>head</em> problem and not a threshold problem. It also says what §3's 157 and 171 passages would cost: something that changes the score by several logits on the right span, not something that reorders ties.</p>
+<h3 id="5-what-survives-the-strongest-oracle-and-it-is-almost-entire">5. What survives the strongest oracle, and it is almost entirely accounted for</h3>
+<p>ONLY_GOLD_PICK still misses     seed 1          seed 2 ECHO_BLOCKED                    19              21 OUTSIDE_TEN                     29              26 neither                          1               4 total                           49              51</p>
+<p><strong>Forty-eight of 49 and 47 of 51 are the two deductions already on the record</strong>: the <code>grounded</code> anti-restatement rule's 22 (<code>PLAN-READER-RESIDUE.md</code> §3, the owner's open call) and a gold the pair enumeration never offered on that window. <code>ECHO_BLOCKED</code> reads 19 and 21 rather than 22 because the oracle's chosen span is not always the one the guard refuses. <strong>One passage on seed 1 and four on seed 2 are unexplained by anything in this file</strong>, and they are printed rather than rounded away.</p>
+<p>So the ceiling decomposes with nothing material left over, which is the property <code>ORACLE_JOINT</code> did not have: its 162 and 148 misses were 22 guard passages and about 130 of <em>something</em>, and the something was the rival windows it had left in the vote.</p>
+<h3 id="6-two-corrections-to-the-ninety-fifth-finding-made-where-the">6. Two corrections to the ninety-fifth finding, made where they were made</h3>
+<ul><li><strong>§2's claim that <code>ORACLE_JOINT</code> is "the ceiling on everything downstream of candidate ranking" is withdrawn</strong>, and a note saying so is in that file beside the claim. It is fourteen points below the oracle that removes the rivals.</li><li><strong>"The 58% ceiling was an artefact" overstates it, and that is withdrawn too.</strong> <code>ORACLE_PICK</code>'s 58.1% and 58.9% are correctly computed over a different conditioning set — admitted windows — and the ninety-fifth finding's own §1 says exactly that two paragraphs earlier. The honest statement is that 58% is <strong>a differently conditioned oracle</strong>, and that quoting it as a bound on the reader was reading the conditioning off. That file's title is left as it was written, because a finding records what was claimed and the note records the correction.</li><li><strong>Two transcription errors in §1's by-species table are fixed:</strong> seed 1's <code>CLIPPED</code> <code>OUTSIDE_TEN</code> is 1 and not 4, and its <code>UNGROUNDED</code> is 4 and not 3, per <code>rank_s1.json</code>. No total, share or conclusion in that file moves.</li></ul>
+<h3 id="what-this-cannot-say">What this cannot say</h3>
+<p><strong>Every arm here is handed the answer, twice.</strong> <code>ONLY_GOLD</code> is told which window carries the gold; <code>ONLY_GOLD_PICK</code> is additionally told which of the ten candidates it is. The ninetieth finding's locality rule had a plausible mechanism and reached a <em>negative</em> fraction of its bound, and the ninety-third, ninety-fourth and ninety-fifth findings are a record of real mechanisms reaching small fractions of such numbers. <strong>93% is what perfect information buys and it is not a forecast.</strong></p>
+<p><strong>The correct-silence column is unchanged by construction on every row of §2.</strong> A real window scorer admits and refuses on both halves of the population and would pay in the unanswerable column, as every threshold move in the ninety-second finding did. Nothing here prices that.</p>
+<p><strong><code>ONLY_GOLD</code> is a <em>stronger</em> hand-over than <code>ORACLE_WINDOW</code>, not a weaker one</strong>, and the two are not a range. Removing every rival window from the vote is not something a scorer can do without also being right about which windows to remove on the unanswerable half.</p>
+<p><strong>The 23% label-noise floor from the ninety-fifth finding §6 still sits under all of this</strong>, is still one species and one model auditor, and the owner's spot-check of 20 is still outstanding.</p>
+<p><strong>Two seeds, one trunk, one population</strong>, Population A under <code>hybrid</code>, at both operating points, with each read's point stated.</p>
+<h3 id="what-follows">What follows</h3>
+<p><strong>The plan's arms are re-sized at SHIPPED in <code>PLAN-READER-RESIDUE.md</code> §7</strong>, and their ceilings are quoted against <code>ONLY_GOLD</code>'s 515 and 499 rather than against <code>ORACLE_WINDOW</code>'s 444 and 449, which is a different and smaller thing.</p>
+<p><strong>The two arms this decomposition names are the two levers</strong>, and they are pre-registered in that file rather than here: a verifier trained on the gold passage's own non-gold windows as hard negatives (admission, bound 515 / 499), and a bidirectional encoder over the cached window states feeding the existing pair scorer (pick, bound 672 / 670 jointly). <strong>The second was declined in the ninety-fifth finding and the rationale for declining it does not apply to the new claim.</strong> It was declined because its stated mechanism — a causal trunk cannot enumerate the gold, so the gold is outside the ten — is contradicted by the 89%. The claim now is the opposite one: the gold <strong>is</strong> in the ten, the head ranks it second to tenth on the plurality of the residue, and it does so by a confident three and a half logits. That is a scoring failure over an enumeration that already contains the answer, and it is what a richer state over the same candidates is for.</p>
+<p><strong>Left unexplained:</strong> the ninety-fifth finding's <code>AGGREGATION</code> note is now half answered and half open. §0 says why those 55 and 51 <code>RANK_1</code> passages fail — the outvoting windows were in the mask and <code>ORACLE_JOINT</code> left them there — but nothing here says whether the outvoting is one rival repeated across overlapping windows or several different ones, which is the difference between a dedupe and a scorer.</p></div>
+  </section>
+
+  <section class="grid refs">
+    <div class="body two-even">
+      <div>
+        <h2 class="small">It cites</h2>
+        <p class="aside">No other finding by number.</p>
+      </div>
+      <div>
+        <h2 class="small">Cited by</h2>
+        <ul class="reflist"><li style="--c:var(--c2)"><a href="/Corn-Jr-Public/finding/100.html"><span class="fn">100</span>Two bidirectional layers over the reader add nothing</a></li><li style="--c:var(--c2)"><a href="/Corn-Jr-Public/finding/104.html"><span class="fn">104</span>Under the owner&#39;s rules, a fifth of &#39;wrong&#39; answers are right</a></li><li style="--c:var(--c2)"><a href="/Corn-Jr-Public/finding/112.html"><span class="fn">112</span>Training on whole passages lifts extraction from 54% to 71%</a></li><li style="--c:var(--c2)"><a href="/Corn-Jr-Public/finding/99.html"><span class="fn">99</span>Ranking candidates together makes the checker worse on both seeds</a></li></ul>
+        
+      </div>
+    </div>
+    <p class="body source">docs/findings/96-admitting-only-the-golds-own-window-reads-ninety-three-per-cent-so-the-eighty-three-was-an-oracle-that-left-every-rival-in-the-vote.md</p>
+  </section>
+</article>
+
+  
+<footer class="turn">
+  <div><span class="sc">previous</span><a href="/Corn-Jr-Public/finding/95.html">95 · The right answer is among the top ten on 90% of misses</a></div>
+  <div class="r"><span class="sc">next</span><a href="/Corn-Jr-Public/finding/97.html">97 · Fallback answer rules still don&#39;t help at the shipped setting</a></div>
+  <p class="keys"><kbd>←</kbd> <kbd>→</kbd> turn the page · <kbd>/</kbd> find</p>
+</footer>
+<p class="bynumber">Previous and next in <a href="/Corn-Jr-Public/thread/reading.html">Reading documents</a>. By number:
+  <a href="/Corn-Jr-Public/finding/95.html">95</a> · <a href="/Corn-Jr-Public/finding/97.html">97</a></p>
+
+</div>
+</body>
+</html>

@@ -1,0 +1,91 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>125 · Two decisions: whole-passage reader by default, life questions declined · Corn-Jr</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600&family=IBM+Plex+Mono:wght@400;500&family=Spectral:ital,wght@0,400;0,500;0,600;1,400&family=Spectral+SC:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/Corn-Jr-Public/static/library.css">
+<script defer src="/Corn-Jr-Public/static/library.js"></script>
+<script type="speculationrules">
+{"prerender": [{"where": {"and": [{"href_matches": "/Corn-Jr-Public/*"}, {"not": {"href_matches": "/Corn-Jr-Public/random.html"}}, {"not": {"href_matches": "/Corn-Jr-Public/static/*"}}]}, "eagerness": "moderate"}]}
+</script>
+
+</head>
+<body>
+<div class="page">
+  <header class="running">
+    <a class="book" href="/Corn-Jr-Public/">Corn-Jr · The Record</a>
+    <nav>
+      <a href="/Corn-Jr-Public/" data-key="shelf">Shelf</a><a href="/Corn-Jr-Public/findings.html" data-key="findings" class="here">Findings</a><a href="/Corn-Jr-Public/doc/VISION.html" data-key="VISION">Vision</a><a href="/Corn-Jr-Public/doc/GLOSSARY.html" data-key="GLOSSARY">Glossary</a>
+      <a href="https://github.com/csheehan18/Corn-Jr-Public">Source</a>
+    </nav>
+  </header>
+  
+
+<article class="sheet" style="--c:var(--c2)">
+  <div class="progress" aria-hidden="true"></div>
+  <section class="grid chapter-open finding-open">
+    <a class="tab" href="/Corn-Jr-Public/thread/reading.html" title="Reading documents"><small>Part</small><span>II</span></a>
+    <p class="cn">125</p>
+    <p class="partline"><a href="/Corn-Jr-Public/thread/reading.html">Reading documents</a> · 5 September 2026</p>
+    <h1>Two decisions: whole-passage reader by default, life questions declined</h1>
+  </section>
+
+  <section class="grid">
+    <p class="marginal">The result, as the finding states it</p><div class="prose"><p class="lead">Decisions 7 and 8 are taken: the whole-passage reader is the default, and a routed question about his life is answered at the runtime by a decline that says he is a model, which catches all sixteen held-out phrasings and none of twenty requests</p></div>
+    
+  </section>
+
+  
+
+  <section class="grid">
+    <div class="prose doc"><p><strong>2026-09-05, evening, the owner's two decisions after finding <a class="fref" href="/Corn-Jr-Public/finding/124.html">124</a>, both runtime-only and both guarded. No card. Nothing trained. The eval rows are unchanged in what they measure.</strong></p>
+<h3 id="1-decision-7-reader-defaults-to-head-whole">1. Decision 7 — <code>reader</code> defaults to <code>head_whole</code></h3>
+<p><code>harness/serverconfig.py</code> <code>reader: str = &quot;head_whole&quot;</code>. The pair it serves is finding <a class="fref" href="/Corn-Jr-Public/finding/124.html">124</a>'s: <code>reader_whole_social8_s1.pt</code> on the social8 trunk at <code>WHOLE_THRESHOLD</code> -1.280, keyed by hash. The number the decision was taken on, Population A through the real <code>read_passage</code>:</p>
+<p>reader                       right  wrong  silent | u.silent  wrong   precision   ms/passage generate (the gate, 117 a)    230     99     392  |   256      26      64.8%       — head_whole (this pair, 124)   517    147      57  |   197      85      70.6%      23.5</p>
+<p>More than twice the right answers at higher precision, spending 59 correct silences of 282. <code>--reader generate</code> and <code>--reader head</code> stay as arms, so the comparison remains paired; <code>check_extract.py</code> now asserts the default is <code>head_whole</code> and that every head has its flag. What a user sees change: a question a pack or a search can answer is answered from the passage read whole, in one forward.</p>
+<h3 id="2-decision-8-the-routed-question-about-his-life">2. Decision 8 — the routed question about his life</h3>
+<p><strong>The gap.</strong> <code>ABOUT_HIS_LIFE</code> is a whole-utterance set and the hatch answers its 31 members from <code>NO_LIFE_REPLIES</code>; the sixteen held-out phrasings in <code>evals/social_self.jsonl</code> ("so how old are you anyway", "any pets", "where are you based") reached the router by design so <code>social.self_heldout</code> could read the weights. Finding <a class="fref" href="/Corn-Jr-Public/finding/122.html">122</a> §4 read what the weights do there on the arm 7 trunk: they speak on twice as many and half of what they say is SODA's life ("I'm 23", "I work ..."). The plan's decision 8 named three repairs; the owner took the router-side rule, with the reply he specified — a decline that says he is a model with no concept of the thing asked.</p>
+<p><strong>The rule</strong>, <code>corn.agent.life_question</code>, tried inside <code>identity_reply</code> after the whole-utterance sets and the two-clause split have missed. Three conditions, all required:</p>
+<p>addressed to him     you / your / yourself, or a bare possession question ("any pets", "got any kids", "how's the family") a life topic         age, work, home, family, pets, habits, a body — a closed list, and nothing wider no request           no tool-register verb, no "can/could/would you", no "my" (a question about the user's things routes)</p>
+<p><strong>The reply</strong>, <code>NO_LIFE_ROUTED_REPLIES</code>, six hand-written lines held to the self pool's bars (finished sentence, no digit, passes <code>social_rejection</code>, name only through <code>Persona.pool</code>), each saying he is a model and handing the turn back: "That one's not a thing for me. I'm a model, not a person." / "I got trained, not born, so that's out. What can I do for you?" Identity answers are never rephrased by the weights (<code>_own_words</code> runs on the social path only), so the line is served as written.</p>
+<p><strong>The reads, all on the CPU:</strong></p>
+<p>the 16 held-out phrasings of social_self.jsonl      16 of 16 caught 20 must-route turns ("can you call mom", "do you know the capital of france", "what's my dog's name", "how are you", "what day is it", "note that i'm tired", "can you sleep", "how long does a dog live")  0 of 20 caught check_hatches' self battery                          13 -&gt; 15 of 16 the one miss is "I love you buddy", which is no question check_toolgrid: no grid A/B/C request reaches any hatch   unchanged, green check_confirm: no orphan yes/no answer is caught          unchanged, green</p>
+<p><strong>What it does and does not change.</strong> At the runtime, a question about his life in any of these shapes is answered by the pool and never reaches the weights; the exposure finding <a class="fref" href="/Corn-Jr-Public/finding/122.html">122</a> measured (four of sixteen held-out phrasings given a life) is closed at the boundary the rule draws. The eval rows <code>social.self</code> and <code>social.self_heldout</code> still send <code>prompt_route</code> to the model directly and still read the weights — the ruler is unchanged, and the residue it measures (finding <a class="fref" href="/Corn-Jr-Public/finding/122.html">122</a> §4) is still in the weights, unrepaired, which is what §3 rule 1 says it must be. <code>check_evals.py</code> group 32 now asserts every held-out phrasing takes the identity hatch's rule and none the social or temporal hatch.</p>
+<h3 id="3-held">3. Held</h3>
+<p>The owner held two things: a second seed of the re-fit (finding <a class="fref" href="/Corn-Jr-Public/finding/124.html">124</a>'s open question) and §7's speech-temperature sweep (decision 5). Both are on the plan's current-order block as item 14.</p>
+<h3 id="limits">Limits</h3>
+<p>The rule is lexical and the topic list is closed; a phrasing about his life that names no listed topic ("what's your story", "tell me about yourself") routes as before, and "I love you buddy" is not a question the rule can see. The twenty must-route turns are a hand-written battery, not a population. Nothing here is a live session.</p></div>
+  </section>
+
+  <section class="grid refs">
+    <div class="body two-even">
+      <div>
+        <h2 class="small">It cites</h2>
+        <ul class="reflist"><li style="--c:var(--c3)"><a href="/Corn-Jr-Public/finding/122.html"><span class="fn">122</span>The second social turn installs and lifts the first</a></li><li style="--c:var(--c2)"><a href="/Corn-Jr-Public/finding/124.html"><span class="fn">124</span>Refitting the reader on the social model reads 517 at runtime</a></li></ul>
+        
+      </div>
+      <div>
+        <h2 class="small">Cited by</h2>
+        <p class="aside">No later finding yet.</p>
+      </div>
+    </div>
+    <p class="body source">docs/findings/125-decisions-seven-and-eight-are-taken-the-whole-passage-reader-is-the-default-and-a-routed-question-about-his-life-is-answered-by-a-decline-that-says-he-is-a-model.md</p>
+  </section>
+</article>
+
+  
+<footer class="turn">
+  <div><span class="sc">previous</span><a href="/Corn-Jr-Public/finding/124.html">124 · Refitting the reader on the social model reads 517 at runtime</a></div>
+  <div class="r"></div>
+  <p class="keys"><kbd>←</kbd> <kbd>→</kbd> turn the page · <kbd>/</kbd> find</p>
+</footer>
+<p class="bynumber">Previous and next in <a href="/Corn-Jr-Public/thread/reading.html">Reading documents</a>. By number:
+  <a href="/Corn-Jr-Public/finding/124.html">124</a> · <a href="/Corn-Jr-Public/finding/126.html">126</a></p>
+
+</div>
+</body>
+</html>

@@ -1,0 +1,119 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>80 · Contradicting a trained behaviour needs that behaviour&#39;s data replayed · Corn-Jr</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600&family=IBM+Plex+Mono:wght@400;500&family=Spectral:ital,wght@0,400;0,500;0,600;1,400&family=Spectral+SC:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/Corn-Jr-Public/static/library.css">
+<script defer src="/Corn-Jr-Public/static/library.js"></script>
+<script type="speculationrules">
+{"prerender": [{"where": {"and": [{"href_matches": "/Corn-Jr-Public/*"}, {"not": {"href_matches": "/Corn-Jr-Public/random.html"}}, {"not": {"href_matches": "/Corn-Jr-Public/static/*"}}]}, "eagerness": "moderate"}]}
+</script>
+
+</head>
+<body>
+<div class="page">
+  <header class="running">
+    <a class="book" href="/Corn-Jr-Public/">Corn-Jr · The Record</a>
+    <nav>
+      <a href="/Corn-Jr-Public/" data-key="shelf">Shelf</a><a href="/Corn-Jr-Public/findings.html" data-key="findings" class="here">Findings</a><a href="/Corn-Jr-Public/doc/VISION.html" data-key="VISION">Vision</a><a href="/Corn-Jr-Public/doc/GLOSSARY.html" data-key="GLOSSARY">Glossary</a>
+      <a href="https://github.com/csheehan18/Corn-Jr-Public">Source</a>
+    </nav>
+  </header>
+  
+
+<article class="sheet" style="--c:var(--c1)">
+  <div class="progress" aria-hidden="true"></div>
+  <section class="grid chapter-open finding-open">
+    <a class="tab" href="/Corn-Jr-Public/thread/fine-tuning.html" title="Fine-tuning the base"><small>Part</small><span>I</span></a>
+    <p class="cn">80</p>
+    <p class="partline"><a href="/Corn-Jr-Public/thread/fine-tuning.html">Fine-tuning the base</a> · not yet committed</p>
+    <h1>Contradicting a trained behaviour needs that behaviour&#39;s data replayed</h1>
+  </section>
+
+  <section class="grid">
+    <p class="marginal">The result, as the finding states it</p><div class="prose"><p class="lead">The class installs every time, and what buys back the class it contradicts is that class's own slice</p></div>
+    <p class="marginal">What it cost</p><div class="prose"><p class="cost">0 s of new scoring on record; it reads 1 card scored for an earlier finding (<code>corn_jr_260m_v4</code>). Backfilled 2026-09-26 from the cards' <code>seconds</code>; training and probe time were never recorded, so this is a floor.</p></div>
+  </section>
+
+  
+
+  <section class="grid">
+    <div class="prose doc"><p>Entry 4 of <code>docs/PLAN-FINETUNE-V4.md</code> — a bare unmarked question after a lookup turn, the class the corpus has <strong>0 of 849</strong> of — trained four times on <code>corn_jr_260m_v4</code> between 2026-08-30 and 2026-08-31, seven arms across six configurations. <strong>Every arm installed the class completely. Every arm was discarded.</strong> The rows they spent were different each time, and it took the last two arms to find out why — the first five moved two variables together and could not tell them apart.</p>
+<p>arm 1  mix_v4_ft_4    unpaired payload   turn2 0.070%   786 it   2 seeds arm 2  mix_v4_ft_4b   matched pairs      turn2 1.684% 1,212 it   2 seeds C      mix_v4_ft_4c   matched pairs      turn2 1.436% 1,422 it   1 seed D      mix_v4_ft_4d   matched pairs      turn2 1.196% 1,706 it   1 seed E      mix_v4_ft_4e   ellipsis pairs     turn2 1.684% 1,200 it   1 seed F      mix_v4_ft_4f   unpaired payload   turn2 1.684%   799 it   1 seed</p>
+<p><strong>F is the arm that answers it, and it is arm 1 with one thing changed.</strong></p>
+<hr>
+<h3 id="1-the-class-installs-totally-and-finding-74-s-discount-does-">1. The class installs totally, and finding <a class="fref" href="/Corn-Jr-Public/finding/74.html">74</a>'s discount does not appear</h3>
+<p><code>harness/historygrid.py</code> on the base against every arm, same settings, same before-cards read hours earlier on the same machine:</p>
+<p>cell                          base    every arm attribute after lookup_ok      2/8       8/8 attribute after lookup_fail    2/8       8/8 attribute after lookup_pack    0/8       8/8 arithmetic after a lookup      0/4       4/4 splice column, pack history    4/8       0/8 6b wrote-when-not-asked        4/4       0/4 the empty-room control         8/8       8/8  (unmoved)</p>
+<p>Every re-issue column and every splice column zero. <strong>Finding <a class="fref" href="/Corn-Jr-Public/finding/74.html">74</a> measured a 4x fine-tune discount on exactly this family and pre-registered it as the expected shape; it appeared on none of the four arms.</strong> Partial installation was the prediction. Total installation is the result, four times.</p>
+<h3 id="2-copy-discipline-is-never-what-a-fine-tune-of-this-base-spe">2. Copy discipline is never what a fine-tune of this base spends</h3>
+<p><code>tool.copy</code> 120/120, <code>tool.copy_wide</code> 300/300, <code>temporal.copy</code> 353/353, <code>refusal.say</code> 270/270 and live <code>searchgrid</code> 400/400 on every checkpoint of every arm. Finding <a class="fref" href="/Corn-Jr-Public/finding/75.html">75</a>'s "ceilings matched rather than spent" survives four more arms.</p>
+<p><strong>What gets spent is routing priors</strong>, and the clearest single number is arm 1's <code>turn2.chain_pronoun</code> failure mode moving from <code>wrong_message: 10</code> on the base to <code>wrong_tool: 13, wrong_message: 8</code> on the arm. The tool choice relocated; the copying did not.</p>
+<h3 id="3-the-inverse-class-is-recoverable-and-matched-pairs-do-it-a">3. The inverse class is recoverable, and matched pairs do it alone</h3>
+<p>Arm 1's payload was "turn 2 shares no content word with turn 1" at 50% of the arm, against a replay carrying <code>turn2</code> at 13,731 tokens — <strong>715:1</strong> — and it took <code>turn2.chain_ellipsis</code> from 49/50 to <strong>7/50</strong>.</p>
+<p>Arm 2 rebuilt the payload as matched pairs: one first exchange, two transcripts, the four lines above them byte-identical, so the second turn is the only thing that can predict the behaviour. That is <code>corn/turn2gen.py</code>'s own rule-5 construction and P3-E's matched share, which <code>docs/PLAN-FINETUNE-V4.md</code>'s interference note had already named as the remedy for entries 2, 2b and 6c.</p>
+<p>chain_ellipsis    base 49/50    arm 1  7/50    arm 2 48-50/50    C 49/50    D 47/50 chain_pronoun     base 40/50    arm 1 29/50    arm 2 39-40/50    C 38/50    D 39/50 chain_result      base 50/50    arm 1 45/50    arm 2    50/50    C 50/50    D 50/50</p>
+<p><strong>This section said the matched pair holds the chain family on its own. That was wrong, and §8 is the arm that shows it.</strong> The chain rows do not move across a general-replay share from 29.6% to 50% — but every one of those arms also carried a 36x boost to the replay's <code>turn2</code> slice, arriving at the same moment as the matched payload, and the sweep held that top-up fixed. Two explanations, never separated.</p>
+<h3 id="4-the-prediction-this-finding-first-existed-to-record-as-fal">4. The prediction this finding first existed to record as false</h3>
+<p>After arm 2, <code>docs/PLAN-FINETUNE-V4.md</code>'s regression-set section was amended to say the missing rule was <strong>a floor on the general replay</strong>. The reasoning: arm 1 held <code>tool.name_fidelity</code> at 112/120 with the general replay at 50% of the arm and <code>tools_5b_balanced</code> at 0.293% of it; arm 2 lost it to 108/120 at 29.6% and 0.174%. The controlling variable looked like a slice's fraction of the arm.</p>
+<p>C and D were built to bisect that, with <strong>both endpoints already measured</strong> — D lands <code>tools</code> on 0.293%, arm 1's fraction to three figures.</p>
+<p>tools % of arm    0.293    0.174    0.235    0.293 arm 1    arm 2      C        D name_fidelity     112      108      106      106</p>
+<p><strong>It got worse, monotonically, as the replay grew.</strong> D sits at the identical slice fraction arm 1 held and reads six items below it. So the <em>general</em> replay share is not the knob for this row, and the amendment made after arm 2 is wrong in the quantity it named.</p>
+<p><strong>But the floor is real and §8 finds it in the right quantity.</strong> What matters is not the general replay's share, nor a slice's share in the abstract, but <strong>the share of the specific slice carrying the class the payload contradicts.</strong> This section measured <code>tools</code>, which carries nothing this payload contradicts. §8 measures <code>turn2</code>, which carries the class it does.</p>
+<p><strong>What the sweep held constant is what actually separates arm 1</strong>: the payload. Arm 1 trained <code>ft4_secondturn.txt</code>; arms 2, C and D trained <code>ft4_matched.txt</code>. The matched payload carries the <code>chain_result</code> twin — <strong>31,051 transcripts whose second turn writes a <code>save_note</code> copying turn 1's answer</strong> — and <code>tool.name_fidelity</code> scores an argument value written into a telephony slot. Both are "put the right value in the slot". That is a mechanism worth testing with one variable (the matched payload minus its <code>chain_result</code> twin) and it is <strong>a hypothesis, not a result</strong>; nothing here demonstrates it.</p>
+<h3 id="5-what-did-behave-as-predicted-and-one-thing-that-fits-nothi">5. What did behave as predicted, and one thing that fits nothing</h3>
+<p><code>configs/mix_v4_ft_4c.py</code> pre-registered that <code>react</code> is payload-limited rather than replay-limited, on the evidence that arm 2's 24x increase in <code>turn2</code> bought one item. It held:</p>
+<p>turn2 % of arm    0.070    1.684    1.436    1.196 arm 1    arm 2      C        D react             116      117      118      118    (base 120)</p>
+<p>A 24x swing in the slice that teaches the class moves it two items and never reaches the ceiling. Every one of the 97,043 transcripts in <code>ft4_matched.txt</code> has a second turn that <strong>calls</strong> something; <code>react</code> is the class whose second turn calls nothing. The repair, if one is wanted, is a payload carrying no-call second turns — not a replay share.</p>
+<p><strong>The counter-evidence, recorded because it fits neither story:</strong> <code>turn2.reask</code> is <em>also</em> a no-call class and it went <strong>up</strong> — 40/96 on the base, 49 on arm 1, 55-62 on arm 2, 49 on C, 57 on D. Whatever separates <code>reask</code> from <code>react</code> under this payload is not named by anything above.</p>
+<h3 id="6-two-rules-that-collided-and-one-premise-that-is-false">6. Two rules that collided, and one premise that is false</h3>
+<p>Ground rule 15 calls <code>say</code>, <code>daycross</code> and <code>namecollide</code> free invariance controls "because no payload arm touches their inputs". Ground rule 14 now asks every arm to choose its own replay, and these four chose <code>mix_v4_5b</code>'s slices — which carry <code>temporal</code> and <code>daylog</code>, the two slices <code>daycross</code> is scored out of. <code>daycross.with_day</code> moved on every arm (118 base; 134, 113, 122, 138) and the movement tracks the replay share rather than anything the payload did.</p>
+<p>So <strong>the premise under rule 15's invariance controls does not hold for a v4-slices replay</strong>, and <code>configs/mix_v4_ft_4b.py</code> pre-registered that before training rather than arguing it afterwards, which is the only reason <code>daycross</code> did not invalidate three separate reads. <code>refusal.say</code> is the one control that stayed genuinely free: 270/270 everywhere.</p>
+<h3 id="7-what-this-leaves">7. What this leaves</h3>
+<p>The vehicle question entry 4 was chosen to answer is answered, and more favourably than the entry expected: <strong>a fine-tune of this base installs a missing class completely, at ~16-36 minutes an arm, without spending copy discipline.</strong> What no arm has yet done is ship, because each spent a routing row through its payload's <em>content</em> — which is a harder thing to predict than a share and a more tractable one than a property of the vehicle, since content is chosen deliberately.</p>
+<p>The regression set grew twice on this evidence: <code>turn2.chain_ellipsis</code>, <code>turn2.chain_result</code> and <code>turn2.react</code> after arm 1, and all three earned themselves back immediately — <code>react</code> is what discarded arm 2, and a set that had not just grown would have passed it.</p>
+<p>Costs, for the next person budgeting: an arm is 964s at 786 iterations and 2,169s at 1,706, uncontended on the 3080 at ~23k tok/s. The first arm of this sequence read 6,963s because a guard sweep was running beside it, which also stretched that sweep from 417s to 3,447s. Neither number meant anything.</p>
+<hr>
+<h3 id="8-the-separating-arm-and-the-claim-it-overturns">8. The separating arm, and the claim it overturns</h3>
+<p>Sections 3 and 4 were written from five arms in which <strong>the matched payload and a 36x boost to the replay's <code>turn2</code> slice always arrived together</strong>. §3 credited the matched pair. Arm E is what exposed the confound: it pre-registered that <code>turn2.chain_result</code> <em>must</em> fall once its training class was removed from the payload, and <code>chain_result</code> read <strong>49/50 with zero <code>chain_result</code> transcripts in the payload</strong>. A class that survives the deletion of its payload is being held up by something else.</p>
+<p>F separates them. It is <code>configs/mix_v4_ft_4.py</code> to the token — same <code>ft4_secondturn.txt</code>, same 9,820,078-token payload weight, same 19,640,156-token budget — with <code>turn2</code> and <code>compound_v2</code> raised to the share every recovering arm had, the general replay absorbing the cost:</p>
+<p>payload            arm 1 unpaired      F unpaired      arm 2 matched turn2 % of arm         0.070             1.684            1.684 chain_ellipsis          7/50             45/50            48/50 chain_result           45/50             50/50            50/50 chain_pronoun          29/50             38/50            39/50 react                 116/120           119/120          117/120</p>
+<p><strong>The boost is the whole effect: 7 → 45 of the 41 items available, with the payload byte-identical.</strong> The matched pair adds three more. So §3's claim that "matched pairs do it alone" is <strong>wrong</strong>, and the honest ordering is that the replay does nearly all of it and the matched pair is a refinement.</p>
+<p><strong>And the floor §4 declared non-existent is real, in a quantity §4 did not test.</strong> §4 swept <code>tools</code>, which carries nothing this payload contradicts, and found no floor. <code>turn2</code> carries <code>chain_ellipsis</code>, <code>chain_result</code> and <code>react</code> — the classes this payload's "every second turn is unrelated and calls" directly contradicts — and boosting it recovers all three. <strong>The rule is per-class: when a payload teaches a class that contradicts a trained one, the contradicted class's own slice has to come back up in the replay.</strong> Not the general replay, and not any slice — that one.</p>
+<p><code>tool.name_fidelity</code> is then cleanly ruled out as a replay effect from the other direction: F sits at <code>tools</code> 0.274% and reads <strong>114/120</strong>, while D at 0.293% reads 106. Same slice share, eight items apart, so what separates them is the payload. Ordered by payload: unpaired 112 and 114, ellipsis-only pairs 111, full matched pairs 106-108. The <code>chain_result</code> twin remains the best candidate and still has no clean test — arm E recovered it to 111 but changed the payload's class balance at the same time, which is a smaller version of the mistake this section exists to correct.</p>
+<p><strong>F is the best arm of the seven and still discards</strong>: <code>chain_ellipsis</code> 45/50 against a base of 49, four off its ceiling. Everything else is at or above base — <code>name_fidelity</code> 114 against 112, <code>note_fidelity</code> 108 against 99, <code>react</code> 119 against 120, <code>reask</code> 64 against 40, every copy row at ceiling. The direction is unambiguous and untested past this point: 24x on <code>turn2</code> bought 38 items, and nothing here says what 50x buys.</p>
+<p><strong>What this costs the reader of §§3-4:</strong> two claims in this document were made from arms that could not support them, and both are corrected above rather than edited out. The pattern in both is the same — a variable moved alongside the one under test, and the arm was read as though it had not.</p></div>
+  </section>
+
+  <section class="grid refs">
+    <div class="body two-even">
+      <div>
+        <h2 class="small">It cites</h2>
+        <ul class="reflist"><li style="--c:var(--c3)"><a href="/Corn-Jr-Public/finding/74.html"><span class="fn">74</span>Second-turn behaviour installs; compound requests forget how to stop</a></li><li style="--c:var(--c1)"><a href="/Corn-Jr-Public/finding/75.html"><span class="fn">75</span>Fine-tuning doesn&#39;t overwrite what pretraining installed</a></li></ul>
+        
+      </div>
+      <div>
+        <h2 class="small">Cited by</h2>
+        <p class="aside">No later finding yet.</p>
+      </div>
+    </div>
+    <p class="body source">docs/findings/80-the-contradicted-class-needs-its-own-slice-back-and-five-arms-could-not-see-it.md</p>
+  </section>
+</article>
+
+  
+<footer class="turn">
+  <div><span class="sc">previous</span><a href="/Corn-Jr-Public/finding/75.html">75 · Fine-tuning doesn&#39;t overwrite what pretraining installed</a></div>
+  <div class="r"></div>
+  <p class="keys"><kbd>←</kbd> <kbd>→</kbd> turn the page · <kbd>/</kbd> find</p>
+</footer>
+<p class="bynumber">Previous and next in <a href="/Corn-Jr-Public/thread/fine-tuning.html">Fine-tuning the base</a>. By number:
+  <a href="/Corn-Jr-Public/finding/79.html">79</a> · <a href="/Corn-Jr-Public/finding/81.html">81</a></p>
+
+</div>
+</body>
+</html>

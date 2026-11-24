@@ -1,0 +1,69 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>The book lab · Corn-Jr</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600&family=IBM+Plex+Mono:wght@400;500&family=Spectral:ital,wght@0,400;0,500;0,600;1,400&family=Spectral+SC:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/Corn-Jr-Public/static/library.css">
+<script defer src="/Corn-Jr-Public/static/library.js"></script>
+<script type="speculationrules">
+{"prerender": [{"where": {"and": [{"href_matches": "/Corn-Jr-Public/*"}, {"not": {"href_matches": "/Corn-Jr-Public/random.html"}}, {"not": {"href_matches": "/Corn-Jr-Public/static/*"}}]}, "eagerness": "moderate"}]}
+</script>
+<script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.14.1/dist/cdn.min.js"></script>
+</head>
+<body>
+<div class="page">
+  <header class="running">
+    <a class="book" href="/Corn-Jr-Public/">Corn-Jr · The Record</a>
+    <nav>
+      <a href="/Corn-Jr-Public/" data-key="shelf" class="here">Shelf</a><a href="/Corn-Jr-Public/findings.html" data-key="findings">Findings</a><a href="/Corn-Jr-Public/doc/VISION.html" data-key="VISION">Vision</a><a href="/Corn-Jr-Public/doc/GLOSSARY.html" data-key="GLOSSARY">Glossary</a>
+      <a href="https://github.com/csheehan18/Corn-Jr-Public">Source</a>
+    </nav>
+  </header>
+  
+<article class="sheet" style="--c:var(--c6)" x-data="{ all: false }">
+  <div class="progress" aria-hidden="true"></div>
+  <section class="grid chapter-open">
+    <a class="tab" href="/Corn-Jr-Public/part/VI.html"><small>Part</small><span>VI</span></a>
+    <p class="partline"><a href="/Corn-Jr-Public/part/VI.html">The book lab</a></p>
+    <h1 class="vt-title">The book lab</h1>
+    <p class="subtitle">A counted book of tallies with no weights, and how close it gets to the 260M.</p>
+    <div class="status"><svg class="strip" viewBox="0 0 260 12" width="260" height="12" aria-hidden="true">
+  <line x1="0" y1="11.5" x2="260" y2="11.5" class="base"/>
+  <line x1="239.0" y1="2" x2="239.0" y2="11"/>
+</svg><span>1 findings, 221 to 221, filed 11 November 2026 to 11 November 2026</span></div>
+  </section>
+
+  
+
+  <section class="grid">
+    <h2 class="sec">The findings, in order</h2>
+    <p class="hint"><button type="button" @click="all = !all" x-text="all ? 'Hide the full results' : 'Show every full result'">Show every full result</button></p>
+    <ol class="entries">
+      
+      <li x-data="{ open: false }">
+        <span class="fn"><a href="/Corn-Jr-Public/finding/221.html">221</a></span>
+        <div>
+          <a class="et" href="/Corn-Jr-Public/finding/221.html">A book of tallies, no weights, beats the 20M on word meaning</a>
+          <span class="ed">11 November 2026 · <button type="button" class="more" @click="open = !open" x-text="(open || all) ? 'less' : 'more'">more</button></span>
+          <div class="fold" :class="(open || all) && 'open'"><div><p class="efull">A book written in one pass over <code>data/mix_v3_webblend/train.bin</code> — one page a word, each line "met near that word" with a tally, no gradient and nothing tuned — reads the understanding ruler at 51 of the second 96 wishes (0.53) and 97 of 141 fields (0.69). The two 20M controls that trained on the same 130,279,713 tokens read 35 and 37 (0.36, 0.39) and 78 and 76 (0.55, 0.54); paired, the book is ahead 32 : 16 and 27 : 13 on the wishes (p 0.029, 0.038) and 37 : 18 and 39 : 18 on the fields (p 0.014, 0.008). It sits level with the 260M pretrain, which read other tokens: 50 of 96 and 101 of 141 (17 : 16, 21 : 25). Its margin tells right from wrong (AUC 0.67 against the controls' 0.51 and 0.52), so scored right +1, pass 0, wrong -1 it reads +0.17 answering half the items, where the controls read -0.03 and -0.02. Two things it does not have: on the wishes the lead rests on lines met once or twice (drop them and 51 becomes 37, the controls' level), and it has stock answers of its own (<code>sad</code> picked 17 times for 8 asked, <code>long</code> 17 for 4), which is why counting the meetings behind an answer reads <em>backwards</em> as confidence (AUC 0.35). The knowledge the 20M lacks (finding <a class="fref" href="/Corn-Jr-Public/finding/196.html">196</a>) is in its own corpus; one pass of gradient descent at 20M does not pick it up, and a count does.</p></div></div>
+        </div>
+      </li>
+      
+    </ol>
+  </section>
+
+  
+</article>
+
+  <footer class="turn">
+  <div><span class="sc">previous</span><a href="/Corn-Jr-Public/thread/reply-judge.html">The reply judge</a></div>
+  <div class="r"></div>
+  <p class="keys"><kbd>←</kbd> <kbd>→</kbd> turn the page · <kbd>/</kbd> find</p>
+</footer>
+</div>
+</body>
+</html>

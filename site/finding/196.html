@@ -1,0 +1,92 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>196 · Loop fails because the small model lacks the knowledge, not the format · Corn-Jr</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600&family=IBM+Plex+Mono:wght@400;500&family=Spectral:ital,wght@0,400;0,500;0,600;1,400&family=Spectral+SC:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/Corn-Jr-Public/static/library.css">
+<script defer src="/Corn-Jr-Public/static/library.js"></script>
+<script type="speculationrules">
+{"prerender": [{"where": {"and": [{"href_matches": "/Corn-Jr-Public/*"}, {"not": {"href_matches": "/Corn-Jr-Public/random.html"}}, {"not": {"href_matches": "/Corn-Jr-Public/static/*"}}]}, "eagerness": "moderate"}]}
+</script>
+
+</head>
+<body>
+<div class="page">
+  <header class="running">
+    <a class="book" href="/Corn-Jr-Public/">Corn-Jr · The Record</a>
+    <nav>
+      <a href="/Corn-Jr-Public/" data-key="shelf">Shelf</a><a href="/Corn-Jr-Public/findings.html" data-key="findings" class="here">Findings</a><a href="/Corn-Jr-Public/doc/VISION.html" data-key="VISION">Vision</a><a href="/Corn-Jr-Public/doc/GLOSSARY.html" data-key="GLOSSARY">Glossary</a>
+      <a href="https://github.com/csheehan18/Corn-Jr-Public">Source</a>
+    </nav>
+  </header>
+  
+
+<article class="sheet" style="--c:var(--c5)">
+  <div class="progress" aria-hidden="true"></div>
+  <section class="grid chapter-open finding-open">
+    <a class="tab" href="/Corn-Jr-Public/thread/understanding.html" title="Understanding at small scale"><small>Part</small><span>V</span></a>
+    <p class="cn">196</p>
+    <p class="partline"><a href="/Corn-Jr-Public/thread/understanding.html">Understanding at small scale</a> · 21 October 2026</p>
+    <h1>Loop fails because the small model lacks the knowledge, not the format</h1>
+  </section>
+
+  <section class="grid">
+    <p class="marginal">The result, as the finding states it</p><div class="prose"><p class="lead">On loop's own 436 answer-bearing batches, asked in plain sentences outside any trace, which place best fits the wish is near chance at 20M and grows with size — the place that most raises the wish phrase is the right one 0.45 at loop's 20M start, 0.48 after the balanced fine-tune, 0.55 at 100M and 0.63 at 260M, against a chance of 0.41 — while the trace format neither hides nor adds a judgment the model has (trace pick 0.45 at the 20M start, 0.52 after the balanced fine-tune); so loop's collapse (findings <a class="fref" href="/Corn-Jr-Public/finding/184.html">184</a>, <a class="fref" href="/Corn-Jr-Public/finding/195.html">195</a>) is a fine-tune with no signal learning the base rate, and the missing signal is knowledge of what a description implies, which 20M does not hold for these items</p></div>
+    <p class="marginal">What it cost</p><div class="prose"><p class="cost">20:55-21:13 on 2026-10-21 (the owner: "investigate the failures yourself and get back to me"); four reads of <code>scripts/probe_loop_formats.py</code>, 6.3 and 5.4 min of the four that ran whole, contended (the card at 37-40%, a bound).</p></div>
+  </section>
+
+  
+
+  <section class="grid">
+    <div class="prose doc"><p><strong>The question.</strong> Findings <a class="fref" href="/Corn-Jr-Public/finding/184.html">184</a> and <a class="fref" href="/Corn-Jr-Public/finding/195.html">195</a>: loop's stop reads nothing from the batch — he writes <code>none</code> on every batch when 71% of decisions are <code>none</code>, and stops on every batch when half are — and the place he names is near chance. The owner: "I still don't fully understand why... Is it truly internal reasoning being too small? 20M should be able to do this." Three candidates: the control is too much for 20M; the trace format hides a judgment he has in plain language; the judgment is not in him at all.</p>
+<h3 id="the-items-read-by-hand-first">The items, read by hand first</h3>
+<p>wish [good for kids]   a bustling cocktail bar | a wine bar in a converted mill | a cider house with a play area wish [al fresco]       a bistro with a wide terrace | a diner inside a former chapel | a bistro with a children's menu wish [for an anniversary]  a wine bar with a leafy courtyard | a candlelit wine bar with velvet booths | a bustling cider house wish [lively]          an inn with high chairs | a loud boarding house with a dance floor</p>
+<p>Easy for a person: one place in each batch plainly answers the wish.</p>
+<h3 id="the-read-scripts-probe-loop-formats-py">The read (<code>scripts/probe_loop_formats.py</code>)</h3>
+<p>The same batches from <code>evals/funcworld_loop.jsonl</code>, four ways, chance 0.41 on the picks (two or three places a batch):</p>
+<p>checkpoint                     plain pick   plain lift   trace pick   plain yes AUC   trace stop AUC nano20m_v3                     0.48         —           0.43*        0.494           0.508* nano20m_v3_fw_filter_ev2 (start) 0.45       0.45         0.45         0.482           0.492 nano20m_ft_loop_ev2 (184)      0.42         —           0.50         0.477           0.549 nano20m_ft_loop_ev2b (195)     0.44         0.48         0.52         0.480           0.540 nano50m_v3_fw_branch           0.42         —           0.45         0.505           0.511 nano100m_v3_funcworld_rope     0.46         0.55         0.43*        0.484           0.543* corn_jr_260m_v4                0.56         0.63         0.40*        0.495           0.529* corn_jr_260m_v4_ft_social8     0.54         —           0.40*        0.500           0.525*</p>
+<p>plain pick   "Looking for somewhere &lt;wish&gt;? The best fit is &lt;place&gt;." — each place's likelihood after the wish, minus without it plain lift   "&lt;Place&gt;. People would call it &lt;wish&gt;" — the place that most raises the wish phrase (the understanding ruler's direction) trace pick   the trace up to <code>pick: because[</code>, each place as the continuation, against the same trace with another wish plain yes    "Is &lt;place&gt; &lt;wish&gt;? Yes or no:" — yes minus no, AUC trace stop   <code>pick: none</code> against the best pick, answer batches against batches without, AUC</p>
+<ul><li>287 of 436 batches; the rest overrun a 512-token block, and these checkpoints never trained on the trace format</li></ul>
+<p><strong>Not the format.</strong> At loop's 20M start the judgment reads the same inside the trace as outside it (0.45 and 0.45). There is nothing in plain language for the format to hide.</p>
+<p><strong>Not the control.</strong> The stop cannot read a judgment the model does not have: the stop's AUC sits at 0.49-0.55 at every size, and the place-fit judgment it would need is near chance at 20M.</p>
+<p><strong>The knowledge, and it grows with size.</strong> In the ruler's direction the right place reads 0.45 at 20M, 0.55 at 100M and 0.63 at 260M. The plain pick (scoring whole descriptions, whose neutral tails — "by the market square" — add noise) shows the same order more faintly. The 20M fine-tunes move the trace pick 0.45 -&gt; 0.50-0.52: the fine-tune teaches some of it, not enough to supply a stop.</p>
+<p><strong>The yes/no read is unreadable</strong>, 0.48-0.51 at every size including 260M: a bare yes/no question is not a frame these models answer by meaning, so it says nothing about absolute judgment either way.</p>
+<h3 id="what-it-licenses">What it licenses</h3>
+<ul><li><strong>The collapse is a fine-tune learning the base rate because the batch gives it no signal.</strong> No signal, because what "a play area" says about "good for kids" is knowledge 20M does not hold for these items. It is not the reasoning the stop needs and not the trace format.</li><li><strong>For the owner's loop call (finding <a class="fref" href="/Corn-Jr-Public/finding/184.html">184</a>):</strong> a stop the runtime can check tests loop's control at 20M with the knowledge taken out of the question; the "sounds right" stop is a size question — 100M reads 0.55 and 260M 0.63 on these items before any loop training — to be read at the pilot.</li><li><strong>Size buys this knowledge faster than the web text did</strong>: 20M -&gt; 260M moves the lift read +0.18 on these items, where every 20M web mix moved the wish read by at most +0.08 (findings <a class="fref" href="/Corn-Jr-Public/finding/185.html">185</a>, <a class="fref" href="/Corn-Jr-Public/finding/189.html">189</a>-<a class="fref" href="/Corn-Jr-Public/finding/191.html">191</a>).</li></ul>
+<p><strong>Size and text are confounded.</strong> The checkpoints that read higher also read more: the 20M starts trained on 129-140M tokens, the 100M on 398M and the 260M on 5B (about 4, 4 and 19 tokens a parameter). Some of "grows with size" is "grows with text read".</p>
+<p><strong>What it does not settle.</strong> Whether a 100M or 260M loop fine-tune installs the soft stop; absolute judgment ("is any of these good enough?"), which no frame here can read; the yes/no frame itself.</p></div>
+  </section>
+
+  <section class="grid refs">
+    <div class="body two-even">
+      <div>
+        <h2 class="small">It cites</h2>
+        <ul class="reflist"><li style="--c:var(--c4)"><a href="/Corn-Jr-Public/finding/184.html"><span class="fn">184</span>Looping until it sounds right: he learns to always keep looking</a></li><li style="--c:var(--c5)"><a href="/Corn-Jr-Public/finding/185.html"><span class="fn">185</span>Everyday web text taught him more word meanings at little cost</a></li><li style="--c:var(--c5)"><a href="/Corn-Jr-Public/finding/189.html"><span class="fn">189</span>Half textbook, half everyday web keeps the word gain at lower cost</a></li><li style="--c:var(--c5)"><a href="/Corn-Jr-Public/finding/190.html"><span class="fn">190</span>A third web source, DCLM, splits its seeds and adds nothing measurable</a></li><li style="--c:var(--c5)"><a href="/Corn-Jr-Public/finding/191.html"><span class="fn">191</span>Doubled wish test: the blend holds, DCLM&#39;s second seed falls back</a></li><li style="--c:var(--c4)"><a href="/Corn-Jr-Public/finding/195.html"><span class="fn">195</span>Balanced keep-looking odds flip loop from never stopping to always stopping</a></li></ul>
+        
+      </div>
+      <div>
+        <h2 class="small">Cited by</h2>
+        <ul class="reflist"><li style="--c:var(--c5)"><a href="/Corn-Jr-Public/finding/197.html"><span class="fn">197</span>A model a quarter as wide nearly matches the 20M&#39;s understanding</a></li><li style="--c:var(--c5)"><a href="/Corn-Jr-Public/finding/198.html"><span class="fn">198</span>Surprise-steered reading lowers rare-word surprise but not understanding at 5M</a></li><li style="--c:var(--c6)"><a href="/Corn-Jr-Public/finding/221.html"><span class="fn">221</span>A book of tallies, no weights, beats the 20M on word meaning</a></li><li style="--c:var(--c5)"><a href="/Corn-Jr-Public/finding/223.html"><span class="fn">223</span>His word vectors hold less than his framed answers do</a></li></ul>
+        
+      </div>
+    </div>
+    <p class="body source">docs/findings/196-loop-s-soft-read-is-missing-from-him-in-plain-sentences-too-and-grows-with-size-20m-0-45-100m-0-55-260m-0-63-against-0-41-so-the-collapse-is-knowledge-not-format.md</p>
+  </section>
+</article>
+
+  
+<footer class="turn">
+  <div><span class="sc">previous</span><a href="/Corn-Jr-Public/finding/188.html">188 · His surprise spots unusual words, not words he misunderstands</a></div>
+  <div class="r"><span class="sc">next</span><a href="/Corn-Jr-Public/finding/197.html">197 · A model a quarter as wide nearly matches the 20M&#39;s understanding</a></div>
+  <p class="keys"><kbd>←</kbd> <kbd>→</kbd> turn the page · <kbd>/</kbd> find</p>
+</footer>
+<p class="bynumber">Previous and next in <a href="/Corn-Jr-Public/thread/understanding.html">Understanding at small scale</a>. By number:
+  <a href="/Corn-Jr-Public/finding/195.html">195</a> · <a href="/Corn-Jr-Public/finding/197.html">197</a></p>
+
+</div>
+</body>
+</html>

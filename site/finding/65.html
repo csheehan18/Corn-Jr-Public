@@ -1,0 +1,102 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>65 · Fine-tuning installs extraction at 260M from zero · Corn-Jr</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600&family=IBM+Plex+Mono:wght@400;500&family=Spectral:ital,wght@0,400;0,500;0,600;1,400&family=Spectral+SC:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/Corn-Jr-Public/static/library.css">
+<script defer src="/Corn-Jr-Public/static/library.js"></script>
+<script type="speculationrules">
+{"prerender": [{"where": {"and": [{"href_matches": "/Corn-Jr-Public/*"}, {"not": {"href_matches": "/Corn-Jr-Public/random.html"}}, {"not": {"href_matches": "/Corn-Jr-Public/static/*"}}]}, "eagerness": "moderate"}]}
+</script>
+
+</head>
+<body>
+<div class="page">
+  <header class="running">
+    <a class="book" href="/Corn-Jr-Public/">Corn-Jr · The Record</a>
+    <nav>
+      <a href="/Corn-Jr-Public/" data-key="shelf">Shelf</a><a href="/Corn-Jr-Public/findings.html" data-key="findings" class="here">Findings</a><a href="/Corn-Jr-Public/doc/VISION.html" data-key="VISION">Vision</a><a href="/Corn-Jr-Public/doc/GLOSSARY.html" data-key="GLOSSARY">Glossary</a>
+      <a href="https://github.com/csheehan18/Corn-Jr-Public">Source</a>
+    </nav>
+  </header>
+  
+
+<article class="sheet" style="--c:var(--c2)">
+  <div class="progress" aria-hidden="true"></div>
+  <section class="grid chapter-open finding-open">
+    <a class="tab" href="/Corn-Jr-Public/thread/reading.html" title="Reading documents"><small>Part</small><span>II</span></a>
+    <p class="cn">65</p>
+    <p class="partline"><a href="/Corn-Jr-Public/thread/reading.html">Reading documents</a> · 26 August 2026</p>
+    <h1>Fine-tuning installs extraction at 260M from zero</h1>
+  </section>
+
+  <section class="grid">
+    <p class="marginal">The result, as the finding states it</p><div class="prose"><p class="lead">Extraction installs by fine-tune at 260M, and the sixth finding's boundary does not hold here</p></div>
+    <p class="marginal">What it cost</p><div class="prose"><p class="cost">12.5 min of scoring on the 1 card first cited here (<code>corn_jr_260m_ftnarrow</code>); it also reads 1 card scored for an earlier finding (<code>corn_jr_260m</code>). Backfilled 2026-09-26 from the cards' <code>seconds</code>; training and probe time were never recorded, so this is a floor.</p></div>
+  </section>
+
+  
+
+  <section class="grid">
+    <div class="prose doc"><p>WS-G, run 2026-08-26. One fine-tune from the frozen <code>corn_jr_260m</code>, 786 iterations, ~15 minutes. <code>configs/mix_wsg_ft_extract.py</code> carries the pre-registration. <strong>It lands on outcome 1, which the config registered as the least likely of its three.</strong></p>
+<h3 id="the-question-and-why-a-null-was-the-expected-answer">The question, and why a null was the expected answer</h3>
+<p><code>corn_jr_260m</code> had <strong>never seen an extraction transcript</strong>: <code>mix_v3_5b</code> carries eight sources and <code>extract</code> is not one of them. So unlike P3-B2, which surfaced a routing capability the base already had at ~35 passes, this asked a fine-tune to <em>install</em> a capability that was not there — the sixth finding's failure mode, registered as the expected outcome rather than the feared one.</p>
+<p>The argument for trying anyway was that the half finding <a class="fref" href="/Corn-Jr-Public/finding/6.html">6</a> lost is already at ceiling here: <code>tool.copy</code> 120/120, <code>tool.copy_wide</code> 300/300, <code>temporal.copy</code> 353/353 on the base. Reading an answer out of an observation rather than out of the weights is fully installed; what extraction adds is a longer observation and a span-<strong>selection</strong> step that nothing in the corpus teaches.</p>
+<p><strong>The control is <code>corn_jr_260m_ftnarrow</code></strong> — P3-B2's narrow arm, trained from this same base on this same tool payload with no extraction in it, already scored. It cost no card time and it is what separates "extraction data did this" from "any fine-tune does this".</p>
+<h3 id="it-installs-and-the-control-shows-most-of-it-is-the-extracti">It installs, and the control shows most of it is the extraction data</h3>
+<p>row                  base    ftnarrow   ftEXTRACT   attributable extract.span        9/200      22/200      70/200        +48 extract.abstain     0/200       1/200     141/200       +140 extract.brevity   133/400     243/400     397/400       +154</p>
+<p>The control moves the rows a little — a tool fine-tune alone takes <code>span</code> 9 to 22 and <code>brevity</code> 133 to 243 — and the extraction arm goes far past it on all three. <strong><code>extract.abstain</code> is the sharpest: 0 and 1 against 141.</strong> The base and the control essentially never produce a miss sentence; the arm produces one on seven of ten unanswerable windows.</p>
+<p><strong>Nothing was spent.</strong> Rule 10's watch is clean at the ceiling, which is the strongest form this project can run it:</p>
+<p>tool.copy       120/120   unchanged     temporal.copy   353/353   unchanged tool.copy_wide  300/300   unchanged     temporal.route  400/400   unchanged</p>
+<p>The sixth finding lost <code>temporal.copy</code> to a fine-tune under 1:1 replay, down to 48.2–66.3%. This corpus replays the whole v3 mix on <code>mix_p3a_ft.py</code>'s terms and <code>temporal.copy</code> does not move by one item. <strong>So finding <a class="fref" href="/Corn-Jr-Public/finding/6.html">6</a>'s boundary is not where it was drawn.</strong> Installing <em>deference</em> by fine-tune failed in a TinyStories-based model that had never seen a <code>&lt;|call|&gt;</code>; installing <em>extraction</em> over deference that is already at ceiling does not.</p>
+<p>And the routing gains survive on half the tool exposure: <code>search.route_*</code> reads 200/200, 200/200, 200/200 against the control's 200/199/200, with <code>tool.selection</code> identical at 187 and <code>tool.validity</code> 179 against 181.</p>
+<h3 id="the-fifty-seventh-finding-s-caveat-reproduces-and-is-milder">The fifty-seventh finding's caveat reproduces, and is milder</h3>
+<p>WS-B's nano arm bought <code>extract.span</code> by declining three fifths of the windows that did contain the answer. That happens here too and must be read with the row rather than after it:</p>
+<p>ftEXTRACT  span failures   abstained 80   wrong_span 37   invented 11 ftnarrow   span failures   invented 63    wrote_own 43    continued_payload 35</p>
+<p><strong>Confabulation collapses — <code>invented</code> 63 → 11</strong>, which is WS-B's result again (105 → 7). And the arm declines on <strong>80 of 200</strong> answerable windows, 40%, against the nano arm's ~59%. Better, and still the dominant failure mode.</p>
+<p><strong>It is not the degenerate cheat, and this is the number that says so.</strong> He attempts an answer on 120 of 200 answerable windows (60%) and on 59 of 200 unanswerable ones (29.5%) — <strong>twice as likely to try when the answer is actually there.</strong> WS-B measured 70–79% against 59–60% on the same comparison, so the discrimination here is wider, not narrower.</p>
+<p><strong>Do not pool <code>extract.span</code> and <code>extract.abstain</code>.</strong> Pooled they read 211/400 against the base's 9/400 and look like a rout. The fifty-seventh finding's instruction stands and this run does not weaken it.</p>
+<h3 id="what-this-cannot-say">What this cannot say</h3>
+<p><strong>One seed.</strong> Nobody has measured seed variance at 260M — the sixty-first finding's whole subject. The effects here are large (+140 on <code>abstain</code>, +154 on <code>brevity</code>) and not plausibly noise; anything small in this table is not readable.</p>
+<p><strong>The payload is half tools and half extraction</strong>, so the arm saw half the tool exposure the control did. That is a confound for the routing rows and not for the extraction rows, which the control has no extraction data to move at all.</p>
+<p><strong>It says nothing about a pretraining mix.</strong> This is a fine-tune result, and the sixtieth finding measured that vehicle delivering 61% of a mix's effect on a different payload.</p>
+<p><strong>And the 40% decline on answerable windows is unexplained here as it was there.</strong> Findings <a class="fref" href="/Corn-Jr-Public/finding/58.html">58</a> and <a class="fref" href="/Corn-Jr-Public/finding/59.html">59</a> retired four hypotheses for it — class balance, gold position, corpus type frequency, the scorer — without finding a cause. The <code>other</code> answer-type decline sat at 86–92% across six checkpoints and nothing in this run addresses it.</p>
+<h3 id="what-follows">What follows</h3>
+<p><strong>The chain has four working links for the first time.</strong> Recognition was 53/200 on real subjects and is 198/200 (sixty-third finding); retrieval was never broken; reduction was throwing away a third of what it retrieved and now keeps it (<code>_best_answer</code>, same day); and extraction was 9/200 and is 70/200 with abstention at 141/200.</p>
+<p>Two things follow immediately, neither costing a training run:</p>
+<ul><li><strong><code>--extract</code> now has a model behind it.</strong> The flag, <code>PASSAGE</code> and <code>read_passage</code> were all built against a capability that did not exist. It does now, and a live read is the obvious next measurement.</li><li><strong>The 40% decline is the binding constraint on this link</strong> and is the thing worth an instrument rather than an arm — WS-F's territory, parked in <code>PLAN-WEB-SEARCH.md</code> on the argument that link one was failing. That argument has expired twice over.</li></ul></div>
+  </section>
+
+  <section class="grid refs">
+    <div class="body two-even">
+      <div>
+        <h2 class="small">It cites</h2>
+        <ul class="reflist"><li style="--c:var(--c1)"><a href="/Corn-Jr-Public/finding/6.html"><span class="fn">6</span>Fine-tuning installs the tool format but not using the tool&#39;s answer</a></li><li style="--c:var(--c1)"><a href="/Corn-Jr-Public/finding/58.html"><span class="fn">58</span>Tripling a fact type in training left his declines unchanged</a></li><li style="--c:var(--c2)"><a href="/Corn-Jr-Public/finding/59.html"><span class="fn">59</span>No declines hide in unscored wording; the rest looks like salience</a></li></ul>
+        
+      </div>
+      <div>
+        <h2 class="small">Cited by</h2>
+        <ul class="reflist"><li style="--c:var(--c1)"><a href="/Corn-Jr-Public/finding/68.html"><span class="fn">68</span>At 260M the seed barely moves scores, measured for the first time</a></li><li style="--c:var(--c2)"><a href="/Corn-Jr-Public/finding/72.html"><span class="fn">72</span>Search returned &#39;capital punishment&#39; for &#39;capital of Mongolia&#39;; fixed</a></li><li style="--c:var(--c1)"><a href="/Corn-Jr-Public/finding/77.html"><span class="fn">77</span>At 5B tokens, fresh text is no worse than re-reading text</a></li></ul>
+        
+      </div>
+    </div>
+    <p class="body source">docs/findings/65-extraction-installs-by-fine-tune-at-260m-and-the-sixth-findings-boundary-does-not-hold-here.md</p>
+  </section>
+</article>
+
+  
+<footer class="turn">
+  <div><span class="sc">previous</span><a href="/Corn-Jr-Public/finding/59.html">59 · No declines hide in unscored wording; the rest looks like salience</a></div>
+  <div class="r"><span class="sc">next</span><a href="/Corn-Jr-Public/finding/66.html">66 · The extractor takes the first value of the right type</a></div>
+  <p class="keys"><kbd>←</kbd> <kbd>→</kbd> turn the page · <kbd>/</kbd> find</p>
+</footer>
+<p class="bynumber">Previous and next in <a href="/Corn-Jr-Public/thread/reading.html">Reading documents</a>. By number:
+  <a href="/Corn-Jr-Public/finding/64.html">64</a> · <a href="/Corn-Jr-Public/finding/66.html">66</a></p>
+
+</div>
+</body>
+</html>

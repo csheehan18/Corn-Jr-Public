@@ -1,0 +1,86 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>205 · Choosing replies by what the message raises varies them, not their fit · Corn-Jr</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600&family=IBM+Plex+Mono:wght@400;500&family=Spectral:ital,wght@0,400;0,500;0,600;1,400&family=Spectral+SC:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/Corn-Jr-Public/static/library.css">
+<script defer src="/Corn-Jr-Public/static/library.js"></script>
+<script type="speculationrules">
+{"prerender": [{"where": {"and": [{"href_matches": "/Corn-Jr-Public/*"}, {"not": {"href_matches": "/Corn-Jr-Public/random.html"}}, {"not": {"href_matches": "/Corn-Jr-Public/static/*"}}]}, "eagerness": "moderate"}]}
+</script>
+
+</head>
+<body>
+<div class="page">
+  <header class="running">
+    <a class="book" href="/Corn-Jr-Public/">Corn-Jr · The Record</a>
+    <nav>
+      <a href="/Corn-Jr-Public/" data-key="shelf">Shelf</a><a href="/Corn-Jr-Public/findings.html" data-key="findings" class="here">Findings</a><a href="/Corn-Jr-Public/doc/VISION.html" data-key="VISION">Vision</a><a href="/Corn-Jr-Public/doc/GLOSSARY.html" data-key="GLOSSARY">Glossary</a>
+      <a href="https://github.com/csheehan18/Corn-Jr-Public">Source</a>
+    </nav>
+  </header>
+  
+
+<article class="sheet" style="--c:var(--c5)">
+  <div class="progress" aria-hidden="true"></div>
+  <section class="grid chapter-open finding-open">
+    <a class="tab" href="/Corn-Jr-Public/thread/reply-judge.html" title="The reply judge"><small>Part</small><span>V</span></a>
+    <p class="cn">205</p>
+    <p class="partline"><a href="/Corn-Jr-Public/thread/reply-judge.html">The reply judge</a> · 22 October 2026</p>
+    <h1>Choosing replies by what the message raises varies them, not their fit</h1>
+  </section>
+
+  <section class="grid">
+    <p class="marginal">The result, as the finding states it</p><div class="prose"><p class="lead">On the plain 5M at both seeds, with no training, choosing each reply's first five words by log p(w | message) - 0.5 log p(w | empty message) among the twenty most likely leaves the blind hand read level — 66 and 64 of 148 replies answer the message against greedy's 70 and 58 on the same checkpoints (the pre-registered gain needed 7 more at both seeds) — and makes the replies far more varied: 123 and 124 distinct three-word openings of 148 against 86 and 82, the commonest opening used 3 and 4 times against 7 and 15. The two decoders fail on different messages (13 and 29 replies pass only under the new one, 17 and 23 only under greedy). Loops stay rare (1 and 2 against 0 and 0)</p></div>
+    <p class="marginal">What it cost</p><div class="prose"><p class="cost"><code>scripts/probe_reply_mmi.py</code>, pre-registered at 1939dc9, 12:41-12:43 on 2026-10-22; generation for both seeds and decoders ~1.5 min (contended, the card at 39%, a bound); the blind hand read of 592 replies ~4 min of wall clock in this session. ETA 30 min, actual ~6.</p></div>
+  </section>
+
+  
+
+  <section class="grid">
+    <div class="prose doc"><p><strong>The question</strong> (finding <a class="fref" href="/Corn-Jr-Public/finding/204.html">204</a>). The plain 5M prefers a fitting reply over a swapped one in 91-96% of pairs but writes one that fits greedily only about half the time, and greedy takes the commonest opening ("That's great!", "What? Why?", "I don't know, I just feel..."). The anti-language-model form of maximum mutual information (Li et al. 2016, the generic-reply problem of neural dialogue) scores a word by how much the message raised it. Settings fixed before a reply was generated (<code>lam 0.5, G 5, K 20</code>, the paper's range, not tuned): the penalty on the first five words only, among the twenty the model already rates most likely after the message, greedy after.</p>
+<h3 id="the-read">The read</h3>
+<p>decoder on checkpoint      blind hand read (of 148)   distinct openings   commonest opening     loops greedy, seed 1             70                         86                  'what why' x7         0 new,    seed 1             66                         123                 'oh yeah what's' x3   1 greedy, seed 2             58                         82                  'what why' x15        0 new,    seed 2             64                         124                 'why what's wrong' x4 2</p>
+<p>passes under one decoder only     seed 1: new 13, greedy 17     seed 2: new 29, greedy 23</p>
+<p>(<code>evals/results/reply_mmi__*</code>: replies, blind file, key and hand labels. Greedy here reads the model in fp32; <code>probe_reply.py</code>'s reads were under bf16 autocast, so seed 2's greedy replies differ in a few places from findings <a class="fref" href="/Corn-Jr-Public/finding/202.html">202</a> and <a class="fref" href="/Corn-Jr-Public/finding/204.html">204</a>'s (58 here, 55 there) — the pairing within this read is exact, the pre-registration's "token for token" line was not.)</p>
+<p><strong>The gate, as registered</strong>: gain needs +7 at both seeds — -4 and +6. <strong>Level.</strong></p>
+<h3 id="read-by-hand">Read by hand</h3>
+<p>The new decoder moves the first words off the stock openings and toward the message: "Oh no, that's terrible! What happened?" to a spilled coffee (greedy: "Oh, that's great! What did you do?"), "Oh, no! I'm so sorry. Are you okay?" to a sleepless night, "What party are you planning?", "Where did you find twenty dollars?", "Good night! How was your day?". It also opens new failures the same way: "Oh, really? Where are you headed?" to a friend moving <em>back</em>, "Okay, let me get you a quick lunch" to "I'm on my lunch break", "Who were steal?" to the squirrel, and two loops ("dying dying dying...", "vote for vote for..."). The words after the fifth are greedy, and the model's continuation drifts as it does under greedy ("Oh, wow, that's really sad. What happened?" to a numb face is a pass; "You did a great job ... you deserve it" to "I'm so happy right now" is not).</p>
+<h3 id="what-it-licenses">What it licenses</h3>
+<ul><li><strong>Variety is a decoding choice, and it is free.</strong> The owner's target — "it should vary how it tells me" — moves by half again (86 to 123 openings) with no training and no cost to fit. For the runtime this is a setting, not a model change; it needs the same read on the shipped checkpoint before it is one.</li><li><strong>Fit is not.</strong> Asking the 5M for replies the message raises does not raise how many fit: the swap test's 91-96% is recognition between a good reply and a wrong one, and generating the good one word by word is a harder task than ranking it. At 5M the reply's later words, and the understanding behind them, still decide.</li><li>Findings <a class="fref" href="/Corn-Jr-Public/finding/202.html">202</a>-<a class="fref" href="/Corn-Jr-Public/finding/205.html">205</a> together: three shapes and one decoder, and the count of fitting replies has stayed inside 55-71 of 148 on every 5M read. The lever left is what the model knows — the text it reads, and the size that reads it.</li></ul>
+<p><strong>What it does not settle.</strong> Other settings (<code>lam</code>, <code>G</code>, <code>K</code> were fixed, not swept); sampling instead of greedy after the opening; any size above 5M; whether varied openings read as more natural to a person in a real chat.</p></div>
+  </section>
+
+  <section class="grid refs">
+    <div class="body two-even">
+      <div>
+        <h2 class="small">It cites</h2>
+        <ul class="reflist"><li style="--c:var(--c5)"><a href="/Corn-Jr-Public/finding/202.html"><span class="fn">202</span>A shape built for small models cost language and taught only spelling</a></li><li style="--c:var(--c5)"><a href="/Corn-Jr-Public/finding/203.html"><span class="fn">203</span>His surprise flags unfamiliar names, not questions he cannot answer</a></li><li style="--c:var(--c5)"><a href="/Corn-Jr-Public/finding/204.html"><span class="fn">204</span>Running the same layers twice moves nothing measurable at 5M</a></li></ul>
+        
+      </div>
+      <div>
+        <h2 class="small">Cited by</h2>
+        <ul class="reflist"><li style="--c:var(--c5)"><a href="/Corn-Jr-Public/finding/206.html"><span class="fn">206</span>A matching lesson at a tenth of conversation reading did not take</a></li><li style="--c:var(--c5)"><a href="/Corn-Jr-Public/finding/208.html"><span class="fn">208</span>The shipped model answers most one-off messages coherently</a></li><li style="--c:var(--c5)"><a href="/Corn-Jr-Public/finding/209.html"><span class="fn">209</span>The small model answers half of even its own style&#39;s openers</a></li><li style="--c:var(--c5)"><a href="/Corn-Jr-Public/finding/214.html"><span class="fn">214</span>A reply judge beside the 5M moves his replies level</a></li><li style="--c:var(--c5)"><a href="/Corn-Jr-Public/finding/216.html"><span class="fn">216</span>The look-ahead holds on new messages; finishing and penalties add nothing</a></li><li style="--c:var(--c5)"><a href="/Corn-Jr-Public/finding/219.html"><span class="fn">219</span>A 5M reading only conversation answers far more messages</a></li><li style="--c:var(--c5)"><a href="/Corn-Jr-Public/finding/231.html"><span class="fn">231</span>A far lesson in training takes, costs reading, and lifts nothing clearly</a></li></ul>
+        
+      </div>
+    </div>
+    <p class="body source">docs/findings/205-choosing-a-replys-first-words-by-how-much-the-message-raises-them-varies-the-plain-5ms-replies-123-and-124-distinct-openings-against-86-and-82-and-leaves-their-fit-level-66-and-64-against-70-and-58.md</p>
+  </section>
+</article>
+
+  
+<footer class="turn">
+  <div><span class="sc">previous</span><a href="/Corn-Jr-Public/finding/204.html">204 · Running the same layers twice moves nothing measurable at 5M</a></div>
+  <div class="r"><span class="sc">next</span><a href="/Corn-Jr-Public/finding/206.html">206 · A matching lesson at a tenth of conversation reading did not take</a></div>
+  <p class="keys"><kbd>←</kbd> <kbd>→</kbd> turn the page · <kbd>/</kbd> find</p>
+</footer>
+<p class="bynumber">Previous and next in <a href="/Corn-Jr-Public/thread/reply-judge.html">The reply judge</a>. By number:
+  <a href="/Corn-Jr-Public/finding/204.html">204</a> · <a href="/Corn-Jr-Public/finding/206.html">206</a></p>
+
+</div>
+</body>
+</html>

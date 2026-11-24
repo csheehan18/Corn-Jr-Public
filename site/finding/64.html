@@ -1,0 +1,103 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>64 · Re-reading the prompt each round costs launches, not tokens: 0.22 ms · Corn-Jr</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600&family=IBM+Plex+Mono:wght@400;500&family=Spectral:ital,wght@0,400;0,500;0,600;1,400&family=Spectral+SC:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/Corn-Jr-Public/static/library.css">
+<script defer src="/Corn-Jr-Public/static/library.js"></script>
+<script type="speculationrules">
+{"prerender": [{"where": {"and": [{"href_matches": "/Corn-Jr-Public/*"}, {"not": {"href_matches": "/Corn-Jr-Public/random.html"}}, {"not": {"href_matches": "/Corn-Jr-Public/static/*"}}]}, "eagerness": "moderate"}]}
+</script>
+
+</head>
+<body>
+<div class="page">
+  <header class="running">
+    <a class="book" href="/Corn-Jr-Public/">Corn-Jr · The Record</a>
+    <nav>
+      <a href="/Corn-Jr-Public/" data-key="shelf">Shelf</a><a href="/Corn-Jr-Public/findings.html" data-key="findings" class="here">Findings</a><a href="/Corn-Jr-Public/doc/VISION.html" data-key="VISION">Vision</a><a href="/Corn-Jr-Public/doc/GLOSSARY.html" data-key="GLOSSARY">Glossary</a>
+      <a href="https://github.com/csheehan18/Corn-Jr-Public">Source</a>
+    </nav>
+  </header>
+  
+
+<article class="sheet" style="--c:var(--c1)">
+  <div class="progress" aria-hidden="true"></div>
+  <section class="grid chapter-open finding-open">
+    <a class="tab" href="/Corn-Jr-Public/thread/foundations.html" title="Foundations"><small>Part</small><span>I</span></a>
+    <p class="cn">64</p>
+    <p class="partline"><a href="/Corn-Jr-Public/thread/foundations.html">Foundations</a> · 26 August 2026</p>
+    <h1>Re-reading the prompt each round costs launches, not tokens: 0.22 ms</h1>
+  </section>
+
+  <section class="grid">
+    <p class="marginal">The result, as the finding states it</p><div class="prose"><p class="lead">Prefill costs launches, not tokens, so 42% redundancy was worth 0.22 ms</p></div>
+    <p class="marginal">What it cost</p><div class="prose"><p class="cost">0 s of new scoring on record; it reads 1 card scored for an earlier finding (<code>corn_jr_260m</code>). Backfilled 2026-09-26 from the cards' <code>seconds</code>; training and probe time were never recorded, so this is a floor.</p></div>
+  </section>
+
+  
+
+  <section class="grid">
+    <div class="prose doc"><p>Four runs on an idle 3080, <code>configs/corn_jr_260m.py</code> at bf16. <code>scripts/prefill_redundancy.py</code> counted the redundancy; <code>scripts/bench_prefix_reuse.py</code> timed what removing it bought.</p>
+<h3 id="the-idea-and-it-was-a-good-one">The idea, and it was a good one</h3>
+<p>A turn is not one generation. <code>corn/agent.py</code> runs a round per tool call plus one for the spoken reply, and each round's context is the previous round's plus what that round produced. <code>GraphedDecoder.stream</code> opens with <code>cache.reset()</code>, so <strong>round 2 re-encodes from token zero every token round 1 read and every token round 1 wrote</strong>, having discarded that KV moments earlier.</p>
+<p>Counted over 300 real single-call turns from <code>tools.txt</code>:</p>
+<p>prefill tokens              116,338 already computed this turn   49,001 = 42.1% mean redundant per turn         163 tokens the declaration alone           151 tokens, every round of every turn</p>
+<p>And it is exactly recoverable rather than approximately. <code>corn/model.py</code> uses learned absolute positions, so position <em>i</em>'s K and V depend on <em>i</em> and what precedes it and on nothing after — a kept prefix <strong>is</strong> the history it claims to be. (Pleasingly, <code>wpe</code> is usually the constraint here: it is why <code>BatchedReader</code> cannot left-pad. Same property, paying out for once.)</p>
+<p><code>prefill(reuse=True)</code> was built, verified — 24/24 token parity, byte-identical agent output through the grammar and the tool loop — and timed.</p>
+<h3 id="it-is-a-null">It is a null</h3>
+<p>Round 2 of a real <code>send_text</code> turn on the 260M shape, 225 tokens with 163 shared:</p>
+<p>round-2 prefill, cold      10.63 ms round-2 prefill, reuse     10.42 ms      1.02x, 0.22 ms saved</p>
+<p>32-token reply decode      56.71 ms round 2 total, cold        67.34 ms round 2 total, reuse       67.12 ms      1.00x</p>
+<p><strong>72% of the tokens skipped, 2% of the time saved.</strong> Prefill is 16% of the round and reuse removes 0.3% of it.</p>
+<h3 id="why-and-this-is-the-finding">Why, and this is the finding</h3>
+<p>Prefill time against prompt length, eager, the shipped path:</p>
+<p>tokens     16     32     64    128    225    384    511 ms       8.82   8.48   8.57   8.36   8.65   8.12   8.45</p>
+<p><strong>Flat. Thirty-two times the tokens, the same wall clock.</strong> Prefill is bound by kernel <em>launches</em> — 20 layers of ungraphed eager work — and not by the tokens flowing through them. Cutting the token count optimises a variable the clock does not depend on.</p>
+<p>This is the second finding's diagnosis, on the path nobody re-checked. That finding established decode was launch-bound and fixed it with CUDA graphs; the same argument applies unchanged to prefill and was never made, because every instrument since has measured decode. <code>corn/bench.py</code> reports <code>prefill_ms</code> on every run and it has been sitting at ~9 ms in plain sight.</p>
+<h3 id="what-does-move-it">What does move it</h3>
+<p>tokens          eager   compiled(dynamic)   compiled(static) 128              8.50        11.32               5.06    1.68x 256              9.00        11.55               5.25    1.71x 512              8.57        10.90               7.16    1.20x</p>
+<p><strong>Static shapes are the whole story.</strong> <code>torch.compile(dynamic=True)</code> is <em>slower</em> than eager — guard overhead and fusion it cannot commit to — and the same compile with <code>dynamic=False</code> is 1.68x. That is ~3.4 ms a round, fifteen times what prefix reuse bought, from the opposite end of the problem.</p>
+<p>Static shapes for a variable-length prompt means bucketing and padding, and the padding is safe in the way that matters. Right-padding with <strong>random garbage</strong>, comparing the KV over the real positions:</p>
+<p>layer  0   delta 0.000e+00                      exactly inert layer  1   delta 1.25e-01   scale 16.12   rel 7.8e-03 layer 11   delta 6.25e-02   scale  4.91   rel 1.3e-02 bf16 relative step 3.9e-03  -&gt;  2-3 ULPs</p>
+<p><strong>Layer 0 is exactly zero</strong>, which is the causal mask doing its job: a real position never attends to padding, so the arithmetic is unchanged. What drifts from layer 1 on is SDPA tiling a longer sequence differently, at two to three bf16 ULPs — the same rounding the sixty-first commit's manual attention produces, and the same seq-length effect that appears between a 46-token and a 79-token prefill of the <em>same</em> tokens. So a bucketed prefill lands in the <code>--fast-attn</code> category rather than the <code>--buckets</code> one: same computation, different rounding, fine for talking and not for a scorecard.</p>
+<h3 id="what-this-settles">What this settles</h3>
+<ul><li><strong>The 42.1% is real and worthless.</strong> Both halves matter: nobody should re-derive the redundancy and assume it is money.</li><li><strong><code>prefix_reuse</code> stays, off by default.</strong> It is correct and free, it may pay where launches stop dominating — a longer window, a batched or graphed prefill — and deleting it would invite the same day's work again. The docstring carries the null.</li><li><strong>The chunked prefill it needed is the real yield.</strong> <code>CornModel.step</code> now takes <code>T &gt; 1</code> tokens against a live cache, which <code>CausalSelfAttention.forward</code> refuses outright. The sixty-second finding's draft-and-verify needs exactly that primitive, and it now exists.</li></ul>
+<h3 id="what-it-does-not-settle">What it does not settle</h3>
+<ul><li><strong>Bucketed static prefill is measured but not built.</strong> 1.68x is a timing of <code>torch.compile(dynamic=False)</code> on whole-sequence forwards at exact bucket sizes, not of a padded implementation with the logits read from position <code>t-1</code>. The reference <code>forward</code> returns only the last position's logits, so that indexing is a real change and is unwritten.</li><li><strong>Whether prefill is worth attacking at all.</strong> It is 16% of a round here. 1.68x of 16% is ~7% of a round, against decode's 84% — worth having, and not before anything that moves decode.</li><li><strong>The 8 ms floor is unexplained.</strong> Flat from 16 to 511 tokens says launches dominate; it does not say 20 layers of eager forward <em>should</em> cost 8 ms, and nobody has counted the launches or looked at where they go.</li></ul>
+<h3 id="the-method-note">The method note</h3>
+<p>This is the sixty-second finding's shape twice in one week: an intervention reads near zero, and the measurement that kills it is the one that finds the real mechanism. Both times the useful move was to <strong>measure the quantity the mechanism operates on</strong> — bytes rather than tokens there, launches rather than tokens here. A null that only reports its own size teaches nothing; a null that reports why is a direction.</p></div>
+  </section>
+
+  <section class="grid refs">
+    <div class="body two-even">
+      <div>
+        <h2 class="small">It cites</h2>
+        <p class="aside">No other finding by number.</p>
+      </div>
+      <div>
+        <h2 class="small">Cited by</h2>
+        <ul class="reflist"><li style="--c:var(--c2)"><a href="/Corn-Jr-Public/finding/72.html"><span class="fn">72</span>Search returned &#39;capital punishment&#39; for &#39;capital of Mongolia&#39;; fixed</a></li></ul>
+        
+      </div>
+    </div>
+    <p class="body source">docs/findings/64-prefill-costs-launches-not-tokens-so-forty-two-per-cent-redundancy-was-worth-nought-point-two-milliseconds.md</p>
+  </section>
+</article>
+
+  
+<footer class="turn">
+  <div><span class="sc">previous</span><a href="/Corn-Jr-Public/finding/47.html">47 · The leading learning rate finished last; 3e-4 stays</a></div>
+  <div class="r"></div>
+  <p class="keys"><kbd>←</kbd> <kbd>→</kbd> turn the page · <kbd>/</kbd> find</p>
+</footer>
+<p class="bynumber">Previous and next in <a href="/Corn-Jr-Public/thread/foundations.html">Foundations</a>. By number:
+  <a href="/Corn-Jr-Public/finding/63.html">63</a> · <a href="/Corn-Jr-Public/finding/65.html">65</a></p>
+
+</div>
+</body>
+</html>

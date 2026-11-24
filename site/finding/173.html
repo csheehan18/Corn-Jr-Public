@@ -1,0 +1,94 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>173 · Branch choice falls to chance when condition words flip the meaning · Corn-Jr</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600&family=IBM+Plex+Mono:wght@400;500&family=Spectral:ital,wght@0,400;0,500;0,600;1,400&family=Spectral+SC:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/Corn-Jr-Public/static/library.css">
+<script defer src="/Corn-Jr-Public/static/library.js"></script>
+<script type="speculationrules">
+{"prerender": [{"where": {"and": [{"href_matches": "/Corn-Jr-Public/*"}, {"not": {"href_matches": "/Corn-Jr-Public/random.html"}}, {"not": {"href_matches": "/Corn-Jr-Public/static/*"}}]}, "eagerness": "moderate"}]}
+</script>
+
+</head>
+<body>
+<div class="page">
+  <header class="running">
+    <a class="book" href="/Corn-Jr-Public/">Corn-Jr · The Record</a>
+    <nav>
+      <a href="/Corn-Jr-Public/" data-key="shelf">Shelf</a><a href="/Corn-Jr-Public/findings.html" data-key="findings" class="here">Findings</a><a href="/Corn-Jr-Public/doc/VISION.html" data-key="VISION">Vision</a><a href="/Corn-Jr-Public/doc/GLOSSARY.html" data-key="GLOSSARY">Glossary</a>
+      <a href="https://github.com/csheehan18/Corn-Jr-Public">Source</a>
+    </nav>
+  </header>
+  
+
+<article class="sheet" style="--c:var(--c4)">
+  <div class="progress" aria-hidden="true"></div>
+  <section class="grid chapter-open finding-open">
+    <a class="tab" href="/Corn-Jr-Public/thread/tag-language.html" title="The tag language"><small>Part</small><span>IV</span></a>
+    <p class="cn">173</p>
+    <p class="partline"><a href="/Corn-Jr-Public/thread/tag-language.html">The tag language</a> · 14 October 2026</p>
+    <h1>Branch choice falls to chance when condition words flip the meaning</h1>
+  </section>
+
+  <section class="grid">
+    <p class="marginal">The result, as the finding states it</p><div class="prose"><p class="lead">Branch rebuilt with flip words takes the table away and nothing forms in its place: at one pass and 2.2% of the mix the pick is at chance on the traces it trained on (202 of 400, a median margin of 0.01 nats), the result does not reach it, and what he writes is a fixed taste in place phrases ("a spot to eat" picked 89% of the times it is offered, "somewhere to eat" 26%)</p></div>
+    <p class="marginal">What it cost</p><div class="prose"><p class="cost">19.1 min of training one nano run (1,146 s, contended — the card at 37-40%, a bound), two reads at 18-19 s, one copy card 9 s, the control read 15 s, the free-decode hand read 9 s and the own-trace reads ~20 s on the card; the build 13:26-13:34 on 2026-10-14, the chain 13:34-13:54, the read 13:54-13:57.</p></div>
+  </section>
+
+  
+
+  <section class="grid">
+    <div class="prose doc"><p>The branch rung rebuilt to <span class="deadlink">GENERATORS.md</span> after findings <a class="fref" href="/Corn-Jr-Public/finding/169.html">169</a>-<a class="fref" href="/Corn-Jr-Public/finding/172.html">172</a>, at the owner's direction — <strong>the same words with a different meaning</strong>, so that memorising the wording cannot work — pre-registered in <code>configs/mix_v3_funcworld_branchflip.py</code>'s docstring at 6a9265e before a byte trained. <code>corn/branchflipgen.py</code>: eight families in contrast pairs, where one flip word moves the gold ("X if it's raining, otherwise Y" / "X if it's not raining, otherwise Y" / "X unless it's raining, in which case Y" ...), filled from word lists into <strong>2,997 wordings, none seen more than 11 times</strong> (finding <a class="fref" href="/Corn-Jr-Public/finding/169.html">169</a>'s payload: eight wordings at ~928 each). <code>check_branch.py</code> section 8 re-derives every gold by rule from the words (0 wrong of 7,424) and holds every single key at 50.2% or less on the gold's position. Twenty traces were read by hand before training, every pick right. <strong>One change from finding <a class="fref" href="/Corn-Jr-Public/finding/169.html">169</a>'s arm: the requests</strong>; the same world, menus and dose (7,424 traces, 2.2% of the mix, 5,844 iterations), arm E2 underneath. <strong>One seed, by the owner's call</strong>: a corpus that teaches the rule installs it at any seed, so a miss is the data's. <strong>Cards:</strong> <code>evals/results/nano20m_v3_fw_branchflip__branchflip{,_items}.json*</code>, <code>__branch{,_items}.json*</code>, <code>__copywide.json</code>; the control <code>nano20m_v3_fw_filter_ev2__branchflip.json</code>.</p>
+<h3 id="the-registered-read">The registered read</h3>
+<p>quads (all four right)        held-out first   held-out second   flip pairs   169 newframe (of 144)         (of 144)         (of 144)     (of 48 a side) arm E2 (control)                    0                0                0           0 / 0 flip-word branch, seed 1337         3                0                1           0 / 0</p>
+<p>the pick follows the result (base vs result twin, of 288): 12 and 12 held-out, 12 on the flip pairs — the control reads 7-16</p>
+<p><strong>The gate fails: the registered row "the data is still wrong".</strong> The prediction on the record (the gate passes, and finding <a class="fref" href="/Corn-Jr-Public/finding/169.html">169</a>'s never-seen wordings rise above chance) failed on every read.</p>
+<h3 id="read-by-hand-the-free-decode-first">Read by hand — the free decode first</h3>
+<p><code>hand_flip.py</code> (scratch, probe only — not on disk): he writes the pick line himself, greedy, on every prompt of 40 sampled quads across the four cells, each printed beside its request and result. 160 lines, 0 malformed, and right on exactly half in every cell — 20 of 40, 20 of 40, 21 of 40, 18 of 40. The lines say why: <strong>in most quads he writes the same continuation on all four prompts</strong> — whatever the result, and wherever the phrase sits in the menu. Row 126 writes "a spot for a pint" four times, 138 "a place for drinks", 130 "a room for the night". Over all 432 rows (the full-option card), <strong>276 quads name one place on all four prompts</strong>, and the share of times each phrase is picked when offered is a ranking:</p>
+<p>a spot to eat 0.89   a spot for a pint 0.81   a room for the night 0.54 a place to sleep 0.45   a place for dinner 0.44   a place for drinks 0.43 somewhere for lunch 0.41   somewhere for a drink 0.33   somewhere to stay 0.31 somewhere to eat 0.26</p>
+<p><strong>GENERATORS §5's signature: a fixed ranking, here over the continuation phrases.</strong> It is what is left when no decision formed. The phrase is drawn independently of the gold, so it scores half and moves nothing.</p>
+<h3 id="on-its-own-training-traces">On its own training traces</h3>
+<p>The registered rows are held-out, so the question that settles the cause is whether anything formed where it trained. Scored on 400 payload traces from the front of the file (<code>own_traces.py</code>, scratch, probe only — not on disk; the validation split is the tail):</p>
+<p>run                                     right of 400   median margin (nats, wrong minus gold) flip-word branch, seed 1337                  202            +0.01 finding <a class="fref" href="/Corn-Jr-Public/finding/169.html">169</a>'s branch, seed 2337              367            +2.27      (installed) finding <a class="fref" href="/Corn-Jr-Public/finding/169.html">169</a>'s branch, seed 1337              229            +0.16      (did not)</p>
+<p><strong>Nothing formed, not even on the traces it trained on.</strong> The rebuild did the first half of its job: there was no table to fall back on, and none formed. But at one pass and 2.2% of the mix the rule did not form either, and the binding now asks for more than finding <a class="fref" href="/Corn-Jr-Public/finding/169.html">169</a>'s did. Finding <a class="fref" href="/Corn-Jr-Public/finding/169.html">169</a> needed the result crossed with one of eight wordings. This needs the result crossed with where the condition attaches and whether a flip word turns it over. The dose that got finding <a class="fref" href="/Corn-Jr-Public/finding/169.html">169</a>'s easier binding to form at one seed of four forms nothing here.</p>
+<p><strong>The copy row, a side column</strong>: <code>tool.copy_wide</code> 297 of 300, inside the 20M family's spread (finding <a class="fref" href="/Corn-Jr-Public/finding/170.html">170</a>).</p>
+<h3 id="what-it-licenses">What it licenses</h3>
+<p>By the table, <strong>the data is still wrong</strong> — and the own-trace read says which way: <strong>not memorisable (fixed), not learnable at this dose either.</strong> Two levers follow from GENERATORS, and the owner's reading ("it should install regardless of luck") is the standard either has to meet:</p>
+<ul><li><strong>Supply the hop in the bytes (D5).</strong> Let him write the binding himself, next to the request where the flip words are: a line after the parse naming the continuation the condition selects. Then the pick is a short read of his own line and the result. Every rung that installed did so on a short, copyable hop (findings <a class="fref" href="/Corn-Jr-Public/finding/147.html">147</a>, <a class="fref" href="/Corn-Jr-Public/finding/151.html">151</a>, <a class="fref" href="/Corn-Jr-Public/finding/168.html">168</a>'s named field).</li><li><strong>More distinct evidence (D8, finding <a class="fref" href="/Corn-Jr-Public/finding/159.html">159</a>).</strong> Fresh traces rather than passes — several times the 7,424, each wording still near ten sightings — so the rule has the volume a harder conjunction needs.</li></ul>
+<p>The first changes the format and is a D7 question. The second changes only the dose.</p>
+<p><strong>What it does not settle.</strong> Whether a second seed would differ — by the owner's standard it should not matter, and the own-trace read leaves nothing for a seed to rescue. Also whether the flip families are equally hard, which the per-family tally above (6-12 prompts a family) is too thin to say.</p></div>
+  </section>
+
+  <section class="grid refs">
+    <div class="body two-even">
+      <div>
+        <h2 class="small">It cites</h2>
+        <ul class="reflist"><li style="--c:var(--c4)"><a href="/Corn-Jr-Public/finding/147.html"><span class="fn">147</span>When the runtime holds the structure, invented words vanish; grouping stays his</a></li><li style="--c:var(--c4)"><a href="/Corn-Jr-Public/finding/151.html"><span class="fn">151</span>Ignoring groups he closes too early lets the interpreter pass</a></li><li style="--c:var(--c3)"><a href="/Corn-Jr-Public/finding/159.html"><span class="fn">159</span>More ways to phrase each move helps unseen phrasings modestly</a></li><li style="--c:var(--c4)"><a href="/Corn-Jr-Public/finding/168.html"><span class="fn">168</span>Naming the flexible limit outright splits the seeds</a></li><li style="--c:var(--c4)"><a href="/Corn-Jr-Public/finding/169.html"><span class="fn">169</span>Choosing a branch from a checked condition: seeds split</a></li><li style="--c:var(--c4)"><a href="/Corn-Jr-Public/finding/170.html"><span class="fn">170</span>The copy test&#39;s failure threshold was measuring seed noise</a></li></ul>
+        
+      </div>
+      <div>
+        <h2 class="small">Cited by</h2>
+        <ul class="reflist"><li style="--c:var(--c4)"><a href="/Corn-Jr-Public/finding/169.html"><span class="fn">169</span>Choosing a branch from a checked condition: seeds split</a></li><li style="--c:var(--c4)"><a href="/Corn-Jr-Public/finding/171.html"><span class="fn">171</span>At 50M, branch choice still splits across seeds</a></li><li style="--c:var(--c4)"><a href="/Corn-Jr-Public/finding/172.html"><span class="fn">172</span>The starting model, not the trace format, makes branching reliable</a></li><li style="--c:var(--c4)"><a href="/Corn-Jr-Public/finding/174.html"><span class="fn">174</span>A space after the bracket shifts his default to the first option</a></li><li style="--c:var(--c4)"><a href="/Corn-Jr-Public/finding/175.html"><span class="fn">175</span>He names the chosen branch, but can&#39;t combine it with the result</a></li><li style="--c:var(--c4)"><a href="/Corn-Jr-Public/finding/176.html"><span class="fn">176</span>Naming both branches fixes the pick but blurs &#39;not&#39;</a></li><li style="--c:var(--c4)"><a href="/Corn-Jr-Public/finding/181.html"><span class="fn">181</span>Mixed sentence shapes: he reads each option&#39;s own condition, loses &#39;otherwise&#39;</a></li></ul>
+        
+      </div>
+    </div>
+    <p class="body source">docs/findings/173-branch-with-flip-words-takes-away-the-table-and-nothing-forms-in-its-place-chance-on-its-own-training-traces-and-a-fixed-taste-in-place-phrases.md</p>
+  </section>
+</article>
+
+  
+<footer class="turn">
+  <div><span class="sc">previous</span><a href="/Corn-Jr-Public/finding/172.html">172 · The starting model, not the trace format, makes branching reliable</a></div>
+  <div class="r"><span class="sc">next</span><a href="/Corn-Jr-Public/finding/174.html">174 · A space after the bracket shifts his default to the first option</a></div>
+  <p class="keys"><kbd>←</kbd> <kbd>→</kbd> turn the page · <kbd>/</kbd> find</p>
+</footer>
+<p class="bynumber">Previous and next in <a href="/Corn-Jr-Public/thread/tag-language.html">The tag language</a>. By number:
+  <a href="/Corn-Jr-Public/finding/172.html">172</a> · <a href="/Corn-Jr-Public/finding/174.html">174</a></p>
+
+</div>
+</body>
+</html>

@@ -1,0 +1,94 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>32 · A bigger phrasing test; its no-transfer reading was later withdrawn · Corn-Jr</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600&family=IBM+Plex+Mono:wght@400;500&family=Spectral:ital,wght@0,400;0,500;0,600;1,400&family=Spectral+SC:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/Corn-Jr-Public/static/library.css">
+<script defer src="/Corn-Jr-Public/static/library.js"></script>
+<script type="speculationrules">
+{"prerender": [{"where": {"and": [{"href_matches": "/Corn-Jr-Public/*"}, {"not": {"href_matches": "/Corn-Jr-Public/random.html"}}, {"not": {"href_matches": "/Corn-Jr-Public/static/*"}}]}, "eagerness": "moderate"}]}
+</script>
+
+</head>
+<body>
+<div class="page">
+  <header class="running">
+    <a class="book" href="/Corn-Jr-Public/">Corn-Jr · The Record</a>
+    <nav>
+      <a href="/Corn-Jr-Public/" data-key="shelf">Shelf</a><a href="/Corn-Jr-Public/findings.html" data-key="findings" class="here">Findings</a><a href="/Corn-Jr-Public/doc/VISION.html" data-key="VISION">Vision</a><a href="/Corn-Jr-Public/doc/GLOSSARY.html" data-key="GLOSSARY">Glossary</a>
+      <a href="https://github.com/csheehan18/Corn-Jr-Public">Source</a>
+    </nav>
+  </header>
+  
+
+<article class="sheet" style="--c:var(--c1)">
+  <div class="progress" aria-hidden="true"></div>
+  <section class="grid chapter-open finding-open">
+    <a class="tab" href="/Corn-Jr-Public/thread/routing.html" title="Routing and declining"><small>Part</small><span>I</span></a>
+    <p class="cn">32</p>
+    <p class="partline"><a href="/Corn-Jr-Public/thread/routing.html">Routing and declining</a> · 17 August 2026</p>
+    <h1>A bigger phrasing test; its no-transfer reading was later withdrawn</h1>
+  </section>
+
+  <section class="grid">
+    <p class="marginal">The result, as the finding states it</p><div class="prose"><p class="lead">The bucket works at n=398, and the transfer is still zero</p></div>
+    <p class="marginal">What it cost</p><div class="prose"><p class="cost">4.4 min of scoring on the 1 card first cited here (<code>nano100m_v1</code>). Backfilled 2026-09-26 from the cards' <code>seconds</code>; training and probe time were never recorded, so this is a floor.</p></div>
+  </section>
+
+  
+
+  <section class="grid">
+    <div class="prose doc"><p>The thirty-first finding built <code>evals_wideonly</code> and could not read it: twelve carriers on one left edge, an untreated range of 8–12 touching its own ceiling, and a transfer question that no number of seeds could answer. The arm rebuilds that bucket at <strong>398 of 400 items across all fourteen edges</strong>, and it has now been scored on all ten checkpoints. No training was involved; every one of them was already on disk.</p>
+<blockquote><p><strong>The negative below is withdrawn — see "Added later" at the end of this finding.</strong> The positive control stands and strengthens. The transfer claim was read off pass/fail totals on an arm that had no attribution files at 29.6M, and the totals cancel the effect twelve edges actually have.</p></blockquote>
+<p>The reading was pre-registered as three-way, and it comes out that way:</p>
+<div class="tablewrap"><table><thead><tr><th>checkpoints</th><th>on these edges</th><th><code>temporal.route</code> /400</th><th>spread</th></tr></thead><tbody><tr><td><code>mix_v1</code> ×4</td><td>untreated — the baseline</td><td><strong>326–343</strong></td><td>17</td></tr><tr><td><code>mix_v1_mid</code> ×2</td><td>untreated — <strong>the transfer test</strong></td><td><strong>336–344</strong></td><td>8</td></tr><tr><td><code>mix_v1_wide</code> ×4</td><td>treated — <strong>the positive control</strong></td><td><strong>387–395</strong></td><td>8</td></tr></tbody></table></div>
+<p><strong>The control has to be read first, and it separates by 44.</strong> That was the precondition the thirty-first finding stated before the result rather than after: a flat transfer number on an insensitive arm means nothing, and this is the failure mode the n=12 bucket had already had once. <code>scripts/effect.py</code> puts the treated group above the baseline by <strong>44</strong> and above the mid group by <strong>43</strong>. The arm can see an effect nearly three times its own 17-point seed spread, so whatever it says about mid, it is not saying it for want of sensitivity.</p>
+<p><strong>And mid does not move.</strong> 336–344 against the baseline's 326–343 is an overlap, on items whose left edges mid was trained on six more of — none of them these. The mid arm learned twelve edges completely, as the thirty-first finding showed on its own bucket, and carried <strong>nothing</strong> to the other fourteen. Two doses, two directions, same answer: the twenty-ninth finding's "buys exactly what it contains and transfers nothing" now holds where it was designed to be visible instead of where it happened to be.</p>
+<h4 id="the-failure-mode-does-not-change-only-its-count">The failure mode does not change, only its count</h4>
+<p>Every failure on this arm is <code>wrong_expression</code> — right tool, well-formed JSON, wrong words — as it was in the twenty-eighth finding. It is 67 / 71 / 57 / 74 on the baseline seeds, 63 / 55 on mid, and <strong>5 / 12 / 8 / 13</strong> on the treated arm; the only non-<code>wrong_expression</code> failures anywhere are two <code>wrong_tool</code> and four <code>unparseable</code> across ten checkpoints. So the treatment does not change what going wrong looks like. It removes instances of one thing, on exactly the edges it covers, which is what enlarging a memorised set predicts and what a repaired segmenter does not.</p>
+<h4 id="the-arm-s-floor-which-the-thirtieth-finding-said-had-to-be-m">The arm's floor, which the thirtieth finding said had to be measured before anything was quoted</h4>
+<p><code>scripts/floors.py</code> now carries all four arms, and the wide-only spread was the blank in that table:</p>
+<div class="tablewrap"><table><thead><tr><th>row</th><th>frozen</th><th>paraphrase</th><th>held-out</th><th><strong>wide-only</strong></th></tr></thead><tbody><tr><td><code>temporal.route</code></td><td>3</td><td>24</td><td>45</td><td><strong>17</strong></td></tr><tr><td><code>temporal.copy</code></td><td>1</td><td>1</td><td>0</td><td><strong>0</strong></td></tr><tr><td><code>tool.selection</code></td><td>44</td><td>62</td><td>62</td><td><strong>62</strong></td></tr><tr><td><code>tool.validity</code></td><td>18</td><td>34</td><td>34</td><td><strong>34</strong></td></tr><tr><td><code>schema.conform</code></td><td>8</td><td>8</td><td>8</td><td><strong>8</strong></td></tr></tbody></table></div>
+<p><strong>The floor does not order with the difficulty of the arm</strong>, which is worth recording because the obvious guess is that it should. Wide-only items score <em>lower</em> than paraphrase items (326–343 against 324–348 is nearly the same, on carriers chosen to be harder) while spreading <em>less</em>, 17 against 24, and held-out spreads 45 on items no harder than these. A floor is a property of the arm, and the thirtieth finding's point survives the one new arm that could have contradicted it.</p>
+<p>The rows the arm does not rewrite behave: <code>tool.copy</code> and <code>schema.conform</code> are identical to the frozen set on every seed, which is <code>floors.py</code>'s own self-consistency check passing, and <code>temporal.copy</code> reads 353/353 on nine of ten checkpoints — the tenth being <code>mix_v1_mid</code>'s first seed at 352, the same checkpoint that read 352 under paraphrase.</p>
+<h4 id="what-this-does-not-settle">What this does not settle</h4>
+<ul><li><strong>Mid is two seeds against four</strong>, and it is the side carrying the negative. The overlap is wide enough that more seeds are unlikely to change it — mid's whole range sits inside the baseline's — but two points are a range and not a floor, and this is the third finding in a row to say so about the same two checkpoints.</li><li><strong>It says nothing about why.</strong> That the boundary is memorised as a set is now measured three ways; no instrument here distinguishes a model that cannot segment from one that has never had a reason to.</li><li><strong>Capacity is untested.</strong> Every checkpoint above is 29.6M. Whether a larger model transfers across left edges is <code>configs/nano100m_v1.py</code>'s pre-registered question, and the <code>still uncovered</code> bucket at 119–139 is the number to read it on.</li></ul>
+<h4 id="added-later-the-negative-above-is-withdrawn-and-the-row-is-w">Added later — the negative above is withdrawn, and the row is why</h4>
+<p><code>scripts/paraphrase_attribute.py</code> had never been run on this arm at 29.6M. Ten checkpoints were scored on it and <strong>none of them had an attribution file</strong>, so "mid does not move" was read off pass/fail totals and nothing else. Running the fifteen missing passes and splitting <code>wrong_expression</code> by what the <em>backend</em> does with the emitted span changes the reading:</p>
+<div class="tablewrap"><table><thead><tr><th>checkpoints</th><th>total</th><th>unresolvable</th><th><strong>wrong date</strong></th></tr></thead><tbody><tr><td><code>mix_v1</code> ×4</td><td>326–343</td><td>10–21</td><td><strong>36–52</strong></td></tr><tr><td><code>mix_v1_mid</code> ×2</td><td>336–344</td><td>25–26</td><td><strong>29–30</strong></td></tr><tr><td><code>mix_v1_wide</code> ×4</td><td>387–395</td><td>1–2</td><td><strong>3–8</strong></td></tr></tbody></table></div>
+<p><code>resolve_date</code> returns <code>None</code> for an expression it does not recognise, so an emitted span splits three ways: it resolves to the gold date, it resolves to a <em>different</em> date, or it does not resolve and the tool comes back with a clarify. The first two are a right and a wrong answer; the third is Corn-Jr asking. <strong>The row adds all three together</strong>, and VISION §9's most important behaviour is the difference between the last two.</p>
+<p><strong>Mid separates from the baseline on wrong dates — 29–30 against 36–52 — where the totals overlap.</strong> Its unresolvable count rises by about as much as its wrong-date count falls, so twelve left edges convert roughly ten confident errors into roughly ten refusals and the total scores that as a wash. It is not a wash. The positive control is unaffected and gets stronger: the treated arm separates by 44 on totals and by <strong>28 on wrong dates</strong>, on a bucket where it reads 3–8 against the baseline's 36–52.</p>
+<p>So the finding's positive half stands and <strong>its negative half should not be quoted</strong>: twelve edges transfer something, and the instrument that said otherwise cannot see the thing they transfer. What it does not become is a claim in the other direction — mid is still two seeds, a spread of 1 across two points is not a floor, and more mid seeds are the only thing that settles it. <code>evals_heldout</code> was re-read the same way and overlaps on every column with spreads of 34–45, which is that arm being unreadable rather than flat.</p></div>
+  </section>
+
+  <section class="grid refs">
+    <div class="body two-even">
+      <div>
+        <h2 class="small">It cites</h2>
+        <p class="aside">No other finding by number.</p>
+      </div>
+      <div>
+        <h2 class="small">Cited by</h2>
+        <p class="aside">No later finding yet.</p>
+      </div>
+    </div>
+    <p class="body source">docs/findings/32-the-bucket-works-at-n-398-and-the-transfer-is-still-zero.md</p>
+  </section>
+</article>
+
+  
+<footer class="turn">
+  <div><span class="sc">previous</span><a href="/Corn-Jr-Public/finding/31.html">31 · The gain has no sharp threshold, and the fix was already cheap</a></div>
+  <div class="r"><span class="sc">next</span><a href="/Corn-Jr-Public/finding/34.html">34 · He picks tools he never saw in training, but can&#39;t say no</a></div>
+  <p class="keys"><kbd>←</kbd> <kbd>→</kbd> turn the page · <kbd>/</kbd> find</p>
+</footer>
+<p class="bynumber">Previous and next in <a href="/Corn-Jr-Public/thread/routing.html">Routing and declining</a>. By number:
+  <a href="/Corn-Jr-Public/finding/31.html">31</a> · <a href="/Corn-Jr-Public/finding/33.html">33</a></p>
+
+</div>
+</body>
+</html>

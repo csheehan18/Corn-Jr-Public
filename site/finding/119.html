@@ -1,0 +1,102 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>119 · Fine-tuning from the shipped base: frozen scores hold, small social costs · Corn-Jr</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600&family=IBM+Plex+Mono:wght@400;500&family=Spectral:ital,wght@0,400;0,500;0,600;1,400&family=Spectral+SC:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/Corn-Jr-Public/static/library.css">
+<script defer src="/Corn-Jr-Public/static/library.js"></script>
+<script type="speculationrules">
+{"prerender": [{"where": {"and": [{"href_matches": "/Corn-Jr-Public/*"}, {"not": {"href_matches": "/Corn-Jr-Public/random.html"}}, {"not": {"href_matches": "/Corn-Jr-Public/static/*"}}]}, "eagerness": "moderate"}]}
+</script>
+
+</head>
+<body>
+<div class="page">
+  <header class="running">
+    <a class="book" href="/Corn-Jr-Public/">Corn-Jr · The Record</a>
+    <nav>
+      <a href="/Corn-Jr-Public/" data-key="shelf">Shelf</a><a href="/Corn-Jr-Public/findings.html" data-key="findings" class="here">Findings</a><a href="/Corn-Jr-Public/doc/VISION.html" data-key="VISION">Vision</a><a href="/Corn-Jr-Public/doc/GLOSSARY.html" data-key="GLOSSARY">Glossary</a>
+      <a href="https://github.com/csheehan18/Corn-Jr-Public">Source</a>
+    </nav>
+  </header>
+  
+
+<article class="sheet" style="--c:var(--c3)">
+  <div class="progress" aria-hidden="true"></div>
+  <section class="grid chapter-open finding-open">
+    <a class="tab" href="/Corn-Jr-Public/thread/conversation.html" title="Conversation and the second turn"><small>Part</small><span>III</span></a>
+    <p class="cn">119</p>
+    <p class="partline"><a href="/Corn-Jr-Public/thread/conversation.html">Conversation and the second turn</a> · 5 September 2026</p>
+    <h1>Fine-tuning from the shipped base: frozen scores hold, small social costs</h1>
+  </section>
+
+  <section class="grid">
+    <p class="marginal">The result, as the finding states it</p><div class="prose"><p class="lead">Arm 2's payload from the ft4g init lands inside arm 2's band on every social row with every frozen row unmoved, the square says arm 3's family drop was the hello anchoring and the extract lean is the init, and the init's cost is two novel declines of 32 and seven social moves of 36 after a tool turn</p></div>
+    <p class="marginal">What it cost</p><div class="prose"><p class="cost">9.6 min of scoring on the 3 cards first cited here (<code>corn_jr_260m_v4_ft_social4</code>, <code>corn_jr_260m_v4_ft_social4__historygrid-0905ctl</code>, <code>corn_jr_260m_v4_ft_social4__toolgrid</code>). Backfilled 2026-09-26 from the cards' <code>seconds</code>; training and probe time were never recorded, so this is a floor.</p></div>
+  </section>
+
+  
+
+  <section class="grid">
+    <div class="prose doc"><p><strong><code>corn_jr_260m_v4_ft_social4</code>, 2026-09-05. PLAN-SOCIAL-SLICE's 2026-09-03 arm, re-specified for the shipped reader in PLAN-CONVERSATION's seventh section: <code>init_from</code> ft4g, <code>data_dir</code> arm 2's own <code>data/mix_v4_ft_social2/</code> (arm 2's payload to the byte; verified in the checkpoint's config before anything was scored), every other field arm 2's verbatim. 1,200 iterations in 1,498 s on an idle 3080 (ENVIRONMENT's 1,502 s for this shape), best at 1,000 (val 0.5873, mean-log-per-source), social per-source loss 0.6554 -&gt; 0.3794. Full batched card, grid A table-backed, historygrid depth 1 under <code>--multi</code>, and the ft4g adapter read on the trunk as a proxy through <code>probe_reader_runtime.py --adapter-trunk</code> (finding <a class="fref" href="/Corn-Jr-Public/finding/118.html">118</a>). Card serialised: the grids ran on a server at port 8766 with an empty <code>--config</code>, no packs, <code>--no- log</code>; the probe and the next arm's launch waited for each other.</strong></p>
+<h3 id="0-the-square-completed">0. The square, completed</h3>
+<p>arm        init          payload        social.family   declared_nocall   bare_nocall arm 2      v4 base       arm 2's        71/112  63.4%   99/112  88.4%     95/112  84.8% arm 3      ft4g          revised        65/112  58.0%   96/112  85.7%     95/112  84.8% arm 4      ft4g          arm 2's        69/112  61.6%   97/112  86.6%     99/112  88.4%</p>
+<p><strong>Arm 4 against arm 2 isolates the init at fixed payload: -2, -2, +4.</strong> Arm 4 against arm 3 isolates the payload at fixed init: +4 on <code>family</code>, and the species says which payload defect it was — <code>answers greeting</code> <strong>14 -&gt; 2</strong>, which is the hello anchoring arm 3's read attributed the drop to on species evidence. That attribution is now a measurement, and the revised generator's hello-opener share is bounded rather than anchored from arm 5 on.</p>
+<h3 id="1-the-social-rows-against-arm-2-the-widened-ruler-0905-cards">1. The social rows, against arm 2 (the widened ruler, -0905 cards)</h3>
+<p>row                        ft4g     arm 2     arm 3     arm 4   arm4-arm2 social.bare_nocall        53/112    95/112    95/112    99/112      +4 social.declared_nocall    39/112    99/112    96/112    97/112      -2 social.voice              59/112    89/112    93/112    90/112      +1 social.family             53/112    71/112    65/112    69/112      -2 social.farewell            11/20     14/20     13/20     14/20       0 social.heldout_carrier     10/12     10/12     10/12     10/12       0 social.self                 7/47     13/47     16/47     16/47      +3 social.self_heldout         3/16      8/16      8/16      8/16       0 social.low_bare_nocall     11/28     14/28     14/28     14/28       0 social.low_declared        7/28     17/28     16/28     16/28      -1 social.low_voice          17/28     24/28     23/28     23/28      -1 social.low_family          0/28      2/28      1/28      1/28      -1 social.low_heldout          0/4       0/4       0/4       0/4       0</p>
+<p>declared_nocall's why    ft4g  decline 47 web 26 | arm 2  decline 9 web 4 | arm 4  decline 9 web 6</p>
+<p>Every row is inside two items of arm 2 except <code>bare_nocall</code> (+4) and <code>social.self</code> (+3), both up. The declaration's effect stays reversed (declared 97 against bare 99). <code>social.family</code>'s residue is arm 2's shape — <code>no family marker</code> 20, <code>answers wellbeing</code> 8 — not arm 3's. <strong>The first pre-registered reading fires on the rows</strong>: the ft4g init is free on everything the eval files measure.</p>
+<h3 id="2-the-gates-against-ft4g">2. The gates, against ft4g</h3>
+<p>row                     ft4g     arm 2     arm 3     arm 4   arm4-ft4g tool.copy            120/120   120/120   120/120   120/120       0 tool.copy_wide       300/300   300/300   300/300   300/300       0 temporal.copy        353/353   353/353   353/353   353/353       0 refusal.say          270/270   270/270   270/270   270/270       0 tool.selection       198/200   198/200   197/200   198/200       0 tool.name_fidelity   109/120   109/120   109/120   109/120       0 temporal.route       398/400   398/400   398/400   398/400       0 search.route_*       200/200   200/200   200/200   200/200       0   x3 chat.abstain_talk    100/100   100/100   100/100   100/100       0 chat.engage          100/100   100/100   100/100   100/100       0 chat.abstain_oos      11/100    12/100    11/100    13/100      +2 chat.abstain_greet    83/100    93/100    90/100    93/100     +10 tool.note_fidelity   100/120   101/120    97/120    96/120      -4 extract.span          97/200    99/200    91/200    92/200      -5 extract.abstain      111/200   107/200   116/200   116/200      +5 turn2.react          118/120   120/120   116/120   117/120      -1 turn2.reask            66/96     77/96     76/96     75/96      +9 compound.pipe          39/48     39/48     40/48     41/48      +2</p>
+<p><strong>Every frozen copy row at its ceiling and <code>refusal.say</code> unmoved</strong> — finding <a class="fref" href="/Corn-Jr-Public/finding/49.html">49</a>'s named risk paid at zero a fourth time. <code>tool.selection</code> is ft4g's exact</p>
+<ol><li><strong>The extract lean reproduces to the item</strong> (arm 3 91/116, arm 4 92/116) with arm 2's payload, so the 2026-09-03 section's third reading fires: the lean is the second pass over ft4g's own payload and not arm 3's labelling. -5 / +5 of 200 is inside finding <a class="fref" href="/Corn-Jr-Public/finding/60.html">60</a>'s floor, and the proxy reader read below is the direct measurement of whether it matters to the reader.</li></ol>
+<h3 id="3-where-the-init-costs-and-it-is-two-small-grids-in-opposite">3. Where the init costs, and it is two small grids in opposite directions</h3>
+<p>grid A, decline           ft4g     arm 2     arm 3     arm 4 pooled trained        174/176   176/176   176/176   176/176 pooled novel            32/32     31/32     30/32     29/32 media                   8/8       8/8       8/8       7/8 commerce                8/8       7/8       7/8       7/8 timers_alarms           8/8       8/8       7/8       7/8 smart_home              8/8       8/8       8/8       8/8 total                 206/208   207/208   206/208   205/208 misses reached        web x2    (nothing)  (nothing)  (nothing) x3</p>
+<p>historygrid depth 1, social probe (social_answered, control excluded) ft4g     arm 2     arm 3     arm 4 six history arms      21/36     26/36     23/36     19/36 social_nocall arm       6/6       6/6       6/6       6/6 reissued_utterance      0         0         0         0 adjacent_frame_kept   all       all       all       all</p>
+<p><strong>Novel decline reads 29/32 against the pre-registered bar of 31</strong>, one miss in each of three categories, every miss the arm 1 species — he spoke instead of calling <code>decline</code>. Trained decline is perfect and <code>tool.selection</code> is unmoved, so this is not finding <a class="fref" href="/Corn-Jr-Public/finding/67.html">67</a>'s see-saw; it is the pronoun-object boundary wobbling at n=8 a cell, and arm 4 does not carry arm 3's vague-tail carriers (arm 2's payload predates them), so the expected reading there was arm 2's, not arm 3's. <strong>And after a tool turn, a social move is answered 19 times in 36 against arm 2's 26</strong> — the opposite direction: he calls where he should speak. The frame holds and nothing is reissued; what moves is the speak/call boundary under a history, which is finding <a class="fref" href="/Corn-Jr-Public/finding/128.html">128</a>'s "a tool turn costs the next social move" number, seven items worse on this init.</p>
+<p>Both are one seed at n = 32 and n = 36, and both point the same way as arm 3 against arm 2 (30/32, 23/36). Three ft4g-init reads against one base-init read is a direction, not a size: <strong>the ft4g init costs a few items on the speak/call boundary under the two grids that probe it, and nothing on the eval files.</strong></p>
+<h3 id="4-the-reader-read-as-a-proxy">4. The reader, read as a proxy</h3>
+<p>trunk under the ft4g adapter    right  wrong  silent   u.silent  attempt   moved  right lost/won ft4g (finding <a class="fref" href="/Corn-Jr-Public/finding/117.html">117</a>)               526    122     73        199     89.9% arm 3 (finding <a class="fref" href="/Corn-Jr-Public/finding/118.html">118</a>)              521    130     70        196     90.3%     27      8 / 3 arm 4                            522    131     68        196     90.6%     30      8 / 4</p>
+<p>Finding <a class="fref" href="/Corn-Jr-Public/finding/118.html">118</a>'s expectation holds: arm 4's trunk reads the shipped adapter within four right answers and three silences of ft4g, the same as arm 3, and the extract lean in §2 did not reach the reader. The re-fit is not run on this arm; it waits for the last trunk.</p>
+<h3 id="5-reading">5. Reading</h3>
+<p><strong>Arm 4 lands on the first pre-registered reading for the rows and misses grid A's novel bar by two.</strong> The ft4g init is free on every eval row, costs two novel declines and seven post-history social moves on the grids, and reproduces arm 3's extract lean without arm 3's payload — so that lean is the init's and is inside the floor. The square attributes arm 3's family drop to its greeting tag, which arm 5's generator bounds instead of anchors.</p>
+<p>What this does not decide is which checkpoint ships: arm 2 is still the stronger social checkpoint on the two grids, and the reason to prefer an ft4g-init trunk — the reader's heads were fit on ft4g — is weaker than it was, because finding <a class="fref" href="/Corn-Jr-Public/finding/118.html">118</a> read the adapter on arm 2's trunk at 524/199. The plan's rule stands (every arm inits from ft4g and stacks on the one before), arm 5 is training on it, and the shipping choice is the owner's after the arms are read.</p>
+<h3 id="limits">Limits</h3>
+<p>One seed per arm. Grid A's novel column is 32 items and moved by 2; the historygrid social probe is 36 and moved by 7; neither is a number to quote without the second seed the config family has asked for since arm 1. The vague-tail battery was not run on this arm — its expected reading is arm 2's 5 of 22, and the battery has no script. No per-family split of <code>social.family</code> was decoded for this arm; the species column is what says its residue is arm 2's shape.</p>
+<h3 id="on-disk">On disk</h3>
+<p><code>evals/results/corn_jr_260m_v4_ft_social4.json</code>, <code>harness/results/corn_jr_260m_v4_ft_social4__toolgrid.json</code>, <code>harness/results/corn_jr_260m_v4_ft_social4__historygrid-0905ctl.json</code>, <code>evals/results/reader_runtime_whole_s1_on_social4.json</code>; <code>checkpoints/corn_jr_260m_v4_ft_social4/</code> (gitignored).</p></div>
+  </section>
+
+  <section class="grid refs">
+    <div class="body two-even">
+      <div>
+        <h2 class="small">It cites</h2>
+        <ul class="reflist"><li style="--c:var(--c1)"><a href="/Corn-Jr-Public/finding/60.html"><span class="fn">60</span>Fine-tuning costs nothing but delivers three fifths of pretraining&#39;s gain</a></li><li style="--c:var(--c1)"><a href="/Corn-Jr-Public/finding/67.html"><span class="fn">67</span>The best tool-router never declines; the best decliner never serves</a></li><li style="--c:var(--c2)"><a href="/Corn-Jr-Public/finding/117.html"><span class="fn">117</span>The whole-passage reader ships: 526 of 721 at runtime</a></li><li style="--c:var(--c2)"><a href="/Corn-Jr-Public/finding/118.html"><span class="fn">118</span>The reader survives the base model being fine-tuned underneath it</a></li><li style="--c:var(--c3)"><a href="/Corn-Jr-Public/finding/128.html"><span class="fn">128</span>Questions about his life go to the web six times in ten</a></li></ul>
+        
+      </div>
+      <div>
+        <h2 class="small">Cited by</h2>
+        <ul class="reflist"><li style="--c:var(--c3)"><a href="/Corn-Jr-Public/finding/122.html"><span class="fn">122</span>The second social turn installs and lifts the first</a></li><li style="--c:var(--c2)"><a href="/Corn-Jr-Public/finding/124.html"><span class="fn">124</span>Refitting the reader on the social model reads 517 at runtime</a></li></ul>
+        
+      </div>
+    </div>
+    <p class="body source">docs/findings/119-arm-two-s-payload-from-the-ft4g-init-lands-inside-arm-two-s-band-on-every-social-row-with-every-frozen-row-unmoved-and-the-init-s-cost-is-two-novel-declines-and-seven-social-moves-after-a-tool-turn.md</p>
+  </section>
+</article>
+
+  
+<footer class="turn">
+  <div><span class="sc">previous</span><a href="/Corn-Jr-Public/finding/74.html">74 · Second-turn behaviour installs; compound requests forget how to stop</a></div>
+  <div class="r"><span class="sc">next</span><a href="/Corn-Jr-Public/finding/121.html">121 · Cutting mood-prefixed search calls removes the whole cost</a></div>
+  <p class="keys"><kbd>←</kbd> <kbd>→</kbd> turn the page · <kbd>/</kbd> find</p>
+</footer>
+<p class="bynumber">Previous and next in <a href="/Corn-Jr-Public/thread/conversation.html">Conversation and the second turn</a>. By number:
+  <a href="/Corn-Jr-Public/finding/118.html">118</a> · <a href="/Corn-Jr-Public/finding/120.html">120</a></p>
+
+</div>
+</body>
+</html>

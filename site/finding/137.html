@@ -1,0 +1,104 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>137 · The depth-3 failure doesn&#39;t track copy length · Corn-Jr</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600&family=IBM+Plex+Mono:wght@400;500&family=Spectral:ital,wght@0,400;0,500;0,600;1,400&family=Spectral+SC:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/Corn-Jr-Public/static/library.css">
+<script defer src="/Corn-Jr-Public/static/library.js"></script>
+<script type="speculationrules">
+{"prerender": [{"where": {"and": [{"href_matches": "/Corn-Jr-Public/*"}, {"not": {"href_matches": "/Corn-Jr-Public/random.html"}}, {"not": {"href_matches": "/Corn-Jr-Public/static/*"}}]}, "eagerness": "moderate"}]}
+</script>
+
+</head>
+<body>
+<div class="page">
+  <header class="running">
+    <a class="book" href="/Corn-Jr-Public/">Corn-Jr · The Record</a>
+    <nav>
+      <a href="/Corn-Jr-Public/" data-key="shelf">Shelf</a><a href="/Corn-Jr-Public/findings.html" data-key="findings" class="here">Findings</a><a href="/Corn-Jr-Public/doc/VISION.html" data-key="VISION">Vision</a><a href="/Corn-Jr-Public/doc/GLOSSARY.html" data-key="GLOSSARY">Glossary</a>
+      <a href="https://github.com/csheehan18/Corn-Jr-Public">Source</a>
+    </nav>
+  </header>
+  
+
+<article class="sheet" style="--c:var(--c4)">
+  <div class="progress" aria-hidden="true"></div>
+  <section class="grid chapter-open finding-open">
+    <a class="tab" href="/Corn-Jr-Public/thread/parse-depth.html" title="The parse and depth"><small>Part</small><span>IV</span></a>
+    <p class="cn">137</p>
+    <p class="partline"><a href="/Corn-Jr-Public/thread/parse-depth.html">The parse and depth</a> · 14 September 2026</p>
+    <h1>The depth-3 failure doesn&#39;t track copy length</h1>
+  </section>
+
+  <section class="grid">
+    <p class="marginal">The result, as the finding states it</p><div class="prose"><p class="lead">The level-3 floor is flat against every covariate that moves the trained levels: the span the deep cut must write drives the in-distribution cell from 0.968 to 0.132 and leaves the unseen depth between 0.03 and 0.11 across its whole range, where the spans are already the shortest on the item, so copy burden is not what pins it and the greedy zero is one failure and not two</p></div>
+    <p class="marginal">What it cost</p><div class="prose"><p class="cost">10.0 min of scoring on the 2 cards first cited here (<code>nano20m_v3_funcworld_rope_seed2</code>, <code>nano20m_v3_funcworld_seed2</code>); it also reads 4 cards scored for an earlier finding (<code>nano20m_v3_funcworld</code>, <code>nano20m_v3_funcworld_rope</code>, <code>nano20m_v3_funcworld_rope_seed3</code> and 1 more). Backfilled 2026-09-26 from the cards' <code>seconds</code>; training and probe time were never recorded, so this is a floor.</p></div>
+  </section>
+
+  
+
+  <section class="grid">
+    <div class="prose doc"><p>A stratification of findings <a class="fref" href="/Corn-Jr-Public/finding/133.html">133</a> and <a class="fref" href="/Corn-Jr-Public/finding/136.html">136</a>'s own cards, read 2026-09-14 with no training, no new corpus and no new eval row. <code>scripts/probe_structure.py</code> gains an optional <code>--items</code> dump — one JSONL row per cell, the div outcome beside the span lengths on that line — and the six rung-2 checkpoints (<code>nano20m_v3_funcworld</code> and <code>_seed2</code>, <code>_seed3</code>, and the three <code>_rope</code> seeds) are re-read with it. 3,312 cells. Every aggregate on the six <code>__structure.json</code> cards regenerates <strong>bit-identical</strong> to what finding <a class="fref" href="/Corn-Jr-Public/finding/133.html">133</a> recorded, so the dump is an addition to the instrument and not a change to it.</p>
+<h3 id="the-question">The question</h3>
+<p>Finding <a class="fref" href="/Corn-Jr-Public/finding/136.html">136</a> decomposed the depth-4 level-3 zero into a position worth about 41% of the gap and "the content of a depth-4 construction's innermost spans" worth the rest, and finding <a class="fref" href="/Corn-Jr-Public/finding/133.html">133</a>'s hand decodes named a candidate for that content: the forty-token spans carried copy slips ("Zelathgard" became "Zelvik"), and 46 of the 96 misses on the repair row were copy slips rather than labels. If copy burden is what the residue is made of, the greedy zero is two failures stacked — the cut and the copy — and removing the copy should lift the cut.</p>
+<p>The card holds rates, so it could not say which cells win and what they look like. The dump can, and the question is answerable without building anything: <strong>does <code>deep_div</code> at the unseen depth track the length of the group span the deep cut must write?</strong></p>
+<h3 id="the-read">The read</h3>
+<p><code>deep_div</code> by the longest group span on the gold line, pooled over six checkpoints, quartiles of the covariate. <code>gap_div</code> is the mean log-ratio, positive when the flattened line wins.</p>
+<p>row / level                  span toks     n   deep_div   rate   gap_div</p>
+<p>w_span    l1  (trained)          14-24   108        101  0.935     -4.18 25-27    66         61  0.924     -4.57 28-32    90         82  0.911     -5.03 33-47    84         76  0.905     -4.77</p>
+<p>w_pairing l2  (trained)          22-26   186        180  0.968     -8.94 27-31   114         84  0.737     -5.87 32-35   132         40  0.303     +1.79 36-44   144         19  0.132     +4.23</p>
+<p>w_depth4  l2  (trained)          29-36   156         62  0.397     +0.13 37-38   144         94  0.653     -2.68 39-41   144         99  0.688     -3.79 42-50   132         85  0.644     -3.24</p>
+<p>w_depth4  l3  (no support)       19-22   168          6  0.036     +3.11 23-24   168          7  0.042     +3.30 25-25   108         12  0.111     +2.80 26-33   132         13  0.098     +2.47</p>
+<p><strong>The instrument has the sensitivity and the unseen depth has no effect.</strong> On the in-distribution control the same covariate drives the rate from 0.968 to 0.132 — a span of 0.84 — and flips <code>gap_div</code> through zero. At level 3 the rate sits between 0.036 and 0.111 across the whole range and the flattened line wins by 2.5 to 3.3 nats at every length.</p>
+<p><strong>And the ranges settle it.</strong> Level-3 spans run 19 to 33 tokens. The <em>same items</em> at level 2 run 29 to 50, and the in-distribution control runs 22 to 44. Inner groups are shorter than the groups that contain them, so <strong>the level that fails worst is the level with the least to copy</strong>, and there is no copy burden left to remove.</p>
+<p>What direction there is runs the other way. Split at the median span (24 tokens), 6 of 6 checkpoints read the longer half higher:</p>
+<p>checkpoint                          short (of 56)   long (of 40) nano20m_v3_funcworld                            1              2 nano20m_v3_funcworld_seed2                      1              2 nano20m_v3_funcworld_seed3                      0              3 nano20m_v3_funcworld_rope                       2              5 nano20m_v3_funcworld_rope_seed2                 1              2 nano20m_v3_funcworld_rope_seed3                 8             11 total                                   13 / 336       25 / 240</p>
+<h3 id="the-other-two-covariates-say-the-same-thing">The other two covariates say the same thing</h3>
+<p>Gold-line length: level 3 reads 0.047, 0.028, 0.083, 0.118 over 36 to 53 tokens, against the control's 0.750 to 0.421. Distance from the start of the line to the fork (<code>div_off</code>): level 3 reads 0.053, 0.053, 0.042, 0.121 over 5 to 34, against <code>w_depth4</code> l2's 0.818 to 0.181 over the same covariate.</p>
+<p><code>div_off</code> is the weaker instrument — the control is non-monotonic on it (0.868, 0.056, 0.402, 0.472), because a fork at offset 5 is a large structural mode rather than an easy item — and it is reported for completeness. The span read is the one the question was asked with.</p>
+<h3 id="what-it-means">What it means</h3>
+<p><strong>The level-3 floor is flat against every covariate that moves the trained levels.</strong> That is the signature of a constraint rather than a difficulty gradient, and it is the third independent line pointing the same way: the corpus conditional at zero over 2,236 blocks, the floor direction (a model that never saw a parse is at a coin and training drives it to near zero, the larger fit lowest), and now the absence of any gradient at all in the cell that is pinned.</p>
+<p><strong>The greedy zero is one failure, not two.</strong> Finding <a class="fref" href="/Corn-Jr-Public/finding/136.html">136</a>'s 41/59 split stands as arithmetic, but the 59 is not copy. Whatever the content half is made of, span length is not a proxy for it.</p>
+<h3 id="what-it-licenses">What it licenses</h3>
+<ul><li><strong>A copy-free or short-span control at the unseen depth is not worth building.</strong> It was the cheap arm against the two-failures reading; the spans at that level are already the shortest on the item and length does not predict there. Roughly a day of generator work and a new eval row, not spent.</li><li><strong>The residue in finding <a class="fref" href="/Corn-Jr-Public/finding/136.html">136</a>'s shift is one of two things, not three.</strong> That shift moved the parse-line index, the utterance length and the remaining tree depth together; padding removed length and this removes copy, so what is left unseparated is the index against the remaining depth. Separating them still needs a checkpoint that has seen a group at line 3, which is C7.</li><li><strong><code>--items</code> as a standing instrument.</strong> Any future structure card can be stratified by the covariates on the line without a re-derivation, and the parity check above is the reason to trust the dump against the old cards.</li></ul>
+<h3 id="what-it-does-not-say">What it does not say</h3>
+<p>It does not say the cut is absent at the unseen depth. The read is still taken at a position the corpus gives zero support (finding <a class="fref" href="/Corn-Jr-Public/finding/136.html">136</a>), so it inherits that finding's limit whole: what greedy cannot write there, this cannot score either. Two of the three components still reach the unseen depth on the conditional instruments — the continuation prior 96 of 96 (136) and the label rank 96 of 96 (133) — and this read touches neither.</p>
+<p>Nor is it an intervention. It is observational variation over the lengths the generator happened to draw, in a band 19 to 33 tokens wide at the level in question; a flat profile inside a narrow band is weaker evidence than a control that sets the length. The reason to accept it anyway is the range fact — the level-3 spans are already shorter than every level where the covariate bites — which no intervention could improve on in the same direction.</p>
+<p>The subset asymmetry finding <a class="fref" href="/Corn-Jr-Public/finding/136.html">136</a> could not explain (do-rooted trees recovering more than ask-rooted ones under the shift) is untouched here and is not explained by span length either.</p>
+<h3 id="instruments">Instruments</h3>
+<p><code>scripts/probe_structure.py --items</code>, six checkpoints, default rows. The stratification itself was a scratchpad script over the dumps and is not on disk: <strong>the instrument is unpinned</strong> and every number here is a bound reproducible from the six <code>__structure_items.jsonl</code> cards in <code>evals/results/</code>, which are.</p></div>
+  </section>
+
+  <section class="grid refs">
+    <div class="body two-even">
+      <div>
+        <h2 class="small">It cites</h2>
+        <ul class="reflist"><li style="--c:var(--c4)"><a href="/Corn-Jr-Public/finding/133.html"><span class="fn">133</span>On a synthetic world he generalises labels but not one level deeper</a></li><li style="--c:var(--c4)"><a href="/Corn-Jr-Public/finding/136.html"><span class="fn">136</span>The depth-4 failure is a position never seen, not missing recursion</a></li></ul>
+        
+      </div>
+      <div>
+        <h2 class="small">Cited by</h2>
+        <ul class="reflist"><li style="--c:var(--c4)"><a href="/Corn-Jr-Public/finding/140.html"><span class="fn">140</span>Depth-4 failure is position alone; moved to line one it works</a></li></ul>
+        
+      </div>
+    </div>
+    <p class="body source">docs/findings/137-the-level-3-floor-is-flat-against-every-covariate-that-moves-the-trained-levels-copy-burden-is-not-what-pins-it.md</p>
+  </section>
+</article>
+
+  
+<footer class="turn">
+  <div></div>
+  <div class="r"><span class="sc">next</span><a href="/Corn-Jr-Public/finding/138.html">138 · He knows where the next request part starts, 80 to 93 percent</a></div>
+  <p class="keys"><kbd>←</kbd> <kbd>→</kbd> turn the page · <kbd>/</kbd> find</p>
+</footer>
+<p class="bynumber">Previous and next in <a href="/Corn-Jr-Public/thread/parse-depth.html">The parse and depth</a>. By number:
+  <a href="/Corn-Jr-Public/finding/136.html">136</a> · <a href="/Corn-Jr-Public/finding/138.html">138</a></p>
+
+</div>
+</body>
+</html>

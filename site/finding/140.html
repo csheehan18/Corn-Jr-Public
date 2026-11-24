@@ -1,0 +1,88 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>140 · Depth-4 failure is position alone; moved to line one it works · Corn-Jr</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600&family=IBM+Plex+Mono:wght@400;500&family=Spectral:ital,wght@0,400;0,500;0,600;1,400&family=Spectral+SC:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/Corn-Jr-Public/static/library.css">
+<script defer src="/Corn-Jr-Public/static/library.js"></script>
+<script type="speculationrules">
+{"prerender": [{"where": {"and": [{"href_matches": "/Corn-Jr-Public/*"}, {"not": {"href_matches": "/Corn-Jr-Public/random.html"}}, {"not": {"href_matches": "/Corn-Jr-Public/static/*"}}]}, "eagerness": "moderate"}]}
+</script>
+
+</head>
+<body>
+<div class="page">
+  <header class="running">
+    <a class="book" href="/Corn-Jr-Public/">Corn-Jr · The Record</a>
+    <nav>
+      <a href="/Corn-Jr-Public/" data-key="shelf">Shelf</a><a href="/Corn-Jr-Public/findings.html" data-key="findings" class="here">Findings</a><a href="/Corn-Jr-Public/doc/VISION.html" data-key="VISION">Vision</a><a href="/Corn-Jr-Public/doc/GLOSSARY.html" data-key="GLOSSARY">Glossary</a>
+      <a href="https://github.com/csheehan18/Corn-Jr-Public">Source</a>
+    </nav>
+  </header>
+  
+
+<article class="sheet" style="--c:var(--c4)">
+  <div class="progress" aria-hidden="true"></div>
+  <section class="grid chapter-open finding-open">
+    <a class="tab" href="/Corn-Jr-Public/thread/parse-depth.html" title="The parse and depth"><small>Part</small><span>IV</span></a>
+    <p class="cn">140</p>
+    <p class="partline"><a href="/Corn-Jr-Public/thread/parse-depth.html">The parse and depth</a> · 16 September 2026</p>
+    <h1>Depth-4 failure is position alone; moved to line one it works</h1>
+  </section>
+
+  <section class="grid">
+    <p class="marginal">The result, as the finding states it</p><div class="prose"><p class="lead">The depth-4 zero is a position and nothing else: the identical cut that reads 3 to 19 of 96 at line 3 and 9 to 45 at line 2 reads 71 to 89 of 95 at line 1 on six W seeds and 88 at 100M, survives padding back to length, and sits where trained depth-3 shapes sit, so the content is not the block and a position-free expansion format is the arm on depth</p></div>
+    <p class="marginal">What it cost</p><div class="prose"><p class="cost">0 s of new scoring on record; it reads 8 cards scored for an earlier finding (<code>nano100m_v3_funcworld_rope</code>, <code>nano20m_v3</code>, <code>nano20m_v3_funcworld</code> and 5 more). Backfilled 2026-09-26 from the cards' <code>seconds</code>; training and probe time were never recorded, so this is a floor.</p></div>
+  </section>
+
+  
+
+  <section class="grid">
+    <div class="prose doc"><p>Read 2026-09-15 with no training, off PLAN-PARSE-WEIGHTS §7.6's owed read. <code>scripts/probe_depthpos.py --read shift2,pad2</code>, new arms on finding <a class="fref" href="/Corn-Jr-Public/finding/136.html">136</a>'s own instrument, on the six rung-2 W checkpoints, <code>nano100m_v3_funcworld_rope</code>, and B (<code>nano20m_v3</code>, never saw a parse world) as the floor. Cards: <code>evals/results/&lt;run&gt;__depthpos2.json</code>, with finding <a class="fref" href="/Corn-Jr-Public/finding/136.html">136</a>'s <code>shift</code> re-read on the same checkpoints for one table.</p>
+<h3 id="the-question">The question</h3>
+<p>Finding <a class="fref" href="/Corn-Jr-Public/finding/136.html">136</a> found that a <code>parts:</code> line at index 3 holds a group in 0 of 2,236 corpus blocks, and moved the failing level-3 decision of a depth-4 tree one line earlier by presenting the level-1 group's span as the utterance: 8 to 27 of 96 on the mean against 3 to 19 in place. It read that as position about 41% of the gap and <em>the innermost content the rest</em>. But line 2 is itself a low-support position — the corpus holds a group there in 0.18 of lines against 0.40 at line 1 — so the residue could be position too. This read moves the decision two lines: the level-2 group's span becomes the whole utterance, and the identical decision — write the depth-2 group's span whole rather than cut it into its members — sits at line 1, in a tree that is a trained depth-3 shape.</p>
+<p>The instrument is <code>probe_structure.div_read</code> unchanged: at the one token where the gold line and its flattened alternative part, which is likelier. No length enters; chance is a coin. The scored line is now line 1, so where its labels are not level-1 legal (<code>find</code>, <code>send</code>, <code>note</code> inside a <code>do</code> group) both gold and flat are relabelled to level 1 and those 41 items are reported apart, finding <a class="fref" href="/Corn-Jr-Public/finding/136.html">136</a>'s own control. <code>pad2</code> pads the shortened prompt back to the original's length with whole in-distribution turns, so the token offset and the line index are separated as 136 separated them.</p>
+<h3 id="the-read">The read</h3>
+<p>gold's token likelier, of 96 (95 for the line-1 arms) at line 3   at line 2   at line 1   padded    untouched subset at line 1 B, never saw the world            46          55          56         47       32/54 nano20m_v3_funcworld               3          24          74         82       43/54 nano20m_v3_funcworld_seed2         3           9          71         72       44/54 nano20m_v3_funcworld_seed3         3           9          88         89       49/54 nano20m_v3_funcworld_rope          7          29          89         87       51/54 nano20m_v3_funcworld_rope_seed2    3          21          81         79       47/54 nano20m_v3_funcworld_rope_seed3   19          45          84         86       49/54 nano100m_v3_funcworld_rope         4          18          88         90       51/54</p>
+<p><strong>Seven of seven, 71 to 89 of 95 at line 1 against 3 to 19 at line 3</strong>, with the floor at a coin and the padding moving nothing (72 to 90). On the 54 items whose scored line needed no relabelling, 43 to 51 of 54, which is 0.80 to 0.94 — the band the structure cards read for trained groups at level 1 (55, 52, 57 of 58 in finding <a class="fref" href="/Corn-Jr-Public/finding/133.html">133</a>). The 100M, which finding <a class="fref" href="/Corn-Jr-Public/finding/133.html">133</a> read as <em>sharper at the unseen depth, not weaker</em>, is 88 of 95 here.</p>
+<h3 id="what-this-settles">What this settles</h3>
+<p>The depth-4 zero is a position. The same spans, the same decision, the same fork token, read at the one line index the corpus has never shown a group at, are refused; read at the index it shows most, they are cut at the trained rate. Finding <a class="fref" href="/Corn-Jr-Public/finding/136.html">136</a>'s "position about 41%" was the one-line shift landing on another under-supported index; two lines removes the gap. Nothing in the content of a depth-4 tree blocks him — finding <a class="fref" href="/Corn-Jr-Public/finding/137.html">137</a> said copy burden did not, and this says the pairing and the carriers do not either.</p>
+<p><strong>The arm this licenses</strong>, PLAN-PARSE-WEIGHTS arm F: a format in which every expansion is the same local step at the same position. The transcript writes each group's expansion as its own block — the group's span re-presented, then the <code>parts:</code> line of its members — so depth is a loop of identical steps, each at index 0 of its own block with support at every level, and the runtime walks the tree (PLAN-DECOMPOSE arm D's stepped protocol, made what the corpus teaches rather than a fallback). C7 (PLAN-TAG-SPINE §11), which trains a table one row deeper, is no longer the arm on depth: a table of depths reads zero at the row it lacks whatever its length.</p>
+<h3 id="what-it-does-not-say">What it does not say</h3>
+<p>The instrument is the one-token fork, not a greedy decode of the line; <code>parse.w_depth4</code> on the card stays at zero until a format he was trained on is scored, and a greedy read of the line-1 cut is owed beside this one. The relabelled subset carries finding <a class="fref" href="/Corn-Jr-Public/finding/136.html">136</a>'s caveat that relabelling is an intervention; the untouched subset is the number to quote. One checkpoint at 100M.</p>
+<p><em>Instruments.</em> <code>probe_depthpos.py</code> gains <code>--read shift2,pad2</code>; eight cards in one serialised background run, about a minute each, no timing read.</p></div>
+  </section>
+
+  <section class="grid refs">
+    <div class="body two-even">
+      <div>
+        <h2 class="small">It cites</h2>
+        <ul class="reflist"><li style="--c:var(--c4)"><a href="/Corn-Jr-Public/finding/133.html"><span class="fn">133</span>On a synthetic world he generalises labels but not one level deeper</a></li><li style="--c:var(--c4)"><a href="/Corn-Jr-Public/finding/136.html"><span class="fn">136</span>The depth-4 failure is a position never seen, not missing recursion</a></li><li style="--c:var(--c4)"><a href="/Corn-Jr-Public/finding/137.html"><span class="fn">137</span>The depth-3 failure doesn&#39;t track copy length</a></li></ul>
+        
+      </div>
+      <div>
+        <h2 class="small">Cited by</h2>
+        <ul class="reflist"><li style="--c:var(--c4)"><a href="/Corn-Jr-Public/finding/143.html"><span class="fn">143</span>Nesting at 20M breaks two different ways; too fragile to build on</a></li></ul>
+        
+      </div>
+    </div>
+    <p class="body source">docs/findings/140-the-depth-4-zero-is-a-position-and-nothing-else-the-identical-cut-reads-seventy-one-to-eighty-nine-of-ninety-five-at-line-1.md</p>
+  </section>
+</article>
+
+  
+<footer class="turn">
+  <div><span class="sc">previous</span><a href="/Corn-Jr-Public/finding/138.html">138 · He knows where the next request part starts, 80 to 93 percent</a></div>
+  <div class="r"><span class="sc">next</span><a href="/Corn-Jr-Public/finding/141.html">141 · Written as one nested line, he builds a structure never trained</a></div>
+  <p class="keys"><kbd>←</kbd> <kbd>→</kbd> turn the page · <kbd>/</kbd> find</p>
+</footer>
+<p class="bynumber">Previous and next in <a href="/Corn-Jr-Public/thread/parse-depth.html">The parse and depth</a>. By number:
+  <a href="/Corn-Jr-Public/finding/139.html">139</a> · <a href="/Corn-Jr-Public/finding/141.html">141</a></p>
+
+</div>
+</body>
+</html>

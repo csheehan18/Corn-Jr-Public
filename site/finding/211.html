@@ -1,0 +1,86 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>211 · Real everyday dialogue moves him toward how the owner talks · Corn-Jr</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600&family=IBM+Plex+Mono:wght@400;500&family=Spectral:ital,wght@0,400;0,500;0,600;1,400&family=Spectral+SC:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/Corn-Jr-Public/static/library.css">
+<script defer src="/Corn-Jr-Public/static/library.js"></script>
+<script type="speculationrules">
+{"prerender": [{"where": {"and": [{"href_matches": "/Corn-Jr-Public/*"}, {"not": {"href_matches": "/Corn-Jr-Public/random.html"}}, {"not": {"href_matches": "/Corn-Jr-Public/static/*"}}]}, "eagerness": "moderate"}]}
+</script>
+
+</head>
+<body>
+<div class="page">
+  <header class="running">
+    <a class="book" href="/Corn-Jr-Public/">Corn-Jr · The Record</a>
+    <nav>
+      <a href="/Corn-Jr-Public/" data-key="shelf">Shelf</a><a href="/Corn-Jr-Public/findings.html" data-key="findings" class="here">Findings</a><a href="/Corn-Jr-Public/doc/VISION.html" data-key="VISION">Vision</a><a href="/Corn-Jr-Public/doc/GLOSSARY.html" data-key="GLOSSARY">Glossary</a>
+      <a href="https://github.com/csheehan18/Corn-Jr-Public">Source</a>
+    </nav>
+  </header>
+  
+
+<article class="sheet" style="--c:var(--c5)">
+  <div class="progress" aria-hidden="true"></div>
+  <section class="grid chapter-open finding-open">
+    <a class="tab" href="/Corn-Jr-Public/thread/reply-judge.html" title="The reply judge"><small>Part</small><span>V</span></a>
+    <p class="cn">211</p>
+    <p class="partline"><a href="/Corn-Jr-Public/thread/reply-judge.html">The reply judge</a> · not yet committed</p>
+    <h1>Real everyday dialogue moves him toward how the owner talks</h1>
+  </section>
+
+  <section class="grid">
+    <p class="marginal">The result, as the finding states it</p><div class="prose"><p class="lead">With a sixth of his conversational reading moved from SODA to EmpatheticDialogues (3.4M of 19.6M tokens; the budget and every other source the control's), the 5M finds the owner's own typed messages less surprising — 4.880 and 4.963 nats a token against the control's 5.218 and 5.105, both under the pre-registered 4.992 — with narrative and web holding (0.4876 / 0.4898 and 0.9520 / 0.9568 against lines of 0.4913 and 0.9552, the web row over at one seed only): the pre-registered row (r), real everyday dialogue moves him toward how the owner talks. His replies stay level at 5M, as predicted: 64 and 66 of 148 coherent by a blind hand read against 70 and 55. Held-out SODA text costs what a sixth less SODA should (lm conversational 0.5671 / 0.5717 against 0.5579 / 0.5599)</p></div>
+    <p class="marginal">What it cost</p><div class="prose"><p class="cost"><code>scripts/prepare_empathetic.py</code>, the mix spec, <code>scripts/probe_register_surprise.py</code> and its floor, the pre-registration 15:35-15:57 on 2026-10-22 (5387271); a first build byte-tokenised by <code>prepare_mix.py</code>'s default and refused by the run in 3 s, rebuilt with <code>--tokenizer bpe8k</code> (56ea80d); the chain 16:01-16:13, 12.2 min (contended, a bound); the blind hand read of 592 replies ~15 min. ETA 20 min of card, actual 12.2.</p></div>
+  </section>
+
+  
+
+  <section class="grid">
+    <div class="prose doc"><p><strong>The question</strong> (owner, 2026-10-22: avoid SODA's style; real, varied text; "let's move forward"). Finding <a class="fref" href="/Corn-Jr-Public/finding/210.html">210</a>: of the sources read, EmpatheticDialogues talks most like both the stand-in messages and the owner's own (counts only); SODA is the most formulaic. Pre-registered in <code>configs/nano5m_v3_webblend_ed.py</code>.</p>
+<h3 id="the-read">The read</h3>
+<p>read                                           base s1   base s2   ED s1    ED s2 register: the owner's 69 messages (counts only) 5.218     5.105     4.880    4.963 the 148 stand-ins                            3.987     3.828     3.766    3.814 lm narrative                                   0.4864    0.4883    0.4876   0.4898 lm web                                         0.9512    0.9522    0.9520   0.9568 lm conversational (SODA's held-out text)       0.5579    0.5599    0.5671   0.5717 coherence, blind hand read (of 148)            70        55        64       66 swap, within: right / margin                   0.91/8.27 0.91/8.08 0.93/8.26 0.90/8.15 swap, across: right / margin                   0.96/11.48 0.95/11.15 0.96/12.50 0.95/11.94 knowing, matcher: admits unk / answerable      7 / 11    13 / 17   16 / 12  15 / 14 commonest three-word opening                   'what why' x7  x15  'that's great what' x11  x8</p>
+<p>(<code>evals/results/ed__register.txt</code>, <code>reply_ed__*</code>. The owner's messages are read by the script and never printed: counts only, his rule.)</p>
+<p><strong>The gates, as registered.</strong> Fluency: holds (narrative under its line at both seeds; web over at seed 2 only). Register: yes — 4.880 and 4.963 under 4.992. <strong>(r).</strong> Coherence beside: no direction (64 is under 70).</p>
+<h3 id="read-by-hand">Read by hand</h3>
+<p>The replies are the control's kind, failures included ("That's great!" to the spilled coffee and the missed bus, the self-doubt line to open questions). Two small changes read in the text: a reply more often opens on the message's news ("Oh no, that's too bad. What happened?" to the cracked screen, "Oh, that's terrible! What did you lose?" to the wallet), and "That's great! What..." became the commonest opening in place of "What? Why?" — EmpatheticDialogues' own most common response move. The knowing matcher leans the right way at both seeds (+4, +1 against -4, -4), unchecked by hand.</p>
+<h3 id="what-it-licenses">What it licenses</h3>
+<p><strong>Corrected 2026-10-22, the owner's licence decision.</strong> EmpatheticDialogues is CC BY-NC 4.0 and the weights are Apache 2.0 (<code>docs/RELEASE.md</code>, decided 2026-08-30); the owner kept Apache and left ED out of every shipped corpus. The first bullet below is what the measurement licensed; the source cannot take it, and a permissively licensed real-dialogue source is read in its place.</p>
+<ul><li><strong>EmpatheticDialogues belongs in the 1.0 conversational plan</strong>: at a sixth of the conversation it measurably moves him toward the owner's register at no cost to narrative or web. RELEASE lists it, CC BY-NC 4.0.</li><li><strong>Replies need the size to follow</strong> (findings <a class="fref" href="/Corn-Jr-Public/finding/208.html">208</a>-<a class="fref" href="/Corn-Jr-Public/finding/209.html">209</a>): the register moved at 5M, the reply count did not; the reply read rides the 20M and the 1.0 pilot with this share in.</li><li><strong>The share is a knob</strong>: a sixth was the first point; SODA's held-out loss rose by ~0.01 nats a byte for it. A larger share, and a second real source in the owner's register (short requests and questions, finding <a class="fref" href="/Corn-Jr-Public/finding/210.html">210</a>), are the next reads.</li></ul>
+<p><strong>What it does not settle.</strong> Any size above 5M; any share but a sixth; the owner's register beyond 69 messages from testing sessions.</p></div>
+  </section>
+
+  <section class="grid refs">
+    <div class="body two-even">
+      <div>
+        <h2 class="small">It cites</h2>
+        <ul class="reflist"><li style="--c:var(--c5)"><a href="/Corn-Jr-Public/finding/208.html"><span class="fn">208</span>The shipped model answers most one-off messages coherently</a></li><li style="--c:var(--c5)"><a href="/Corn-Jr-Public/finding/209.html"><span class="fn">209</span>The small model answers half of even its own style&#39;s openers</a></li><li style="--c:var(--c5)"><a href="/Corn-Jr-Public/finding/210.html"><span class="fn">210</span>Real everyday dialogue fits the owner&#39;s messages best; Reddit worst</a></li></ul>
+        
+      </div>
+      <div>
+        <h2 class="small">Cited by</h2>
+        <ul class="reflist"><li style="--c:var(--c5)"><a href="/Corn-Jr-Public/finding/212.html"><span class="fn">212</span>People asking an assistant fits the owner best; the answers do not</a></li><li style="--c:var(--c5)"><a href="/Corn-Jr-Public/finding/213.html"><span class="fn">213</span>A small dose matching how the owner talks moves him furthest</a></li><li style="--c:var(--c5)"><a href="/Corn-Jr-Public/finding/214.html"><span class="fn">214</span>A reply judge beside the 5M moves his replies level</a></li><li style="--c:var(--c5)"><a href="/Corn-Jr-Public/finding/219.html"><span class="fn">219</span>A 5M reading only conversation answers far more messages</a></li></ul>
+        
+      </div>
+    </div>
+    <p class="body source">docs/findings/211-a-sixth-of-the-conversation-moved-to-empatheticdialogues-makes-the-owners-messages-more-expected-4-88-and-4-96-against-5-22-and-5-10-and-leaves-replies-level.md</p>
+  </section>
+</article>
+
+  
+<footer class="turn">
+  <div><span class="sc">previous</span><a href="/Corn-Jr-Public/finding/210.html">210 · Real everyday dialogue fits the owner&#39;s messages best; Reddit worst</a></div>
+  <div class="r"><span class="sc">next</span><a href="/Corn-Jr-Public/finding/212.html">212 · People asking an assistant fits the owner best; the answers do not</a></div>
+  <p class="keys"><kbd>←</kbd> <kbd>→</kbd> turn the page · <kbd>/</kbd> find</p>
+</footer>
+<p class="bynumber">Previous and next in <a href="/Corn-Jr-Public/thread/reply-judge.html">The reply judge</a>. By number:
+  <a href="/Corn-Jr-Public/finding/210.html">210</a> · <a href="/Corn-Jr-Public/finding/212.html">212</a></p>
+
+</div>
+</body>
+</html>

@@ -1,0 +1,88 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>146 · A runtime gap-filling rule breaks nothing but fixes little on real requests · Corn-Jr</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600&family=IBM+Plex+Mono:wght@400;500&family=Spectral:ital,wght@0,400;0,500;0,600;1,400&family=Spectral+SC:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/Corn-Jr-Public/static/library.css">
+<script defer src="/Corn-Jr-Public/static/library.js"></script>
+<script type="speculationrules">
+{"prerender": [{"where": {"and": [{"href_matches": "/Corn-Jr-Public/*"}, {"not": {"href_matches": "/Corn-Jr-Public/random.html"}}, {"not": {"href_matches": "/Corn-Jr-Public/static/*"}}]}, "eagerness": "moderate"}]}
+</script>
+
+</head>
+<body>
+<div class="page">
+  <header class="running">
+    <a class="book" href="/Corn-Jr-Public/">Corn-Jr · The Record</a>
+    <nav>
+      <a href="/Corn-Jr-Public/" data-key="shelf">Shelf</a><a href="/Corn-Jr-Public/findings.html" data-key="findings" class="here">Findings</a><a href="/Corn-Jr-Public/doc/VISION.html" data-key="VISION">Vision</a><a href="/Corn-Jr-Public/doc/GLOSSARY.html" data-key="GLOSSARY">Glossary</a>
+      <a href="https://github.com/csheehan18/Corn-Jr-Public">Source</a>
+    </nav>
+  </header>
+  
+
+<article class="sheet" style="--c:var(--c4)">
+  <div class="progress" aria-hidden="true"></div>
+  <section class="grid chapter-open finding-open">
+    <a class="tab" href="/Corn-Jr-Public/thread/parse-depth.html" title="The parse and depth"><small>Part</small><span>IV</span></a>
+    <p class="cn">146</p>
+    <p class="partline"><a href="/Corn-Jr-Public/thread/parse-depth.html">The parse and depth</a> · 26 September 2026</p>
+    <h1>A runtime gap-filling rule breaks nothing but fixes little on real requests</h1>
+  </section>
+
+  <section class="grid">
+    <p class="marginal">The result, as the finding states it</p><div class="prose"><p class="lead">The gap rule breaks nothing on requests it was not designed on and fixes almost nothing: every firing on a parse he had right comes back a connective, the few groups it opens at a non-carrier all land on parses already wrong, and natural requests rarely hold the flat carrier that made it worth 0.95 on the chains</p></div>
+    <p class="marginal">What it cost</p><div class="prose"><p class="cost">6.5 min of GPU for the whole read (19:39-19:46, about 95 s a checkpoint over 450 requests, 510-528 decodes each with the memo), no training; the set, the scorer and its CPU checks took a few minutes without the card.</p></div>
+  </section>
+
+  
+
+  <section class="grid">
+    <div class="prose doc"><p>PLAN-PARSE-WEIGHTS section 8.2, read 2026-09-26 — ROADMAP step X1. Pre-registered in <code>scripts/probe_gap_misfire.py</code>, committed at <code>df45bf0</code> before a line was decoded, the bar set by the owner. 450 fresh requests from arm F's own generator at seed 20260930 (<code>evals/funcworld_gapfire.jsonl</code>), which nothing had read; 300 at the trained level are the gate, 150 at <code>heldout_all</code> are read. One greedy parse a request, the one-member wrapper unwrapped in both arms, and the rule of finding <a class="fref" href="/Corn-Jr-Public/finding/145.html">145</a> applied to every group he wrote — <code>gapc</code> firing only on a gap that ends in a comma, <code>gap2</code> on any gap beyond "and" and commas, each falling back to the flat member when the re-shown text opens no group. Scored on gold groups as sets of lookups, with and without the rule, on identical decodes (committed: <code>evals/results/nano20m_v3_fw_*__gapfire.json</code>).</p>
+<h3 id="the-pre-registered-read">The pre-registered read</h3>
+<p>On the 300 trained requests:</p>
+<p>checkpoint   right without   gapc broken / fixed / fired   gap2 broken / fixed / fired S s1             175              0 / 0 / 8                    0 / 0 / 64 S s2             169              0 / 0 / 7                    0 / 1 / 50 F s1             185              0 / 0 / 7                    0 / 0 / 59 F s2             174              0 / 0 / 6                    0 / 0 / 45</p>
+<p><strong><code>gapc</code> breaks 0 of 300 at both arm S seeds against a bar of 6, and fixes as many as it breaks: it passes as registered</strong>, and so would <code>gap2</code>. On <code>heldout_all</code> each rule fixes one item on S seed 1 and breaks none anywhere.</p>
+<h3 id="what-the-lines-say">What the lines say</h3>
+<p><strong>On parses he had right, the rule cannot hurt.</strong> Across the four checkpoints <code>gap2</code> fired 15 to 25 times on items that were already right, and <strong>every one of those re-shown views came back a connective</strong> — he wrote the re-shown text as a single lookup, and the member went back where it was. <code>gapc</code> barely fires there at all (0 or 1).</p>
+<p><strong>The groups it opens at a non-carrier all land on parses already wrong.</strong> Where his first line had moved members between groups, the gaps hold material that is not a connective, and re-shown they can open a group that is not in the gold — "and, separately," read as a carrier (train-014), "on top," as one (S s2 train-180). None of these is counted as a break because none of those items was right to begin with; the count of zero is honest about the rule and says nothing about how such a line should be repaired.</p>
+<p><strong>Most of what it opens, it cannot place.</strong> Three times (train-053, -192, S s1) the re-shown view recovers a group the gold really has — "question, A, B and C", "care to tell me A, B and C" — but his first line had swallowed that group into its neighbour, and the rule can only nest inside the group he wrote. It never splits a group into siblings, so the item stays wrong.</p>
+<p><strong>The fixes are the finding-145 case, on natural text.</strong> Two items become right: <code>heldout_all-033</code> on S seed 1, where "the both of them," — a carrier held out of training — was written flat and, re-shown, opened; and train-280 on S seed 2, where "both" did the same. The mechanism works on a carrier nobody drilled. It simply has little to work on: the rule touched 8 to 12 of roughly 200 wrong parses under <code>gapc</code> and 37 to 44 under <code>gap2</code>, and the failures that fill the rest are other species.</p>
+<h3 id="what-it-does-not-say">What it does not say</h3>
+<p>That the rule is worth building for 1.0. It is safe and nearly inert on the requests this generator writes, which hold a nested group in 47 of 300 and a deep chain of carriers in none; its 0.95 on the depth probe (finding <a class="fref" href="/Corn-Jr-Public/finding/145.html">145</a>) is a property of long carrier chains, a shape no fresh request here has. Nano, the synthetic world, one greedy decode a request; the scorer is a hand-built instrument checked on gold (450 of 450) and on a stand-in model, not pinned — every number is a bound.</p>
+<p><strong>Licenses</strong> keeping the rule as a cheap, safe part of the windowed interpreter if that interpreter is built (PLAN-TAG-LANGUAGE rung 1), with <code>gapc</code> preferred because it fires about eight times less for the same result, and <strong>not</strong> spending more on depth until something shows real requests need it — which is ROADMAP decision D7's to weigh, not this finding's.</p></div>
+  </section>
+
+  <section class="grid refs">
+    <div class="body two-even">
+      <div>
+        <h2 class="small">It cites</h2>
+        <ul class="reflist"><li style="--c:var(--c4)"><a href="/Corn-Jr-Public/finding/145.html"><span class="fn">145</span>The depth limit is the linking word; re-showing uncovered text fixes it</a></li></ul>
+        
+      </div>
+      <div>
+        <h2 class="small">Cited by</h2>
+        <ul class="reflist"><li style="--c:var(--c4)"><a href="/Corn-Jr-Public/finding/151.html"><span class="fn">151</span>Ignoring groups he closes too early lets the interpreter pass</a></li></ul>
+        
+      </div>
+    </div>
+    <p class="body source">docs/findings/146-the-gap-rule-breaks-nothing-on-fresh-requests-and-fixes-almost-nothing-every-firing-on-a-right-parse-is-read-back-as-a-connective-and-natural-text-rarely-holds-the-flat-carrier.md</p>
+  </section>
+</article>
+
+  
+<footer class="turn">
+  <div><span class="sc">previous</span><a href="/Corn-Jr-Public/finding/145.html">145 · The depth limit is the linking word; re-showing uncovered text fixes it</a></div>
+  <div class="r"></div>
+  <p class="keys"><kbd>←</kbd> <kbd>→</kbd> turn the page · <kbd>/</kbd> find</p>
+</footer>
+<p class="bynumber">Previous and next in <a href="/Corn-Jr-Public/thread/parse-depth.html">The parse and depth</a>. By number:
+  <a href="/Corn-Jr-Public/finding/145.html">145</a> · <a href="/Corn-Jr-Public/finding/147.html">147</a></p>
+
+</div>
+</body>
+</html>

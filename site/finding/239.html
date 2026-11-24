@@ -1,0 +1,83 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>239 · The count book judges replies a little, and picks no better · Corn-Jr</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600&family=IBM+Plex+Mono:wght@400;500&family=Spectral:ital,wght@0,400;0,500;0,600;1,400&family=Spectral+SC:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/Corn-Jr-Public/static/library.css">
+<script defer src="/Corn-Jr-Public/static/library.js"></script>
+<script type="speculationrules">
+{"prerender": [{"where": {"and": [{"href_matches": "/Corn-Jr-Public/*"}, {"not": {"href_matches": "/Corn-Jr-Public/random.html"}}, {"not": {"href_matches": "/Corn-Jr-Public/static/*"}}]}, "eagerness": "moderate"}]}
+</script>
+
+</head>
+<body>
+<div class="page">
+  <header class="running">
+    <a class="book" href="/Corn-Jr-Public/">Corn-Jr · The Record</a>
+    <nav>
+      <a href="/Corn-Jr-Public/" data-key="shelf">Shelf</a><a href="/Corn-Jr-Public/findings.html" data-key="findings" class="here">Findings</a><a href="/Corn-Jr-Public/doc/VISION.html" data-key="VISION">Vision</a><a href="/Corn-Jr-Public/doc/GLOSSARY.html" data-key="GLOSSARY">Glossary</a>
+      <a href="https://github.com/csheehan18/Corn-Jr-Public">Source</a>
+    </nav>
+  </header>
+  
+
+<article class="sheet" style="--c:var(--c5)">
+  <div class="progress" aria-hidden="true"></div>
+  <section class="grid chapter-open finding-open">
+    <a class="tab" href="/Corn-Jr-Public/thread/reply-judge.html" title="The reply judge"><small>Part</small><span>V</span></a>
+    <p class="cn">239</p>
+    <p class="partline"><a href="/Corn-Jr-Public/thread/reply-judge.html">The reply judge</a> · 15 November 2026</p>
+    <h1>The count book judges replies a little, and picks no better</h1>
+  </section>
+
+  <section class="grid">
+    <p class="marginal">The result, as the finding states it</p><div class="prose"><p class="lead">Finding <a class="fref" href="/Corn-Jr-Public/finding/221.html">221</a>'s book — counted lines, PPMI at window 10, nothing re-tuned — scores each of finding <a class="fref" href="/Corn-Jr-Public/finding/220.html">220</a>'s 744 hand-labelled 260M replies by how much its message raises the reply's content words over any other message, with every word the message itself used struck out. It separates passing replies from failing ones at AUC 0.652 over the 663 it scores (it abstains on 11%), and picking the highest-scoring of greedy, plain beam and self-judge per message passes 206 of 248, against the beam's 205, greedy's 194 and his own judgment's 197. Both pre-registered rows land live, B1 by 0.002 and B2 by one message; paired against the beam the pick wins 13 messages and loses 12, so it is level with the beam. Without the swap subtraction it reads 0.667 and 207. Echo among its picks rises from 7 to 11. Read by hand, it rewards a reply that names the topic and is blind to its stance.</p></div>
+    <p class="marginal">What it cost</p><div class="prose"><p class="cost">pre-registered and committed at 21b9000 before either read was computed; started 15:11:55 on 2026-11-15; read 2 took 6.6 s under the GPU lock (the tally, 482 pages, selfcheck passed); hand read and paired count a few minutes; written to 15:20.</p></div>
+  </section>
+
+  
+
+  <section class="grid">
+    <div class="prose doc"><p><strong>The question</strong> (owner, 2026-11-15: "Run both probes"). Finding <a class="fref" href="/Corn-Jr-Public/finding/220.html">220</a>: his own judgment, used to pick among his drafts, rewarded replies that pointed at the message and added nothing. Finding <a class="fref" href="/Corn-Jr-Public/finding/221.html">221</a>: a book of counted lines, no weights, reads word meaning level with the 260M. Can an unlearned reader he cannot flatter tell a reply that fits its message from one that does not — and does choosing by it improve what he says? The pre-registration is <code>scripts/probe_read_write.py</code>'s docstring, read 2.</p>
+<h3 id="the-read">The read</h3>
+<p>Content words are words outside the stream's 100 commonest. <code>fit</code> is the mean PPMI line from the message's content words to the reply's remaining ones; <code>rel</code> subtracts the reply's mean fit to the other 247 messages.</p>
+<p>score  B1 AUC   scored      B2 pick   paired vs beam   echo in picks rel    0.652    663/744     206/248   13 : 12          11 (beam 7) fit    0.667    663/744     207/248   13 : 11          10 for reference: greedy 194, plain beam 205, self 197, best of three 225</p>
+<p>By exam: the pick passes 129 of the 148 (beam 126) and 77 of exam 2's 100 (beam 79). <strong>Prediction</strong>: B1 0.58-0.66 (right), abstain 30-45% (wrong: 11%), B2 200-207 (right), B a bound (wrong by a hair: live on the letter of both lines).</p>
+<h3 id="the-hand-read">The hand read</h3>
+<p>Twenty disagreements with the beam where the labels differ, read before any number above was quoted. <strong>Where the book wins it is rejecting evasion</strong>: "I don't know, what is it?" to <em>Do you have a favourite food?</em> loses to "I love sushi!"; "I don't know. I just do." to <em>What makes you laugh?</em>; "I don't know. What do you mean?" to a question about cheering up a friend. A reply that dodges has no content word that the message raises. <strong>Where it loses it is rewarding topic with the wrong stance</strong>: to <em>Someone stole my bike</em>, "I didn't steal your bike. You're just paranoid." scores +0.671, highest of three — the same reply his own judgment picked in finding <a class="fref" href="/Corn-Jr-Public/finding/220.html">220</a>, and for the same reason; <code>steal</code> is not <code>stole</code>, so striking the message's words does not catch it. "What? You're not going to eat that?" to leftover pizza for breakfast (+0.893); "You're not going to be swimming this year, are you?" to wanting to learn to swim; "Why not?" over "it depends" on telling a friend her cooking is bad. Each names what the message is about and says the wrong thing about it.</p>
+<h3 id="what-it-licenses">What it licenses</h3>
+<p><strong>The book knows what a message is about and not what to say about it.</strong> It judges fit at about the level of a weak judge — 0.65, where the 5M's trained reply judge read 0.79 on the first word (finding <a class="fref" href="/Corn-Jr-Public/finding/214.html">214</a>) — without one trained number, and its preference does not improve what he writes: one message over the beam, 13 : 12 paired. The two failure kinds it shares with his self-judgment (220) are topic without stance and near-echo through a different word form. As a veto on evasive replies it has a use the hand read shows; as a chooser it is level. A sharper book would need lines for stance — who did what to whom — which co-occurrence does not hold. One checkpoint, one labeller, 248 messages, three decoders that agree on most messages so only about 80 picks can move.</p></div>
+  </section>
+
+  <section class="grid refs">
+    <div class="body two-even">
+      <div>
+        <h2 class="small">It cites</h2>
+        <ul class="reflist"><li style="--c:var(--c5)"><a href="/Corn-Jr-Public/finding/214.html"><span class="fn">214</span>A reply judge beside the 5M moves his replies level</a></li><li style="--c:var(--c5)"><a href="/Corn-Jr-Public/finding/220.html"><span class="fn">220</span>Judging his own drafts does not help; plain beam search might</a></li><li style="--c:var(--c6)"><a href="/Corn-Jr-Public/finding/221.html"><span class="fn">221</span>A book of tallies, no weights, beats the 20M on word meaning</a></li></ul>
+        
+      </div>
+      <div>
+        <h2 class="small">Cited by</h2>
+        <p class="aside">No later finding yet.</p>
+      </div>
+    </div>
+    <p class="body source">docs/findings/239-the-count-book-judges-his-replies-at-auc-0-65-and-its-pick-reads-206-of-248-against-the-plain-beams-205-paired-13-to-12-it-reads-topic-and-not-stance.md</p>
+  </section>
+</article>
+
+  
+<footer class="turn">
+  <div><span class="sc">previous</span><a href="/Corn-Jr-Public/finding/238.html">238 · He writes worst exactly where he reads worst, message by message</a></div>
+  <div class="r"><span class="sc">next</span><a href="/Corn-Jr-Public/finding/240.html">240 · Real exchanges around &#34;never mind&#34; taught the 5M nothing measurable</a></div>
+  <p class="keys"><kbd>←</kbd> <kbd>→</kbd> turn the page · <kbd>/</kbd> find</p>
+</footer>
+<p class="bynumber">Previous and next in <a href="/Corn-Jr-Public/thread/reply-judge.html">The reply judge</a>. By number:
+  <a href="/Corn-Jr-Public/finding/238.html">238</a> · <a href="/Corn-Jr-Public/finding/240.html">240</a></p>
+
+</div>
+</body>
+</html>

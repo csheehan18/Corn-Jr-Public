@@ -1,0 +1,108 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>94 · A 16-word hand-written lexicon matches the trained checker where it applies · Corn-Jr</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600&family=IBM+Plex+Mono:wght@400;500&family=Spectral:ital,wght@0,400;0,500;0,600;1,400&family=Spectral+SC:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/Corn-Jr-Public/static/library.css">
+<script defer src="/Corn-Jr-Public/static/library.js"></script>
+<script type="speculationrules">
+{"prerender": [{"where": {"and": [{"href_matches": "/Corn-Jr-Public/*"}, {"not": {"href_matches": "/Corn-Jr-Public/random.html"}}, {"not": {"href_matches": "/Corn-Jr-Public/static/*"}}]}, "eagerness": "moderate"}]}
+</script>
+
+</head>
+<body>
+<div class="page">
+  <header class="running">
+    <a class="book" href="/Corn-Jr-Public/">Corn-Jr · The Record</a>
+    <nav>
+      <a href="/Corn-Jr-Public/" data-key="shelf">Shelf</a><a href="/Corn-Jr-Public/findings.html" data-key="findings" class="here">Findings</a><a href="/Corn-Jr-Public/doc/VISION.html" data-key="VISION">Vision</a><a href="/Corn-Jr-Public/doc/GLOSSARY.html" data-key="GLOSSARY">Glossary</a>
+      <a href="https://github.com/csheehan18/Corn-Jr-Public">Source</a>
+    </nav>
+  </header>
+  
+
+<article class="sheet" style="--c:var(--c2)">
+  <div class="progress" aria-hidden="true"></div>
+  <section class="grid chapter-open finding-open">
+    <a class="tab" href="/Corn-Jr-Public/thread/reading.html" title="Reading documents"><small>Part</small><span>II</span></a>
+    <p class="cn">94</p>
+    <p class="partline"><a href="/Corn-Jr-Public/thread/reading.html">Reading documents</a> · 3 September 2026</p>
+    <h1>A 16-word hand-written lexicon matches the trained checker where it applies</h1>
+  </section>
+
+  <section class="grid">
+    <p class="marginal">The result, as the finding states it</p><div class="prose"><p class="lead">A sixteen-entry hand-written anchor lexicon ranks windows level with the trained verifier on the passages where it speaks, adds +0.005 AUC against a bar of +0.02 because it is silent on four fifths of them, and so the frame idea's binding constraint is coverage</p></div>
+    
+  </section>
+
+  
+
+  <section class="grid">
+    <div class="prose doc"><p><code>scripts/probe_frame_window.py</code>, 2026-09-03. <strong>Replay only</strong> — no GPU, no decode, no weight read, no tokenizer, <strong>and no model writes the frame</strong> — over <code>nullpr_s{1,2}_popa.json</code>. Population: the 580 answerable passages carrying both a gold-bearing and a non-gold-bearing window, which is the ninety-third finding's read (e).</p>
+<p>That finding relocated the frame proposal's target. Its own worked example — <em>"who sang the theme song from russia with love"</em> — is neither a localisation nor a within-window selection failure: the window whose sentence reads <em>"...and sung by Matt Monro"</em> was ranked <strong>below two windows containing no answer at all</strong>, and the top one spoke. And a no-gold window outranks every gold-bearing one on <strong>2.8%</strong> of the passages he gets right against <strong>47.8% and 41.0%</strong> of the residue.</p>
+<p>So this asks the question that decides where a frame belongs: <strong>does the presence of a question's answer-frame anchor separate a window that carries the gold from one that does not?</strong></p>
+<h3 id="the-bar-and-it-is-missed">The bar, and it is missed</h3>
+<p>Written before the run: the anchor must add <strong>+0.02 AUC over the margin alone</strong>, cross-fitted, on both seeds.</p>
+<p>cross-fitted AUC, 'this window carries the gold'   seed 1     seed 2 margin alone                                       0.8646     0.8598 margin + anchor                                    0.8697     0.8656 +0.0050    +0.0058 margin + question-overlap (control)               -0.0044    -0.0033 margin + anchor + overlap                          +0.0004    +0.0031</p>
+<p><strong>+0.005 and +0.006 against a bar of +0.02.</strong> The sign is positive and identical on both seeds — the first consistently-signed cross-fitted signal this workstream has produced, against <code>agree_top</code>'s below-chance 0.48 in the ninety-second finding — but it is a quarter of what was asked for.</p>
+<p>The question-overlap control fails again, as the ninetieth and ninety-third findings both predicted: it <em>subtracts</em> AUC on both seeds.</p>
+<h3 id="1-why-it-misses-it-is-silent-not-wrong">1. Why it misses: it is silent, not wrong</h3>
+<p>coverage lexicon fires on               183 of 580 passages   31.6% of the residue among them       75 of 293 / 295      25.6% / 25.4% makes an actual call (score not constant across a passage's windows)        109 of 183            59.6%</p>
+<p><strong>The lexicon speaks on 109 of 580 passages — 18.8%.</strong> Sixteen anchor families keyed off question verbs cover a third of questions, and on 40% of those every window scores the same, so the score cannot rank them. The ninety-first finding predicted this exactly: 62% of the residue is questions with no nameable constraint, and a frame lexicon is a constraint lexicon.</p>
+<p><strong>Read (d) shows it is informative where it fires</strong>, and noisily:</p>
+<p>fires on 153 of 264 gold-bearing windows    58.0% fires on 177 of 509 windows with no gold    34.8%</p>
+<p>58 against 35 is a real difference and it is also a lot of both errors.</p>
+<h3 id="2-where-it-speaks-it-is-level-with-the-trained-verifier">2. Where it speaks it is level with the trained verifier</h3>
+<p>Restricted to the 109 passages where the anchor is non-constant — where it makes a call at all — against the shipped verifier's margin on <strong>the same passages</strong>:</p>
+<p>seed 1              seed 2 anchor inverts        19 of 109  17.4%    19 of 109  17.4% margin inverts        26 of 109  23.9%    23 of 109  21.1% paired, anchor wins        22                  20 paired, margin wins        15                  16 McNemar                p = 0.324           p = 0.618</p>
+<p><strong>It is not a demonstrated win and the finding says so.</strong> The direction is consistent across seeds and the paired test does not clear 0.05 on either; 19 against 26 on 109 passages looks decisive printed side by side and is not, which is why the paired test is in the file. An earlier version of this read printed the two rates without one.</p>
+<p><strong>What is fair to say is parity.</strong> A sixteen-entry hand-written lexicon ranks windows about as well as a verifier trained on cross-fitted labels over the trunk's own states, on the passages where the lexicon has an opinion. That is not nothing: the two are not correlated by construction, and the lexicon cost an afternoon.</p>
+<h3 id="3-so-the-binding-constraint-is-coverage-and-coverage-is-what">3. So the binding constraint is coverage, and coverage is what generation buys</h3>
+<p>The three numbers together say one thing:</p>
+<ul><li>the anchor is <strong>right when it speaks</strong> (§2, parity with the verifier);</li><li>it <strong>rarely speaks</strong> (§1, 18.8% of passages);</li><li>and the AUC bar is missed by the product of those two (§ the bar).</li></ul>
+<p><strong>A generated frame differs from this lexicon in exactly the dimension that binds.</strong> A model conditioned on the question and the passage can produce an anchor for the 68% of questions no hand-written family covers, can produce the passage's <em>own</em> phrasing rather than a guessed synonym, and gives a graded score where this gives an integer in {0, 1, 2}. Every one of those attacks coverage or ties; none of them is needed for precision, which §2 already has.</p>
+<p>That is the first time this workstream has had a result that argues <em>for</em> building the expensive version rather than against it.</p>
+<h3 id="what-this-cannot-say">What this cannot say</h3>
+<p><strong>It does not show a generated frame would clear the bar.</strong> It shows that the thing a generated frame would fix is the thing that is broken here. Those are different claims and the ninetieth finding is the standing reminder — its locality rule had a plausible mechanism and reached a <em>negative</em> fraction of its own ceiling.</p>
+<p><strong>Parity is not improvement.</strong> §2's p-values are 0.32 and 0.62. If a generated frame reaches only the same per-call accuracy at four times the coverage, the arithmetic is still worth having, but the per-call accuracy is unproven and the honest reading is that it is somewhere around the verifier's.</p>
+<p><strong>The lexicon is mine and it is arbitrary.</strong> Sixteen families, chosen by reading question types, with the boundary between "a family" and "a synonym list" set by judgement. A different lexicon would give different coverage; the <code>as </code> entry alone is a substring that will fire on much prose.</p>
+<p><strong>The population is the ninety-third finding's read (e)</strong> — passages with both kinds of window — so it says nothing about passages where every window carries the gold or none does. And nothing here touches the <em>runtime</em>: no arm was run, no threshold moved, no passage bought.</p>
+<h3 id="what-follows">What follows</h3>
+<p><strong>Build the generated frame, and build it as a window scorer.</strong> Not a locator (the ninety-third finding bounds that at +15/+18), not a re-ranker over the head's ten (bounded at 58.1%/59.0%), but a term in the admission decision — which is 70% of the residue and outside both bounds.</p>
+<p><strong>Its first bar should be §2's number and not the AUC bar.</strong> The question a generated frame has to answer is whether it keeps per-call parity with the verifier while speaking on four to five times as many passages. That is measurable on this same population with the same reads, and read (d2) is written to take it.</p>
+<p><strong>And it should be scored against <code>margin + anchor</code>, not against <code>margin</code>.</strong> Otherwise a generated frame gets credit for the +0.005 the hand-written one already provides.</p>
+<p><strong>Left unexplained:</strong> the anchor and the margin disagree productively in both directions — 22 passages where the anchor is right and the margin wrong, 15 the other way, on seed 1. A combination that beat both would need to know which to trust, and nothing here says what that would key on. The 15 are the more interesting half and have not been read.</p></div>
+  </section>
+
+  <section class="grid refs">
+    <div class="body two-even">
+      <div>
+        <h2 class="small">It cites</h2>
+        <p class="aside">No other finding by number.</p>
+      </div>
+      <div>
+        <h2 class="small">Cited by</h2>
+        <ul class="reflist"><li style="--c:var(--c2)"><a href="/Corn-Jr-Public/finding/110.html"><span class="fn">110</span>Of four cheap rescoring ideas, only one vote per mention helps</a></li><li style="--c:var(--c2)"><a href="/Corn-Jr-Public/finding/112.html"><span class="fn">112</span>Training on whole passages lifts extraction from 54% to 71%</a></li></ul>
+        
+      </div>
+    </div>
+    <p class="body source">docs/findings/94-a-sixteen-entry-hand-written-anchor-lexicon-ranks-windows-level-with-the-trained-verifier-where-it-speaks-and-misses-the-bar-because-it-is-silent-on-four-fifths.md</p>
+  </section>
+</article>
+
+  
+<footer class="turn">
+  <div><span class="sc">previous</span><a href="/Corn-Jr-Public/finding/93.html">93 · A perfect sentence finder would be worth only 15-38 passages</a></div>
+  <div class="r"><span class="sc">next</span><a href="/Corn-Jr-Public/finding/95.html">95 · The right answer is among the top ten on 90% of misses</a></div>
+  <p class="keys"><kbd>←</kbd> <kbd>→</kbd> turn the page · <kbd>/</kbd> find</p>
+</footer>
+<p class="bynumber">Previous and next in <a href="/Corn-Jr-Public/thread/reading.html">Reading documents</a>. By number:
+  <a href="/Corn-Jr-Public/finding/93.html">93</a> · <a href="/Corn-Jr-Public/finding/95.html">95</a></p>
+
+</div>
+</body>
+</html>

@@ -1,0 +1,91 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>187 · Trained on invented names, he learned to copy one, never which · Corn-Jr</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600&family=IBM+Plex+Mono:wght@400;500&family=Spectral:ital,wght@0,400;0,500;0,600;1,400&family=Spectral+SC:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/Corn-Jr-Public/static/library.css">
+<script defer src="/Corn-Jr-Public/static/library.js"></script>
+<script type="speculationrules">
+{"prerender": [{"where": {"and": [{"href_matches": "/Corn-Jr-Public/*"}, {"not": {"href_matches": "/Corn-Jr-Public/random.html"}}, {"not": {"href_matches": "/Corn-Jr-Public/static/*"}}]}, "eagerness": "moderate"}]}
+</script>
+
+</head>
+<body>
+<div class="page">
+  <header class="running">
+    <a class="book" href="/Corn-Jr-Public/">Corn-Jr · The Record</a>
+    <nav>
+      <a href="/Corn-Jr-Public/" data-key="shelf">Shelf</a><a href="/Corn-Jr-Public/findings.html" data-key="findings" class="here">Findings</a><a href="/Corn-Jr-Public/doc/VISION.html" data-key="VISION">Vision</a><a href="/Corn-Jr-Public/doc/GLOSSARY.html" data-key="GLOSSARY">Glossary</a>
+      <a href="https://github.com/csheehan18/Corn-Jr-Public">Source</a>
+    </nav>
+  </header>
+  
+
+<article class="sheet" style="--c:var(--c5)">
+  <div class="progress" aria-hidden="true"></div>
+  <section class="grid chapter-open finding-open">
+    <a class="tab" href="/Corn-Jr-Public/thread/understanding.html" title="Understanding at small scale"><small>Part</small><span>V</span></a>
+    <p class="cn">187</p>
+    <p class="partline"><a href="/Corn-Jr-Public/thread/understanding.html">Understanding at small scale</a> · 20 October 2026</p>
+    <h1>Trained on invented names, he learned to copy one, never which</h1>
+  </section>
+
+  <section class="grid">
+    <p class="marginal">The result, as the finding states it</p><div class="prose"><p class="lead">At 20M, a fine-tune on 60,000 described-menu lines (an invented name beside each property's description, the request phrased by meaning) teaches him to answer with one of the menu's names — 197-200 of 200 fresh training-format lines — and not which one: the right name on 0.21-0.30 of them against a chance of 0.25, and every held read at chance on all three starts (ruler 0.23-0.25, held kinds 0.17-0.26, held phrases 0.20-0.28); the pick does not move with the request; the pre-registered row "the link does not form at this dose", with finding <a class="fref" href="/Corn-Jr-Public/finding/186.html">186</a>'s plain read 0.02-0.05 lower</p></div>
+    <p class="marginal">What it cost</p><div class="prose"><p class="cost">the build 18:48-19:05 on 2026-10-20 (ac14986); the chain — three starts read, three fine-tunes of 142, 124 and 124 s, three reads — 640.0 s; the four-column re-read of six checkpoints 214.2 s and the in-distribution read 21.9 s; all contended (the card at 38-41%, a bound).</p></div>
+  </section>
+
+  
+
+  <section class="grid">
+    <div class="prose doc"><p><strong>The question</strong> (owner, 2026-10-20: "yes let's do it", on finding <a class="fref" href="/Corn-Jr-Public/finding/186.html">186</a>'s proposal). Finding <a class="fref" href="/Corn-Jr-Public/finding/186.html">186</a>: he does not read a described menu, though the descriptions alone pick the field at twice chance. Can a slice built on GENERATORS' rules teach the link — the name beside the description the request means — and does it carry to kinds and words he never trained on? Pre-registered at ac14986 (<code>configs/mix_v3_described_ft.py</code>).</p>
+<p><strong>The arm.</strong> <code>corn/describegen.py</code>: 20 trained kinds, 80 properties, two descriptions and four trained phrases each; an invented name per property drawn fresh for every line (56,821 effective answer values); no request sharing a content stem with any description in its menu; the answer in each slot 25%. <code>scripts/check_described.py</code> (guard 100) holds it from the bytes. Three fine-tunes from finding <a class="fref" href="/Corn-Jr-Public/finding/186.html">186</a>'s starts, <code>mix_v3</code> as replay, the payload 0.93 passes, 650 iterations.</p>
+<h3 id="the-read">The read</h3>
+<p>start / fine-tune      held phrases   held kinds    ruler        in-distribution (chance 0.25)  (0.25)        (0.24)       right / a menu name nano20m_v3             0.21           0.25          0.23         — ft_described_v3      0.20           0.24          0.25         61/200 / 197 nano20m_v3_seed2       0.17           0.20          0.24         — ft_described_v3s2    0.28           0.17          0.23         42/200 / 199 nano20m_v3_compiled    0.30           0.25          0.23         — ft_described_v3c     0.26           0.26          0.23         54/200 / 200</p>
+<p>(Held reads: the registered calibrated score. In-distribution: <code>scripts/probe_described_indist.py</code>, 200 fresh lines in the training format, greedy-decoded.)</p>
+<p><strong>Every gate fails on every start</strong>, the installs gate included: the pre-registered row is "installs below its gate — the link does not form at this dose". The prediction (installs and carries 3 of 3, transfers 2-3 of 3) was wrong on all three.</p>
+<p><strong>He learned the format and not the choice.</strong> On the training format he writes a menu name 98-100% of the time, from every slot (slots 0-3 written 42/51/50/54, 72/36/37/54, 63/47/36/54), and the right one at chance. On the probe's held frames 54-69% of decodes write a menu name, against 0 of 903 on every start. Nothing points at which: the request does not move the pick.</p>
+<h3 id="an-instrument-suspicion-cleared">An instrument suspicion, cleared</h3>
+<p>One decode on the first fine-tune wrote the gold name ("a tent that sheds a heavy shower" -&gt; kraglek) where the calibrated read scored a miss, and the calibration — the request's score minus the score with it taken out — was suspected of subtracting a real signal. The probe gained three columns to test it (<code>raw</code>, the pick with the request; <code>prior</code>, the pick without it; <code>writes</code>, the decoded word). On the fine-tunes <code>raw</code> reads the same count as <code>prior</code> on six of nine rows and within three on the rest (ruler 32/32, 23/23, 22/22), both at chance: <strong>the request does not move his rate of picking right</strong>, so the calibration was not hiding a reading of it, and that decode was the menu-only favourite landing on the gold. Finding <a class="fref" href="/Corn-Jr-Public/finding/184.html">184</a>'s lesson again: one decode is an anecdote; read all of them before blaming the instrument. The in-distribution read, which needs no calibration, says the same thing.</p>
+<h3 id="what-it-costs">What it costs</h3>
+<p>start -&gt; fine-tune     names (186's plain read)   desc-only    tool.copy_wide nano20m_v3             0.54 -&gt; 0.51               0.49 -&gt; 0.51   281 -&gt; 293 nano20m_v3_seed2       0.50 -&gt; 0.48               0.43 -&gt; 0.38   291 -&gt; 273 nano20m_v3_compiled    0.54 -&gt; 0.49               0.49 -&gt; 0.42   279 -&gt; 292</p>
+<p>The cost gate (<code>names</code> within 0.04) fails on <code>_compiled</code> (-0.05), and desc-only falls on two starts: a payload that teaches nothing still costs the reads it sits nearest. <code>tool.copy_wide</code> moves both ways, by up to 18 of 300.</p>
+<h3 id="why-and-what-it-licenses">Why, and what it licenses</h3>
+<p><strong>The step was not one he could take.</strong> The answer needed two moves in one token: match the request to a description by meaning, which at 20M is two-times-chance and not reliable (finding <a class="fref" href="/Corn-Jr-Public/finding/186.html">186</a>'s desc-only, 0.43-0.49), and then copy the name standing to that description's left. GENERATORS: "dose amplifies a step; it does not create one", and a step that is not a copy does not form by fine-tune (findings <a class="fref" href="/Corn-Jr-Public/finding/175.html">175</a>, <a class="fref" href="/Corn-Jr-Public/finding/179.html">179</a>). With the meaning half too weak to supply a gradient that points anywhere, the loss could only be lowered by learning the half that is free — an answer is one of these names — and that is what he learned.</p>
+<ul><li><strong>A described menu is not, by this fine-tune at 20M, a lever on the meaning wall.</strong> The format installs; the link does not.</li><li><strong>The two halves can be separated, and should be next.</strong> Finding <a class="fref" href="/Corn-Jr-Public/finding/180.html">180</a> made a computed step into a copy and it installed 864 of 864: a request that restates its description word for word makes the link pure binding, with no meaning in it. If that installs, binding is his and meaning is the wall; if it does not, the binding itself does not form at this dose.</li><li><strong>The vehicle is open.</strong> Finding <a class="fref" href="/Corn-Jr-Public/finding/74.html">74</a>'s re-ask needed the mix by four times where its fine-tune read a quarter of it; pretraining with the payload in the mix is the other vehicle, about 15 min a nano seed.</li></ul>
+<p><strong>What it does not settle.</strong> Any size above 20M; a longer fine-tune or a second pass; the pretraining vehicle; a curriculum from verbatim to meaning; whether a menu of two, where the meaning read is easiest, forms anything.</p></div>
+  </section>
+
+  <section class="grid refs">
+    <div class="body two-even">
+      <div>
+        <h2 class="small">It cites</h2>
+        <ul class="reflist"><li style="--c:var(--c3)"><a href="/Corn-Jr-Public/finding/74.html"><span class="fn">74</span>Second-turn behaviour installs; compound requests forget how to stop</a></li><li style="--c:var(--c4)"><a href="/Corn-Jr-Public/finding/175.html"><span class="fn">175</span>He names the chosen branch, but can&#39;t combine it with the result</a></li><li style="--c:var(--c4)"><a href="/Corn-Jr-Public/finding/179.html"><span class="fn">179</span>Fine-tuned, he reads every condition word like &#39;not&#39; and &#39;unless&#39;</a></li><li style="--c:var(--c4)"><a href="/Corn-Jr-Public/finding/180.html"><span class="fn">180</span>When the runtime orders the menu, &#39;the other one&#39; is perfect</a></li><li style="--c:var(--c4)"><a href="/Corn-Jr-Public/finding/184.html"><span class="fn">184</span>Looping until it sounds right: he learns to always keep looking</a></li><li style="--c:var(--c5)"><a href="/Corn-Jr-Public/finding/186.html"><span class="fn">186</span>He knows roughly what descriptions mean but ignores a described menu</a></li></ul>
+        
+      </div>
+      <div>
+        <h2 class="small">Cited by</h2>
+        <ul class="reflist"><li style="--c:var(--c5)"><a href="/Corn-Jr-Public/finding/188.html"><span class="fn">188</span>His surprise spots unusual words, not words he misunderstands</a></li><li style="--c:var(--c5)"><a href="/Corn-Jr-Public/finding/198.html"><span class="fn">198</span>Surprise-steered reading lowers rare-word surprise but not understanding at 5M</a></li></ul>
+        
+      </div>
+    </div>
+    <p class="body source">docs/findings/187-the-described-menu-by-fine-tune-installs-the-format-and-not-the-choice-he-writes-a-menu-name-on-98-percent-and-the-right-one-at-chance-even-in-distribution.md</p>
+  </section>
+</article>
+
+  
+<footer class="turn">
+  <div><span class="sc">previous</span><a href="/Corn-Jr-Public/finding/186.html">186 · He knows roughly what descriptions mean but ignores a described menu</a></div>
+  <div class="r"><span class="sc">next</span><a href="/Corn-Jr-Public/finding/188.html">188 · His surprise spots unusual words, not words he misunderstands</a></div>
+  <p class="keys"><kbd>←</kbd> <kbd>→</kbd> turn the page · <kbd>/</kbd> find</p>
+</footer>
+<p class="bynumber">Previous and next in <a href="/Corn-Jr-Public/thread/understanding.html">Understanding at small scale</a>. By number:
+  <a href="/Corn-Jr-Public/finding/186.html">186</a> · <a href="/Corn-Jr-Public/finding/188.html">188</a></p>
+
+</div>
+</body>
+</html>

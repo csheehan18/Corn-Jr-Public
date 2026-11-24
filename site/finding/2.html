@@ -1,0 +1,92 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>2 · Decode speed is launch overhead per layer; CUDA graphs remove most · Corn-Jr</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600&family=IBM+Plex+Mono:wght@400;500&family=Spectral:ital,wght@0,400;0,500;0,600;1,400&family=Spectral+SC:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/Corn-Jr-Public/static/library.css">
+<script defer src="/Corn-Jr-Public/static/library.js"></script>
+<script type="speculationrules">
+{"prerender": [{"where": {"and": [{"href_matches": "/Corn-Jr-Public/*"}, {"not": {"href_matches": "/Corn-Jr-Public/random.html"}}, {"not": {"href_matches": "/Corn-Jr-Public/static/*"}}]}, "eagerness": "moderate"}]}
+</script>
+
+</head>
+<body>
+<div class="page">
+  <header class="running">
+    <a class="book" href="/Corn-Jr-Public/">Corn-Jr · The Record</a>
+    <nav>
+      <a href="/Corn-Jr-Public/" data-key="shelf">Shelf</a><a href="/Corn-Jr-Public/findings.html" data-key="findings" class="here">Findings</a><a href="/Corn-Jr-Public/doc/VISION.html" data-key="VISION">Vision</a><a href="/Corn-Jr-Public/doc/GLOSSARY.html" data-key="GLOSSARY">Glossary</a>
+      <a href="https://github.com/csheehan18/Corn-Jr-Public">Source</a>
+    </nav>
+  </header>
+  
+
+<article class="sheet" style="--c:var(--c1)">
+  <div class="progress" aria-hidden="true"></div>
+  <section class="grid chapter-open finding-open">
+    <a class="tab" href="/Corn-Jr-Public/thread/foundations.html" title="Foundations"><small>Part</small><span>I</span></a>
+    <p class="cn">2</p>
+    <p class="partline"><a href="/Corn-Jr-Public/thread/foundations.html">Foundations</a> · 17 August 2026</p>
+    <h1>Decode speed is launch overhead per layer; CUDA graphs remove most</h1>
+  </section>
+
+  <section class="grid">
+    <p class="marginal">The result, as the finding states it</p><div class="prose"><p class="lead">The extrapolation, measured</p></div>
+    
+  </section>
+
+  
+
+  <section class="grid">
+    <div class="prose doc"><p>The above was a projection from two small models. Decode speed doesn't depend on the weights being any good, so it didn't have to stay one: <code>bench.py --config</code> now builds an untrained architecture and times it. Seven shapes, head dim held at 64, block 512, ~250M for the middle five.</p>
+<p><strong>The launch-overhead diagnosis is confirmed, harder than expected.</strong> Eager per-token cost divided by layer count, across a 54x parameter range and both dtypes:</p>
+<div class="tablewrap"><table><thead><tr><th></th><th>6L×256</th><th>8L×512</th><th>12L×1280</th><th>16L×1152</th><th>20L×1024</th><th>24L×960</th><th>32L×832</th></tr></thead><tbody><tr><td>params</td><td>4.9M</td><td>25.6M</td><td>237M</td><td>256M</td><td>252M</td><td>266M</td><td>267M</td></tr><tr><td>fp32 ms/layer</td><td>0.485</td><td>0.474</td><td>0.462</td><td>0.456</td><td>0.449</td><td>0.446</td><td>0.450</td></tr><tr><td>bf16 ms/layer</td><td>0.487</td><td>0.478</td><td>0.479</td><td>0.456</td><td>0.455</td><td>0.454</td><td>0.456</td></tr></tbody></table></div>
+<p>Flat to within ±4% over 54x the parameters, and <strong>bf16 is not one bit faster than fp32</strong> — halving the bytes moved changes nothing. Eager decode on this box is a fixed ~0.46ms per layer of CPU-side launch cost with the GPU idle underneath it. The predicted 85–125 tok/s for 16–24 layers came in at 93–137. The projection was right.</p>
+<p><strong>CUDA graphs remove most of it.</strong> Capturing the whole decode step into one launch (<code>corn/decode.py</code>), bf16:</p>
+<div class="tablewrap"><table><thead><tr><th>shape</th><th>params</th><th>eager</th><th>graphed</th><th>speedup</th></tr></thead><tbody><tr><td>12L×1280</td><td>237M</td><td>174 tok/s</td><td><strong>554 tok/s</strong></td><td>3.2x</td></tr><tr><td>16L×1152</td><td>256M</td><td>137 tok/s</td><td><strong>459 tok/s</strong></td><td>3.3x</td></tr><tr><td>20L×1024</td><td>252M</td><td>110 tok/s</td><td><strong>424 tok/s</strong></td><td>3.9x</td></tr><tr><td>24L×960</td><td>266M</td><td>92 tok/s</td><td><strong>366 tok/s</strong></td><td>4.0x</td></tr><tr><td>32L×832</td><td>267M</td><td>69 tok/s</td><td><strong>287 tok/s</strong></td><td>4.2x</td></tr></tbody></table></div>
+<p><strong>Every 250M shape tested clears the 250 tok/s target once decode is graphed. None of them clear it eagerly.</strong> That is the finding: the §3 latency budget at 250M is not an architecture problem, it's an inference-engine problem, and it's already solved.</p>
+<p>Three second-order results worth keeping:</p>
+<ul><li><strong>Depth is now an optimization, not a constraint.</strong> 12 layers still beats 32 by 1.9x, so "wide and shallow" survives — but as a preference, not as the line between viable and not. Architecture choice (VISION §10) is freed from the latency argument.</li><li><strong>Dtype starts mattering only after the graph.</strong> Eager, fp32 and bf16 are identical; graphed, bf16 is ~1.8x faster than fp32. The model moved from launch-bound into the regime §4 assumed it was in all along. Quantization becomes worth considering exactly here and not before.</li><li><strong>§4's ~1500 tok/s bandwidth estimate is optimistic by ~3x.</strong> Best measured 250M is 554 tok/s (0.5GB of weights at 760 GB/s should permit ~1500). Real headroom is ~2x over target, not 6x.</li></ul>
+<p>The static KV cache alone accounts for none of this — it measures <em>slower</em> than <code>torch.cat</code> (101 vs 137 tok/s at 16L), because static shapes mean attending over the full 512-slot window every step. It exists only because graph capture requires it. Streaming readback of one token per step costs ~4%, so the numbers above survive contact with a real consumer.</p>
+<p>Not tested: <code>torch.compile</code>, which needs Triton, which has no working install on this machine. CUDA graphs turned out to be the more direct instrument anyway — same kernels, only fewer launches, so the mechanism isn't in question.</p>
+<h4 id="it-is-the-default-path-now-sampling-included">It is the default path now, sampling included</h4>
+<p><code>chat.py</code> and <code>sample.py</code> decode through the graph. Sampling runs <em>inside</em> the captured region — top-k and multinomial and all — because a graph replay is one launch, and lifting logits out to sample them on the host would reintroduce a device sync per token and give most of the win straight back.</p>
+<p>That constrains the knobs, and the constraint is worth knowing before it surprises someone:</p>
+<ul><li><strong><code>temperature</code> is free to change.</strong> The graph reads it from a device tensor, so <code>/temp</code> takes effect on the next token.</li><li><strong><code>top_k</code> is not.</strong> It's an argument to <code>torch.topk</code> and gets baked in at capture, so changing it (or crossing between sampling and greedy) forces a recapture. That costs milliseconds and resets the cache, which is why it belongs between turns.</li></ul>
+<p>Measured cost of sampling in-graph: <strong>4.9% at 237M, 4.0% at 252M</strong> (7% at nano, where the model step is small enough for a 256-way top-k to be noticeable). So the honest end-to-end number for a 250M model — graphed, bf16, sampling, one token pulled to the host per step — is <strong>406–525 tok/s</strong>, still comfortably past the 250 target.</p>
+<p><code>nano</code> in <code>chat.py</code> went from ~330 to ~950 tok/s.</p>
+<p><strong>Capture fails quietly</strong>, which is the real hazard: a stale buffer or a Python value baked into the graph produces fluent, plausible, <em>wrong</em> text, and an RNG that doesn't advance on replay emits the same token forever. Neither shows up in a latency measurement, so <code>scripts/check_decode.py</code> checks greedy output against the pre-static-cache path token for token, and checks that sampled replays actually draw fresh randomness.</p></div>
+  </section>
+
+  <section class="grid refs">
+    <div class="body two-even">
+      <div>
+        <h2 class="small">It cites</h2>
+        <p class="aside">No other finding by number.</p>
+      </div>
+      <div>
+        <h2 class="small">Cited by</h2>
+        <ul class="reflist"><li style="--c:var(--c5)"><a href="/Corn-Jr-Public/finding/160.html"><span class="fn">160</span>2048-token blocks cost 1.2x training time and fit in memory</a></li></ul>
+        
+      </div>
+    </div>
+    <p class="body source">docs/findings/02-the-extrapolation-measured.md</p>
+  </section>
+</article>
+
+  
+<footer class="turn">
+  <div><span class="sc">previous</span><a href="/Corn-Jr-Public/finding/1.html">1 · Five times the parameters costs only a third of the decode speed</a></div>
+  <div class="r"><span class="sc">next</span><a href="/Corn-Jr-Public/finding/3.html">3 · Training and validation loss never separate on one pass of data</a></div>
+  <p class="keys"><kbd>←</kbd> <kbd>→</kbd> turn the page · <kbd>/</kbd> find</p>
+</footer>
+<p class="bynumber">Previous and next in <a href="/Corn-Jr-Public/thread/foundations.html">Foundations</a>. By number:
+  <a href="/Corn-Jr-Public/finding/1.html">1</a> · <a href="/Corn-Jr-Public/finding/3.html">3</a></p>
+
+</div>
+</body>
+</html>

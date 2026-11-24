@@ -1,0 +1,108 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>90 · A nearby-words rule can&#39;t tell a rival answer from the right one · Corn-Jr</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600&family=IBM+Plex+Mono:wght@400;500&family=Spectral:ital,wght@0,400;0,500;0,600;1,400&family=Spectral+SC:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/Corn-Jr-Public/static/library.css">
+<script defer src="/Corn-Jr-Public/static/library.js"></script>
+<script type="speculationrules">
+{"prerender": [{"where": {"and": [{"href_matches": "/Corn-Jr-Public/*"}, {"not": {"href_matches": "/Corn-Jr-Public/random.html"}}, {"not": {"href_matches": "/Corn-Jr-Public/static/*"}}]}, "eagerness": "moderate"}]}
+</script>
+
+</head>
+<body>
+<div class="page">
+  <header class="running">
+    <a class="book" href="/Corn-Jr-Public/">Corn-Jr · The Record</a>
+    <nav>
+      <a href="/Corn-Jr-Public/" data-key="shelf">Shelf</a><a href="/Corn-Jr-Public/findings.html" data-key="findings" class="here">Findings</a><a href="/Corn-Jr-Public/doc/VISION.html" data-key="VISION">Vision</a><a href="/Corn-Jr-Public/doc/GLOSSARY.html" data-key="GLOSSARY">Glossary</a>
+      <a href="https://github.com/csheehan18/Corn-Jr-Public">Source</a>
+    </nav>
+  </header>
+  
+
+<article class="sheet" style="--c:var(--c2)">
+  <div class="progress" aria-hidden="true"></div>
+  <section class="grid chapter-open finding-open">
+    <a class="tab" href="/Corn-Jr-Public/thread/reading.html" title="Reading documents"><small>Part</small><span>II</span></a>
+    <p class="cn">90</p>
+    <p class="partline"><a href="/Corn-Jr-Public/thread/reading.html">Reading documents</a> · 3 September 2026</p>
+    <h1>A nearby-words rule can&#39;t tell a rival answer from the right one</h1>
+  </section>
+
+  <section class="grid">
+    <p class="marginal">The result, as the finding states it</p><div class="prose"><p class="lead">The locality rule cannot tell a rival from a gold inside one window, so the sixty-sixth finding's runtime repair is closed and the eighty-ninth's revival of it was one inference too far</p></div>
+    
+  </section>
+
+  
+
+  <section class="grid">
+    <div class="prose doc"><p><code>scripts/probe_locality.py</code>, 2026-09-03. <strong>Replay only</strong> — no GPU, no decode, no weight read, no tokenizer — over <code>evals/results/nullpr_s{1,2}_popa.json</code>, the shipped pair-rows verifier. <code>docs/NEXT-AFTER-89.md</code> item 2. The baselines reproduce the eighty-ninth finding to the passage: <strong>367 right / joint 600</strong> and <strong>368 right / joint 575</strong>, <code>RIVAL</code> 42 passages / 49 admitted windows and 47 / 62.</p>
+<p><strong>Forty-two arms — three readings of the rule, seven tolerances, two seeds — and not one of them is a gain on any column.</strong> The best <code>joint</code> in the whole grid is <strong>−33 and −29</strong>. The owner's precision-only trade does not arise, because the arm does not buy precision either.</p>
+<h3 id="what-was-being-priced-and-why-it-looked-live">What was being priced, and why it looked live</h3>
+<p>The sixty-sixth finding named a runtime repair — "reject an extraction whose span is not local to the question's distinguishing term" — and never defined the distinguishing term. The eighty-ninth finding revived it: on the shipped verifier <code>RIVAL</code>'s spoken span is the earlier one <strong>74.5% of the time against a measured positional-indifference null of 52–53%, +22 points, pooled p = 2.5e-07</strong>, where the superseded head had given +12 and the arm had been set aside. That is a real and replicated fact and it is not the fact an arm needs; §3 below is why.</p>
+<h3 id="the-three-readings-all-of-them-runtime-computable-none-of-th">The three readings, all of them runtime-computable, none of them the gold</h3>
+<p>Positions are content-word indices, <code>corn.extract.content_words</code> — the space <code>span_of</code> and <code>longest_span</code> already work in. <code>Q</code> the question's content words, <code>S</code> the spoken span's, <code>W</code> the window's.</p>
+<p>absent_span   D = (Q - S - FRAME) &amp; W. The eighty-ninth finding §4's first reading and the cheapest: <code>grounded</code> already computes <code>Q</code>. unique        <code>absent_span</code>, keeping only terms occurring ONCE in the window. The finding's own "once <code>iron</code> is discounted as shared", made computable without the gold, and the only reading that reproduces the sixty-sixth finding's example. all_words     D = Q &amp; W. The control §4 predicts is degenerate.</p>
+<p>The rule is a <strong>mask edit and nothing else</strong>: <code>admitted</code> says which windows clear the margin, this silences some of them, and <code>replies_for</code>, <code>corn.extract.reduce</code> and <code>score_extract_tight</code> are the runtime's, untouched. A silenced window has the runtime author its decline exactly as an unadmitted one does. <strong>When <code>D</code> is empty the rule does not fire</strong> — no evidence to reject on is not a reason to reject.</p>
+<p><strong>The head-noun reading is unpriced rather than approximated.</strong> It needs a part-of-speech decision, there is no tagger in the repo, no dependency may be added, and every dependency-free heuristic tried picks the wrong word on the sixty-sixth finding's own example: first content word gives <code>boiling</code>, last gives <code>iron</code>, the token before <code>of</code> gives <code>point</code>.</p>
+<h3 id="1-the-rule-fires-on-the-answers-it-must-protect-at-the-rate-">1. The rule fires on the answers it must protect at the rate it fires on rivals</h3>
+<p>This is the read that decides it, and it is one number. A rejection rule is a lever only if it fires more on what it should silence than on what it must not. <code>CORRECT</code> is every admitted window on an answerable passage whose own span scores <code>tight</code> — 540 and 550 of them.</p>
+<p>ratio of fire rates, RIVAL over CORRECT       seed 1          seed 2 absent_span   k = 3                        1.17            1.05 k = 5                        1.13            1.21 k = 8                        0.98            0.99 unique        k = 3                        1.18            1.03 k = 5                        1.07            1.11 k = 8                        1.04            1.07 all_words     every k                      ≤ 0.99          ≤ 0.99</p>
+<p><strong>Nothing in the grid separates the two populations, and the two seeds do not even agree on which cell comes closest.</strong> <code>unique</code> k=3 reads 1.18 on seed 1 and 1.03 on seed 2; <code>absent_span</code> k=5 reads 1.13 and 1.21 but 1.17 and 1.05 one tolerance down. A ratio of 1.2 against a base rate of 52–59% is not a usable trade: silencing 30 of 49 rival windows costs <strong>279 of 540</strong> correct ones on seed 1, and 34 of 62 costs 288 of 550 on seed 2.</p>
+<p><strong><code>all_words</code> is worse than indiscriminate — it is anti-discriminative.</strong> Its ratio is <em>below</em> 1 at every tolerance on both seeds, falling to 0.31 and 0.47 at k=8: it preferentially silences the right answers. The eighty-ninth finding predicted this reading would be degenerate on long questions. It is, and the degeneracy has a sign.</p>
+<h3 id="2-the-price-at-each-fold-s-own-cross-validated-threshold">2. The price, at each fold's own cross-validated threshold</h3>
+<p>Every row is the shipped <code>hybrid</code> reduce at the CV'd <code>t</code>, <code>acc | att</code> and the attempt rate printed beside precision because the owner's condition for a precision-only arm is that they are.</p>
+<p>seed 1              right  wrong  silent   joint   prec   acc|att  attempt baseline              367    136     218     600   66.5%   0.730    69.8% absent_span  k = 3    185     90     446     438   60.9%   0.673    38.1% absent_span  k = 8    283    123     315     523   63.2%   0.697    56.3% absent_span  k = 12   318    134     269     556   64.1%   0.704    62.7% unique       k = 8    269    120     332     515   63.3%   0.692    54.0% unique       k = 12   304    131     286     548   64.3%   0.699    60.3% all_words    k = 12   334    136     251     567   64.4%   0.711    65.2%</p>
+<p>seed 2              right  wrong  silent   joint   prec   acc|att  attempt baseline              368    157     196     575   61.3%   0.701    72.8% absent_span  k = 3    182    101     438     424   56.3%   0.643    39.3% absent_span  k = 8    286    141     294     508   58.7%   0.670    59.2% absent_span  k = 12   324    152     245     539   59.7%   0.681    66.0% unique       k = 8    273    133     315     500   59.2%   0.672    56.3% unique       k = 12   308    145     268     529   59.9%   0.680    62.8% all_words    k = 12   337    153     231     546   59.9%   0.688    68.0%</p>
+<p><strong>Right, joint and <code>acc | att</code> fall on all 42 arms, and precision falls on 41 of them.</strong> The best <code>joint</code> in the grid is −33 and −29 and it belongs to <code>all_words</code> at the loosest tolerance measured — that is, to the setting closest to not applying the rule at all. Every column is monotone in the tolerance: this is the shape of a loss, not of a trade with an optimum somewhere inside it.</p>
+<p><strong>One cell beats a baseline precision anywhere and it does not survive contact.</strong> <code>all_words</code> k=0 on seed 1 reads 66.7% against 66.5% — <strong>+0.2 points bought with 335 of 367 right answers, 32 right at an attempt rate of 6.2%</strong> — and the same cell on seed 2 reads 60.4% against a 61.3% baseline, at the identical 32 right. It is the arm silencing almost everything, and what survives is not more accurate: <code>acc | att</code> reads 0.711 on both seeds against 0.730 and 0.701.</p>
+<h3 id="3-why-the-eighty-ninth-finding-s-22-points-did-not-carry-and">3. Why the eighty-ninth finding's +22 points did not carry, and it is not a contradiction</h3>
+<p>Both statements are true and they are about different objects:</p>
+<ul><li><strong>Across windows.</strong> <code>RIVAL</code>'s spoken span sits earlier than the gold 74.5% of the time against a 52–53% null. That compares <code>RIVAL</code> windows to a positional-indifference process and to <code>REFUSED_WRONG</code>, and it is what forbids one bar reading both species.</li><li><strong>Inside one window.</strong> A rejection rule has to say <em>this span</em> rather than <em>that span</em>, on evidence available before the gold is known. Position relative to a question term is that evidence, and §1 measures it at a ratio of 1.0–1.2.</li></ul>
+<p><strong>A population-level tilt of twenty-two points is compatible with almost no per-window separation</strong>, and that is what happened: the gold sits early too — the eighty-ninth finding §3 measures golds at mean relative position 0.394 and 62.5% of first-quartile windows carrying the gold. Both the rival and the gold are near the front, so "is the span near a question word" hits both. The eighty-ninth finding's revival of this arm inferred a per-window discriminator from a cross-window statistic, and that inference is what this finding refutes.</p>
+<p>The ceiling that was known before the run also holds: <strong>13 of 49 and 16 of 62 <code>RIVAL</code> windows put the spoken span at or after the gold</strong>, where locality cannot tell the two apart in principle.</p>
+<h3 id="what-this-cannot-say">What this cannot say</h3>
+<p><strong>It is not a test of the rule the sixty-sixth finding imagined.</strong> <code>content_words</code> does no stemming, so on that finding's own fixture — "the boiling point of iron" over "...melts at 1538 °C and boils at 2862 °C" — <code>boiling</code> is not <code>boils</code> and the distinguishing term is absent from <code>W</code> under every reading built here. <code>absent_span</code> gives <code>D = {point, iron}</code> and <code>unique</code> gives <code>D = {point}</code>. A stemmer is a new dependency and a hand-written suffix table is a scorer-shaped object needing its own guard, so what is priced is <strong>the rule this repo can build today</strong>. A stemmed version could read differently and nothing here forecloses it; what §1 forecloses is the unstemmed family, and §3 gives a reason to expect a stemmed one to fail the same way.</p>
+<p><strong>Two seeds, one trunk, one population.</strong> Everything is Population A at the shipped <code>hybrid</code> reduce and the CV'd threshold. The tolerance grid is 0,1,2,3,5,8,12 content words and a finer grid would not change a monotone column.</p>
+<p><strong>It says nothing about the corpus arm.</strong> The sixty-sixth finding named two repairs and called them not-alternatives: the runtime rejection priced here, and paired-property windows where the gold is the <em>second</em> value often enough that "take the first" scores badly. Only the first is closed.</p>
+<h3 id="what-follows">What follows</h3>
+<p><strong>Close item 2 and do not spend GPU on A4's locality half.</strong> The eighty-ninth finding left this arm "live for those 42/47 once its distinguishing term is defined". It is defined three ways here and priced, and it is dead.</p>
+<p><strong><code>RIVAL</code> has no cheap lever now.</strong> 42 and 47 passages, positional across windows and not separable within one, and the re-ranker was already retired by the eighty-sixth finding for being unable to choose better than the span head's own argmax. What is left for it is A4's trunk arm, restated — which is handoff item 3 and is now the only thing item 2 could have replaced.</p>
+<p><strong>The ceiling does not move and that is the point.</strong> The locality rule was never in <code>PLAN-READER-RESIDUE.md</code> §2's arithmetic — it was the <em>cheap</em> route to A4's target, a no-GPU rejection that could have bought some of <code>RIVAL</code> without touching the trunk. Closing it leaves the 65.5%/65.3% ceiling where the shipped-head re-run put it and removes the only way of approaching it that cost nothing. <strong><code>REFUSED_WRONG</code> at 136/139 is still the plurality and still has nothing aimed at it</strong> — handoff item 4, and now the only item whose value has gone up.</p>
+<p><strong>Left unexplained:</strong> <code>absent_span</code> and <code>unique</code> cross a ratio of 1.0 from above at k=8 on both seeds and fall below it by k=12, while <code>all_words</code> is below 1 everywhere. Something about mid-range tolerances is weakly right-signed on both seeds and it is not strong enough to use; whether it is the same thing on both is unmeasured.</p></div>
+  </section>
+
+  <section class="grid refs">
+    <div class="body two-even">
+      <div>
+        <h2 class="small">It cites</h2>
+        <p class="aside">No other finding by number.</p>
+      </div>
+      <div>
+        <h2 class="small">Cited by</h2>
+        <ul class="reflist"><li style="--c:var(--c2)"><a href="/Corn-Jr-Public/finding/112.html"><span class="fn">112</span>Training on whole passages lifts extraction from 54% to 71%</a></li></ul>
+        
+      </div>
+    </div>
+    <p class="body source">docs/findings/90-the-locality-rule-fires-on-correct-extractions-at-the-rate-it-fires-on-rivals-so-the-sixty-sixth-findings-runtime-repair-is-closed.md</p>
+  </section>
+</article>
+
+  
+<footer class="turn">
+  <div><span class="sc">previous</span><a href="/Corn-Jr-Public/finding/89.html">89 · Wrong rival answers are mostly about position on the shipped checker</a></div>
+  <div class="r"><span class="sc">next</span><a href="/Corn-Jr-Public/finding/91.html">91 · The hard questions are those with nothing nameable in them</a></div>
+  <p class="keys"><kbd>←</kbd> <kbd>→</kbd> turn the page · <kbd>/</kbd> find</p>
+</footer>
+<p class="bynumber">Previous and next in <a href="/Corn-Jr-Public/thread/reading.html">Reading documents</a>. By number:
+  <a href="/Corn-Jr-Public/finding/89.html">89</a> · <a href="/Corn-Jr-Public/finding/91.html">91</a></p>
+
+</div>
+</body>
+</html>

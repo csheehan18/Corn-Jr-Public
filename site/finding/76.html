@@ -1,0 +1,102 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>76 · A single-request control removes the compound requests&#39; copying cost · Corn-Jr</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600&family=IBM+Plex+Mono:wght@400;500&family=Spectral:ital,wght@0,400;0,500;0,600;1,400&family=Spectral+SC:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/Corn-Jr-Public/static/library.css">
+<script defer src="/Corn-Jr-Public/static/library.js"></script>
+<script type="speculationrules">
+{"prerender": [{"where": {"and": [{"href_matches": "/Corn-Jr-Public/*"}, {"not": {"href_matches": "/Corn-Jr-Public/random.html"}}, {"not": {"href_matches": "/Corn-Jr-Public/static/*"}}]}, "eagerness": "moderate"}]}
+</script>
+
+</head>
+<body>
+<div class="page">
+  <header class="running">
+    <a class="book" href="/Corn-Jr-Public/">Corn-Jr · The Record</a>
+    <nav>
+      <a href="/Corn-Jr-Public/" data-key="shelf">Shelf</a><a href="/Corn-Jr-Public/findings.html" data-key="findings" class="here">Findings</a><a href="/Corn-Jr-Public/doc/VISION.html" data-key="VISION">Vision</a><a href="/Corn-Jr-Public/doc/GLOSSARY.html" data-key="GLOSSARY">Glossary</a>
+      <a href="https://github.com/csheehan18/Corn-Jr-Public">Source</a>
+    </nav>
+  </header>
+  
+
+<article class="sheet" style="--c:var(--c1)">
+  <div class="progress" aria-hidden="true"></div>
+  <section class="grid chapter-open finding-open">
+    <a class="tab" href="/Corn-Jr-Public/thread/corpus-mix.html" title="The corpus mix"><small>Part</small><span>I</span></a>
+    <p class="cn">76</p>
+    <p class="partline"><a href="/Corn-Jr-Public/thread/corpus-mix.html">The corpus mix</a> · 28 August 2026</p>
+    <h1>A single-request control removes the compound requests&#39; copying cost</h1>
+  </section>
+
+  <section class="grid">
+    <p class="marginal">The result, as the finding states it</p><div class="prose"><p class="lead">The single-request control returns the copy rows on both vehicles, and what is left over is the control's own failure species</p></div>
+    <p class="marginal">What it cost</p><div class="prose"><p class="cost">0 s of new scoring on record; it reads 1 card scored for an earlier finding (<code>nano20m_v3</code>). Backfilled 2026-09-26 from the cards' <code>seconds</code>; training and probe time were never recorded, so this is a floor.</p></div>
+  </section>
+
+  
+
+  <section class="grid">
+    <div class="prose doc"><p>Four nano arms trained 2026-08-28 from <code>configs/mix_v3_compound_v2.py</code> and <code>configs/mix_compound_v2_ft.py</code> — finding <a class="fref" href="/Corn-Jr-Public/finding/74.html">74</a>'s own design re-run on <code>data/raw/compound_v2.txt</code>, two seeds a vehicle, same payload weight and same schedule as the v1 pair to the token. Controls are the four already-scored <code>nano20m_v3</code> seeds and the seven v1 compound cards; <strong>nothing retrained and nothing was re-scored</strong>. All four arms are eager, like their controls — the signed <code>compile=True</code> is scoped to the H200 family.</p>
+<p>Pre-registered in <code>docs/PLAN-MIX-V4-BUILD.md</code> Phase 2 and in <code>configs/mix_v3_compound_v2.py</code>'s docstring, both written before a byte of the file existed. <code>docs/PLAN-5B-SUPPLY.md</code> §7a's compound entry ordered the rebuild; the share it prices is the owner's and is not decided here.</p>
+<h3 id="what-was-wrong-and-what-the-file-changed">What was wrong, and what the file changed</h3>
+<p>Finding <a class="fref" href="/Corn-Jr-Public/finding/74.html">74</a>: <code>compound.pipe</code> installed completely on either vehicle and took <code>tool.copy</code> to 0–1/120 and <code>tool.copy_wide</code> to 0/300 on the fine-tune arm, with the copied span <strong>exact every time</strong> and the <code>why</code> bucket <code>malformed</code> on all 420 items. Copy discipline had not broken; the decision to <em>stop</em> had. All 43,626 v1 transcripts put a second call after the first observation and none ended a turn after one, so the model learned the rule the corpus stated.</p>
+<p><code>compound_v2.txt</code> is the same three classes with a matched single-request control written atomically beside each one: one carrier drawn once and rendered twice, around a compound core and around the first of its requests alone. 50/50 by construction, identical carrier distributions on the two halves, identical opening-tool distributions — all asserted off the bytes by <code>scripts/check_turn2.py</code>.</p>
+<h3 id="the-result-against-the-registered-reading">The result, against the registered reading</h3>
+<div class="tablewrap"><table><thead><tr><th>row</th><th>control ×4</th><th>v1 MIX ×3</th><th>v1 FT ×2</th><th><strong>v2 MIX ×2</strong></th><th><strong>v2 FT ×2</strong></th></tr></thead><tbody><tr><td><code>tool.copy</code> /120</td><td>118–120</td><td>36–104</td><td><strong>0–1</strong></td><td><strong>111, 120</strong></td><td><strong>115, 120</strong></td></tr><tr><td><code>tool.copy_wide</code> /300</td><td>281–296</td><td>190–282</td><td><strong>0–0</strong></td><td><strong>297, 278</strong></td><td><strong>298, 294</strong></td></tr><tr><td><code>compound.pipe</code> /48</td><td>0–0</td><td>47–48</td><td>46–47</td><td>44, 47</td><td>44, 48</td></tr><tr><td><code>compound.pipe_first</code> /48</td><td>15–39</td><td>48/48</td><td>47–48</td><td>48, 48</td><td>48, 48</td></tr></tbody></table></div>
+<p><strong>This is the pre-registered "fixed" outcome, on both of its clauses and on both vehicles.</strong> <code>tool.copy</code> returns inside the ~10-item wobble of the control's 118–120 on all four arms. <code>tool.copy_wide</code> reads 294–298 on three arms — two of them <em>above</em> the control's 281–296 — and 278 on the fourth, three items below a band whose own four-seed spread is fifteen. And <code>compound.pipe</code> holds at or above 40/48 on every arm, so the class the file exists to teach is not traded for the rows it was breaking.</p>
+<p>The fine-tune arm is the one to look at, because it is where the bill was largest: <strong>0 and 1 of 120 become 115 and 120; 0 and 0 of 300 become 298 and 294.</strong></p>
+<h3 id="the-failure-species-is-the-finding-and-it-is-not-the-totals">The failure species is the finding, and it is not the totals</h3>
+<p>Totals can return for the wrong reason. These do not:</p>
+<p>row              arm        malformed   the rest tool.copy        v1 FT ×2   120, 116    wrong_answer 3 v2 FT ×2   5, 0        — tool.copy        v1 MIX ×3  70, 16, 58  wrong_answer 14, 0, 13 v2 MIX ×2  0, 1        wrong_answer 9, 0 tool.copy_wide   v1 FT ×2   300, 300    — v2 FT ×2   0, 0        wrong_answer 2 / trained_answer 3 tool.copy_wide   v1 MIX ×3  110, 4, 37  — v2 MIX ×2  0, 1        trained_answer 3, 19</p>
+<p><strong><code>malformed</code> is the never-stop signature and it is gone</strong>: 420 of 420 on the v1 fine-tune arm, 5 of 840 on the v2 one. What is left on v2 is <code>wrong_answer</code> and <code>trained_answer</code> — which are the <em>control's own</em> failure species, at the control's own rates (the four control seeds read <code>wrong_answer</code> 0–16 and <code>trained_answer</code> 1–4 on <code>copy_wide</code>). So the arm is not passing by writing a different kind of wrong thing; it is failing the way an untreated checkpoint fails, on the few items it fails at all.</p>
+<p>That is the mechanism confirmed rather than the outcome observed. Finding <a class="fref" href="/Corn-Jr-Public/finding/74.html">74</a> inferred the cause from a corpus property and a retained generation; this predicts what removing the property does, and it does that.</p>
+<h3 id="what-it-costs-named-rather-than-buried">What it costs, named rather than buried</h3>
+<p><strong>The control class occasionally stops one call early</strong>, which is the behaviour it teaches arriving where it was not wanted. <code>said_instead</code> on <code>compound.items</code> goes 1–5 on the v1 arms to 9–21 on the v2 arms, and appears on <code>compound.pipe</code> for the first time (0 on every v1 arm; 4, 0, 2, 0 on v2). <code>compound.pipe</code> still clears the registered 40/48 on all four arms, so this is a direction rather than a failure — but it is the honest other side of the trade and it is the first thing to re-read if the H200 run is weak on composition.</p>
+<p><code>compound.items</code> remains <strong>characterisation and is not part of the read</strong>: it did not install in v1 (2–9/48) and it does not install in v2 (MIX 4 and 1, FT 11 and 7). The 11 is the highest any arm has read and it is one item outside v1's range on a 48-item row; nothing there is a separation. Finding <a class="fref" href="/Corn-Jr-Public/finding/66.html">66</a>'s first-taker shape still dominates the bucket — <code>wrong_text</code> 16–22 across every v2 arm — which is the same diagnosis v1 got and a different problem from this one.</p>
+<h3 id="the-regression-set">The regression set</h3>
+<p>row                  control ×4   v1 MIX ×3    v1 FT ×2   v2 MIX ×2   v2 FT ×2 refusal.say /270        261-268   251,266,257   268, 266    249, 259   268, 266 temporal.copy /353      353/353       353/353    353, 349    353, 353   339, 352 temporal.route /400     396-399       397-398    399, 397    397, 398   399, 398 tool.selection /200     109-130   146,136,151   116, 132    149, 142   128, 128</p>
+<p><strong><code>refusal.say</code> on the MIX vehicle is a pre-existing property of this family, not something v2 added.</strong> 249 and 259 sit against v1 MIX's 251, 266, 257, and the <code>why</code> is <code>reworded</code> in every case (21 and 11 against v1's 19, 4, 13). The compound MIX arm rewords refusals; it did so at v1 and it does so at v2, and the two ranges overlap. The fine-tune vehicle shows none of it (268 and 266, <code>reworded</code> 2 and 4, inside the control band).</p>
+<p><strong><code>temporal.copy</code> 339/353 on the v2 fine-tune's first seed is the one genuinely new watch, and it is reported as unresolved.</strong> That row reads 353/353 on all four controls, all three v1 MIX seeds and one of the two v1 fine-tunes; the other v1 fine-tune read 349 with <code>wrong_tool</code> 4. Here seed 1 reads 339 with <code>wrong_tool</code> 14 and seed 2 reads 352 with <code>wrong_tool</code> 1. So the defect is not new — <code>configs/mix_v3_compound.py</code> predicted it in as many words, because this family trains <code>resolve_date</code> in a new envelope and made <code>temporal.copy</code> a load-bearing watch rather than a conservative one — but <strong>14 items is the largest it has been, and the two seeds disagree by 13 on a row whose control spread is zero.</strong> The direction is a real one and the size is not readable at two seeds, which is the same sentence finding <a class="fref" href="/Corn-Jr-Public/finding/74.html">74</a> had to write about <code>tool.copy</code> and is no more satisfying here.</p>
+<h3 id="what-this-licenses-and-who-decides-it">What this licenses, and who decides it</h3>
+<p>Against the pre-registered table this is <strong>fixed</strong>: the file is the freeze candidate, and <em>the share decision goes to the owner with these numbers.</em> This finding does not pick one, <code>configs/mix_v4_5b.py</code> builds cleanly with the line at zero, and §7a's compound entry stays ORDERED until somebody signs it.</p>
+<p>What the numbers say for that decision, stated plainly and without a recommendation:</p>
+<ul><li>The mechanism finding <a class="fref" href="/Corn-Jr-Public/finding/74.html">74</a> identified was the whole of the cost, and removing it removes the cost on both vehicles.</li><li>Class I is bought at 44–48 of 48 against a control of 0.</li><li>Class L is not bought, on either file, and is not evidence either way.</li><li>The price is a visible tendency to stop a call early, and one unexplained 14-item loss on <code>temporal.copy</code> at one seed of one arm.</li></ul>
+<h3 id="limits">Limits</h3>
+<p>Two seeds per arm, so directions rather than sizes (rule 6). And these are nano readings: §3 item 4's caveat applies to the whole freeze, and the sizes here transfer to the H200 run by argument rather than by measurement.</p>
+<p><strong>Both fine-tune vehicles were scored at <code>ckpt.pt</code> and <code>last.pt</code>, and the two seeds differ in whether that was worth doing.</strong> Seed 1 selected best-val at 551, its final iteration, so its two files are the same weights and their identical cards say nothing. Seed 2 selected at <strong>490 of 551</strong>, so its two cards are genuinely different weights — and every registered cell reproduces: <code>tool.copy</code> 120 both ways, <code>compound.pipe</code> 48 both ways, <code>temporal.copy</code> 352 both ways. What moves is <code>copy_wide</code> 294 → 296, <code>items_first</code> 6 → 7, <code>refusal.say</code> 266 → 265 and <code>tool.selection</code> 128 → 130, all inside a single run's wobble and none of them on a row this finding reads. So selection is not flattering the arm, which is the sixth finding's rule answered by measurement rather than by design, and the tables above quote <code>ckpt.pt</code> throughout.</p></div>
+  </section>
+
+  <section class="grid refs">
+    <div class="body two-even">
+      <div>
+        <h2 class="small">It cites</h2>
+        <ul class="reflist"><li style="--c:var(--c2)"><a href="/Corn-Jr-Public/finding/66.html"><span class="fn">66</span>The extractor takes the first value of the right type</a></li><li style="--c:var(--c3)"><a href="/Corn-Jr-Public/finding/74.html"><span class="fn">74</span>Second-turn behaviour installs; compound requests forget how to stop</a></li></ul>
+        
+      </div>
+      <div>
+        <h2 class="small">Cited by</h2>
+        <p class="aside">No later finding yet.</p>
+      </div>
+    </div>
+    <p class="body source">docs/findings/76-the-single-request-control-returns-the-copy-rows-on-both-vehicles-and-the-failure-species-is-the-controls-own.md</p>
+  </section>
+</article>
+
+  
+<footer class="turn">
+  <div><span class="sc">previous</span><a href="/Corn-Jr-Public/finding/51.html">51 · At 260M the date header helps where at 30M it hurt</a></div>
+  <div class="r"><span class="sc">next</span><a href="/Corn-Jr-Public/finding/77.html">77 · At 5B tokens, fresh text is no worse than re-reading text</a></div>
+  <p class="keys"><kbd>←</kbd> <kbd>→</kbd> turn the page · <kbd>/</kbd> find</p>
+</footer>
+<p class="bynumber">Previous and next in <a href="/Corn-Jr-Public/thread/corpus-mix.html">The corpus mix</a>. By number:
+  <a href="/Corn-Jr-Public/finding/75.html">75</a> · <a href="/Corn-Jr-Public/finding/77.html">77</a></p>
+
+</div>
+</body>
+</html>

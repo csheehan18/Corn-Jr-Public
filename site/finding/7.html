@@ -1,0 +1,91 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>7 · Real web text improves prose but not using the tool&#39;s answer · Corn-Jr</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600&family=IBM+Plex+Mono:wght@400;500&family=Spectral:ital,wght@0,400;0,500;0,600;1,400&family=Spectral+SC:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/Corn-Jr-Public/static/library.css">
+<script defer src="/Corn-Jr-Public/static/library.js"></script>
+<script type="speculationrules">
+{"prerender": [{"where": {"and": [{"href_matches": "/Corn-Jr-Public/*"}, {"not": {"href_matches": "/Corn-Jr-Public/random.html"}}, {"not": {"href_matches": "/Corn-Jr-Public/static/*"}}]}, "eagerness": "moderate"}]}
+</script>
+
+</head>
+<body>
+<div class="page">
+  <header class="running">
+    <a class="book" href="/Corn-Jr-Public/">Corn-Jr · The Record</a>
+    <nav>
+      <a href="/Corn-Jr-Public/" data-key="shelf">Shelf</a><a href="/Corn-Jr-Public/findings.html" data-key="findings" class="here">Findings</a><a href="/Corn-Jr-Public/doc/VISION.html" data-key="VISION">Vision</a><a href="/Corn-Jr-Public/doc/GLOSSARY.html" data-key="GLOSSARY">Glossary</a>
+      <a href="https://github.com/csheehan18/Corn-Jr-Public">Source</a>
+    </nav>
+  </header>
+  
+
+<article class="sheet" style="--c:var(--c1)">
+  <div class="progress" aria-hidden="true"></div>
+  <section class="grid chapter-open finding-open">
+    <a class="tab" href="/Corn-Jr-Public/thread/corpus-mix.html" title="The corpus mix"><small>Part</small><span>I</span></a>
+    <p class="cn">7</p>
+    <p class="partline"><a href="/Corn-Jr-Public/thread/corpus-mix.html">The corpus mix</a> · 17 August 2026</p>
+    <h1>Real web text improves prose but not using the tool&#39;s answer</h1>
+  </section>
+
+  <section class="grid">
+    <p class="marginal">The result, as the finding states it</p><div class="prose"><p class="lead">Real language moves prose, and does not move deference</p></div>
+    <p class="marginal">What it cost</p><div class="prose"><p class="cost">70 s of scoring on the 1 card first cited here (<code>nano20m_web</code>); it also reads 2 cards scored for an earlier finding (<code>nano20m</code>, <code>nano20m_pilot</code>). Backfilled 2026-09-26 from the cards' <code>seconds</code>; training and probe time were never recorded, so this is a floor.</p></div>
+  </section>
+
+  
+
+  <section class="grid">
+    <div class="prose doc"><p>Every number above was measured on text this project either downloaded from one children's story dataset or generated with a Python script. DATA.md §4 gives general fluency 40% of the budget and calls it the only source of actual language competence; §10 calls the four missing slices the whole critical path. One of them is now on disk: <code>scripts/prepare_fineweb.py</code> writes FineWeb-Edu <code>sample-10BT</code> shard 000 at <code>int_score &gt;= 4</code>, which is <strong>485,628,154 bytes over 96,494 documents</strong>, 13.29% of the rows read. It cost 22 seconds to download and 9 to convert, against the fifteen minutes a shard this was budgeted at — so the full 14-shard sample is roughly seven minutes and not an afternoon, and corpus size is not the thing standing between here and §4.</p>
+<p><code>data/mix_web</code> is the pilot corpus with that slice added, and the weights are chosen so that adding it changes only it: <strong>web 40% / narrative 51% / temporal 9%</strong> of 497.5M tokens holds narrative at 253,725,000 and temporal at 44,775,000 — the pilot's two numbers to the token, and <code>val_narrative.bin</code> came back byte-identical to <code>data/mix_pilot</code>'s. Renormalising §4's surviving three slices to 73/18/9 would have moved all three at once, and a prose regression could then be web text hurting or narrative being cut, with no way to tell which. <code>configs/nano20m_web.py</code> differs from <code>nano20m_pilot</code> in <code>max_iters</code> and nothing that matters — 12,000 × 5/3, so both runs make 0.988 of a pass and every slice's <em>exposure</em> is preserved rather than merely its share of the file. 48.1 minutes, 178–180k tok/s.</p>
+<div class="tablewrap"><table><thead><tr><th>row</th><th><code>nano20m</code></th><th><code>nano20m_pilot</code></th><th><code>nano20m_web</code>&lt;br&gt;best-val</th><th><code>nano20m_web</code>&lt;br&gt;final</th><th>n</th></tr></thead><tbody><tr><td><code>narrative</code> nats/byte</td><td>0.3974</td><td>0.4117</td><td>0.4221</td><td>0.4174</td><td>1.1MB</td></tr><tr><td><code>temporal</code> nats/byte</td><td>3.8911</td><td>0.1000</td><td>0.1029</td><td>0.1010</td><td>1.0MB</td></tr><tr><td><code>web</code> nats/byte</td><td>—</td><td>—</td><td>0.9491</td><td><strong>0.9434</strong></td><td>1.1MB</td></tr><tr><td><code>temporal.route</code></td><td>0/400</td><td>399/400</td><td>400/400</td><td>398/400</td><td>400</td></tr><tr><td><code>temporal.copy</code></td><td>0/353</td><td><strong>353/353</strong></td><td><strong>353/353</strong></td><td><strong>353/353</strong></td><td>353</td></tr><tr><td><code>refusal.clarify</code></td><td>0/47</td><td>47/47</td><td>47/47</td><td>47/47</td><td>47</td></tr><tr><td><code>refusal.no_guess</code></td><td>— of 0</td><td>47/47</td><td>47/47</td><td>47/47</td><td>47</td></tr></tbody></table></div>
+<p><strong><code>temporal.copy</code> does not move by one item.</strong> That is the result this run was bought for. The sixth finding rests entirely on 353/353 — it is the single row that separates pretraining the format from fine-tuning it — and until now it had only ever been observed on a corpus of TinyStories and templates, where a <code>&lt;|call|&gt;</code> envelope is nearly the only structured thing in the distribution. Adding 199M tokens of real prose, tables, lists and half-formatted HTML gives the model an enormous amount of new material to confuse the format with, and both checkpoints still carry the tool's date 353 times out of 353. The load-bearing result behind §4 is not an artefact of a clean distribution.</p>
+<p><strong>Prose got worse at identical exposure, and that is the interesting half.</strong> 0.4117 → 0.4174 on narrative, with both runs reading exactly 250,680,300 narrative tokens from a byte-identical file. Same data, same amount, worse prose — so this is not a budget effect and there is nothing to trade off against; the only thing that changed is that 40% of the weights' attention now goes somewhere else. That is DATA.md §4's capacity argument being <em>right</em>, one finding after it was wrong. §4 predicted a 250M model has no room to absorb a format late; the sixth finding refuted that flatly. It also implies that slices compete, and at 25M they visibly do. Format installation and general fluency are different claims about capacity, and this run is what separates them: the first is false at this scale and the second is true.</p>
+<p><strong><code>web</code> reads 0.9434 nats/byte</strong>, the first number this project has on text it did not manufacture — 2.2x narrative and 10x temporal. TinyStories is a deliberately small vocabulary and the temporal slice is templated, so both were always going to be easy; the useful thing about 0.94 is that it is a floor to beat with the BPE work rather than a result on its own.</p>
+<h4 id="the-blended-val-picked-the-wrong-checkpoint-provably">The blended val picked the wrong checkpoint, provably</h4>
+<p><code>ckpt.pt</code> won the training run's validation by a clear margin — <strong>0.6281 at iter 18,000 against <code>last.pt</code>'s 0.6541</strong> — and <code>last.pt</code> beats it on all three language-modelling rows of the frozen set. Not by noise: 0.4174 against 0.4221 on narrative is larger than the entire cost of the pilot's temporal slice.</p>
+<p>Best-val landed at iter 18,000 by beating iter 17,500 by <strong>0.005</strong>, while adjacent evals were swinging <strong>0.027</strong> on the frozen set. So it was selecting sampling noise — and the run's 41 recorded evals say why, which turns out not to be the obvious answer.</p>
+<p><strong>The blend is noisy mostly because it is not stratified.</strong> <code>val.bin</code> is the mix in its own proportions, so the 40 × 24 = 960 random windows an eval draws land on the three slices multinomially, and the blend's <em>composition</em> moves every time. With slices at 0.46, 0.10 and 1.00 nats/byte, composition alone has an SD of <strong>0.0099</strong> — <strong>71% of the blend's observed SD of 0.0139</strong> over the last 11 evals. None of that is the model changing. The per-source figures <code>estimate_loss</code> was already computing and discarding sample each slice at a fixed rate, which removes it by construction, and there are more of them: 1,440 windows against 960.</p>
+<p>Measured over those same 11 evals, the blend moves <strong>2.14%</strong> relative and a mean of the per-source log losses moves <strong>0.94%</strong>. The improvement selection has to resolve at the end of a cosine schedule is smaller than either, which is why a 2.3x noise reduction changes the answer instead of merely tidying it.</p>
+<p><strong><code>train.py</code> now selects on that mean of logs</strong>, and the fifth finding's caveat about val figures is the reason it is a module constant rather than a config field — a run that can quietly change how its checkpoint was picked is a run whose scores are not comparable, which is the same argument that keeps <code>WARMUP</code> out of <code>Config</code>. Logs rather than an average because the geometric mean is scale-invariant: a 1% relative improvement counts the same in the slice at 1.00 nats/byte as in the one at 0.10. Weighting by mix share just rebuilds the blend, and weighting the raw losses equally hands web ~10x temporal's leverage — it is even <em>quieter</em> than the mean of logs on this run, 0.86% against 0.94%, precisely because it is mostly listening to one slice. Quiet is not the objective.</p>
+<p>Replayed over <code>nano20m_web</code>'s 41 evals, the new rule picks <strong>iter 20,000</strong> — the checkpoint <code>evals/</code> prefers on all three rows — where the blend picked 18,000. That is the whole of the evidence: one run, one comparison, two checkpoints with frozen-set scores on both sides. <code>scripts/check_train.py</code> carries those 41 evals as a regression case alongside a scale-invariance check and the arithmetic-mean contrast that proves the invariance check discriminates. Every checkpoint written before this was selected by the blend, and <code>corn.evals</code> now prints which rule chose the file it is scoring rather than leaving it to be inferred.</p>
+<p><strong>What has not changed: <code>last.pt</code> is still written unconditionally and still worth scoring.</strong> The new rule is better on the one comparison there is evidence for and unvalidated on the other 39 iterations of that run. <code>HARNESS_VERSION</code> stays at 1 — no scored quantity changed, and <code>nano20m_web</code> re-scored identical across the fix.</p>
+<p><strong>Three smaller things this run settled:</strong></p>
+<ul><li><strong><code>reserve_tail</code> was armed for the first time.</strong> Until now the eval text stayed out of train because the budget happened to stop before reaching it. This build reads 199M of 484M readable web bytes, so a larger run or a <code>repeat</code> pass would have walked straight into <code>evals/text_web.txt</code>. The reservation costs 0.25% of the slice, and all three texts read <code>clean</code> against <code>train.bin</code> and <code>val.bin</code> — §7's durable fix verified in a build rather than in a self-check.</li><li><strong><code>make_evals.py --add</code> earned its existence.</strong> <code>evals/text_web.txt</code> was added with all three prior sha256 unchanged and <code>built</code> still reading 2026-08-10, so every number in the fifth and sixth findings stayed comparable across a change to the eval set.</li><li><strong>A fourth throughput reading, 178–180k tok/s flat across 20,000 iterations</strong>, clustering with the pilot's 178k and leaving the 196k of the third finding looking like the anomaly. And <code>prepare_mix</code> took 19 seconds for 497.5M tokens — 0.7% of the run it feeds — which answers whether corpus changes get expensive as §4 fills in.</li></ul>
+<p><strong>What this does not show:</strong></p>
+<ul><li><strong>One shard, one threshold.</strong> 13 more shards exist and <code>--min-score 3</code> is a different corpus. Nothing here says 40% is the right share or that this is the right filter; it says the slice is cheap to get and what it costs the other slices at 25M.</li><li><strong>The narrative regression is a 25M result.</strong> Capacity competition is the obvious reading and the exposure control makes it the only one available, but "40% of a 25M model" and "40% of a 250M model" are not the same amount of room. This is the direction, not the size.</li><li><strong><code>temporal.copy</code> is still at ceiling, which is where it stops being informative.</strong> It survived real web text without moving, which is the question that was asked — but a row reading 353/353 in four consecutive checkpoints cannot show how much margin is left before the fifth one breaks it.</li></ul></div>
+  </section>
+
+  <section class="grid refs">
+    <div class="body two-even">
+      <div>
+        <h2 class="small">It cites</h2>
+        <p class="aside">No other finding by number.</p>
+      </div>
+      <div>
+        <h2 class="small">Cited by</h2>
+        <p class="aside">No later finding yet.</p>
+      </div>
+    </div>
+    <p class="body source">docs/findings/07-real-language-moves-prose-and-does-not-move-deference.md</p>
+  </section>
+</article>
+
+  
+<footer class="turn">
+  <div></div>
+  <div class="r"><span class="sc">next</span><a href="/Corn-Jr-Public/finding/8.html">8 · An 8k BPE tokenizer reads 3.8x more text per token</a></div>
+  <p class="keys"><kbd>←</kbd> <kbd>→</kbd> turn the page · <kbd>/</kbd> find</p>
+</footer>
+<p class="bynumber">Previous and next in <a href="/Corn-Jr-Public/thread/corpus-mix.html">The corpus mix</a>. By number:
+  <a href="/Corn-Jr-Public/finding/6.html">6</a> · <a href="/Corn-Jr-Public/finding/8.html">8</a></p>
+
+</div>
+</body>
+</html>

@@ -1,0 +1,99 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>122 · The second social turn installs and lifts the first · Corn-Jr</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600&family=IBM+Plex+Mono:wght@400;500&family=Spectral:ital,wght@0,400;0,500;0,600;1,400&family=Spectral+SC:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/Corn-Jr-Public/static/library.css">
+<script defer src="/Corn-Jr-Public/static/library.js"></script>
+<script type="speculationrules">
+{"prerender": [{"where": {"and": [{"href_matches": "/Corn-Jr-Public/*"}, {"not": {"href_matches": "/Corn-Jr-Public/random.html"}}, {"not": {"href_matches": "/Corn-Jr-Public/static/*"}}]}, "eagerness": "moderate"}]}
+</script>
+
+</head>
+<body>
+<div class="page">
+  <header class="running">
+    <a class="book" href="/Corn-Jr-Public/">Corn-Jr · The Record</a>
+    <nav>
+      <a href="/Corn-Jr-Public/" data-key="shelf">Shelf</a><a href="/Corn-Jr-Public/findings.html" data-key="findings" class="here">Findings</a><a href="/Corn-Jr-Public/doc/VISION.html" data-key="VISION">Vision</a><a href="/Corn-Jr-Public/doc/GLOSSARY.html" data-key="GLOSSARY">Glossary</a>
+      <a href="https://github.com/csheehan18/Corn-Jr-Public">Source</a>
+    </nav>
+  </header>
+  
+
+<article class="sheet" style="--c:var(--c3)">
+  <div class="progress" aria-hidden="true"></div>
+  <section class="grid chapter-open finding-open">
+    <a class="tab" href="/Corn-Jr-Public/thread/social.html" title="Social replies"><small>Part</small><span>III</span></a>
+    <p class="cn">122</p>
+    <p class="partline"><a href="/Corn-Jr-Public/thread/social.html">Social replies</a> · 5 September 2026</p>
+    <h1>The second social turn installs and lifts the first</h1>
+  </section>
+
+  <section class="grid">
+    <p class="marginal">The result, as the finding states it</p><div class="prose"><p class="lead">The second social turn installs and lifts the first: declared abstention reads 111 of 112, the consolation row 11 of 28, nothing reissues under a social history, the turn-2 rows do not move, and the one cost is that the router now speaks on questions about his life and half of what it says is SODA's</p></div>
+    <p class="marginal">What it cost</p><div class="prose"><p class="cost">9.7 min of scoring on the 3 cards first cited here (<code>corn_jr_260m_v4_ft_social7</code>, <code>corn_jr_260m_v4_ft_social7__historygrid-0905ctl</code>, <code>corn_jr_260m_v4_ft_social7__toolgrid</code>). Backfilled 2026-09-26 from the cards' <code>seconds</code>; training and probe time were never recorded, so this is a floor.</p></div>
+  </section>
+
+  
+
+  <section class="grid">
+    <div class="prose doc"><p><strong><code>corn_jr_260m_v4_ft_social7</code>, 2026-09-05. PLAN-CONVERSATION §6c on arm 5b's basis: the same generator, replies and seed with <code>--turns 2</code> — half the pairs carry a shared opening and a second turn, <code>social -&gt; say -&gt; social -&gt; say</code> beside <code>social -&gt; say -&gt; request -&gt; call</code> on one declaration and one opening, the second family drawn from <code>TURN2_PAIRS</code>, farewell never second. <code>init_from</code> ft4g, arm 2's share, 1,200 iterations in 1,512 s, best at 1,000 (val 0.5878). Full batched card, grid A, historygrid at depth 1 and at depth 3, the ft4g adapter as a proxy. Arm 6 did not run (finding <a class="fref" href="/Corn-Jr-Public/finding/120.html">120</a> §4), so this arm inherited arm 5b's config as §6b said it would.</strong></p>
+<h3 id="1-the-social-rows-against-arm-5b-the-arm-before-it">1. The social rows, against arm 5b (the arm before it)</h3>
+<p>row                        arm 4    arm 5b     arm 7   7-5b social.bare_nocall        99/112    97/112   102/112    +5 social.declared_nocall    97/112    97/112   111/112   +14 social.voice              90/112    90/112    99/112    +9 social.family             69/112    67/112    71/112    +4 social.farewell            14/20     14/20     16/20    +2 social.heldout_carrier     10/12      9/12     11/12    +2 social.self               16/47     13/47     18/47    +5 social.self_heldout         8/16      7/16      7/16     0 social.low_bare_nocall     14/28     14/28     16/28    +2 social.low_declared       16/28     17/28     26/28    +9 social.low_voice          23/28     25/28     27/28    +2 social.low_family          1/28      7/28     11/28    +4 social.low_heldout          0/4       1/4       1/4      0</p>
+<p>declared_nocall why     arm 5b  web_search 6  decline 9  |  arm 7  decline 1 low_declared why        arm 5b  decline 8  send_text 3   |  arm 7  decline 2</p>
+<p><strong>Every social row moved up, and the routing pair moved most.</strong> On the declared social turn — the context the corpus had zero of, the row this whole slice was built for — one item in 112 still calls, and it calls <code>decline</code>. <code>web_search</code> is gone from that column. The consolation family, which no second-turn transcript targets by name, reads 11 of 28 with its declared abstention at 26 of 28; the untrained farewell transfer row reads 16 of 20; the twelve held-out carriers 11.</p>
+<p>Why a <em>second</em> turn lifts the <em>first</em> is the shape: 905 of the 1,821 social transcripts now carry two social exchanges, so the payload holds 2,726 social moves answered without a call where arm 5b's held 1,821, on the same token share — and the second exchange sits where the corpus never showed one, a <code>&lt;|say|&gt;</code> followed by another social <code>&lt;|user|&gt;</code>, which is what the declared-social context looks like from the inside of a conversation rather than from its first line.</p>
+<h3 id="2-the-second-turn-rows-the-pre-registered-readings">2. The second-turn rows — the pre-registered readings</h3>
+<p>historygrid, seed 0                     arm 2     arm 5b    arm 7 depth 1  social after a tool turn     26/36     22/36     26/36   (control 6/6) social_nocall arm            18/18     18/18     18/18 reissued under social_nocall   0/12      0/12      0/12 copied_from                  bound 1   none 72   bound 1 adjacent_frame_kept          all       all       all depth 3  social after a tool turn     22/36        —     23/36 copied_from                  b3 d1        —     b2 d1 reissued, lookup_ok (q, u)    1, 1         —     1, 1 adjacent_frame_kept          all          —     all</p>
+<p>the frozen second-turn and compound rows turn2.react     117/120 (arm 5b 116)     turn2.reask    79/96 (78) turn2.reask_yn   22/40  (arm 4 24)       turn2.second  198/200 (198) compound.pipe    40/48  (41)             compound.items 30/48 (30)</p>
+<p><strong>The kill did not fire.</strong> <code>reissued_utterance</code> under <code>social_nocall</code> is 0 of 12 as it was on every checkpoint; the lookup arms at depth 3 read arm 2's 1 of 12 exactly; <code>copied_from</code> is arm 2's shape (bound 2, distractor 1); the frame is kept everywhere. The social probe after a tool history is back at arm 2's 26 of 36 — the ft4g init's seven-item cost (finding <a class="fref" href="/Corn-Jr-Public/finding/119.html">119</a>) closed by the second turn. <code>turn2.react</code>, <code>reask</code>, <code>second</code> and the compound rows are inside a point of the arm before. <strong>He answers inside a conversation and the history does not leak into the next call</strong>, which is §6c's first reading verbatim.</p>
+<h3 id="3-the-gates-against-ft4g">3. The gates, against ft4g</h3>
+<p>row                     ft4g    arm 5b     arm 7   7-ft4g tool.copy            120/120   120/120   120/120     0 tool.copy_wide       300/300   300/300   300/300     0 temporal.copy        353/353   353/353   353/353     0 refusal.say          270/270   270/270   270/270     0 tool.selection       198/200   197/200   196/200    -2 tool.name_fidelity   109/120   109/120   109/120     0 temporal.route       398/400   398/400   398/400     0 search.route_*       200/200   200/200   200/200     0   x3 chat.abstain_talk    100/100   100/100   100/100     0 chat.engage          100/100   100/100   100/100     0 chat.abstain_oos      11/100    11/100    10/100    -1 chat.abstain_greet    83/100    91/100    92/100    +9 tool.note_fidelity   100/120    97/120    94/120    -6 extract.span          97/200    93/200    92/200    -5 extract.abstain      111/200   113/200   111/200     0</p>
+<p>grid A, decline           ft4g    arm 5b    arm 7 pooled trained        174/176   176/176   175/176   one media decline to web_search pooled novel            32/32     31/32     31/32   timers 7/8 ("snooze that for ten") reader proxy (ft4g adapter, fixed t) right / u.silent       526/199   524/197   524/195   moved 25, right 6 lost / 4 won</p>
+<p>Every frozen copy row at its ceiling and <code>refusal.say</code> unmoved, a seventh time. <code>tool.selection</code> -2 and <code>note_fidelity</code> -6 are inside finding <a class="fref" href="/Corn-Jr-Public/finding/60.html">60</a>'s 9-in-120 floor and are the two rows to watch on the next arm; the extract lean is the init's (finding <a class="fref" href="/Corn-Jr-Public/finding/119.html">119</a>). Grid A is arm 5b's to within one item on each column.</p>
+<h3 id="4-the-one-cost-and-it-is-decision-8-s">4. The one cost, and it is decision 8's</h3>
+<p><code>social.self</code> rose 13 -&gt; 18, and the species under it moved:</p>
+<p>social.self why        arm 5b   called_web_search 31   spoken leak 1   (life) arm 7    called_web_search 16   spoken leak 9   (digits 5, i work 2, history class 1, names 1) social.self_heldout    arm 5b   web 7   leak 1 arm 7    web 3   leak 4</p>
+<p>The router now speaks on twice as many questions about his life, and <strong>about half of what it says when it speaks is a SODA life</strong> — "I'm 23", "I work ...". No second-turn transcript carries a life claim (every reply passed <code>life_claim</code> before it was trained); what the class taught is the <em>willingness to speak</em> on a short second-person question, which is finding <a class="fref" href="/Corn-Jr-Public/finding/88.html">88</a>'s mechanism a third time, and the sentence he speaks is the one SODA gives him. At runtime the 31 trained carriers never reach the router (4c's hatch answers them from the pool), so the live exposure is the 16 held-out phrasings, four of which now get a life instead of a search. That is exactly §10 decision 8's residue — the unguarded routed say — <strong>larger than it was</strong>, and the arm makes the case for the router-side rule the decision names (a question with <code>you</code>/<code>your</code> and no request) rather than for a payload, which §3 rule 1 forbids. Recorded, not repaired.</p>
+<h3 id="5-reading">5. Reading</h3>
+<p><strong>§6c's first reading, with a footnote that is not this arm's to fix.</strong> The second social turn installs, lifts the single-turn rows with it, spends nothing on the gates, and the history does not leak. Arm 7 is the best checkpoint on the record on every social row and the base arm 8 stacks on. The footnote is <code>social.self</code>'s species, which is a runtime question (decision 8) that every arm from here on will make more urgent, because every one of them makes him more willing to speak.</p>
+<h3 id="limits">Limits</h3>
+<p>One seed. The rows that moved most are 112 items; the second-turn rows are 12 and 36; the <code>self</code> species is 9 lines of 47. The reader proxy is at a fixed threshold.</p>
+<h3 id="on-disk">On disk</h3>
+<p><code>evals/results/corn_jr_260m_v4_ft_social7.json</code>, <code>harness/results/corn_jr_260m_v4_ft_social7__toolgrid.json</code>, <code>harness/results/corn_jr_260m_v4_ft_social7__historygrid-0905ctl.json</code> and <code>-depth3.json</code>, <code>evals/results/reader_runtime_whole_s1_on_social7.json</code>; <code>checkpoints/corn_jr_260m_v4_ft_social7/</code> (gitignored).</p></div>
+  </section>
+
+  <section class="grid refs">
+    <div class="body two-even">
+      <div>
+        <h2 class="small">It cites</h2>
+        <ul class="reflist"><li style="--c:var(--c1)"><a href="/Corn-Jr-Public/finding/60.html"><span class="fn">60</span>Fine-tuning costs nothing but delivers three fifths of pretraining&#39;s gain</a></li><li style="--c:var(--c3)"><a href="/Corn-Jr-Public/finding/119.html"><span class="fn">119</span>Fine-tuning from the shipped base: frozen scores hold, small social costs</a></li><li style="--c:var(--c3)"><a href="/Corn-Jr-Public/finding/120.html"><span class="fn">120</span>Consolation replies barely move and cost tool routing</a></li></ul>
+        
+      </div>
+      <div>
+        <h2 class="small">Cited by</h2>
+        <ul class="reflist"><li style="--c:var(--c2)"><a href="/Corn-Jr-Public/finding/124.html"><span class="fn">124</span>Refitting the reader on the social model reads 517 at runtime</a></li><li style="--c:var(--c2)"><a href="/Corn-Jr-Public/finding/125.html"><span class="fn">125</span>Two decisions: whole-passage reader by default, life questions declined</a></li></ul>
+        
+      </div>
+    </div>
+    <p class="body source">docs/findings/122-the-second-social-turn-installs-and-lifts-the-first-declared-abstention-reads-111-of-112-nothing-reissues-and-the-one-cost-is-a-routed-say-that-speaks-a-life-on-questions-about-his.md</p>
+  </section>
+</article>
+
+  
+<footer class="turn">
+  <div><span class="sc">previous</span><a href="/Corn-Jr-Public/finding/120.html">120 · Consolation replies barely move and cost tool routing</a></div>
+  <div class="r"><span class="sc">next</span><a href="/Corn-Jr-Public/finding/157.html">157 · Writing his move first steers the reply and beats the old regex</a></div>
+  <p class="keys"><kbd>←</kbd> <kbd>→</kbd> turn the page · <kbd>/</kbd> find</p>
+</footer>
+<p class="bynumber">Previous and next in <a href="/Corn-Jr-Public/thread/social.html">Social replies</a>. By number:
+  <a href="/Corn-Jr-Public/finding/121.html">121</a> · <a href="/Corn-Jr-Public/finding/123.html">123</a></p>
+
+</div>
+</body>
+</html>

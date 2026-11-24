@@ -1,0 +1,93 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>152 · What each layer of the tag language costs in tokens · Corn-Jr</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600&family=IBM+Plex+Mono:wght@400;500&family=Spectral:ital,wght@0,400;0,500;0,600;1,400&family=Spectral+SC:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/Corn-Jr-Public/static/library.css">
+<script defer src="/Corn-Jr-Public/static/library.js"></script>
+<script type="speculationrules">
+{"prerender": [{"where": {"and": [{"href_matches": "/Corn-Jr-Public/*"}, {"not": {"href_matches": "/Corn-Jr-Public/random.html"}}, {"not": {"href_matches": "/Corn-Jr-Public/static/*"}}]}, "eagerness": "moderate"}]}
+</script>
+
+</head>
+<body>
+<div class="page">
+  <header class="running">
+    <a class="book" href="/Corn-Jr-Public/">Corn-Jr · The Record</a>
+    <nav>
+      <a href="/Corn-Jr-Public/" data-key="shelf">Shelf</a><a href="/Corn-Jr-Public/findings.html" data-key="findings" class="here">Findings</a><a href="/Corn-Jr-Public/doc/VISION.html" data-key="VISION">Vision</a><a href="/Corn-Jr-Public/doc/GLOSSARY.html" data-key="GLOSSARY">Glossary</a>
+      <a href="https://github.com/csheehan18/Corn-Jr-Public">Source</a>
+    </nav>
+  </header>
+  
+
+<article class="sheet" style="--c:var(--c4)">
+  <div class="progress" aria-hidden="true"></div>
+  <section class="grid chapter-open finding-open">
+    <a class="tab" href="/Corn-Jr-Public/thread/tag-language.html" title="The tag language"><small>Part</small><span>IV</span></a>
+    <p class="cn">152</p>
+    <p class="partline"><a href="/Corn-Jr-Public/thread/tag-language.html">The tag language</a> · 7 October 2026</p>
+    <h1>What each layer of the tag language costs in tokens</h1>
+  </section>
+
+  <section class="grid">
+    <p class="marginal">The result, as the finding states it</p><div class="prose"><p class="lead">What each layer of the language costs: on v0.5's own corpus the four render-pass layers add 21 tokens to a 96-token turn and 4.6% to the mix, the parse line is 5.5 of his 30.7 decode steps, and the conversational slice the spec counts as turn-shaped has no turn in it</p></div>
+    <p class="marginal">What it cost</p><div class="prose"><p class="cost">CPU only. <code>scripts/price_layers.py</code> runs in ~22 s; building it, the</p></div>
+  </section>
+
+  
+
+  <section class="grid">
+    <div class="prose doc"><p>survey's <code>--nested</code> mode, two hand-read rounds and this write-up took about 30 min (16:05-16:35 on 2026-10-07). No GPU.</p>
+<p>ROADMAP A4, PLAN-TAG-LANGUAGE: <em>the cost of each layer: tokens a turn, share of the mix, decode steps, against v0.5's measured turn — one table, a row per layer.</em> Read for D7 (2026-11-26), which takes which layers ride. A price, not a capability read: nothing here says a layer works, only what it charges.</p>
+<h3 id="how-it-was-read">How it was read</h3>
+<p>Every layer priced on what renders it, never on a hand example where a rendering exists. The four layers with a render pass — <code>parts:</code> (<code>corn/parseline.py</code>), <code>state:</code> (<code>corn/stateline.py</code>), the day marker and <code>name:</code> — were applied to twelve evenly spaced 200 KB windows of <strong>every slice of <code>mix_v4_5b</code></strong>, v0.5's own corpus, and priced as the token difference through <code>bpe8k</code>, document by document. The rung-world layers (traces, templates) are priced per occurrence on their world's file, the views on G1's own card, and the three with no rendering (<code>move:</code> values, <code>who:</code>) on SPEC-LANGUAGE's own example, each saying so. <strong>Decode steps</strong> are the tokens of the lines SPEC §0 makes his; a runtime line costs prefill and no step.</p>
+<p><strong>v0.5's measured turn</strong>, the same sample with nothing added and weighted by the mix: <strong>96.3 context tokens, 30.7 of them his</strong> (call and say lines). Only <strong>20.73% of the mix is turn-shaped</strong> — chat, temporal, tools, toolspace, daylog, extract, turn2, paired, compound.</p>
+<h3 id="the-table">The table</h3>
+<p>layer                  owner                 ctx/turn  % of turn  his steps  % of his  forced  share of mix parts:                 his                        5.5       5.7%        5.5     18.0%       2     1.19% state:                 his, or runtime (H3)       4.4       4.6%        4.4     14.4%      —     0.95% day marker             runtime                    5.5       5.7%          0        0%       0     1.18% name:                  runtime                    5.8       6.1%          0        0%       0     1.26% move:                  his                        6.3       6.5%        6.3     20.5%      —     per carrying turn trace goal: + pick:    his                       26.7      27.7%       26.7     86.8%      —     per filter turn trace check:           runtime                   19.8      20.6%          0        0%       0     per filter turn template header lines  runtime                   71.2      74.0%          0        0%       0     per templated turn use:                   his                        9.8      10.2%        9.8     31.8%      —     per templated turn views (G1)             runtime / his line       165.5     171.8%     &lt;=433.1        —      —     serving only who:                   runtime                   19.0      19.7%          0        0%       0     per naming turn</p>
+<p>Per slice, tokens added a turn (parts / state / day / name): chat 6.0 / 5.0 / 6.6 / 6.0; temporal 5.0 / 2.3 / 0 / 5.6; tools 5.0 / 5.0 / 13.0 / 6.0; toolspace 5.0 / 5.0 / 13.0 / 6.0; daylog 5.0 / 5.0 / 0 / 5.6; extract 5.0 / 5.0 / 13.0 / 6.0; turn2 5.2 / 5.0 / 6.5 / 3.0; paired 5.0 / 5.0 / 13.0 / 6.0; compound 15.8 / 5.0 / 9.1 / 6.0. A share is tokens added over the 5B budget: the four render-pass layers together are <strong>4.58%</strong>, which the mix pays either by growing or by taking it from the other slices.</p>
+<h3 id="what-the-table-says">What the table says</h3>
+<p><strong>1. The render-pass layers are cheap per turn and not cheap in the mix.</strong> All four together add 21.2 tokens to a 96-token turn (22%) and 4.58% of 5B — as much as the whole toolspace slice. The cost lands on 20.7% of the mix, so each layer's share is about a quarter of its per-turn price.</p>
+<p><strong>2. The day marker is the dearest header, and it is the tokenizer.</strong> <code>&lt;|day|&gt;2026-01-19 Monday</code> is 13 tokens on <code>bpe8k</code>, ten of them the date's digits one at a time. D-A1.2 puts it on every transcript, so on the slices that lack it (tools, toolspace, extract, paired) it is the largest single addition — 13 tokens against <code>parts:</code>'s 5 — and 1.18% of the mix. A shorter form is a format question for the owner, not taken here.</p>
+<p><strong>3. His decode cost is the parse line and nothing else that rides everywhere.</strong> <code>parts:</code> is 5.5 of his 30.7 steps a turn (18%); 2 of them are the key's grammar-forced tokens (<code>forced_token_survey.py --parse --nested</code>, 0 of 400 lines refused on <code>turn2_v1_parse.txt</code>, 38% of the line's tokens forced, all in the prefix — the label is a real choice of nine; on <code>compound_v2_parse.txt</code> 0 of 400 refused and 3.7 a line forced, 22.6%, the copied spans finishing themselves, a slice at 0.14% of the mix). A runtime that writes the key, as G1 writes the open carrier, leaves him 3.5. <code>state:</code> is 4.4 more if he writes it and none if the runtime does — SPEC §4 left that to H3 and A5's second seed reads whether his writing it adds anything.</p>
+<p><strong>4. Traces and templates cost per occurrence, and the template header is the biggest line in the language.</strong> A filter turn's <code>goal:</code> and <code>pick:</code> are 26.7 of his steps, 87% of an average turn's whole decode; the runtime's <code>check:</code> adds 19.8 to the context. Three or four template header lines are 71.2 context tokens — three quarters of a v0.5 turn — before he writes his 9.8 for <code>use:</code>. At the 512 that ships, the header lines of two templated turns are 142 tokens, 28% of the block; at 2048 (D2's direction), 7%.</p>
+<p><strong>5. Views are a serving cost, three times a one-shot line.</strong> On G1's arm S seed 1 card (102 requests, mean utterance 104 tokens) a windowed request takes 3.91 steps, each showing 42.3 tokens, and his lines total at most 433 tokens against the same requests' one-shot line of 146 — 3.0x, an upper bound because each step's line holds the carrier the runtime writes in. Each step's prefill also re-reads the <code>tools:</code> header, which is not counted. Views add no syntax and no corpus line (SPEC D-A1.7), so they have no share.</p>
+<p><strong>6. The conversational slice has no turn in it.</strong> SPEC-LANGUAGE §0 counts the conversational slice (14.09%, the second largest in the mix) as turn-shaped and has it carry <code>parts:</code> and <code>state:</code>. On disk <code>conversational.txt</code> is unmarked dialogue — 0 <code>&lt;|user|&gt;</code> and 0 <code>&lt;|say|&gt;</code> lines in its first 5 MB — so no render pass that writes under a <code>&lt;|user|&gt;</code> line touches it, and the 20.73% above is the true coverage, not 34.8%. Marked as turns, every line a turn, <code>parts: chat</code> and <code>state:</code> alone would add 11.0 tokens to a 22.8-token line, <strong>6.80% of the mix</strong> before the markers themselves — more than every other layer in the table together. Whether that slice becomes turn-shaped is a corpus decision for D7 and C6, not a pricing one; until it is taken, SPEC §0's coverage line overstates what the render pass reaches.</p>
+<h3 id="what-was-fixed-on-the-way">What was fixed on the way</h3>
+<p><code>scripts/forced_token_survey.py --parse</code> walked the retired line-per-level grammar and refused <strong>400 of 400</strong> 1.0 lines on <code>turn2_v1_parse.txt</code>, so the forced share it printed there (56.2%) was the share of a refused prefix. It now takes <code>--nested</code>: the 1.0 one-line tree and nine labels through <code>ParseConstraint(line=&quot;nested&quot;)</code>, the bind SPEC §9 specifies. The flag is additive; the per-level mode is unchanged for the decomposition corpora it was written for.</p>
+<h3 id="bounds">Bounds</h3>
+<ul><li>Sampled, not counted: twelve windows a slice, 63,014-67,281 lines a layer. Per-document encoding forgoes merges at document boundaries (~1%, mix_v4_5b's own note).</li><li><code>move:</code> is priced on SPEC §4's seven values; its coverage is a D-A1.11 question (dialogue with gold only) and has no rendering to count.</li><li><code>who:</code> is the spec's example line, uncapped; PLAN-PEOPLE §6 caps it.</li><li>The <code>forced</code> column is measured for the parse line only. Every other key line's bind is unsurveyed and reads <code>--</code>.</li><li>Views are read off one checkpoint's card on G1's own items, which are long by design (arity up to thirty), not a v0.5 turn.</li></ul></div>
+  </section>
+
+  <section class="grid refs">
+    <div class="body two-even">
+      <div>
+        <h2 class="small">It cites</h2>
+        <p class="aside">No other finding by number.</p>
+      </div>
+      <div>
+        <h2 class="small">Cited by</h2>
+        <ul class="reflist"><li style="--c:var(--c4)"><a href="/Corn-Jr-Public/finding/153.html"><span class="fn">153</span>He writes a summary of the conversation state but doesn&#39;t use it</a></li></ul>
+        
+      </div>
+    </div>
+    <p class="body source">docs/findings/152-what-each-layer-costs-the-render-pass-layers-add-a-fifth-of-a-turn-and-the-conversational-slice-has-no-turn-in-it.md</p>
+  </section>
+</article>
+
+  
+<footer class="turn">
+  <div><span class="sc">previous</span><a href="/Corn-Jr-Public/finding/151.html">151 · Ignoring groups he closes too early lets the interpreter pass</a></div>
+  <div class="r"><span class="sc">next</span><a href="/Corn-Jr-Public/finding/154.html">154 · With no template he completes nothing; inside one, every task runs</a></div>
+  <p class="keys"><kbd>←</kbd> <kbd>→</kbd> turn the page · <kbd>/</kbd> find</p>
+</footer>
+<p class="bynumber">Previous and next in <a href="/Corn-Jr-Public/thread/tag-language.html">The tag language</a>. By number:
+  <a href="/Corn-Jr-Public/finding/151.html">151</a> · <a href="/Corn-Jr-Public/finding/153.html">153</a></p>
+
+</div>
+</body>
+</html>

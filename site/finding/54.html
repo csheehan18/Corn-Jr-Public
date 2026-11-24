@@ -1,0 +1,97 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>54 · Batch decoding 32 to 128 windows: both predictions about why were wrong · Corn-Jr</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600&family=IBM+Plex+Mono:wght@400;500&family=Spectral:ital,wght@0,400;0,500;0,600;1,400&family=Spectral+SC:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/Corn-Jr-Public/static/library.css">
+<script defer src="/Corn-Jr-Public/static/library.js"></script>
+<script type="speculationrules">
+{"prerender": [{"where": {"and": [{"href_matches": "/Corn-Jr-Public/*"}, {"not": {"href_matches": "/Corn-Jr-Public/random.html"}}, {"not": {"href_matches": "/Corn-Jr-Public/static/*"}}]}, "eagerness": "moderate"}]}
+</script>
+
+</head>
+<body>
+<div class="page">
+  <header class="running">
+    <a class="book" href="/Corn-Jr-Public/">Corn-Jr · The Record</a>
+    <nav>
+      <a href="/Corn-Jr-Public/" data-key="shelf">Shelf</a><a href="/Corn-Jr-Public/findings.html" data-key="findings" class="here">Findings</a><a href="/Corn-Jr-Public/doc/VISION.html" data-key="VISION">Vision</a><a href="/Corn-Jr-Public/doc/GLOSSARY.html" data-key="GLOSSARY">Glossary</a>
+      <a href="https://github.com/csheehan18/Corn-Jr-Public">Source</a>
+    </nav>
+  </header>
+  
+
+<article class="sheet" style="--c:var(--c2)">
+  <div class="progress" aria-hidden="true"></div>
+  <section class="grid chapter-open finding-open">
+    <a class="tab" href="/Corn-Jr-Public/thread/reading.html" title="Reading documents"><small>Part</small><span>II</span></a>
+    <p class="cn">54</p>
+    <p class="partline"><a href="/Corn-Jr-Public/thread/reading.html">Reading documents</a> · 24 August 2026</p>
+    <h1>Batch decoding 32 to 128 windows: both predictions about why were wrong</h1>
+  </section>
+
+  <section class="grid">
+    <p class="marginal">The result, as the finding states it</p><div class="prose"><p class="lead">Thirty-two windows to a hundred and twenty-eight, and both predictions about why were wrong</p></div>
+    <p class="marginal">What it cost</p><div class="prose"><p class="cost">0 s of new scoring on record; it reads 1 card scored for an earlier finding (<code>corn_jr_260m</code>). Backfilled 2026-09-26 from the cards' <code>seconds</code>; training and probe time were never recorded, so this is a floor.</p></div>
+  </section>
+
+  
+
+  <section class="grid">
+    <div class="prose doc"><p>Two decode-time changes, measured on <code>corn_jr_260m</code> on the 10 GB 3080, 2026-08-24: <code>StaticCache</code> gains a <code>slots</code> argument, and <code>--dtype bf16</code> serves the weights at half precision. Together they take WS-B-alt's batch ceiling from 32 windows to at least 128. No training, no corpus, no model change — and the reasoning that motivated each was wrong about which resource was scarce.</p>
+<p>The measurement is <code>harness/backends/read.py</code>'s <code>Reader</code> at its real prompt length — 115 tokens, 32 new — rather than A3's synthetic 96, best of two after a warm run.</p>
+<h3 id="the-starting-point-and-a-cliff-worth-naming">The starting point, and a cliff worth naming</h3>
+<p>N     total ms   ms/window   peak GB 1        315.1      315.07      2.06 8        350.5       43.82      2.83 32       709.0       22.16      5.46 64   390,641.2    6,103.77      8.98   &lt;- paging 256        OOM</p>
+<p><strong>Sixty-four windows took six and a half minutes</strong>, because the allocation crossed what the card holds and WDDM began paging. The failure is not a gradual slowdown and nothing should discover it at runtime.</p>
+<h3 id="the-cache-was-sized-for-a-conversation-and-used-by-a-worker">The cache was sized for a conversation and used by a worker</h3>
+<p><code>StaticCache</code> reserved all <code>block_size</code> slots for every row — <strong>40 MB to hold a 147-token sequence</strong>. The asymmetry nobody had named: a turn may run to <code>block_size</code> and cannot know when, so <code>GraphedDecoder</code> must allocate the whole window; a worker knows its exact length before it starts, because <code>corn/extract.py</code> cuts to a fixed token count and the budget is an argument.</p>
+<p>N     before ms   before GB      after ms   after GB 32        709.0        5.46         478.1       3.68 64    390,641.2        8.98         736.7       5.41</p>
+<p>Attention runs over every allocated slot, so the smaller allocation is less work as well as less memory — 32 windows got 33% faster on a change made for footprint.</p>
+<p><strong>A wrong <code>slots</code> does not crash, which is why it is guarded.</strong> The mask is <code>arange &lt;= pos</code>, so undersizing changes which keys are visible and the reply stays fluent — the worst failure shape this project recognises. <code>scripts/check_decode.py</code> runs the same batch against a full-window cache and requires the two byte-identical, 4/4 rows. <code>cache_slots</code> on <code>read</code> exists only as that seam, in the sense <code>--stop-at</code> does in <code>corn/train.py</code>.</p>
+<h3 id="bf16-buys-nothing-at-one-sequence-and-73-at-sixty-four">bf16 buys nothing at one sequence and 73% at sixty-four</h3>
+<p>The prediction, stated before the run: decode at batch 1 is memory-bandwidth-bound, so halving the weight bytes should approach 2x there and shrink as larger batches turn compute-bound.</p>
+<p>dtype   weights      N        ms   ms/window   peak GB fp32       994       1     335.9      335.93      2.00 bf16       497       1     342.6      342.62      1.49 fp32       994       8     376.7       47.09      2.38 bf16       497       8     364.7       45.59      1.68 fp32       994      64     758.0       11.84      5.41 bf16       497      64     437.2        6.83      3.20 bf16       497     128     534.0        4.17      5.33</p>
+<p><strong>Backwards.</strong> Two per cent slower at N=1, inside noise, and <strong>1.73x at N=64</strong>. The premise was wrong about which resource is scarce at one sequence: 32 tokens in 336 ms is ~10 ms a token for a 260M model, which is kernel-launch-bound. That is precisely what <code>GraphedDecoder</code> exists to fix and what <code>BatchedReader</code> deliberately does not capture, so halving bytes that were never the constraint buys nothing. By N=64 the kernels are large enough for traffic to matter.</p>
+<p><strong>This is the second decode-time optimisation this project has mispredicted, and both errors have the same shape.</strong> <code>torch.compile</code> was expected to grow with model size and shrank — 1.16x at nano against 1.07x at 250M, because the kernels were already compute-bound. Both times the mistake was assuming which resource was scarce instead of measuring it, at both ends rather than one.</p>
+<h3 id="what-it-adds-up-to">What it adds up to</h3>
+<p><strong>128 windows — 4,096 tokens, longer than most article bodies — in one batch in 534 ms</strong>, which beats fp32 at half the batch size. Sixty-four windows went from six and a half minutes to 437 ms. The ceiling was 32 and is now at least 128; where it sits exactly is unmeasured, because past the cliff a single point costs six minutes to print.</p>
+<p>The low end matters for a different reason. Four windows cost <strong>6% more than one</strong> (333.7 ms against 315.1), because the weight traffic is paid once regardless of batch. So a constrained device running a single process still affords a 4-window quorum — which is the part of the design that would otherwise not survive, since <code>grounded</code> is free Python and runs anywhere but the <em>vote</em> needs two readings, and one reading is what a naively prompted model already has.</p>
+<h3 id="what-this-cannot-say">What this cannot say</h3>
+<p><strong>bf16 is a measurement condition and it is not established as safe.</strong> Every scorecard, eval row and finding in this project was read off fp32 weights, and greedy decoding turns a swapped logit into a different sentence rather than a slightly worse one — which on the extraction path can flip a window between a grounded span and a refused invention, presenting as a model regression that is not one. On the iron passage both precisions produced byte-identical replies on <strong>3 of 3</strong> windows. That is one passage. <code>--dtype</code> defaults to fp32, <code>harness/server.py</code> reports it in <code>wiring</code>, and <code>check_decode.py</code> asserts the flag reaches the weights, because a <code>--dtype</code> that silently loaded fp32 would label every row with a condition it was not measured under and nothing would look wrong.</p>
+<p><strong>Nothing about other hardware.</strong> One card, one driver model. The paging cliff in particular is a WDDM behaviour and a Linux box would fail differently.</p>
+<p><strong>Nothing about whether reading more of a page helps.</strong> The ceiling is a capacity result. Whether 128 windows extract better than 8 is the slice's question, and <code>reduce</code> prefers agreement over presence, so more windows may buy coverage or may merely buy more ways to disagree.</p>
+<h3 id="what-follows">What follows</h3>
+<p>Sizing beyond one batch is now a real option rather than an arithmetic exercise: a full article body fits, and iterative batches with an early exit — stop when <em>k</em> windows agree, never at 1 — become the design for anything longer. The remaining decode lever is that <code>BatchedReader</code> does not capture a CUDA graph, which the N=1 number above says is the whole cost at small batch and nearly none of it at large.</p></div>
+  </section>
+
+  <section class="grid refs">
+    <div class="body two-even">
+      <div>
+        <h2 class="small">It cites</h2>
+        <p class="aside">No other finding by number.</p>
+      </div>
+      <div>
+        <h2 class="small">Cited by</h2>
+        <p class="aside">No later finding yet.</p>
+      </div>
+    </div>
+    <p class="body source">docs/findings/54-thirty-two-windows-to-a-hundred-and-twenty-eight-and-both-predictions-about-why-were-wrong.md</p>
+  </section>
+</article>
+
+  
+<footer class="turn">
+  <div></div>
+  <div class="r"><span class="sc">next</span><a href="/Corn-Jr-Public/finding/55.html">55 · Four hundred passages show he writes his own answer instead of copying</a></div>
+  <p class="keys"><kbd>←</kbd> <kbd>→</kbd> turn the page · <kbd>/</kbd> find</p>
+</footer>
+<p class="bynumber">Previous and next in <a href="/Corn-Jr-Public/thread/reading.html">Reading documents</a>. By number:
+  <a href="/Corn-Jr-Public/finding/53.html">53</a> · <a href="/Corn-Jr-Public/finding/55.html">55</a></p>
+
+</div>
+</body>
+</html>

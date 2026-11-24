@@ -1,0 +1,98 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>75 · Fine-tuning doesn&#39;t overwrite what pretraining installed · Corn-Jr</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600&family=IBM+Plex+Mono:wght@400;500&family=Spectral:ital,wght@0,400;0,500;0,600;1,400&family=Spectral+SC:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/Corn-Jr-Public/static/library.css">
+<script defer src="/Corn-Jr-Public/static/library.js"></script>
+<script type="speculationrules">
+{"prerender": [{"where": {"and": [{"href_matches": "/Corn-Jr-Public/*"}, {"not": {"href_matches": "/Corn-Jr-Public/random.html"}}, {"not": {"href_matches": "/Corn-Jr-Public/static/*"}}]}, "eagerness": "moderate"}]}
+</script>
+
+</head>
+<body>
+<div class="page">
+  <header class="running">
+    <a class="book" href="/Corn-Jr-Public/">Corn-Jr · The Record</a>
+    <nav>
+      <a href="/Corn-Jr-Public/" data-key="shelf">Shelf</a><a href="/Corn-Jr-Public/findings.html" data-key="findings" class="here">Findings</a><a href="/Corn-Jr-Public/doc/VISION.html" data-key="VISION">Vision</a><a href="/Corn-Jr-Public/doc/GLOSSARY.html" data-key="GLOSSARY">Glossary</a>
+      <a href="https://github.com/csheehan18/Corn-Jr-Public">Source</a>
+    </nav>
+  </header>
+  
+
+<article class="sheet" style="--c:var(--c1)">
+  <div class="progress" aria-hidden="true"></div>
+  <section class="grid chapter-open finding-open">
+    <a class="tab" href="/Corn-Jr-Public/thread/fine-tuning.html" title="Fine-tuning the base"><small>Part</small><span>I</span></a>
+    <p class="cn">75</p>
+    <p class="partline"><a href="/Corn-Jr-Public/thread/fine-tuning.html">Fine-tuning the base</a> · 28 August 2026</p>
+    <h1>Fine-tuning doesn&#39;t overwrite what pretraining installed</h1>
+  </section>
+
+  <section class="grid">
+    <p class="marginal">The result, as the finding states it</p><div class="prose"><p class="lead">The fine-tune does not overwrite what the mix installed, and the re-ask band comes back whole</p></div>
+    <p class="marginal">What it cost</p><div class="prose"><p class="cost">3.8 min of scoring on the 2 cards first cited here (<code>nano20m_v3_turn2</code>, <code>nano20m_v3_turn2_joint</code>); it also reads 1 card scored for an earlier finding (<code>nano20m_v3</code>). Backfilled 2026-09-26 from the cards' <code>seconds</code>; training and probe time were never recorded, so this is a floor.</p></div>
+  </section>
+
+  
+
+  <section class="grid">
+    <div class="prose doc"><p>Two nano arms trained 2026-08-28 from <code>configs/nano20m_v3_turn2_joint.py</code> and <code>_seed2.py</code>: the <code>mix_turn2_ft</code> recipe exactly as shipped — same data dir, same schedule, same seeds — with <code>init_from</code> pointed at <code>nano20m_v3_turn2{,_seed2}/ckpt.pt</code>, the MIX arm's own checkpoints, instead of the payload-blind <code>nano20m_v3</code>. <strong>Ordered by the owner on 2026-08-27 and pre-registered the same evening</strong> in <code>docs/PLAN-TURN-2.md</code>, with its readings written before a config existed. Controls are the four existing <code>nano20m_v3</code> seeds and the four turn-2 cards from finding <a class="fref" href="/Corn-Jr-Public/finding/74.html">74</a>; <strong>nothing retrained and nothing was re-scored</strong>. All three arms are eager — the signed <code>compile=True</code> is scoped to the H200 family precisely so a read like this one never straddles the boundary.</p>
+<h3 id="the-question-and-the-honest-limit-stated-first">The question, and the honest limit stated first</h3>
+<p>Finding <a class="fref" href="/Corn-Jr-Public/finding/74.html">74</a> read React and Chain at parity across the two vehicles and Re-ask four times better on the mix. The owner declined to sign the §7a deferral that would have dropped React and Chain from <code>mix_v4_5b</code>, stated the prior the arm would test — <em>pretraining exposure is the substrate a capability survives on, and fine-tuning amplifies what the mix installed</em> — and ordered the deferral's own reopening condition run first.</p>
+<p>The limit the pre-registration put in writing: <code>turn2.react</code> and both chain cells sit at or near ceiling on <em>both</em> existing vehicles, so <strong>additivity is unreadable there</strong>. The two cells that separate cleanly are <code>turn2.reask</code> (MIX 57-66 against FT-alone 15-17) and <code>turn2.reask_yn</code> (33-38 against 8-11). Those two carry the read; the ceilings are checked for damage, not for gain.</p>
+<h3 id="the-result">The result</h3>
+<p><code>last.pt</code> reproduces <code>ckpt.pt</code> on every cell of both joint cards, and <strong>that is a tautology here rather than a measurement</strong>: both runs selected best-val at iteration 551, which is their last, so the two files are the same weights. It is worth saying out loud because it is not what happened on the arm this one copies — three of finding <a class="fref" href="/Corn-Jr-Public/finding/74.html">74</a>'s four fine-tunes selected below their final iteration (525, 525, 455 of 551) and scoring both was not a formality there. Both cards were scored anyway, on the sixth finding's rule that a selection argument is answered by measurement; the column is folded in rather than printed twice.</p>
+<div class="tablewrap"><table><thead><tr><th>cell</th><th>control ×4</th><th>MIX ×2</th><th>FT ×2</th><th><strong>JOINT ×2</strong></th></tr></thead><tbody><tr><td><code>turn2.reask</code> /96</td><td>0–0</td><td><strong>57–66</strong></td><td>15–17</td><td><strong>52–68</strong></td></tr><tr><td><code>turn2.reask_yn</code> /40</td><td>0–4</td><td><strong>33–38</strong></td><td>8–11</td><td><strong>32–37</strong></td></tr><tr><td><code>turn2.react</code> /120</td><td>0–9</td><td>112–117</td><td>107–108</td><td>112–116</td></tr><tr><td><code>turn2.chain_result</code> /50</td><td>0–0</td><td>47–49</td><td>49–49</td><td><strong>50–50</strong></td></tr><tr><td><code>turn2.chain_ellipsis</code> /50</td><td>0–6</td><td>47–48</td><td>44–44</td><td>43–46</td></tr><tr><td><code>turn2.chain_pronoun</code> /50</td><td>0–17</td><td>12–18</td><td>20–30</td><td>12–17</td></tr></tbody></table></div>
+<p><strong>The joint arm sits in the MIX band on both readable cells.</strong> <code>turn2.reask</code> reads 52 and 68 against a MIX band of 57-66 — one seed five items below its floor, one two items above its ceiling, straddling it. <code>turn2.reask_yn</code> reads 32 and 37 against 33-38: one item below the floor and one below the ceiling, which at n=2 on a 40-item row is the same number. Against FT-alone the gap is not close: 52 and 68 against 15 and 17, and 32 and 37 against 8 and 11.</p>
+<p>Against the pre-registered table this is <strong>"the mix survives"</strong>, on both of the clauses that outcome was written with: the joint arm holds the MIX band on <code>reask</code> and <code>reask_yn</code>, <em>and</em> it lands above FT-alone by far more than the seed spread — thirty-five items on a row where the FT arm's own two seeds differ by two. The ceilings are matched rather than spent: react 112-116 against FT-alone's 107-108 and the mix's 112-117, <code>chain_result</code> at a clean 50/50 on both seeds, <code>chain_ellipsis</code> 43-46 against 44 and 47-48, which is a two-item shortfall on the one cell where the mix was strongest and is not a separation at this spread.</p>
+<p><strong>What it does not show is addition.</strong> The joint arm does not beat the MIX arm on <code>reask</code>; it equals it. So the reading is the narrower of the two the owner's prior could have produced: base exposure is <em>not overwritten</em> by a fine-tune over the same payload — which is what the deferral turned on — rather than base exposure plus a fine-tune buying more than either. On these two cells, with the fine-tune's payload identical to the base's, there was no headroom left for it to buy.</p>
+<p><code>turn2.chain_pronoun</code> is not readable and is reported as such, again: the control spans 0-17 over four seeds, joint reads 12-17, and finding <a class="fref" href="/Corn-Jr-Public/finding/61.html">61</a>'s rule binds.</p>
+<h3 id="one-cell-moves-and-it-is-not-a-turn-2-cell">One cell moves, and it is not a turn-2 cell</h3>
+<p>tool.selection /200   control 109-130   MIX 174   FT 181-185   JOINT 187-188</p>
+<p>Every arm that reads this payload routes better than the control, the fine-tune vehicle more than the mix, and <strong>the joint arm most of all</strong> — above both of its parents on both seeds. It is a small margin over FT-alone (two to seven items on a 200-item row) and it is the only place in this experiment where mix-plus-fine-tune reads above fine-tune-alone at all. Worth recording as the one additive-looking cell and not worth more than that: it is not a registered cell, and finding <a class="fref" href="/Corn-Jr-Public/finding/74.html">74</a>'s own turn-2 arms already moved it 109-130 → 174-185 without a joint arm anywhere.</p>
+<h3 id="the-regression-set">The regression set</h3>
+<p>Read against the FT-alone cards, with the ~10-item <code>tool.copy</code> wobble floor:</p>
+<p>tool.copy /120        control 118-120   JOINT 120, 114 tool.copy_wide /300   control 281-296   JOINT 300, 297 refusal.say /270      control 261-268   JOINT 262, 260 temporal.copy /353    control 353/353   JOINT 353, 353 temporal.route /400   control 396-399   JOINT 398, 398</p>
+<p>No bill. The 114 is six items inside the wobble floor and its seed-1 twin is at ceiling; <code>copy_wide</code> is <em>above</em> the control range on both seeds, as it was for every turn-2 arm in finding <a class="fref" href="/Corn-Jr-Public/finding/74.html">74</a>. <code>refusal.say</code> at 260 is one item below the control's four-seed floor of 261, on a row whose own control spread is seven — noise, and recorded rather than rounded away.</p>
+<h3 id="what-this-licenses-and-who-decides-it">What this licenses, and who decides it</h3>
+<p>The joint arm was ordered as the input to a decision and <strong>the decision is not the implementer's</strong>. <code>docs/PLAN-5B-SUPPLY.md</code> §7a's turn-2 deferral is HELD OPEN with its reopening condition ordered, and this finding is that condition's output. The §7a entry is untouched.</p>
+<p>What the pre-registration says follows from "the mix survives", stated here so the owner can check the numbers against the sentence they signed rather than against a paraphrase: <em>base exposure is not overwritten, the owner's prior holds, React and Chain ride <code>mix_v4</code>, and the held-open deferral dies.</em> Note what does not change either way, and it is the thing that matters for the freeze: <strong><code>turn2_v1.txt</code> rides whole at one pass regardless</strong> — that is SIGNED, on Re-ask's strength alone, and the classes share the file by ground rule 5. The deferral decides what the <em>finding record</em> says Phase 3 fine-tunes must re-install, not what the corpus contains.</p>
+<h3 id="limits">Limits</h3>
+<p>Two seeds per arm, so directions rather than sizes (rule 6). The two readable cells are the only ones this design can read, and the pre-registration said so before the arms existed — everything else here is a damage check. The joint arm's fine-tune payload is <em>identical</em> to its base's, which is the cleanest form of the question and also the one least likely to show addition; a joint arm over a payload the base had only partly seen is a different cell and is not this one. And these are nano numbers on a policy class where the 260M baseline carries a substrate the nano control does not (finding <a class="fref" href="/Corn-Jr-Public/finding/74.html">74</a>'s <code>chain_pronoun</code> note), so the sizes transfer to the H200 run by argument and not by measurement.</p></div>
+  </section>
+
+  <section class="grid refs">
+    <div class="body two-even">
+      <div>
+        <h2 class="small">It cites</h2>
+        <ul class="reflist"><li style="--c:var(--c1)"><a href="/Corn-Jr-Public/finding/61.html"><span class="fn">61</span>The phrasing test itself has noise of sixty items</a></li><li style="--c:var(--c3)"><a href="/Corn-Jr-Public/finding/74.html"><span class="fn">74</span>Second-turn behaviour installs; compound requests forget how to stop</a></li></ul>
+        
+      </div>
+      <div>
+        <h2 class="small">Cited by</h2>
+        <ul class="reflist"><li style="--c:var(--c1)"><a href="/Corn-Jr-Public/finding/80.html"><span class="fn">80</span>Contradicting a trained behaviour needs that behaviour&#39;s data replayed</a></li></ul>
+        
+      </div>
+    </div>
+    <p class="body source">docs/findings/75-the-fine-tune-does-not-overwrite-what-the-mix-installed-and-the-re-ask-band-comes-back-whole.md</p>
+  </section>
+</article>
+
+  
+<footer class="turn">
+  <div><span class="sc">previous</span><a href="/Corn-Jr-Public/finding/60.html">60 · Fine-tuning costs nothing but delivers three fifths of pretraining&#39;s gain</a></div>
+  <div class="r"><span class="sc">next</span><a href="/Corn-Jr-Public/finding/80.html">80 · Contradicting a trained behaviour needs that behaviour&#39;s data replayed</a></div>
+  <p class="keys"><kbd>←</kbd> <kbd>→</kbd> turn the page · <kbd>/</kbd> find</p>
+</footer>
+<p class="bynumber">Previous and next in <a href="/Corn-Jr-Public/thread/fine-tuning.html">Fine-tuning the base</a>. By number:
+  <a href="/Corn-Jr-Public/finding/74.html">74</a> · <a href="/Corn-Jr-Public/finding/76.html">76</a></p>
+
+</div>
+</body>
+</html>
